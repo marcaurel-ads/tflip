@@ -1,0 +1,140 @@
+# CREATE TABLE of DBF tables (the statement's table type is set) on a data
+# dictionary connection, in an empty folder: they join the dictionary, with
+# what the table type allows of a primary key and of field constraints; OEM
+# tables and NULL columns of a Visual FoxPro table. The dictionary and the
+# files it leaves are kept in fixtures/sql/ddbf/:
+#
+#     run.sh <work> <ace32.dll> ddbf.txt > ../../../fixtures/sql/ddbf.json
+#     cp <work>/data/cb/* ../../../fixtures/sql/ddbf/
+ddcreate cb\cb.add
+stmt
+#
+# Plain tables of each type, a free one and one IN DATABASE (the statement's
+# table type is the last one set).
+tabletype 2
+direct CREATE TABLE fx (id INTEGER, s CHAR(10), m MEMO)
+tabletype 1
+direct CREATE TABLE nt (id INTEGER, s CHAR(10))
+direct CREATE TABLE ntm (id INTEGER, m MEMO) MEMOBLOCKSIZE 64
+tabletype 4
+direct CREATE TABLE vf (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE fr (id INTEGER) AS FREE TABLE
+direct CREATE TABLE ind (id INTEGER) IN DATABASE
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+query SELECT * FROM system.indexes
+query SELECT * FROM system.indexfiles
+objects 1
+open fx
+open nt
+open ntm
+open vf
+open ind
+open fr
+direct INSERT INTO nt VALUES (1, 'a')
+direct INSERT INTO fx VALUES (1, 'a', 'memo')
+query SELECT * FROM nt
+query SELECT * FROM fx
+#
+# A primary key.
+tabletype 2
+direct CREATE TABLE pkc (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE pkc2 (id INTEGER, s CHAR(4), PRIMARY KEY (id, s))
+tabletype 1
+direct CREATE TABLE pkn (id INTEGER PRIMARY KEY, s CHAR(10))
+tabletype 4
+direct CREATE TABLE pkv (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE pkv2 (a INTEGER, b CHAR(4), c MEMO, CONSTRAINT mykey PRIMARY KEY (a, b))
+direct CREATE TABLE pkv3 (a INTEGER NULL, b CHAR(4), PRIMARY KEY (a))
+direct CREATE TABLE pkv4 (a INTEGER, b CHAR(4) NOT NULL, PRIMARY KEY (b DESC))
+direct CREATE TABLE pkv5 (a INTEGER PRIMARY KEY, b INTEGER PRIMARY KEY)
+direct CREATE TABLE pkv6 (m MEMO PRIMARY KEY)
+direct CREATE TABLE pkv7 (n INTEGER, PRIMARY KEY (zz))
+direct CREATE TABLE pkv8 (d DATE PRIMARY KEY, t TIMESTAMP, dbl DOUBLE)
+direct INSERT INTO pkv VALUES (1, 'a')
+direct INSERT INTO pkv VALUES (1, 'b')
+direct INSERT INTO pkv (s) VALUES ('c')
+query SELECT * FROM pkv
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+query SELECT * FROM system.indexes
+query SELECT * FROM system.indexfiles
+objects 1
+open pkv
+#
+# Field constraints.
+tabletype 2
+direct CREATE TABLE nn (id INTEGER NOT NULL, s CHAR(10))
+direct CREATE TABLE nn2 (id INTEGER CONSTRAINT NOT NULL, s CHAR(10))
+direct CREATE TABLE df (id INTEGER, s CHAR(10) DEFAULT 'abc')
+direct CREATE TABLE mn (id INTEGER CONSTRAINT MINIMUM '1', s CHAR(10))
+direct CREATE TABLE mx (id INTEGER CONSTRAINT MAXIMUM '9', s CHAR(10))
+direct CREATE TABLE em (id INTEGER CONSTRAINT ERROR MESSAGE 'bad', s CHAR(10))
+direct CREATE TABLE mm (id INTEGER CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'range' DEFAULT '5', s CHAR(10))
+tabletype 1
+direct CREATE TABLE dfn (id INTEGER DEFAULT '3', s CHAR(10))
+direct CREATE TABLE nnn (id INTEGER CONSTRAINT NOT NULL)
+tabletype 4
+direct CREATE TABLE vnn (id INTEGER CONSTRAINT NOT NULL, s CHAR(10))
+direct CREATE TABLE vdf (id INTEGER, s CHAR(10) DEFAULT 'abc')
+direct CREATE TABLE vmm (id INTEGER CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'range' DEFAULT '5', s CHAR(10) NULL)
+direct INSERT INTO df (id) VALUES (1)
+direct INSERT INTO mm (id) VALUES (50)
+direct INSERT INTO mm (s) VALUES ('x')
+direct INSERT INTO vnn (s) VALUES ('x')
+direct INSERT INTO vdf (id) VALUES (1)
+direct INSERT INTO vmm (id) VALUES (50)
+direct INSERT INTO vmm (s) VALUES ('x')
+query SELECT * FROM df
+query SELECT * FROM mm
+query SELECT * FROM vdf
+query SELECT * FROM vmm
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+objects 1
+#
+# NULL columns of a Visual FoxPro table, and of a FoxPro table.
+tabletype 4
+direct CREATE TABLE vnull (id INTEGER NULL, s CHAR(10) NULL, n NUMERIC(8,2), d DATE NULL, m MEMO NULL, v VARCHAR(5) NULL)
+direct INSERT INTO vnull (n) VALUES (1)
+query SELECT * FROM vnull
+query SELECT * FROM system.columns WHERE Parent = 'vnull'
+tabletype 2
+direct CREATE TABLE cnull (id INTEGER NULL, s CHAR(10))
+#
+# OEM tables: the character type of the statement.
+chartype 2
+tabletype 2
+direct CREATE TABLE oc (id INTEGER, s CHAR(10), m MEMO)
+tabletype 1
+direct CREATE TABLE on1 (id INTEGER, s CHAR(10))
+tabletype 4
+direct CREATE TABLE ov (id INTEGER, s CHAR(10))
+tabletype 3
+direct CREATE TABLE oa (id INTEGER, s CHAR(10))
+query SELECT * FROM system.tables WHERE Name IN ('oc', 'on1', 'ov', 'oa')
+objects 1
+open oc
+open on1
+open ov
+open oa
+chartype 1
+open oc
+#
+# Without a table type: an ADT table in the dictionary.
+stmt
+direct CREATE TABLE dflt (id INTEGER)
+query SELECT Name, Table_Type FROM system.tables WHERE Name = 'dflt'
+#
+# DROP TABLE of DBF tables in the dictionary: a memo file, a structural index
+# file and a Clipper table go with them.
+tabletype 4
+direct DROP TABLE vf
+direct DROP TABLE pkv2
+tabletype 1
+direct DROP TABLE ntm
+tabletype 2
+direct DROP TABLE fx
+query SELECT Name FROM system.tables
+query SELECT Name FROM system.indexes
+query SELECT Name FROM system.columns WHERE Parent IN ('vf', 'pkv2', 'ntm', 'fx')

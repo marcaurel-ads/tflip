@@ -1,0 +1,2345 @@
+# AdsSkip in a conditional order from a record the order has no key for
+# (gone to with AdsGotoRecord): ADT, NTX and CDX, ascending and descending.
+# Reads only: the files stay as they are.
+tabletype adt
+open t.adt shared
+order hi
+goto 1
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+goto 1
+oskip 3
+pos
+goto 1
+oskip 4
+pos
+goto 1
+oskip 5
+pos
+goto 1
+oskip 6
+pos
+goto 1
+oskip -1
+pos
+goto 1
+oskip -2
+pos
+goto 1
+oskip -3
+pos
+goto 1
+oskip -4
+pos
+goto 1
+oskip -5
+pos
+goto 1
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 1
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+oskip 2
+pos
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip 4
+pos
+goto 3
+oskip 5
+pos
+goto 3
+oskip 6
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 3
+oskip -4
+pos
+goto 3
+oskip -5
+pos
+goto 3
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 3
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+oskip 2
+pos
+goto 6
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+goto 6
+oskip 3
+pos
+goto 6
+oskip 4
+pos
+goto 6
+oskip 5
+pos
+goto 6
+oskip 6
+pos
+goto 6
+oskip -1
+pos
+goto 6
+oskip -2
+pos
+goto 6
+oskip -3
+pos
+goto 6
+oskip -4
+pos
+goto 6
+oskip -5
+pos
+goto 6
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 6
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+oskip 2
+pos
+order odd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order lo
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 8
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+goto 8
+oskip 3
+pos
+goto 8
+oskip 4
+pos
+goto 8
+oskip 5
+pos
+goto 8
+oskip 6
+pos
+goto 8
+oskip -1
+pos
+goto 8
+oskip -2
+pos
+goto 8
+oskip -3
+pos
+goto 8
+oskip -4
+pos
+goto 8
+oskip -5
+pos
+goto 8
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 8
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order dodd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order -
+close
+tabletype ntx
+open n.dbf shared
+openindex hi.ntx
+openindex odd.ntx
+openindex lo.ntx
+openindex dodd.ntx
+order hi
+goto 1
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+goto 1
+oskip 3
+pos
+goto 1
+oskip 4
+pos
+goto 1
+oskip 5
+pos
+goto 1
+oskip 6
+pos
+goto 1
+oskip -1
+pos
+goto 1
+oskip -2
+pos
+goto 1
+oskip -3
+pos
+goto 1
+oskip -4
+pos
+goto 1
+oskip -5
+pos
+goto 1
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 1
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+oskip 2
+pos
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip 4
+pos
+goto 3
+oskip 5
+pos
+goto 3
+oskip 6
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 3
+oskip -4
+pos
+goto 3
+oskip -5
+pos
+goto 3
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 3
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+oskip 2
+pos
+goto 6
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+goto 6
+oskip 3
+pos
+goto 6
+oskip 4
+pos
+goto 6
+oskip 5
+pos
+goto 6
+oskip 6
+pos
+goto 6
+oskip -1
+pos
+goto 6
+oskip -2
+pos
+goto 6
+oskip -3
+pos
+goto 6
+oskip -4
+pos
+goto 6
+oskip -5
+pos
+goto 6
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 6
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+oskip 2
+pos
+order odd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order lo
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 8
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+goto 8
+oskip 3
+pos
+goto 8
+oskip 4
+pos
+goto 8
+oskip 5
+pos
+goto 8
+oskip 6
+pos
+goto 8
+oskip -1
+pos
+goto 8
+oskip -2
+pos
+goto 8
+oskip -3
+pos
+goto 8
+oskip -4
+pos
+goto 8
+oskip -5
+pos
+goto 8
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 8
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order dodd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order -
+close
+tabletype cdx
+open c.dbf shared
+order hi
+goto 1
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+goto 1
+oskip 3
+pos
+goto 1
+oskip 4
+pos
+goto 1
+oskip 5
+pos
+goto 1
+oskip 6
+pos
+goto 1
+oskip -1
+pos
+goto 1
+oskip -2
+pos
+goto 1
+oskip -3
+pos
+goto 1
+oskip -4
+pos
+goto 1
+oskip -5
+pos
+goto 1
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 1
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 1
+oskip 2
+pos
+oskip 2
+pos
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip 4
+pos
+goto 3
+oskip 5
+pos
+goto 3
+oskip 6
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 3
+oskip -4
+pos
+goto 3
+oskip -5
+pos
+goto 3
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 3
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+oskip 2
+pos
+goto 6
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+goto 6
+oskip 3
+pos
+goto 6
+oskip 4
+pos
+goto 6
+oskip 5
+pos
+goto 6
+oskip 6
+pos
+goto 6
+oskip -1
+pos
+goto 6
+oskip -2
+pos
+goto 6
+oskip -3
+pos
+goto 6
+oskip -4
+pos
+goto 6
+oskip -5
+pos
+goto 6
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 6
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 6
+oskip 2
+pos
+oskip 2
+pos
+order odd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order lo
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 8
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+goto 8
+oskip 3
+pos
+goto 8
+oskip 4
+pos
+goto 8
+oskip 5
+pos
+goto 8
+oskip 6
+pos
+goto 8
+oskip -1
+pos
+goto 8
+oskip -2
+pos
+goto 8
+oskip -3
+pos
+goto 8
+oskip -4
+pos
+goto 8
+oskip -5
+pos
+goto 8
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 8
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 8
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order dodd
+goto 2
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+goto 2
+oskip 3
+pos
+goto 2
+oskip 4
+pos
+goto 2
+oskip 5
+pos
+goto 2
+oskip 6
+pos
+goto 2
+oskip -1
+pos
+goto 2
+oskip -2
+pos
+goto 2
+oskip -3
+pos
+goto 2
+oskip -4
+pos
+goto 2
+oskip -5
+pos
+goto 2
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 2
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 2
+oskip 2
+pos
+oskip 2
+pos
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip 4
+pos
+goto 4
+oskip 5
+pos
+goto 4
+oskip 6
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+goto 4
+oskip -4
+pos
+goto 4
+oskip -5
+pos
+goto 4
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 4
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+oskip 2
+pos
+goto 10
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+goto 10
+oskip 3
+pos
+goto 10
+oskip 4
+pos
+goto 10
+oskip 5
+pos
+goto 10
+oskip 6
+pos
+goto 10
+oskip -1
+pos
+goto 10
+oskip -2
+pos
+goto 10
+oskip -3
+pos
+goto 10
+oskip -4
+pos
+goto 10
+oskip -5
+pos
+goto 10
+oskip 1
+pos
+oskip 1
+pos
+oskip -1
+pos
+oskip 2
+pos
+goto 10
+oskip -1
+pos
+oskip -1
+pos
+oskip 1
+pos
+goto 10
+oskip 2
+pos
+oskip 2
+pos
+order -
+close
+# The same from records left out whose key the order has too.
+tabletype adt
+open dt.adt shared
+order k
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order dk
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order -
+close
+tabletype ntx
+open dn.dbf shared
+openindex k.ntx
+openindex dk.ntx
+order k
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order dk
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order -
+close
+tabletype cdx
+open dc.dbf shared
+order k
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order dk
+goto 3
+oskip 1
+pos
+goto 3
+oskip 2
+pos
+goto 3
+oskip 3
+pos
+goto 3
+oskip -1
+pos
+goto 3
+oskip -2
+pos
+goto 3
+oskip -3
+pos
+goto 5
+oskip 1
+pos
+goto 5
+oskip 2
+pos
+goto 5
+oskip 3
+pos
+goto 5
+oskip -1
+pos
+goto 5
+oskip -2
+pos
+goto 5
+oskip -3
+pos
+goto 7
+oskip 1
+pos
+goto 7
+oskip 2
+pos
+goto 7
+oskip 3
+pos
+goto 7
+oskip -1
+pos
+goto 7
+oskip -2
+pos
+goto 7
+oskip -3
+pos
+order -
+close
+# The same from that deleted record (AdsGotoRecord to it fails, but goes
+# there).
+tabletype adt
+open x.adt shared
+order id
+goto 4
+oskip 1
+pos
+goto 4
+oskip 2
+pos
+goto 4
+oskip 3
+pos
+goto 4
+oskip -1
+pos
+goto 4
+oskip -2
+pos
+goto 4
+oskip -3
+pos
+order -
+close

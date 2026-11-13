@@ -1,0 +1,68 @@
+# Cursors in the bodies of triggers, in a dictionary of an empty folder,
+# cp/cp.add: as cursorprocs.txt has them in procedures, with __new in the
+# definition and the same errors.
+#
+#     run.sh <work> <ace32.dll> cursortrig.txt > ../../../fixtures/sql/cursortrig.json
+ddcreate cp\cp.add
+stmt
+direct CREATE TABLE t (n integer, s char(4))
+direct INSERT INTO t VALUES (1, 'a')
+direct INSERT INTO t VALUES (2, 'b')
+direct CREATE TABLE log (n integer, s char(60))
+direct CREATE TABLE src (n integer, s char(4))
+direct CREATE PROCEDURE nums(k INTEGER, v INTEGER OUTPUT) BEGIN DECLARE i INTEGER; i = 1; WHILE i <= _k DO INSERT INTO __output VALUES (i * 10); i = i + 1; END WHILE; END
+direct CREATE PROCEDURE vary(CURSOR VARYING OUTPUT) BEGIN SELECT n, s FROM t ORDER BY n; END
+direct CREATE TRIGGER g1 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; END WHILE; INSERT INTO log VALUES (0, x); END
+direct INSERT INTO src VALUES (1, 'a')
+query SELECT * FROM log
+direct DROP TRIGGER src.g1
+direct CREATE TRIGGER g2 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(3); DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.v AS SQL_CHAR)) + ','; END WHILE; INSERT INTO log VALUES (0, x); END
+direct INSERT INTO src VALUES (2, 'b')
+query SELECT * FROM log
+direct DROP TRIGGER src.g2
+direct CREATE TRIGGER g3 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't', NULL); DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(c.TABLE_NAME) + ','; END WHILE; INSERT INTO log VALUES (0, x); END
+direct INSERT INTO src VALUES (3, 'c')
+query SELECT * FROM log
+direct DROP TRIGGER src.g3
+direct CREATE TRIGGER g4 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(__new.n); DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.v AS SQL_CHAR)) + ','; END WHILE; INSERT INTO log VALUES (1, x); END
+direct INSERT INTO src VALUES (2, 'd')
+query SELECT * FROM log
+direct DROP TRIGGER src.g4
+direct CREATE TRIGGER g5 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM t WHERE n <= __new.n ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; END WHILE; INSERT INTO log VALUES (2, x); END
+direct INSERT INTO src VALUES (1, 'e')
+query SELECT * FROM log
+direct DROP TRIGGER src.g5
+direct CREATE TRIGGER g6 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE vary(); OPEN c; END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g6
+direct CREATE TRIGGER g7 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nosuch(); OPEN c; END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g7
+direct CREATE TRIGGER g8 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM nosuch; OPEN c; END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g8
+direct CREATE TRIGGER g9 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(2); OPEN c; INSERT INTO log VALUES (c.v, 'x'); END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g9
+direct CREATE TRIGGER g10 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(2); OPEN c; FETCH c; INSERT INTO log VALUES (c.nosuch, 'x'); END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g10
+direct CREATE TRIGGER g11 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(2); OPEN c; FETCH c; INSERT INTO log VALUES (c.v, 'g11'); FETCH c; INSERT INTO log VALUES (c.v, 'g11'); END
+direct INSERT INTO src VALUES (9, 'f')
+query SELECT * FROM log
+direct DROP TRIGGER src.g11
+direct CREATE TRIGGER g12 ON src BEFORE INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH c; INSERT INTO log VALUES (c.n, 'g12'); END
+direct INSERT INTO src VALUES (9, 'f')
+query SELECT * FROM log
+direct DROP TRIGGER src.g12
+direct CREATE TRIGGER g13 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; i = c.n; END
+direct INSERT INTO src VALUES (9, 'f')
+direct DROP TRIGGER src.g13
+direct CREATE TRIGGER g14 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH c; INSERT INTO log SELECT c.n, 'g14' FROM system.iota; END
+direct INSERT INTO src VALUES (9, 'f')
+query SELECT * FROM log
+direct DROP TRIGGER src.g14
+direct CREATE TRIGGER g16 ON src AFTER INSERT BEGIN DECLARE c CURSOR AS EXECUTE PROCEDURE nums(2); OPEN c; FETCH c; UPDATE t SET n = n + c.v; END
+direct INSERT INTO src VALUES (11, 'f')
+query SELECT * FROM t
+direct DROP TRIGGER src.g16

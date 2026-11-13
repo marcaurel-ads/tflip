@@ -1,0 +1,1658 @@
+# What a cursor in a script sees of the changes made to its tables after OPEN
+# where it reads a join of two tables (INNER JOIN, or a comma and a WHERE) of the
+# equality of one column of each: it goes through the first table's records live
+# (a record added meanwhile is read too), and for each finds those of the second
+# that match its value now: through the second's index on its column as the table
+# is then (a change of a key is seen), and with no index among the records that
+# had that value at OPEN. The row of each pair is read as the records are, and
+# kept if the condition still holds for them. The tables are made new for each
+# case, so the records are in the order they were added. In an empty folder.
+#
+#     run.sh <work> <ace32.dll> cursormore3.txt > ../../../fixtures/sql/cursormore3.json
+stmt
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM u, t WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX tn ON t (n)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t INNER JOIN u ON t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 3 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 3 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (3, 'x3'); WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM u WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT a.n AS a, b.k AS b FROM t a, u b WHERE b.g = a.n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN INSERT INTO t VALUES (2, 'x2'); UPDATE u SET g = 3 WHERE g = 2; END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN UPDATE u SET g = 3 WHERE g = 2; INSERT INTO u VALUES (5, 1); END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN UPDATE t SET n = 1 WHERE n = 3; END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN INSERT INTO t VALUES (2, 'x2'); UPDATE u SET g = 3 WHERE g = 2; END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN UPDATE u SET g = 3 WHERE g = 2; INSERT INTO u VALUES (5, 1); END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; IF c.a = 1 THEN UPDATE t SET n = 1 WHERE n = 3; END IF; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 1)
+directnull INSERT INTO u VALUES (30, 3)
+directnull INSERT INTO u VALUES (40, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE k = 20; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota
+query DROP TABLE t
+query DROP TABLE u
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+query CREATE INDEX ug ON u (g)
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 1)
+directnull INSERT INTO u VALUES (30, 3)
+directnull INSERT INTO u VALUES (40, 3)
+query DECLARE c CURSOR AS SELECT t.n AS a, u.k AS b FROM t, u WHERE t.n = u.g; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 2 WHERE k = 20; WHILE FETCH c DO x = x + TRIM(CAST(c.a AS SQL_CHAR)) + ':' + TRIM(CAST(c.b AS SQL_CHAR)) + ','; END WHILE; SELECT x AS x FROM system.iota

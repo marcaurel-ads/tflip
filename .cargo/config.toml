@@ -1,0 +1,35 @@
+# The client DLLs, from the tflip-ace crate (Cargo builds it as tflip_ace.dll):
+#   cargo xtask dist          builds both into target/dist
+#   cargo xtask dist ace32    only ace32.dll, for 32-bit clients such as
+#                             Advantage Data Architect (arc32.exe)
+#   cargo xtask dist ace64    only ace64.dll, for 64-bit clients
+# Each needs its Rust target (rustup target add i686-pc-windows-gnu
+# x86_64-pc-windows-gnu, or the distribution's package) and a MinGW GCC.
+#
+# ace32.dll: the linker must be an i686-w64-mingw32 GCC with DWARF-2
+# exceptions and winpthreads (libgcc_eh.a, libpthread.a); an SJLJ GCC fails to
+# link Rust's std. On Gentoo, dev-util/mingw64-toolchain (Wine's) is SJLJ; use
+# crossdev instead:
+#   dev-util/mingw64-toolchain -bin-symlinks           (package.use, frees /usr/bin)
+#   crossdev -t i686-w64-mingw32
+#   cross-i686-w64-mingw32/mingw64-runtime libraries   (package.use)
+#   EXTRA_ECONF="--disable-sjlj-exceptions --with-dwarf2" for cross-i686-w64-mingw32/gcc
+#                                                      (package.env), then rebuild both
+#
+# ace64.dll needs no settings here (64-bit Windows has no stdcall name
+# decoration). The linker is an x86_64-w64-mingw32 GCC with libgcc_eh.a and
+# winpthreads; on Gentoo, as above but for x86_64 (SEH exceptions, so no
+# EXTRA_ECONF):
+#   crossdev -t x86_64-w64-mingw32
+#   cross-x86_64-w64-mingw32/mingw64-runtime libraries  (package.use)
+
+[alias]
+xtask = "run --package xtask --"
+
+[target.i686-pc-windows-gnu]
+# Export stdcall functions without the @N suffix, as ACE clients import them;
+# the stdcall fixup that resolves the undecorated names is expected, so no warning.
+rustflags = ["-C", "link-arg=-Wl,--kill-at", "-C", "link-arg=-Wl,--enable-stdcall-fixup"]
+
+[env]
+TS_RS_EXPORT_DIR = { value = "crates/tflip-studio/web/src/bindings", relative = true }

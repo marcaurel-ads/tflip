@@ -1,0 +1,38 @@
+# Memo fields of encrypted DBF tables read for a WHERE, an update and a full-text order (RC4 dictionary, ENCRYPT_NEW_TABLE on).
+ddcreate 0 %D\y10\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+stmttype 2
+sql CREATE TABLE mcdx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO mcdx VALUES (1, 'memo_one', 'one')
+sql INSERT INTO mcdx VALUES (2, 'memo_two', 'two')
+sql INSERT INTO mcdx VALUES (3, 'other_three', 'three')
+sql INSERT INTO mcdx VALUES (4, 'memo_four', 'four')
+sql UPDATE mcdx SET name = 'upd' WHERE LEFT(note, 5) = 'memo_' AND id < 3
+sql DELETE FROM mcdx WHERE note = 'other_three'
+sql INSERT INTO mcdx VALUES (5, 'memo_five words here', 'five')
+sql UPDATE mcdx SET note = 'changed memo text now' WHERE id = 4
+sql DELETE FROM mcdx WHERE LEFT(note, 4) = 'memo' AND id = 5
+stmttype 1
+sql CREATE TABLE mntx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO mntx VALUES (1, 'memo_one', 'one')
+sql INSERT INTO mntx VALUES (2, 'memo_two', 'two')
+sql INSERT INTO mntx VALUES (3, 'other_three', 'three')
+sql INSERT INTO mntx VALUES (4, 'memo_four', 'four')
+sql UPDATE mntx SET name = 'upd' WHERE LEFT(note, 5) = 'memo_' AND id < 3
+sql DELETE FROM mntx WHERE note = 'other_three'
+sql INSERT INTO mntx VALUES (5, 'memo_five words here', 'five')
+sql UPDATE mntx SET note = 'changed memo text now' WHERE id = 4
+sql DELETE FROM mntx WHERE LEFT(note, 4) = 'memo' AND id = 5
+stmttype 4
+sql CREATE TABLE mvfp (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO mvfp VALUES (1, 'memo_one', 'one')
+sql INSERT INTO mvfp VALUES (2, 'memo_two', 'two')
+sql INSERT INTO mvfp VALUES (3, 'other_three', 'three')
+sql INSERT INTO mvfp VALUES (4, 'memo_four', 'four')
+sql UPDATE mvfp SET name = 'upd' WHERE LEFT(note, 5) = 'memo_' AND id < 3
+sql DELETE FROM mvfp WHERE note = 'other_three'
+sql INSERT INTO mvfp VALUES (5, 'memo_five words here', 'five')
+sql UPDATE mvfp SET note = 'changed memo text now' WHERE id = 4
+sql DELETE FROM mvfp WHERE LEFT(note, 4) = 'memo' AND id = 5
+disconnect

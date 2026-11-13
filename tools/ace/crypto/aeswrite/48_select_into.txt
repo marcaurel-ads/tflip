@@ -1,0 +1,34 @@
+# SELECT INTO a table on AES connections: free ones, h (AES-128) and i (AES-256), and the dictionaries j (AES-128, records in the clear) and k (AES-256, records enciphered, new tables encrypted); the result's table is made beside the dictionary, and a statement that fails leaves none.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "j\j.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "k\k.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\h;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+sql CREATE TABLE src (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO src VALUES (1, 'one', 'a memo')
+sql INSERT INTO src VALUES (2, 'two', 'b memo')
+sql SELECT * INTO dst FROM src
+query SELECT * FROM dst
+sql SELECT id, name INTO dst2 FROM src WHERE id > 1
+query SELECT * FROM dst2
+sql SELECT id, bad INTO dst3 FROM src
+disconnect
+connect Data Source=%D\i;ServerType=LOCAL;EncryptionType=AES256;FIPS=FALSE;
+sql CREATE TABLE src (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO src VALUES (1, 'one', 'a memo')
+sql SELECT * INTO dst FROM src
+query SELECT * FROM dst
+disconnect
+connect Data Source=%D\j\j.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE src (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO src VALUES (1, 'one', 'a memo')
+sql SELECT * INTO dst FROM src
+query SELECT * FROM dst
+disconnect
+connect Data Source=%D\k\k.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE src (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO src VALUES (1, 'one', 'a memo')
+sql SELECT * INTO dst FROM src
+query SELECT * FROM dst
+disconnect

@@ -1,0 +1,684 @@
+# The temporary index a cursor gets for an ORDER BY no index serves: when it
+# is added (live and static cursors, and which ORDER BYs), what
+# AdsGetNumIndexes and the index functions answer for it, and what a client
+# can do with it. Run by sql.c on the SQL data folder; cust.adt has no index,
+# indexed.adt has five. The edits come last, as the tables are not the
+# same after them.
+#
+#     run.sh <work> <ace32.dll> orderby.txt > ../../../fixtures/sql/orderby.json
+stmt
+# Where an index serves the ORDER BY, and where none does.
+direct SELECT * FROM cust
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name, id
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY 2
+peek
+indexes
+closecursor
+direct SELECT name AS n FROM cust ORDER BY n
+peek
+indexes
+closecursor
+direct SELECT id FROM cust ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY UPPER(name)
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY credit * 2
+peek
+indexes
+closecursor
+direct SELECT * FROM cust WHERE id > 1 ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT * FROM cust WHERE id > 1 ORDER BY name DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY city, name DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY since
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY credit DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name ASC
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY city
+peek
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name, name
+peek
+indexes
+closecursor
+# Orders that serve, on indexed.adt (PK_INDEXED id, BY_NAME name,
+# BY_AMOUNT_DESC amount, BY_BORN_NAME born;name, a case-insensitive one).
+direct SELECT * FROM indexed ORDER BY id
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY name DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY amount
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY born, name
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY born
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY name, id
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY ciname
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY active
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY id, amount
+peek
+indexes
+closecursor
+direct SELECT * FROM indexed WHERE id > 1 ORDER BY active
+peek
+indexes
+closecursor
+# The key expression: a descending key among several, expressions, aliases,
+# qualified and upper-case names.
+direct SELECT * FROM cust ORDER BY name DESC, id
+indexes
+indexflags 1
+closecursor
+direct SELECT * FROM cust ORDER BY name DESC, id DESC
+indexes
+indexflags 1
+closecursor
+direct SELECT * FROM cust ORDER BY name, id DESC, city
+indexes
+indexflags 1
+closecursor
+direct SELECT * FROM cust ORDER BY name DESC, id DESC, city DESC
+indexes
+indexflags 1
+closecursor
+direct SELECT * FROM cust ORDER BY UPPER(name) DESC
+indexes
+indexflags 1
+closecursor
+direct SELECT * FROM cust ORDER BY name, UPPER(city) DESC
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id + 1
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY 1 DESC
+indexes
+closecursor
+direct SELECT name AS n FROM cust ORDER BY n DESC
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY cust.name
+indexes
+closecursor
+direct SELECT * FROM cust c ORDER BY c.name
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY NAME
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY "name"
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name  ,  id
+indexes
+closecursor
+direct SELECT name, city FROM cust ORDER BY 2, 1
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CAST(id AS SQL_CHAR(5))
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY IIF(id > 2, name, city)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY LENGTH(name), SUBSTRING(name, 2, 1)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY -id
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY credit * 2.5 DESC
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name + city
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY 'x'
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY ciname DESC, id
+indexes
+closecursor
+direct SELECT * FROM indexed ORDER BY UPPER(name)
+indexes
+closecursor
+# Which expressions an index takes, and how it writes them.
+direct SELECT * FROM cust ORDER BY LEFT(name, 2)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY TRIM(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY RTRIM(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY LTRIM(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY RIGHT(name, 2)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY ABS(credit)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY ROUND(credit, 0)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY IFNULL(city, 'x')
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY COALESCE(city, 'x')
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CASE WHEN id > 2 THEN 1 ELSE 0 END
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name + 'x'
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY 'a' + name
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name + city
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY credit - id
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id * id
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id / 2
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY MOD(id, 2)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY since + 1
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY YEAR(since)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY LOWER(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY UCASE(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CHAR_LENGTH(name)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CURDATE()
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id + 1.5
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY (id)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY (id + 1) * 2
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id + (credit * 2)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CONVERT(id, SQL_CHAR)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY REPLACE(name, 'a', 'b')
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY CONCAT(name, city)
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id, 'x', name
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY name DESC, 'x'
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY ABS(id) DESC
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY id + id DESC, name
+indexes
+closecursor
+# The names and sizes of the files.
+direct SELECT * FROM cust ORDER BY name
+files
+closecursor
+direct SELECT {static} * FROM cust ORDER BY name
+files
+closecursor
+# Static cursors: sorted on their columns (an index, but for fewer than two
+# rows, a TOP, and the group keys of GROUP BY) or not.
+direct SELECT {static} id AS x, name FROM cust ORDER BY x
+indexes
+closecursor
+direct SELECT {static} id, name AS n FROM cust ORDER BY name
+indexes
+closecursor
+direct SELECT name, LEFT(name, 1) FROM cust ORDER BY LEFT(name, 1)
+indexes
+closecursor
+direct SELECT id * 2 AS twice, name FROM cust ORDER BY twice DESC
+indexes
+closecursor
+direct SELECT {static} * FROM cust WHERE id = 1 ORDER BY name
+indexes
+closecursor
+direct SELECT {static} * FROM cust WHERE id < 3 ORDER BY name
+indexes
+closecursor
+direct SELECT {static} * FROM cust WHERE id = 99 ORDER BY name
+indexes
+closecursor
+direct SELECT DISTINCT city FROM cust WHERE id = 1 ORDER BY city
+indexes
+closecursor
+direct SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY c.since
+indexes
+closecursor
+direct SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust ORDER BY n
+indexes
+closecursor
+direct SELECT {static} name, id FROM cust ORDER BY id, name DESC
+indexes
+closecursor
+direct SELECT {static} UPPER(name) AS u FROM cust ORDER BY u
+indexes
+closecursor
+direct SELECT {static} id FROM cust ORDER BY name
+indexes
+closecursor
+direct SELECT {static} name FROM cust ORDER BY UPPER(name)
+indexes
+closecursor
+direct SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust WHERE c.id = 1 AND s.item = 'apple' ORDER BY c.name
+indexes
+closecursor
+direct SELECT c.name AS nm, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY nm DESC
+indexes
+closecursor
+direct SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY 2, c.name DESC
+indexes
+closecursor
+direct SELECT cust FROM sales GROUP BY cust ORDER BY cust
+indexes
+closecursor
+direct SELECT cust, SUM(qty) FROM sales GROUP BY cust ORDER BY 1, 2
+indexes
+closecursor
+direct SELECT id FROM cust UNION SELECT cust FROM sales ORDER BY id DESC
+indexes
+closecursor
+direct SELECT {static} * FROM cust WHERE id < 3 ORDER BY name DESC, id
+indexes
+indexflags 1
+closecursor
+# With a filter, and on a static cursor: the flags and key counts.
+direct SELECT * FROM indexed WHERE id > 1 ORDER BY born DESC
+indexflags 6
+closecursor
+direct SELECT * FROM indexed WHERE id > 1 ORDER BY id DESC
+indexes
+indexflags 1
+closecursor
+# The order a live cursor reads backwards: its handle, and the table's other
+# orders (an index that is descending itself, read either way).
+direct SELECT * FROM indexed ORDER BY id DESC
+indexes
+indexflags 1
+allindexes
+byexpr 0 id
+byexpr 1 id
+gotop
+skip 1
+idxtop 1
+row
+idxbottom 1
+idxskip 1 1
+idxseekx 1 hard double 3
+idxseekx 1 soft double 3
+idxseekx 1 gt double 3
+idxseeklast 1 double 3
+closecursor
+direct SELECT * FROM indexed ORDER BY name DESC
+indexflags 2
+byexpr 0 name
+byexpr 1 name
+idxtop 2
+row
+idxseekx 2 hard string Bravo
+closecursor
+direct SELECT * FROM indexed ORDER BY amount
+indexflags 3
+byexpr 0 amount
+byexpr 1 amount
+closecursor
+direct SELECT * FROM indexed ORDER BY amount DESC
+indexflags 3
+closecursor
+direct SELECT * FROM indexed ORDER BY born DESC, name DESC
+indexes
+indexflags 4
+closecursor
+direct SELECT {static} * FROM cust WHERE id > 2 ORDER BY name
+indexes
+indexflags 1
+gotop
+idxtop 1
+idxskip 1 1
+closecursor
+# Static cursors, and shapes that are not a live cursor's.
+direct SELECT {static} * FROM cust ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT TOP 2 * FROM cust ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT DISTINCT city FROM cust ORDER BY city
+peek
+indexes
+closecursor
+direct SELECT UPPER(name) FROM cust ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY c.name
+peek
+indexes
+closecursor
+direct SELECT * FROM (SELECT id, name FROM cust) t ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT id FROM cust UNION SELECT cust FROM sales ORDER BY 1
+peek
+indexes
+closecursor
+# What the temporary index shows: the cursor's rows through the order's
+# handle (by number and by name), its flags and key count, and whether it can
+# be opened, found by expression or listed.
+direct SELECT * FROM cust ORDER BY name DESC
+row
+indexflags 1
+allindexes
+byexpr 0 name
+byexpr 1 name
+byexpr 0 id
+openindex tim_x
+gotop
+skip 1
+idxtop 1
+row
+idxskip 1 1
+idxbottom 1
+idxseek 1 Bob
+idxseek 1 Zzz
+gotop
+indexes
+gobottom
+skip 1
+indexes
+gotop
+skip -1
+indexes
+gorec 3
+row
+indexes
+closecursor
+direct SELECT * FROM cust ORDER BY city, name DESC
+indexflags 1
+byexpr 0 city;name
+closecursor
+direct SELECT * FROM cust ORDER BY id DESC
+indexflags 1
+closecursor
+# A temporary index on a table with indexes: its place, and what the other
+# orders do to the cursor's order.
+direct SELECT * FROM indexed ORDER BY active
+gotop
+skip 1
+indexes
+allindexes
+indexflags 6
+idxtop 2
+row
+idxtop 6
+row
+gotop
+skip 1
+idxtop 1
+skip 1
+closecursor
+direct SELECT * FROM indexed WHERE id > 1 ORDER BY born DESC
+indexes
+gotop
+closecursor
+# Parameters and TOP / ORDER BY with a WHERE on an indexed field.
+direct SELECT * FROM cust WHERE id = 2 ORDER BY name
+peek
+indexes
+closecursor
+direct SELECT * FROM cust WHERE name LIKE 'A%' ORDER BY name
+peek
+indexes
+closecursor
+# SHOW PLAN of them.
+query SHOW PLAN FOR SELECT * FROM cust ORDER BY name
+query SHOW PLAN FOR SELECT * FROM cust ORDER BY name, id DESC
+# Seeks through a temporary index: key types, seek types, a key shorter or
+# longer than the field, and the order the cursor reads.
+direct SELECT * FROM cust ORDER BY name
+idxseekx 1 hard string Bob
+idxseekx 1 hard string Bo
+idxseekx 1 soft string Bo
+idxseekx 1 soft string Zzz
+idxseekx 1 gt string Bob
+idxseekx 1 gt string Zzz
+idxseekx 1 hard string Bobby
+idxseekx 1 hard string
+idxseekx 1 soft string
+idxseekx 1 hard double 2
+idxseekx 1 hard string bob
+idxseeklast 1 string Bob
+idxseeklast 1 string Zzz
+idxseek 1 Eve
+skip 1
+gotop
+closecursor
+direct SELECT * FROM cust ORDER BY name DESC
+idxseekx 1 hard string Bob
+idxseekx 1 soft string Bo
+idxseekx 1 soft string Zzz
+idxseekx 1 gt string Bob
+idxseekx 1 gt string Bo
+idxseekx 1 gt string Zzz
+idxseekx 1 gt string A
+idxseekx 1 gt string Eve
+idxseekx 1 gt string Ann
+idxseekx 1 gt string 
+idxseeklast 1 string Bob
+idxseeklast 1 string Zzz
+closecursor
+direct SELECT * FROM cust ORDER BY id
+idxseekx 1 hard double 3
+idxseekx 1 hard double 3.5
+idxseekx 1 soft double 3.5
+idxseekx 1 hard double 9
+idxseekx 1 gt double 3
+idxseekx 1 hard string 3
+idxseekx 1 hard string x
+idxseeklast 1 double 3
+closecursor
+direct SELECT * FROM cust ORDER BY id DESC
+idxseekx 1 hard double 3
+idxseekx 1 soft double 3.5
+idxseekx 1 gt double 3
+idxseekx 1 gt double 9
+idxseekx 1 gt double 0
+idxseekx 1 soft double 9
+idxseekx 1 soft double 0
+idxseeklast 1 double 3
+closecursor
+direct SELECT * FROM cust ORDER BY credit
+idxseekx 1 hard double 250.5
+idxseekx 1 soft double 200
+idxseekx 1 hard double 0
+idxseekx 1 hard string 250.5
+closecursor
+direct SELECT * FROM cust ORDER BY since
+idxseekx 1 hard string 20010203
+idxseekx 1 soft string 20000101
+idxseekx 1 hard string 02/03/2001
+idxseekx 1 hard double 2451944
+closecursor
+direct SELECT * FROM cust ORDER BY UPPER(name)
+idxseekx 1 hard string BOB
+idxseekx 1 hard string bob
+idxseekx 1 soft string C
+closecursor
+direct SELECT * FROM cust ORDER BY city, name
+idxseekx 1 hard string Berlin
+idxseekx 1 hard string BERLIN    Cid
+idxseekx 1 hard string Berlin    Ann
+idxseekx 1 soft string Q
+idxseekx 1 hard string berlin
+idxseekx 1 hard string berlin    Cid
+idxseekx 1 hard string berlin    Ann
+idxseekx 1 hard string rome
+idxseeklast 1 string berlin
+closecursor
+direct SELECT * FROM cust ORDER BY name, id
+idxseekx 1 hard string Bob
+idxseekx 1 soft string Bo
+idxseekx 1 gt string Bob
+closecursor
+direct SELECT * FROM cust ORDER BY name, id DESC
+idxseekx 1 hard string Bob
+idxseekx 1 soft string Bo
+closecursor
+direct SELECT * FROM cust ORDER BY city
+idxseekx 1 hard string berlin
+idxseekx 1 hard string
+idxseekx 1 soft string Z
+closecursor
+direct SELECT {static} * FROM cust WHERE id > 1 ORDER BY name
+idxseekx 1 hard string Cid
+idxseekx 1 soft string C
+idxseeklast 1 string Cid
+idxseekx 1 hard string Zzz
+closecursor
+direct SELECT name, COUNT(*) AS n FROM cust GROUP BY name ORDER BY 2 DESC, name
+idxseekx 1 hard string Cid
+idxseekx 1 soft string Cz
+closecursor
+direct SELECT * FROM indexed WHERE id > 1 ORDER BY born DESC
+idxseekx 1 hard double 1
+idxseekx 1 soft string 1
+idxtop 1
+idxseekx 1 hard string x
+closecursor
+# Scopes on a temporary index.
+direct SELECT * FROM cust ORDER BY name
+idxscope 1 top string Bob
+idxscope 1 bottom string Dee
+gotop
+skip 1
+gobottom
+skip 1
+idxseekx 1 hard string Ann
+idxseekx 1 hard string Cid
+idxclearscope 1 top
+gotop
+idxclearscope 1 bottom
+gotop
+closecursor
+direct SELECT * FROM cust ORDER BY id
+idxscope 1 top double 2
+idxscope 1 bottom double 4
+gotop
+skip 1
+gobottom
+closecursor
+# An empty cursor and a one-row one have no temporary index.
+direct SELECT * FROM cust WHERE id = 99 ORDER BY name
+idxseekx 1 hard string Bob
+closecursor
+# Edits through the cursor.
+direct SELECT * FROM cust ORDER BY name DESC
+gotop
+edit 2 Zed
+row
+indexes
+append
+indexes
+row
+closecursor
+# A second cursor on the table.
+direct SELECT * FROM cust ORDER BY name
+indexes
+closecursor

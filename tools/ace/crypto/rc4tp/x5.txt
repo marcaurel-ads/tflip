@@ -1,0 +1,12 @@
+ddcreate 0 %D\x5\d.add
+sql CREATE TABLE t0 (id INTEGER, note MEMO)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+enc t0
+dec t0
+tset t0 214 1
+enc t0
+dec t0
+tget t0 214
+tset t0 214 0
+dec t0
+disconnect

@@ -1,0 +1,12 @@
+# Free VFP tables on a connection with EncryptionType=AES128: the layout of a table made there, then encrypted with a password (AdsEnableEncryption, AdsEncryptTable).
+connect Data Source=%D\v8\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+createt 4 %D\v8\fa
+createt 4 %D\v8\fb
+stmttype 4
+sql INSERT INTO fa VALUES (1, 'free memo')
+sql INSERT INTO fa VALUES (2, 'second')
+sql INSERT INTO fb VALUES (1, 'free memo')
+sql INSERT INTO fb VALUES (2, 'second')
+encpw %D\v8\fb secret
+sql INSERT INTO fb VALUES (3, 'after the password')
+disconnect

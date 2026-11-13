@@ -1,0 +1,30 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 25,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "customer", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "total", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "placed", "type": 3, "type_name": "Date", "length": 4, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "PK_ORDERS", "file": "orders.adi", "expression": "id", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": true, "nullable": false, "fts": false, "key_count": 2, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"}
+  ]},
+  {"name": "BY_CUSTOMER", "file": "orders_extra.adi", "expression": "customer", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 2, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "04000000000100000001000000dc0c030000000000d2812500", "values": {"id": {"text": "1"}, "customer": {"text": "1"}, "total": {"text": "19.9900"}, "placed": {"text": "2017-11-08", "julian": 2458066}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000020000000200000048e8010000000000818e2500", "values": {"id": {"text": "2"}, "customer": {"text": "2"}, "total": {"text": "12.5000"}, "placed": {"text": "2026-09-29", "julian": 2461313}}}
+ ]
+}

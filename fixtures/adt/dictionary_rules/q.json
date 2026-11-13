@@ -1,0 +1,27 @@
+{
+ "table_type": "adt",
+ "record_count": 4,
+ "record_length": 9,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "Q_PK", "file": "q.adi", "expression": "id", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": true, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 1, "key": "8000000000000000"},
+   {"recno": 2, "key": "bff0000000000000"},
+   {"recno": 3, "key": "c000000000000000"},
+   {"recno": 4, "key": "c008000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000000000000", "values": {"id": {"text": "0"}}},
+  {"recno": 2, "deleted": false, "raw": "040000000001000000", "values": {"id": {"text": "1"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000002000000", "values": {"id": {"text": "2"}}},
+  {"recno": 4, "deleted": false, "raw": "040000000003000000", "values": {"id": {"text": "3"}}}
+ ]
+}

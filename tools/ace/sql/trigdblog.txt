@@ -1,0 +1,261 @@
+# Database triggers on OPEN_TABLE and CLOSE_TABLE: statements.
+#
+# What a statement opens, when it closes it: DML, DDL, SELECTs of one table or
+# several, the cursor the client opens of a live SELECT, the same SQL run again
+# (which keeps its tables), another statement (which closes them first), a
+# statement closed with a cursor open, the order a statement closes several.
+#
+# Database triggers ON DATABASE BEFORE | AFTER OPEN_TABLE and CLOSE_TABLE that
+# log what __info tells them (the table's name, the number of times it is open,
+# whether it is shared, free, which type, and whether a client opened it) to a
+# table logt, in an empty folder with a dictionary dbt/dbt.add the script
+# creates (kept in fixtures/sql/trigdblog/, which the replay compares but for logt
+# and its memo file). Recorded on the local server with no statements' tables
+# kept open (AdsCacheOpenCursors 0), and replayed: what the triggers write is
+# read back at the end, by the statements' own results:
+#
+#     run.sh <work> <ace32.dll> trigdblog.txt > ../../../fixtures/sql/trigdblog.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigdblog/
+#
+# A marker statement in logt says where each case ends. The triggers leave the
+# opens of logt alone (their own writes open it too, which fire none of the
+# kind they run in).
+cachecursors 0
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE logt (n AUTOINC, msg VARCHAR(200))
+direct CREATE TABLE t1 (id INTEGER)
+direct CREATE TABLE t2 (id INTEGER)
+direct INSERT INTO t1 VALUES (1)
+direct INSERT INTO t2 VALUES (1)
+direct CREATE TRIGGER a1 ON DATABASE BEFORE OPEN_TABLE BEGIN INSERT INTO logt (msg) SELECT 'B-OP ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a2 ON DATABASE AFTER OPEN_TABLE BEGIN INSERT INTO logt (msg) SELECT 'A-OP ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a3 ON DATABASE BEFORE CLOSE_TABLE BEGIN INSERT INTO logt (msg) SELECT 'B-CL ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a4 ON DATABASE AFTER CLOSE_TABLE BEGIN INSERT INTO logt (msg) SELECT 'A-CL ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct DELETE FROM logt
+stmt
+#
+# A select of one table, its cursor, DML and closing a statement.
+direct INSERT INTO logt (msg) VALUES ('--- A: select t1')
+direct SELECT * FROM t1
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- A: after closecursor')
+direct INSERT INTO logt (msg) VALUES ('--- A: second marker')
+direct SELECT * FROM t2
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- A: select t2 closed')
+direct INSERT INTO t1 VALUES (5)
+direct INSERT INTO logt (msg) VALUES ('--- A: insert t1 done')
+direct UPDATE t1 SET id = 6
+direct INSERT INTO logt (msg) VALUES ('--- A: update t1 done')
+closestmt
+stmt
+direct SELECT * FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- B: closed old stmt, new stmt marker')
+direct SELECT * FROM t1 a, t2 b
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- join closed')
+direct SELECT * FROM t1
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- end')
+#
+# Every kind of statement, and a statement left holding its tables.
+direct INSERT INTO t1 VALUES (7)
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 insert')
+stmt
+direct UPDATE t1 SET id = 8
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 update')
+stmt
+direct DELETE FROM t1 WHERE id = 8
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 delete')
+stmt
+direct SELECT COUNT(*) FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 4 count')
+stmt
+direct SELECT * FROM t1 a, t2 b
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 join')
+stmt
+direct SELECT * FROM t1 WHERE id IN (SELECT id FROM t2)
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 subquery')
+stmt
+direct INSERT INTO t1 SELECT * FROM t2
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 7 insert select')
+stmt
+direct CREATE TABLE t3 (id INTEGER)
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 8 create')
+stmt
+direct SELECT * FROM t1 ORDER BY id DESC
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 9 order by')
+stmt
+direct SELECT * FROM t1 UNION SELECT * FROM t2
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 10 union')
+stmt
+direct DROP TABLE t3
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 11 drop')
+stmt
+direct UPDATE t1 SET id = (SELECT MAX(id) FROM t2)
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 12 update subq')
+stmt
+direct SELECT * FROM t1 WHERE 1 = 0
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 13 empty select')
+stmt
+direct SELECT * FROM nosuch
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 14 missing')
+#
+# The same SQL again, another statement, closestmt.
+direct SELECT * FROM t1
+closecursor
+direct SELECT * FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 same stmt select twice (A-CL of 1st before 2nd open?)')
+stmt
+direct SELECT * FROM t2
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 select t2, closecursor, closestmt')
+direct SELECT * FROM t1
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 select t1, cursor left open, new stmt marker')
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- 4 closecursor of previous')
+direct SELECT * FROM t2
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 select t2 cursor open, closestmt')
+direct INSERT INTO t1 VALUES (9)
+direct SELECT * FROM t2
+closecursor
+direct SELECT * FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 insert t1, select t2, select t1 on same stmt')
+#
+# What a statement keeps when it runs the same text and what not.
+direct SELECT * FROM t1
+closecursor
+direct INSERT INTO t1 VALUES (5)
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 select t1; insert t1 (same stmt)')
+direct INSERT INTO t1 VALUES (5)
+direct SELECT * FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 insert t1; select t1 (same stmt)')
+direct SELECT * FROM t1
+closecursor
+direct SELECT * FROM t1 a, t2 b
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 select t1; join t1 t2')
+direct SELECT * FROM t1 a, t2 b
+closecursor
+direct SELECT * FROM t2 b, t1 a
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 4 join t1 t2; join t2 t1')
+direct SELECT * FROM t1 a, t2 b
+closecursor
+direct SELECT * FROM t2
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 join t1 t2; select t2')
+direct SELECT COUNT(*) FROM t1 a, t1 b
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 self join')
+direct SELECT * FROM t1 WHERE id IN (SELECT id FROM t1)
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 7 select t1 where in select t1')
+direct UPDATE t1 SET id = 1
+direct UPDATE t1 SET id = 1
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 8 update; update')
+direct SELECT * FROM t1
+closecursor
+direct SELECT * FROM nosuch
+direct SELECT * FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 9 select t1; fail; select t1')
+direct SELECT COUNT(*) FROM t1
+closecursor
+direct SELECT COUNT(*) FROM t1
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 10 count; count')
+#
+# The order a statement closes its tables in.
+direct CREATE TABLE t3 (id INTEGER)
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 0 setup')
+direct SELECT * FROM t1 a, t2 b WHERE a.id = b.id
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 comma join with where')
+direct SELECT * FROM t1 a LEFT JOIN t2 b ON a.id = b.id
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 left join')
+direct SELECT COUNT(*) FROM t1 a JOIN t2 b ON a.id = b.id
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 count join on')
+direct SELECT * FROM t1 WHERE EXISTS (SELECT 1 FROM t2 WHERE t2.id = t1.id)
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 exists')
+direct SELECT * FROM t1 UNION ALL SELECT * FROM t2
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 union all')
+direct SELECT * FROM (SELECT * FROM t1) x, t2
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 7 derived, t2')
+direct SELECT * FROM t1 WHERE id > (SELECT MAX(id) FROM t2)
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 8 scalar subq in where')
+direct SELECT * FROM t1 a, t2 b ORDER BY a.id
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 9 comma join order by')
+direct SELECT a.id, (SELECT MAX(id) FROM t2) FROM t1 a
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 10 scalar in list')
+query SELECT n, msg FROM logt ORDER BY n

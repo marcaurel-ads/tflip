@@ -1,0 +1,19 @@
+[
+{"cmd": "tabletype cdx", "rc": 0},
+{"cmd": "open cdx_t", "rc": 0, "table": 1},
+{"cmd": "deleteindex tb", "rc": 0},
+{"cmd": "deleteindex nosuch", "rc": 5016, "error": "Error 5016:  Advantage could not find an index order with the specified name."},
+{"cmd": "append", "rc": 0},
+{"cmd": "set name string four", "rc": 0},
+{"cmd": "set id long 4", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "deleteindex ta", "rc": 0},
+{"cmd": "close", "rc": 0},
+{"cmd": "tabletype vfp", "rc": 0},
+{"cmd": "open vfp_t", "rc": 0, "table": 2},
+{"cmd": "deleteindex tb", "rc": 0},
+{"cmd": "deleteindex ta", "rc": 0},
+{"cmd": "deleteindex td", "rc": 0},
+{"cmd": "deleteindex tc", "rc": 0},
+{"cmd": "close", "rc": 0}
+]

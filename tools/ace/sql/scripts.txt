@@ -1,0 +1,146 @@
+# Scripts sent as a statement, for fixtures/sql/scripts.json: a text of more
+# than one statement, or one that starts with a statement of the script
+# language, and EXECUTE IMMEDIATE. The script makes its own ADT tables, in an
+# empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> scripts.txt > fixtures/sql/scripts.json
+#
+# Not recorded, as tflip refuses it (native 2200): CACHE. Cursors are in
+# cursors.txt and TRY ... CATCH in trycatch.txt. EXECUTE PROCEDURE in
+# a script is no more than a failure of the original: it takes the
+# procedure's rows to the script's __output, a table that is not there (5004,
+# worded with four spaces before [SAP], where tflip has two). Transactions
+# (BEGIN TRANSACTION ... ROLLBACK, a COMMIT with none open) are the local
+# server's own, which tflip does not match (see docs/TRANSACTIONS.md), and a
+# subquery in a script's own expression (i = (SELECT ...)) is not run.
+stmt
+query CREATE TABLE t (n integer, s char(4))
+directnull INSERT INTO t (n, s) VALUES (1, 'a')
+# The last statement's cursor, and the rows the statements wrote together.
+query SELECT 1 AS a FROM system.iota; SELECT 2 AS b FROM system.iota
+count
+query SELECT 1 AS a FROM system.iota; SELECT 2 AS b FROM system.iota;
+query INSERT INTO t VALUES (2, 'b'); INSERT INTO t VALUES (3, 'c')
+count
+query INSERT INTO t VALUES (4, 'd'); SELECT n FROM t ORDER BY n
+count
+query SELECT n FROM t ORDER BY n; INSERT INTO t VALUES (5, 'e')
+count
+query SELECT COUNT(*) AS c FROM t
+query CREATE TABLE u (a integer); INSERT INTO u VALUES (1); INSERT INTO u VALUES (2); UPDATE u SET a = a + 1; DELETE FROM u WHERE a = 2; SELECT * FROM u
+count
+query UPDATE u SET a = a + 1; UPDATE u SET a = a + 1
+count
+query SELECT 1 AS a FROM system.iota; DROP TABLE u
+query SELECT * FROM u
+directnull SELECT 1 AS a FROM system.iota; SELECT 2 AS b FROM system.iota
+directnull SELECT 1 AS a FROM system.iota; INSERT INTO t VALUES (90, 'n')
+directnull INSERT INTO t VALUES (91, 'n'); INSERT INTO t VALUES (92, 'n')
+# A statement that fails keeps what the ones before it wrote, and the error
+# says where it is in the whole text.
+query INSERT INTO t VALUES (6, 'f'); INSERT INTO nosuch VALUES (1); INSERT INTO t VALUES (7, 'g')
+count
+query SELECT COUNT(*) AS c FROM t
+query INSERT INTO t VALUES (8, 'h');\n  SELECT nosuch FROM t
+query INSERT INTO t VALUES (8, 'h');\nSELECT 1 FROM system.iota;\n\nSELECT n FROM t WHERE
+query SELECT 1 FROM system.iota; SELEC 2
+query SELEC 1; SELECT 2 FROM system.iota
+query SELECT 1 AS a FROM system.iota; RAISE e(7, 'boom');
+query SELECT 1 AS a FROM system.iota; DECLARE i INTEGER; SELECT 2 AS b FROM system.iota
+query DECLARE i INTEGER; DECLARE i INTEGER; SELECT 1 AS a FROM system.iota
+query DECLARE i INTEGER; SELECT nosuch FROM t;
+query DECLARE i INTEGER; i = 'x'; SELECT 1 AS a FROM system.iota
+query DECLARE i INTEGER; i = nosuch;
+query DECLARE i INTEGER; i = 1/0;
+query i = 1;
+query DECLARE i INTEGER; BEGIN i = 1; END
+query DECLARE i INTEGER; RETURN; SELECT 1 AS a FROM system.iota
+query DECLARE i INTEGER; RAISE e(7, 'boom'); SELECT 1 AS a FROM system.iota
+query DECLARE i INTEGER; i = 1; RETURN i; SELECT 1 AS a FROM system.iota
+# Comments, and empty statements.
+query /* c */ SELECT 1 AS a FROM system.iota; -- c\nSELECT 2 AS b FROM system.iota
+query SELECT 1 AS a FROM system.iota; // c\nSELECT 2 AS b FROM system.iota
+query SELECT 1 AS a FROM system.iota;;SELECT 2 AS b FROM system.iota
+query ;SELECT 1 AS a FROM system.iota
+query SELECT 1 AS a FROM system.iota;;
+query DECLARE i INTEGER; ;
+# The script language: variables, and what makes the cursor the answer.
+query DECLARE i INTEGER; i = 1;
+query DECLARE i INTEGER; i = 1; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; DECLARE j INTEGER; i = 2; j = i + 1; SELECT j AS j FROM system.iota
+query DECLARE i INTEGER, j INTEGER; i = 1;
+query DECLARE i INTEGER; SELECT i AS a, n FROM t WHERE n < 3
+query IF 1 = 1 THEN SELECT 1 AS a FROM system.iota; END IF;
+query IF 1 = 1 THEN SELECT 1 AS a FROM system.iota; END IF
+query WHILE 1 = 0 DO SELECT 1 AS a FROM system.iota; END WHILE;
+query RETURN;
+query RETURN 1;
+query RAISE e(1, 'x');
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN SELECT 5 AS a FROM system.iota; ELSE SELECT 6 AS a FROM system.iota; END IF;
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN SELECT 5 AS a FROM system.iota; END IF; INSERT INTO t VALUES (3, 'c');
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN INSERT INTO t VALUES (3, 'c'); END IF; SELECT n FROM t WHERE n = 3
+query DECLARE i INTEGER; i = 2; INSERT INTO t VALUES (i, 'i'); SELECT n FROM t WHERE n = i
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; INSERT INTO t VALUES (10 + i, 'w'); END WHILE; SELECT COUNT(*) AS c FROM t
+query DECLARE i INTEGER; SELECT 1 AS a FROM system.iota; i = 2;
+query DECLARE i INTEGER; SELECT 1 AS a FROM system.iota; IF i = 2 THEN i = 3; END IF;
+query DECLARE i INTEGER; SELECT 1 AS a FROM system.iota; WHILE i = 2 DO i = 3; END WHILE;
+query DECLARE i INTEGER; IF i = 2 THEN i = 3; ELSE SELECT 1 AS a FROM system.iota; END IF; i = 4;
+query DECLARE i INTEGER; i = 0; WHILE i < 2 DO i = i + 1; SELECT i AS i FROM system.iota; END WHILE;
+query DECLARE i INTEGER; SELECT 1 AS a FROM system.iota; RETURN;
+# Parameters are shared across the statements.
+prepare INSERT INTO t VALUES (:n, :s); INSERT INTO t VALUES (:n + 1, :s)
+param n long 20
+param s string zz
+exec
+count
+query SELECT n, s FROM t WHERE n >= 20 ORDER BY n
+prepare INSERT INTO t VALUES (?, ?); INSERT INTO t VALUES (? + 1, ?)
+param 1 long 100
+param 2 string q
+param 3 long 200
+param 4 string r
+exec
+query SELECT n FROM t WHERE n >= 100 ORDER BY n
+prepare DECLARE i INTEGER; i = :v; INSERT INTO t VALUES (i, 'p'); SELECT n FROM t WHERE n = i
+param v long 300
+exec
+closecursor
+exec
+closecursor
+stmtparams SELECT 1 AS a FROM system.iota WHERE 1 = :a; SELECT 1 FROM system.iota WHERE 2 = :b
+verify SELECT 1 AS a FROM system.iota; SELECT nosuch FROM t
+verify DECLARE i INTEGER; SELECT n FROM t
+prepare SELECT 1 AS a FROM system.iota; SELEC 2
+exec
+# EXECUTE IMMEDIATE runs its text as a script of its own: its SELECTs are
+# checked but not run, and it makes no cursor.
+query EXECUTE IMMEDIATE 'SELECT 9 AS z FROM system.iota'
+query EXECUTE IMMEDIATE 'SELECT nosuch FROM nosuchtable'
+query EXECUTE IMMEDIATE 'SELECT'
+query EXECUTE IMMEDIATE 'INSERT INTO t VALUES (60, ''z'')'
+query SELECT COUNT(*) AS c FROM t WHERE n = 60
+query EXECUTE IMMEDIATE 'INSERT INTO t VALUES (82, ''e'');'
+query EXECUTE IMMEDIATE 'INSERT INTO nosuchtable VALUES (1)'
+query EXECUTE IMMEDIATE 'INSERT INTO t VALUES (1, ''a''); INSERT INTO nosuch VALUES (1)'
+query EXECUTE IMMEDIATE
+query EXECUTE IMMEDIATE 5
+query DECLARE q STRING; q = 'SELECT 9 AS z FROM system.iota'; EXECUTE IMMEDIATE q;
+query DECLARE q STRING; q = 'INSERT INTO t VALUES (61, ''z'')'; EXECUTE IMMEDIATE q; EXECUTE IMMEDIATE q
+count
+query DECLARE q STRING; q = 'INSERT INTO t VALUES (62, ''z'')'; EXECUTE IMMEDIATE q; EXECUTE IMMEDIATE 'INSERT INTO t VALUES (63, ''y'')'; SELECT COUNT(*) AS c FROM t WHERE n > 61
+query DECLARE q STRING; q = 'SELEC 1'; EXECUTE IMMEDIATE q; SELECT 1 FROM system.iota
+query DECLARE q STRING; q = 'SELECT 1 AS a FROM system.iota; SELEC 2'; EXECUTE IMMEDIATE q; SELECT 1 FROM system.iota
+query DECLARE q STRING; q = 'DECLARE j INTEGER; SELECT 1 AS a FROM system.iota; SELECT 2 AS b FROM system.iota'; EXECUTE IMMEDIATE q;
+query DECLARE q STRING; q = 'DECLARE j INTEGER; j = 5; INSERT INTO t VALUES (70, ''j''); INSERT INTO t VALUES (71, ''j'')'; EXECUTE IMMEDIATE q; SELECT COUNT(*) AS c FROM t WHERE n > 69
+query DECLARE i INTEGER; i = 9; EXECUTE IMMEDIATE 'INSERT INTO t VALUES (i, ''v'')'; SELECT COUNT(*) AS c FROM t WHERE n = 9
+query DECLARE i INTEGER; i = 9; EXECUTE IMMEDIATE 'INSERT INTO t VALUES (' + CAST(i AS SQL_CHAR) + ', ''v'')'; SELECT COUNT(*) AS c FROM t WHERE n = 9
+query DECLARE q STRING; EXECUTE IMMEDIATE q;
+query DECLARE q STRING; q = ''; EXECUTE IMMEDIATE q; SELECT 1 AS a FROM system.iota
+query DECLARE q STRING; q = ' '; EXECUTE IMMEDIATE q;
+query DECLARE q INTEGER; q = 1; EXECUTE IMMEDIATE q; SELECT 1 FROM system.iota
+query DECLARE q STRING; q = 'i = 1'; EXECUTE IMMEDIATE q;
+query DECLARE q STRING; q = 'DECLARE j INTEGER; j = 1; RAISE e(5, ''bad'')'; EXECUTE IMMEDIATE q;
+query DECLARE q STRING; q = 'INSERT INTO t VALUES (3, ''a'');;'; EXECUTE IMMEDIATE q;
+query EXECUTE IMMEDIATE 'SELECT 1 AS a FROM system.iota'; SELECT 2 AS b FROM system.iota
+query SELECT 3 AS c FROM system.iota; EXECUTE IMMEDIATE 'SELECT 1 AS a FROM system.iota';
+query DECLARE q STRING; q = 'CREATE TABLE v (x integer)'; EXECUTE IMMEDIATE q; INSERT INTO v VALUES (1); SELECT * FROM v

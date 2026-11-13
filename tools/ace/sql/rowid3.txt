@@ -1,0 +1,13 @@
+# ROWID on tables of a dictionary kept in a subfolder of the connection's
+# folder (the sql data folder with its dict/ and props/ dictionaries), for
+# fixtures/sql/rowid_paths.json: where the database part and the table part
+# come from.
+connect dict\dict.add alice secret
+stmt
+query SELECT ROWID FROM customers
+query SELECT ROWID FROM orders
+query SELECT ROWID FROM cust
+connect props\props.add ADSSYS adssyspw
+stmt
+query SELECT ROWID FROM parent
+query SELECT ROWID FROM child

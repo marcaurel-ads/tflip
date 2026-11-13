@@ -1,0 +1,10 @@
+#include free_all.txt
+free 8 fsrc
+open 0 @UNC@\fsrc\f_adt.adt x 3
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\img', NULL, NULL)
+closetable 0
+connopt TableType=CDX;
+free 9 fsrc
+open 9 @UNC@\fsrc\f_cdx.dbf x 2
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\img2', 'TableTypeMap=dbf=ADS_CDX', NULL)
+closetable 9

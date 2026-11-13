@@ -1,0 +1,17 @@
+[
+{"cmd": "tabletype cdx", "rc": 0},
+{"cmd": "open f.dbf exclusive", "rc": 0, "table": 1},
+{"cmd": "createindex fi.idx fi 0 512 c", "rc": 0},
+{"cmd": "createindex fu.idx fu 1 512 c", "rc": 0},
+{"cmd": "createindex fd.idx fd 8 512 UPPER(c) FOR n > 1", "rc": 0},
+{"cmd": "createindex - cand 2050 512 n", "rc": 5019, "error": "Error 5019:  An invalid option was specified.  ADS_CANDIDATE is not a valid option for this table type."},
+{"cmd": "createindex - cand2 2050 512 c", "rc": 5019, "error": "Error 5019:  An invalid option was specified.  ADS_CANDIDATE is not a valid option for this table type."},
+{"cmd": "createindex - cust 6 512 c", "rc": 0},
+{"cmd": "createindex - bin 4098 512 l", "rc": 0},
+{"cmd": "createindex - bin2 4098 512 DELETED()", "rc": 0},
+{"cmd": "order cust", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [], "count": [0, 4], "keys": [0, 0]},
+{"cmd": "order bin2", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [1, 2, 3, 4], "count": [0, 4], "keys": [0, 5]},
+{"cmd": "close", "rc": 0}
+]

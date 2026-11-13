@@ -1,0 +1,31 @@
+# The default options, on a character and a memo field.
+sql CREATE INDEX c_fts ON c (body) CONTENT
+sql CREATE INDEX m_fts ON m (body) CONTENT
+# Each option on its own order of one table.
+sql CREATE INDEX o_min ON o (body) CONTENT MIN WORD 1 MAX WORD 5
+sql CREATE INDEX o_case ON o (body) CONTENT CASESENSITIVE
+sql CREATE INDEX o_score ON o (body) CONTENT KEEPSCORE
+sql CREATE INDEX o_fixed ON o (body) CONTENT NOTMAINTAINED
+sql CREATE INDEX o_delim ON o (body) CONTENT DELIMITERS ',.' PROTECTNUMBERS
+sql CREATE INDEX o_newdelim ON o (body) CONTENT NEW DELIMITERS ' -'
+sql CREATE INDEX o_noise ON o (body) CONTENT NOISE 'quick brown'
+sql CREATE INDEX o_newnoise ON o (body) CONTENT NEW NOISE 'xx repeat'
+sql CREATE INDEX o_drop ON o (body) CONTENT DROPCHARS 'z' NEW CONDITIONALS '.'
+sql CREATE INDEX o_all ON o (body) CONTENT MIN WORD 2 MAX WORD 12 CASESENSITIVE KEEPSCORE
+# Trees of several levels, with and without scores.
+sql CREATE INDEX big_fts ON big (m) CONTENT
+sql CREATE INDEX ks_fts ON ks (m) CONTENT KEEPSCORE
+sql CREATE INDEX ks_short ON ks (m) CONTENT MAX WORD 4
+# A full-text order added to a file of 512-byte pages with an order.
+sql CREATE INDEX ex_fts ON ex (body) CONTENT
+# How the options merge with the defaults, and what is refused.
+sql CREATE INDEX e1 ON e (body) CONTENT DELIMITERS ' x'
+sql CREATE INDEX e2 ON e (body) CONTENT NOISE 'The about Zebra apple zebra'
+sql CREATE INDEX e3 ON e (body) CONTENT DROPCHARS '"z' CONDITIONALS ',y'
+sql CREATE INDEX e4 ON e (body) CONTENT MIN WORD 1 NEW NOISE 'b a c B'
+sql CREATE INDEX e5 ON e (body) CONTENT NEW DELIMITERS '' NEW DROPCHARS '' NEW CONDITIONALS ''
+sql CREATE INDEX e6 ON e (body) CONTENT NEW NOISE ''
+sql CREATE INDEX e7 ON e (body) CONTENT MIN WORD 0 MAX WORD 1
+sql CREATE INDEX e8 ON e (body) CONTENT MIN WORD 10 MAX WORD 5
+sql CREATE INDEX e9 ON e (body) CONTENT MAX WORD 0
+sql CREATE INDEX e10 ON e (body) CONTENT NEW DELIMITERS 'aa' NEW NOISE 'zz  yy'

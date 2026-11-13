@@ -1,0 +1,28 @@
+open t.adt
+top
+setbin im 7 6 0 010203
+get im
+setbin im 7 6 3 040506
+get im
+setbin im 6 4 0 01020304
+setbin im 5 4 0 01020304
+setbin im 7 8 0 01020304
+get im
+setbin b 7 4 0 01020304
+setbin b 6 4 0 01020304
+get b
+setbin im 7 0 0 01
+setbin im 7 4 4 01
+setbin im 7 4 3 0102
+get im
+write
+get im
+setbin im 7 4 3 01
+get im
+write
+setbin im 7 0 0
+get im
+setbin im 7 4 0
+get im
+write
+get im

@@ -1,0 +1,684 @@
+# Reads only: the level, the part not optimized and the records of each AOF.
+open p.adt shared
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 EMPTY(ciname)
+aoflevel
+rows
+aof 1 EMPTY(id)
+aoflevel
+rows
+aof 1 EMPTY(born)
+aoflevel
+rows
+aof 1 EMPTY(active)
+aoflevel
+rows
+aof 1 EMPTY(amount)
+aoflevel
+rows
+aof 1 EMPTY(d)
+aoflevel
+rows
+aof 1 EMPTY(vc)
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name))
+aoflevel
+rows
+aof 1 !EMPTY(name)
+aoflevel
+rows
+aof 1 !EMPTY(id)
+aoflevel
+rows
+aof 1 EMPTY(name) .AND. id > 2
+aoflevel
+rows
+aof 1 EMPTY(name) .OR. id = 1
+aoflevel
+rows
+aof 1 EMPTY(name) .OR. EMPTY(born)
+aoflevel
+rows
+aof 1 !EMPTY(name) .AND. !EMPTY(d)
+aoflevel
+rows
+aof 1 EMPTY(name) = .T.
+aoflevel
+rows
+aof 1 EMPTY(name) = .F.
+aoflevel
+rows
+aof 1 ISNULL(name)
+aoflevel
+rows
+aof 1 .NOT. EMPTY(born)
+aoflevel
+rows
+aof 1 name $ 'Bob'
+aoflevel
+rows
+aof 1 name $ 'Bob       '
+aoflevel
+rows
+aof 1 name $ 'Bob        x'
+aoflevel
+rows
+aof 1 name $ 'xBob       '
+aoflevel
+rows
+aof 1 name $ 'xBob        y'
+aoflevel
+rows
+aof 1 name $ ''
+aoflevel
+rows
+aof 1 name $ 'Bobby     '
+aoflevel
+rows
+aof 1 name $ 'Bobby     zz'
+aoflevel
+rows
+aof 1 name $ ' Bob       '
+aoflevel
+rows
+aof 1 name $ 'b         '
+aoflevel
+rows
+aof 1 name $ '          '
+aoflevel
+rows
+aof 1 name $ 'B'
+aoflevel
+rows
+aof 1 name $ 'Bob x     '
+aoflevel
+rows
+aof 1 ciname $ 'bob       '
+aoflevel
+rows
+aof 1 ciname $ 'xBOB       '
+aoflevel
+rows
+aof 1 UPPER(name) $ 'xBOB       '
+aoflevel
+rows
+aof 1 vc $ 'Bob'
+aoflevel
+rows
+aof 1 vc $ 'xBob'
+aoflevel
+rows
+aof 1 vc $ 'xBobby'
+aoflevel
+rows
+aof 1 vc $ ''
+aoflevel
+rows
+aof 1 vc $ 'ob'
+aoflevel
+rows
+aof 1 name $ 'Bob       ' .AND. id > 1
+aoflevel
+rows
+aof 1 name $ 'Bob       ' .OR. id = 2
+aoflevel
+rows
+aof 1 !(name $ 'Bob       ')
+aoflevel
+rows
+aof 1 name $ name
+aoflevel
+rows
+aof 1 name $ 'Bob       ' + 'x'
+aoflevel
+rows
+aof 1 TRIM(name) $ 'Bob'
+aoflevel
+rows
+exact 1
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'Bob       '
+aoflevel
+rows
+aof 1 name $ 'xBob        y'
+aoflevel
+rows
+aof 1 vc $ 'xBob'
+aoflevel
+rows
+aof 1 name $ ''
+aoflevel
+rows
+exact 0
+open m.adt shared
+aof 1 EMPTY(a)
+aoflevel
+rows
+aof 1 !EMPTY(a)
+aoflevel
+rows
+aof 1 EMPTY(b)
+aoflevel
+rows
+aof 1 a $ 'ab   '
+aoflevel
+rows
+aof 1 a $ 'xabc  '
+aoflevel
+rows
+aof 1 a $ 'ab'
+aoflevel
+rows
+aof 1 EMPTY(a) .AND. b = 2
+aoflevel
+rows
+tabletype cdx
+open c.dbf shared
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 EMPTY(id)
+aoflevel
+rows
+aof 1 EMPTY(born)
+aoflevel
+rows
+aof 1 EMPTY(active)
+aoflevel
+rows
+aof 1 EMPTY(amount)
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name))
+aoflevel
+rows
+aof 1 !EMPTY(name)
+aoflevel
+rows
+aof 1 !EMPTY(born)
+aoflevel
+rows
+aof 1 EMPTY(name) .OR. id = 1
+aoflevel
+rows
+aof 1 ISNULL(born)
+aoflevel
+rows
+aof 1 name $ 'Bob'
+aoflevel
+rows
+aof 1 name $ 'Bob       '
+aoflevel
+rows
+aof 1 name $ 'xBob        y'
+aoflevel
+rows
+aof 1 name $ ''
+aoflevel
+rows
+aof 1 name $ 'Bobby     zz'
+aoflevel
+rows
+aof 1 name $ ' Bob       '
+aoflevel
+rows
+aof 1 name $ '          '
+aoflevel
+rows
+aof 1 UPPER(name) $ 'xBOB       '
+aoflevel
+rows
+aof 1 !(name $ 'Bob       ')
+aoflevel
+rows
+aof 1 name $ 'Bob       ' .AND. id > 1
+aoflevel
+rows
+exact 1
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'Bob       '
+aoflevel
+rows
+aof 1 name $ 'xBob        y'
+aoflevel
+rows
+exact 0
+open cm.dbf shared
+aof 1 a = 'ab'
+aoflevel
+rows
+aof 1 a = 'a'
+aoflevel
+rows
+aof 1 a == 'ab'
+aoflevel
+rows
+aof 1 a == 'ab   '
+aoflevel
+rows
+aof 1 a <> 'ab'
+aoflevel
+rows
+aof 1 a > 'ab'
+aoflevel
+rows
+aof 1 a >= 'ab'
+aoflevel
+rows
+aof 1 a < 'ab'
+aoflevel
+rows
+aof 1 a <= 'ab'
+aoflevel
+rows
+aof 1 a = ''
+aoflevel
+rows
+aof 1 a <> ''
+aoflevel
+rows
+aof 1 EMPTY(a)
+aoflevel
+rows
+aof 1 !EMPTY(a)
+aoflevel
+rows
+aof 1 a $ 'xab   '
+aoflevel
+rows
+aof 1 a = 'abcdefg'
+aoflevel
+rows
+aof 1 a > 'abcdefg'
+aoflevel
+rows
+aof 1 a < 'abcdefg'
+aoflevel
+rows
+aof 1 a = 'ab   x'
+aoflevel
+rows
+aof 1 UPPER(a) = 'AB'
+aoflevel
+rows
+aof 1 a = 'B'
+aoflevel
+rows
+aof 1 a = 'b'
+aoflevel
+rows
+aof 1 a + c = 'ab   x'
+aoflevel
+rows
+aof 1 a+c = 'ab'
+aoflevel
+rows
+aof 1 a + c > 'ab   x'
+aoflevel
+rows
+aof 1 c = 'x'
+aoflevel
+rows
+aof 1 c = 'x' .AND. a = 'ab'
+aoflevel
+rows
+aof 1 a = 'ab' .OR. c = 'y'
+aoflevel
+rows
+aof 1 !(a = 'ab')
+aoflevel
+rows
+aof 1 d = STOD('20000101')
+aoflevel
+rows
+aof 1 d > STOD('20000101')
+aoflevel
+rows
+aof 1 d < STOD('20000101')
+aoflevel
+rows
+aof 1 d <> STOD('20000101')
+aoflevel
+rows
+aof 1 EMPTY(d)
+aoflevel
+rows
+aof 1 YEAR(d) = 2000
+aoflevel
+rows
+aof 1 YEAR(d) > 2000
+aoflevel
+rows
+aof 1 DTOS(d) = '20000101'
+aoflevel
+rows
+aof 1 DTOS(d) = '2000'
+aoflevel
+rows
+aof 1 DTOS(d) + a = '20000101ab'
+aoflevel
+rows
+aof 1 c = 'y'
+aoflevel
+rows
+aof 1 c > 'x'
+aoflevel
+rows
+aof 1 EMPTY(c)
+aoflevel
+rows
+aof 1 c = 'x' .AND. d = STOD('20000101')
+aoflevel
+rows
+aof 1 x = 1
+aoflevel
+rows
+exact 1
+aof 1 a = 'ab'
+aoflevel
+rows
+aof 1 a = 'a'
+aoflevel
+rows
+aof 1 a <> 'ab'
+aoflevel
+rows
+aof 1 a > 'ab'
+aoflevel
+rows
+aof 1 a == 'ab'
+aoflevel
+rows
+aof 1 c = 'x'
+aoflevel
+rows
+aof 1 DTOS(d) = '2000'
+aoflevel
+rows
+exact 0
+tabletype adt
+open p.adt shared
+aof 1 EMPTY(name) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(id) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 ciname $ 'xBOB       ' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 ciname $ 'bob       ' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 vc $ 'Bob' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 vc $ 'xBob' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 vc $ '' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name $ '' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name $ 'xBob        y' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 !ISNULL(name) .AND. !ISNULL(d)
+aoflevel
+rows
+aof 1 !ISNULL(name) .AND. !EMPTY(d)
+aoflevel
+rows
+aof 1 !EMPTY(name) .AND. id > 1
+aoflevel
+rows
+aof 1 !EMPTY(name) .OR. id = 1
+aoflevel
+rows
+aof 1 !EMPTY(name) .AND. !EMPTY(d) .AND. id > 1
+aoflevel
+rows
+aof 1 !(name = 'Bob') .AND. !(id = 1)
+aoflevel
+rows
+aof 1 ISNULL(name) = .T.
+aoflevel
+rows
+aof 1 ISNULL(name) = .F.
+aoflevel
+rows
+aof 1 EMPTY(name) == .T.
+aoflevel
+rows
+aof 1 EMPTY(name) <> .T.
+aoflevel
+rows
+aof 1 .T. = EMPTY(name)
+aoflevel
+rows
+aof 1 (id = 1) = .T.
+aoflevel
+rows
+aof 1 active = .T.
+aoflevel
+rows
+aof 1 active = .F.
+aoflevel
+rows
+aof 1 EMPTY(name) = .T. .AND. id > 1
+aoflevel
+rows
+aof 1 vc = 'Bob'
+aoflevel
+rows
+aof 1 vc $ 'Bob       '
+aoflevel
+rows
+aof 1 vc $ 'xBob       '
+aoflevel
+rows
+aof 1 vc $ 'Bob       x'
+aoflevel
+rows
+aof 1 ciname $ 'xbob       '
+aoflevel
+rows
+aof 1 ciname $ 'BOB       '
+aoflevel
+rows
+aof 1 ciname $ 'xBob       '
+aoflevel
+rows
+tabletype cdx
+open c.dbf shared
+aof 1 EMPTY(name) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(id) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(born) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(active) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(amount) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 ISNULL(born) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 ISNULL(name) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name $ '' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name $ '          ' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 ISNULL(name)
+aoflevel
+rows
+aof 1 ISNULL(id)
+aoflevel
+rows
+aof 1 !ISNULL(born)
+aoflevel
+rows
+aof 1 EMPTY(name) = .T.
+aoflevel
+rows
+aof 1 !EMPTY(name) .AND. !EMPTY(born)
+aoflevel
+rows
+open cm.dbf shared
+aof 1 a = 'ab   x' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 a = 'abc  x' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(a) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 EMPTY(c) .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 a > 'ab' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 a $ 'xab   ' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 DTOS(d) = '2000' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 a = 'ab' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 a = 'ab   y'
+aoflevel
+rows
+aof 1 a = 'abc  x'
+aoflevel
+rows
+aof 1 a = 'abcx'
+aoflevel
+rows
+aof 1 a = 'ab   xyz'
+aoflevel
+rows
+aof 1 a > 'ab   x'
+aoflevel
+rows
+aof 1 a < 'ab   y'
+aoflevel
+rows
+aof 1 a == 'ab   x'
+aoflevel
+rows
+aof 1 a <> 'ab   x'
+aoflevel
+rows
+aof 1 a $ 'ab   x'
+aoflevel
+rows
+aof 1 c = 'x  2000'
+aoflevel
+rows
+aof 1 c = 'x  20000101'
+aoflevel
+rows
+aof 1 c + DTOS(d) = 'x  2000'
+aoflevel
+rows
+aof 1 a + c == 'ab   x  '
+aoflevel
+rows
+aof 1 DTOS(d) + a = '2000'
+aoflevel
+rows
+aof 1 c = 'x' .AND. YEAR(d) = 2000
+aoflevel
+rows
+aof 1 a = c
+aoflevel
+rows
+aof 1 a + 'x' = 'ab'
+aoflevel
+rows
+exact 1
+aof 1 a = 'ab   x'
+aoflevel
+rows
+aof 1 a = 'ab   '
+aoflevel
+rows
+aof 1 c = 'x  20000101'
+aoflevel
+rows
+aof 1 a $ 'xab   '
+aoflevel
+rows
+aof 1 EMPTY(a)
+aoflevel
+rows
+exact 0
+aof 1 a = 'ab   '
+aoflevel
+rows
+aof 1 a < 'ab   x'
+aoflevel
+rows
+aof 1 a >= 'ab   y'
+aoflevel
+rows
+aof 1 a <= 'ab   '
+aoflevel
+rows
+aof 1 a > 'ab   '
+aoflevel
+rows
+aof 1 a = 'ab' .AND. c = 'x'
+aoflevel
+rows
+aof 1 a <> 'ab' .AND. c = 'x'
+aoflevel
+rows
+tabletype adt
+open p.adt shared
+aof 1 ISNULL(name) = .F. .AND. id > 1
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .AND. id > 1
+aoflevel
+rows
+aof 1 !(name = 'Bob') .OR. id = 1
+aoflevel
+rows
+aof 1 !ISNULL(name) .OR. id = 1 .OR. id = 2
+aoflevel
+rows
+aof 1 (!ISNULL(name) .AND. id > 1) .OR. id = 1
+aoflevel
+rows
+aof 1 !EMPTY(name) .AND. RECNO() > 1
+aoflevel
+rows
+aof 1 !EMPTY(name) .OR. RECNO() = 1
+aoflevel
+rows
+aof 1 id > 1 .AND. !ISNULL(name)
+aoflevel
+rows

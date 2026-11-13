@@ -1,0 +1,4 @@
+# The dictionary of a_Z.txt given RC4 by sp_ModifyDatabase.
+connect Data Source=%D\m_Z_type3\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '3')
+disconnect

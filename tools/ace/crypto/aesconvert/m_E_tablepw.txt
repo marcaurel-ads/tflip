@@ -1,0 +1,6 @@
+# A table encryption password set, replaced and taken away in an AES-128 dictionary that encrypts its records.
+connect Data Source=%D\m_E_tablepw\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'second')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', '')
+disconnect

@@ -1,0 +1,10 @@
+# Free VFP tables on a connection with EncryptionType=AES128 given a password (AdsEnableEncryption) without AdsEncryptTable, with records before and after.
+connect Data Source=%D\v12\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+createt 4 %D\v12\fa
+createt 4 %D\v12\fb
+stmttype 4
+sql INSERT INTO fa VALUES (1, 'before')
+sql INSERT INTO fb VALUES (1, 'before')
+encpw %D\v12\fa secret x
+encpw %D\v12\fb secret
+disconnect

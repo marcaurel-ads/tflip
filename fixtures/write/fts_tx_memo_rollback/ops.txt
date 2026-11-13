@@ -1,0 +1,159 @@
+open t shared
+open2 t shared
+use 1
+# Appends, changes and deletes at random, then a rollback.
+begin
+append
+set id long 1000
+set body string vivulir luciled vewacupu mecidug devo lugezoda vizefuk
+set c string fovi rarab rutun marazupu jukocu var rarab vev vodutoz
+write
+append
+set id long 1001
+set body string fajen geca lujop tun ninur zoludi moba devo zuwure
+set c string huwume pelilono foh furupal marazupu furupal fac pake m
+write
+append
+set id long 1002
+set body string hedis lesado nomi zidejap jevih zabewar fovi
+set c string caj jenop zoze sun jap zidejap miv nuze gepob lujop kut
+write
+append
+set id long 1003
+set body string ridok mego puve
+set c string moba docowi tuko
+write
+append
+set id long 1004
+set body string zawovo hiwof zoludi najo
+set c string miwilip milefel caj tonah subujon luciled gepob wor
+write
+append
+set id long 1005
+set body string zuwure jokitemo jihu riresec gotehowe kokeca
+set c string kihafilo pimi mase
+write
+append
+set id long 1006
+set body string suve vizefuk ruhafoje lilogivi vev rimik vev foh mokegun ruhafoje fucik
+set c string zugupu jutitig sun povevibo
+write
+append
+set id long 1007
+set body string var
+set c string dajociz jevih
+write
+append
+set id long 1008
+set body string kokeca vegu marazupu geca vemu mukicavu jifaru zugupu jokitemo lahegoz peje
+set c string mucif foh ninur foh rok wavodimo wor rok bekav povevibo
+write
+append
+set id long 1009
+set body string vivulir kejozac dajociz nuze tun
+set c string zawovo mukicavu hanih zawovo luciled bekav miwilip beka
+write
+append
+set id long 1010
+set body string jenop latu kasi hepuvat dume
+set c string gepob hagacu mukicavu mucif caj zoludi wipuvuc kinisi p
+write
+append
+set id long 1011
+set body string zeharo subujon caj huwume fomijate
+set c string ratufo lesado peje dume
+write
+goto 18
+set body string vogamico sun nomi
+write
+goto 7
+set body string ninur zinalifa hedis nuze foh hedis tasorewi fajen mokegun lovane
+write
+goto 5
+set body string tocuf furupal luciled lesado cefu zoludi hagacu jifaru fozag lahegoz
+write
+goto 35
+set body string jejipipa rok ninur najo kasi mego
+write
+goto 22
+set body string goco hanih tasorewi zawovo zeharo jiji
+write
+goto 40
+set body string milefel huwume
+write
+goto 29
+set body string lujop vegu
+write
+goto 40
+set body string kuwuhigu mes kinisi wipuvuc hotuli bekav rok lun fozag fomijate
+write
+goto 8
+set c string cajapoco wavodimo docowi devo
+write
+goto 6
+set c string ruhafoje pake devo
+write
+goto 9
+set c string fupem mego bawoje zoze
+write
+goto 31
+set c string bekav
+write
+goto 19
+set c string kokeca zinalifa mucif vuhaz
+write
+goto 26
+set c string vodutoz
+write
+goto 31
+delete
+write
+goto 1
+delete
+write
+goto 32
+delete
+write
+goto 9
+delete
+write
+goto 16
+delete
+write
+flush
+snapshot written
+cursor SELECT id FROM t WHERE CONTAINS(body, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(body, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+rollback
+flush
+snapshot rollback
+cursor SELECT id FROM t WHERE CONTAINS(body, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(body, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1

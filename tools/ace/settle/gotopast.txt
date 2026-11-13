@@ -1,0 +1,54 @@
+# Settling test: "Going past the last record" (ADS_BUGS.md).
+# Does a past-the-end AdsGotoRecord depend on the CURRENT record being deleted?
+# All deletes here are the API's AdsDeleteRecord (deleted-in-place). Driven by
+# tools/ace/write (write.exe <ace32.dll> <empty data folder> settle/gotopast.txt).
+# Result (real Windows 10, native ace32.dll): a goto past the last record lands
+# at EOF and returns 0 when the current record is live (cases A and C), but
+# returns 5022 ("...You cannot go to deleted records in ADT tables.") when the
+# current record is the deleted one (case B) -- still moving to EOF. A deleted
+# record present elsewhere is irrelevant; only the cursor's record matters.
+tabletype adt
+createtable t.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+goto 3
+delete
+# (A) current record = live (rec 1 via top), then goto past the end
+top
+state
+goto 6
+pos
+goto 7
+pos
+goto 100
+pos
+# (B) current record = the deleted rec 3, then goto past the end
+showdeleted 1
+goto 3
+state
+goto 6
+pos
+goto 7
+pos
+goto 100
+pos
+showdeleted 0
+# (C) current = a live record (rec 4) with a deleted record present, goto past
+goto 4
+state
+goto 6
+pos
+close

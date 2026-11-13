@@ -1,0 +1,19 @@
+{
+ "table_type": "adt",
+ "record_count": 0,
+ "record_length": 33,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "rv", "type": 21, "type_name": "RowVersion", "length": 8, "decimals": 0},
+  {"name": "m", "type": 5, "type_name": "Memo", "length": 16, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+ ]
+}

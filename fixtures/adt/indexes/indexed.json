@@ -1,0 +1,56 @@
+{
+ "table_type": "adt",
+ "record_count": 4,
+ "record_length": 62,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "name", "type": 4, "type_name": "Character", "length": 20, "decimals": 0},
+  {"name": "ciname", "type": 20, "type_name": "CICharacter", "length": 20, "decimals": 0},
+  {"name": "amount", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "born", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "active", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "PK_INDEXED", "file": "indexed.adi", "expression": "id", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "bff0000000000000"},
+   {"recno": 3, "key": "c000000000000000"},
+   {"recno": 1, "key": "c008000000000000"},
+   {"recno": 5, "key": "c010000000000000"}
+  ]},
+  {"name": "BY_NAME", "file": "indexed.adi", "expression": "name", "condition": "", "collation": "", "key_length": 20, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 3, "key": "427261766f202020202020202020202020202020"},
+   {"recno": 1, "key": "436861726c696520202020202020202020202020"},
+   {"recno": 5, "key": "44656c7461202020202020202020202020202020"},
+   {"recno": 2, "key": "616c706861202020202020202020202020202020"}
+  ]},
+  {"name": "BY_AMOUNT_DESC", "file": "indexed.adi", "expression": "amount", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": true, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 5, "key": "800000003b9ac9ff"},
+   {"recno": 1, "key": "800000000004a768"},
+   {"recno": 2, "key": "8000000000019064"},
+   {"recno": 3, "key": "7fffffffffff3cb0"}
+  ]},
+  {"name": "BY_BORN_NAME", "file": "indexed.adi", "expression": "born;name", "condition": "", "collation": "", "key_length": 28, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "c1429ec600000000616c706861202020202020202020202020202020"},
+   {"recno": 3, "key": "c142aa2c00000000427261766f202020202020202020202020202020"},
+   {"recno": 1, "key": "c142ad2900000000436861726c696520202020202020202020202020"},
+   {"recno": 5, "key": "c142b44a0000000044656c7461202020202020202020202020202020"}
+  ]},
+  {"name": "BY_CINAME", "file": "indexed.adi", "expression": "ciname", "condition": "", "collation": "", "key_length": 20, "key_type": 4, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "616c706861202020202020202020202020202020"},
+   {"recno": 3, "key": "627261766f202020202020202020202020202020"},
+   {"recno": 1, "key": "636861726c696520202020202020202020202020"},
+   {"recno": 5, "key": "64656c7461202020202020202020202020202020"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000003000000436861726c696520202020202020202020202020636861726c69652020202020202020202020202068a7040000000000525a250054", "values": {"id": {"text": "3"}, "name": {"text": "Charlie             "}, "ciname": {"text": "charlie             "}, "amount": {"text": "30.5000"}, "born": {"text": "1990-03-03", "julian": 2447954}, "active": {"text": "T"}}},
+  {"recno": 2, "deleted": false, "raw": "040000000001000000616c706861202020202020202020202020202020414c50484120202020202020202020202020202064900100000000008c3d250046", "values": {"id": {"text": "1"}, "name": {"text": "alpha               "}, "ciname": {"text": "ALPHA               "}, "amount": {"text": "10.2500"}, "born": {"text": "1970-01-01", "julian": 2440588}, "active": {"text": "F"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000002000000427261766f202020202020202020202020202020427261766f202020202020202020202020202020b03cffffffffffff5854250054", "values": {"id": {"text": "2"}, "name": {"text": "Bravo               "}, "ciname": {"text": "Bravo               "}, "amount": {"text": "-5.0000"}, "born": {"text": "1985-12-24", "julian": 2446424}, "active": {"text": "T"}}},
+  {"recno": 5, "deleted": false, "raw": "04000000000400000044656c746120202020202020202020202020202064656c7461202020202020202020202020202020ffc99a3b000000009468250054", "values": {"id": {"text": "4"}, "name": {"text": "Delta               "}, "ciname": {"text": "delta               "}, "amount": {"text": "99999.9999"}, "born": {"text": "2000-02-29", "julian": 2451604}, "active": {"text": "T"}}}
+ ]
+}

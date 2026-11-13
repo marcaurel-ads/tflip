@@ -1,0 +1,95 @@
+# ROWID's encoding of the database, the table and the record, for
+# fixtures/sql/rowid_paths.json (an empty data folder): one table of each of
+# several names. The ROWIDs depend on the path of the work folder, which
+# rowid_paths.json keeps with them; run it in a few folders.
+stmt
+directnull CREATE TABLE a (n integer)
+directnull INSERT INTO a (n) VALUES (1)
+query SELECT ROWID FROM a
+directnull CREATE TABLE b (n integer)
+directnull INSERT INTO b (n) VALUES (1)
+query SELECT ROWID FROM b
+directnull CREATE TABLE c (n integer)
+directnull INSERT INTO c (n) VALUES (1)
+query SELECT ROWID FROM c
+directnull CREATE TABLE d (n integer)
+directnull INSERT INTO d (n) VALUES (1)
+query SELECT ROWID FROM d
+directnull CREATE TABLE e (n integer)
+directnull INSERT INTO e (n) VALUES (1)
+query SELECT ROWID FROM e
+directnull CREATE TABLE z (n integer)
+directnull INSERT INTO z (n) VALUES (1)
+query SELECT ROWID FROM z
+directnull CREATE TABLE aa (n integer)
+directnull INSERT INTO aa (n) VALUES (1)
+query SELECT ROWID FROM aa
+directnull CREATE TABLE ab (n integer)
+directnull INSERT INTO ab (n) VALUES (1)
+query SELECT ROWID FROM ab
+directnull CREATE TABLE ba (n integer)
+directnull INSERT INTO ba (n) VALUES (1)
+query SELECT ROWID FROM ba
+directnull CREATE TABLE bb (n integer)
+directnull INSERT INTO bb (n) VALUES (1)
+query SELECT ROWID FROM bb
+directnull CREATE TABLE abc (n integer)
+directnull INSERT INTO abc (n) VALUES (1)
+query SELECT ROWID FROM abc
+directnull CREATE TABLE abd (n integer)
+directnull INSERT INTO abd (n) VALUES (1)
+query SELECT ROWID FROM abd
+directnull CREATE TABLE t (n integer)
+directnull INSERT INTO t (n) VALUES (1)
+query SELECT ROWID FROM t
+directnull CREATE TABLE u (n integer)
+directnull INSERT INTO u (n) VALUES (1)
+query SELECT ROWID FROM u
+directnull CREATE TABLE rv (n integer)
+directnull INSERT INTO rv (n) VALUES (1)
+query SELECT ROWID FROM rv
+directnull CREATE TABLE tab1 (n integer)
+directnull INSERT INTO tab1 (n) VALUES (1)
+query SELECT ROWID FROM tab1
+directnull CREATE TABLE tab2 (n integer)
+directnull INSERT INTO tab2 (n) VALUES (1)
+query SELECT ROWID FROM tab2
+directnull CREATE TABLE tab10 (n integer)
+directnull INSERT INTO tab10 (n) VALUES (1)
+query SELECT ROWID FROM tab10
+directnull CREATE TABLE x0 (n integer)
+directnull INSERT INTO x0 (n) VALUES (1)
+query SELECT ROWID FROM x0
+directnull CREATE TABLE x1 (n integer)
+directnull INSERT INTO x1 (n) VALUES (1)
+query SELECT ROWID FROM x1
+directnull CREATE TABLE x2 (n integer)
+directnull INSERT INTO x2 (n) VALUES (1)
+query SELECT ROWID FROM x2
+directnull CREATE TABLE x3 (n integer)
+directnull INSERT INTO x3 (n) VALUES (1)
+query SELECT ROWID FROM x3
+directnull CREATE TABLE longertablename_12345 (n integer)
+directnull INSERT INTO longertablename_12345 (n) VALUES (1)
+query SELECT ROWID FROM longertablename_12345
+directnull CREATE TABLE longertablename_12346 (n integer)
+directnull INSERT INTO longertablename_12346 (n) VALUES (1)
+query SELECT ROWID FROM longertablename_12346
+directnull CREATE TABLE A_ (n integer)
+directnull INSERT INTO A_ (n) VALUES (1)
+query SELECT ROWID FROM A_
+directnull CREATE TABLE B_ (n integer)
+directnull INSERT INTO B_ (n) VALUES (1)
+query SELECT ROWID FROM B_
+directnull CREATE TABLE _ (n integer)
+directnull INSERT INTO _ (n) VALUES (1)
+query SELECT ROWID FROM _
+directnull CREATE TABLE a1 (n integer)
+directnull INSERT INTO a1 (n) VALUES (1)
+query SELECT ROWID FROM a1
+directnull CREATE TABLE a2 (n integer)
+directnull INSERT INTO a2 (n) VALUES (1)
+query SELECT ROWID FROM a2
+directnull CREATE TABLE a3 (n integer)
+directnull INSERT INTO a3 (n) VALUES (1)
+query SELECT ROWID FROM a3

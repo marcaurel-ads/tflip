@@ -1,0 +1,325 @@
+# Encrypted DBF tables in transactions on the remote server.
+tabletype ntx
+open t_ntx.dbf exclusive
+enableenc secret
+encrypttable
+close
+open t_ntx.dbf shared
+enableenc secret
+begin
+goto 1
+set d1 string uno
+set m1 string changed_memo
+write
+append
+set d1 string four
+set n1 long 4
+set m1 string appended_memo
+write
+goto 2
+delete
+write
+flush
+snapshot ntx_during
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+rollback
+flush
+snapshot ntx_rolledback
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+begin
+goto 1
+set d1 string eins
+set m1 string a_longer_memo_for_the_first_record_than_before
+write
+append
+set d1 string five
+set n1 long 5
+set m1 string five_memo
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot ntx_committed
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close
+tabletype cdx
+open t_cdx.dbf exclusive
+enableenc secret
+encrypttable
+close
+open t_cdx.dbf shared
+enableenc secret
+begin
+goto 1
+set d1 string uno
+set m1 string changed_memo
+write
+append
+set d1 string four
+set n1 long 4
+set m1 string appended_memo
+write
+goto 2
+delete
+write
+flush
+snapshot cdx_during
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+rollback
+flush
+snapshot cdx_rolledback
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+begin
+goto 1
+set d1 string eins
+set m1 string a_longer_memo_for_the_first_record_than_before
+write
+append
+set d1 string five
+set n1 long 5
+set m1 string five_memo
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot cdx_committed
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close
+tabletype vfp
+open t_vfp.dbf exclusive
+enableenc secret
+encrypttable
+close
+open t_vfp.dbf shared
+enableenc secret
+begin
+goto 1
+set d1 string uno
+set m1 string changed_memo
+write
+append
+set d1 string four
+set n1 long 4
+set m1 string appended_memo
+write
+goto 2
+delete
+write
+flush
+snapshot vfp_during
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+rollback
+flush
+snapshot vfp_rolledback
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+begin
+goto 1
+set d1 string eins
+set m1 string a_longer_memo_for_the_first_record_than_before
+write
+append
+set d1 string five
+set n1 long 5
+set m1 string five_memo
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot vfp_committed
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close

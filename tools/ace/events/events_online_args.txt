@@ -1,0 +1,106 @@
+# The arguments, options and errors of sp_PackTableOnline, sp_ReindexOnline and
+# sp_PackAllTablesOnline on the remote server, on a dictionary's tables and a
+# free table. Options are `Name=Value` entries separated by `;` (ARC calls them
+# with `Indexes=<index files>;`): Timeout (seconds, 0 for as long as it takes),
+# Indexes (the index files besides the table's own, for a reindex too) and, for
+# a pack, MemoBlockSize. The tables are not read between the calls: a table
+# that a SELECT has read and that was packed online once is refused a second
+# pack or a reindex with 7175 ("an online pack operation is already active")
+# until its readers disconnect (see ADS_BUGS, `[eval-server]`); tflip does not
+# do that.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_online_args.txt
+#             > ../../../fixtures/events/events_online_args.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE TABLE t (n INTEGER, s CHAR(10), m MEMO)
+sql 1 CREATE UNIQUE INDEX tn ON t (n)
+sql 1 CREATE INDEX ts ON t (s)
+sql 1 CREATE TABLE u (n INTEGER, s CHAR(10))
+sql 1 INSERT INTO t VALUES (1, 'a', 'x')
+sql 1 INSERT INTO t VALUES (2, 'b', 'y')
+sql 1 INSERT INTO t VALUES (3, 'c', 'z')
+sql 1 DELETE FROM t WHERE n = 2
+sql 1 INSERT INTO u VALUES (1, 'a')
+sql 0 CREATE TABLE f (n INTEGER, s CHAR(10), m MEMO)
+sql 0 CREATE INDEX fs ON f (s)
+sql 0 INSERT INTO f VALUES (1, 'a', 'x')
+# What they answer: no result set.
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', NULL)
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('T')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t.adt')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Timeout=5')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', NULL)
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline()
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('Timeout=5')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline(NULL)
+sql 0 EXECUTE PROCEDURE sp_PackTableOnline('f')
+sql 0 EXECUTE PROCEDURE sp_ReindexOnline('f')
+sql 0 EXECUTE PROCEDURE sp_PackAllTablesOnline()
+# The options.
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', '')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'timeout=5;')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5.5')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=0')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5\r\nIndexes=')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5;Timeout=6')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Indexes=')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Bogus=1')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Indexes')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=abc')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=-1')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', ' Timeout = 5')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5;\r\n')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'MemoBlockSize=abc')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'MemoBlockSize=7')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'MemoBlockSize=33000')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'MemoBlockSize=0')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'MemoBlockSize=64')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('u', 'MemoBlockSize=64')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Indexes=t.adi')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Indexes=T')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Indexes=u.adi')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Indexes=nosuch.adi;')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Indexes=t.adi,u.adi;')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Indexes=;')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'MemoBlockSize=64')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'PageSize=1024')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Bogus=1')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Timeout=abc')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('Indexes=t.adi')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('MemoBlockSize=64')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('Timeout=0')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('Timeout=-5')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('Bogus=1')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('')
+# The table (a free table named by an empty text is a pack of "<folder>\.adt", 7041
+# with the path, which a replay cannot compare).
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('nosuch')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('nosuch', 'Bogus=1')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline(NULL)
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('nosuch')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline(NULL)
+sql 0 EXECUTE PROCEDURE sp_ReindexOnline('')
+sql 0 EXECUTE PROCEDURE sp_ReindexOnline(NULL)
+# The arguments.
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline()
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline()
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 'Timeout=5', 'x')
+sql 1 EXECUTE PROCEDURE sp_ReindexOnline('t', 'Timeout=5', 'x')
+sql 1 EXECUTE PROCEDURE sp_PackAllTablesOnline('a', 'b')
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline(1)
+sql 1 EXECUTE PROCEDURE sp_PackTableOnline('t', 5)
+# What they left.
+sql 1 EXECUTE PROCEDURE sp_GetTableSizeInfo('t')
+sql 1 EXECUTE PROCEDURE sp_GetTableSizeInfo('u')
+sql 1 SELECT n, s, m FROM t ORDER BY n
+sql 0 EXECUTE PROCEDURE sp_GetTableSizeInfo('f')

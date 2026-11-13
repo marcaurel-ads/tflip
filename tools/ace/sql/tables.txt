@@ -1,0 +1,22 @@
+# Makes fixtures/sql/tables/ (cust, sales) with the original engine:
+#     sql.exe <ace32.dll> <empty folder> tables.txt
+stmt
+directnull CREATE TABLE cust (id Integer, name Char(10), city CIChar(10), since Date, credit Money)
+directnull INSERT INTO cust VALUES (1, 'Ann', 'Berlin', '2001-02-03', 100)
+directnull INSERT INTO cust VALUES (2, 'Bob', 'paris', '1999-12-31', 250.5)
+directnull INSERT INTO cust VALUES (3, 'Cid', 'BERLIN', NULL, NULL)
+directnull INSERT INTO cust VALUES (4, 'Dee', NULL, '2010-06-15', 0)
+directnull INSERT INTO cust VALUES (5, 'Eve', 'Rome', '2005-05-05', -20)
+directnull CREATE TABLE sales (id AutoInc, cust Integer, item Char(8), qty Integer, price Money, amount Numeric(10,2), ratio Double, day Date, paid Logical, note Memo)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (1, 'apple', 3, 1.5, 4.5, 0.25, '2020-01-05', TRUE, 'first')
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (1, 'pear', 1, 2.25, 2.25, 0.5, '2020-01-07', FALSE, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (2, 'apple', 10, 1.4, 14, 1.75, '2020-02-01', TRUE, 'bulk')
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (2, 'plum', NULL, 0.8, NULL, NULL, '2020-02-01', NULL, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (3, 'Apple', 2, 1.5, 3, -0.5, '2020-03-10', TRUE, 'x')
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (3, 'kiwi', 7, 0.333, 2.33, 3.125, NULL, FALSE, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (5, 'pear', 4, 2.0, 8, 2, '2020-01-07', TRUE, 'late')
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (9, 'fig', 1, 5, 5, 0, '2021-12-31', FALSE, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (NULL, 'apple', 5, 1.5, 7.5, 0.125, '2020-01-05', TRUE, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (1, 'apple', -2, 1.5, -3, 0.25, '2020-04-01', FALSE, 'refund')
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (2, NULL, 0, NULL, 0, NULL, '2020-02-02', TRUE, NULL)
+directnull INSERT INTO sales (cust, item, qty, price, amount, ratio, day, paid, note) VALUES (5, 'plum', 6, 0.8, 4.8, 1e10, '2020-05-05', TRUE, NULL)

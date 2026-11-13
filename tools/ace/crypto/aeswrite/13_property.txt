@@ -1,0 +1,22 @@
+# A table encrypted by its TABLE_ENCRYPTION property, then decrypted by it. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t3 (id INTEGER, name CHAR(10))
+sql INSERT INTO t3 VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'TRUE', '', '')
+sql INSERT INTO t3 VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'FALSE', '', '')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t3 (id INTEGER, name CHAR(10))
+sql INSERT INTO t3 VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'TRUE', '', '')
+sql INSERT INTO t3 VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'FALSE', '', '')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t3 (id INTEGER, name CHAR(10))
+sql INSERT INTO t3 VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'TRUE', '', '')
+sql INSERT INTO t3 VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t3', 'TABLE_ENCRYPTION', 'FALSE', '', '')
+disconnect

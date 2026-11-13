@@ -1,0 +1,108 @@
+# sp_AddTableToDatabase, sp_AddIndexFileToDatabase, sp_RemoveIndexFile,
+# sp_RenameDDObject and sp_MoveDDObjectFile on a dictionary connection in an
+# empty folder (the dictionary, de/de.add, is kept in fixtures/sql/spddtables/,
+# with the tables): free tables added to it, their index files added and
+# removed, objects renamed, and tables moved.
+#
+#     run.sh <work> <ace32.dll> spddtables.txt > ../../../fixtures/sql/spddtables.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddtables/
+connect de
+stmt
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix1 ON ft1 (id)
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix2 ON ft2 (name)
+direct CREATE INDEX ix3 ON ft2 (id)
+direct CREATE TABLE ft3 (id INTEGER)
+direct CREATE TABLE ft4 (id INTEGER)
+direct CREATE TABLE ft5 (id INTEGER)
+direct CREATE TABLE ft6 (id INTEGER)
+direct CREATE TABLE ft7 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix7 ON ft7 (name)
+direct CREATE TABLE ft9 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix9 ON ft9 (name)
+direct CREATE TABLE ft10 (id INTEGER, name CHAR(10))
+direct CREATE TABLE ft11 (id INTEGER, name CHAR(10))
+direct CREATE TABLE ft8 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix8 ON ft8 (name)
+disconnect
+ddcreate de\de.add
+stmt
+#
+# What is added.
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft1', 'ft1.adt', 3, 1, '', 'the first')
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT * FROM system.columns
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft2', 'ft2.adt', 3, 1, 'ft2.adi', NULL)
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft1', 'ft3.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('FT1', 'ft3.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3x', 'ft1.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('nope', 'nope.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('', 'ft3.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', '', 4, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase(NULL, 'ft3.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', NULL, 4, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', 'ft3.adt', NULL, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', 'ft3.adt', 3, NULL, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', 'ft3.adt', 3, 1, NULL, NULL)
+query SELECT * FROM system.tables
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 0, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 1, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 2, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 4, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 5, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 3, 0, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 3, 2, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft4', 'ft4.adt', 3, 3, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft5', 'ft5.adt', 3, 1, 'nope.adi', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft5', 'ft5.adt', 3, 1, '', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft6', 'ft6.adt', 3, 1, 'ft1.adi', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft7', 'ft7.adt', 3, 1, '', 'the seventh')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft8', 'ft8.adt', 3, 1, '', NULL)
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft10', 'ft10.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft11', 'ft11.adt', 3, 1, 'ft9.adi', 'the eleventh')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft6', 'ft6.adt', 3, 1)
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft6', 'ft6.adt', 3, 1, '', '', 'x')
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft6', 'ft6.adt', 3, 1, '', 5)
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft6', 'ft6.adt', '4', 1, '', '')
+query SELECT * FROM system.tables
+#
+# An index file added to a table.
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft1', 'ft1.adi', 'the index file')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft10', 'ft9.adi', 'borrowed')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft10', 'ft9.adi', 'again')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft8', 'ft8.adi', NULL)
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', 'ft2.adi', 'ft2s index file')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', 'ft5.adi', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', 'nope.adi', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('nope', 'ft1.adi', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('', 'ft1.adi', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', '', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase(NULL, 'ft1.adi', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', NULL, NULL)
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft5', 'ft1.adi')
+query SELECT * FROM system.indexes
+query SELECT * FROM system.tables
+#
+# An index file removed.
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ix2', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ft2', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ft2.adi', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft7', 'ft7.adi', 1)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft7', 'ft7.adi', 1)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft8', 'FT8.ADI', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft10', 'ft9.adi', 1)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft11', 'ft9.adi', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('nope', 'ft1', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'nope', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ft2', 7)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ft2')
+direct EXECUTE PROCEDURE sp_RemoveIndexFile(NULL, 'ft2', 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', NULL, 0)
+direct EXECUTE PROCEDURE sp_RemoveIndexFile('ft2', 'ft2', NULL)
+query SELECT * FROM system.indexes
+query SELECT * FROM system.tables

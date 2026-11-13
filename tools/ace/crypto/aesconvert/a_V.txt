@@ -1,0 +1,53 @@
+# A plain dictionary of about a hundred objects, so that its index has pages that split: tables with keys, indexes and fields, views, procedures, users and groups with grants, a referential integrity rule, a publication with articles, four subscriptions (passwords of none, 1, 20 and 30 characters), holes left by what was dropped, and an ADSSYS password (adm).
+ddcreate 0 %D\V\V.add
+sql CREATE TABLE t1 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t1n ON t1 (name)
+sql CREATE TABLE t2 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t2n ON t2 (name)
+sql CREATE INDEX t2p ON t2 (pid)
+sql CREATE TABLE t3 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t3n ON t3 (name)
+sql CREATE TABLE t4 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t4n ON t4 (name)
+sql CREATE TABLE t5 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t5n ON t5 (name)
+sql CREATE TABLE t6 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t6n ON t6 (name)
+sql CREATE TABLE t7 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t7n ON t7 (name)
+sql CREATE TABLE t8 (id INTEGER, pid INTEGER, name CHAR(10), PRIMARY KEY (id))
+sql CREATE INDEX t8n ON t8 (name)
+sql CREATE VIEW v1 AS SELECT id FROM t1
+sql CREATE VIEW v2 AS SELECT id FROM t2
+sql CREATE VIEW v3 AS SELECT id FROM t3
+sql CREATE VIEW v4 AS SELECT id FROM t4
+sql CREATE PROCEDURE p1() BEGIN SELECT 1 FROM system.iota; END
+sql CREATE PROCEDURE p2() BEGIN SELECT 1 FROM system.iota; END
+sql CREATE PROCEDURE p3() BEGIN SELECT 1 FROM system.iota; END
+sql EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r1', 't1', 't2', 't2p', 2, 2, '', '', '')
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateUser('u2', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateUser('u3', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateUser('u4', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateUser('u5', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateUser('u6', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+sql EXECUTE PROCEDURE sp_CreateGroup('g2', '')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'g2')
+sql GRANT SELECT ON t1 TO u1
+sql GRANT SELECT ON t2 TO u2
+sql GRANT SELECT ON t3 TO u3
+sql GRANT SELECT ON t4 TO u4
+sql GRANT UPDATE ON t5 TO g1
+sql DROP VIEW v4
+sql DROP TABLE t8
+sql EXECUTE PROCEDURE sp_DropUser('u6')
+ddlink lk1 V.add ADSSYS linkpw 1
+ddpub pub1 a~publication 0
+ddsub sub1 pub1 target~one repuser subpw queue1 0 a~subscription 0
+ddsub sub2 pub1 target~two repuser - queue2 1 - 0
+ddsub sub3 pub1 \\server\share\a\long\target\path\to\a\dictionary.add repuser abcdefghijklmnopqrstuvwxyz1234 queue3 0 a~third~subscription 0
+ddsub sub4 pub1 target~four repuser p queue4 1 - 0
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect

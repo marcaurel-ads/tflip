@@ -1,0 +1,10 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+#table 1 t_adt 3 50
+#table 1 t_cdx 2 50
+#table 1 t_vfp 4 50
+#table 1 t_ntx 1 50
+sql 1 CREATE VIEW v_adt AS SELECT id, name FROM t_adt WHERE id < 5
+sql 1 CREATE PROCEDURE p_one(a INTEGER) BEGIN DECLARE @a INTEGER; @a = (SELECT a FROM __input); INSERT INTO __output SELECT @a + 1 FROM system.iota; END;
+sql 1 EXECUTE PROCEDURE sp_CreateUser('bkuser', 'pw', 'user')

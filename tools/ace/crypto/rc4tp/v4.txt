@@ -1,0 +1,20 @@
+# VFP tables of an AES-128 dictionary that keeps its records in the clear and does not encrypt new tables, then encrypted and decrypted (sp_EncryptTable, sp_DecryptTable) and written to in between.
+connect Data Source=%D\v4\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v4\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+stmttype 4
+sql CREATE TABLE ta (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO ta VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO ta VALUES (2, 'bbbbbbbbbb', 'two memo')
+sql CREATE TABLE tb (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO tb VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO tb VALUES (2, 'bbbbbbbbbb', 'two memo')
+sql CREATE INDEX tb_name ON tb (name)
+tget ta 214
+sql EXECUTE PROCEDURE sp_EncryptTable('ta')
+tget ta 214
+sql INSERT INTO ta VALUES (3, 'cccccccccc', 'three')
+sql EXECUTE PROCEDURE sp_EncryptTable('tb')
+sql INSERT INTO tb VALUES (3, 'cccccccccc', 'three')
+disconnect

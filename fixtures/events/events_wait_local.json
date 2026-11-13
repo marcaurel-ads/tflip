@@ -1,0 +1,23 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "sql 0 CREATE DATABASE \"d\\d.add\"", "rc": 0, "ms": 7},
+{"cmd": "connect 1 d\\d.add", "rc": 0},
+{"cmd": "sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;", "rc": 0, "ms": 3},
+{"cmd": "connect 2 d\\d.add", "rc": 0},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_CreateEvent('x', 0)", "rc": 0, "ms": 22},
+{"cmd": "async 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 20000, 0, 0)", "started": true},
+{"cmd": "sleep 800", "slept": true},
+{"cmd": "cancel 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5042;  [SAP][Advantage SQL Engine][ASA] The requested feature has not yet been implemented.", "ms": 0},
+{"cmd": "sql 2 EXECUTE PROCEDURE sig0('x')", "rc": 0, "ms": 3},
+{"cmd": "join 1", "rc": 0, "fields": [["EventName", 20, 200], ["EventCount", 11, 4], ["StringData", 5, 9]], "rows": [["x                                                                                                                                                                                                       ", "1", null]], "ms": 905},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 0)", "rc": 0, "fields": [["EventName", 20, 200], ["EventCount", 11, 4], ["StringData", 5, 9]], "rows": [["x                                                                                                                                                                                                       ", "0", null]], "ms": 2},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 0)", "rc": 0, "fields": [["EventName", 20, 200], ["EventCount", 11, 4], ["StringData", 5, 9]], "rows": [["x                                                                                                                                                                                                       ", "0", null]], "ms": 3},
+{"cmd": "async 1 EXECUTE PROCEDURE sp_WaitForEvent('x', -1, 0, 0)", "started": true},
+{"cmd": "sleep 800", "slept": true},
+{"cmd": "sql 2 EXECUTE PROCEDURE sig0('x')", "rc": 0, "ms": 6},
+{"cmd": "join 1", "rc": 0, "fields": [["EventName", 20, 200], ["EventCount", 11, 4], ["StringData", 5, 9]], "rows": [["x                                                                                                                                                                                                       ", "1", null]], "ms": 907},
+{"cmd": "async 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(5000, 0, 0)", "started": true},
+{"cmd": "sleep 800", "slept": true},
+{"cmd": "sql 2 EXECUTE PROCEDURE sig0('x')", "rc": 0, "ms": 14},
+{"cmd": "join 1", "rc": 0, "fields": [["EventName", 20, 200], ["EventCount", 11, 4], ["StringData", 5, 9]], "rows": [["x                                                                                                                                                                                                       ", "1", null]], "ms": 908}
+]

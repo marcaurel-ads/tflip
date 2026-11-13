@@ -1,0 +1,106 @@
+# Two handles on one table, shared: record locks are each handle's.
+open t.adt shared
+open t.adt shared
+use 1
+goto 1
+lock 1
+islocked 1
+locks
+use 2
+goto 1
+islocked 1
+lock 1
+set name string other
+lock 2
+locks
+use 1
+set name string first
+write
+islocked 1
+unlock 1
+islocked 1
+unlock 1
+use 2
+goto 1
+refresh
+get name
+set name string second
+islocked 1
+write
+islocked 1
+unlock 2
+# Appends in two handles at once: which slot each one takes.
+use 1
+append
+state
+use 2
+append
+state
+set id long 20
+write
+use 1
+set id long 10
+write
+# Table locks.
+use 1
+locktable
+tablelocked
+use 2
+unlocktable
+lock 3
+use 1
+locktable
+use 2
+unlock 3
+use 1
+locktable
+tablelocked
+goto 2
+set name string tablelock
+write
+islocked 2
+use 2
+goto 3
+lock 3
+set name string blocked
+use 1
+unlocktable
+tablelocked
+unlocktable
+# A delete, and an append in the other handle that reuses its slot.
+goto 3
+delete
+write
+use 2
+append
+state
+set name string reused
+write
+close
+use 1
+close
+# Read-only and exclusive opens.
+open t.adt readonly
+top
+set name string ro
+append
+delete
+lock 1
+locks
+close
+open t.adt exclusive
+open t.adt shared
+open t.adt exclusive
+use 4
+top
+lock 1
+islocked 1
+locks
+set name string excl
+islocked 1
+write
+append
+state
+islocked 7
+write
+close

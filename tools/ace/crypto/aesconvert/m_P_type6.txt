@@ -1,0 +1,4 @@
+# The same with AES-256.
+connect Data Source=%D\m_P_type6\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '6')
+disconnect

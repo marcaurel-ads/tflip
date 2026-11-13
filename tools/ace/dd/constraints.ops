@@ -1,0 +1,114 @@
+# The operations constraints.exe runs on a fresh copy of the
+# dictionary_constraints fixture (see constraints.c for the syntax).
+#
+# Defaults fill the appended record at once.
+peek t id,name,qty,price,d,flag,note
+append t id=1
+# The table API checks a field as it is set (and keeps the old value).
+append t id=2 name=NULL
+append t id=3 name=EMPTY
+append t id=4 qty=0
+append t id=5 qty=101
+append t id=6 qty=13
+append t id=7 qty=NULL
+append t id=8 qty=0 name=NULL
+append t id=9 price=-1
+append t id=10 d=12/31/1999
+append t id=11 qty=13 name=NULL
+update t 1 qty=0
+update t 1 qty=13
+update t 1 name=NULL
+update t 1 qty=50
+sql SELECT id, name, qty, price, d, flag FROM t ORDER BY id
+# The same through SQL, in the order the columns are listed.
+sql INSERT INTO t (id) VALUES (20)
+sql INSERT INTO t (id, name) VALUES (21, NULL)
+sql INSERT INTO t (id, name) VALUES (22, '')
+sql INSERT INTO t (id, qty) VALUES (23, 0)
+sql INSERT INTO t (id, qty) VALUES (24, 101)
+sql INSERT INTO t (id, qty) VALUES (25, 13)
+sql INSERT INTO t (id, qty) VALUES (26, NULL)
+sql INSERT INTO t (id, qty, name) VALUES (27, 0, NULL)
+sql INSERT INTO t (id, price, d) VALUES (41, -1, '1999-12-31')
+sql INSERT INTO t (id, d, price) VALUES (42, '1999-12-31', -1)
+sql INSERT INTO t (id, qty, name) VALUES (43, 13, NULL)
+sql INSERT INTO t (id, qty, price) VALUES (45, 0, -1)
+sql INSERT INTO t (id, price, qty) VALUES (46, -1, 0)
+sql UPDATE t SET qty = 0 WHERE id = 1
+sql UPDATE t SET qty = 13 WHERE id = 1
+sql UPDATE t SET name = NULL WHERE id = 1
+sql UPDATE t SET qty = 60 WHERE id = 1
+sql SELECT id, name, qty, price, d, flag FROM t ORDER BY id
+# Required fields never set fail as the record is written.
+append u id=1
+append u id=2 req=a
+append u id=3 req=a req=EMPTY
+append u id=4 req=a s=a m=hi
+append u id=5 req=a s=y m=hi
+append u id=6 req=a s=b n=0 m=hi
+append u id=7 req=a n=7 m=hi
+append u id=8 req=a m=hi
+append u id=9 req=a s=c n=2 m=
+append u id=10 req=a s=c n=2 m=hi
+sql INSERT INTO u (id) VALUES (20)
+sql INSERT INTO u (id, req) VALUES (21, 'a')
+sql INSERT INTO u (id, req, m) VALUES (22, 'a', 'hi')
+sql INSERT INTO u (id, req, m, s, n) VALUES (23, 'a', 'hi', 'a', 2)
+sql INSERT INTO u (id, req, m, n) VALUES (24, 'a', 'hi', 7)
+sql INSERT INTO u (id, req, m, s, n) VALUES (26, NULL, 'hi', 'a', 0)
+sql INSERT INTO u (id, req, m, s, n) VALUES (29, 'a', 'hi', 'z', 0)
+sql INSERT INTO u (n, s, id, req, m) VALUES (0, 'z', 30, 'a', 'hi')
+sql INSERT INTO u (id, req, m, s, n) VALUES (31, 'a', '', 'c', 2)
+sql INSERT INTO u (id, req, m, s, n) VALUES (32, 'a', 'hi', 'c', 2)
+sql SELECT id, req, s, n, m FROM u ORDER BY id
+# Field order decides which constraint a write reports.
+append w
+append w b=x
+append w b=x a=6
+append w b=x a=6 c=2
+append w2
+append w2 b=x
+sql INSERT INTO w (b) VALUES ('x')
+sql INSERT INTO w (b, a, c) VALUES ('x', 6, 2)
+sql INSERT INTO w2 (a) VALUES (6)
+sql SELECT a, b, c FROM w ORDER BY a
+# Rows that broke the constraints before they were set.
+update v 1 id=11
+update v 2 id=12
+update v 3 id=13
+update v 3 id=60
+update v 3 m=
+update v 3 m=NULL
+sql UPDATE v SET id = 21 WHERE id = 1
+sql UPDATE v SET id = 22 WHERE id = 2
+sql UPDATE v SET m = '' WHERE id = 13
+sql SELECT id, a, m FROM v ORDER BY id
+# Defaults of other types.
+peek x id,c,n,l,tm
+append x id=1
+sql INSERT INTO x (id) VALUES (2)
+sql SELECT id, c, n, l, tm FROM x ORDER BY id
+sql SELECT id FROM x WHERE dd = CURDATE() AND ts IS NOT NULL ORDER BY id
+# Triggers fire on the table API too, after the constraints.
+append g id=1
+append g id=2 n=7
+append g id=99
+append g id=3 n=0
+update g 1 n=4
+delete g 1
+sql INSERT INTO g (id) VALUES (10)
+sql INSERT INTO g (id, n) VALUES (11, 7)
+sql INSERT INTO g (id) VALUES (99)
+sql SELECT id, n FROM g ORDER BY id
+append h id=1
+sql INSERT INTO h (id) VALUES (2)
+sql SELECT id FROM h
+update k 1 id=5
+delete k 2
+delete k 1
+sql SELECT id FROM k ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+# A failed AdsGotoRecord leaves the table on a deleted record, which takes no
+# sets.
+update w2 1 b=x a=6
+sql SELECT b, a FROM w2

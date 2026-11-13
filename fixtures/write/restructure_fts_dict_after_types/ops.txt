@@ -1,0 +1,140 @@
+ddconnect dd.add ADSSYS -
+tabletype database
+restructure :h1 0 ||body,body,Integer,4
+restructure :h2 0 ||body,body,Integer,4
+restructure :h3 0 ||body,body,Integer,4
+restructure :h4 0 ||body,body,Integer,4
+restructure :h5 0 ||body,body,Integer,4
+restructure :h8 0 ||body,body,Integer,4
+restructure :h9 0 ||body,body,Integer,4
+restructure :h10 0 ||body,body,Integer,4
+restructure :h11 0 ||body,body,Integer,4
+restructure :h12 0 ||body,body,Integer,4
+restructure :h1 0 ||title,title,Char,40
+open :h1
+top
+record
+order h1_id
+rows
+order h1_body
+order h1_title
+order h1_m
+close
+restructure :h2 0 ||id,id,ShortInt,2
+open :h2
+top
+record
+order h2_id
+rows
+order h2_body
+order h2_title
+order h2_m
+close
+restructure :h3 0 extra,Char,4||z,z,Memo,10
+open :h3
+top
+record
+order h3_id
+rows
+order h3_body
+order h3_title
+order h3_m
+close
+restructure :h4 0 ||body,body,CICharacter,40
+open :h4
+top
+record
+order h4_id
+rows
+order h4_body
+order h4_title
+order h4_m
+close
+restructure :h5 0 ||body,body,Char,50
+open :h5
+top
+record
+order h5_id
+rows
+order h5_body
+order h5_title
+order h5_m
+close
+sql ALTER TABLE h8 ALTER COLUMN id id SHORT
+open :h8
+top
+record
+order h8_id
+rows
+order h8_body
+order h8_title
+order h8_m
+close
+sql ALTER TABLE h9 ALTER COLUMN body body MEMO
+open :h9
+top
+record
+order h9_id
+rows
+order h9_body
+order h9_title
+order h9_m
+close
+open :h10
+reindex
+close
+open :h10
+createindex - h10_x 0 512 z
+close
+open :h10
+createindex - h10_y 0 512 title
+close
+open :h10
+top
+record
+order h10_id
+rows
+order h10_body
+order h10_title
+order h10_m
+close
+restructure :h10 0 ||id,id,Double,8
+open :h10
+top
+record
+order h10_id
+rows
+order h10_body
+order h10_title
+order h10_m
+close
+open :h10
+order h10_x
+order h10_y
+close
+open :h11
+pack
+close
+open :h11
+top
+record
+order h11_id
+rows
+order h11_body
+order h11_title
+order h11_m
+close
+open :h12
+append
+set id long 7
+write
+close
+open :h12
+top
+record
+order h12_id
+rows
+order h12_body
+order h12_title
+order h12_m
+close

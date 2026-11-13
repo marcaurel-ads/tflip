@@ -1,0 +1,33 @@
+00:00:00  :  Starting Deployment...
+00:00:00  :  Creating fail table directory {D}\fail.
+00:00:00  :  Turning verify rights on.
+00:00:00  :  Turning logins required on.
+00:00:00  :  Setting table encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting query via root option to FALSE
+00:00:00  :  Analyzing {D}.\t.adt
+00:00:00  :  Analyzing {D}.\u.adt
+00:00:00  :  Starting to add tables to dictionary.
+00:00:00  :  Adding table t to the dictionary.
+00:00:00  :  Adding Index {D}\.\t.adi to the dictionary.
+00:00:00  :  Adding table u to the dictionary.
+00:00:00  :  Adding Index {D}\.\u.adi to the dictionary.
+00:00:00  :  Added view v2 to the dictionary.
+00:00:00  :  Added view v1 to the dictionary.
+00:00:00  :  Added link l2 to the dictionary.
+00:00:00  :  Added link l1 to the dictionary.
+00:00:00  :  Added stored procedure p2 to the dictionary.
+00:00:00  :  Added stored procedure p1 to the dictionary.
+00:00:00  :  Added trigger trg2 to the dictionary.
+00:00:00  :  Added trigger trg1 to the dictionary.
+00:00:00  :  Adding RI object ri2 to the dictionary.
+00:00:00  :  Added publication pb2 to the dictionary.
+00:00:00  :  Added publication pb1 to the dictionary.
+00:00:00  :  Added user group g2 to the dictionary.
+00:00:00  :  Added user group g1 to the dictionary.
+00:00:00  :  Could not free table
+
+00:00:00  :  Could not free table
+
+00:00:00  :  Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.

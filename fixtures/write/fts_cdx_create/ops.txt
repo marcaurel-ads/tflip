@@ -1,0 +1,8 @@
+tabletype cdx
+sql CREATE INDEX f1 ON c1 (body) CONTENT
+sql CREATE INDEX f2 ON c2 (body) CONTENT KEEPSCORE
+sql CREATE INDEX f3 ON c3 (body) CONTENT
+sql CREATE INDEX f4 ON c4 (body) CONTENT
+open c5.dbf
+createfts - g1 body 0 3 30 0 1 - 1 - 1 - 1 -
+createfts own.cdx g2 body 0 3 30 0 1 - 1 - 1 - 1 -

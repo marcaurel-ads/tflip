@@ -1,0 +1,83 @@
+# Temporary tables (#name) through AdsCreateTable and AdsOpenTable, and what
+# statements and opens of another table type than the table was made as do, for
+# fixtures/sql/temptables_api.json, on a free connection in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_api.txt > fixtures/sql/temptables_api.json
+#
+# The table types are 1 Clipper, 2 FoxPro, 3 ADT, 4 Visual FoxPro; a default
+# table type (0) is refused by AdsOpenTable on a free connection.
+stmt
+query CREATE TABLE t (n integer, s char(4))
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+# AdsCreateTable of a #name, as each type (and as the default), and whether
+# SQL sees it, as the type it was made as.
+ctable 3 #ta id,Integer;name,Character,10
+tabletype 3
+query SELECT * FROM #ta
+ctable 3 #ta id,Integer;name,Character,10
+ctable 3 #TA id,Integer
+ctable 1 #tn id,Numeric,5,0;name,Character,10
+ctable 2 #tc id,Numeric,5,0;name,Character,10
+ctable 4 #tv id,Numeric,5,0;name,Character,10
+ctable 0 #td id,Integer
+tabletype 1
+query SELECT * FROM #tn
+tabletype 2
+query SELECT * FROM #tc
+tabletype 4
+query SELECT * FROM #tv
+tabletype 3
+query SELECT * FROM #td
+directnull INSERT INTO #ta VALUES (1, 'one')
+query SELECT * FROM #ta
+# AdsOpenTable of them, as the type they were made as and the others.
+otype 3 #ta
+otype 1 #tn
+otype 2 #tc
+otype 4 #tv
+otype 3 #td
+otype 0 #ta
+otype 3 #TA
+otype 3 #nosuch
+otype 3 ##ta
+otype 1 #ta
+otype 2 #ta
+otype 4 #ta
+otype 3 #tn
+otype 2 #tn
+otype 4 #tn
+otype 3 #tc
+otype 1 #tc
+otype 4 #tc
+otype 3 #tv
+otype 1 #tv
+otype 2 #tv
+# Made by SQL as each statement type, opened as each type.
+tabletype 3
+query CREATE TABLE #sa (x integer, y char(3))
+directnull INSERT INTO #sa VALUES (1, 'abc')
+tabletype 1
+query CREATE TABLE #sn (x integer, y char(3))
+directnull INSERT INTO #sn VALUES (1, 'abc')
+tabletype 2
+query CREATE TABLE #sc (x integer, y char(3))
+directnull INSERT INTO #sc VALUES (1, 'abc')
+tabletype 4
+query CREATE TABLE #sv (x integer, y char(3))
+directnull INSERT INTO #sv VALUES (1, 'abc')
+otype 3 #sa
+otype 1 #sa
+otype 2 #sa
+otype 4 #sa
+otype 3 #sn
+otype 1 #sn
+otype 4 #sn
+otype 3 #sc
+otype 1 #sc
+otype 2 #sc
+otype 4 #sc
+otype 3 #sv
+otype 1 #sv
+otype 2 #sv
+otype 4 #sv

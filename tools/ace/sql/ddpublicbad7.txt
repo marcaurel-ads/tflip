@@ -1,0 +1,46 @@
+# sp_GetColumns, sp_GetTables and the listings of the administrator and a
+# member of DB:Admin when a view's (v1) rights slot for DB:Public does not
+# check (the dictionary of ddpublicbad2, kept in fixtures/sql/ddpublicbad7/):
+#
+#     run.sh <work> <ace32.dll> ddpublicbad7.txt > ../../../fixtures/sql/ddpublicbad7.json
+connect pb.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('adm1', 'pw', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('adm1', 'DB:Admin')
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add adm1 pw
+stmt
+cap 200
+stmt
+query SELECT * FROM system.views
+stmt
+query SELECT * FROM system.users
+stmt
+query SELECT * FROM system.tables
+stmt
+query SELECT * FROM system.columns
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, NULL, NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add bob bobpw
+stmt
+cap 200
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, NULL, NULL)
+disconnect

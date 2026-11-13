@@ -1,0 +1,116 @@
+# What goes in the slot of a deleted dictionary object: filler views are
+# dropped one at a time and each kind of object is added in their place, in
+# a dictionary the script creates, ds/ds.add (kept in fixtures/sql/ddslots/,
+# with the free tables it adds):
+# users, groups, members, links, triggers (table and database), referential
+# integrity rules, an index made on a dictionary table and added index files,
+# tables added with sp_AddTableToDatabase, procedures, and rights.
+#
+#     run.sh <work> <ace32.dll> ddslots.txt > ../../../fixtures/sql/ddslots.json
+#     cp <work>/data/ds/* ../../../fixtures/sql/ddslots/
+ddcreate ds\ds.add
+stmt
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10)) AS FREE TABLE
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10)) AS FREE TABLE
+direct CREATE TABLE ft3 (id INTEGER, a CHAR(4), b CHAR(4), c CHAR(4)) AS FREE TABLE
+direct CREATE TABLE ft4 (id INTEGER, name CHAR(10)) AS FREE TABLE
+direct CREATE INDEX ft4x ON ft4 (name)
+direct CREATE TABLE parent (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE child (cid INTEGER, pid INTEGER, tag CHAR(10))
+direct CREATE INDEX pid ON child (pid)
+direct CREATE TABLE audit (a INTEGER)
+direct CREATE TABLE audit2 (a INTEGER, b INTEGER)
+direct CREATE VIEW f01 AS SELECT id FROM parent
+direct CREATE VIEW f02 AS SELECT id FROM parent
+direct CREATE VIEW f03 AS SELECT id FROM parent
+direct CREATE VIEW f04 AS SELECT id FROM parent
+direct CREATE VIEW f05 AS SELECT id FROM parent
+direct CREATE VIEW f06 AS SELECT id FROM parent
+direct CREATE VIEW f07 AS SELECT id FROM parent
+direct CREATE VIEW f08 AS SELECT id FROM parent
+direct CREATE VIEW f09 AS SELECT id FROM parent
+direct CREATE VIEW f10 AS SELECT id FROM parent
+direct CREATE VIEW f11 AS SELECT id FROM parent
+direct CREATE VIEW f12 AS SELECT id FROM parent
+direct CREATE VIEW f13 AS SELECT id FROM parent
+direct CREATE VIEW f14 AS SELECT id FROM parent
+direct CREATE VIEW f15 AS SELECT id FROM parent
+direct CREATE VIEW f16 AS SELECT id FROM parent
+direct CREATE VIEW f17 AS SELECT id FROM parent
+direct CREATE VIEW f18 AS SELECT id FROM parent
+direct CREATE VIEW f19 AS SELECT id FROM parent
+direct CREATE VIEW f20 AS SELECT id FROM parent
+#
+# Users and groups (AdsDDCreateUser, sp_CreateUser, sp_CreateGroup).
+direct DROP VIEW f01
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct DROP VIEW f02
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+direct DROP VIEW f03
+dduser u2 pw2
+direct DROP VIEW f04
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct DROP VIEW f05
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+direct DROP VIEW f06
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'g1')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'g1')
+direct DROP VIEW f07
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+#
+# Links.
+direct CREATE DATABASE "other.add"
+direct DROP VIEW f08
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct DROP VIEW f09
+ddlink lk2 other.add - - 0
+direct DROP VIEW f10
+direct EXECUTE PROCEDURE sp_CreateLink('lk3', 'other.add', 1, 0, 0, NULL, NULL)
+#
+# Triggers: on a table (two in a row), on the database.
+direct DROP VIEW f11
+direct CREATE TRIGGER tr1 ON parent AFTER INSERT BEGIN INSERT INTO audit VALUES (1); END
+direct DROP VIEW f12
+direct CREATE TRIGGER tr2 ON parent AFTER UPDATE BEGIN INSERT INTO audit VALUES (2); END
+direct DROP VIEW f13
+direct CREATE TRIGGER dbt1 ON DATABASE AFTER CONNECT BEGIN SELECT 'connect' FROM system.iota; END
+#
+# Referential integrity.
+direct DROP VIEW f14
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 2, 2, '', 'no parent', 'children')
+direct DROP VIEW f15
+direct DROP VIEW f16
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri2', 'parent', 'child', 'pid', 1, 1, '', '', '')
+#
+# Tables added from free ones, with index files, and an index made on a table.
+direct DROP VIEW f17
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft1', 'ft1.adt', 3, 1, '', '')
+direct DROP VIEW f18
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft3', 'ft3.adt', 3, 1, '', '')
+direct EXECUTE PROCEDURE sp_AddIndexFileToDatabase('ft3', 'ft4.adi', 'the index file')
+direct DROP VIEW f19
+direct CREATE INDEX ix2 ON audit (a)
+direct DROP VIEW f20
+direct EXECUTE PROCEDURE sp_AddTableToDatabase('ft2', 'ft2.adt', 3, 1, '', '')
+query SELECT Name FROM system.views
+query SELECT Name FROM system.users
+query SELECT Name FROM system.triggers
+query SELECT Name FROM system.tables
+#
+# More free slots than a table needs, then more tables than slots.
+direct DROP TABLE audit2
+direct CREATE VIEW gv1 AS SELECT id FROM parent
+direct CREATE PROCEDURE p1() BEGIN INSERT INTO audit VALUES (3); END
+direct GRANT SELECT ON parent TO u1
+direct GRANT SELECT ON gv1 TO g1
+direct EXECUTE PROCEDURE sp_DropUser('u3')
+direct EXECUTE PROCEDURE sp_DropGroup('g1')
+direct EXECUTE PROCEDURE sp_DropLink('lk1', 1)
+direct DROP TRIGGER parent.tr1
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri1')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g2', 'again')
+direct EXECUTE PROCEDURE sp_CreateLink('lk4', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct CREATE TRIGGER tr3 ON parent AFTER DELETE BEGIN INSERT INTO audit VALUES (4); END
+query SELECT Name FROM system.users
+query SELECT Name FROM system.links

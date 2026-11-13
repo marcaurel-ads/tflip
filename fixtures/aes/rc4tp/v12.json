@@ -1,0 +1,19 @@
+{
+ "001_cmd": "connect Data Source=%D\\v12\\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;",
+ "001_rc": 0,
+ "002_cmd": "createt 4 %D\\v12\\fa",
+ "002_rc": 0,
+ "003_cmd": "createt 4 %D\\v12\\fb",
+ "003_rc": 0,
+ "004_cmd": "stmttype 4",
+ "005_cmd": "sql INSERT INTO fa VALUES (1, 'before')",
+ "005_rc": 0,
+ "006_cmd": "sql INSERT INTO fb VALUES (1, 'before')",
+ "006_rc": 0,
+ "007_cmd": "encpw %D\\v12\\fa secret x",
+ "007_rc": 0,
+ "008_cmd": "encpw %D\\v12\\fb secret",
+ "008_rc": 0,
+ "009_cmd": "disconnect",
+ "009_rc": 0
+}

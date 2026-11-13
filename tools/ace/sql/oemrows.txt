@@ -1,0 +1,33 @@
+# Text a statement reads back out of an OEM table (a Clipper table opened with
+# ADS_OEM) into the rows of a script, a subquery, a derived table or a
+# variable, for fixtures/sql/oemrows.json, in a folder with the `co` table of
+# fixtures/ntx/charset_default alone (as oem.txt). A SELECT of one table in
+# FROM is a live cursor of that table in the original, so the derived tables
+# here have a GROUP BY or a DISTINCT:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> oemrows.txt > fixtures/sql/oemrows.json
+stmt
+tabletype 1
+chartype 2
+query SELECT code, c FROM co WHERE code IN (228, 246, 128, 158)
+query SELECT x, COUNT(*) FROM (SELECT code, c AS x FROM co WHERE code IN (228, 246, 128, 158)) t GROUP BY x
+query SELECT code, (SELECT c FROM co b WHERE b.code = a.code) AS x FROM co a WHERE code IN (228, 246, 128, 158)
+query SELECT code FROM co WHERE c IN (SELECT c FROM co WHERE code = 228)
+query SELECT code FROM co WHERE c = (SELECT c FROM co WHERE code = 228)
+query SELECT code FROM co a WHERE EXISTS (SELECT 1 FROM co b WHERE b.c = a.c AND b.code = 228)
+query SELECT a.code, b.code FROM co a JOIN co b ON a.c = b.c WHERE a.code IN (228, 246)
+query SELECT c, COUNT(*) FROM co WHERE code IN (228, 246) GROUP BY c
+query SELECT DISTINCT c FROM co WHERE code IN (228, 246)
+query SELECT c FROM co WHERE code = 228 UNION SELECT c FROM co WHERE code = 246
+query SELECT MAX(c), MIN(c) FROM co WHERE code IN (228, 246, 233)
+query SELECT UPPER(c), LENGTH(c), ASCII(c) FROM co WHERE code IN (228, 246)
+query SELECT c + 'x' FROM co WHERE code = 228
+query SELECT c FROM co WHERE code = 228 ORDER BY c
+query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT s AS v, ASCII(s) AS a FROM system.iota
+query DECLARE s CHAR(10); SELECT c INTO s FROM co WHERE code = 228; SELECT s AS v, ASCII(s) AS a FROM system.iota
+query DECLARE cur CURSOR AS SELECT c FROM co WHERE code = 228; OPEN cur; WHILE FETCH cur DO INSERT INTO __output SELECT c FROM cur; END WHILE; CLOSE cur;
+query INSERT INTO __output SELECT c FROM co WHERE code IN (228, 246);
+query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); INSERT INTO __output VALUES (s);
+query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT code FROM co WHERE c = s
+query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT DISTINCT code FROM (SELECT code FROM co WHERE c = s) t
+query CREATE TABLE ct (x CHAR(4)); INSERT INTO ct SELECT c FROM co WHERE code = 228; SELECT x, ASCII(x) FROM ct

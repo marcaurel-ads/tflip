@@ -1,0 +1,95 @@
+# Changes still pending in a handle (set, deleted, appended, not written)
+# when its transaction is rolled back or committed, on the remote server:
+# whether they are part of the transaction, and what happens to them.
+open t shared
+open2 t shared
+use 1
+# A change pending at the rollback.
+begin
+goto 1
+set name string uno
+rollback
+txcount
+get name
+use 2
+goto 1
+get name
+islocked 1
+use 1
+goto 2
+use 2
+goto 1
+get name
+use 1
+snapshot change_rolledback
+# A change pending at the commit.
+begin
+goto 2
+set name string dos
+commit
+use 2
+goto 2
+get name
+islocked 2
+use 1
+goto 3
+use 2
+goto 2
+get name
+use 1
+snapshot change_committed
+# A delete pending at the rollback.
+begin
+goto 3
+delete
+rollback
+use 2
+goto 3
+get name
+use 1
+goto 1
+use 2
+goto 3
+get name
+use 1
+snapshot delete_rolledback
+# An append pending at the rollback.
+begin
+append
+set id long 5
+set name string five
+rollback
+use 2
+rows
+use 1
+goto 1
+use 2
+rows
+use 1
+snapshot append_rolledback
+state
+close
+use 2
+close
+tabletype cdx
+open cdx_t shared
+open2 cdx_t shared
+use 3
+# A DBF delete pending at the rollback.
+begin
+goto 2
+delete
+rollback
+use 4
+goto 2
+state
+use 3
+goto 1
+use 4
+goto 2
+state
+use 3
+snapshot cdx_delete_rolledback
+close
+use 4
+close

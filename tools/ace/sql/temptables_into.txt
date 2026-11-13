@@ -1,0 +1,73 @@
+# SELECT ... INTO #name, for fixtures/sql/temptables_into.json, on a free
+# connection in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_into.txt > fixtures/sql/temptables_into.json
+stmt
+query CREATE TABLE src (id INTEGER, name CHAR(10), v VARCHAR(20), n NUMERIC(8,2), memo MEMO)
+directnull INSERT INTO src VALUES (1, 'one', 'short', 1.5, 'a memo')
+directnull INSERT INTO src VALUES (2, 'two', 'x', 2.5, 'b')
+query SELECT * INTO #a FROM src
+info
+closecursor
+query SELECT * FROM #a
+query SELECT * INTO #a FROM src
+query SELECT * INTO #A FROM src
+query SELECT id AS i INTO #b FROM src WHERE id = 2
+query SELECT * FROM #b
+query SELECT * INTO #c FROM #a
+query SELECT * FROM #c
+query SELECT x.id, y.i INTO #d FROM src x JOIN #b y ON x.id = y.i
+query SELECT * FROM #d
+query SELECT id INTO ##g FROM src
+query SELECT id INTO #e FROM nosuch
+query SELECT * FROM #e
+query SELECT id INTO #f FROM src WHERE 1 = 2
+query SELECT * FROM #f
+query INSERT INTO #a (id) VALUES (9)
+query SELECT id FROM #a
+query DROP TABLE #a
+query SELECT * INTO #a FROM src
+query SELECT * INTO #t1 FROM src; SELECT * FROM #t1
+query SELECT * FROM #t1
+# As each table type: the source made in that type too.
+tabletype 1
+query CREATE TABLE sn (id INTEGER, name CHAR(10), memo MEMO)
+directnull INSERT INTO sn VALUES (1, 'one', 'm')
+query SELECT id, name INTO #n1 FROM sn
+info
+query SELECT * FROM #n1
+tabletype 2
+query CREATE TABLE sc (id INTEGER, name CHAR(10), memo MEMO)
+directnull INSERT INTO sc VALUES (1, 'one', 'm')
+query SELECT id, name INTO #n2 FROM sc
+query SELECT * FROM #n2
+query SELECT id, name, memo INTO #n2m FROM sc
+query SELECT * FROM #n2m
+tabletype 4
+query CREATE TABLE sv (id INTEGER, name CHAR(10), memo MEMO)
+directnull INSERT INTO sv VALUES (1, 'one', 'm')
+query SELECT id, name INTO #n4 FROM sv
+query SELECT * FROM #n4
+tabletype 3
+query SELECT * FROM #n1
+query SELECT * FROM #n2
+query SELECT * FROM #n4
+otype 3 #a
+otype 3 #b
+otype 1 #n1
+otype 2 #n2
+otype 4 #n4
+otype 3 #n1
+otype 1 #a
+# Names the DBF types limit to 10 characters.
+tabletype 1
+query SELECT id AS averyverylongname INTO #ln1 FROM sn
+query SELECT id AS aaaaaaaaaaa, id AS aaaaaaaaaab INTO #ln1b FROM sn
+query SELECT * FROM #ln1b
+tabletype 2
+query SELECT id AS averyverylongname INTO #ln2 FROM sc
+tabletype 4
+query SELECT id AS averyverylongname INTO #ln4 FROM sv
+query SELECT * FROM #ln4
+query SELECT id AS aaaaaaaaaaa, id AS aaaaaaaaaab INTO #ln4b FROM sv
+tabletype 3

@@ -1,0 +1,42 @@
+# ADS_DATABASE_TABLE (0), the table type of a dictionary's tables, and a
+# type that is none (99), given to AdsStmtSetTableType and AdsOpenTable on a
+# connection without a dictionary; and the AdsSet* calls on a connection's
+# handle.
+# Reads only: the files stay as they are.
+open p shared
+info
+state
+use conn
+set 1 string a
+set 1 stringw a
+set 1 field a
+set 1 fieldw a
+set 1 long 5
+set 1 longlong 5
+set 1 short 5
+set 1 julian 2451545
+set 1 ms 5
+set 1 money 5
+set 1 logical 1
+set 1 double 5
+set 1 date 01/01/2000
+set 1 time 10:00:00
+set 1 timestamp 01/01/2000 10:00:00
+set 1 tsraw 8c25250000000000
+set 1 binary 00
+set 1 image 00
+set 1 null
+set 1 empty
+set id string a
+set id null
+fieldraw 1 01000000
+filetobinary notes 6 p.adt
+use 1
+close
+tabletype database
+open p shared
+open p.adt shared
+open missing shared
+tabletype 99
+open p shared
+tabletype adt

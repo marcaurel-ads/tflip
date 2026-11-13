@@ -1,0 +1,14 @@
+# AdsOpenTable with the option 0x10000, which AdsGetTableOpenOptions
+# always reports: whether a table opens, with which handle, and whether
+# the file is left open.
+# Reads only: the files stay as they are.
+open p 65536
+state
+open p 65537
+state
+open p 65538
+state
+open p exclusive
+state
+close
+open p 65539

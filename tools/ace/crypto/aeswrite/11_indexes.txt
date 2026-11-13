@@ -1,0 +1,31 @@
+# ENCRYPT_INDEXES turned on; a table with an index encrypted, and rows written to it. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE ti (id INTEGER, name CHAR(10))
+sql CREATE INDEX ti_name ON ti (name)
+sql INSERT INTO ti VALUES (1, 'one')
+sql INSERT INTO ti VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (3, 'three')
+sql DELETE FROM ti WHERE id = 1
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE ti (id INTEGER, name CHAR(10))
+sql CREATE INDEX ti_name ON ti (name)
+sql INSERT INTO ti VALUES (1, 'one')
+sql INSERT INTO ti VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (3, 'three')
+sql DELETE FROM ti WHERE id = 1
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE ti (id INTEGER, name CHAR(10))
+sql CREATE INDEX ti_name ON ti (name)
+sql INSERT INTO ti VALUES (1, 'one')
+sql INSERT INTO ti VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (3, 'three')
+sql DELETE FROM ti WHERE id = 1
+disconnect

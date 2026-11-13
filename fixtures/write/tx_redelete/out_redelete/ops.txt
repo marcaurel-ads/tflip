@@ -1,0 +1,171 @@
+# A second delete of a record deleted in the transaction, and what else follows on it.
+tabletype adt
+open ra shared
+begin
+goto 1
+delete
+write
+goto 1
+delete
+write
+state
+goto 1
+set name string again
+write
+state
+goto 2
+delete
+write
+recall
+goto 2
+delete
+write
+goto 2
+delete
+flush
+snapshot ra_pending
+commit
+flush
+snapshot ra_committed
+close
+tabletype adt
+open ra shared
+state
+rows
+close
+tabletype adt
+open rb shared
+begin
+goto 1
+delete
+write
+goto 1
+delete
+write
+state
+goto 1
+set name string again
+write
+state
+goto 2
+delete
+write
+recall
+goto 2
+delete
+write
+goto 2
+delete
+flush
+snapshot rb_pending
+commit
+flush
+snapshot rb_committed
+close
+tabletype adt
+open rb shared
+state
+rows
+close
+tabletype vfp
+open rv shared
+begin
+goto 1
+delete
+write
+goto 1
+delete
+write
+state
+goto 1
+set name string again
+write
+state
+goto 2
+delete
+write
+recall
+goto 2
+delete
+write
+goto 2
+delete
+flush
+snapshot rv_pending
+commit
+flush
+snapshot rv_committed
+close
+tabletype vfp
+open rv shared
+state
+rows
+close
+tabletype cdx
+open rd shared
+begin
+goto 1
+delete
+write
+goto 1
+delete
+write
+state
+goto 1
+set name string again
+write
+state
+goto 2
+delete
+write
+recall
+goto 2
+delete
+write
+goto 2
+delete
+flush
+snapshot rd_pending
+commit
+flush
+snapshot rd_committed
+close
+tabletype cdx
+open rd shared
+state
+rows
+close
+tabletype adt
+open rx exclusive
+begin
+goto 1
+delete
+write
+goto 1
+delete
+write
+state
+goto 1
+set name string again
+write
+state
+goto 2
+delete
+write
+recall
+goto 2
+delete
+write
+goto 2
+delete
+flush
+snapshot rx_pending
+commit
+flush
+snapshot rx_committed
+close
+tabletype adt
+open rx shared
+state
+rows
+close

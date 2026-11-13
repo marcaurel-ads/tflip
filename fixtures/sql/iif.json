@@ -1,0 +1,23 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t (n integer, x integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t (n, x) VALUES (0, 10)", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n, x) VALUES (2, 10)", "rc": 0},
+{"cmd": "query SELECT n, x / n AS q FROM t WHERE n > 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["2", "5"]]]}},
+{"cmd": "query SELECT n, IIF(n > 0, x / n, 0) AS q FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]],
+  [2, ["2", "5"]]]}},
+{"cmd": "query SELECT n, CASE WHEN n > 0 THEN x / n ELSE 0 END AS q FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]],
+  [2, ["2", "5"]]]}},
+{"cmd": "query SELECT n, IIF(n = 0, 0, x / n) AS q FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]],
+  [2, ["2", "5"]]]}},
+{"cmd": "query SELECT IIF(1 = 1, 1, 1 / 0) AS q FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["q", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT n, IFNULL(n, x / 0) AS q FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 22012;   NativeError = 2153;  [SAP][Advantage SQL Engine]Division by zero", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n, COALESCE(n, x / 0) AS q FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]],
+  [2, ["2", "2"]]]}}
+]

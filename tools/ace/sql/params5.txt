@@ -1,0 +1,100 @@
+# The same name twice in a text is two parameters, and how many parameters
+# a statement has (AdsGetNumParams: the most any text prepared had), for
+# fixtures/sql/params5.json.
+stmt
+numparams
+prepare SELECT :p + 1, :p + 2 FROM system.iota
+numparams
+param 2 long 9
+param 1 long 3
+exec
+closecursor
+param p long 4
+exec
+closecursor
+param 2 long 9
+exec
+closecursor
+prepare SELECT :p + 1, :q + 2 FROM system.iota
+numparams
+exec
+closecursor
+param q long 50
+exec
+closecursor
+prepare SELECT :p + 1, :p + 2, :p + 3 FROM system.iota
+numparams
+exec
+closecursor
+clearparams
+numparams
+prepare SELECT :p + 1, :p + 2 FROM system.iota
+param p long 4
+prepare SELECT :q + 1 FROM system.iota
+numparams
+param 2 long 60
+prepare SELECT :q + 1, :q + 2, ? + 3 FROM system.iota
+param 3 long 7
+exec
+closecursor
+param q long 1
+exec
+closecursor
+param 1 long 10
+exec
+closecursor
+# The most any text had stays, a text that does not parse counts its markers
+prepare SELECT 1 FROM system.iota
+numparams
+prepare SELEC :a, :b, :c, :d
+numparams
+prepare SELECT 1 FROM system.iota
+numparams
+prepare SELECT ?, ?, ?, ?, ? FROM system.iota
+numparams
+prepare SELECT ?, ?, ?, ?, ?, ? FROM system.iota
+numparams
+clearparams
+numparams
+param 6 long 1
+param 7 long 1
+# What counts as a marker
+stmt
+prepare SELECT ? FROM system.iota WHERE 'a?b' = ? -- ?
+numparams
+stmt
+prepare SELECT ? FROM system.iota WHERE :1 = :1x
+numparams
+stmt
+prepare SELECT ?, :p, :P, :q FROM system.iota
+numparams
+stmt
+prepare SELECT "a?b", [c?], :a.b FROM system.iota /* ? */ WHERE x = ?
+numparams
+stmt
+prepare SELECT 'it''s ?', ? FROM system.iota
+numparams
+stmt
+prepare SELECT a::b, :: FROM t
+numparams
+stmt
+prepare SELECT :_x1, :x$y, :'q', :a:b, :c-d FROM t
+numparams
+stmt
+prepare SELECT ??, ? ? FROM t
+numparams
+stmt
+prepare SELEC :a, :a, ?, ?
+numparams
+stmt
+prepare INSERT INTO t VALUES (:a, :a, :b)
+numparams
+stmt
+prepare SELECT :a1, :A1, :a_1 FROM t
+numparams
+stmt
+prepare EXECUTE PROCEDURE sp(:a, ?, :a)
+numparams
+stmt
+prepare SELECT ?, ? FROM t; SELECT ? FROM t
+numparams

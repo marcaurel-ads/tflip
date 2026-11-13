@@ -1,0 +1,57 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE t0 (n integer, s char(4))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t0 VALUES (1, 'a')", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1a FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "otype 2 #into1a", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1a"},
+{"cmd": "otype 1 #into1a", "rc": 0, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 1, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "otype 2 #into1a", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1a"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1b FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #into1b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "query SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "otype 2 #into1b", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1b"},
+{"cmd": "otype 1 #into1b", "rc": 0, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1c FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query SELECT * FROM #into1c", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7028;  [SAP][Advantage SQL Engine][ASA] Error 7028:  Invalid open mode.  into1c Table name: #into1c", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "otype 1 #into1c", "rc": 0, "cursor": {"file": "tim_9.tmp", "options": 65776, "table_type": 1, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "otype 2 #into1c", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1c"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1d FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "directnull INSERT INTO #into1d VALUES (5, 'x')", "rc": 0},
+{"cmd": "query SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "otype 2 #into1d", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1d"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1e FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "query SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "otype 2 #into1e", "rc": 7028, "error": "Error 7028:  Invalid open mode.  into1e"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT n AS x, s AS y INTO #into1f FROM t0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "directnull INSERT INTO #into1f VALUES (5, 'x')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7028;  [SAP][Advantage SQL Engine][ASA] Error 7028:  Invalid open mode.  into1f Table name: #into1f"},
+{"cmd": "query SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "otype 1 #into1f", "rc": 0, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 1, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]]]}}
+]

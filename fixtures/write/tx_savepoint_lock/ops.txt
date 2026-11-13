@@ -1,0 +1,318 @@
+# The commit after a rollback to a savepoint that took back an appended record is 7138 (the
+# transaction is committed all the same); the slots of the records taken back go onto the free
+# list newest first. A fresh handle reads the state and the rows: the one that committed keeps
+# the record it was on.
+open an shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+commit
+txcount
+close
+open bn shared
+begin
+savepoint s
+append
+set id long 4
+write
+rollbackto s
+commit
+txcount
+close
+open cn shared
+begin
+goto 1
+set id long 10
+write
+savepoint s
+goto 2
+set id long 20
+write
+rollbackto s
+commit
+txcount
+close
+open dn shared
+begin
+append
+set id long 4
+write
+savepoint s
+goto 2
+set id long 20
+write
+rollbackto s
+commit
+txcount
+close
+open en shared
+begin
+goto 1
+set id long 10
+write
+savepoint s
+append
+set id long 4
+write
+rollbackto s
+commit
+txcount
+close
+open fn shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+append
+set id long 6
+write
+commit
+txcount
+close
+open gn shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+savepoint u
+append
+set id long 6
+write
+rollbackto s
+commit
+txcount
+close
+open an shared
+state
+rows
+close
+open bn shared
+state
+rows
+close
+open cn shared
+state
+rows
+close
+open dn shared
+state
+rows
+close
+open en shared
+state
+rows
+close
+open fn shared
+state
+rows
+close
+open gn shared
+state
+rows
+close
+# a: append, savepoint, append, rollback to, commit
+open w shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# j: rolled back to twice
+open w shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# k: slot taken again and rolled back again
+open w shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+append
+set id long 6
+write
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# n: another record changed after
+open w shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+goto 1
+set id long 10
+write
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# m: two appends back
+open w shared
+begin
+savepoint s
+append
+set id long 4
+write
+append
+set id long 5
+write
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# q: after a failed commit, a transaction of its own
+open w shared
+begin
+savepoint s
+append
+set id long 4
+write
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+open w shared
+begin
+goto 2
+set id long 20
+write
+commit
+txcount
+close
+# r: nested begin
+open w shared
+begin
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+commit
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# t: a delete rolled back, then an append rolled back
+open w shared
+begin
+savepoint s
+goto 1
+delete
+write
+append
+set id long 4
+write
+rollbackto s
+commit
+txcount
+close
+open w shared
+state
+rows
+close
+# h: the whole transaction rolled back after the rollback to
+open w shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+rollback
+txcount
+close
+open w shared
+state
+rows
+close
+# SQL
+open w shared
+sql BEGIN TRANSACTION
+sql INSERT INTO w VALUES (7)
+sql SAVEPOINT s
+sql INSERT INTO w VALUES (8)
+sql ROLLBACK TO SAVEPOINT s
+sql COMMIT
+txcount
+close
+open w shared
+state
+rows
+close

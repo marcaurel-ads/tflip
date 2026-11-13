@@ -1,0 +1,109 @@
+# The scalar functions DATABASE(), NEWID(), NEWIDSTRING() and RAND() on a
+# free-table connection, for fixtures/sql/funcs.json (an empty data folder;
+# they read no table but RAND's own). DATABASE() is the connection folder
+# (written <data>); NEWID() is a GUID, NEWIDSTRING() its text -- both random,
+# normalized on replay.
+stmt
+query SELECT DATABASE() FROM system.iota
+query SELECT NEWID() FROM system.iota
+query SELECT NEWIDSTRING() FROM system.iota
+# NEWID and NEWIDSTRING take no argument: the engine has no format variants
+# and rejects one with 2159 (not documented in the CHM; probed on the VM).
+query SELECT NEWIDSTRING(0) FROM system.iota
+query SELECT NEWID(0) FROM system.iota
+# RAND([seed]) is a DOUBLE in (0, 1) from the connection's own generator: a
+# seed restarts it, RAND() goes on from where it is, across the connection's
+# statements; a new connection's starts in the same state. (RAND(0) seeds
+# from the clock, so it is not recorded.)
+query SELECT RAND(), RAND(), RAND() FROM system.iota
+direct CREATE TABLE t (n integer)
+directnull INSERT INTO t (n) VALUES (1)
+directnull INSERT INTO t (n) VALUES (2)
+directnull INSERT INTO t (n) VALUES (3)
+directnull INSERT INTO t (n) VALUES (4)
+query SELECT RAND(1) FROM system.iota
+query SELECT RAND(1), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota
+query SELECT RAND() FROM system.iota
+query SELECT RAND(2), RAND(100), RAND(65536), RAND(1000000), RAND(1073741823) FROM system.iota
+# The seed is truncated to a 32-bit integer (out of range: -2^31), of which
+# the low 30 bits count, so -1 is 2^31 - 1 and 2^30 is 2^31.
+query SELECT RAND(-1), RAND(2147483647), RAND(-2), RAND(-100), RAND(-2147483647) FROM system.iota
+query SELECT RAND(1073741824), RAND(2147483648), RAND(4294967297), RAND(1e10), RAND(-1e10) FROM system.iota
+query SELECT RAND(1.9), RAND(-1.5), RAND(2147483647.5), RAND(CAST(5 AS SQL_MONEY)), RAND(CAST(1 AS SQL_DOUBLE)) FROM system.iota
+# A state whose half is 0 (seed 2^30 - 1, or 2^30).
+query SELECT RAND(-1), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota
+query SELECT RAND(1073741824), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota
+# Each row: a seed restarts every row, RAND() goes on row by row, in WHERE too.
+query SELECT RAND(n) FROM t
+query SELECT RAND(5), RAND() FROM t
+query SELECT RAND(1) FROM system.iota
+query SELECT RAND() FROM t
+query SELECT RAND(1) FROM system.iota
+query SELECT n FROM t WHERE RAND() < 2
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT RAND() + RAND() FROM system.iota
+query SELECT RAND() FROM system.iota
+# A seed that is NULL gives NULL and leaves the generator alone; so does a
+# RAND(seed) over no rows.
+query SELECT RAND(1), RAND(NULL), RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT RAND(n) FROM t WHERE n = 99
+query SELECT RAND() FROM system.iota
+# With TOP the select list is worked out for the rows kept alone; after each
+# statement, RAND() shows where the generator stands.
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t ORDER BY n DESC
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t ORDER BY 1 DESC
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() AS r FROM t ORDER BY r
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 START AT 2 n, RAND() FROM t
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 50 PERCENT n, RAND() FROM t
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 DISTINCT n, RAND() FROM t
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 1 n, RAND() FROM t GROUP BY n
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 1 n, RAND() FROM t WHERE n > 1
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 1 n, RAND() FROM t UNION ALL SELECT TOP 2 n, RAND() FROM t
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT * FROM (SELECT TOP 2 n, RAND() r FROM t) x
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t ORDER BY RAND()
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t ORDER BY n + 0 DESC
+query SELECT RAND() FROM system.iota
+query SELECT RAND(1) FROM system.iota
+query SELECT TOP 2 n, RAND() FROM t ORDER BY n + RAND()
+query SELECT RAND() FROM system.iota
+# A new statement goes on with the connection's generator; a new connection
+# (to a dictionary here) starts its own.
+query SELECT RAND(1) FROM system.iota
+stmt
+query SELECT RAND() FROM system.iota
+connect dict\dict.add alice secret
+stmt
+query SELECT RAND() FROM system.iota
+# Only a number seeds; one argument at most.
+query SELECT RAND('1') FROM system.iota
+query SELECT RAND(TRUE) FROM system.iota
+query SELECT RAND(CURDATE()) FROM system.iota
+query SELECT RAND(1, 2) FROM system.iota

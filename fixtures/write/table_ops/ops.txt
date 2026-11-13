@@ -1,0 +1,157 @@
+# Calls on the connection: no dictionary, so no links and no RI.
+links
+conn AdsSetFlushFlag 1
+conn AdsSetFlushFlag 0
+conn AdsDisableRI
+conn AdsEnableRI
+conn AdsDisableUniqueEnforcement
+conn AdsEnableUniqueEnforcement
+conn AdsDisableAutoIncEnforcement
+conn AdsEnableAutoIncEnforcement
+# Keys: looked up, built from records, raw keys and stepped keys.
+open t.adt shared
+keycolumn
+keycolumn 3
+keycolumn 4
+lookup id 2 3
+lookup id 2 2
+lookup id 2 9
+lookup id 4 3
+lookup name 2 gamma
+lookup name 2 gam
+lookup name 2 beta
+lookup name 1 616c706861202020202020
+lookup name 1 616c7068
+lookup dt 2 01/02/2020
+lookup dt 4 2458851
+lookup multi 2 alpha
+goto 1
+keyfromrecord id
+keyfromrecord name
+keyfromrecord multi
+keyfromrecord dt
+keyfromrecord id 0400000000020000006265746120202020202020202d322e32353a832500820000000200000000
+keyfromrecord id 0400
+rawkey id 0 id=7
+rawkey name 0 name=ab
+rawkey name 1 name=ab
+rawkey name 2 name=ab
+rawkey multi 0 name=ab
+rawkey multi 0 amount=5
+rawkey multi 2 name=ab
+rawkey multi 1 name=ab
+rawkey multi 0 name=ab;amount=5
+rawkey dt 0 d=01/02/2020
+rawkey id 0 
+rawkey name 0 name=
+rawkey name 0 id=5
+stepkey name 1 6162202020202020202020
+stepkey name -1 6162202020202020202020
+stepkey name 1 61
+stepkey name 1 61ff
+stepkey name -1 6200
+stepkey id 1 80000003
+stepkey id -1 80000003
+stepkey id 1 ffffffff
+stepkey id -1 00000000
+stepkey id 0 80000003
+# Shared: no transaction-free flag, recall or pack.
+transfree 1
+flush
+recallall
+pack120 1024 0
+close
+# Recalling every deleted record, on and off the AOF.
+open t.adt exclusive
+showdeleted 0
+rows
+recallall
+state
+rows
+goto 2
+get m
+get name
+deactivateaof
+aof 2 id > 2
+rows
+deactivateaof
+rows
+count
+inaof 1
+activateaof
+rows
+activateaof
+clearaof
+transfree 1
+transfree 1
+flush
+close
+open t.adt readonly
+flush
+close
+# Packing with a new memo block size.
+open p.adt exclusive
+pack120 7 0
+pack120 512 1
+pack120 1024 0
+state
+top
+get m
+skip 2
+get m
+close
+open q.adt exclusive
+pack120 0 0
+close
+# Deleting a table, open shared, takes its memo and index files.
+open gone.adt shared
+deletetable
+close
+open gone.adt shared
+# Key columns: an AutoInc; none.
+open a.adt exclusive
+keycolumn
+close
+open f.adt exclusive
+keycolumn
+# A whole record, and raw field bytes.
+append
+setrecord 00000000000700000041424300
+setrecord ffffffffff07000000414243
+write
+state
+get n
+get x
+setrecord 000000000008000000
+setrecord 000000000008000000444546 99
+setrecord 000000000008000000444546 11
+setrecord 000000000008000000444546
+get x
+fieldraw x 58595a
+fieldraw x 5859
+fieldraw n 09000000
+write
+get n
+get x
+fieldraw nosuch 00
+flush
+state
+close
+# NULL flags of VFP records.
+tabletype vfp
+open v.dbf exclusive
+goto 1
+vfpnull n 1
+vfpnull c 1
+vfpnull vc 1
+vfpnull vc 4
+vfpnull nn 1
+vfpnull n 4
+vfpnull n 0
+vfpnull n 5
+goto 2
+vfpnull n 1
+vfpnull c 1
+vfpnull c 4
+vfpnull vc 4
+vfpnull vc 1

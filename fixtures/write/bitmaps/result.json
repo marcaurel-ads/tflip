@@ -1,0 +1,11 @@
+[
+{"cmd": "sql EXECUTE PROCEDURE sp_CreateIndex90 ('big', 'big', 'del', 'DELETED()', NULL, 4098, 512, NULL)", "rc": 0},
+{"cmd": "open big.adt exclusive", "rc": 0, "table": 1},
+{"cmd": "order del", "rc": 0},
+{"cmd": "count", "rc": 0, "count": [0, 7714], "keys": [0, 9001]},
+{"cmd": "createindex - x 2 512 x", "rc": 0},
+{"cmd": "reindex", "rc": 0},
+{"cmd": "order del", "rc": 0},
+{"cmd": "count", "rc": 0, "count": [0, 7714], "keys": [0, 9001]},
+{"cmd": "close", "rc": 0}
+]

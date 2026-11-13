@@ -1,0 +1,35 @@
+# AdsDDAddTable of an encrypted table that is in another dictionary: of RC4 with another table password, of an AES dictionary (and of an RC4 table into an AES dictionary), and AES dictionaries refusing CDX and NTX tables they would encrypt.
+ddcreate 0 %D\z2\e.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+create te
+disconnect
+ddcreate 0 %D\z2\o.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'otherpw1')
+dbset 106 1
+create to
+addtable te te.adt
+addtable te2 te.adt
+addtable to to.adt
+addtable to2 to.adt
+disconnect
+connect Data Source=%D\z2\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "a.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\z2\a.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+create ta
+addtable ta ta.adt
+addtable ta2 ta.adt
+addtable te3 te.adt
+addtable to3 to.adt
+disconnect
+connect Data Source=%D\z2\e.add;ServerType=LOCAL;User ID=ADSSYS;
+addtable te4 te.adt
+addtable ta3 ta.adt
+addtable ta4 to.adt
+disconnect
+connect Data Source=%D\z2\o.add;ServerType=LOCAL;User ID=ADSSYS;
+addtable te5 te.adt
+addtable ta5 ta.adt
+disconnect

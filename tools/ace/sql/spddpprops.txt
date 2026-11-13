@@ -1,0 +1,134 @@
+# sp_ModifyProcedureProperty on a dictionary connection in an empty folder (the dictionary,
+# de/de.add, is kept in fixtures/sql/spddpprops/): the properties a stored procedure has, by name
+# and by number, the values they take, what is refused, a user who is not the
+# administrator, and a free connection.
+#
+#     run.sh <work> <ace32.dll> spddpprops.txt > ../../../fixtures/sql/spddpprops.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddpprops/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE PROCEDURE p1(a INTEGER) BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+direct CREATE PROCEDURE p2(a INTEGER, r INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT _a FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a INTEGER')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a INTEGER; b CHAR(10)')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,INTEGER;b,CHAR,10')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a INTEGER; b INTEGER; c INTEGER; d INTEGER')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', 'r INTEGER')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', 'r1 INTEGER; r2 CHAR(20)')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'lib.dll')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'lib2.dll')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', 'BEGIN SELECT 1 FROM system.iota; END')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', 'script')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,INTEGER;')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,INTEGER')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', ',INTEGER')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,,10')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,FOO')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,INTEGER;;b,CHAR,10;')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', ' a , INTEGER ; b , CHAR , 10 ')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'a,CHAR,10,2')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_FUNCTION_NAME', 'fn')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_FUNCTION_NAME', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_FUNCTION_NAME', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'new comment')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'lower')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', '')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_SCRIPT', 'BEGIN SELECT 1 FROM system.iota; END')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_SCRIPT', 'x')
+query SELECT * FROM system.storedprocedures
+#
+# By name and by number.
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'comment', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_NAME', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_dll_name', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_DLL_FUNCTION_NAME', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_dll_function_name', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INPUT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_input', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_OUTPUT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_output', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_INVOKE_OPTION', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_invoke_option', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'PROC_SCRIPT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'proc_script', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'USER_DEFINED_PROP', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'user_defined_prop', 'T')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '1', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '1', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '3', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '3', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '800', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '800', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '801', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '801', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '802', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '802', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '803', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '803', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '804', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '804', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '805', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '806', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '806', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '2', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '999', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '999', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '65535', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '65535', '1')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', '', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', NULL, 'x')
+#
+# What is refused.
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('nop', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('nop', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('nop', 'TRIGGERS_DISABLED', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('nop', '2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty(NULL, 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'x', 'y')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 1)
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 1, 'x')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty()
+query SELECT * FROM system.storedprocedures
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('nop', 'COMMENT', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'NOPE', 'by a user')
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p1', 'COMMENT', 'free')

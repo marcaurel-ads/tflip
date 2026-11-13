@@ -1,0 +1,19 @@
+# Every field type of an AES table, read by a handle that has the password and one that has not.
+include setup.inc
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+tablecheck h1
+tablecheck h2
+count h1
+count h2
+top h1
+dump h1
+top h2
+dump h2
+skip h2 1
+dump h2
+skip h2 1
+dump h2
+skip h2 1
+dump h2

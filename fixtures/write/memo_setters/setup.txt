@@ -1,0 +1,2 @@
+# One field of each memo type.
+sql CREATE TABLE ms (m MEMO, n NMEMO, b BLOB, i BINARY)

@@ -1,0 +1,7 @@
+ddcreate 0 %D\a3\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+disconnect

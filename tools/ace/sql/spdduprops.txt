@@ -1,0 +1,108 @@
+# sp_ModifyUserProperty on a dictionary connection in an empty folder (the
+# dictionary, de/de.add, is kept in fixtures/sql/spdduprops/): the properties
+# a user has, by name and by number, the values they take (a password among
+# them), what is refused, a user who is not the administrator, and a free
+# connection.
+#
+#     run.sh <work> <ace32.dll> spdduprops.txt > ../../../fixtures/sql/spdduprops.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spdduprops/
+ddcreate de\de.add
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', 'another')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT', 'new comment')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'comment', 'lower')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1', 'by number')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'USER_DEFINED_PROP', 'user defined')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '3', 'defined by number')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'COMMENT', 'a comment that is rather longer than the others, to take more than one line of the memo file it is kept in, which is why this sentence goes on for a while')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_DEFINED_PROP', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+query SELECT * FROM system.users
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', 'T')
+query SELECT Name, Enable_Internet, Logins_Disabled, Require_Old_Password FROM system.users
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', 'F')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', 'yes')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '107', '0')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', '')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', NULL)
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'LOGINS_DISABLED', 'T')
+query SELECT Name, Enable_Internet, Logins_Disabled, Require_Old_Password FROM system.users
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'REQUIRE_OLD_PASSWORD', 'F')
+query SELECT Name, Enable_Internet, Logins_Disabled, Require_Old_Password FROM system.users
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'REQUIRE_OLD_PASSWORD', 'T')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'LOGINS_DISABLED', 'F')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', '113', '1')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', '1105', 'F')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', '113', '0')
+query SELECT Name, Enable_Internet, Logins_Disabled, Require_Old_Password FROM system.users
+#
+# Passwords.
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'USER_PASSWORD', 'newpw1')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1101', 'newpw2')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_PASSWORD', '')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_PASSWORD', NULL)
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_PASSWORD', 'kkkkkkkkkkkkkkkkkkkk')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_PASSWORD', 'kkkkkkkkkkkkkkkkkkkkk')
+disconnect
+connect de\de.add u1 pw1
+connect de\de.add u1 newpw1
+connect de\de.add u1 newpw2
+connect de\de.add u2 pw2
+connect de\de.add u2
+connect de\de.add u2 kkkkkkkkkkkkkkkkkkkk
+connect de\de.add u2 kkkkkkkkkkkkkkkkkkkkk
+connect de\de.add u2 kkkkkkkkkkkkkkkkkkk
+connect de\de.add ADSSYS
+stmt
+#
+# What is refused.
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('nouser', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty(NULL, 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('ADSSYS', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('U1', 'COMMENT', 'case')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', NULL, 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '4', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1102', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1103', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1104', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'USER_GROUP_MEMBERSHIP', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'USER_BAD_LOGINS', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'CURRENT_USER_PASSWORD', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'TRIGGERS_DISABLED', 'F')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'TABLES_RIGHTS', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '1001', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'MAX_FAILED_ATTEMPTS', '3')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '109', '3')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', '65535', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT', 'x', 'y')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT', 1)
+direct EXECUTE PROCEDURE sp_ModifyUserProperty(1, 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty()
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('nouser', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('nouser', 'ENABLE_INTERNET', 'x')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'ENABLE_INTERNET', 5)
+query SELECT * FROM system.users
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u2 kkkkkkkkkkkkkkkkkkkk
+stmt
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'COMMENT', 'by itself')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'USER_PASSWORD', 'again')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT', 'by another')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'USER_PASSWORD', 'again')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('nouser', 'COMMENT', 'by another')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'ENABLE_INTERNET', 'T')
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u2', 'NOPE', 'x')
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_ModifyUserProperty('u1', 'COMMENT', 'free')

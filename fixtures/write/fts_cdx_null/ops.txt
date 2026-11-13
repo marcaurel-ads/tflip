@@ -1,0 +1,24 @@
+tabletype vfp
+open v.dbf
+goto 1
+set body null
+write
+state
+goto 2
+set body string zzz
+write
+goto 3
+set body empty
+write
+goto 4
+delete
+state
+goto 5
+set id long 55
+write
+goto 6
+set body null
+write
+goto 6
+set body string back again
+write

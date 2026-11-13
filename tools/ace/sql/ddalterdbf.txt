@@ -1,0 +1,246 @@
+# ALTER TABLE of a dictionary's Clipper, FoxPro, Visual FoxPro and ADT tables
+# that changes fields (ddalter.txt does the ADT ones with their constraints),
+# on a dictionary connection (cd\cd.add) in an empty folder: the Field and Key
+# objects follow, a key whose type changes. The dictionary and the files it leaves are kept in
+# fixtures/sql/ddalterdbf/:
+#
+#     run.sh <work> <ace32.dll> ddalterdbf.txt > ../../../fixtures/sql/ddalterdbf.json
+#     cp <work>/data/cd/* ../../../fixtures/sql/ddalterdbf/
+ddcreate cd\cd.add
+stmt
+#
+# Table type 1.
+tabletype 1
+direct CREATE TABLE na (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX nab ON na (b)
+direct INSERT INTO na VALUES (1, 'x', 'p')
+direct INSERT INTO na VALUES (2, 'y', 'q')
+direct ALTER TABLE na ADD COLUMN d CHAR(5)
+direct ALTER TABLE na ADD COLUMN e INTEGER POSITION 1
+direct ALTER TABLE na ADD COLUMN f DOUBLE ADD COLUMN g CHAR(7) ADD COLUMN h MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'na'
+query SELECT * FROM na
+query SELECT * FROM system.indexes WHERE Parent = 'na'
+direct CREATE TABLE nr (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX nre ON nr (b)
+direct CREATE INDEX nrd ON nr (d DESC)
+direct INSERT INTO nr VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE nr ALTER COLUMN b bb CHAR(4) ALTER COLUMN a aa INTEGER
+direct ALTER TABLE nr ALTER COLUMN c cc CHAR(3)
+direct ALTER TABLE nr ALTER COLUMN d D INTEGER
+direct ALTER TABLE nr ALTER COLUMN cc cc3 CHAR(3) POSITION 3
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value FROM system.columns WHERE Parent = 'nr'
+query SELECT * FROM system.indexes WHERE Parent = 'nr'
+query SELECT * FROM nr
+direct CREATE TABLE nt (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ntb ON nt (b)
+direct CREATE INDEX ntc ON nt (c)
+direct CREATE INDEX nta ON nt (a)
+direct INSERT INTO nt VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE nt ALTER COLUMN a a DOUBLE
+direct ALTER TABLE nt ALTER COLUMN b b CHAR(9)
+direct ALTER TABLE nt ALTER COLUMN c c INTEGER
+direct ALTER TABLE nt ALTER COLUMN d d CHAR(12)
+direct ALTER TABLE nt DROP COLUMN b
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'nt'
+query SELECT * FROM system.indexes WHERE Parent = 'nt'
+query SELECT * FROM nt
+direct CREATE TABLE nm (id INTEGER, m MEMO)
+direct CREATE TABLE nm2 (id INTEGER, s CHAR(4))
+direct INSERT INTO nm VALUES (1, 'memo one')
+direct ALTER TABLE nm MEMOBLOCKSIZE 64
+direct ALTER TABLE nm ADD COLUMN z INTEGER MEMOBLOCKSIZE 128
+direct ALTER TABLE nm2 ADD COLUMN m MEMO
+direct ALTER TABLE nm DROP COLUMN m
+direct ALTER TABLE nm2 IGNORE TRANSACTIONS
+query SELECT * FROM nm
+query SELECT Name, Table_Memo_Block_Size, Table_Trans_Free FROM system.tables WHERE Name LIKE 'nm%'
+direct CREATE TABLE ne (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX neb ON ne (b)
+direct ALTER TABLE ne DROP COLUMN a
+direct ALTER TABLE ne DROP COLUMN b
+direct ALTER TABLE ne ADD COLUMN a INTEGER
+direct ALTER TABLE ne ADD COLUMN x NUMERIC(8, 2)
+direct ALTER TABLE ne ALTER COLUMN c b CHAR(3)
+direct ALTER TABLE ne ALTER COLUMN nosuch x INTEGER
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent = 'ne'
+#
+# Table type 2.
+tabletype 2
+direct CREATE TABLE ca (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX cab ON ca (b)
+direct INSERT INTO ca VALUES (1, 'x', 'p')
+direct INSERT INTO ca VALUES (2, 'y', 'q')
+direct ALTER TABLE ca ADD COLUMN d CHAR(5)
+direct ALTER TABLE ca ADD COLUMN e INTEGER POSITION 1
+direct ALTER TABLE ca ADD COLUMN f DOUBLE ADD COLUMN g CHAR(7) ADD COLUMN h MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'ca'
+query SELECT * FROM ca
+query SELECT * FROM system.indexes WHERE Parent = 'ca'
+direct CREATE TABLE cr (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cre ON cr (b)
+direct CREATE INDEX crd ON cr (d DESC)
+direct INSERT INTO cr VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cr ALTER COLUMN b bb CHAR(4) ALTER COLUMN a aa INTEGER
+direct ALTER TABLE cr ALTER COLUMN c cc CHAR(3)
+direct ALTER TABLE cr ALTER COLUMN d D INTEGER
+direct ALTER TABLE cr ALTER COLUMN cc cc3 CHAR(3) POSITION 3
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value FROM system.columns WHERE Parent = 'cr'
+query SELECT * FROM system.indexes WHERE Parent = 'cr'
+query SELECT * FROM cr
+direct CREATE TABLE ct (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ctb ON ct (b)
+direct CREATE INDEX ctc ON ct (c)
+direct CREATE INDEX cta ON ct (a)
+direct INSERT INTO ct VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ct ALTER COLUMN a a DOUBLE
+direct ALTER TABLE ct ALTER COLUMN b b CHAR(9)
+direct ALTER TABLE ct ALTER COLUMN c c INTEGER
+direct ALTER TABLE ct ALTER COLUMN d d CHAR(12)
+direct ALTER TABLE ct DROP COLUMN b
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'ct'
+query SELECT * FROM system.indexes WHERE Parent = 'ct'
+query SELECT * FROM ct
+direct CREATE TABLE cm (id INTEGER, m MEMO)
+direct CREATE TABLE cm2 (id INTEGER, s CHAR(4))
+direct INSERT INTO cm VALUES (1, 'memo one')
+direct ALTER TABLE cm MEMOBLOCKSIZE 64
+direct ALTER TABLE cm ADD COLUMN z INTEGER MEMOBLOCKSIZE 128
+direct ALTER TABLE cm2 ADD COLUMN m MEMO
+direct ALTER TABLE cm DROP COLUMN m
+direct ALTER TABLE cm2 IGNORE TRANSACTIONS
+query SELECT * FROM cm
+query SELECT Name, Table_Memo_Block_Size, Table_Trans_Free FROM system.tables WHERE Name LIKE 'cm%'
+direct CREATE TABLE ce (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX ceb ON ce (b)
+direct ALTER TABLE ce DROP COLUMN a
+direct ALTER TABLE ce DROP COLUMN b
+direct ALTER TABLE ce ADD COLUMN a INTEGER
+direct ALTER TABLE ce ADD COLUMN x NUMERIC(8, 2)
+direct ALTER TABLE ce ALTER COLUMN c b CHAR(3)
+direct ALTER TABLE ce ALTER COLUMN nosuch x INTEGER
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent = 'ce'
+#
+# Table type 4.
+tabletype 4
+direct CREATE TABLE va (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX vab ON va (b)
+direct INSERT INTO va VALUES (1, 'x', 'p')
+direct INSERT INTO va VALUES (2, 'y', 'q')
+direct ALTER TABLE va ADD COLUMN d CHAR(5) DEFAULT 'abc' CONSTRAINT MINIMUM 'A' CONSTRAINT MAXIMUM 'z' CONSTRAINT ERROR MESSAGE 'dbad'
+direct ALTER TABLE va ADD COLUMN e INTEGER POSITION 1
+direct ALTER TABLE va ADD COLUMN f DOUBLE ADD COLUMN g CHAR(7) ADD COLUMN h MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'va'
+query SELECT * FROM va
+query SELECT * FROM system.indexes WHERE Parent = 'va'
+direct CREATE TABLE vr (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vre ON vr (b)
+direct CREATE INDEX vrd ON vr (d DESC)
+direct INSERT INTO vr VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vr ALTER COLUMN b bb CHAR(4) ALTER COLUMN a aa INTEGER
+direct ALTER TABLE vr ALTER COLUMN c cc CHAR(3)
+direct ALTER TABLE vr ALTER COLUMN d D INTEGER
+direct ALTER TABLE vr ALTER COLUMN cc cc3 CHAR(3) POSITION 3
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value FROM system.columns WHERE Parent = 'vr'
+query SELECT * FROM system.indexes WHERE Parent = 'vr'
+query SELECT * FROM vr
+direct CREATE TABLE vt (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER, PRIMARY KEY (a))
+direct CREATE INDEX vtb ON vt (b)
+direct CREATE INDEX vtc ON vt (c)
+direct CREATE INDEX vtd ON vt (d)
+direct INSERT INTO vt VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vt ALTER COLUMN a a DOUBLE
+direct ALTER TABLE vt ALTER COLUMN b b CHAR(9)
+direct ALTER TABLE vt ALTER COLUMN c c INTEGER
+direct ALTER TABLE vt ALTER COLUMN d d CHAR(12)
+direct ALTER TABLE vt DROP COLUMN b
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'vt'
+query SELECT * FROM system.indexes WHERE Parent = 'vt'
+query SELECT * FROM vt
+direct CREATE TABLE vm (id INTEGER, m MEMO)
+direct CREATE TABLE vm2 (id INTEGER, s CHAR(4))
+direct INSERT INTO vm VALUES (1, 'memo one')
+direct ALTER TABLE vm MEMOBLOCKSIZE 64
+direct ALTER TABLE vm ADD COLUMN z INTEGER MEMOBLOCKSIZE 128
+direct ALTER TABLE vm2 ADD COLUMN m MEMO
+direct ALTER TABLE vm DROP COLUMN m
+direct ALTER TABLE vm2 IGNORE TRANSACTIONS
+query SELECT * FROM vm
+query SELECT Name, Table_Memo_Block_Size, Table_Trans_Free FROM system.tables WHERE Name LIKE 'vm%'
+direct CREATE TABLE ve (a INTEGER, b CHAR(4), c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX veb ON ve (b)
+direct ALTER TABLE ve DROP COLUMN a
+direct ALTER TABLE ve DROP COLUMN b
+direct ALTER TABLE ve ADD COLUMN a INTEGER
+direct ALTER TABLE ve ADD COLUMN x NUMERIC(8, 2)
+direct ALTER TABLE ve ALTER COLUMN c b CHAR(3)
+direct ALTER TABLE ve ALTER COLUMN nosuch x INTEGER
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent = 've'
+#
+# Table type 3.
+tabletype 3
+direct CREATE TABLE xa (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX xab ON xa (b)
+direct INSERT INTO xa VALUES (1, 'x', 'p')
+direct INSERT INTO xa VALUES (2, 'y', 'q')
+direct ALTER TABLE xa ADD COLUMN d CHAR(5) DEFAULT 'abc' CONSTRAINT MINIMUM 'A' CONSTRAINT MAXIMUM 'z' CONSTRAINT ERROR MESSAGE 'dbad'
+direct ALTER TABLE xa ADD COLUMN e INTEGER POSITION 1
+direct ALTER TABLE xa ADD COLUMN f DOUBLE ADD COLUMN g CHAR(7) ADD COLUMN h MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'xa'
+query SELECT * FROM xa
+query SELECT * FROM system.indexes WHERE Parent = 'xa'
+direct CREATE TABLE xr (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xre ON xr (b)
+direct CREATE INDEX xrd ON xr (d DESC)
+direct INSERT INTO xr VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xr ALTER COLUMN b bb CHAR(4) ALTER COLUMN a aa INTEGER
+direct ALTER TABLE xr ALTER COLUMN c cc CHAR(3)
+direct ALTER TABLE xr ALTER COLUMN d D INTEGER
+direct ALTER TABLE xr ALTER COLUMN cc cc3 CHAR(3) POSITION 3
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value FROM system.columns WHERE Parent = 'xr'
+query SELECT * FROM system.indexes WHERE Parent = 'xr'
+query SELECT * FROM xr
+direct CREATE TABLE xt (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER, PRIMARY KEY (a))
+direct CREATE INDEX xtb ON xt (b)
+direct CREATE INDEX xtc ON xt (c)
+direct CREATE INDEX xtd ON xt (d)
+direct INSERT INTO xt VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xt ALTER COLUMN a a DOUBLE
+direct ALTER TABLE xt ALTER COLUMN b b CHAR(9)
+direct ALTER TABLE xt ALTER COLUMN c c INTEGER
+direct ALTER TABLE xt ALTER COLUMN d d CHAR(12)
+direct ALTER TABLE xt DROP COLUMN b
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'xt'
+query SELECT * FROM system.indexes WHERE Parent = 'xt'
+query SELECT * FROM xt
+direct CREATE TABLE xm (id INTEGER, m MEMO)
+direct CREATE TABLE xm2 (id INTEGER, s CHAR(4))
+direct INSERT INTO xm VALUES (1, 'memo one')
+direct ALTER TABLE xm MEMOBLOCKSIZE 64
+direct ALTER TABLE xm ADD COLUMN z INTEGER MEMOBLOCKSIZE 128
+direct ALTER TABLE xm2 ADD COLUMN m MEMO
+direct ALTER TABLE xm DROP COLUMN m
+direct ALTER TABLE xm2 IGNORE TRANSACTIONS
+query SELECT * FROM xm
+query SELECT Name, Table_Memo_Block_Size, Table_Trans_Free FROM system.tables WHERE Name LIKE 'xm%'
+direct CREATE TABLE xe (a INTEGER, b CHAR(4), c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX xeb ON xe (b)
+direct ALTER TABLE xe DROP COLUMN a
+direct ALTER TABLE xe DROP COLUMN b
+direct ALTER TABLE xe ADD COLUMN a INTEGER
+direct ALTER TABLE xe ADD COLUMN x NUMERIC(8, 2)
+direct ALTER TABLE xe ALTER COLUMN c b CHAR(3)
+direct ALTER TABLE xe ALTER COLUMN nosuch x INTEGER
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent = 'xe'
+#
+# sp_CreateIndex90 and CREATE INDEX: the Key objects.
+tabletype 3
+direct CREATE TABLE sa (a INTEGER, b CHAR(4))
+direct EXECUTE PROCEDURE sp_CreateIndex90('sa', 'sa.adi', 'sab', 'b', '', 2, 512, '')
+direct CREATE INDEX saa ON sa (a)
+query SELECT * FROM system.indexes WHERE Parent = 'sa'
+query SELECT * FROM system.indexfiles WHERE Parent = 'sa'
+#
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT * FROM system.indexfiles

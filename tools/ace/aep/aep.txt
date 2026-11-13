@@ -1,0 +1,69 @@
+# External procedures (aep.c as aeptest.aep), on the remote server
+# (SQL_SERVER_TYPE=2): run.sh builds the library into the folder ae/ of the
+# data folder, in which this script makes its dictionary. The argument
+# through __input and the result through __output, a procedure in a FROM,
+# Startup's count and connection id, a table written through the handle
+# given (with 5 rows said affected), the failures: __error with and without
+# a number (NULL, 0), a non-zero return, a statement of the library that fails, a
+# function and a library that are not there; the library's writes in the
+# caller's transaction; Shutdown as a connection closes.
+#
+#     tools/ace/aep/run.sh > fixtures/sql/aep.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE t (n INTEGER)
+direct CREATE PROCEDURE double_it(n INTEGER, result INTEGER OUTPUT) FUNCTION DoubleIt IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE counts(starts INTEGER OUTPUT, shutdowns INTEGER OUTPUT) FUNCTION Counts IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE ids(same_id INTEGER OUTPUT, same_handle INTEGER OUTPUT) FUNCTION Ids IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE add_row() FUNCTION AddRow IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE refuse() FUNCTION Refuse IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE refuse_text() FUNCTION RefuseText IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE ret_code(r INTEGER OUTPUT) FUNCTION ReturnCode IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE refuse_null() FUNCTION RefuseNull IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE refuse_zero() FUNCTION RefuseZero IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE bad_sql_code(code INTEGER OUTPUT) FUNCTION BadSqlCode IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE bad_sql() FUNCTION BadSql IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE missing() FUNCTION Missing IN LIBRARY "aeptest.aep"
+direct CREATE PROCEDURE nowhere() FUNCTION Nowhere IN LIBRARY "nowhere.aep"
+direct CREATE PROCEDURE add_row_in(n INTEGER) FUNCTION AddRow IN LIBRARY "aeptest.aep"
+#
+query EXECUTE PROCEDURE double_it(21)
+query EXECUTE PROCEDURE double_it(NULL)
+query SELECT result + 1 AS r FROM (EXECUTE PROCEDURE double_it(5)) p
+query EXECUTE PROCEDURE counts()
+query EXECUTE PROCEDURE ids()
+query EXECUTE PROCEDURE add_row()
+query EXECUTE PROCEDURE add_row()
+query SELECT * FROM t
+query EXECUTE PROCEDURE add_row_in(1)
+#
+query EXECUTE PROCEDURE refuse()
+query EXECUTE PROCEDURE refuse_text()
+query EXECUTE PROCEDURE refuse_null()
+query EXECUTE PROCEDURE refuse_zero()
+query EXECUTE PROCEDURE ret_code()
+query EXECUTE PROCEDURE bad_sql_code()
+query EXECUTE PROCEDURE bad_sql()
+query EXECUTE PROCEDURE missing()
+query EXECUTE PROCEDURE nowhere()
+query EXECUTE PROCEDURE double_it(1)
+query EXECUTE PROCEDURE counts()
+#
+# The library's writes in the caller's transaction.
+direct BEGIN TRANSACTION
+query EXECUTE PROCEDURE add_row()
+direct ROLLBACK
+query SELECT COUNT(*) AS c FROM t
+direct BEGIN TRANSACTION
+query EXECUTE PROCEDURE add_row()
+direct COMMIT
+query SELECT COUNT(*) AS c FROM t
+#
+# A second connection: its own Startup; Shutdown once the first closes.
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE counts()
+query EXECUTE PROCEDURE ids()

@@ -1,0 +1,6 @@
+#include dd_all.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+sql 1 INSERT INTO t_adt VALUES (20, 'appended1', 20.5, '2022-05-06', 1, 'new')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', 'Diff')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst2\d.add', NULL)

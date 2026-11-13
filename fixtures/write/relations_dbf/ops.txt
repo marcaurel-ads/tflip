@@ -1,0 +1,91 @@
+# Relations on DBF tables: a FoxPro parent and child by date, number and
+# text keys, a Clipper child by number and text, and a scoped relation.
+# Reads only: the files stay as they are.
+tabletype cdx
+open pd shared
+open cd shared
+order cd_d
+use 1
+relation 2 d
+top
+use 2
+pos
+get v
+use 1
+skip 1
+use 2
+pos
+get v
+use 1
+goto 4
+use 2
+pos
+get v
+use 2
+order cd_n
+use 1
+relation 2 n
+top
+use 2
+pos
+get v
+use 1
+skip 1
+use 2
+pos
+get v
+use 1
+goto 4
+use 2
+pos
+get v
+use 2
+order cd_k
+use 1
+scopedrelation 2 k
+goto 1
+use 2
+getscope 1
+rows
+use 1
+goto 3
+use 2
+rows
+pos
+use 1
+clearrelation
+tabletype ntx
+open nd shared
+openindex nd_n.ntx
+openindex nd_k.ntx
+order nd_n
+use 1
+relation 3 n
+top
+use 3
+pos
+get v
+use 1
+skip 1
+use 3
+pos
+get v
+use 1
+goto 4
+use 3
+pos
+use 3
+order nd_k
+use 1
+relation 3 k
+goto 1
+use 3
+pos
+get v
+use 1
+goto 2
+use 3
+pos
+get v
+use 1
+clearrelation

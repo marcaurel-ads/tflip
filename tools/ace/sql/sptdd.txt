@@ -1,0 +1,67 @@
+# The table system procedures on the tables of a data dictionary (a
+# dictionary the script makes, dt/dt.add); the files
+# and dictionary they leave are fixtures/sql/sptdd/.
+#
+#     run.sh <work> <ace32.dll> sptdd.txt > ../../../fixtures/sql/sptdd.json
+#     cp <work>/data/dt/* ../../../fixtures/sql/sptdd/
+ddcreate dt\dt.add
+stmt
+query CREATE TABLE dpt (id INTEGER, name CHAR(10), m MEMO)
+query CREATE INDEX did ON dpt (id)
+query INSERT INTO dpt VALUES (1, 'one', 'memo one')
+query INSERT INTO dpt VALUES (2, 'two', 'memo two')
+query INSERT INTO dpt VALUES (3, 'three', 'memo three')
+query DELETE FROM dpt WHERE id = 2
+query CREATE TABLE dpe (id INTEGER, name CHAR(10))
+query INSERT INTO dpe VALUES (1, 'one')
+query CREATE TABLE dpz (id INTEGER)
+query INSERT INTO dpz VALUES (1)
+query CREATE TABLE dpx (id INTEGER)
+query INSERT INTO dpx VALUES (1)
+query CREATE TABLE dpf (id INTEGER) AS FREE TABLE
+closestmt
+stmt
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt.adt')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('DPT')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpf')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('nosuch')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo(NULL)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('')
+query EXECUTE PROCEDURE sp_GetTableEncryptionType('dpt')
+query EXECUTE PROCEDURE sp_GetTableEncryptionType('nosuch')
+query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 1)
+query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 2)
+query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 3)
+query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 9)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\dt\dpt.adt', 1)
+query EXECUTE PROCEDURE sp_GetRecordCRC('nosuch', 1)
+query EXECUTE PROCEDURE sp_PackTable('dpt')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')
+query EXECUTE PROCEDURE sp_PackTable('dpt', 64)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')
+query EXECUTE PROCEDURE sp_PackTable('nosuch')
+query EXECUTE PROCEDURE sp_PackTable('dpf')
+query EXECUTE PROCEDURE sp_Reindex('dpt', 0)
+query EXECUTE PROCEDURE sp_Reindex('dpt', 1024)
+query EXECUTE PROCEDURE sp_Reindex('nosuch', 0)
+query EXECUTE PROCEDURE sp_EncryptTable('dpe')
+query EXECUTE PROCEDURE sp_GetTableEncryptionType('dpe')
+query EXECUTE PROCEDURE sp_EncryptTable('dpe', 'pw')
+query EXECUTE PROCEDURE sp_DecryptTable('dpe')
+query EXECUTE PROCEDURE sp_DecryptTable('dpe', 'pw')
+query EXECUTE PROCEDURE sp_ZapTable('dpz')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpz')
+query EXECUTE PROCEDURE sp_ZapTable('nosuch')
+query EXECUTE PROCEDURE sp_PackTableOnline('dpt')
+query EXECUTE PROCEDURE sp_ReindexOnline('dpt')
+# The same on another table.
+query EXECUTE PROCEDURE sp_PackTable('dpx')
+query EXECUTE PROCEDURE sp_ZapTable('dpx')
+query EXECUTE PROCEDURE sp_Reindex('dpx', 0)
+query EXECUTE PROCEDURE sp_EncryptTable('dpx')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpx')
+query EXECUTE PROCEDURE sp_GetRecordCRC('dpx', 1)
+query EXECUTE PROCEDURE sp_PackTable('dpx')
+query SELECT * FROM dpt ORDER BY id
+query SELECT COUNT(*) AS c FROM dpz

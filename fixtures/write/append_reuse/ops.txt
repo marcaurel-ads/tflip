@@ -1,0 +1,416 @@
+open lifo.adt exclusive
+goto 2
+delete
+write
+goto 4
+delete
+write
+goto 3
+delete
+write
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open ascending.adt exclusive
+goto 1
+delete
+write
+goto 2
+delete
+write
+goto 3
+delete
+write
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open last.adt exclusive
+goto 6
+delete
+write
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open first_last.adt exclusive
+goto 1
+delete
+write
+goto 6
+delete
+write
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open pending.adt exclusive
+goto 2
+delete
+goto 3
+delete
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open recall_head.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+goto 3
+recall
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open recall_tail.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 2
+recall
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open recall_mid.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+goto 4
+delete
+write
+goto 3
+recall
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open recallall.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+recallall
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open pack.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+pack
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open zap.adt exclusive
+zap
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open reindex.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+reindex
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open cancel.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+append
+set id long 99
+cancel
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open cancel_empty.adt exclusive
+append
+cancel
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open tx_commit.adt exclusive
+goto 2
+delete
+write
+goto 3
+delete
+write
+begin
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+commit
+rows
+close
+open tx_delete_commit.adt exclusive
+begin
+goto 2
+delete
+write
+goto 3
+delete
+write
+commit
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+open shared_locked.adt shared
+open2 shared_locked.adt shared
+use 17
+goto 2
+delete
+write
+goto 3
+delete
+write
+use 18
+goto 3
+lock 3
+use 17
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+use 18
+close
+open shared_other.adt shared
+open2 shared_other.adt shared
+use 20
+goto 4
+delete
+write
+goto 5
+delete
+write
+use 19
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+use 20
+append
+set id long 100
+write
+state
+append
+set id long 101
+write
+state
+append
+set id long 102
+write
+state
+rows
+close
+use 19
+close

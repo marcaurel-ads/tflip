@@ -1,0 +1,401 @@
+# Syntax errors the earlier probes left open: DATE '...', !=, SUBSTRING ... FROM ... FOR,
+# operators without a right operand, TOP with a fraction or PERCENT FROM, DISTINCT TOP,
+# COUNT(a, b), {static}, = SOME, MERGE and INSERT clauses, and the small differences of
+# the grammar probes (shift, CAST precision, SQL_CHAR(70000), CHARACTER VARYING, HAVING 1,
+# IF of a variable, CREATE PROCEDURE with NUMERIC(5,2,1)), and rows too large for a column.
+# For fixtures/sql/gram_syntax.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_syntax.txt > ../../../fixtures/sql/gram_syntax.json
+stmt
+direct CREATE TABLE t (id INTEGER, n INTEGER, s CHAR(5), d DATE, m MEMO)
+direct INSERT INTO t VALUES (1, 10, 'abc', '2020-01-02', 'x')
+direct INSERT INTO t VALUES (2, 20, 'abcde', '2021-01-02', 'y')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 5)
+## DATE, !=, SUBSTRING
+query SELECT DATE '2020-01-02' FROM system.iota
+query SELECT DATE FROM system.iota
+query SELECT DATE '' FROM system.iota
+query SELECT DATE 'x' FROM system.iota
+query SELECT DATE 5 FROM system.iota
+query SELECT * FROM t WHERE d = DATE '2020-01-02'
+query SELECT * FROM t WHERE id != 1
+query SELECT * FROM t WHERE id !
+query SELECT * FROM t WHERE id ! = 1
+query SELECT SUBSTRING(s FROM 1 FOR 2) FROM t
+query SELECT SUBSTRING(s FROM 1) FROM t
+query SELECT SUBSTRING(s, 1 FOR 2) FROM t
+query SELECT SUBSTRING(s FROM 1 FOR) FROM t
+query SELECT SUBSTRING(s FROM) FROM t
+query SELECT SUBSTRING(s FOR 2) FROM t
+## operators without a right operand
+query SELECT * FROM t WHERE id =
+query SELECT * FROM t WHERE id <
+query SELECT * FROM t WHERE id >=
+query SELECT * FROM t WHERE id <>
+query SELECT * FROM t WHERE id AND
+query SELECT * FROM t WHERE id = 1 AND
+query SELECT * FROM t WHERE id = 1 OR
+query SELECT * FROM t WHERE NOT
+query SELECT * FROM t WHERE id IN
+query SELECT * FROM t WHERE id IN (
+query SELECT * FROM t WHERE id IN ()
+query SELECT * FROM t WHERE id LIKE
+query SELECT * FROM t WHERE id BETWEEN
+query SELECT * FROM t WHERE id BETWEEN 1
+query SELECT * FROM t WHERE id BETWEEN 1 AND
+query SELECT * FROM t WHERE id IS
+query SELECT * FROM t WHERE id IS NOT
+query SELECT id + FROM t
+query SELECT id * FROM t
+query SELECT id / FROM t
+query SELECT id % FROM t
+query SELECT id << FROM t
+query SELECT id & FROM t
+query SELECT id | FROM t
+query SELECT id || FROM t
+query SELECT -
+query SELECT id FROM t ORDER BY
+query SELECT id FROM t GROUP BY
+query SELECT id FROM t WHERE
+## TOP
+query SELECT TOP 50.5 * FROM t
+query SELECT TOP 1.5 * FROM t
+query SELECT TOP 50 PERCENT FROM t
+query SELECT TOP 50 PERCENT * FROM t
+query SELECT DISTINCT TOP 5 * FROM t
+query SELECT TOP 5 DISTINCT * FROM t
+query SELECT TOP FROM t
+query SELECT TOP * FROM t
+query SELECT TOP -1 * FROM t
+query SELECT TOP 'a' * FROM t
+query SELECT TOP 1 START AT 2 * FROM t
+## COUNT(a, b), {static}, SOME
+query SELECT COUNT(id, n) FROM t
+query SELECT COUNT() FROM t
+query SELECT SUM(id, n) FROM t
+query SELECT MAX() FROM t
+query SELECT COUNT(DISTINCT id, n) FROM t
+query SELECT {static} * FROM t JOIN u ON t.id = u.id
+query SELECT {static} * FROM t
+query SELECT {static} t.id FROM t, u
+query SELECT * FROM {static} t
+query SELECT * FROM t WHERE id = SOME (SELECT id FROM u)
+query SELECT * FROM t WHERE id = ANY (SELECT id FROM u)
+query SELECT * FROM t WHERE id > SOME (SELECT id FROM u)
+query SELECT * FROM t WHERE id = ALL (SELECT id FROM u)
+query SELECT * FROM t WHERE id = SOME (1, 2)
+query SELECT * FROM t WHERE id = SOME
+query SELECT * FROM t WHERE id = SOME (
+## INSERT / MERGE / UPDATE clauses
+direct INSERT INTO t VALUES (3, 30
+direct INSERT INTO t VALUES (3, 30,
+direct INSERT INTO t VALUES (3, 30) x
+direct INSERT INTO t VALUES 3
+direct INSERT INTO t VALUES
+direct INSERT INTO t (id, n VALUES (3, 30)
+direct INSERT INTO t (id, n) VALUES (3, 30
+direct INSERT INTO t (id, n) VALUES (3, 30)) 
+direct INSERT INTO t (id, n) VALUES (3, 30),
+direct INSERT INTO t (id n) VALUES (3, 30)
+direct INSERT INTO t (id, n) VALUES (3 30)
+direct INSERT INTO t (id, n) SELECT
+direct INSERT INTO t (id, n) 
+direct INSERT INTO t
+direct INSERT t VALUES (3)
+direct INSERT INTO t DEFAULT VALUES x
+direct UPDATE t SET
+direct UPDATE t SET id
+direct UPDATE t SET id =
+direct UPDATE t SET id = 1,
+direct UPDATE t SET id = 1 n = 2
+direct UPDATE t SET id = 1 WHERE
+direct UPDATE t SET id = 1, n = WHERE id = 1
+direct DELETE FROM t WHERE
+direct DELETE FROM
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN UPDATE SET n = 
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN UPDATE SET n = 1,
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN UPDATE SET
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN UPDATE SET n = 1 x
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id) VALUES (
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id) VALUES (1
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id) VALUES (1,
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id) VALUES
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id VALUES (1)
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT (id) VALUES (1) x
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN INSERT
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN NOT MATCHED THEN
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN
+direct MERGE INTO t USING u ON (t.id = u.id)
+direct MERGE INTO t USING u ON
+direct MERGE INTO t USING u
+direct MERGE INTO t
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN DELETE x
+direct MERGE INTO t USING u ON (t.id = u.id) WHEN MATCHED THEN UPDATE SET n = 1 WHEN
+## small differences
+expr 1 << (0 + ABS(-2))
+expr 1 << (ABS(-2) + 0)
+expr 1 << (1 + 1)
+expr CAST(1 AS SQL_NUMERIC(5,6))
+expr CAST(1 AS SQL_NUMERIC(0,0))
+expr CAST(1 AS SQL_NUMERIC(5,5))
+expr CAST(1 AS SQL_NUMERIC(5,7))
+expr CAST(1 AS SQL_DECIMAL(5,6))
+expr CAST(1 AS SQL_NUMERIC(0))
+expr CAST(1 AS SQL_NUMERIC(2,3))
+expr CAST(1 AS SQL_CHAR(70000))
+expr CAST(1 AS SQL_CHAR(65536))
+expr CAST(1 AS SQL_CHAR(65537))
+expr CAST(1 AS SQL_CHAR(65535))
+expr CAST(1 AS SQL_VARCHAR(70000))
+expr CAST(1 AS SQL_CHAR(65500))
+expr CAST(1 AS SQL_CHAR(65530))
+expr CAST(1 AS SQL_CHAR(65531))
+expr CAST(1 AS SQL_CHAR(65534))
+expr CAST(1 AS SQL_CHAR(32768))
+expr CAST(1 AS SQL_CHAR(32767))
+expr CAST(1 AS SQL_CHAR(8000))
+expr CAST(1 AS SQL_CHAR(4294967301))
+expr CAST(1 AS SQL_CHAR(99999999999))
+expr CAST(1 AS SQL_CHAR(131077))
+expr CAST(1 AS SQL_VARCHAR(65535))
+expr CAST(1 AS SQL_VARCHAR(65534))
+expr CAST(1 AS SQL_VARCHAR(65531))
+expr CAST(1 AS SQL_VARCHAR(65530))
+expr CAST(1 AS SQL_VARCHAR(32768))
+expr CAST(1 AS SQL_BINARY(65535))
+expr CAST(1 AS SQL_BINARY(65530))
+expr CAST(1 AS SQL_BINARY(70000))
+expr CAST(1 AS SQL_VARBINARY(65535))
+expr CAST(1 AS SQL_VARBINARY(65530))
+expr CAST(1 AS SQL_VARBINARY(70000))
+expr CAST(1 AS SQL_WCHAR(32768))
+expr CAST(1 AS SQL_WCHAR(32767))
+expr CAST(1 AS SQL_WCHAR(65535))
+expr CAST(1 AS SQL_WVARCHAR(32768))
+expr CAST(1 AS SQL_WVARCHAR(65535))
+expr CAST(1 AS SQL_WVARCHAR(70000))
+expr CAST(1 AS SQL_WCHAR(32766))
+expr CAST(1 AS SQL_WCHAR(32765))
+expr CAST(1 AS SQL_WCHAR(32764))
+expr CAST(1 AS SQL_WCHAR(32762))
+expr CAST(1 AS SQL_WCHAR(32760))
+expr CAST(1 AS SQL_WCHAR(30000))
+expr CAST(1 AS SQL_WVARCHAR(32767))
+expr CAST(1 AS SQL_WVARCHAR(32766))
+expr CAST(1 AS SQL_WVARCHAR(32765))
+expr CAST(1 AS SQL_WVARCHAR(32762))
+expr CAST(1 AS SQL_WVARCHAR(32760))
+expr CAST(1 AS SQL_WVARCHAR(30000))
+expr CAST(1 AS SQL_VARCHAR(65529))
+expr CAST(1 AS SQL_VARCHAR(65528))
+expr CAST(1 AS SQL_VARBINARY(65531))
+expr CAST(1 AS SQL_VARBINARY(65529))
+expr CAST(1 AS CHARACTER VARYING)
+expr CAST(1 AS CHARACTER VARYING(5))
+expr CAST(1 AS CHARACTER(5))
+expr CAST(1 AS CHAR VARYING(5))
+query SELECT * FROM t WHERE (id)
+query SELECT * FROM t WHERE (id) AND n = 10
+query SELECT * FROM t WHERE id AND n = 10
+query SELECT * FROM t WHERE ((id))
+query SELECT * FROM t WHERE (n + 1)
+query SELECT * FROM t WHERE (s)
+query SELECT id FROM t HAVING 1
+query SELECT id FROM t HAVING id = 1
+query SELECT COUNT(*) FROM t HAVING 1
+query SELECT COUNT(*) FROM t HAVING COUNT(*) > 1
+query SELECT id FROM t GROUP BY id HAVING 1
+query DECLARE i INTEGER; i = 2; IF i THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i DO i = 3; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE s CHAR(5); s = 'a'; IF s THEN s = 'b'; ENDIF; SELECT s AS s FROM system.iota
+direct CREATE PROCEDURE p1 (a NUMERIC(5,2,1)) BEGIN END
+direct CREATE PROCEDURE p2 (a NUMERIC(5,2)) BEGIN END
+direct CREATE PROCEDURE p3 (a NUMERIC(5,2,1)) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TABLE t2 (a NUMERIC(5,2,1))
+direct SELECT CAST(1 AS NUMERIC(5,2,1)) FROM system.iota
+## where a call's closing parenthesis or a stray token is missing
+query SELECT ABS(1 2) FROM t
+query SELECT ABS(1, 2) FROM t
+query SELECT SUBSTRING(s, 1, 2 FROM t
+query SELECT id FROM t WHERE ABS(1 2) = 1
+query SELECT id FROM t WHERE id = ABS(n m)
+query SELECT id FROM t WHERE id = SOME (n m)
+query SELECT id FROM t WHERE id = SOME (n)
+query SELECT id FROM t WHERE id = SOME (SELECT 1)
+query SELECT id FROM t WHERE id = SOME (SELECT 1 FROM u)
+query SELECT id FROM t WHERE id = SOME (SELECT * FROM u)
+query SELECT id FROM t WHERE id = 1 'abc'
+query SELECT id FROM t WHERE id = 1 5
+query SELECT id FROM t WHERE id = n 'abc'
+query SELECT id FROM t WHERE id = n m
+query SELECT id FROM t WHERE s = 'a' 'b'
+query SELECT id FROM t WHERE id ! 5
+query SELECT id FROM t WHERE id ^ 5
+query SELECT id FROM t WHERE id ~ 5
+query SELECT id FROM t WHERE id =< 5
+query SELECT id FROM t WHERE id # 5
+query SELECT id != 1 FROM t
+query SELECT id FROM t WHERE (id != 1)
+query SELECT id FROM t WHERE id != 1 AND n = 2
+query SELECT id FROM t WHERE id != 'a'
+query SELECT TOP 5 DISTINCT id FROM t
+query SELECT DISTINCT TOP 5 id FROM t
+query SELECT TOP 5 id, TOP 6 n FROM t
+query DELETE FROM t WHERE id != 1
+direct DELETE FROM t WHERE id != 1
+direct UPDATE t SET n = 1 WHERE id != 1
+query SELECT 1, ABS(1 2) FROM t
+query SELECT 1 + ABS(1 2) FROM t
+query SELECT id, ABS(n m) FROM t
+query SELECT id FROM t WHERE id = 1 + ABS(n m)
+query SELECT id FROM t WHERE id = 1 AND id = ABS(n m)
+query SELECT id FROM t WHERE ABS(n m) > 1
+query SELECT id FROM t WHERE id > 0 AND ABS(n m) > 1
+query SELECT id FROM t WHERE id IN (ABS(n m))
+query SELECT id FROM t WHERE id IN (1, ABS(n m))
+query SELECT id FROM t ORDER BY ABS(n m)
+query SELECT id FROM t GROUP BY ABS(n m)
+query SELECT COUNT(*) FROM t HAVING ABS(n m) > 1
+query SELECT id FROM t WHERE id = ABS(ABS(n m))
+query SELECT id FROM t WHERE id = (ABS(n m))
+query SELECT id FROM t WHERE id BETWEEN ABS(n m) AND 5
+query SELECT id FROM t WHERE id = COUNT(n m)
+query SELECT id FROM t WHERE id = ABS(n
+query SELECT id FROM t WHERE id = ABS(
+query SELECT id FROM t WHERE ABS(n
+query SELECT id FROM t WHERE id = 5 + ABS(n
+query SELECT * FROM t WHERE n + 1
+query SELECT * FROM t WHERE n * 2
+query SELECT * FROM t WHERE (n * 2)
+query SELECT * FROM t WHERE (n)
+query SELECT * FROM t WHERE (t.n)
+query SELECT * FROM t WHERE (ABS(n))
+query SELECT * FROM t WHERE ABS(n)
+query SELECT * FROM t WHERE (ABS(n) + 1)
+query SELECT * FROM t WHERE n = 10 AND (n + 1)
+query SELECT * FROM t WHERE (n = 10) AND (s)
+query SELECT * FROM t WHERE (-n)
+query SELECT * FROM t WHERE (n) = 10 AND (n)
+direct MERGE INTO t USING u ON (t.id = u.id AND) WHEN MATCHED THEN UPDATE SET n = 1
+direct MERGE INTO t USING u ON t.id = WHEN MATCHED THEN UPDATE SET n = 1
+direct MERGE INTO t USING u ON (t.id = ) WHEN MATCHED THEN UPDATE SET n = 1
+direct MERGE INTO t USING u ON t.id = u.id WHEN MATCHED THEN UPDATE SET n = DATE '2020-01-01'
+direct UPDATE t SET d = DATE '2020-01-01'
+direct INSERT INTO t (d) VALUES (DATE '2020-01-01')
+direct DELETE FROM t WHERE d = DATE '2020-01-01'
+query SELECT * FROM t WHERE d = TIME '10:00:00'
+query SELECT * FROM t WHERE d = TIMESTAMP '2020-01-01 10:00:00'
+query SELECT * FROM t WHERE d = x '41'
+query SELECT * FROM t WHERE d = x'41' 'a'
+## values too large for their column
+direct CREATE TABLE big (id INTEGER, c CHAR(3), n NUMERIC(3,0), v VARCHAR(3))
+direct INSERT INTO big VALUES (2, 'abc', 12, 'ab')
+query SELECT id, c + 'x' AS cc FROM big
+query SELECT id, CAST(c + 'xyz' AS SQL_CHAR(4)) AS cc FROM big
+query SELECT id, n * 100 AS nn FROM big
+query SELECT id, CAST(n * 100 AS SQL_NUMERIC(4,0)) AS nn FROM big ORDER BY 2
+query SELECT id, CAST(n * 100 AS SQL_INTEGER) AS nn FROM big
+query SELECT id, CAST(n * 100000 AS SQL_INTEGER) AS nn FROM big
+query SELECT id, n * n * n * n AS nn FROM big
+query SELECT id, CAST(v + 'xyz' AS SQL_VARCHAR(4)) AS cc FROM big
+query SELECT id, CAST(v + 'xyz' AS SQL_VARCHAR(4)) AS cc FROM big ORDER BY id
+count
+direct UPDATE big SET n = n * 100
+direct UPDATE big SET c = 'abcdef'
+direct INSERT INTO big VALUES (3, 'abcd', 1, 'a')
+direct INSERT INTO big VALUES (3, 'a', 1234, 'a')
+direct INSERT INTO big VALUES (3, 'a', 1, 'abcd')
+direct CREATE TABLE ov (id INTEGER, a INTEGER, b SHORT, c NUMERIC(3,0), d DOUBLE)
+direct INSERT INTO ov VALUES (1, 1, 1, 1, 1)
+direct INSERT INTO ov VALUES (2, 2147483647, 32767, 99, 1e30)
+direct INSERT INTO ov VALUES (3, 5, 5, 5, 5)
+query SELECT id, a + 1 AS x FROM ov
+query SELECT id, a * 2 AS x FROM ov
+query SELECT id, b + 1 AS x FROM ov
+query SELECT id, b * 2 AS x FROM ov
+query SELECT id, c + 1 AS x FROM ov
+query SELECT id, c * c AS x FROM ov
+query SELECT id, CAST(d AS SQL_INTEGER) AS x FROM ov
+query SELECT id, CAST(d AS SQL_SMALLINT) AS x FROM ov
+query SELECT id, CAST(a AS SQL_SMALLINT) AS x FROM ov
+query SELECT id, CAST(a AS SQL_TINYINT) AS x FROM ov
+query SELECT id, CAST(a AS SQL_NUMERIC(3,0)) AS x FROM ov
+query SELECT id, CAST(a AS SQL_CHAR(3)) AS x FROM ov
+query SELECT id, d * 10 AS x FROM ov
+query SELECT id, ROUND(d, 0) AS x FROM ov
+query SELECT id, SUM(a) AS x FROM ov GROUP BY id
+query SELECT SUM(a) AS x FROM ov
+query SELECT SUM(b) AS x FROM ov
+query SELECT SUM(c) AS x FROM ov
+query SELECT AVG(a) AS x FROM ov
+count
+query SELECT id, a + a AS x FROM ov WHERE id > 1
+query SELECT id, a + 1 AS x FROM ov ORDER BY id DESC
+count
+query SELECT TOP 1 id, a + 1 AS x FROM ov ORDER BY id DESC
+query SELECT id, a + 1 AS x FROM ov UNION SELECT id, a FROM ov
+direct INSERT INTO ov SELECT id + 10, 1, b + 1, c, d FROM ov WHERE id = 2
+direct UPDATE ov SET a = a + 1 WHERE id = 2
+direct UPDATE ov SET b = b + 1 WHERE id = 2
+direct CREATE TABLE ov2 (id INTEGER, a INTEGER)
+direct INSERT INTO ov2 VALUES (1, 2147483647)
+direct INSERT INTO ov2 VALUES (2, 5)
+direct INSERT INTO ov2 VALUES (3, 2147483647)
+direct INSERT INTO ov2 VALUES (4, 6)
+direct CREATE TABLE ov3 (id INTEGER, a INTEGER)
+direct INSERT INTO ov3 VALUES (1, 2147483647)
+query SELECT id, a + 1 AS x FROM ov2
+count
+query SELECT id, a + 1 AS x FROM ov3
+count
+query SELECT DISTINCT id, a + 1 AS x FROM ov2
+query SELECT TOP 3 id, a + 1 AS x FROM ov2
+query SELECT id, a + 1 AS x FROM ov2 GROUP BY id, a
+query SELECT o.id, o.a + 1 AS x FROM ov2 o JOIN ov2 p ON o.id = p.id
+query SELECT * FROM (SELECT id, a + 1 AS x FROM ov2) q
+query SELECT id, a + 1 AS x FROM ov2 WHERE 1 = 1
+query SELECT id, a + 1 AS x FROM ov2 WHERE id > 0
+query SELECT id, a + 1 AS x FROM ov2 WHERE id = 4
+query SELECT id, a + 1 AS x FROM ov2 ORDER BY id
+query SELECT id, a + 1 AS x FROM ov2 ORDER BY 1
+query SELECT id, a + 1 AS x FROM ov2 UNION ALL SELECT id, a FROM ov2
+query SELECT a + 1 AS x, id FROM ov2
+query SELECT a + 1 AS x FROM ov2
+query SELECT id, a + 1 AS x, a + 1 AS y FROM ov2
+query SELECT id, MAX(a + 1) AS x FROM ov2 GROUP BY id
+## the first row that is too large fails, a later one is left out
+query SELECT DISTINCT id, a + 1 AS x FROM ov
+query SELECT TOP 3 id, a + 1 AS x FROM ov
+query SELECT id, a + 1 AS x FROM ov GROUP BY id, a
+query SELECT o.id, o.a + 1 AS x FROM ov o JOIN ov p ON o.id = p.id
+query SELECT id, a + 1 AS x FROM ov WHERE 1 = 1
+query SELECT id, a + 1 AS x FROM ov WHERE id > 0
+query SELECT id, a + 1 AS x FROM ov WHERE id <> 1
+query SELECT id, a + 1 AS x FROM ov ORDER BY id
+query SELECT id, a + 1 AS x FROM ov ORDER BY id DESC
+query SELECT id, a + 1 AS x FROM ov UNION ALL SELECT id, a FROM ov
+query SELECT a + 1 AS x, id FROM ov
+query SELECT id, a + 1 AS x, a + 1 AS y FROM ov
+query SELECT id, MAX(a + 1) AS x FROM ov GROUP BY id
+query SELECT id, a + 1 AS x FROM ov
+count
+query SELECT id, a + 1 AS x FROM ov o, ov p WHERE o.id = p.id
+## casts of a value too large, in the first row and in a later one
+direct CREATE TABLE ov4 (id INTEGER, a INTEGER, d DOUBLE)
+direct INSERT INTO ov4 VALUES (1, 2147483647, 1e30)
+direct INSERT INTO ov4 VALUES (2, 5, 5)
+direct CREATE TABLE ov5 (id INTEGER, a INTEGER, d DOUBLE)
+direct INSERT INTO ov5 VALUES (1, 5, 5)
+direct INSERT INTO ov5 VALUES (2, 2147483647, 1e30)
+query SELECT id, CAST(d AS SQL_REAL) AS x FROM ov4
+query SELECT id, CAST(a AS SQL_SMALLINT) AS x FROM ov5
+query SELECT id, CAST(a AS SQL_TINYINT) AS x FROM ov5
+query SELECT id, CAST(d AS SQL_INTEGER) AS x FROM ov5
+query SELECT id, CAST(a AS SQL_NUMERIC(3,0)) AS x FROM ov5
+query SELECT id, CAST(d AS SQL_NUMERIC(10,2)) AS x FROM ov5
+query SELECT id, CAST(a * 2 AS SQL_INTEGER) AS x FROM ov5
+query SELECT id, CAST(d AS SQL_REAL) AS x FROM ov5
+query SELECT id, CAST(d AS SQL_SMALLINT) AS x FROM ov5
+query SELECT id, CAST(d AS SQL_NUMERIC(3,0)) AS x FROM ov5

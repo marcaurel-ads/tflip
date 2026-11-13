@@ -1,0 +1,18 @@
+# The dictionary of a_Y.txt as an AES-128 one that encrypts its records, with the dictionary password ddpw.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "Z\Z.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\Z\Z.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+ddlink lk1 Z.add ADSSYS linkpw 1
+ddlink lk2 Z.add ADSSYS 12345678901234567890 3
+ddlink lk3 Z.add ADSSYS abcdefghijklmnopqrstuvwxyz1234 2
+ddlink lk4 Z.add - - 0
+ddlink lk5 Z.add ADSSYS - 3
+ddpub pub1 a~publication 0
+ddsub sub1 pub1 target~one repuser subpw queue1 0 a~subscription 0
+ddsub sub3 pub1 \\server\share\a\long\target\path\to\a\dictionary.add repuser abcdefghijklmnopqrstuvwxyz1234 queue3 0 a~third~subscription 0
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect

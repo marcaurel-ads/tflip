@@ -1,0 +1,5 @@
+sql CREATE TABLE a (id integer, name char(10))
+sql CREATE UNIQUE INDEX aid ON a (id)
+sql INSERT INTO a VALUES (1, 'one')
+sql INSERT INTO a VALUES (2, 'two')
+sql INSERT INTO a VALUES (3, 'three')

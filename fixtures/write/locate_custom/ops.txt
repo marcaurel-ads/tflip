@@ -1,0 +1,72 @@
+# AdsContinue: before any AdsLocate, forwards to EOF, backwards, from a
+# record moved to.
+open c.adt exclusive
+continue
+locate 1 id > 2
+state
+continue
+state
+continue
+continue
+continue
+state
+continue
+state
+locate 0 id < 5
+state
+continue
+state
+locate 1 id = 99
+continue
+state
+goto 2
+continue
+state
+# A custom order: keys added and removed, a second key for a record, a
+# key added while the record is changed.
+createindex - cust 6 512 name
+order cust
+rows
+goto 3
+addcustom cust
+goto 5
+addcustom cust
+addcustom cust
+goto 1
+delcustom cust
+goto 3
+delcustom cust
+addcustom cust
+rows
+order -
+addcustom id
+goto 2
+set name string zzz
+addcustom cust
+write
+order cust
+rows
+goto 2
+# A file's bytes into Binary and Image fields; other fields refuse.
+filetobinary b 6 f.adt
+filetobinary im 7 f.adt
+filetobinary id 6 f.adt
+filetobinary b 6 nosuch.bin
+filetobinary mm 6 f.adt
+write
+get b
+get im
+get mm
+# Text from code pages 1252 and 437; 0, a field that is no text, text
+# too long.
+cpstring name 1252 caf\xe9
+get name
+cpstring name 437 \x81ber\x82
+get name
+cpstring name 0 abc
+get name
+cpstring id 1252 12
+get id
+cpstring name 1252 a very long name indeed
+get name
+write

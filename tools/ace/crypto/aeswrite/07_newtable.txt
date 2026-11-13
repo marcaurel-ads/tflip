@@ -1,0 +1,16 @@
+# New tables encrypted, and one made and filled. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (1, 'one')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (1, 'one')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (1, 'one')
+disconnect

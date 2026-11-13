@@ -1,0 +1,258 @@
+# The scalar functions that read the connection, the statement or the row
+# being read, for fixtures/sql/rowfuncs.json (an empty data folder; the script
+# makes its own tables): APPLICATIONID, LASTAUTOINC, LASTROWID,
+# LASTROWVERSION, DELETED, RECNO, EMPTY, ROWNUM, the ROWID column, TTOC and
+# COLLATE, and the ones the help says SQL does not support.
+stmt
+# Not supported in SQL, though the help lists them for the expression engine.
+query SELECT CHR(65) FROM system.iota
+query SELECT PADL('x', 5, '.') FROM system.iota
+query SELECT PADR('x', 5, '.') FROM system.iota
+query SELECT PADC('x', 5, '.') FROM system.iota
+query SELECT PAD('x', 5, '.') FROM system.iota
+query SELECT INLIST(2, 1, 2, 3) FROM system.iota
+query SELECT TODAY() FROM system.iota
+query SELECT NOW_UTC() FROM system.iota
+query SELECT DESCEND('a') FROM system.iota
+direct CREATE TABLE t (id autoinc, n integer, s char(8), d date, l logical, m memo, f double, ts timestamp, v varchar(10))
+direct CREATE TABLE u (n integer, s char(8))
+directnull INSERT INTO t (n, s) VALUES (1, 'one')
+directnull INSERT INTO t (n, s, d, l, f, ts, v) VALUES (2, '', '2020-01-02', false, 0, '2020-01-02 03:04:05', ' ')
+directnull INSERT INTO t (n, s, d, l, f, ts, v) VALUES (0, 'x', NULL, true, 1.5, NULL, 'v')
+directnull INSERT INTO u (n, s) VALUES (1, 'u1')
+directnull INSERT INTO u (n, s) VALUES (2, 'u2')
+query SELECT * FROM t
+# ROWID.
+query SELECT ROWID, n FROM t
+query SELECT ROWID FROM u
+query SELECT t.ROWID, u.ROWID FROM t, u WHERE t.n = u.n
+query SELECT ROWID FROM t WHERE ROWID = 'x'
+query SELECT * FROM t WHERE LENGTH(ROWID) = 18
+query SELECT LENGTH(ROWID), RIGHT(ROWID, 6), UPPER(ROWID) FROM u
+query SELECT x.ROWID FROM u x
+query SELECT ROWID r FROM u
+query SELECT ROWID FROM system.iota
+query SELECT ROWID FROM (SELECT n FROM u) x
+query SELECT ROWID FROM t, u
+query SELECT ROWID FROM t ORDER BY ROWID DESC
+query SELECT COUNT(ROWID) FROM t
+query SELECT DISTINCT ROWID FROM u
+query SELECT ROWID FROM u UNION SELECT ROWID FROM u
+directnull INSERT INTO u (ROWID, n) VALUES ('AAAAAAAAAAAAAAAAAA', 5)
+directnull UPDATE u SET ROWID = 'AAAAAAAAAAAAAAAAAA'
+# A row found by its ROWID.
+query SELECT s FROM u WHERE ROWID = (SELECT ROWID FROM u WHERE n = 2)
+# RECNO, DELETED, ROWNUM, EMPTY on rows.
+query SELECT RECNO(), DELETED(), ROWNUM(), n FROM t
+query SELECT RECNO(t), DELETED(t), RECNO(u), DELETED(u), t.n FROM t, u WHERE t.n = u.n
+query SELECT RECNO(), n FROM t WHERE RECNO() > 1
+query SELECT n FROM t ORDER BY RECNO() DESC
+query SELECT RECNO(zz) FROM t
+query SELECT RECNO(1) FROM t
+query SELECT RECNO() FROM t, u
+query SELECT DELETED() FROM t, u
+query SELECT RECNO(x) FROM t x
+query SELECT RECNO(t) FROM t x
+query SELECT RECNO() FROM (SELECT n FROM t) x
+query SELECT RECNO(x) FROM (SELECT n FROM t) x
+query SELECT RECNO(), DELETED() FROM system.iota
+query SELECT ROWNUM(), n FROM t ORDER BY n DESC
+query SELECT ROWNUM(), n FROM t WHERE n > 0
+query SELECT n FROM t WHERE ROWNUM() > 1
+query SELECT n FROM t WHERE ROWNUM() = 1
+query SELECT n FROM t WHERE ROWNUM() < 3
+query SELECT ROWNUM(), ROWNUM() FROM t
+query SELECT ROWNUM() FROM t GROUP BY n
+query SELECT ROWNUM(), n FROM t UNION ALL SELECT ROWNUM(), n FROM u
+query SELECT ROWNUM(1) FROM t
+query SELECT TOP 2 ROWNUM(), n FROM t ORDER BY n
+directnull DELETE FROM t WHERE n = 2
+query SELECT RECNO(), DELETED(), n FROM t
+query SELECT n FROM t WHERE DELETED()
+query SELECT n FROM t WHERE NOT DELETED()
+query SELECT DELETED(t) FROM t
+query SELECT EMPTY(n), EMPTY(s), EMPTY(d), EMPTY(l), EMPTY(m), EMPTY(f), EMPTY(ts), EMPTY(v), EMPTY(id), n FROM t
+query SELECT EMPTY(''), EMPTY(' '), EMPTY(0), EMPTY('a'), EMPTY(1), EMPTY(TRUE), EMPTY(FALSE) FROM system.iota
+query SELECT EMPTY(NULL) FROM system.iota
+query SELECT EMPTY(s), EMPTY(UPPER(s)), EMPTY(RTRIM(s)), EMPTY(s + ''), EMPTY(CAST(d AS SQL_DATE)), EMPTY(IFNULL(d, d)), EMPTY(d + 0) FROM t
+query SELECT EMPTY(n) FROM u WHERE EMPTY(n)
+query SELECT n FROM t WHERE EMPTY(d)
+query SELECT n FROM t WHERE EMPTY(n) = FALSE
+query SELECT EMPTY(x) FROM t
+query SELECT EMPTY() FROM system.iota
+query SELECT EMPTY(1, 2) FROM system.iota
+query SELECT EMPTY(n + 0), EMPTY(s + ''), EMPTY(CAST(NULL AS SQL_CHAR)) FROM t
+query SELECT EMPTY(CURDATE()), EMPTY(CAST(NULL AS SQL_DATE)) FROM system.iota
+# LASTAUTOINC, LASTROWID, LASTROWVERSION.
+query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID(), LASTROWVERSION() FROM system.iota
+stmt
+directnull INSERT INTO t (n) VALUES (10)
+query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID(), LASTROWVERSION() FROM system.iota
+directnull INSERT INTO t (n) VALUES (11)
+query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota
+stmt
+query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota
+directnull INSERT INTO u (n) VALUES (12)
+query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota
+query SELECT LASTAUTOINC() FROM system.iota
+query SELECT LASTAUTOINC(1) FROM system.iota
+query SELECT LASTAUTOINC(x) FROM system.iota
+query SELECT LASTAUTOINC(connection), LASTAUTOINC( statement ) FROM system.iota
+query SELECT LASTAUTOINC('CONNECTION') FROM system.iota
+query SELECT LASTAUTOINC(CONNECTION, STATEMENT) FROM system.iota
+query SELECT LASTAUTOINC FROM system.iota
+query SELECT LASTAUTOINC(CONNECTION) + 1, -LASTAUTOINC(STATEMENT) FROM system.iota
+query SELECT n, LASTAUTOINC(CONNECTION) FROM u WHERE n = 12
+query SELECT LASTROWID(1), LASTROWVERSION(1) FROM system.iota
+query SELECT LASTROWID FROM system.iota
+directnull INSERT INTO t (n) VALUES (13), (14)
+query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota
+directnull INSERT INTO t (id, n) VALUES (100, 15)
+query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota
+directnull UPDATE t SET n = 5 WHERE n = 10
+query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota
+directnull INSERT INTO u SELECT n, s FROM t
+query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota
+query SELECT LASTROWID() = ROWID FROM t WHERE n = 15
+query SELECT LASTROWID(), ROWID FROM u
+# ROWVERSION tables.
+direct CREATE TABLE rv (n integer, r rowversion, a autoinc)
+directnull INSERT INTO rv (n) VALUES (1)
+query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT) FROM system.iota
+directnull INSERT INTO rv (n) VALUES (2)
+query SELECT LASTROWVERSION(), LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota
+directnull UPDATE rv SET n = 3 WHERE n = 1
+query SELECT LASTROWVERSION() FROM system.iota
+query SELECT * FROM rv
+# APPLICATIONID.
+query SELECT APPLICATIONID() FROM system.iota
+query SELECT APPLICATIONID(1) FROM system.iota
+query SELECT APPLICATIONID FROM system.iota
+query EXECUTE PROCEDURE sp_GetApplicationID()
+directnull EXECUTE PROCEDURE sp_SetApplicationID('myapp')
+query SELECT APPLICATIONID() FROM system.iota
+# TTOC and COLLATE.
+query SELECT TTOC(ts) FROM t
+query SELECT TTOC(ts, 1), TTOC(ts, 2), TTOC(ts, 3) FROM t
+query SELECT TTOC(ts, 1), TTOC(ts, 2), TTOC(ts, 3) FROM t WHERE ts IS NULL
+query SELECT TTOC({ts '2020-01-02 03:04:05.678'}, 1), TTOC({ts '2020-01-02 03:04:05.678'}, 2), TTOC({ts '2020-01-02 03:04:05.678'}, 3) FROM system.iota
+query SELECT TTOC({ts '2020-01-02 13:04:05'}, 1), TTOC({ts '1999-12-31 23:59:59'}, 2), TTOC({ts '0100-03-04 00:00:00'}, 3) FROM system.iota
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, 3) + 'x', LENGTH(TTOC({ts '2020-01-02 03:04:05'}, 3)) FROM system.iota
+query SELECT TTOC(ts, 3 + 0), TTOC(ts, 1.0), TTOC(ts, 1 + n - n) FROM t
+query SELECT TTOC(CURRENT_TIMESTAMP, 1) FROM system.iota WHERE 1 = 0
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, CAST(2 AS SQL_SMALLINT)) FROM system.iota
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, CAST(2 AS SQL_DOUBLE)) FROM system.iota
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, NULL) FROM system.iota
+query SELECT TTOC(CAST('2020-01-02 03:04:05' AS SQL_TIMESTAMP), 1) FROM system.iota
+query SELECT TTOC(CAST(NULL AS SQL_TIMESTAMP), 1), TTOC(CAST(NULL AS SQL_TIMESTAMP), 2), TTOC(CAST(NULL AS SQL_TIMESTAMP), 3) FROM system.iota
+query SELECT TTOC({t '13:04:05'}, 1) FROM system.iota
+query SELECT TTOC(1, 1) FROM system.iota
+query SELECT TTOC(ts, 1, 2) FROM t
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, 0), TTOC({ts '2020-01-02 03:04:05'}, 4), TTOC({ts '2020-01-02 03:04:05'}, -1) FROM system.iota
+query SELECT TTOC({ts '2020-01-02 03:04:05'}, 1.5) FROM system.iota
+query SELECT TTOC(d, 1) FROM t
+query SELECT TTOC('x', 1) FROM system.iota
+query SELECT TTOC(ts, '1') FROM t
+query SELECT TTOC() FROM system.iota
+query SELECT TTOC(ts, n) FROM t
+query SELECT TTOC(NULL, 1) FROM system.iota
+query SELECT s COLLATE ads_default_ci FROM t
+query SELECT s COLLATE ads_default_cs FROM t
+query SELECT COLLATE(s, 'ads_default_ci') FROM t
+query SELECT n FROM t WHERE s COLLATE ads_default_ci = 'ONE'
+query SELECT n FROM t WHERE s = 'ONE'
+query SELECT n FROM t WHERE s COLLATE ads_default_cs = 'ONE'
+query SELECT 'a' COLLATE ads_default_ci = 'A' FROM system.iota
+query SELECT 'a' COLLATE ads_default_cs = 'A' FROM system.iota
+query SELECT 'a' COLLATE nonsense FROM system.iota
+query SELECT 1 COLLATE ads_default_ci FROM system.iota
+query SELECT n COLLATE ads_default_ci FROM t
+query SELECT m COLLATE ads_default_ci FROM t
+query SELECT v COLLATE ads_default_ci FROM t
+query SELECT 'a' COLLATE 'ads_default_ci' FROM system.iota
+query SELECT 'a' COLLATE ads_default_ci COLLATE ads_default_cs FROM system.iota
+query SELECT s COLLATE ads_default_ci AS c FROM t ORDER BY 1
+query SELECT n FROM t ORDER BY s COLLATE ads_default_ci
+query SELECT 'B' COLLATE ads_default_ci < 'a' FROM system.iota
+query SELECT 'a' COLLATE ads_default_ci = 'A' COLLATE ads_default_cs FROM system.iota
+query SELECT COLLATE('a') FROM system.iota
+query SELECT UPPER('a' COLLATE ads_default_ci) FROM system.iota
+query SELECT 'a' COLLATE ads_default_ci + 'b' FROM system.iota
+query SELECT COUNT(*) FROM t GROUP BY s COLLATE ads_default_ci
+# EMPTY and RECNO on the DBF tables, whose empty values are blanks and zeros.
+tabletype 2
+direct CREATE TABLE cx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo, dbl double)
+directnull INSERT INTO cx (id) VALUES (0)
+directnull INSERT INTO cx (id, c, nn, dd, ll, mm, dbl) VALUES (2, '  ', 0, '2020-01-02', false, '', 0)
+directnull INSERT INTO cx (id, c, nn, dd, ll, mm, dbl) VALUES (3, 'x', 1.5, '2020-01-02', true, 'memo', 2.5)
+directnull INSERT INTO cx (id, c, dd) VALUES (4, CHAR(9), NULL)
+directnull INSERT INTO cx (id, c, mm) VALUES (5, CHAR(13) + CHAR(10) + CHAR(9) + ' ', CHAR(9))
+directnull INSERT INTO cx (id, c, mm) VALUES (6, 'a', CHAR(32))
+query SELECT * FROM cx
+query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), EMPTY(dbl) FROM cx
+query SELECT id, EMPTY(c + ''), EMPTY(UPPER(c)), EMPTY(nn + 0), EMPTY(id + 0), EMPTY(dd), EMPTY(CAST(dd AS SQL_DATE)), EMPTY(IFNULL(c, 'x')), EMPTY(CAST(c AS SQL_CHAR)), RECNO(), DELETED() FROM cx
+query SELECT EMPTY(''), EMPTY(' '), EMPTY(0), EMPTY('a'), EMPTY(1), EMPTY(TRUE), EMPTY(FALSE), EMPTY(0.0) FROM cx WHERE id = 3
+query SELECT id FROM cx WHERE EMPTY(c)
+query SELECT id FROM cx WHERE NOT EMPTY(nn)
+directnull DELETE FROM cx WHERE id = 2
+query SELECT id, RECNO(), DELETED() FROM cx
+query SELECT id, RECNO(), DELETED() FROM cx WHERE DELETED()
+tabletype 4
+direct CREATE TABLE vx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo, dbl double, ts timestamp, vc varchar(5), bi bigint)
+directnull INSERT INTO vx (id, nn, dbl, bi) VALUES (0, 0, 0, 0)
+directnull INSERT INTO vx (id) VALUES (1)
+directnull INSERT INTO vx (id, c, nn, dd, ll, mm, dbl, ts, vc, bi) VALUES (2, '  ', 0, '2020-01-02', false, '', 0, '2020-01-02 03:04:05', '', 0)
+query SELECT * FROM vx
+query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), EMPTY(dbl), EMPTY(ts), EMPTY(vc), EMPTY(bi) FROM vx
+tabletype 1
+direct CREATE TABLE nx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo)
+directnull INSERT INTO nx (id) VALUES (1)
+directnull INSERT INTO nx (id, c, nn, dd, ll, mm) VALUES (2, '  ', 0, '2020-01-02', false, '')
+query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), RECNO(), DELETED() FROM nx
+tabletype 3
+# ROWNUM and its neighbours.
+query SELECT n, ROWNUM() FROM (SELECT TOP 5 n FROM t ORDER BY n DESC) x
+query SELECT COUNT(*), MAX(ROWNUM()) FROM t
+query SELECT n FROM t WHERE ROWNUM() <= 2 ORDER BY n DESC
+query SELECT ROWNUM() r, n FROM t WHERE n > 1 ORDER BY n
+query SELECT t.n, ROWNUM() FROM t, u WHERE t.n = u.n
+query SELECT n, ROWNUM() FROM t GROUP BY n ORDER BY n DESC
+query SELECT ROWNUM() FROM system.iota
+query SELECT ROWNUM() FROM u WHERE ROWNUM() = 1 OR n = 2
+query SELECT n, (SELECT ROWNUM() FROM u WHERE u.n = t.n) FROM t
+query SELECT n, ROWNUM() FROM t LIMIT 2
+query SELECT TOP 2 START AT 2 n, ROWNUM() FROM t ORDER BY n
+# What an insert into another table leaves of the statement's last values.
+stmt
+directnull INSERT INTO t (n) VALUES (20)
+directnull INSERT INTO u (n) VALUES (21)
+query SELECT LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota
+directnull INSERT INTO rv (n) VALUES (22)
+query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota
+directnull INSERT INTO t (n) VALUES (23)
+query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT), LASTAUTOINC(CONNECTION) FROM system.iota
+directnull DELETE FROM rv WHERE n = 22
+query SELECT LASTROWVERSION() FROM system.iota
+# The functions in statements that change rows.
+direct CREATE TABLE dm (n integer)
+directnull INSERT INTO dm (n) VALUES (1)
+directnull INSERT INTO dm (n) VALUES (2)
+directnull INSERT INTO dm (n) VALUES (3)
+directnull INSERT INTO dm (n) VALUES (4)
+directnull DELETE FROM dm WHERE RECNO() = 2
+query SELECT n, RECNO() FROM dm
+directnull UPDATE dm SET n = n + 10 WHERE RECNO() = 3
+query SELECT n, RECNO() FROM dm
+directnull UPDATE dm SET n = RECNO() * 100 WHERE n = 4
+query SELECT n, RECNO() FROM dm
+directnull UPDATE dm SET n = 77 WHERE ROWID = (SELECT ROWID FROM dm WHERE n = 1)
+directnull UPDATE dm SET n = 78 WHERE ROWID = LASTROWID()
+directnull UPDATE dm SET n = ROWNUM()
+directnull UPDATE dm SET n = ROWNUM() WHERE n = 0
+directnull INSERT INTO dm (n) VALUES (ROWNUM())
+directnull DELETE FROM dm WHERE DELETED()
+directnull DELETE FROM dm WHERE EMPTY(n)
+query SELECT n, RECNO() FROM dm
+directnull INSERT INTO dm (n) VALUES (LASTAUTOINC(CONNECTION))
+directnull INSERT INTO dm (n) SELECT ROWNUM() FROM dm
+query SELECT n, RECNO() FROM dm

@@ -1,0 +1,153 @@
+# More of what a user who may INSERT but not SELECT gets (see
+# ddinsertonly.txt): an INSERT ... SELECT that reads the table it inserts into,
+# and what a table opened through the API lets a user who holds INSERT, UPDATE
+# or SELECT on it set, on a record it appended and on one that was there. The
+# dictionary, i2/i2.add, is kept in fixtures/sql/ddinsertonly2/:
+#
+#     run.sh <work> <ace32.dll> ddinsertonly2.txt > ../../../fixtures/sql/ddinsertonly2.json
+#     cp <work>/data/i2/* ../../../fixtures/sql/ddinsertonly2/
+ddcreate i2\i2.add
+stmt
+direct CREATE TABLE t1 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES ('1', 'one')
+direct INSERT INTO t1 VALUES ('2', 'two')
+direct INSERT INTO t2 VALUES ('1', 'uno')
+direct EXECUTE PROCEDURE sp_CreateUser('ins', 'inspw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('is', 'ispw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('us', 'uspw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('so', 'sopw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('no', 'nopw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('uo', 'uopw', '')
+direct GRANT UPDATE ON t1 TO uo
+direct EXECUTE PROCEDURE sp_CreateUser('iu', 'iupw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('icu', 'icupw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('ic', 'icpw', '')
+direct GRANT INSERT ON t1 TO ins
+direct GRANT INSERT, SELECT ON t1 TO "is"
+direct GRANT UPDATE, SELECT ON t1 TO us
+direct GRANT SELECT ON t1 TO so
+direct GRANT INSERT, UPDATE, SELECT ON t1 TO iu
+direct GRANT INSERT, UPDATE (name), SELECT ON t1 TO icu
+direct GRANT INSERT, SELECT (id) ON t1 TO ic
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect
+#
+# INSERT ... SELECT reading the table it inserts into.
+connect i2\i2.add ins inspw
+stmt
+direct INSERT INTO t1 SELECT id, name FROM t1
+direct INSERT INTO t1 SELECT * FROM t1
+direct INSERT INTO t1 (id) SELECT id FROM t1
+direct INSERT INTO t1 SELECT '5', 'five' FROM system.iota
+direct INSERT INTO t1 VALUES ((SELECT MAX(id) FROM t1), 'z')
+direct INSERT INTO t1 VALUES ((SELECT MAX(id) FROM t2), 'z')
+direct INSERT INTO t1 SELECT id, name FROM t2
+direct INSERT INTO t1 SELECT id, name FROM t1 WHERE id = '1'
+direct INSERT INTO t1 SELECT 'c', 'c' FROM t1
+direct INSERT INTO t1 SELECT '6', name FROM t1 WHERE id IN (SELECT id FROM t1)
+disconnect
+connect i2\i2.add ic icpw
+stmt
+direct INSERT INTO t1 (id) SELECT id FROM t1
+direct INSERT INTO t1 SELECT id, name FROM t1
+direct INSERT INTO t1 (id) SELECT id FROM t1 WHERE name = 'one'
+direct INSERT INTO t1 (id) SELECT MAX(id) FROM t1
+query SELECT id FROM t1
+query SELECT * FROM t1
+direct UPDATE t1 SET name = 'x'
+disconnect
+connect i2\i2.add uo uopw
+stmt
+direct UPDATE t1 SET name = 'u'
+direct UPDATE t1 SET name = (SELECT MAX(name) FROM t1)
+direct UPDATE t1 SET name = (SELECT MAX(name) FROM t2)
+disconnect
+connect i2\i2.add no nopw
+stmt
+direct INSERT INTO t1 SELECT id, name FROM t1
+direct INSERT INTO t1 SELECT id, name FROM t2
+direct INSERT INTO t1 VALUES ('9', 'nine')
+direct INSERT INTO t1 SELECT '9', 'nine' FROM system.iota
+disconnect
+#
+# The table API: AdsSetField and AdsSetString on a record just appended (INSERT
+# is the right it takes) and on one that was there (UPDATE), then written.
+connect i2\i2.add ic icpw
+keep t1
+append
+setfield 1 a1
+setfield 1 a2
+setfield 2 a3
+setstring 2 a4
+write
+gobottom
+gotop
+setfield 1 b1
+setstring 2 b2
+write
+disconnect
+connect i2\i2.add is ispw
+stmt
+direct INSERT INTO t1 SELECT id, name FROM t1
+direct INSERT INTO t1 SELECT '4', 'four' FROM system.iota
+keep t1
+append
+setfield 2 c1
+setstring 1 c2
+setfield 2 c3
+write
+gobottom
+gotop
+setfield 2 d1
+setstring 1 d2
+write
+append
+delrec
+gobottom
+delrec
+disconnect
+connect i2\i2.add us uspw
+stmt
+direct INSERT INTO t1 VALUES ('1', 'x')
+keep t1
+gotop
+setfield 2 e1
+setstring 1 e2
+write
+append
+setfield 1 e3
+disconnect
+connect i2\i2.add so sopw
+keep t1
+gotop
+setfield 2 f1
+append
+delrec
+disconnect
+connect i2\i2.add iu iupw
+keep t1
+append
+setfield 1 g1
+setstring 2 g2
+write
+gobottom
+setfield 2 g3
+write
+delrec
+disconnect
+connect i2\i2.add icu icupw
+keep t1
+append
+setfield 1 h1
+setstring 2 h2
+write
+gobottom
+setfield 2 h3
+setfield 1 h4
+write
+disconnect
+connect i2\i2.add adssys
+stmt
+query SELECT * FROM t1
+disconnect

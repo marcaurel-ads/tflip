@@ -1,0 +1,4 @@
+{
+ "38": {"fields": ["count"], "why": "the original's handles count the records they read last (KNOWN_ISSUES.md, Other handles see changes at once)"},
+ "44": {"fields": ["recno", "deleted"], "why": "on a record that is no longer there (an append rolled back) the original's handle is at EOF (KNOWN_ISSUES.md, A rolled-back append)"}
+}

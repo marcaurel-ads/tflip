@@ -1,0 +1,39 @@
+# Setters that fail, and whether AdsCancelUpdate then finds an update in progress.
+sql CREATE TABLE sa (c_char CHAR(5), c_cichar CICHAR(5), c_varchar VARCHAR(5), c_nchar NCHAR(3), c_nvarchar NVARCHAR(3), c_raw RAW(4), c_varbinary VARBINARY(4), c_numeric NUMERIC(5, 2), c_integer INTEGER)
+sql INSERT INTO sa VALUES ('a','b','c','d','e',NULL,NULL,1,1)
+sql CREATE TABLE a (nv NVARCHAR(10), id INTEGER)
+sql INSERT INTO a VALUES ('x', 1)
+sql INSERT INTO a VALUES (NULL, 2)
+sql CREATE INDEX nvi ON a (nv)
+sql CREATE TABLE b (nv NVARCHAR(10), id INTEGER)
+sql INSERT INTO b VALUES ('x', 1)
+sql INSERT INTO b VALUES (NULL, 2)
+sql CREATE TABLE c (nv NVARCHAR(10))
+sql INSERT INTO c VALUES ('x')
+sql CREATE TABLE d (nv NVARCHAR(10), id INTEGER)
+sql INSERT INTO d VALUES ('x', 1)
+sql INSERT INTO d VALUES (NULL, 2)
+# One field of every type outside the memo file, for the setters.
+sql CREATE TABLE s (c_char CHAR(10), c_cichar CICHAR(10), c_varchar VARCHAR(20), c_nchar NCHAR(5), c_nvarchar NVARCHAR(10), c_raw RAW(4), c_varbinary VARBINARY(8), c_guid GUID, c_logical LOGICAL, c_numeric NUMERIC(10, 2), c_numeric0 NUMERIC(5, 0), c_short SHORT, c_integer INTEGER, c_longint LONGINT, c_double DOUBLE, c_curdouble CURDOUBLE, c_money MONEY, c_date DATE, c_time TIME, c_timestamp TIMESTAMP, c_autoinc AUTOINC, c_rowversion ROWVERSION, c_modtime MODTIME)
+sql INSERT INTO s (c_char) VALUES ('x')
+# One field of every type of each kind, for the setters.
+tabletype ntx
+sql CREATE TABLE s_ntx (c CHAR(10), n NUMERIC(10, 2), n0 NUMERIC(5, 0), d DATE, l LOGICAL, b DOUBLE, i INTEGER, lg LONGINT, g GUID, v VARCHAR(8), nc NCHAR(3), nv NVARCHAR(4), wide CHAR(300), b2 DOUBLE(2))
+tabletype cdx
+sql CREATE TABLE s_cdx (c CHAR(10), n NUMERIC(10, 2), n0 NUMERIC(5, 0), d DATE, l LOGICAL, b DOUBLE, i INTEGER, lg LONGINT, g GUID, v VARCHAR(8), nc NCHAR(3), nv NVARCHAR(4), wide CHAR(300), b2 DOUBLE(2))
+tabletype vfp
+sql CREATE TABLE s_vfp (c CHAR(10) NULL, n NUMERIC(10, 2) NULL, n0 NUMERIC(5, 0) NULL, d DATE NULL, l LOGICAL NULL, b DOUBLE NULL, i INTEGER NULL, lg LONGINT NULL, g GUID NULL, v VARCHAR(8) NULL, nc NCHAR(3) NULL, nv NVARCHAR(4) NULL, wide CHAR(300) NULL, q VARBINARY(6) NULL, y MONEY NULL, ts TIMESTAMP NULL, ai AUTOINC, v2 VARCHAR(3), c2 CHAR(4) NOCPTRANS, b2 DOUBLE(2), i2 INTEGER)
+tabletype ntx
+sql INSERT INTO s_ntx (c) VALUES ('x')
+tabletype cdx
+sql INSERT INTO s_cdx (c) VALUES ('x')
+tabletype vfp
+sql INSERT INTO s_vfp (c) VALUES ('x')
+tabletype adt
+# One field of each memo type.
+sql CREATE TABLE ms (m MEMO, n NMEMO, b BLOB, i BINARY)
+sql INSERT INTO ms (m) VALUES ('x')
+sql CREATE TABLE e (id INTEGER)
+sql CREATE TABLE t (id INTEGER)
+sql INSERT INTO t VALUES (1)
+sql INSERT INTO t VALUES (2)

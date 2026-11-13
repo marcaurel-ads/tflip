@@ -1,0 +1,7 @@
+# UPPER and LOWER in SQL of the charset_german `ca` table (c is each byte
+# 32..255, w holds accented words), under the default static collation and
+# under ANSI_CHAR_SET=German (run_collation.sh), to see whether the SQL
+# engine folds case by the static ANSI collation as the expression
+# evaluator does.
+stmt
+query SELECT code, c, UPPER(c) AS uc, LOWER(c) AS lc, UPPER(w) AS uw, LOWER(w) AS lw FROM ca ORDER BY code

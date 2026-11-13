@@ -1,0 +1,56 @@
+# A record deleted and recalled in the same transaction, on the remote server:
+# its commit still puts the slot on the free list, though the record is
+# active (docs/ADS_BUGS.md).
+#
+#     WRITE_SERVER_DIR=<server data>/w WRITE_SERVER_PATH='\\127.0.0.1:6262\data\w' \
+#         tools/ace/write/run.sh <work> ace32.dll fixtures/write/tx_recall
+open a.adt shared
+begin
+goto 3
+delete
+write
+state
+recall
+write
+state
+snapshot a1
+commit
+snapshot a2
+state
+rows
+goto 3
+get id
+state
+append
+set id long 100
+set name string new
+write
+state
+snapshot a3
+goto 3
+get id
+get name
+rows
+close
+# The same, the record seen again in between.
+open b.adt shared
+begin
+goto 3
+delete
+write
+goto 3
+recall
+write
+state
+commit
+snapshot b1
+state
+rows
+append
+set id long 100
+set name string new
+write
+state
+snapshot b2
+rows
+close

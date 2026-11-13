@@ -1,0 +1,178 @@
+# Clipper and FoxPro tables with memo values, deleted records and orders,
+# one per call: pack, zap, reindex.
+tabletype ntx
+createtable np.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex np_c.ntx c 0 1024 c
+createindex np_u.ntx u 0 1024 UPPER(c) FOR c > 'b'
+close
+createtable nz.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex nz_c.ntx c 0 1024 c
+createindex nz_u.ntx u 0 1024 UPPER(c) FOR c > 'b'
+close
+createtable nr.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex nr_c.ntx c 0 1024 c
+createindex nr_u.ntx u 0 1024 UPPER(c) FOR c > 'b'
+close
+tabletype cdx
+createtable fp.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex - c 2 512 c
+createindex - u 2 512 UPPER(c) FOR c > 'b'
+close
+createtable fz.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex - c 2 512 c
+createindex - u 2 512 UPPER(c) FOR c > 'b'
+close
+createtable fr.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo of bravo
+write
+append
+set c string alpha
+set m string memo of alpha that is longer than the other one by a fair amount of text
+write
+append
+set c string charlie
+write
+append
+set c string delta
+set m string delta memo
+write
+append
+set c string echo
+set m string echo memo
+write
+goto 2
+delete
+write
+goto 4
+delete
+write
+createindex - c 2 512 c
+createindex - u 2 512 UPPER(c) FOR c > 'b'
+close

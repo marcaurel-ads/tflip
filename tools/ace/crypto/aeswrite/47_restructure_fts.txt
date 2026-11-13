@@ -1,0 +1,85 @@
+# Restructuring tables with full-text orders in dictionaries that encrypt: x (AES-128, records and indexes enciphered), y (AES-256, records enciphered, indexes in the clear) and s (RC4, records and indexes, table password tblpass) each get a table with a full-text order on a memo and on a character field, a keep-score one and an ordinary one, and ALTER TABLE adds a column, widens the indexed column, drops another, and a record is added after each.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "x\x.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "y\y.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\x\x.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(20), note CHAR(30))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one two', 'n1')
+sql INSERT INTO tr VALUES (2, 'green yellow the', 'two three', 'n2')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three red', 'n3')
+sql CREATE INDEX tr_body ON tr (body) CONTENT
+sql CREATE INDEX tr_name ON tr (name) CONTENT KEEPSCORE MIN WORD 2 MAX WORD 9
+sql CREATE INDEX tr_id ON tr (id)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql INSERT INTO tr VALUES (4, 'white red', 'four red', 'n4')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 'n5', 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(30)
+sql ALTER TABLE tr DROP COLUMN note
+sql INSERT INTO tr VALUES (6, 'six six', 'six red', 'e6')
+sql INSERT INTO tr VALUES (7, 'seven', 'seven red', 'e7')
+sql SELECT id FROM tr WHERE CONTAINS(name, 'red')
+disconnect
+connect Data Source=%D\y\y.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(20), note CHAR(30))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one two', 'n1')
+sql INSERT INTO tr VALUES (2, 'green yellow the', 'two three', 'n2')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three red', 'n3')
+sql CREATE INDEX tr_body ON tr (body) CONTENT
+sql CREATE INDEX tr_name ON tr (name) CONTENT KEEPSCORE MIN WORD 2 MAX WORD 9
+sql CREATE INDEX tr_id ON tr (id)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql INSERT INTO tr VALUES (4, 'white red', 'four red', 'n4')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 'n5', 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(30)
+sql ALTER TABLE tr DROP COLUMN note
+sql INSERT INTO tr VALUES (6, 'six six', 'six red', 'e6')
+sql INSERT INTO tr VALUES (7, 'seven', 'seven red', 'e7')
+sql SELECT id FROM tr WHERE CONTAINS(name, 'red')
+disconnect
+connect Data Source=%D\;ServerType=LOCAL;
+sql CREATE DATABASE "s\s.add" ENCRYPT TRUE
+disconnect
+connect Data Source=%D\s\s.add;ServerType=LOCAL;User ID=ADSSYS;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tblpass')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(20), note CHAR(30))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one two', 'n1')
+sql INSERT INTO tr VALUES (2, 'green yellow the', 'two three', 'n2')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three red', 'n3')
+sql CREATE INDEX tr_body ON tr (body) CONTENT
+sql CREATE INDEX tr_name ON tr (name) CONTENT KEEPSCORE MIN WORD 2 MAX WORD 9
+sql CREATE INDEX tr_id ON tr (id)
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('tr', 'TABLE_ENCRYPTION', 'TRUE', 'NO_VALIDATE', NULL)
+sql INSERT INTO tr VALUES (4, 'white red', 'four red', 'n4')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 'n5', 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(30)
+sql ALTER TABLE tr DROP COLUMN note
+sql INSERT INTO tr VALUES (6, 'six six', 'six red', 'e6')
+sql INSERT INTO tr VALUES (7, 'seven', 'seven red', 'e7')
+sql SELECT id FROM tr WHERE CONTAINS(name, 'red')
+disconnect
+connect Data Source=%D\;ServerType=LOCAL;
+sql CREATE DATABASE "t\t.add"
+disconnect
+connect Data Source=%D\t\t.add;ServerType=LOCAL;User ID=ADSSYS;
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(20), note CHAR(30))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one two', 'n1')
+sql INSERT INTO tr VALUES (2, 'green yellow the', 'two three', 'n2')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three red', 'n3')
+sql CREATE INDEX tr_body ON tr (body) CONTENT
+sql CREATE INDEX tr_name ON tr (name) CONTENT KEEPSCORE MIN WORD 2 MAX WORD 9
+sql CREATE INDEX tr_id ON tr (id)
+sql INSERT INTO tr VALUES (4, 'white red', 'four red', 'n4')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 'n5', 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(30)
+sql ALTER TABLE tr DROP COLUMN note
+sql INSERT INTO tr VALUES (6, 'six six', 'six red', 'e6')
+sql INSERT INTO tr VALUES (7, 'seven', 'seven red', 'e7')
+sql SELECT id FROM tr WHERE CONTAINS(name, 'red')
+disconnect

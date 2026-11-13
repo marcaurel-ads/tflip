@@ -1,0 +1,106 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE src (id INTEGER, name CHAR(10), v VARCHAR(20), n NUMERIC(8,2), memo MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO src VALUES (1, 'one', 'short', 1.5, 'a memo')", "rc": 0},
+{"cmd": "directnull INSERT INTO src VALUES (2, 'two', 'x', 2.5, 'b')", "rc": 0},
+{"cmd": "query SELECT * INTO #a FROM src", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "info", "stmt_type": 4, "cursor_type": 105018, "owner_rc": 5119, "owner_is_stmt": false, "sql_rc": 0, "sql": "SELECT * INTO #a FROM src", "filter_rc": 5023, "filter": "", "aof_rc": 5023, "aof": ""},
+{"cmd": "closecursor", "rc": 5023, "error": "Error 5094:  The table is closed but is held in cache for quick open.  The table handle is not open."},
+{"cmd": "query SELECT * FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "query SELECT * INTO #a FROM src", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5189;  [SAP][Advantage SQL Engine][ASA] Error 5189:  A table with the same name already exists.  Table Name: a", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * INTO #A FROM src", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5189;  [SAP][Advantage SQL Engine][ASA] Error 5189:  A table with the same name already exists.  Table Name: A", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id AS i INTO #b FROM src WHERE id = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query SELECT * FROM #b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query SELECT * INTO #c FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "query SELECT * FROM #c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "query SELECT x.id, y.i INTO #d FROM src x JOIN #b y ON x.id = y.i", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["i", 11, 4, 0]], "rows": [
+  [1, ["2", "2"]]]}},
+{"cmd": "query SELECT * FROM #d", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["i", 11, 4, 0]], "rows": [
+  [1, ["2", "2"]]]}},
+{"cmd": "query SELECT id INTO ##g FROM src", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT id INTO #e FROM nosuch", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\nosuch.adt Table name: nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #e", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  e Table name: #e", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id INTO #f FROM src WHERE 1 = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM #f", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query INSERT INTO #a (id) VALUES (9)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["9"]]]}},
+{"cmd": "query DROP TABLE #a", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * INTO #a FROM src", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "query SELECT * INTO #t1 FROM src; SELECT * FROM #t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "query SELECT * FROM #t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE sn (id INTEGER, name CHAR(10), memo MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sn VALUES (1, 'one', 'm')", "rc": 0},
+{"cmd": "query SELECT id, name INTO #n1 FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "info", "stmt_type": 4, "cursor_type": 105018, "owner_rc": 5119, "owner_is_stmt": false, "sql_rc": 0, "sql": "SELECT id, name INTO #n1 FROM sn", "filter_rc": 5023, "filter": "", "aof_rc": 5023, "aof": ""},
+{"cmd": "query SELECT * FROM #n1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query CREATE TABLE sc (id INTEGER, name CHAR(10), memo MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sc VALUES (1, 'one', 'm')", "rc": 0},
+{"cmd": "query SELECT id, name INTO #n2 FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "query SELECT * FROM #n2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "query SELECT id, name, memo INTO #n2m FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0], ["MEMO", 5, 10, 0]], "rows": [
+  [1, ["1", "one       ", "m"]]]}},
+{"cmd": "query SELECT * FROM #n2m", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0], ["MEMO", 5, 10, 0]], "rows": [
+  [1, ["1", "one       ", "m"]]]}},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE sv (id INTEGER, name CHAR(10), memo MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sv VALUES (1, 'one', 'm')", "rc": 0},
+{"cmd": "query SELECT id, name INTO #n4 FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "query SELECT * FROM #n4", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #n1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  n1 Table name: #n1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #n2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  n2 Table name: #n2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #n4", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  n4 Table name: #n4", "has_cursor": false, "affected": 4294967295},
+{"cmd": "otype 3 #a", "rc": 0, "cursor": {"file": "tim_e.tmp", "options": 65776, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["v", 23, 20, 0], ["n", 2, 8, 2], ["memo", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "short", "    1.50", "a memo"]],
+  [2, ["2", "two       ", "x", "    2.50", "b"]]]}},
+{"cmd": "otype 3 #b", "rc": 0, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "otype 1 #n1", "rc": 0, "cursor": {"file": "tim_10.tmp", "options": 65776, "table_type": 1, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "otype 2 #n2", "rc": 0, "cursor": {"file": "tim_11.tmp", "options": 65776, "table_type": 2, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["ID", 11, 4, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "otype 4 #n4", "rc": 0, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 4, "handle_type": 2, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]]]}},
+{"cmd": "otype 3 #n1", "rc": 7016, "error": "Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  n1"},
+{"cmd": "otype 1 #a", "rc": 7016, "error": "Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  a"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT id AS averyverylongname INTO #ln1 FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field name invalid.  The problem field definition is: \"AVERYVERYLONGNAME,I;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id AS aaaaaaaaaaa, id AS aaaaaaaaaab INTO #ln1b FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field name invalid.  The problem field definition is: \"AAAAAAAAAAA,I;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #ln1b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  ln1b Table name: #ln1b", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query SELECT id AS averyverylongname INTO #ln2 FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field name invalid.  The problem field definition is: \"AVERYVERYLONGNAME,I;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query SELECT id AS averyverylongname INTO #ln4 FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field name invalid.  The problem field definition is: \"averyverylongname,I,NULL;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #ln4", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  ln4 Table name: #ln4", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id AS aaaaaaaaaaa, id AS aaaaaaaaaab INTO #ln4b FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field name invalid.  The problem field definition is: \"aaaaaaaaaaa,I,NULL;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 3", "rc": 0}
+]

@@ -1,0 +1,6 @@
+{
+ "001_cmd": "ddcreate 0 %D\\p\\p.add",
+ "001_rc": 0,
+ "002_cmd": "disconnect",
+ "002_rc": 0
+}

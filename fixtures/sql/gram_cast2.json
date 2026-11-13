@@ -1,0 +1,281 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE lg (id INTEGER, n INTEGER, b LOGICAL, d DOUBLE, s CHAR(5), v VARCHAR(5), dt DATE, m MEMO, nm NUMERIC(5,2), bi BIGINT)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO lg VALUES (1, 5, TRUE, 1.5, 'abc', 'abc', '2020-01-01', 'xyz', 1.5, 7)", "rc": 0},
+{"cmd": "directnull INSERT INTO lg VALUES (2, 0, FALSE, 0, '', '', NULL, NULL, 0, 0)", "rc": 0},
+{"cmd": "directnull INSERT INTO lg VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0},
+{"cmd": "directnull INSERT INTO lg VALUES (4, -1, TRUE, 0.5, 'F', 'F', '1900-01-01', '', 0.5, -1)", "rc": 0},
+{"cmd": "directnull INSERT INTO lg VALUES (5, 1, TRUE, 0, '0', '0', '2020-01-01', '', 0, 1)", "rc": 0},
+{"cmd": "expr '' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 'F' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr '0' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 'false' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr x'00' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr x'' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 0.0 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 0.5 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1e0 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 0e0 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND ''", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND 0.0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 OR ''", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr NOT ''", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr NOT x'00'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr NOT 0.0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND DATE '2020-01-01'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND CURDATE()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 AND CAST(0 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND CAST(0 AS SQL_DOUBLE)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 AND CAST(0 AS SQL_MONEY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 AND NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 19 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr TRUE AND NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 22 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND CAST(NULL AS SQL_INTEGER)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr NOT CAST(NULL AS SQL_INTEGER)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr CAST(NULL AS SQL_INTEGER) AND TRUE", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr CAST(NULL AS SQL_INTEGER) OR TRUE", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr CAST(NULL AS SQL_INTEGER) AND FALSE", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 + 1 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 = 1 OR 5", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr ABS(1) AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr (SELECT 1 FROM system.iota) AND 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2119;  [SAP][Advantage SQL Engine]Internal error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND (SELECT 0 FROM system.iota)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2119;  [SAP][Advantage SQL Engine]Internal error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND ?", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2154;  [SAP][Advantage SQL Engine]The data type of a parameter cannot be determined:  -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id, n AND b, n OR b, NOT n FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T", "F"]],
+  [2, ["2", "F", "F", "T"]],
+  [3, ["3", null, null, null]],
+  [4, ["4", "T", "T", "F"]],
+  [5, ["5", "T", "T", "F"]]]}},
+{"cmd": "query SELECT id, d AND b, d OR b, NOT d FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T", "F"]],
+  [2, ["2", "F", "F", "T"]],
+  [3, ["3", null, null, null]],
+  [4, ["4", "T", "T", "F"]],
+  [5, ["5", "F", "T", "T"]]]}},
+{"cmd": "query SELECT id, s AND b, s OR b, NOT s FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T", "F"]],
+  [2, ["2", "F", "T", "F"]],
+  [3, ["3", null, null, null]],
+  [4, ["4", "T", "T", "F"]],
+  [5, ["5", "T", "T", "F"]]]}},
+{"cmd": "query SELECT id, v AND b, v OR b, NOT v FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T", "F"]],
+  [2, ["2", "F", "F", "T"]],
+  [3, ["3", null, null, null]],
+  [4, ["4", "T", "T", "F"]],
+  [5, ["5", "T", "T", "F"]]]}},
+{"cmd": "query SELECT id, dt AND b, NOT dt FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "F"]],
+  [2, ["2", "F", null]],
+  [3, ["3", null, null]],
+  [4, ["4", "T", "F"]],
+  [5, ["5", "T", "F"]]]}},
+{"cmd": "query SELECT id, m AND b, NOT m FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "F"]],
+  [2, ["2", "F", null]],
+  [3, ["3", null, null]],
+  [4, ["4", null, null]],
+  [5, ["5", null, null]]]}},
+{"cmd": "query SELECT id, nm AND b, NOT nm FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "F"]],
+  [2, ["2", "F", "F"]],
+  [3, ["3", null, null]],
+  [4, ["4", "T", "F"]],
+  [5, ["5", "T", "F"]]]}},
+{"cmd": "query SELECT id, bi AND b, NOT bi FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "F"]],
+  [2, ["2", "F", "T"]],
+  [3, ["3", null, null]],
+  [4, ["4", "T", "F"]],
+  [5, ["5", "T", "F"]]]}},
+{"cmd": "query SELECT id, b AND TRUE, b OR FALSE, NOT b FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T", "F"]],
+  [2, ["2", "F", "F", "T"]],
+  [3, ["3", null, null, null]],
+  [4, ["4", "T", "T", "F"]],
+  [5, ["5", "T", "T", "F"]]]}},
+{"cmd": "query SELECT id, n AND d FROM lg ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0]], "rows": [
+  [1, ["1", "T"]],
+  [2, ["2", "F"]],
+  [3, ["3", null]],
+  [4, ["4", "T"]],
+  [5, ["5", "F"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE n AND n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE n + 1 AND b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE ABS(n) AND b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE (n) AND b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 26", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE 1 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE 'a'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE ''", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE 0 OR b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE 1 + 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE ABS(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE NOT 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT id FROM lg WHERE NOT 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE b AND NOT 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE (SELECT 1 FROM system.iota)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE id = 1 OR 0.5", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 35", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE id = 1 OR 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE id = 1 OR 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE x'00'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 28 There was a problem parsing the WHERE clause.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE CAST(NULL AS SQL_INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE b AND CAST(NULL AS SQL_INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 31", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE n AND 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE b OR n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE id = n AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT id FROM lg HAVING 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2196;  [SAP][Advantage SQL Engine]Column not found in GROUP BY clause: id in SELECT or HAVING clause.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg GROUP BY id HAVING 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg GROUP BY id HAVING 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT id FROM lg GROUP BY id HAVING 1 AND id > 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["3"]],
+  [2, ["4"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT id FROM lg a JOIN lg c ON 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2137;  [SAP][Advantage SQL Engine]Column found in multiple tables: id -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT a.id FROM lg a JOIN lg c ON 1 AND a.id = c.id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_40.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT a.id FROM lg a JOIN lg c ON a.id = c.id AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT a.id FROM lg a JOIN lg c ON a.id", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 38", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id FROM lg WHERE id IN (SELECT id FROM lg WHERE 1)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id, CASE WHEN id = 1 AND 1 THEN 'a' ELSE 'b' END FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_45.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 23, 1, 0]], "rows": [
+  [1, ["1", "a"]],
+  [2, ["2", "b"]],
+  [3, ["3", "b"]],
+  [4, ["4", "b"]],
+  [5, ["5", "b"]]]}},
+{"cmd": "query SELECT id, IIF(1 AND 1, 'a', 'b') FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_46.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 23, 1, 0]], "rows": [
+  [1, ["1", "a"]],
+  [2, ["2", "a"]],
+  [3, ["3", "a"]],
+  [4, ["4", "a"]],
+  [5, ["5", "a"]]]}},
+{"cmd": "query SELECT id, IIF(n AND b, 'a', 'b') FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id, IIF(n, 'a', 'b') FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id, IIF(0, 'a', 'b') FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_47.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 23, 1, 0]], "rows": [
+  [1, ["1", "b"]],
+  [2, ["2", "b"]],
+  [3, ["3", "b"]],
+  [4, ["4", "b"]],
+  [5, ["5", "b"]]]}},
+{"cmd": "query SELECT id, IIF(1, 'a', 'b') FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_48.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 23, 1, 0]], "rows": [
+  [1, ["1", "a"]],
+  [2, ["2", "a"]],
+  [3, ["3", "a"]],
+  [4, ["4", "a"]],
+  [5, ["5", "a"]]]}},
+{"cmd": "query SELECT id, IIF(2, 'a', 'b') FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id, IIF('a', 'a', 'b') FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT id, IIF(b, 'a', 'b') FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_49.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["EXPR", 23, 1, 0]], "rows": [
+  [1, ["1", "a"]],
+  [2, ["2", "b"]],
+  [3, ["3", "b"]],
+  [4, ["4", "a"]],
+  [5, ["5", "a"]]]}},
+{"cmd": "query SELECT id, IIF(id, 'a', 'b') FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF 2 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF 'a' THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. ** Script error information:  -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. ** Script error information:  -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF 1 AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["10"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF NOT 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE 0 DO i = 10; ENDWHILE; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE 1 AND 0 DO i = 10; ENDWHILE; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE 1 AND 0 DO i = 10; END WHILE; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE 1 AND i < 4 DO i = i + 1; END WHILE; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE i < 4 AND 1 DO i = i + 1; END WHILE; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_50.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i = 2 AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_51.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["10"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. ** Script error information:  -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER, b LOGICAL; i = 2; b = 1 AND 1; SELECT b AS b FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "query DECLARE i INTEGER, b LOGICAL; i = 2; b = i; SELECT b AS b FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Boolean value is not assignment compatible with non-Boolean value. Target Data Type: <Integer> Source Data Type: <Integer> Target Name: b ** Script error information:  -- Location of error in the SQL statement is: 42", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER, b LOGICAL; i = 0; b = i AND 1; SELECT b AS b FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "directnull UPDATE lg SET b = 1 AND 1 WHERE id = 2", "rc": 0},
+{"cmd": "query SELECT b FROM lg WHERE id = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 1, 1, 0]], "rows": [
+  [2, ["T"]]]}},
+{"cmd": "directnull UPDATE lg SET b = n AND b WHERE id = 2", "rc": 0},
+{"cmd": "query SELECT b FROM lg WHERE id = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 1, 1, 0]], "rows": [
+  [2, ["F"]]]}},
+{"cmd": "directnull INSERT INTO lg (id, b) VALUES (9, 1 AND 0)", "rc": 0},
+{"cmd": "query SELECT b FROM lg WHERE id = 9", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 1, 1, 0]], "rows": [
+  [6, ["F"]]]}}
+]

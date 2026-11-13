@@ -1,0 +1,40 @@
+ddconnect dd.add ADSSYS -
+tabletype database
+restructure :a 0 extra,Char,4||
+sql ALTER TABLE b ADD COLUMN extra CHAR(4)
+sql ALTER TABLE c ALTER COLUMN body text CHAR(40)
+sql ALTER TABLE d DROP COLUMN body
+sql ALTER TABLE e ALTER COLUMN m m MEMO
+restructure :f 0 extra,Char,4||
+restructure :g 0 ||body,body,Integer,4
+sql ALTER TABLE p DROP COLUMN title
+restructure :p 0 ||m,m2,Memo,10
+open :a
+top
+record
+close
+open :b
+top
+record
+close
+open :c
+top
+record
+close
+open :d
+top
+record
+close
+open :e
+top
+record
+close
+open :f
+top
+record
+close
+open :p
+top
+record
+close
+open :g

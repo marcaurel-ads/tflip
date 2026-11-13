@@ -1,0 +1,45 @@
+# AdsDDAddTable of a table that is in a dictionary already: of the same dictionary (under its name, under another, by a full path), of another dictionary, ADT and DBF, clear and encrypted (RC4 with a table password).
+ddcreate 0 %D\z1\b.add
+create tb
+createt 2 bdbf
+disconnect
+ddcreate 0 %D\z1\a.add
+create ta
+createt 2 adbf
+addtable ta ta.adt
+addtable ta2 ta.adt
+addtable ta2 %D\z1\ta.adt
+addtable tb tb.adt
+addtable tb2 tb.adt
+addtablet 2 adbf adbf.dbf
+addtablet 2 adbf2 adbf.dbf
+addtablet 2 bdbf bdbf.dbf
+addtablet 2 bdbf2 bdbf.dbf
+tget ta2 214
+tget tb 214
+tget adbf2 214
+disconnect
+ddcreate 0 %D\z1\e.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+create te
+addtable te te.adt
+addtable te2 te.adt
+addtable ta ta.adt
+addtable ta4 ta.adt
+addtable tb3 tb.adt
+tget te2 214
+tget ta4 214
+dbset 106 0
+create tf
+addtable tf tf.adt
+addtable tf2 tf.adt
+disconnect
+connect Data Source=%D\z1\a.add;ServerType=LOCAL;User ID=ADSSYS;
+addtable te4 te.adt
+addtable te5 tf.adt
+disconnect
+connect Data Source=%D\z1\a.add;ServerType=LOCAL;User ID=ADSSYS;
+addtable te6 te.adt
+addtable ta5 ta.adt
+disconnect

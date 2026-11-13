@@ -1,0 +1,61 @@
+# The cache, memory and kill-user management procedures and the Unicode
+# converters, on the local server (the cache rows are the original's own state,
+# not replayed).
+#
+#     run.sh <work> <ace32.dll> spmg.txt > ../../../fixtures/sql/spmg.json
+stmt
+query CREATE TABLE mt (id INTEGER, name CHAR(10))
+query INSERT INTO mt VALUES (1, 'one')
+query EXECUTE PROCEDURE sp_mgGetCacheInfo()
+query EXECUTE PROCEDURE sp_mgGetCacheInfo(1)
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('mt')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\zzz.adt')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo(NULL)
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo()
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('a', 'b')
+query SELECT * FROM mt
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetConfigMemory90()
+query EXECUTE PROCEDURE sp_mgGetConfigMemory90(1)
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 0, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 1, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 2, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 3, NULL)
+query EXECUTE PROCEDURE sp_mgKillUser90('', 0, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90(NULL, 0, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 0)
+query EXECUTE PROCEDURE sp_mgKillUser90()
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 'a', 'b')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 0, 'x', 1)
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgKillUser90('nobody', 0, 'x')) k
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_mgGetConfigMemory90()) k
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_mgGetCacheInfo()) k
+cap 300
+query EXECUTE PROCEDURE sp_GetUnicodeConverters()
+query EXECUTE PROCEDURE sp_GetUnicodeConverters(1)
+query EXECUTE PROCEDURE sp_GetUnicodeConverters('x')
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_GetUnicodeConverters()) k
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetUnicodeConverters()) k WHERE Name LIKE 'ibm-437%'
+query SELECT MAX(LENGTH(Name)) AS n, MAX(LENGTH(Codepage)) AS p FROM (EXECUTE PROCEDURE sp_GetUnicodeConverters()) k
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('mt.adt')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\MT.ADT')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\mt')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\mt.adi')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo('<data>\mt.adm')
+query EXECUTE PROCEDURE sp_mgGetTableCacheInfo(5)
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 4, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', -1, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', NULL, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('', 3, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90(NULL, 3, 'x')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 0, NULL)
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 3)
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 3, 'x', 'y')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 1, '')
+query EXECUTE PROCEDURE sp_mgKillUser90('nobody', 2, 'not a number')
+query SELECT MIN(ID) AS a, MAX(ID) AS b FROM (EXECUTE PROCEDURE sp_GetUnicodeConverters()) k

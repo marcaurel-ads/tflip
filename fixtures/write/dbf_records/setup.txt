@@ -1,0 +1,17 @@
+# Tables of each DBF kind with every field type outside the memo file.
+tabletype ntx
+sql CREATE TABLE r_ntx (c CHAR(10), n NUMERIC(10, 2), n0 NUMERIC(5, 0), d DATE, l LOGICAL, b DOUBLE, i INTEGER, lg LONGINT, g GUID, v VARCHAR(8), nc NCHAR(3), nv NVARCHAR(4), wide CHAR(300), b2 DOUBLE(2), m MEMO)
+sql CREATE TABLE p_ntx (id INTEGER, c CHAR(6))
+tabletype cdx
+sql CREATE TABLE r_cdx (c CHAR(10), n NUMERIC(10, 2), n0 NUMERIC(5, 0), d DATE, l LOGICAL, b DOUBLE, i INTEGER, lg LONGINT, g GUID, v VARCHAR(8), nc NCHAR(3), nv NVARCHAR(4), wide CHAR(300), b2 DOUBLE(2), m MEMO)
+sql CREATE TABLE p_cdx (id INTEGER, c CHAR(6))
+tabletype vfp
+sql CREATE TABLE r_vfp (c CHAR(10) NULL, n NUMERIC(10, 2) NULL, n0 NUMERIC(5, 0) NULL, d DATE NULL, l LOGICAL NULL, b DOUBLE NULL, i INTEGER NULL, lg LONGINT NULL, g GUID NULL, v VARCHAR(8) NULL, nc NCHAR(3) NULL, nv NVARCHAR(4) NULL, wide CHAR(300) NULL, q VARBINARY(6) NULL, y MONEY NULL, ts TIMESTAMP NULL, ai AUTOINC, v2 VARCHAR(3), c2 CHAR(4) NOCPTRANS, b2 DOUBLE(2), i2 INTEGER, m MEMO NULL)
+sql CREATE TABLE p_vfp (id INTEGER, c CHAR(6))
+# An OEM table.
+tabletype cdx
+chartype oem
+sql CREATE TABLE o_cdx (c CHAR(8), m MEMO)
+tabletype ntx
+sql CREATE TABLE o_ntx (c CHAR(8), m MEMO)
+chartype ansi

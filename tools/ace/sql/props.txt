@@ -1,0 +1,16 @@
+# AdsSetProperty ids 27 and 87 (the AES availability getter) on each kind of handle.
+# Id 87 on an invalid handle (0x7777) makes the original fault, so it is not probed.
+stmt
+direct SELECT * FROM all_types
+getprop 0 87
+getprop conn 87
+getprop stmt 87
+getprop cursor 87
+setprop 0 87 0
+setprop 0 27 1
+setprop 0 27 0
+setprop conn 27 1
+setprop stmt 27 1
+setprop cursor 27 1
+setprop 0 28 1
+setprop 0 12345 1

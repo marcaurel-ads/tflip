@@ -1,0 +1,11 @@
+# Converted to the other types.
+open t.adt
+convert 2 cdx tc.dbf
+convert 2 ntx tn.dbf
+convert 2 vfp tv.dbf
+close
+tabletype cdx
+open f.dbf
+convert 2 adt fa.adt
+convert 2 vfp fv.dbf
+close

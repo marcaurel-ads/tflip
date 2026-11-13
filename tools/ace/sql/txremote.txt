@@ -1,0 +1,45 @@
+# What only a remote server shows of a connection and of online operations, on
+# the remote server (SQL_SERVER_TYPE=2, see triggers.txt): the system
+# variables of the client's host and address, the communication type of
+# sp_GetSecurityInfo, CREATE ONLINE INDEX and ALTER ONLINE TABLE (free tables
+# and a dictionary's).
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txremote.txt <share>
+#             > ../../../fixtures/sql/txremote.json
+stmt
+query SELECT ::conn.ClientHostName, ::conn.NetworkAddress, ::conn.IsRoot FROM system.iota
+query DECLARE s STRING; s = ::conn.NetworkAddress; SELECT s AS v FROM system.iota
+query EXECUTE PROCEDURE sp_GetSecurityInfo()
+query CREATE TABLE t (n INTEGER, s CHAR(8), x INTEGER)
+query INSERT INTO t VALUES (1, 'one', 10)
+query INSERT INTO t VALUES (2, 'two', 20)
+query CREATE ONLINE INDEX i1 ON t (n)
+query CREATE UNIQUE ONLINE INDEX i2 ON t (s)
+query CREATE ONLINE INDEX i3 ON t (n) WHERE n > 1
+query CREATE ONLINE INDEX ON t (x)
+query CREATE ONLINE UNIQUE INDEX i4 ON t (x)
+query SELECT name FROM system.indexes WHERE parent = 't'
+query ALTER ONLINE TABLE t ADD COLUMN y INTEGER
+query ALTER TABLE ONLINE t ADD COLUMN z INTEGER
+query ALTER TABLE t ADD ONLINE COLUMN w INTEGER
+query ALTER TABLE t ONLINE
+query SELECT * FROM t
+query DROP INDEX t.i1
+query DROP ONLINE INDEX t.i2
+query SELECT name FROM system.indexes WHERE parent = 't'
+# In a dictionary.
+direct CREATE DATABASE "ox\ox.add"
+connect ox\ox.add ADSSYS
+stmt
+query CREATE TABLE d (n INTEGER, s CHAR(8))
+query INSERT INTO d VALUES (1, 'one')
+query CREATE ONLINE INDEX j1 ON d (n)
+query CREATE ONLINE UNIQUE INDEX j2 ON d (s)
+query ALTER ONLINE TABLE d ADD COLUMN y INTEGER
+query SELECT name FROM system.indexes WHERE parent = 'd'
+query SELECT * FROM d
+# Online and a transaction.
+direct BEGIN TRANSACTION
+query CREATE ONLINE INDEX j3 ON d (y)
+query ALTER ONLINE TABLE d ADD COLUMN q INTEGER
+direct ROLLBACK

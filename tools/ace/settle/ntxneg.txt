@@ -1,0 +1,79 @@
+# Settling test: "Negative numbers are not found in an NTX order" (ADS_BUGS.md).
+# Build an NTX numeric order over negative+positive values; walk it and seek
+# negative keys. A CDX order over identical data is the control. Driven by
+# tools/ace/write (write.exe <ace32.dll> <empty data folder> settle/ntxneg.txt).
+# Result (real Windows 10, native ace32.dll): the NTX order sorts -30,-5,0,7,42
+# numerically and finds every negative key, byte-for-byte like the CDX order.
+tabletype ntx
+createtable neg.dbf 0 n,Numeric,10,2;id,Integer
+append
+set n double -30
+set id long 1
+write
+append
+set n double -5
+set id long 2
+write
+append
+set n double 0
+set id long 3
+write
+append
+set n double 7
+set id long 4
+write
+append
+set n double 42
+set id long 5
+write
+createindex neg_n.ntx nn 0 1024 n
+order neg_n
+rows
+seek 2 -5
+pos
+seek 2 -30
+pos
+seek 2 7
+pos
+seek 2 42
+pos
+seek 1 -10
+pos
+close
+# ---- CDX control: identical data, CDX numeric order (option 2 = compound) ----
+tabletype cdx
+createtable negc.dbf 0 n,Numeric,10,2;id,Integer
+append
+set n double -30
+set id long 1
+write
+append
+set n double -5
+set id long 2
+write
+append
+set n double 0
+set id long 3
+write
+append
+set n double 7
+set id long 4
+write
+append
+set n double 42
+set id long 5
+write
+createindex - cn 2 512 n
+order cn
+rows
+seek 2 -5
+pos
+seek 2 -30
+pos
+seek 2 7
+pos
+seek 2 42
+pos
+seek 1 -10
+pos
+close

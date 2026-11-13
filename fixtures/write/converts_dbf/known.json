@@ -1,0 +1,3 @@
+{
+ "29": {"fields": ["error"], "why": "AdsConvertTable of a Clipper table whose General value cannot be read returns 7019, but the original's last error is then 5169 (the copy scaled back to the client, the source opened exclusively); tflip's is 7019 (KNOWN_ISSUES.md, Details in error texts)"}
+}

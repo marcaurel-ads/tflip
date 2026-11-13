@@ -1,0 +1,26 @@
+{
+ "table_type": "ntx",
+ "record_count": 3,
+ "record_length": 16,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "NAME", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "QTY", "type": 2, "type_name": "Numeric", "length": 5, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "name", "file": "name.ntx", "expression": "NAME", "condition": "", "collation": "", "key_length": 10, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 2, "key": "6170706c652020202020"},
+   {"recno": 3, "key": "66696720202020202020"},
+   {"recno": 1, "key": "70656172202020202020"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "20706561722020202020202020202033", "values": {"NAME": {"text": "pear      "}, "QTY": {"text": "    3"}}},
+  {"recno": 2, "deleted": false, "raw": "206170706c6520202020202020203130", "values": {"NAME": {"text": "apple     "}, "QTY": {"text": "   10"}}},
+  {"recno": 3, "deleted": false, "raw": "20666967202020202020202020202037", "values": {"NAME": {"text": "fig       "}, "QTY": {"text": "    7"}}}
+ ]
+}

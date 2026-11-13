@@ -1,0 +1,17 @@
+# A VFP table with fields that take NULL, and NULL values.
+tabletype vfp
+createtable v.dbf 0 c,Character,6,NULL;i,Integer,NULL;k,Integer
+append
+set c string bb
+set i long 2
+set k long 1
+write
+append
+set i long 1
+set k long 2
+write
+append
+set c string aa
+set k long 3
+write
+close

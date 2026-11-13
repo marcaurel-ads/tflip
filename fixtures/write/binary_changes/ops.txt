@@ -1,0 +1,390 @@
+open del.adt exclusive
+goto 2
+delete
+order del
+rows
+reindex
+rows
+close
+open del_recall.adt exclusive
+goto 2
+delete
+recall
+order del
+rows
+reindex
+rows
+close
+open del_twice.adt exclusive
+goto 2
+delete
+goto 2
+delete
+order del
+rows
+reindex
+rows
+close
+open del_two.adt exclusive
+goto 2
+delete
+goto 3
+delete
+order del
+rows
+reindex
+rows
+close
+open del_two_recall.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 2
+recall
+order del
+rows
+reindex
+rows
+close
+open del_move_recall.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+order del
+rows
+reindex
+rows
+close
+open del_regoto_recall.adt exclusive
+goto 2
+delete
+goto 2
+recall
+goto 2
+delete
+order del
+rows
+reindex
+rows
+close
+open del_regoto_recall_two.adt exclusive
+goto 2
+delete
+goto 2
+recall
+goto 3
+delete
+goto 3
+recall
+order del
+rows
+reindex
+rows
+close
+open del_write.adt exclusive
+goto 2
+delete
+goto 2
+write
+order del
+rows
+reindex
+rows
+close
+open recall_noop.adt exclusive
+goto 2
+recall
+goto 2
+recall
+order del
+rows
+reindex
+rows
+close
+open landed_recall_twice.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+recall
+order del
+rows
+reindex
+rows
+close
+open landed_recall_write.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+write
+order del
+rows
+reindex
+rows
+close
+open del_all.adt exclusive
+goto 1
+delete
+goto 2
+delete
+goto 3
+delete
+goto 4
+delete
+order del
+rows
+reindex
+rows
+close
+open del_recall_all.adt exclusive
+goto 1
+delete
+goto 2
+delete
+goto 3
+delete
+goto 4
+delete
+goto 1
+recall
+goto 2
+recall
+goto 3
+recall
+goto 4
+recall
+order del
+rows
+reindex
+rows
+close
+open recallall_none.adt exclusive
+recallall
+order del
+rows
+reindex
+rows
+close
+open del_recallall.adt exclusive
+goto 2
+delete
+recallall
+order del
+rows
+reindex
+rows
+close
+open del_two_recallall.adt exclusive
+goto 2
+delete
+goto 3
+delete
+recallall
+order del
+rows
+reindex
+rows
+close
+open upd_nokey.adt exclusive
+goto 2
+set name string zz
+write
+order del
+rows
+reindex
+rows
+close
+open upd_key.adt exclusive
+goto 2
+set id long 99
+write
+order del
+rows
+reindex
+rows
+close
+open upd_key_twice.adt exclusive
+goto 2
+set id long 99
+write
+set id long 98
+write
+order del
+rows
+reindex
+rows
+close
+open append.adt exclusive
+append
+set id long 9
+write
+order del
+rows
+reindex
+rows
+close
+open append_two.adt exclusive
+append
+set id long 9
+write
+append
+set id long 8
+write
+order del
+rows
+reindex
+rows
+close
+open append_cancel.adt exclusive
+append
+set id long 9
+cancel
+order del
+rows
+reindex
+rows
+close
+open del_write_recall.adt exclusive
+goto 2
+delete
+write
+recall
+order del
+rows
+reindex
+rows
+close
+open del_write_recall_write.adt exclusive
+goto 2
+delete
+write
+recall
+write
+order del
+rows
+reindex
+rows
+close
+open del_write_recall_move.adt exclusive
+goto 2
+delete
+write
+recall
+goto 3
+order del
+rows
+reindex
+rows
+close
+open del_write_regoto_recall.adt exclusive
+goto 2
+delete
+write
+goto 2
+recall
+write
+order del
+rows
+reindex
+rows
+close
+open del_write_recall_del.adt exclusive
+goto 2
+delete
+write
+recall
+write
+delete
+write
+order del
+rows
+reindex
+rows
+close
+open del_write_recall_next_del.adt exclusive
+goto 2
+delete
+write
+recall
+goto 3
+delete
+write
+order del
+rows
+reindex
+rows
+close
+open del_upd_write.adt exclusive
+goto 2
+delete
+set name string x
+write
+order del
+rows
+reindex
+rows
+close
+open del_upd_key_write.adt exclusive
+goto 2
+delete
+set id long 77
+write
+order del
+rows
+reindex
+rows
+close
+open upd_key_del_write.adt exclusive
+goto 2
+set id long 77
+delete
+write
+order del
+rows
+reindex
+rows
+close
+open del_upd_recall.adt exclusive
+goto 2
+delete
+goto 3
+set name string x
+write
+goto 2
+recall
+order del
+rows
+reindex
+rows
+close
+open many.adt exclusive
+goto 1
+delete
+goto 1
+recall
+goto 2
+set id long 50
+write
+set name string q
+write
+append
+set id long 7
+set name string n
+write
+goto 4
+delete
+goto 4
+recall
+goto 4
+delete
+order del
+rows
+reindex
+rows
+close

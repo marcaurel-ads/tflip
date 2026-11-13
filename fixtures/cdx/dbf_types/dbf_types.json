@@ -1,0 +1,25 @@
+{
+ "table_type": "cdx",
+ "record_count": 4,
+ "record_length": 40,
+ "memo_block_size": 64,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "C_CHAR", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "C_NUMERIC", "type": 2, "type_name": "Numeric", "length": 10, "decimals": 2},
+  {"name": "C_DATE", "type": 3, "type_name": "Date", "length": 8, "decimals": 0},
+  {"name": "C_LOGICAL", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "C_MEMO", "type": 5, "type_name": "Memo", "length": 10, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "2061626320202020202020202031323334352e363732303137313130385420202020202020202038", "values": {"C_CHAR": {"text": "abc       "}, "C_NUMERIC": {"text": "  12345.67"}, "C_DATE": {"text": "2017-11-08", "julian": 2458066}, "C_LOGICAL": {"text": "T"}, "C_MEMO": {"text": "memo text"}}},
+  {"recno": 2, "deleted": false, "raw": "20e4f6fc80202020202020202d39393939392e393930303031303130314620202020202020202039", "values": {"C_CHAR": {"text": "\u00e4\u00f6\u00fc\u0080      "}, "C_NUMERIC": {"text": " -99999.99"}, "C_DATE": {"text": "0001-01-01", "julian": 1721426}, "C_LOGICAL": {"text": "F"}, "C_MEMO": {"text": "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}}},
+  {"recno": 3, "deleted": false, "raw": "20656d70747920202020202020202020202020202020202020202020202020202020202020202020", "values": {"C_CHAR": {"text": "empty     "}, "C_NUMERIC": {"null": true}, "C_DATE": {"null": true}, "C_LOGICAL": {"null": true}, "C_MEMO": {"null": true}}},
+  {"recno": 4, "deleted": true, "raw": "2a64656c65746564202020202020202020312e303032303030303130315420202020202020203139", "values": {"C_CHAR": {"text": "deleted   "}, "C_NUMERIC": {"text": "      1.00"}, "C_DATE": {"text": "2000-01-01", "julian": 2451545}, "C_LOGICAL": {"text": "T"}, "C_MEMO": {"text": "gone"}}}
+ ]
+}

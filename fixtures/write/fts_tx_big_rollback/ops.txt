@@ -1,0 +1,612 @@
+open t shared
+open2 t shared
+use 1
+# Appends, changes and deletes at random, then a rollback.
+begin
+append
+set id long 1000
+set d string vizefuk jihu ruhafoje kokeca lujop
+set c string fac fucik poculi mes cefu
+write
+append
+set id long 1001
+set d string jevih zuwure
+set c string kejozac hese zabewar vewacupu rarab jukocu kuta vodutoz
+write
+append
+set id long 1002
+set d string vivulir suve sun sun kukecog cajapoco milefel puc
+set c string geca zoze ruhafoje rutun mase hiwof ninur nefihu
+write
+append
+set id long 1003
+set d string mecidug nefihu rok nomi zabewar jap poculi bifi
+set c string vegu docowi lugezoda zawovo ridok cefu
+write
+append
+set id long 1004
+set d string kutu milefel jevih lir zugupu
+set c string hiwof
+write
+append
+set id long 1005
+set d string hotuli rod rutun lujop zinalifa bukebefi zidejap
+set c string bov lilogivi kutu zabewar gerudeho vonefu geca peneva m
+write
+append
+set id long 1006
+set d string soza
+set c string caj
+write
+append
+set id long 1007
+set d string gepob zawovo jihu vev povevibo milefel
+set c string lesado zeharo zeharo mucif mase mes
+write
+append
+set id long 1008
+set d string subujon nefihu rutun povevibo geca
+set c string vemu dad lov rok rutun
+write
+append
+set id long 1009
+set d string ridok jutitig furupal hotuli foh zuwure jiji kulata
+set c string kulata puve vivulir nomi
+write
+append
+set id long 1010
+set d string sun kokeca mes
+set c string kuwuhigu tocuf nomi ridok kulata zeharo
+write
+append
+set id long 1011
+set d string jokitemo mase kulata hedis
+set c string mucif fucik jifaru rimik docowi zoze geca peje vegu lil
+write
+append
+set id long 1012
+set d string kutu jifaru civ
+set c string mase nefihu
+write
+append
+set id long 1013
+set d string furupal kulata cajapoco jokitemo civ
+set c string rimik vegu fozag bov wipuvuc jukocu zuwure kinisi devo
+write
+append
+set id long 1014
+set d string jejipipa jiji lujop kihafilo mucif vewacupu jejipipa ho
+set c string tocuf zeharo jutitig mucira rok caj zinalifa
+write
+append
+set id long 1015
+set d string hagacu docowi rarab numuru tuko rarab vonefu sun rato n
+set c string peneva gotehowe dume lujop var pelilono kuwuhigu kuta
+write
+append
+set id long 1016
+set d string mukicavu numuru vev mokegun vegu tonah civ miv jifaru
+set c string povevibo docowi mes lesado
+write
+append
+set id long 1017
+set d string mukicavu vogamico jukocu puve fucik
+set c string milefel vewacupu vegu docowi rato maneku zinalifa jifar
+write
+append
+set id long 1018
+set d string lun fajen puve vev moba povevibo huwume lir
+set c string vizefuk vegu lawipec rutun miwilip jiji win gotehowe
+write
+append
+set id long 1019
+set d string jiji docowi vigemug puve ninur rarab najo
+set c string sun rimik nomi lawipec jawanu
+write
+append
+set id long 1020
+set d string jawanu vodutoz jevih kuwuhigu peneva hepuvat wipuvuc vi
+set c string goco hese numuru dad miwilip soza
+write
+append
+set id long 1021
+set d string kukecog jenop nefihu kuta mase latu
+set c string kejozac fac vizefuk bukebefi
+write
+append
+set id long 1022
+set d string tuko judabo hagacu latu kuta bifi zidejap nefihu tun
+set c string jifaru vewacupu lahegoz nefihu caj pusohi
+write
+append
+set id long 1023
+set d string peneva zoze vogamico tuko hepuvat jawanu gerudeho kafom
+set c string mucif hotuli rijo gerudeho jiji civ vivulir vigemug
+write
+append
+set id long 1024
+set d string docowi sun cederasu judabo devo cederasu
+set c string lesado soza puve bekav cederasu lovane kasi numuru dad
+write
+append
+set id long 1025
+set d string jejipipa gerudeho mase ridok judabo
+set c string bawoje subujon zidejap vivulir ridok hotuli zabewar
+write
+append
+set id long 1026
+set d string lawipec kuta vivulir subujon sun dopa
+set c string jutitig hanih kuwuhigu jihu rimik zugupu
+write
+append
+set id long 1027
+set d string pimi cederasu geca rarab goco vogamico jutitig nuze gep
+set c string rutun zuwure rok cefu jokitemo jap hiwof nomi
+write
+append
+set id long 1028
+set d string jutitig zoze var
+set c string jap vigemug mucira cefu suve zinalifa tocuf povevibo
+write
+append
+set id long 1029
+set d string caj civ jejipipa jawanu nomi
+set c string jap hotuli pelilono
+write
+append
+set id long 1030
+set d string pusohi jawanu pusohi sun lugezoda zoludi zoludi kokeca
+set c string rimik moba kasi kokeca miwilip pake vodutoz
+write
+append
+set id long 1031
+set d string wor peneva judabo peneva milefel mase lujop jutitig tas
+set c string dume ruhafoje devo
+write
+append
+set id long 1032
+set d string dopa milefel
+set c string tonah mes marazupu puve vodutoz wipuvuc fajen fovi kafo
+write
+append
+set id long 1033
+set d string kejozac ratufo nefihu bekav
+set c string vivulir jifaru
+write
+append
+set id long 1034
+set d string latu
+set c string jiji moba vewacupu zidejap wipuvuc lir kinisi
+write
+append
+set id long 1035
+set d string kokeca gepob kasi bukebefi lugezoda bekav jejipipa
+set c string bawoje rok zuwure fajen rijo
+write
+append
+set id long 1036
+set d string gepob hanih nuze
+set c string kihafilo peneva fac ridok soza kulata kulata zabewar no
+write
+append
+set id long 1037
+set d string zidejap fucik kihafilo kutu foh ninur vemu
+set c string suve
+write
+append
+set id long 1038
+set d string poculi fac gotehowe vuhaz mokegun suve zuwure lahegoz
+set c string bukebefi lujop
+write
+append
+set id long 1039
+set d string pusohi hotuli ridok rijo lugezoda win
+set c string pelilono hese jiji mukicavu ratufo ridok vizefuk wor ra
+write
+append
+set id long 1040
+set d string lesado vodutoz tun goco jokitemo kinisi
+set c string hedis var fovi bukebefi povevibo fucik rod tocuf
+write
+append
+set id long 1041
+set d string mokegun var mes zugupu nefihu pimi
+set c string suve tuko var marazupu
+write
+append
+set id long 1042
+set d string hiwof rimik kuta jevih pusohi
+set c string lujop
+write
+append
+set id long 1043
+set d string fucik wor civ kutu ridok
+set c string huwume tuko cefu lawipec goco wipuvuc furupal ratufo
+write
+append
+set id long 1044
+set d string wavodimo
+set c string mucira wipuvuc ridok bifi bekav docowi docowi ruhafoje
+write
+append
+set id long 1045
+set d string bawoje lovane rimik miv peneva riresec lugezoda povevib
+set c string hanih vizefuk hese tasorewi mucif kafom mecidug
+write
+append
+set id long 1046
+set d string lovane
+set c string bekav vonefu tun lujop peje hiwof jevih ridok zidejap j
+write
+append
+set id long 1047
+set d string lilogivi vivulir povevibo dopa zugupu fac rod tasorewi
+set c string miwilip
+write
+append
+set id long 1048
+set d string jejipipa tonah
+set c string fajen nuze
+write
+append
+set id long 1049
+set d string mes rato zugupu
+set c string jifaru lesado ratufo dume ratufo zugupu mupene puc rod
+write
+append
+set id long 1050
+set d string miv fovi pelilono jifaru geca
+set c string wipuvuc hiwof hotuli kejozac tocuf zabewar jutitig peje
+write
+append
+set id long 1051
+set d string jejipipa zoze caj
+set c string lawipec miwilip
+write
+append
+set id long 1052
+set d string tasorewi hepuvat zinalifa kulata caj
+set c string rod zuwure riresec dajociz vemu latu tuko
+write
+append
+set id long 1053
+set d string var hotuli rarab
+set c string kuta vegu cajapoco
+write
+append
+set id long 1054
+set d string vogamico vemu
+set c string tocuf fozag vivulir zabewar docowi cederasu wor kokeca
+write
+append
+set id long 1055
+set d string rarab numuru vigemug foh vodutoz fovi
+set c string wor kulata puve peje jawanu pake furupal jihu hanih
+write
+append
+set id long 1056
+set d string pusohi civ hepuvat
+set c string gerudeho hiwof maneku marazupu pimi peneva nefihu tocuf
+write
+append
+set id long 1057
+set d string lesado rutun tun bekav numuru docowi vivulir subujon jo
+set c string wor pimi nomi puve goco kukecog
+write
+append
+set id long 1058
+set d string vivulir rok zoludi
+set c string jenop rijo vuhaz tasorewi hagacu nefihu pelilono mucif
+write
+append
+set id long 1059
+set d string miv
+set c string hagacu mego
+write
+goto 108
+set d string geca numuru lilogivi civ dad ninur kasi fovi mecidug bu
+write
+goto 88
+set d string kasi maneku fozag wor vewacupu
+write
+goto 73
+set d string nuze zinalifa ruhafoje
+write
+goto 102
+set d string lugezoda fozag judabo
+write
+goto 147
+set d string rarab povevibo vigemug maneku zidejap var kokeca kutu l
+write
+goto 154
+set d string ridok nomi docowi povevibo puve riresec zugupu poculi s
+write
+goto 97
+set d string fajen vuhaz win
+write
+goto 14
+set d string mupene nuze fucik ratufo tun mucira rimik dume
+write
+goto 143
+set d string jihu ridok lawipec pelilono lir tocuf fomijate lov wipu
+write
+goto 125
+set d string furupal kokeca
+write
+goto 83
+set d string gotehowe marazupu var zugupu najo rato milefel zugupu l
+write
+goto 158
+set d string gerudeho kuwuhigu docowi latu zabewar
+write
+goto 58
+set d string mukicavu ridok rato
+write
+goto 150
+set d string kuta
+write
+goto 139
+set d string bifi
+write
+goto 44
+set d string rimik ratufo nefihu kukecog
+write
+goto 51
+set d string riresec
+write
+goto 105
+set d string gerudeho kutu vemu var rimik luciled kejozac gotehowe
+write
+goto 80
+set d string bov jenop vigemug fovi pake vonefu
+write
+goto 100
+set d string kukecog
+write
+goto 116
+set d string rarab zeharo lun vizefuk geca pelilono soza suve goco v
+write
+goto 10
+set d string gepob marazupu lilogivi vev lov zawovo jukocu
+write
+goto 122
+set d string povevibo jevih marazupu hepuvat dume vigemug marazupu f
+write
+goto 93
+set d string marazupu sun
+write
+goto 63
+set d string lov hagacu dopa hotuli peneva
+write
+goto 156
+set d string kuta vizefuk
+write
+goto 76
+set d string pake ninur vodutoz vemu lov mase nuze devo
+write
+goto 7
+set d string jenop zoze
+write
+goto 77
+set d string vogamico vemu jejipipa bekav kutu bov
+write
+goto 52
+set d string fac pake sun mucira
+write
+goto 47
+set d string hiwof goco var kejozac
+write
+goto 156
+set d string gerudeho zuwure wavodimo hagacu vegu zoludi huwume moke
+write
+goto 143
+set d string cefu furupal
+write
+goto 51
+set d string nuze nomi geca vuhaz kulata hedis rutun geca mokegun
+write
+goto 139
+set d string tun pake jevih vonefu bekav docowi
+write
+goto 56
+set d string fovi zinalifa
+write
+goto 68
+set d string tasorewi tun kasi
+write
+goto 69
+set d string mokegun vivulir suve
+write
+goto 156
+set d string marazupu win pake
+write
+goto 80
+set d string vemu vigove jevih fucik lawipec vogamico kuwuhigu puc d
+write
+goto 137
+set c string puve suve kinisi ruhafoje tuko mupene latu maneku hepuv
+write
+goto 2
+set c string lun mucira milefel nuze latu rijo
+write
+goto 28
+set c string lesado cederasu zabewar dume dad miwilip marazupu moba
+write
+goto 143
+set c string jifaru devo
+write
+goto 20
+set c string hese pake peneva rato kokeca maneku vivulir
+write
+goto 154
+set c string rijo vivulir gotehowe
+write
+goto 18
+set c string jiji
+write
+goto 151
+set c string hepuvat ruhafoje
+write
+goto 38
+set c string zoze pimi tun vuhaz geca nefihu vizefuk dad
+write
+goto 70
+set c string zawovo mecidug rutun hiwof kukecog
+write
+goto 94
+set c string sun fajen maneku pimi vivulir lun najo hagacu
+write
+goto 119
+set c string dajociz kihafilo gotehowe pusohi jifaru rok
+write
+goto 158
+set c string peneva kuwuhigu bukebefi ridok cajapoco jap
+write
+goto 140
+set c string pake miv cederasu vogamico gepob vev fucik vigove
+write
+goto 158
+set c string jap moba najo foh zabewar gotehowe zuwure jejipipa miv
+write
+goto 43
+set c string zoludi vogamico mego puc ninur ninur jevih rutun fac pu
+write
+goto 2
+set c string jevih vemu nomi rok rimik rod rimik moba vigove
+write
+goto 144
+set c string gotehowe suve
+write
+goto 95
+set c string hanih
+write
+goto 58
+set c string peje hese vizefuk jap vogamico lesado
+write
+goto 11
+set c string hotuli dopa mokegun nuze latu vigemug goco
+write
+goto 63
+set c string jawanu caj ruhafoje milefel kinisi subujon
+write
+goto 160
+set c string mokegun lovane lun jukocu fajen
+write
+goto 85
+set c string geca suve wavodimo vewacupu pelilono wavodimo kasi dajo
+write
+goto 154
+set c string zeharo hepuvat kokeca vivulir hedis
+write
+goto 44
+set c string gepob zidejap mukicavu hiwof caj jifaru jihu vuhaz
+write
+goto 133
+set c string fomijate bukebefi furupal hagacu
+write
+goto 47
+set c string bekav zoludi
+write
+goto 3
+set c string najo tasorewi bifi zabewar
+write
+goto 4
+set c string zoludi hiwof wipuvuc dume rimik civ cederasu mukicavu l
+write
+goto 40
+delete
+write
+goto 121
+delete
+write
+goto 78
+delete
+write
+goto 9
+delete
+write
+goto 51
+delete
+write
+goto 122
+delete
+write
+goto 142
+delete
+write
+goto 115
+delete
+write
+goto 15
+delete
+write
+goto 75
+delete
+write
+goto 24
+delete
+write
+goto 37
+delete
+write
+goto 66
+delete
+write
+goto 32
+delete
+write
+goto 87
+delete
+write
+goto 141
+delete
+write
+goto 116
+delete
+write
+goto 111
+delete
+write
+goto 29
+delete
+write
+goto 47
+delete
+write
+flush
+snapshot written
+cursor SELECT id FROM t WHERE CONTAINS(d, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(d, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+rollback
+flush
+snapshot rollback
+cursor SELECT id FROM t WHERE CONTAINS(d, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(d, 'var') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM t WHERE CONTAINS(c, 'cefu') ORDER BY id
+column id
+closecursor
+use 1

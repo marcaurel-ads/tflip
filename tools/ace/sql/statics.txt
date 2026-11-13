@@ -1,0 +1,1541 @@
+# Which WHERE makes a cursor static: each SQL scalar function of the help's
+# lists ("Indexes with Expressions": the ones mapped to Advantage functions
+# and the ones that disqualify an expression), and some others, in a
+# condition `<expression> IS NOT NULL` beside nothing (a), beside an
+# equality on an indexed column (b), and in an ORDER BY (c) -- for
+# fixtures/sql/statics.json, in an empty folder. A cursor is live where
+# it is of the table itself (its file is the table's) and takes the write
+# (edit: AdsSetString and AdsWriteRecord on its first record):
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> statics.txt > fixtures/sql/statics.json
+stmt
+query CREATE TABLE fn (id integer, name char(12), d date, ts timestamp, x double)
+query INSERT INTO fn VALUES (1, 'a', '2020-01-01', '2020-01-01 10:00:00', 1.5)
+query INSERT INTO fn VALUES (2, 'b', '2020-01-02', '2020-01-02 10:00:00', 0.5)
+query INSERT INTO fn VALUES (3, 'c', '2020-01-03', '2020-01-03 10:00:00', 0.25)
+query CREATE INDEX idi ON fn (id)
+query CREATE INDEX nmi ON fn (name)
+direct SELECT id, name FROM fn WHERE ABS(id) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ALLTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ASCII(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE BIT_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CEILING(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CHAR(id + 64) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CHAR_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CHARACTER_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE COALESCE(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CONCAT(name, 'x') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CTOD('01/01/2020') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CTOT('01/01/2020 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CTOTS('01/01/2020 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURDATE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURRENT_DATE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURRENT_TIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURTIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DAY(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DAYNAME(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DAYOFMONTH(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DAYOFWEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DAYOFYEAR(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DELETED() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DIFFERENCE(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DTOS(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DTOC(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE EMPTY(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE FLOOR(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE FRAC_SECOND(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE HOUR(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE IFNULL(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ISNULL(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE IIF(id > 1, 'a', 'b') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ISOWEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LCASE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LEFT(name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LEN(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LOCATE('a', name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LOCATE('a', name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LOWER(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE MINUTE(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE MONTH(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE MONTHNAME(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE NOW() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE OCTET_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE PI() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE POSITION('a' IN name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE POWER(id, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE QUARTER(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RECNO() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE REVERSE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE REPEAT(name, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RIGHT(name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SECOND(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SIGN(id) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SOUNDEX(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SPACE(2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE STOD('20200101') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE STOTS('20200101 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE STR(id, 3, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE STRZERO(id, 3, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SUBSTRING(name, 1, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TSTOD(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE UCASE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE UPPER(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE VAL(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE WEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE YEAR(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ACOS(x / 10) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ASIN(x / 10) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ATAN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ATAN2(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE COS(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE COT(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DEGREES(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE EXP(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LOG(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LOG10(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE MOD(id, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RADIANS(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RAND() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ROUND(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SIN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SQRT(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TAN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TRUNCATE(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ENDSWITH(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE INSERT(name, 1, 1, 'x') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE REPLACE(name, 'a', 'b') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE STARTSWITH(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE SUBSTRINGOF('a', name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURRENT_TIMESTAMP() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CURRENT_TIMESTAMP_UTC() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TIMESTAMPADD(SQL_TSI_DAY, 1, ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TIMESTAMPDIFF(SQL_TSI_DAY, ts, NOW()) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE EXTRACT(YEAR FROM d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE APPLICATIONID() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LASTROWID() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CAST(id AS SQL_CHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ROWNUM() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CONVERT(id, SQL_CHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE DATABASE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE USER() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TRIM(LEADING 'a' FROM name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE IFNULL(id, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CASE WHEN id > 1 THEN 'a' ELSE 'b' END IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE LENGTH(RTRIM(name)) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE -id IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id + 1 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id * 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE (id + 1) * 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE UPPER(LEFT(name, 1)) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE UPPER(REPLACE(name, 'a', 'b')) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE COALESCE(id, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE TRIM(BOTH FROM name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE name + 'x' IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE CAST(name AS SQL_VARCHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id / 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id - 1 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE RAND(1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE ROWID IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id % 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ABS(id) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ALLTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ASCII(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND BIT_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CEILING(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CHAR(id + 64) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CHAR_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CHARACTER_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND COALESCE(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CONCAT(name, 'x') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CTOD('01/01/2020') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CTOT('01/01/2020 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CTOTS('01/01/2020 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURDATE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURRENT_DATE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURRENT_TIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURTIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DAY(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DAYNAME(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DAYOFMONTH(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DAYOFWEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DAYOFYEAR(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DELETED() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DIFFERENCE(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DTOS(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DTOC(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND EMPTY(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND FLOOR(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND FRAC_SECOND(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND HOUR(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND IFNULL(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ISNULL(name, 'z') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND IIF(id > 1, 'a', 'b') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ISOWEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LCASE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LEFT(name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LEN(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LOCATE('a', name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LOCATE('a', name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LOWER(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND MINUTE(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND MONTH(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND MONTHNAME(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND NOW() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND OCTET_LENGTH(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND PI() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND POSITION('a' IN name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND POWER(id, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND QUARTER(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RECNO() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND REVERSE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND REPEAT(name, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RIGHT(name, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RTRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SECOND(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SIGN(id) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SOUNDEX(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SPACE(2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND STOD('20200101') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND STOTS('20200101 10:00:00') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND STR(id, 3, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND STRZERO(id, 3, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SUBSTRING(name, 1, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TIME() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TSTOD(ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND UCASE(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND UPPER(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND VAL(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND WEEK(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND YEAR(d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ACOS(x / 10) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ASIN(x / 10) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ATAN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ATAN2(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND COS(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND COT(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DEGREES(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND EXP(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LOG(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LOG10(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND MOD(id, 2) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RADIANS(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RAND() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ROUND(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SIN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SQRT(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TAN(x) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TRUNCATE(x, 1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ENDSWITH(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND INSERT(name, 1, 1, 'x') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND REPLACE(name, 'a', 'b') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND STARTSWITH(name, 'a') IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND SUBSTRINGOF('a', name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURRENT_TIMESTAMP() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CURRENT_TIMESTAMP_UTC() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TIMESTAMPADD(SQL_TSI_DAY, 1, ts) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TIMESTAMPDIFF(SQL_TSI_DAY, ts, NOW()) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND EXTRACT(YEAR FROM d) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND APPLICATIONID() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LASTROWID() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CAST(id AS SQL_CHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ROWNUM() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CONVERT(id, SQL_CHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND DATABASE() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND USER() IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TRIM(name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TRIM(LEADING 'a' FROM name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND IFNULL(id, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CASE WHEN id > 1 THEN 'a' ELSE 'b' END IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND LENGTH(RTRIM(name)) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND -id IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND id + 1 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND id * 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND (id + 1) * 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND UPPER(LEFT(name, 1)) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND UPPER(REPLACE(name, 'a', 'b')) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND COALESCE(id, 0) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND TRIM(BOTH FROM name) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND name + 'x' IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND CAST(name AS SQL_VARCHAR) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND id / 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND id - 1 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND RAND(1) IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND ROWID IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn WHERE id = 1 AND id % 2 IS NOT NULL
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ABS(id)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ALLTRIM(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ASCII(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY BIT_LENGTH(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CEILING(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CHAR(id + 64)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CHAR_LENGTH(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CHARACTER_LENGTH(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY COALESCE(name, 'z')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CONCAT(name, 'x')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CTOD('01/01/2020')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CTOT('01/01/2020 10:00:00')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CTOTS('01/01/2020 10:00:00')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURDATE()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURRENT_DATE()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURRENT_TIME()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURTIME()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DAY(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DAYNAME(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DAYOFMONTH(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DAYOFWEEK(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DAYOFYEAR(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DELETED()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DIFFERENCE(name, 'a')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DTOS(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DTOC(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY EMPTY(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY FLOOR(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY FRAC_SECOND(ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY HOUR(ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY IFNULL(name, 'z')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ISNULL(name, 'z')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY IIF(id > 1, 'a', 'b')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ISOWEEK(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LCASE(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LEFT(name, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LEN(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LENGTH(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LOCATE('a', name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LOCATE('a', name, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LOWER(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LTRIM(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY MINUTE(ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY MONTH(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY MONTHNAME(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY NOW()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY OCTET_LENGTH(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY PI()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY POSITION('a' IN name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY POWER(id, 2)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY QUARTER(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RECNO()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY REVERSE(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY REPEAT(name, 2)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RIGHT(name, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RTRIM(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SECOND(ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SIGN(id)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SOUNDEX(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SPACE(2)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY STOD('20200101')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY STOTS('20200101 10:00:00')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY STR(id, 3, 0)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY STRZERO(id, 3, 0)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SUBSTRING(name, 1, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TIME()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TSTOD(ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY UCASE(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY UPPER(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY VAL(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY WEEK(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY YEAR(d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ACOS(x / 10)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ASIN(x / 10)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ATAN(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ATAN2(x, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY COS(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY COT(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DEGREES(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY EXP(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LOG(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LOG10(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY MOD(id, 2)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RADIANS(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RAND()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ROUND(x, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SIN(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SQRT(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TAN(x)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TRUNCATE(x, 1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ENDSWITH(name, 'a')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY INSERT(name, 1, 1, 'x')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY REPLACE(name, 'a', 'b')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY STARTSWITH(name, 'a')
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY SUBSTRINGOF('a', name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURRENT_TIMESTAMP()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CURRENT_TIMESTAMP_UTC()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TIMESTAMPADD(SQL_TSI_DAY, 1, ts)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TIMESTAMPDIFF(SQL_TSI_DAY, ts, NOW())
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY EXTRACT(YEAR FROM d)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY APPLICATIONID()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LASTROWID()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CAST(id AS SQL_CHAR)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ROWNUM()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CONVERT(id, SQL_CHAR)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY DATABASE()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY USER()
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TRIM(name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TRIM(LEADING 'a' FROM name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY IFNULL(id, 0)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CASE WHEN id > 1 THEN 'a' ELSE 'b' END
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY LENGTH(RTRIM(name))
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY -id
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY id + 1
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY id * 2
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY (id + 1) * 2
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY UPPER(LEFT(name, 1))
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY UPPER(REPLACE(name, 'a', 'b'))
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY COALESCE(id, 0)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY TRIM(BOTH FROM name)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY name + 'x'
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY CAST(name AS SQL_VARCHAR)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY id / 2
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY id - 1
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY RAND(1)
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY ROWID
+gotop
+edit 2 zz
+closecursor
+direct SELECT id, name FROM fn ORDER BY id % 2
+gotop
+edit 2 zz
+closecursor

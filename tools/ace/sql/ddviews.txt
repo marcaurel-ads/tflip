@@ -1,0 +1,153 @@
+# CREATE VIEW and DROP VIEW on a dictionary connection, in an empty folder:
+# views join (and leave) a dictionary the script creates, dv/dv.add; the
+# refusals, views in deleted objects' slots, and on a free connection. The
+# dictionary it leaves is kept in fixtures/sql/ddviews/:
+#
+#     run.sh <work> <ace32.dll> ddviews.txt > ../../../fixtures/sql/ddviews.json
+#     cp <work>/data/dv/* ../../../fixtures/sql/ddviews/
+ddcreate dv\dv.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10), amount NUMERIC(8,2))
+direct CREATE TABLE t2 (id INTEGER, city CHAR(20))
+direct INSERT INTO t1 VALUES (1, 'one', 1.5)
+direct INSERT INTO t1 VALUES (2, 'two', 2.5)
+direct INSERT INTO t2 VALUES (1, 'Berlin')
+# What the dictionary keeps of the statement: the text after AS, as written.
+direct CREATE VIEW v1 AS SELECT id, name FROM t1
+direct CREATE VIEW v2 AS SELECT * FROM t1 WHERE id > 1
+direct CREATE view v3 as   select id from t1  
+direct CREATE VIEW v4 AS SELECT id FROM t1;
+direct CREATE VIEW v5 AS (SELECT id FROM t1)
+direct CREATE VIEW v6 AS\r\nSELECT id,\r\n  name\r\nFROM t1\r\n
+direct CREATE VIEW v7 AS /* c */ SELECT id FROM t1
+direct CREATE VIEW "v 8" AS SELECT id FROM t1
+direct CREATE VIEW [v9] AS SELECT id FROM t1
+direct CREATE VIEW v10 AS SELECT t1.id, t2.city FROM t1 JOIN t2 ON t1.id = t2.id
+direct CREATE VIEW v11 AS SELECT id FROM t1 UNION SELECT id FROM t2
+direct CREATE VIEW v12 AS SELECT id, COUNT(*) AS n FROM t1 GROUP BY id
+direct CREATE VIEW v13 AS SELECT TOP 1 id FROM t1 ORDER BY id DESC
+direct CREATE VIEW v14 AS SELECT id FROM v1
+direct CREATE VIEW v15 AS SELECT * FROM (SELECT id FROM t1) x
+direct CREATE VIEW v16 AS SELECT id FROM t1 WHERE id = ?
+direct CREATE VIEW v17 AS SELECT id FROM t1 WHERE id = :p
+direct CREATE VIEW v18 AS SELECT id AS "my col" FROM t1
+direct CREATE VIEW v19 AS SELECT id + 1, UPPER(name) FROM t1
+direct CREATE VIEW v20 AS SELECT 1 AS one FROM system.iota
+direct CREATE VIEW v21 AS SELECT id FROM t1 WHERE id IN (SELECT id FROM t2)
+direct CREATE VIEW v22 AS SELECT {static} id FROM t1
+# Not tested for the statement's text alone: the view's columns.
+query SELECT * FROM v1
+query SELECT * FROM v2
+query SELECT * FROM v10
+query SELECT * FROM v14
+query SELECT * FROM v18
+query SELECT * FROM "v 8"
+query SELECT Name, Parent, Comment FROM system.views
+#
+# The refusals: a name in use (a view, a table), no name, no AS, not a
+# SELECT, a missing table or column, a syntax error.
+direct CREATE VIEW v1 AS SELECT id FROM t1
+direct CREATE VIEW V1 AS SELECT id FROM t1
+direct CREATE VIEW t1 AS SELECT id FROM t2
+direct CREATE TABLE v1 (id INTEGER)
+direct CREATE VIEW AS SELECT id FROM t1
+direct CREATE VIEW x1 SELECT id FROM t1
+direct CREATE VIEW x1 AS
+direct CREATE VIEW x1 AS INSERT INTO t1 (id) VALUES (9)
+direct CREATE VIEW x1 AS DELETE FROM t1
+direct CREATE VIEW x1 AS SELECT id FROM nosuch
+direct CREATE VIEW x1 AS SELECT nosuch FROM t1
+direct CREATE VIEW x1 AS SELECT id FROM
+direct CREATE VIEW x1 AS SELECT id FROM t1 WHERE
+direct CREATE VIEW x1 AS SELECT id FROM t1 SELECT id FROM t2
+direct CREATE VIEW x1 AS EXECUTE PROCEDURE sp_GetTables()
+direct CREATE VIEW x1 (a, b) AS SELECT id, name FROM t1
+direct CREATE VIEW x1 AS SELECT id FROM t1 ORDER BY id
+direct CREATE VIEW x1 AS SELECT * FROM (SELECT id FROM t1 ORDER BY id) x
+direct CREATE VIEW x1 AS SELECT * FROM (SELECT TOP 1 id FROM t1 ORDER BY id) x
+direct CREATE VIEW x1 AS SELECT id FROM t1 WHERE id IN (SELECT id FROM t2 ORDER BY id)
+direct CREATE VIEW x1 AS SELECT id FROM t1 UNION SELECT id FROM (SELECT id FROM t2 ORDER BY id) y
+direct CREATE VIEW x1 AS SELECT a.id FROM (SELECT id FROM t1) a JOIN (SELECT id FROM t2 ORDER BY id) b ON a.id = b.id
+direct CREATE VIEW x1 AS SELECT * FROM (SELECT * FROM (SELECT id FROM t1 ORDER BY id) z) x
+direct CREATE VIEW x1 AS SELECT * FROM (SELECT DISTINCT id FROM t1 ORDER BY id) x
+ddview x2 SELECT * FROM (SELECT id FROM t1 ORDER BY id) x
+ddview x2 SELECT * FROM (SELECT * FROM (SELECT id FROM t1 ORDER BY id) z) x
+ddview x2 SELECT id FROM t1 WHERE id IN (SELECT id FROM t2 ORDER BY id)
+ddview x2 SELECT * FROM (SELECT TOP 1 id FROM t1 ORDER BY id) x
+ddview x2 SELECT id FROM t1 WHERE
+ddview x2 SELECT id FROM nosuch
+ddview v1 SELECT id FROM t1
+ddview x3 SELECT nosuch FROM t1
+ddview x3 SELECT id FROM t1 WHERE id = ?
+ddview x3 SELECT id FROM t1 WHERE id = :p
+ddview x3 SELECT nosuch FROM t1 WHERE id = ?
+ddview x3 SELECT id FROM nosuch WHERE id = ?
+direct CREATE VIEW x6 AS SELECT nosuch FROM t1 WHERE id = ?
+ddview x3 SELECT id FROM nosuchview
+ddview x3 SELECT UPPER(id, 1) FROM t1
+ddview x3 SELECT id FROM t1 t, t2 t
+ddview x3 SELECT nofunc(id) FROM t1
+ddview x3 SELECT id FROM t1 WHERE id = 'abc'
+ddview x3 SELECT id FROM t1 UNION SELECT id, id FROM t2
+ddview x3 INSERT INTO t1 (id) VALUES (9)
+ddview x3  SELECT id FROM t1;
+ddview x4 select id from t1  
+direct CREATE VIEW x6 AS SELECT id FROM t1 WHERE id = 'abc'
+direct CREATE VIEW x6 AS SELECT UPPER(id, 1) FROM t1
+direct CREATE VIEW x6 AS SELECT id FROM t1 UNION SELECT id, id FROM t2
+direct CREATE VIEW x6 AS SELECT nofunc(id) FROM t1
+direct CREATE VIEW x7 AS select id from t1   ;  
+direct CREATE VIEW x8 AS SELECT id FROM t1 -- trailing
+direct CREATE VIEW x9 AS SELECT id FROM t1 /* trailing */
+query SELECT Name FROM system.views
+#
+# A user with rights on two views and a table (made before any object is
+# dropped, as it was recorded; a user and a right take a deleted object's
+# slot too, `ddslots.txt`), which DROP VIEW and DROP TABLE take or leave.
+dduser u1 pw1
+direct GRANT SELECT ON v4 TO u1
+direct GRANT SELECT ON v6 TO u1
+direct GRANT SELECT ON t2 TO u1
+#
+# DROP VIEW: a view, the same twice, a table, nothing, a view made in its
+# slot.
+direct DROP VIEW v2
+direct DROP VIEW v2
+direct DROP VIEW V3
+direct DROP VIEW v4
+direct DROP VIEW v6
+direct DROP VIEW t1
+direct DROP VIEW
+direct DROP VIEW nosuch
+direct DROP VIEW v1 CASCADE
+query SELECT * FROM v1
+direct DROP VIEW v14
+direct DROP VIEW v1
+direct CREATE VIEW n1 AS SELECT id, city FROM t2
+direct CREATE VIEW n2 AS SELECT id FROM t2
+direct CREATE VIEW n3 AS SELECT id FROM t2
+direct CREATE VIEW n4 AS SELECT id FROM t2
+query SELECT Name FROM system.views
+direct DROP VIEW n1
+ddview w1 SELECT id FROM t1
+ddview w2 SELECT id FROM t1
+direct CREATE TABLE tn (id INTEGER)
+query SELECT Name FROM system.tables
+# A view over a table dropped after it.
+direct DROP TABLE t2
+query SELECT * FROM n2
+query SELECT Name FROM system.views
+# A view kept in a transaction's rollback.
+direct BEGIN TRANSACTION
+direct CREATE VIEW tx1 AS SELECT id FROM t1
+direct ROLLBACK
+query SELECT Name FROM system.views
+#
+# A free connection to the folder: no dictionary.
+direct CREATE TABLE ft (id INTEGER) AS FREE TABLE
+connect dv
+stmt
+direct CREATE VIEW fv AS SELECT id FROM ft
+direct CREATE VIEW fv AS SELECT 1 AS one FROM system.iota
+direct DROP VIEW fv
+direct DROP VIEW

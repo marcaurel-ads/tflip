@@ -1,0 +1,35 @@
+#include free_all.txt
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_adt', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_dbf_nomap', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt;*.dbf', '@ROOT@\b_both_cdx', 'TableTypeMap=adt=ADS_ADT,dbf=ADS_CDX', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_dbf_vfp', 'TableTypeMap=dbf=ADS_VFP', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_dbf_ntx', 'TableTypeMap=dbf=ADS_NTX', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.*', '@ROOT@\b_star', 'TableTypeMap=adt=ADS_ADT,dbf=ADS_CDX', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', 'f_adt.adt', '@ROOT@\b_one', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', 'F_*.ADT', '@ROOT@\b_upper', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.xyz', '@ROOT@\b_none', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '', '@ROOT@\b_empty', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', NULL, '@ROOT@\b_null', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt;*.dbf', '@ROOT@\b_inc', 'include=f_adt.adt,f_cdx.dbf;TableTypeMap=dbf=ADS_CDX', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt;*.dbf', '@ROOT@\b_exc', 'exclude=f_adt.adt,f_cdx.dbf;TableTypeMap=dbf=ADS_VFP', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_incbare', 'include=f_adt', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_incno', 'include=nosuch.adt', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_incmask', 'include=f_cdx.dbf', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\xosrc', '*.adt', '@ROOT@\b_nosrc', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_adt', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_map_bad', 'TableTypeMap=dbf=ADS_BOGUS', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_map_syn', 'TableTypeMap=dbf', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_map_num', 'TableTypeMap=dbf=2', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_map_low', 'tabletypemap=dbf=ads_cdx', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_meta', 'MetaOnly', NULL)
+sql 2 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_conn_cdx', NULL, NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_conn_adt', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc')
+connopt TableType=CDX;
+free 5
+sql 5 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_free_cdx', NULL, NULL)
+connopt TableType=VFP;
+free 6
+sql 6 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.dbf', '@ROOT@\b_free_vfp', NULL, NULL)
+connopt
+connect 7 src\d.add

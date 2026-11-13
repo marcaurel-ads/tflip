@@ -1,0 +1,66 @@
+# A VFP table with a field that takes NULL, a FoxPro table, and an ADT table, each with records.
+tabletype vfp
+createtable v.dbf 0 c,Character,6,NULL;i,Integer,NULL;k,Integer
+append
+set c string bb
+set i long 2
+set k long 1
+write
+append
+set i long 1
+set k long 2
+write
+append
+set c string aa
+set i long 3
+set k long 3
+write
+close
+createtable w.dbf 0 c,Character,6,NULL;i,Integer,NULL
+append
+set c string bb
+set i long 2
+write
+append
+set c string aa
+set i null
+write
+close
+tabletype cdx
+createtable f.dbf 0 c,Character,6;k,Numeric,4,0
+append
+set c string bb
+set k double 1
+write
+append
+set c string aa
+set k double 2
+write
+close
+createtable g.dbf 0 c,Character,6;k,Numeric,4,0
+append
+set c string bb
+set k double 1
+write
+append
+set c string aa
+set k double 2
+write
+close
+tabletype adt
+createtable a.adt 0 c,Character,6;k,Integer
+append
+set c string bb
+set k long 1
+write
+append
+set c string aa
+set k long 2
+write
+close
+createtable b.adt 0 c,Character,6;k,Integer
+append
+set c string bb
+set k long 1
+write
+close

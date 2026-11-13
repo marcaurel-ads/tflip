@@ -1,0 +1,10 @@
+tabletype vfp
+sql CREATE TABLE v (id INTEGER, body CHAR(60) NULL)
+sql INSERT INTO v VALUES (1, 'alpha bravo charlie delta echo')
+sql INSERT INTO v VALUES (2, 'foxtrot golf hotel')
+sql INSERT INTO v VALUES (3, 'india juliet kilo lima mike november')
+sql INSERT INTO v VALUES (4, 'oscar papa quebec')
+sql INSERT INTO v VALUES (5, 'romeo sierra tango')
+sql INSERT INTO v VALUES (6, 'uniform victor whiskey')
+sql CREATE INDEX v_fts ON v (body) CONTENT
+sql CREATE INDEX v_sc ON v (body) CONTENT KEEPSCORE

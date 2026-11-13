@@ -1,0 +1,92 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE t (n integer, s char(4))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t VALUES (1, 'a')", "rc": 0},
+{"cmd": "directnull INSERT INTO t VALUES (2, 'b')", "rc": 0},
+{"cmd": "query CREATE TABLE #a (x integer, y char(5))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #a VALUES (1, 'one')", "rc": 0},
+{"cmd": "directnull INSERT INTO #a SELECT n, s FROM t", "rc": 0},
+{"cmd": "query CREATE TABLE #a (x integer)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5189;  [SAP][Advantage SQL Engine][ASA] Error 5189:  A table with the same name already exists.  Table Name: a", "has_cursor": false, "affected": 2},
+{"cmd": "query CREATE TABLE #A (x integer)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5189;  [SAP][Advantage SQL Engine][ASA] Error 5189:  A table with the same name already exists.  Table Name: A", "has_cursor": false, "affected": 2},
+{"cmd": "query SELECT * FROM #a ORDER BY x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0]], "rows": [
+  [1, ["1", "one  "]],
+  [2, ["1", "a    "]],
+  [3, ["2", "b    "]]]}},
+{"cmd": "query SELECT * FROM #A", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0]], "rows": [
+  [1, ["1", "one  "]],
+  [2, ["1", "a    "]],
+  [3, ["2", "b    "]]]}},
+{"cmd": "query SELECT x FROM #a WHERE x = 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]]]}},
+{"cmd": "query SELECT * FROM \"#a\"", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0]], "rows": [
+  [1, ["1", "one  "]],
+  [2, ["1", "a    "]],
+  [3, ["2", "b    "]]]}},
+{"cmd": "query SELECT * FROM [#a]", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0]], "rows": [
+  [1, ["1", "one  "]],
+  [2, ["1", "a    "]],
+  [3, ["2", "b    "]]]}},
+{"cmd": "query SELECT #a.x FROM #a", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2122;  [SAP][Advantage SQL Engine]Table or alias not found: #a -- Location of error in the SQL statement is: 11", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT a.x FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]],
+  [3, ["2"]]]}},
+{"cmd": "query SELECT a.x, t.s FROM #a a JOIN t ON a.x = t.n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["s", 4, 4, 0]], "rows": [
+  [1, ["1", "a   "]],
+  [2, ["1", "a   "]],
+  [3, ["2", "b   "]]]}},
+{"cmd": "query CREATE INDEX ix ON #a (x)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #a WHERE x = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0]], "rows": [
+  [3, ["2", "b    "]]]}},
+{"cmd": "query ALTER TABLE #a ADD z integer", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0], ["z", 11, 4, 0]], "rows": [
+  [1, ["1", "one  ", null]],
+  [2, ["1", "a    ", null]],
+  [3, ["2", "b    ", null]]]}},
+{"cmd": "directnull UPDATE #a SET z = x * 10", "rc": 0},
+{"cmd": "directnull DELETE FROM #a WHERE x = 1", "rc": 0},
+{"cmd": "query SELECT * FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 5, 0], ["z", 11, 4, 0]], "rows": [
+  [3, ["2", "b    ", "20"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM #a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query CREATE TABLE #tmp (x integer); INSERT INTO #tmp VALUES (1); SELECT * FROM #tmp", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #tmp", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT * FROM #tmp", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query DECLARE q STRING; q = 'CREATE TABLE #ei (x integer)'; EXECUTE IMMEDIATE q; INSERT INTO #ei VALUES (1); SELECT * FROM #ei", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_e.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query DROP TABLE #a", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #a", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  a Table name: #a", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP TABLE #a", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  a", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #nosuch", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch Table name: #nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO #nosuch VALUES (1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch Table name: #nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query UPDATE #nosuch SET x = 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch Table name: #nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX ix ON #nosuch (x)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch Table name: #nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE #nosuch ADD z integer", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP TABLE #nosuch", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE # (x integer)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5019;  [SAP][Advantage SQL Engine][ASA] Error 5019:  An invalid option was specified.  The name of the temporary table must be specified.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE ##g (x integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM ##g", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["x", 11, 4, 0]], "rows": []}},
+{"cmd": "query CREATE TABLE #1x (x integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE #b (x integer);  INSERT INTO #b VALUES (3); DROP TABLE #b; SELECT 1 AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  b Table name: #b", "has_cursor": false, "affected": 1},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE #dbf (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #dbf VALUES (7, 'abc')", "rc": 0},
+{"cmd": "query SELECT * FROM #dbf", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["7", "abc"]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #dbf", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["7", "abc"]]]}},
+{"cmd": "query CREATE TABLE #adt (x integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE #vfp (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #vfp VALUES (7, 'abc')", "rc": 0},
+{"cmd": "query SELECT * FROM #vfp", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0]], "rows": [
+  [1, ["7", "abc"]]]}}
+]

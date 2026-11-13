@@ -1,0 +1,11 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tblpassw')
+#table 1 t_enc 3 20
+#table 1 t_plain 3 20
+sql 1 EXECUTE PROCEDURE sp_EncryptTable('t_enc')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', 'PrepareDiff')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', 'Diff')

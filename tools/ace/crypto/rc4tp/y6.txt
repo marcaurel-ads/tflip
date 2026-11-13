@@ -1,0 +1,17 @@
+# What a deleted record and an updated memo of an enciphered DBF table look like (RC4 dictionary with ENCRYPT_NEW_TABLE on).
+ddcreate 0 %D\y6\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+stmttype 2
+sql CREATE TABLE tc (id INTEGER, note MEMO)
+sql INSERT INTO tc VALUES (1, 'first memo')
+sql INSERT INTO tc VALUES (2, 'second memo')
+sql INSERT INTO tc VALUES (3, 'third memo')
+sql DELETE FROM tc WHERE id = 2
+sql UPDATE tc SET note = 'a much longer replacement memo for the third record' WHERE id = 3
+stmttype 1
+sql CREATE TABLE tn (id INTEGER, note MEMO)
+sql INSERT INTO tn VALUES (1, 'first memo')
+sql INSERT INTO tn VALUES (2, 'second memo')
+sql DELETE FROM tn WHERE id = 1
+disconnect

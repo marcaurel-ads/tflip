@@ -1,0 +1,62 @@
+# EXECUTE of functions and procedures checked in SQL, with VERIFY_ACCESS_RIGHTS
+# set: a user calls a function, runs a procedure or calls a packaged function
+# only with the right to execute it (its own, through a group, the built-in
+# DB:Public's, or the package's), else 5054; the administrator and a member
+# of DB:Admin always may. Run on a copy of the dictionary of
+# fixtures/dictionary/ops/publicgrants.* with VERIFY_ACCESS_RIGHTS set, which
+# is kept in fixtures/sql/ddexecrights/ (a table t, a user bob (password pw), a
+# group G1, a function f1 and a package pk1 with f2 that DB:Public may execute):
+#
+#     run.sh <work> <ace32.dll> ddexecrights.txt > ../../../fixtures/sql/ddexecrights.json
+connect pb.add adssys
+stmt
+direct CREATE FUNCTION f3 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 3; END
+direct CREATE FUNCTION f4 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 4; END
+direct CREATE FUNCTION f5 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 5; END
+direct CREATE FUNCTION f6 (a INTEGER) RETURNS INTEGER BEGIN RETURN f3(a) + 1; END
+direct CREATE PROCEDURE p3 (a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE p4 (a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE p5 (a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE p6 () BEGIN SELECT f3(1) FROM system.iota; END
+direct CREATE PACKAGE pk2
+direct CREATE FUNCTION pk2.f7 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 7; END
+direct CREATE PACKAGE pk3
+direct CREATE FUNCTION pk3.f8 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 8; END
+direct EXECUTE PROCEDURE sp_CreateUser('amy', 'amypw', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('bob', 'G1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('amy', 'DB:Admin')
+direct GRANT EXECUTE ON f4 TO bob
+direct GRANT EXECUTE ON f5 TO G1
+direct GRANT EXECUTE ON p4 TO bob
+direct GRANT EXECUTE ON p5 TO G1
+direct GRANT EXECUTE ON pk3 TO bob
+direct GRANT EXECUTE ON p6 TO bob
+direct GRANT EXECUTE ON f6 TO bob
+query SELECT f3(1) FROM system.iota
+query SELECT f6(1) FROM system.iota
+direct EXECUTE PROCEDURE p3(1)
+direct EXECUTE PROCEDURE p6()
+query SELECT pk2.f7(1) FROM system.iota
+disconnect
+connect pb.add bob pw
+stmt
+query SELECT f1(1) FROM system.iota
+query SELECT f3(1) FROM system.iota
+query SELECT f4(1) FROM system.iota
+query SELECT f5(1) FROM system.iota
+query SELECT f6(1) FROM system.iota
+query SELECT pk1.f2(1) FROM system.iota
+query SELECT pk2.f7(1) FROM system.iota
+query SELECT pk3.f8(1) FROM system.iota
+direct EXECUTE PROCEDURE p3(1)
+direct EXECUTE PROCEDURE p4(1)
+direct EXECUTE PROCEDURE p5(1)
+direct EXECUTE PROCEDURE p6()
+direct EXECUTE PROCEDURE nope(1)
+disconnect
+connect pb.add amy amypw
+stmt
+query SELECT f3(1) FROM system.iota
+direct EXECUTE PROCEDURE p3(1)
+query SELECT pk2.f7(1) FROM system.iota
+disconnect

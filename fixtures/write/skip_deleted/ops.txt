@@ -1,0 +1,1816 @@
+# A cursor left on a record deleted (written) or an appended one cancelled, then AdsSkip: in record order and in the order on id, deleted records shown or not, ADT, NTX and CDX.
+tabletype adt
+# adt variant 0 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 2
+open a1.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 1 show-deleted 1 ordered 0: top|skip 5|delete|skip 2
+open a2.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 2 show-deleted 1 ordered 0: top|skip 5|write|skip 2
+open a3.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 3 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -2
+open a4.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 4 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 1
+open a5.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 5 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 3
+open a6.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 3
+pos
+showdeleted 1
+close
+# adt variant 6 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 2|skip 2
+open a7.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 7 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -1|skip -1
+open a8.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 8 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 7
+open a9.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# adt variant 9 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -5
+open a10.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# adt variant 10 show-deleted 1 ordered 0: top|skip 5|delete|skip 1
+open a11.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 11 show-deleted 1 ordered 0: top|skip 5|delete|skip -1
+open a12.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 12 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 1|skip 1
+open a13.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 13 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 4
+open a14.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 4
+pos
+showdeleted 1
+close
+# adt variant 14 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 0
+open a15.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 0
+pos
+showdeleted 1
+close
+# adt variant 15 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 1|skip -1
+open a16.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 16 show-deleted 1 ordered 0: top|skip 11|delete|write|skip 1
+open a17.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 17 show-deleted 1 ordered 0: top|skip 11|delete|write|skip -1
+open a18.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 18 show-deleted 1 ordered 0: top|skip 11|delete|write|skip 2
+open a19.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 19 show-deleted 1 ordered 0: top|delete|write|skip 1
+open a20.adt shared
+showdeleted 1
+order -
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 20 show-deleted 1 ordered 0: top|delete|write|skip -1
+open a21.adt shared
+showdeleted 1
+order -
+otop
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 21 show-deleted 1 ordered 0: top|skip 5|append|cancel|skip -1
+open a22.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 22 show-deleted 1 ordered 0: top|skip 5|append|cancel|skip 1
+open a23.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 23 show-deleted 1 ordered 0: top|skip 5|append|cancel|skip -2
+open a24.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 24 show-deleted 1 ordered 0: top|skip 5|append|cancel|skip 2
+open a25.adt shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 25 show-deleted 1 ordered 0: bottom|skip -5|delete|write|skip -2
+open a26.adt shared
+showdeleted 1
+order -
+obottom
+pos
+oskip -5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 26 show-deleted 1 ordered 0: bottom|skip -5|delete|write|skip 2
+open a27.adt shared
+showdeleted 1
+order -
+obottom
+pos
+oskip -5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 0 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 2
+open a28.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 1 show-deleted 1 ordered 1: top|skip 5|delete|skip 2
+open a29.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 2 show-deleted 1 ordered 1: top|skip 5|write|skip 2
+open a30.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 3 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -2
+open a31.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 4 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 1
+open a32.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 5 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 3
+open a33.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 3
+pos
+showdeleted 1
+close
+# adt variant 6 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 2|skip 2
+open a34.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 7 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -1|skip -1
+open a35.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 8 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 7
+open a36.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# adt variant 9 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -5
+open a37.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# adt variant 10 show-deleted 1 ordered 1: top|skip 5|delete|skip 1
+open a38.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 11 show-deleted 1 ordered 1: top|skip 5|delete|skip -1
+open a39.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 12 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 1|skip 1
+open a40.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 13 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 4
+open a41.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 4
+pos
+showdeleted 1
+close
+# adt variant 14 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 0
+open a42.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 0
+pos
+showdeleted 1
+close
+# adt variant 15 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 1|skip -1
+open a43.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 16 show-deleted 1 ordered 1: top|skip 11|delete|write|skip 1
+open a44.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 17 show-deleted 1 ordered 1: top|skip 11|delete|write|skip -1
+open a45.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 18 show-deleted 1 ordered 1: top|skip 11|delete|write|skip 2
+open a46.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 19 show-deleted 1 ordered 1: top|delete|write|skip 1
+open a47.adt shared
+showdeleted 1
+order id
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 20 show-deleted 1 ordered 1: top|delete|write|skip -1
+open a48.adt shared
+showdeleted 1
+order id
+otop
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 21 show-deleted 1 ordered 1: top|skip 5|append|cancel|skip -1
+open a49.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 22 show-deleted 1 ordered 1: top|skip 5|append|cancel|skip 1
+open a50.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 23 show-deleted 1 ordered 1: top|skip 5|append|cancel|skip -2
+open a51.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 24 show-deleted 1 ordered 1: top|skip 5|append|cancel|skip 2
+open a52.adt shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+append
+pos
+cancel
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 25 show-deleted 1 ordered 1: bottom|skip -5|delete|write|skip -2
+open a53.adt shared
+showdeleted 1
+order id
+obottom
+pos
+oskip -5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 26 show-deleted 1 ordered 1: bottom|skip -5|delete|write|skip 2
+open a54.adt shared
+showdeleted 1
+order id
+obottom
+pos
+oskip -5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 0 show-deleted 0 ordered 0: top|skip 5|delete|write|skip 2
+open a55.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 1 show-deleted 0 ordered 0: top|skip 5|delete|skip 2
+open a56.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 2 show-deleted 0 ordered 0: top|skip 5|write|skip 2
+open a57.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 3 show-deleted 0 ordered 0: top|skip 5|delete|write|skip -2
+open a58.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 8 show-deleted 0 ordered 0: top|skip 5|delete|write|skip 7
+open a59.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# adt variant 9 show-deleted 0 ordered 0: top|skip 5|delete|write|skip -5
+open a60.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# adt variant 15 show-deleted 0 ordered 0: top|skip 5|delete|write|skip 1|skip -1
+open a61.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 16 show-deleted 0 ordered 0: top|skip 11|delete|write|skip 1
+open a62.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 17 show-deleted 0 ordered 0: top|skip 11|delete|write|skip -1
+open a63.adt shared
+showdeleted 0
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 19 show-deleted 0 ordered 0: top|delete|write|skip 1
+open a64.adt shared
+showdeleted 0
+order -
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 0 show-deleted 0 ordered 1: top|skip 5|delete|write|skip 2
+open a65.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 1 show-deleted 0 ordered 1: top|skip 5|delete|skip 2
+open a66.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 2 show-deleted 0 ordered 1: top|skip 5|write|skip 2
+open a67.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# adt variant 3 show-deleted 0 ordered 1: top|skip 5|delete|write|skip -2
+open a68.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# adt variant 8 show-deleted 0 ordered 1: top|skip 5|delete|write|skip 7
+open a69.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# adt variant 9 show-deleted 0 ordered 1: top|skip 5|delete|write|skip -5
+open a70.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# adt variant 15 show-deleted 0 ordered 1: top|skip 5|delete|write|skip 1|skip -1
+open a71.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 16 show-deleted 0 ordered 1: top|skip 11|delete|write|skip 1
+open a72.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# adt variant 17 show-deleted 0 ordered 1: top|skip 11|delete|write|skip -1
+open a73.adt shared
+showdeleted 0
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# adt variant 19 show-deleted 0 ordered 1: top|delete|write|skip 1
+open a74.adt shared
+showdeleted 0
+order id
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+tabletype ntx
+# ntx variant 0 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 2
+open n1.dbf shared
+openindex n1.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 1 show-deleted 1 ordered 0: top|skip 5|delete|skip 2
+open n2.dbf shared
+openindex n2.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 2 show-deleted 1 ordered 0: top|skip 5|write|skip 2
+open n3.dbf shared
+openindex n3.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 3 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -2
+open n4.dbf shared
+openindex n4.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# ntx variant 8 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 7
+open n5.dbf shared
+openindex n5.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# ntx variant 9 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -5
+open n6.dbf shared
+openindex n6.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# ntx variant 15 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 1|skip -1
+open n7.dbf shared
+openindex n7.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# ntx variant 16 show-deleted 1 ordered 0: top|skip 11|delete|write|skip 1
+open n8.dbf shared
+openindex n8.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# ntx variant 17 show-deleted 1 ordered 0: top|skip 11|delete|write|skip -1
+open n9.dbf shared
+openindex n9.ntx
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# ntx variant 19 show-deleted 1 ordered 0: top|delete|write|skip 1
+open n10.dbf shared
+openindex n10.ntx
+showdeleted 1
+order -
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# ntx variant 0 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 2
+open n11.dbf shared
+openindex n11.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 1 show-deleted 1 ordered 1: top|skip 5|delete|skip 2
+open n12.dbf shared
+openindex n12.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 2 show-deleted 1 ordered 1: top|skip 5|write|skip 2
+open n13.dbf shared
+openindex n13.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# ntx variant 3 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -2
+open n14.dbf shared
+openindex n14.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# ntx variant 8 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 7
+open n15.dbf shared
+openindex n15.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# ntx variant 9 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -5
+open n16.dbf shared
+openindex n16.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# ntx variant 15 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 1|skip -1
+open n17.dbf shared
+openindex n17.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# ntx variant 16 show-deleted 1 ordered 1: top|skip 11|delete|write|skip 1
+open n18.dbf shared
+openindex n18.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# ntx variant 17 show-deleted 1 ordered 1: top|skip 11|delete|write|skip -1
+open n19.dbf shared
+openindex n19.ntx
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# ntx variant 19 show-deleted 1 ordered 1: top|delete|write|skip 1
+open n20.dbf shared
+openindex n20.ntx
+showdeleted 1
+order id
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+tabletype cdx
+# cdx variant 0 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 2
+open c1.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 1 show-deleted 1 ordered 0: top|skip 5|delete|skip 2
+open c2.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 2 show-deleted 1 ordered 0: top|skip 5|write|skip 2
+open c3.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 3 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -2
+open c4.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# cdx variant 8 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 7
+open c5.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# cdx variant 9 show-deleted 1 ordered 0: top|skip 5|delete|write|skip -5
+open c6.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# cdx variant 15 show-deleted 1 ordered 0: top|skip 5|delete|write|skip 1|skip -1
+open c7.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# cdx variant 16 show-deleted 1 ordered 0: top|skip 11|delete|write|skip 1
+open c8.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# cdx variant 17 show-deleted 1 ordered 0: top|skip 11|delete|write|skip -1
+open c9.dbf shared
+showdeleted 1
+order -
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# cdx variant 19 show-deleted 1 ordered 0: top|delete|write|skip 1
+open c10.dbf shared
+showdeleted 1
+order -
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# cdx variant 0 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 2
+open c11.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 1 show-deleted 1 ordered 1: top|skip 5|delete|skip 2
+open c12.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 2 show-deleted 1 ordered 1: top|skip 5|write|skip 2
+open c13.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+write
+pos
+oskip 2
+pos
+showdeleted 1
+close
+# cdx variant 3 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -2
+open c14.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -2
+pos
+showdeleted 1
+close
+# cdx variant 8 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 7
+open c15.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 7
+pos
+showdeleted 1
+close
+# cdx variant 9 show-deleted 1 ordered 1: top|skip 5|delete|write|skip -5
+open c16.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip -5
+pos
+showdeleted 1
+close
+# cdx variant 15 show-deleted 1 ordered 1: top|skip 5|delete|write|skip 1|skip -1
+open c17.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 5
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# cdx variant 16 show-deleted 1 ordered 1: top|skip 11|delete|write|skip 1
+open c18.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close
+# cdx variant 17 show-deleted 1 ordered 1: top|skip 11|delete|write|skip -1
+open c19.dbf shared
+showdeleted 1
+order id
+otop
+pos
+oskip 11
+pos
+delete
+pos
+write
+pos
+oskip -1
+pos
+showdeleted 1
+close
+# cdx variant 19 show-deleted 1 ordered 1: top|delete|write|skip 1
+open c20.dbf shared
+showdeleted 1
+order id
+otop
+pos
+delete
+pos
+write
+pos
+oskip 1
+pos
+showdeleted 1
+close

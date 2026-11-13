@@ -1,0 +1,15 @@
+# `cargo nextest run --workspace` runs each test in a process of its own, so
+# the tests that hold the process-wide settings alone (tflip-ace's
+# `fixtures::settings_lock`) wait for no others.
+
+# The slowest start first, so that they do not run on alone at the end.
+[[profile.default.overrides]]
+filter = "package(tflip-ace) & test(=events::online_maintenance)"
+priority = 100
+
+[[profile.default.overrides]]
+filter = """
+package(tflip-ace) & (test(/^writes::(remote::)?(cdx_)?bitmap_/) | test(/setters_on_cursors/)
+  | test(/^events::(remote_server|online_)/) | test(/dictionary_alter_table/)) | binary(aeptrig)
+"""
+priority = 50

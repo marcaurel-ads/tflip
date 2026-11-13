@@ -1,0 +1,320 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t (n integer, x integer, s char(10), m memo)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t (n, x, s) VALUES (0, 10, 'abc')", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n, x, s) VALUES (2, 10, 'abd')", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n, x, s) VALUES (5, 10, 'xyz')", "rc": 0},
+{"cmd": "query SELECT n FROM t WHERE LOWER(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE UCASE(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE RIGHT(s, 2) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE LTRIM(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE RTRIM(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ALLTRIM(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE LEN(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CHAR_LENGTH(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE OCTET_LENGTH(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE BIT_LENGTH(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE AT('b', s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE RAT('b', s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE SPACE(2) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE INSERT(s, 1, 1, 'q') IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE SOUNDEX(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DIFFERENCE(s, 'abc') IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE STR(n) IS NOT NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: STR -- Location of error in the SQL statement is: 23", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n FROM t WHERE STRZERO(n, 5) IS NOT NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: STRZERO -- Location of error in the SQL statement is: 23", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n FROM t WHERE VAL('12') IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE HEX2CHAR('41') IS NOT NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: HEX2CHAR -- Location of error in the SQL statement is: 23", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n FROM t WHERE STARTSWITH(s, 'a')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ENDSWITH(s, 'a')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE SUBSTRINGOF('a', s)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE BASE64ENCODE(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE SIGN(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CEILING(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE FLOOR(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TRUNCATE(n, 1) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE EXP(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE LOG(n + 1) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE LOG10(n + 1) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE PI() IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DEGREES(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE RADIANS(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE SIN(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE COS(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TAN(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ASIN(0) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ACOS(0) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ATAN(n) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ATAN2(n, 1) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE COT(n + 1) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE MONTH(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DAY(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DAYOFWEEK(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DAYOFYEAR(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE QUARTER(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE WEEK(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE HOUR(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE MINUTE(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE SECOND(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DAYNAME(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE MONTHNAME(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DTOC(CURDATE()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DTOS(CURDATE()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE STOD('20000101') IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CTOD('01/01/2000') IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TIMESTAMPDIFF(SQL_TSI_DAY, NOW(), NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TSTOD(NOW()) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CURTIME() IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TIME() IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TTOC(NOW()) IS NOT NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 23", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n FROM t WHERE n + 1 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n * 2 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n - 1 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n / 2 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE -n IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE x / 2 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE s + s IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n & 1 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n | 1 IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ~n IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE s IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE n <> 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE s BETWEEN 'a' AND 'b'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE s NOT IN ('a', 'b')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE s NOT BETWEEN 'a' AND 'b'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE NOT n IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE n = 2 AND s = 'abd'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE (n = 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TRIM(LEADING 'a' FROM s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE TRIM(s) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CAST(s AS SQL_VARCHAR(3)) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CAST(n AS SQL_INTEGER) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}},
+{"cmd": "query SELECT n FROM t WHERE CONVERT(n, SQL_INTEGER) IS NOT NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["2"]],
+  [3, ["5"]]]}}
+]

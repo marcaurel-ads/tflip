@@ -1,0 +1,7 @@
+#include dd_all.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\bmeta', 'MetaOnly')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\bfull', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\bmeta\d.add', '', '@ROOT@\dmeta\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\bfull\d.add', '', '@ROOT@\dmeta2\d.add', 'MetaOnly')
+connect 2 dmeta\d.add
+sql 2 SELECT * FROM t_adt

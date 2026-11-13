@@ -1,0 +1,16 @@
+#include dd_all.txt
+connect 2 src\d.add
+sql 2 BEGIN TRANSACTION
+sql 2 INSERT INTO t_adt VALUES (50, 'txpending', 50.5, '2023-01-01', 1, 'pending memo')
+sql 2 UPDATE t_adt SET name = 'txedited' WHERE id = 1
+sql 2 DELETE FROM t_adt WHERE id = 2
+sql 2 INSERT INTO t_cdx VALUES (50, 'txpending', 50.5, '2023-01-01', 1, 'pending memo')
+sql 2 UPDATE t_cdx SET note = 'txedited memo that is long enough to need a new block aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 2 COMMIT
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', NULL)
+sql 2 BEGIN TRANSACTION
+sql 2 INSERT INTO t_adt VALUES (51, 'txrolled', 51.5, '2023-01-01', 1, 'rolled memo')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img3', NULL)
+sql 2 ROLLBACK
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img4', NULL)

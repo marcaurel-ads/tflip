@@ -1,0 +1,77 @@
+# Query logging on a free connection, the rest: the table a log goes in (kept and
+# appended to, or emptied), the filters (only the unoptimized, a minimum time),
+# the options that log only errors or no errors, and the arguments refused.
+#
+#     run.sh <work> <ace32.dll> spql3.txt > ../../../fixtures/sql/spql3.json
+stmt
+query CREATE TABLE t1 (id INTEGER, name CHAR(10))
+query INSERT INTO t1 VALUES (1, 'one')
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('plain', 1, 0, 0, '')
+query SELECT * FROM t1 WHERE id = 1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('plain', 0, 0, 0, '')
+query SELECT * FROM t1 WHERE id = 2
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('plain', 1, 0, 0, '')
+query SELECT * FROM t1 WHERE id = 3
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM plain
+query EXECUTE PROCEDURE sp_EnableQueryLogging('t1', 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging(5, 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('a', 'b', 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('only', 1, 1, 0, '')
+query SELECT * FROM t1
+query SELECT * FROM t1 WHERE name = 'one'
+query SELECT * FROM nosuch
+query SELEC
+query SELECT * FROM only
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('slow', 1, 0, 100000, '')
+query SELECT * FROM t1
+query SELECT * FROM t1 WHERE name = 'one'
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM slow
+query EXECUTE PROCEDURE sp_EnableQueryLogging('fast', 1, 0, 5, '')
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM fast
+query EXECUTE PROCEDURE sp_EnableQueryLogging('neg', 1, 0, -5, '')
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM neg
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt1', 1, 0, 0, '', 1)
+query SELECT * FROM t1
+query SELECT * FROM nosuch
+query SELECT 1/0 FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM opt1
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt2', 1, 0, 0, '', 2)
+query SELECT * FROM t1
+query SELECT * FROM nosuch
+query SELECT 1/0 FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM opt2
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 1, 0, 0, '', 3)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 1, 0, 0, '', 4)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 1, 0, 0, '', NULL)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 1, 0, 0, '', 0)
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 1, 1, 0, '', 1)
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', 7, 9, 0, '', 1)
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('opt3', NULL, NULL, NULL, NULL)
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM opt3

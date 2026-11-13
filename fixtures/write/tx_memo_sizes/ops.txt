@@ -1,0 +1,91 @@
+# Memo values of different sizes in a transaction on an exclusive ADT table (one block or several):
+# shrunk, grown, set on a record without one, deleted, appended; rolled back (xa), committed (xb);
+# and appends and a change before and after a savepoint (xt).
+open xa exclusive
+begin
+goto 1
+set body string shrunk now
+write
+goto 2
+set body string grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown 
+write
+flush
+snapshot xa_grown
+goto 3
+set body string null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null 
+write
+set body string small
+write
+flush
+snapshot xa_small
+goto 4
+delete
+write
+append
+set id long 6
+set body string app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app 
+write
+rollback
+flush
+snapshot xa_rollback
+close
+open xb exclusive
+begin
+goto 1
+set body string shrunk now
+write
+goto 2
+set body string grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown grown 
+write
+goto 3
+set body string null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null null 
+write
+set body string small
+write
+goto 4
+delete
+write
+append
+set id long 6
+set body string app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app app 
+write
+flush
+snapshot xb_appended
+commit
+flush
+snapshot xb_commit
+close
+# A savepoint on an exclusive table.
+open xt exclusive
+begin
+append
+set id long 5
+set body string before the savepoint
+write
+savepoint s
+append
+set id long 6
+set body string after the savepoint
+write
+goto 3
+set body string for record three
+write
+rollbackto s
+flush
+snapshot t_rolledto
+commit
+flush
+snapshot t_committed
+close
+open xa shared
+state
+rows
+close
+open xb shared
+state
+rows
+close
+open xt shared
+state
+rows
+close

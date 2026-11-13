@@ -1,0 +1,13 @@
+ddcreate 0 %D\a1\d.add
+sql CREATE TABLE t0 (id INTEGER)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql SELECT * FROM system.dictionary
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+sql SELECT * FROM t
+disconnect

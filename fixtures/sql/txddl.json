@@ -1,0 +1,21 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE d (n INTEGER, s CHAR(8))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO d VALUES (1, 'one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX j3 ON d (n)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE d ADD COLUMN q INTEGER", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5063;  [SAP][Advantage SQL Engine][ASA] Error 5063:  The command specified is illegal within a transaction.  Cannot restructure a table from within a transaction.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE d DROP COLUMN s", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5063;  [SAP][Advantage SQL Engine][ASA] Error 5063:  The command specified is illegal within a transaction.  Cannot restructure a table from within a transaction.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE d ALTER COLUMN s s CHAR(10)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5063;  [SAP][Advantage SQL Engine][ASA] Error 5063:  The command specified is illegal within a transaction.  Cannot restructure a table from within a transaction.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP INDEX d.j3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5063;  [SAP][Advantage SQL Engine][ASA] Error 5063:  The command specified is illegal within a transaction.  Can't delete index orders.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE e (n INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP TABLE e", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM d", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "d.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 1, "fields": [["n", 11, 4, 0], ["s", 4, 8, 0]], "rows": [
+  [1, ["1", "one     "]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP INDEX d.j3", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE d ADD COLUMN q INTEGER", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM d", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "d.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0], ["s", 4, 8, 0], ["q", 11, 4, 0]], "rows": [
+  [1, ["1", "one     ", null]]]}}
+]

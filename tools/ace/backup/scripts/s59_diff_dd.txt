@@ -1,0 +1,21 @@
+#include dg_dd.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap0\ /I /Q
+sql 1 CREATE VIEW v_one AS SELECT id, name FROM x_one
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_view\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_CreateUser('bkuser', 'pw', 'user')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_user\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_ModifyUserProperty('bkuser', 'USER_PASSWORD', 'pw2')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_userprop\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_ModifyTableProperty('x_one', 'COMMENT', 'cmt', 'NO_VALIDATE', NULL)
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_tblprop\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_diff\ /E /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff2\ /I /Q
+sql 1 DROP VIEW v_one
+sql 1 UPDATE x_one SET name = 'edit' WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff3\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_diff3\ /E /I /Q

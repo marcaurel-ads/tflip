@@ -1,0 +1,54 @@
+# What a function (f1), a user (bob), a group (G1), a package (pk1), a link
+# (lnk), a publication (pb), a subscription (sb) and the database, all with a
+# rights slot for DB:Public that does not check (a byte of the 32 flipped by
+# crates/tflip-storage/examples/pubslot.rs, as: pubslot pb.add func f1 0, and
+# so on, in the dictionary of fixtures/dictionary/ops/publicgrants.* with
+# VERIFY_ACCESS_RIGHTS set), do: the permissions and the effective permissions
+# with the rows of all eight lost, the system tables and the catalog procedure
+# a user lists, and calls of the function and of the package's. Run in a fresh
+# process, as the engine keeps a dictionary's key open across connections. The
+# dictionary, pb.add and t.adt ..., is kept in fixtures/sql/ddpublicbad4/:
+#
+#     run.sh <work> <ace32.dll> ddpublicbad4.txt > ../../../fixtures/sql/ddpublicbad4.json
+#
+# (the work folder's data/ copy of fixtures/sql/ddpublicbad4/ is made by run.sh;
+# the original's results are of that dictionary).
+connect pb.add adssys
+stmt
+cap 1000
+query SELECT * FROM system.permissions
+query SELECT * FROM system.effectivepermissions
+query SELECT * FROM system.permissions WHERE Name = 'p'
+query SELECT * FROM system.permissions WHERE Name = 'f1'
+query SELECT * FROM system.effectivepermissions WHERE Name = 'a1'
+query SELECT * FROM system.effectivepermissions WHERE Name = 'f1'
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.links
+query SELECT * FROM system.packages
+query SELECT * FROM system.storedprocedures
+query SELECT f1(1) FROM system.iota
+query SELECT f2(1) FROM system.iota
+query SELECT pk1.f2(1) FROM system.iota
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add bob pw
+stmt
+cap 1000
+query SELECT * FROM system.tables
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.links
+query SELECT * FROM system.packages
+query SELECT * FROM system.publications
+query SELECT * FROM system.subscriptions
+query SELECT * FROM system.articles
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.functions
+query SELECT * FROM system.dictionary
+query SELECT * FROM t
+query SELECT f1(1) FROM system.iota
+query SELECT pk1.f2(1) FROM system.iota
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+disconnect

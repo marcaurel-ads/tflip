@@ -1,0 +1,106 @@
+# CREATE TABLE of DBF tables (the statement's table type is set) by a user who
+# is not the administrator, with and without IN DATABASE: u1 holds no rights,
+# u2 the right to create tables, u3 is in DB:Admin. The dictionary, cd2/cd2.add,
+# and the files it leaves are kept in fixtures/sql/ddcreatedbf/:
+#
+#     run.sh <work> <ace32.dll> ddcreatedbf.txt > ../../../fixtures/sql/ddcreatedbf.json
+#     cp <work>/data/cd2/* ../../../fixtures/sql/ddcreatedbf/
+ddcreate cd2\cd2.add
+stmt
+direct CREATE TABLE t0 (id INTEGER, name CHAR(10))
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct GRANT CREATE TABLE TO u2
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'DB:Admin')
+disconnect
+#
+# No right to create tables.
+connect cd2\cd2.add u1 pw1
+stmt
+tabletype 2
+direct CREATE TABLE a1 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE a2 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE a3 (id INTEGER, s CHAR(10)) AS FREE TABLE
+tabletype 1
+direct CREATE TABLE a4 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE a5 (id INTEGER, s CHAR(10)) IN DATABASE
+tabletype 4
+direct CREATE TABLE a6 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE a7 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE a8 (id INTEGER NULL, s CHAR(10)) IN DATABASE
+direct CREATE TABLE a9 (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE a10 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+tabletype 2
+direct CREATE TABLE a11 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+direct CREATE TABLE t0 (id INTEGER) IN DATABASE
+direct CREATE TABLE a12 (id INTEGER, s CHAR(10)) IN DATABASE
+query SELECT Name FROM system.tables
+objects 1
+open a1
+open a3
+disconnect
+#
+# The right to create tables.
+connect cd2\cd2.add u2 pw2
+stmt
+tabletype 2
+direct CREATE TABLE b1 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE b2 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE b3 (id INTEGER, s CHAR(10)) AS FREE TABLE
+tabletype 1
+direct CREATE TABLE b4 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE b5 (id INTEGER, s CHAR(10)) IN DATABASE
+tabletype 4
+direct CREATE TABLE b6 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE b7 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE b8 (id INTEGER NULL, s CHAR(10)) IN DATABASE
+direct CREATE TABLE b9 (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE b10 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+tabletype 2
+direct CREATE TABLE b11 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+direct CREATE TABLE b12 (id INTEGER, s CHAR(10), UNIQUE (s)) IN DATABASE
+direct CREATE INDEX b2i ON b2 (s)
+direct DROP TABLE b2
+direct DROP TABLE b1
+direct DROP TABLE b3
+query SELECT Name FROM system.tables
+objects 1
+open b2
+open b1
+open b3
+disconnect
+#
+# A member of DB:Admin.
+connect cd2\cd2.add u3 pw3
+stmt
+tabletype 2
+direct CREATE TABLE c1 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE c2 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE c3 (id INTEGER, s CHAR(10)) AS FREE TABLE
+tabletype 1
+direct CREATE TABLE c4 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE c5 (id INTEGER, s CHAR(10)) IN DATABASE
+tabletype 4
+direct CREATE TABLE c6 (id INTEGER, s CHAR(10), m MEMO)
+direct CREATE TABLE c7 (id INTEGER, s CHAR(10)) IN DATABASE
+direct CREATE TABLE c8 (id INTEGER NULL, s CHAR(10)) IN DATABASE
+direct CREATE TABLE c9 (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE c10 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+tabletype 2
+direct CREATE TABLE c11 (id INTEGER PRIMARY KEY, s CHAR(10)) IN DATABASE
+direct DROP TABLE c2
+direct DROP TABLE c1
+query SELECT Name FROM system.tables
+objects 1
+open c2
+open c1
+open c3
+disconnect
+connect cd2\cd2.add adssys
+stmt
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.permissions
+disconnect

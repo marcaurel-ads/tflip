@@ -1,0 +1,293 @@
+# The order triggers of one timing and priority fire in, for creation orders,
+# names, drops and re-creations, ALTERs and priorities, on a copy of the psm
+# dictionary (fixtures/adt/psm) alone, whose own triggers it drops first.
+# Written by trigorder.py; recorded on the local server:
+#
+#     run.sh <work> <ace32.dll> trigorder.txt > ../../../fixtures/sql/trigorder.json
+#
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER b1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('b1'); END
+direct CREATE TRIGGER a1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('a1'); END
+direct CREATE TRIGGER c1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('c1'); END
+# --- create b, a, c
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.b1
+direct DROP TRIGGER items.a1
+direct DROP TRIGGER items.c1
+direct CREATE TRIGGER c2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('c2'); END
+direct CREATE TRIGGER b2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('b2'); END
+direct CREATE TRIGGER a2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('a2'); END
+# --- create c, b, a
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.c2
+direct DROP TRIGGER items.b2
+direct DROP TRIGGER items.a2
+direct CREATE TRIGGER a3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('a3'); END
+direct CREATE TRIGGER b3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('b3'); END
+direct CREATE TRIGGER c3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('c3'); END
+# --- create a, b, c
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.a3
+direct DROP TRIGGER items.b3
+direct DROP TRIGGER items.c3
+direct CREATE TRIGGER t10 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('t10'); END
+direct CREATE TRIGGER t2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('t2'); END
+direct CREATE TRIGGER t1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('t1'); END
+direct CREATE TRIGGER t20 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('t20'); END
+direct CREATE TRIGGER t3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('t3'); END
+# --- names of different lengths and digits
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.t10
+direct DROP TRIGGER items.t2
+direct DROP TRIGGER items.t1
+direct DROP TRIGGER items.t20
+direct DROP TRIGGER items.t3
+direct CREATE TRIGGER Zb ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('Zb'); END
+direct CREATE TRIGGER aa ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('aa'); END
+direct CREATE TRIGGER Ab ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('Ab'); END
+direct CREATE TRIGGER zz ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('zz'); END
+# --- case of names
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.Zb
+direct DROP TRIGGER items.aa
+direct DROP TRIGGER items.Ab
+direct DROP TRIGGER items.zz
+direct CREATE TRIGGER x_b ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('x_b'); END
+direct CREATE TRIGGER xb ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('xb'); END
+direct CREATE TRIGGER x_a ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('x_a'); END
+direct CREATE TRIGGER xa ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('xa'); END
+direct CREATE TRIGGER x1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('x1'); END
+# --- underscore and letters
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.x_b
+direct DROP TRIGGER items.xb
+direct DROP TRIGGER items.x_a
+direct DROP TRIGGER items.xa
+direct DROP TRIGGER items.x1
+direct CREATE TRIGGER b4 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('b4'); END
+direct CREATE TRIGGER a4 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('a4'); END
+direct CREATE TRIGGER c4 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('c4'); END
+# --- AFTER, create b, a, c
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.b4
+direct DROP TRIGGER items.a4
+direct DROP TRIGGER items.c4
+direct CREATE TRIGGER c5 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('c5'); END
+direct CREATE TRIGGER a5 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('a5'); END
+direct CREATE TRIGGER b5 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('b5'); END
+# --- AFTER, create c, a, b
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.c5
+direct DROP TRIGGER items.a5
+direct DROP TRIGGER items.b5
+# --- drop the middle one and create it again
+direct CREATE TRIGGER d1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d1'); END
+direct CREATE TRIGGER d2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d2'); END
+direct CREATE TRIGGER d3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d3'); END
+direct DROP TRIGGER items.d2
+direct CREATE TRIGGER d2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d2'); END
+# --- after drop and re-create of d2
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.d1
+direct DROP TRIGGER items.d3
+direct DROP TRIGGER items.d2
+# --- drop the first and create it again
+direct CREATE TRIGGER e1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('e1'); END
+direct CREATE TRIGGER e2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('e2'); END
+direct CREATE TRIGGER e3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('e3'); END
+direct DROP TRIGGER items.e1
+direct CREATE TRIGGER e1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('e1'); END
+# --- after drop and re-create of e1
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.e2
+direct DROP TRIGGER items.e3
+direct DROP TRIGGER items.e1
+# --- drop two, create new ones in between
+direct CREATE TRIGGER f1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f1'); END
+direct CREATE TRIGGER f2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f2'); END
+direct CREATE TRIGGER f3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f3'); END
+direct CREATE TRIGGER f4 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f4'); END
+direct DROP TRIGGER items.f1
+direct DROP TRIGGER items.f3
+direct CREATE TRIGGER f9 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f9'); END
+direct CREATE TRIGGER f0 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('f0'); END
+# --- after drops of f1, f3 and creates of f9, f0
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.f2
+direct DROP TRIGGER items.f4
+direct DROP TRIGGER items.f9
+direct DROP TRIGGER items.f0
+direct CREATE TRIGGER m07 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m07'); END
+direct CREATE TRIGGER m11 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m11'); END
+direct CREATE TRIGGER m03 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m03'); END
+direct CREATE TRIGGER m10 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m10'); END
+direct CREATE TRIGGER m08 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m08'); END
+direct CREATE TRIGGER m04 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m04'); END
+direct CREATE TRIGGER m09 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m09'); END
+direct CREATE TRIGGER m01 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m01'); END
+direct CREATE TRIGGER m00 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m00'); END
+direct CREATE TRIGGER m06 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m06'); END
+direct CREATE TRIGGER m02 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m02'); END
+direct CREATE TRIGGER m05 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('m05'); END
+# --- twelve, shuffled: m07 m11 m03 m10 m08 m04 m09 m01 m00 m06 m02 m05
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.m07
+direct DROP TRIGGER items.m11
+direct DROP TRIGGER items.m03
+direct DROP TRIGGER items.m10
+direct DROP TRIGGER items.m08
+direct DROP TRIGGER items.m04
+direct DROP TRIGGER items.m09
+direct DROP TRIGGER items.m01
+direct DROP TRIGGER items.m00
+direct DROP TRIGGER items.m06
+direct DROP TRIGGER items.m02
+direct DROP TRIGGER items.m05
+direct CREATE TRIGGER n07 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n07'); END
+direct CREATE TRIGGER n04 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n04'); END
+direct CREATE TRIGGER n02 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n02'); END
+direct CREATE TRIGGER n05 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n05'); END
+direct CREATE TRIGGER n11 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n11'); END
+direct CREATE TRIGGER n09 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n09'); END
+direct CREATE TRIGGER n10 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n10'); END
+direct CREATE TRIGGER n06 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n06'); END
+direct CREATE TRIGGER n01 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n01'); END
+direct CREATE TRIGGER n00 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n00'); END
+direct CREATE TRIGGER n03 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n03'); END
+direct CREATE TRIGGER n08 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('n08'); END
+# --- twelve, shuffled again: n07 n04 n02 n05 n11 n09 n10 n06 n01 n00 n03 n08
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.n07
+direct DROP TRIGGER items.n04
+direct DROP TRIGGER items.n02
+direct DROP TRIGGER items.n05
+direct DROP TRIGGER items.n11
+direct DROP TRIGGER items.n09
+direct DROP TRIGGER items.n10
+direct DROP TRIGGER items.n06
+direct DROP TRIGGER items.n01
+direct DROP TRIGGER items.n00
+direct DROP TRIGGER items.n03
+direct DROP TRIGGER items.n08
+# --- priorities: equal ones keep the rule, others sort
+direct CREATE TRIGGER p_c ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('p_c'); END PRIORITY 2
+direct CREATE TRIGGER p_b ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('p_b'); END PRIORITY 1
+direct CREATE TRIGGER p_a ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('p_a'); END PRIORITY 2
+direct CREATE TRIGGER p_e ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('p_e'); END PRIORITY 1
+direct CREATE TRIGGER p_d ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('p_d'); END PRIORITY 3
+# --- priorities c2 b1 a2 e1 d3
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.p_c
+direct DROP TRIGGER items.p_b
+direct DROP TRIGGER items.p_a
+direct DROP TRIGGER items.p_e
+direct DROP TRIGGER items.p_d
+# --- ALTER TRIGGER of the first created
+direct CREATE TRIGGER g1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('g1'); END
+direct CREATE TRIGGER g2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('g2'); END
+direct CREATE TRIGGER g3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('g3'); END
+direct ALTER TRIGGER g1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('g1 altered'); END
+# --- after ALTER of g1
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.g1
+direct DROP TRIGGER items.g2
+direct DROP TRIGGER items.g3
+# --- triggers of other events and timings created in between
+direct CREATE TRIGGER h1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('h1'); END
+direct CREATE TRIGGER h2 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('h2'); END
+direct CREATE TRIGGER h3 ON items BEFORE UPDATE BEGIN INSERT INTO audit (msg) VALUES ('h3'); END
+direct CREATE TRIGGER h4 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('h4'); END
+direct CREATE TRIGGER h0 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('h0'); END
+# --- h1 h2(after) h3(update) h4 h0(after)
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.h1
+direct DROP TRIGGER items.h2
+direct DROP TRIGGER items.h3
+direct DROP TRIGGER items.h4
+direct DROP TRIGGER items.h0
+# --- the same names after the table's triggers were all dropped, in reverse
+direct CREATE TRIGGER k3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('k3'); END
+direct CREATE TRIGGER k2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('k2'); END
+direct CREATE TRIGGER k1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('k1'); END
+# --- create k3 k2 k1
+query SELECT TRIM(name) FROM system.triggers
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+direct DROP TRIGGER items.k3
+direct DROP TRIGGER items.k2
+direct DROP TRIGGER items.k1

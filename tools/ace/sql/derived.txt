@@ -1,0 +1,271 @@
+# A SELECT of one table in FROM: which forms are a live cursor on the table
+# (its file is the table's, a write through it changes the table) and which
+# are static, and the counts of each -- for fixtures/sql/derived.json, in an
+# empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> derived.txt > fixtures/sql/derived.json
+stmt
+query CREATE TABLE t (id integer, name char(8), n integer)
+query INSERT INTO t VALUES (1, 'a', 10)
+query INSERT INTO t VALUES (2, 'b', 20)
+query INSERT INTO t VALUES (3, 'c', 30)
+query INSERT INTO t VALUES (4, 'd', 40)
+query CREATE INDEX idi ON t (id)
+# The plans first: the original numbers them on from the statements before.
+query SHOW PLAN FOR SELECT COUNT(*) FROM t
+query SHOW PLAN FOR SELECT COUNT(*) FROM t WHERE id > 1
+query SHOW PLAN FOR SELECT COUNT(*) FROM t WHERE n > 1
+query SHOW PLAN FOR SELECT COUNT(1) FROM t
+query SHOW PLAN FOR SELECT COUNT(id) FROM t
+query SHOW PLAN FOR SELECT COUNT(*), COUNT(*) FROM t
+query SHOW PLAN FOR SELECT COUNT(*) + 1 FROM t
+query SHOW PLAN FOR SELECT COUNT(*) FROM t HAVING COUNT(*) > 1
+query SHOW PLAN FOR SELECT COUNT(*) FROM t, t u
+query SHOW PLAN FOR SELECT COUNT(*) FROM (SELECT id FROM t) x
+query SHOW PLAN FOR SELECT COUNT(*) FROM (SELECT id FROM t WHERE id > 1) x
+query SHOW PLAN FOR SELECT COUNT(*) FROM (SELECT id FROM t) x WHERE id > 1
+query SHOW PLAN FOR SELECT COUNT(*) FROM system.iota
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t WHERE id > 1) x
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x WHERE id > 1
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t WHERE id > 1) x WHERE id < 4
+query SHOW PLAN FOR SELECT * FROM (SELECT id AS k, name FROM t) x WHERE k > 1
+query SHOW PLAN FOR SELECT * FROM (SELECT id + 1 AS k, name FROM t) x
+query SHOW PLAN FOR SELECT * FROM (SELECT id + 1 AS k, name FROM t) x WHERE k > 1
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x ORDER BY id DESC
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x ORDER BY name
+query SHOW PLAN FOR SELECT {static} * FROM (SELECT id, name FROM t) x
+query SHOW PLAN FOR SELECT * FROM (SELECT * FROM (SELECT id, name FROM t) a) b
+query SHOW PLAN FOR SELECT * FROM (SELECT * FROM (SELECT id, name FROM t WHERE id > 1) a WHERE id < 4) b
+query SHOW PLAN FOR SELECT * FROM (SELECT TOP 2 id, name FROM t) x
+query SHOW PLAN FOR SELECT * FROM (SELECT DISTINCT id, name FROM t) x
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x, t u WHERE x.id = u.id
+query SHOW PLAN FOR SELECT * FROM t u, (SELECT id, name FROM t) x WHERE x.id = u.id
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t WHERE id > 1) x JOIN (SELECT id, n FROM t) y ON x.id = y.id
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t UNION ALL SELECT id, name FROM t) x WHERE id > 1
+query SHOW PLAN FOR SELECT * FROM (SELECT id, COUNT(*) AS c FROM t GROUP BY id) x
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x WHERE id = 2
+query SHOW PLAN FOR SELECT * FROM (SELECT id, name FROM t) x WHERE name = 'b'
+query SHOW PLAN FOR SELECT x.id, y.id FROM (SELECT id FROM t) x, (SELECT id FROM t) y
+direct SELECT * FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w1
+count
+closecursor
+direct SELECT * FROM (SELECT * FROM t) x
+gotop
+edit 2 w2
+closecursor
+direct SELECT id, name FROM (SELECT * FROM t) x
+gotop
+edit 2 w3
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE id > 1) x
+gotop
+edit 2 w4
+count
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x WHERE id > 1
+gotop
+edit 2 w5
+count
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE id > 1) x WHERE id < 4
+gotop
+edit 2 w6
+closecursor
+direct SELECT * FROM (SELECT id AS k, name FROM t) x
+gotop
+edit 2 w7
+closecursor
+direct SELECT k, name FROM (SELECT id AS k, name FROM t) x
+gotop
+edit 2 w7b
+closecursor
+direct SELECT id AS q, name FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w8
+closecursor
+direct SELECT * FROM (SELECT id + 1 AS k, name FROM t) x
+gotop
+edit 2 w9
+closecursor
+direct SELECT * FROM (SELECT id, UPPER(name) AS name FROM t) x
+gotop
+edit 2 w10
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t ORDER BY id DESC) x
+direct SELECT * FROM (SELECT id, name FROM t) x ORDER BY id DESC
+gotop
+edit 2 w12
+closecursor
+closecursor
+direct SELECT * FROM (SELECT {static} id, name FROM t) x
+gotop
+edit 2 w14
+closecursor
+direct SELECT {static} * FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w15
+closecursor
+direct SELECT * FROM (SELECT * FROM (SELECT id, name FROM t) a) b
+gotop
+edit 2 w16
+closecursor
+direct SELECT * FROM (SELECT * FROM (SELECT id, name FROM t WHERE id > 1) a WHERE id < 4) b
+gotop
+edit 2 w17
+closecursor
+direct SELECT * FROM (SELECT TOP 2 id, name FROM t) x
+gotop
+edit 2 w18
+closecursor
+direct SELECT TOP 2 * FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w19
+closecursor
+direct SELECT * FROM (SELECT DISTINCT id, name FROM t) x
+gotop
+edit 2 w20
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) AS x, (SELECT 1 AS one FROM system.iota) y
+gotop
+edit 2 w21
+closecursor
+direct SELECT x.id, x.name FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w22
+closecursor
+direct SELECT id, name, id AS id2 FROM (SELECT id, name FROM t) x
+gotop
+edit 2 w23
+closecursor
+direct SELECT name, name FROM (SELECT id, name FROM t) x
+gotop
+edit 1 w24
+closecursor
+direct SELECT name, id FROM (SELECT id, name FROM t) x
+gotop
+edit 1 w25
+closecursor
+direct SELECT * FROM (SELECT name, id FROM t) x
+gotop
+edit 1 w26
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x WHERE id = 2
+gotop
+edit 2 w27
+count
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x WHERE n > 1
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE n > 10) x WHERE UPPER(name) = 'B'
+gotop
+edit 2 w28
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE UPPER(name) = 'C') x
+gotop
+edit 2 w29
+closecursor
+direct SELECT x.name FROM (SELECT * FROM t) x WHERE x.id = 3
+gotop
+edit 1 w35
+closecursor
+direct SELECT * FROM (SELECT COUNT(*) AS c FROM t) x
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t GROUP BY id, name) x
+gotop
+edit 2 w30
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t UNION ALL SELECT id, name FROM t) x
+gotop
+edit 2 w31
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x UNION ALL SELECT id, name FROM t
+gotop
+edit 2 w32
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x WHERE id IN (SELECT id FROM t WHERE id < 3)
+gotop
+edit 2 w33
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE id IN (1, 2, 3)) x
+gotop
+edit 2 w34
+closecursor
+direct SELECT * FROM (SELECT ROWNUM() AS r, id FROM t) x
+gotop
+closecursor
+query SELECT * FROM t
+direct SELECT * FROM (SELECT id, name FROM t) x
+gotop
+delrec
+gotop
+skip 1
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t) x
+append
+closecursor
+direct SELECT * FROM (SELECT id, name FROM t WHERE id < 3) x
+gobottom
+edit 2 w36
+gotop
+skip -1
+closecursor
+query SELECT * FROM t
+query DROP TABLE t
+query CREATE TABLE t (id integer, name char(8), n integer)
+query INSERT INTO t VALUES (1, 'a', 10)
+query INSERT INTO t VALUES (2, 'b', 20)
+query INSERT INTO t VALUES (3, 'c', 30)
+query INSERT INTO t VALUES (4, 'd', 40)
+query CREATE INDEX idi ON t (id)
+direct SELECT * FROM (SELECT id, name FROM t) x WHERE id > 100
+count
+closecursor
+direct SELECT * FROM t WHERE id > 1 AND name > 'a'
+closecursor
+query SELECT COUNT(*) FROM t
+query SELECT COUNT(*) FROM t WHERE id > 1
+query SELECT COUNT(*) FROM (SELECT id FROM t) x
+query SELECT COUNT(*) FROM (SELECT id FROM t WHERE id > 1) x
+query SELECT COUNT(*) FROM (SELECT id FROM t) x WHERE id > 1
+query SELECT COUNT(1) FROM t
+query SELECT COUNT(id) FROM t
+query SELECT COUNT(*), COUNT(*) FROM t
+query SELECT COUNT(*) AS c FROM t
+query SELECT COUNT(*) FROM t WHERE id > 100
+query SELECT COUNT(*) + 1 FROM t
+query SELECT COUNT(*) FROM t x
+query SELECT COUNT(*) FROM t, t u
+query SELECT COUNT(*) FROM t UNION ALL SELECT COUNT(*) FROM t
+query SELECT COUNT(*) FROM t HAVING COUNT(*) > 1
+query SELECT TOP 1 COUNT(*) FROM t
+query SELECT DISTINCT COUNT(*) FROM t
+# A WHERE of a derived table, run as a filter: a division by zero.
+query SELECT * FROM t
+query SELECT * FROM (SELECT id FROM t WHERE 1 / (id - 2) > 0) x
+query SELECT * FROM (SELECT id FROM t WHERE id = 1 OR 1 / (id - 2) > 0) x
+query SELECT * FROM (SELECT id FROM t WHERE id = 5 AND 1 / (id - 2) > 0) x
+query SELECT * FROM (SELECT id FROM t) x WHERE 1 / (id - 2) > 0
+query SELECT * FROM (SELECT id FROM t) x WHERE id = 1 OR 1 / (id - 2) > 0
+query SELECT * FROM (SELECT id FROM t WHERE IIF(id = 1, 1, 1 / (id - 2)) > 0) x
+query SELECT * FROM (SELECT id FROM t WHERE COALESCE(id, 1 / (id - 2)) > 0) x
+query SELECT * FROM (SELECT id FROM t WHERE id = 5 AND 1 / (id - 2) > 0 ORDER BY id) x
+# An ORDER BY inside a derived table or a subquery.
+query SELECT id FROM t WHERE id IN (SELECT id FROM t ORDER BY id)
+query SELECT * FROM (SELECT TOP 2 id FROM t ORDER BY id DESC) x
+query SELECT (SELECT TOP 1 id FROM t ORDER BY id DESC) AS q FROM system.iota
+query SELECT id FROM t WHERE EXISTS (SELECT id FROM t ORDER BY id)
+query SELECT * FROM (SELECT id FROM t UNION SELECT id FROM t ORDER BY 1) x
+query SELECT * FROM (SELECT id FROM t GROUP BY id ORDER BY id) x
+query SELECT * FROM t u, (SELECT id FROM t ORDER BY id) x
+direct SELECT name, name FROM t
+gotop
+edit 2 dup
+closecursor
+direct SELECT name AS a, name AS b FROM t
+gotop
+edit 2 dup2
+closecursor
+query SELECT * FROM t

@@ -1,0 +1,56 @@
+# Event notifications on the remote server, from two connections to a data
+# dictionary: registering, signalling from a procedure, waiting with and
+# without a timeout, the counts, the order of the events, names (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_basic.txt
+#             > ../../../fixtures/events/events_basic.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE PROCEDURE sig(n CHAR(20), d CHAR(50)) BEGIN DECLARE @n CHAR(20); DECLARE @d CHAR(50); @n = (SELECT n FROM __input); @d = (SELECT d FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0, @d); END;
+sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;
+connect 2 d\d.add
+# timeouts
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('a', 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 100, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 1000, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 50, 0, 0)
+# not registered
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_SignalEvent('a', false, 0)
+sql 2 EXECUTE PROCEDURE sig0('zzz')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('zzz', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_WaitForAnyEvent(100, 0, 0)
+# signal before the wait, from another connection; counts
+sql 2 EXECUTE PROCEDURE sig0('a')
+sql 2 EXECUTE PROCEDURE sig0('a')
+sql 2 EXECUTE PROCEDURE sig0('a')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+# signalling connection not registered gets nothing; registered signaller gets own
+sql 1 EXECUTE PROCEDURE sig0('a')
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+# two events, any
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('b', 0)
+sql 2 EXECUTE PROCEDURE sig0('b')
+sql 2 EXECUTE PROCEDURE sig0('b')
+sql 2 EXECUTE PROCEDURE sig0('a')
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+# case of the name
+sql 2 EXECUTE PROCEDURE sig0('A')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+# a wait that is signalled
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+async 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 5000, 0, 0)
+sleep 700
+sql 2 EXECUTE PROCEDURE sig0('a')
+join 1
+async 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(5000, 0, 0)
+sleep 500
+sql 2 EXECUTE PROCEDURE sig0('b')
+join 1

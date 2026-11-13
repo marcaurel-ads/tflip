@@ -1,0 +1,25 @@
+# A free VFP table added (in the clear) to an AES-128 dictionary that does not encrypt new tables, then sp_EncryptTable and sp_DecryptTable, and a free FoxPro table sp_EncryptTable is refused for.
+connect Data Source=%D\v11\free;ServerType=LOCAL;
+createt 4 %D\v11\free\fv
+createt 2 %D\v11\free\fc
+stmttype 4
+sql INSERT INTO fv VALUES (1, 'free memo')
+sql INSERT INTO fv VALUES (2, 'second')
+stmttype 2
+sql INSERT INTO fc VALUES (1, 'free memo')
+disconnect
+connect Data Source=%D\v11\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v11\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+addtablet 4 tv %D\v11\free\fv.dbf
+addtablet 2 tc %D\v11\free\fc.dbf
+sql EXECUTE PROCEDURE sp_EncryptTable('tv')
+tget tv 214
+sql EXECUTE PROCEDURE sp_EncryptTable('tc')
+tget tc 214
+stmttype 4
+sql INSERT INTO tv VALUES (3, 'after encrypt')
+sql EXECUTE PROCEDURE sp_DecryptTable('tv')
+sql INSERT INTO tv VALUES (4, 'after decrypt')
+disconnect

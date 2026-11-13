@@ -1,0 +1,9 @@
+# Makes fixtures/sql/dml/ (items) with the original engine:
+#     sql.exe <ace32.dll> <empty folder> dml_tables.txt
+stmt
+directnull CREATE TABLE items (id AutoInc, code Char(6), name CIChar(12), qty Integer, price Money, weight Numeric(8,3), ratio Double, added Date, stamp TimeStamp, active Logical, note Memo)
+directnull CREATE UNIQUE INDEX code ON items ( code )
+directnull CREATE INDEX name ON items ( name )
+directnull INSERT INTO items (code, name, qty, price, weight, ratio, added, stamp, active, note) VALUES ('A1', 'Apple', 10, 1.5, 0.25, 0.5, '2020-01-05', '2020-01-05 10:30:00', TRUE, 'red')
+directnull INSERT INTO items (code, name, qty, price, weight, ratio, added, stamp, active, note) VALUES ('B2', 'banana', 5, 0.25, 0.12, 1.25, '2020-02-01', NULL, FALSE, NULL)
+directnull INSERT INTO items (code, name, qty, price, weight, ratio, added, stamp, active, note) VALUES ('C3', 'Cherry', NULL, 3, NULL, NULL, NULL, NULL, NULL, 'small')

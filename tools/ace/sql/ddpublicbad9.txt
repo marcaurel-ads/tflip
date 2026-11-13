@@ -1,0 +1,56 @@
+# What a member of DB:Admin and the administrator get from the effective
+# permissions of rows other than t2's, and from sp_GetColumns of a view that
+# is good, when a table's (t1) rights slot for DB:Public does not check (the
+# dictionary of ddpublicbad8, kept in fixtures/sql/ddpublicbad9/; an ordinary user's
+# are in ddpublicbad10.txt):
+#
+#     run.sh <work> <ace32.dll> ddpublicbad9.txt > ../../../fixtures/sql/ddpublicbad9.json
+connect pb.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('adm1', 'pw', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('adm1', 'DB:Admin')
+stmt
+cap 200
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'v1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'f1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 't1'
+stmt
+query SELECT * FROM system.effectivepermissions
+stmt
+query SELECT * FROM system.permissions
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add adm1 pw
+stmt
+cap 200
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'v1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'f1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 't1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'adm1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'bob'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4
+stmt
+query SELECT * FROM system.effectivepermissions
+stmt
+query SELECT * FROM system.permissions
+stmt
+query SELECT * FROM system.permissions WHERE Name = 't1'
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'v%', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, NULL, NULL)
+disconnect

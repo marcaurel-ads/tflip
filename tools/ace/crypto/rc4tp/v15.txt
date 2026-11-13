@@ -1,0 +1,18 @@
+# AdsRestructureTable of an armed free VFP table on an AES-128 connection and on an RC4 one (no password to give), and of a free one in the clear.
+connect Data Source=%D\v15\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+createt 4 %D\v15\fa
+createt 4 %D\v15\fc
+stmttype 4
+sql INSERT INTO fa VALUES (1, 'one')
+sql INSERT INTO fc VALUES (1, 'one')
+encpw %D\v15\fa secret
+restr %D\v15\fa extra, Integer;
+restr %D\v15\fc extra, Integer;
+disconnect
+connect Data Source=%D\v15\;ServerType=LOCAL;
+createt 4 %D\v15\fr
+stmttype 4
+sql INSERT INTO fr VALUES (1, 'one')
+encpw %D\v15\fr secret
+restr %D\v15\fr extra, Integer;
+disconnect

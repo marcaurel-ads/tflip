@@ -1,0 +1,35 @@
+# An AES-256 dictionary that encrypts its records, with the same tables, users in groups, grants, comments, a view, procedures, a trigger, a function, an ADSSYS password (adm), the dictionary password ddpw if it is an AES one, and holes left by what was dropped.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "F\F.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\F\F.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+sql CREATE TABLE t0 (id INTEGER)
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql DROP TABLE t0
+sql EXECUTE PROCEDURE sp_CreateUser('u2', '', 'second user')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'g1')
+sql GRANT INSERT, SELECT ON t TO g1
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'COMMENT', 'a long comment of the table, which is kept in the memo file', '', '')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'COMMENT', 'a much longer comment of the table, which is kept in the memo file and needs more blocks than the one before it did, so that the memo file has a hole', '', '')
+sql CREATE VIEW v AS SELECT id FROM t
+sql GRANT SELECT ON v TO u2
+sql CREATE PROCEDURE p1 (a INTEGER) BEGIN SELECT * FROM t; END
+sql GRANT EXECUTE ON p1 TO u1
+sql CREATE TRIGGER trg ON t AFTER INSERT BEGIN SELECT 1 FROM system.iota; END
+sql CREATE FUNCTION f1 (a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+sql EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', 'third')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'DB:Admin')
+sql GRANT SELECT ON t TO "DB:Public"
+sql GRANT CREATE TABLE TO u1
+sql EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', 'fourth')
+sql EXECUTE PROCEDURE sp_DropUser('u4')
+sql CREATE PROCEDURE p2 (a INTEGER) BEGIN SELECT 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' FROM t; END
+sql EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', 'a description of a user that is long enough to take more than one block of the memo file, and so is stored in a chunk of its own')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect

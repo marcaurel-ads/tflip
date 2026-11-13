@@ -1,0 +1,2 @@
+sql CREATE TABLE p (id integer, name char(10), notes memo)
+sql INSERT INTO p VALUES (1, 'a', 'x')

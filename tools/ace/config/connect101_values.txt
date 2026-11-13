@@ -1,0 +1,310 @@
+ReadOnly=true
+ReadOnly=True
+ReadOnly=TRUE
+ReadOnly=false
+ReadOnly=FALSE
+ReadOnly=1
+ReadOnly=0
+ReadOnly=yes
+ReadOnly=no
+ReadOnly=t
+ReadOnly=y
+ReadOnly=on
+ReadOnly=off
+ReadOnly= true 
+Shared=true
+Shared=True
+Shared=TRUE
+Shared=false
+Shared=FALSE
+Shared=1
+Shared=0
+Shared=yes
+Shared=no
+Shared=t
+Shared=y
+Shared=on
+Shared=off
+Shared= true 
+ShowDeleted=true
+ShowDeleted=True
+ShowDeleted=TRUE
+ShowDeleted=false
+ShowDeleted=FALSE
+ShowDeleted=1
+ShowDeleted=0
+ShowDeleted=yes
+ShowDeleted=no
+ShowDeleted=t
+ShowDeleted=y
+ShowDeleted=on
+ShowDeleted=off
+ShowDeleted= true 
+TrimTrailingSpaces=true
+TrimTrailingSpaces=True
+TrimTrailingSpaces=TRUE
+TrimTrailingSpaces=false
+TrimTrailingSpaces=FALSE
+TrimTrailingSpaces=1
+TrimTrailingSpaces=0
+TrimTrailingSpaces=yes
+TrimTrailingSpaces=no
+TrimTrailingSpaces=t
+TrimTrailingSpaces=y
+TrimTrailingSpaces=on
+TrimTrailingSpaces=off
+TrimTrailingSpaces= true 
+Exact=true
+Exact=True
+Exact=TRUE
+Exact=false
+Exact=FALSE
+Exact=1
+Exact=0
+Exact=yes
+Exact=no
+Exact=t
+Exact=y
+Exact=on
+Exact=off
+Exact= true 
+CheckFreeTableAccess=true
+CheckFreeTableAccess=True
+CheckFreeTableAccess=TRUE
+CheckFreeTableAccess=false
+CheckFreeTableAccess=FALSE
+CheckFreeTableAccess=1
+CheckFreeTableAccess=0
+CheckFreeTableAccess=yes
+CheckFreeTableAccess=no
+CheckFreeTableAccess=t
+CheckFreeTableAccess=y
+CheckFreeTableAccess=on
+CheckFreeTableAccess=off
+CheckFreeTableAccess= true 
+IncrementUserCount=true
+IncrementUserCount=True
+IncrementUserCount=TRUE
+IncrementUserCount=false
+IncrementUserCount=FALSE
+IncrementUserCount=1
+IncrementUserCount=0
+IncrementUserCount=yes
+IncrementUserCount=no
+IncrementUserCount=t
+IncrementUserCount=y
+IncrementUserCount=on
+IncrementUserCount=off
+IncrementUserCount= true 
+Pooling=true
+Pooling=True
+Pooling=TRUE
+Pooling=false
+Pooling=FALSE
+Pooling=1
+Pooling=0
+Pooling=yes
+Pooling=no
+Pooling=t
+Pooling=y
+Pooling=on
+Pooling=off
+Pooling= true 
+FIPS=true
+FIPS=True
+FIPS=TRUE
+FIPS=false
+FIPS=FALSE
+FIPS=1
+FIPS=0
+FIPS=yes
+FIPS=no
+FIPS=t
+FIPS=y
+FIPS=on
+FIPS=off
+FIPS= true 
+TableType=adt
+TableType=Adt
+TableType=ADS_ADT
+TableType=ADS_CDX
+TableType=1
+TableType=2
+TableType=3
+TableType=4
+TableType=5
+TableType=VFP
+TableType=FOXPRO
+TableType=CLIPPER
+TableType=DBF
+TableType=CDX 
+TableType= ntx
+CharType=ansi
+CharType=Oem
+CharType=ADS_ANSI
+CharType=1
+CharType=2
+CharType=0
+LockMode=compatible
+LockMode=Proprietary
+LockMode=ADS_COMPATIBLE_LOCKING
+LockMode=ADS_PROPRIETARY_LOCKING
+LockMode=0
+LockMode=1
+LockMode=Advantage
+LockMode=2
+SecurityMode=checkrights
+SecurityMode=Ignorerights
+SecurityMode=ADS_CHECKRIGHTS
+SecurityMode=ADS_IGNORERIGHTS
+SecurityMode=1
+SecurityMode=2
+SecurityMode=0
+CommType=TCP_IP
+CommType=UDP_IP
+CommType=IPX
+CommType=TLS
+CommType=tcp_ip
+CommType=tls
+CommType=TCP
+CommType=SPX
+CommType=NETBIOS
+CommType=INTERNET
+CommType=TCP_IP|UDP_IP
+CommType=
+EncryptionType=RC4
+EncryptionType=AES128
+EncryptionType=AES256
+EncryptionType=NONE
+EncryptionType=rc4
+EncryptionType=aes128
+EncryptionType=ADS_ENCRYPT_RC4
+EncryptionType=1
+EncryptionType=0
+EncryptionType=
+Compression=internet
+Compression=Always
+Compression=NEVER
+Compression=never
+Compression=1
+Compression=
+ServerType=local
+ServerType=REMOTE
+ServerType=ais
+ServerType=1
+ServerType=2
+ServerType=4
+ServerType=7
+ServerType=bogus
+ServerType=
+Epoch=0
+Epoch=1900
+Epoch=1950
+Epoch=2000
+Epoch=2100
+Epoch=99999
+Epoch=-1
+Epoch=abc
+Epoch=1950x
+Epoch=
+Decimals=0
+Decimals=2
+Decimals=5
+Decimals=255
+Decimals=256
+Decimals=-1
+Decimals=abc
+Decimals=
+SQLTimeout=0
+SQLTimeout=30
+SQLTimeout=-1
+SQLTimeout=99999999999
+SQLTimeout=abc
+SQLTimeout=
+DateFormat=MM/DD/YYYY
+DateFormat=DD.MM.YYYY
+DateFormat=mm/dd/yyyy
+DateFormat=YYYY/MM/DD
+DateFormat=M/D/Y
+DateFormat=x
+DateFormat=DD-MON-YYYY
+DateFormat=MM/DD/CCYY
+DateFormat=
+Max Pool Size=0
+Max Pool Size=5
+Max Pool Size=-1
+Max Pool Size=abc
+Max Pool Size=
+Connection Lifetime=0
+Connection Lifetime=5
+Connection Lifetime=-1
+Connection Lifetime=abc
+Connection Lifetime=
+Connect Timeout=0
+Connect Timeout=5
+Connect Timeout=-1
+Connect Timeout=abc
+Connect Timeout=
+Collation=
+Collation=ansi
+Collation=ASCII
+Collation=GERMAN_VFP_CI_AS_1252
+TableType
+ReadOnly=
+=TRUE
+TableType=CDX;TableType=NTX
+TableType=NTX;TableType=CDX
+ReadOnly=TRUE;ReadOnly=FALSE
+;;TableType=CDX;;
+Bogus
+TableType=CDX;Bogus=1
+Bogus=1;TableType=CDX
+ReadOnly=zzz;Bogus=1
+Bogus=1;ReadOnly=zzz
+TableType=zzz;CharType=zzz
+CharType=zzz;TableType=zzz
+Foo;
+Foo;Bar;
+Foo;Bar=1;
+Foo;TableType=CDX;
+Foo;ReadOnly=true;
+TableType=ADT;Foo;Bar=1;
+a b;
+  a b  ;
+a;b;c=1;
+ReadOnly=true;a;b=1;c=2
+Foo bar=1;
+Foo=1;ReadOnly=zzz;
+ReadOnly=zzz;Foo=1;
+=bar
+= bar;
+=  bar  ;
+=bar;Foo=1;
+=bar;baz=1;
+=a;=b;
+=TRUE;
+=TRUE;;
+=a;ReadOnly=zzz;
+ReadOnly=zzz;=a;
+Foo=1;=a;
+ =bar;
+ = bar;
+=;
+= ;
+=;=;
+;;=a;
+=;Foo=1;
+=;;x
+= ;x
+ReadOnly
+ReadOnly;
+ReadOnly;TableType=CDX;
+TableType;
+Password
+Password;
+Description
+Description=x
+; Foo =1;
+ConnectTimeout=3
+Connect Timeout=3
+Initial Catalog=x

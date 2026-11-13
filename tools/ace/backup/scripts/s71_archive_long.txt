@@ -1,0 +1,9 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+sql 1 CREATE TABLE "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (id INTEGER)
+sql 1 INSERT INTO aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa VALUES (1)
+sql 1 CREATE TABLE "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" (id INTEGER)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\ar1', 'ArchiveFile=x.tar')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\ar2', 'ArchiveFile=x.tar;include=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\ar3', NULL)

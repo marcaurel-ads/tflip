@@ -1,0 +1,25 @@
+{
+ "table_type": "adt",
+ "record_count": 5,
+ "record_length": 36,
+ "memo_block_size": 1024,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "m", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0},
+  {"name": "b", "type": 6, "type_name": "Binary", "length": 9, "decimals": 0},
+  {"name": "n", "type": 28, "type_name": "NMemo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000001000000000000000000000000000000000000000000000000000000000000", "values": {"id": {"text": "1"}, "m": {"null": true}, "b": {"null": true}, "n": {"null": true}}},
+  {"recno": 2, "deleted": false, "raw": "040000000002000000820000000100000000810000000100000000830000000200000000", "values": {"id": {"text": "2"}, "m": {"text": "x"}, "b": {"hex": "01"}, "n": {"text": "\u00fc"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000003000000850000000800000000840000000800000000860000000800000000", "values": {"id": {"text": "3"}, "m": {"text": "exactly8"}, "b": {"hex": "0102030405060708"}, "n": {"text": "four"}}},
+  {"recno": 4, "deleted": false, "raw": "040000000004000000880000002c0100000087000000200000000089000000c800000000", "values": {"id": {"text": "4"}, "m": {"text": "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}, "b": {"hex": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"}, "n": {"text": "\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega\u03a9mega"}}},
+  {"recno": 5, "deleted": false, "raw": "040000000005000000000000000000000000000000000000000000000000000000000000", "values": {"id": {"text": "5"}, "m": {"null": true}, "b": {"null": true}, "n": {"null": true}}}
+ ]
+}

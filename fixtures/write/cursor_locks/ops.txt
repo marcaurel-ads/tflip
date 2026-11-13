@@ -1,0 +1,64 @@
+open tw.adt shared
+cursor SELECT * FROM tw WHERE n > 25
+open2 tw.adt shared
+use 3
+goto 3
+lock 3
+use 2
+top
+set name string lk
+write
+get name
+locks
+use 3
+unlock 3
+use 2
+write
+get name
+use 3
+goto 4
+get name
+set name string other
+write
+use 2
+goto 4
+get name
+refresh
+get name
+lock 4
+islocked 4
+locks
+use 3
+goto 4
+set name string blk
+write
+get name
+lock 4
+use 2
+set name string mine
+write
+unlock 4
+locks
+use 3
+lock 4
+get name
+unlock 4
+use 2
+lock 1
+islocked 1
+lock 2
+locks
+append
+set name string lapp
+write
+locks
+unlock 1
+unlock 2
+locks
+lock 99
+lock 0
+locks
+closecursor
+use 1
+rows
+close

@@ -1,0 +1,11 @@
+# An ADT table of the common field types; a FoxPro table.
+sql CREATE TABLE t (id AUTOINC, name CHAR(10), amount NUMERIC(8, 2), d DATE, l LOGICAL, m MEMO, i INTEGER, dbl DOUBLE, ts TIMESTAMP, sh SHORT, ci CICHAR(4), mo MONEY, tm TIME, b BLOB)
+sql INSERT INTO t (name, amount, d, l, m, i, dbl, ts, sh, ci, mo, tm) VALUES ('bravo', 1.5, '2020-01-02', TRUE, 'memo b', 7, 2.25, '2021-03-04 05:06:07', 3, 'Ab', 12.3456, '01:02:03')
+tabletype cdx
+createtable f.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo
+append
+set c string fox
+set n double -2.5
+set m string fox memo
+write
+close

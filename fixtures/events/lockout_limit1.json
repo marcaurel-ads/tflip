@@ -1,0 +1,19 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "sql 0 CREATE DATABASE \"d\\d.add\"", "rc": 0, "ms": 9},
+{"cmd": "connect 1 d\\d.add", "rc": 0},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_CreateUser('u8', 'pw8', '')", "rc": 0, "ms": 1},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'TRUE')", "rc": 0, "ms": 1},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '1')", "rc": 0, "ms": 0},
+{"cmd": "sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')", "rc": 0, "ms": 0},
+{"cmd": "disconnect 1", "rc": 0},
+{"cmd": "connect 1 d\\d.add ADSSYS adm", "rc": 0},
+{"cmd": "pace 2000", "paced": true},
+{"cmd": "connect 5 d\\d.add ADSSYS adm", "rc": 0},
+{"cmd": "disconnect 5", "rc": 0},
+{"cmd": "connect 2 d\\d.add u8 bad", "rc": 7078, "error": "Error 7078:  The Advantage Database Server cannot authenticate the user.  Make sure the user name and password are correct.  axServerConnect"},
+{"cmd": "sql 1 SELECT Name, Logins_Disabled FROM system.users", "rc": 0, "fields": [["Name", 20, 50], ["Logins_Disabled", 1, 1]], "rows": [["u8                                                ", "T"]], "ms": 8},
+{"cmd": "pace 2000", "paced": true},
+{"cmd": "connect 3 d\\d.add u8 pw8", "rc": 7113, "error": "Error 7113:  Database logins for this user have been disabled.  axServerConnect"},
+{"cmd": "disconnect 1", "rc": 0}
+]

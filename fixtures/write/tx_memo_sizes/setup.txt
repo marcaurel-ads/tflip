@@ -1,0 +1,6 @@
+sql CREATE TABLE xa (id INTEGER, body MEMO)
+sql INSERT INTO xa VALUES (1, 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long '), (2, 'short'), (3, NULL), (4, 'four'), (5, 'five')
+sql CREATE TABLE xb (id INTEGER, body MEMO)
+sql INSERT INTO xb VALUES (1, 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long '), (2, 'short'), (3, NULL), (4, 'four'), (5, 'five')
+sql CREATE TABLE xt (id INTEGER, body MEMO)
+sql INSERT INTO xt VALUES (1, 'first memo value'), (2, 'second memo value'), (3, NULL), (4, 'fourth memo value')

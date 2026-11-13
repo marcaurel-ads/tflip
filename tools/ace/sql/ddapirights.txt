@@ -1,0 +1,570 @@
+# What the AdsDD calls that drop objects or set their properties do for a user
+# who is not the administrator: one with no rights (w1), with ALTER (w2), with
+# DROP (w3), with both (w4) on the objects, one in DB:Admin (w5), and two with
+# ALTER on the parent table (w6) and on the child table (w7) of an integrity
+# rule alone; the refusals' codes and texts and the order of the checks. The
+# dictionary, ar/ar.add, is kept in fixtures/sql/ddapirights/:
+#
+#     run.sh <work> <ace32.dll> ddapirights.txt > ../../../fixtures/sql/ddapirights.json
+#     cp <work>/data/ar/* ../../../fixtures/sql/ddapirights/
+ddcreate ar\ar.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t1b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t1c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t1i ON t1 (pid)
+direct CREATE INDEX t1bi ON t1b (pid)
+direct CREATE VIEW v1 AS SELECT id FROM t1
+direct CREATE PROCEDURE p1() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r1', 't1', 't1b', 't1bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x1', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y1', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x1', 'y1')
+ddpub q1 - 0
+ddart q1 t1c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w1', 'pw1', '')
+direct CREATE TABLE t2 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t2b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t2c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t2i ON t2 (pid)
+direct CREATE INDEX t2bi ON t2b (pid)
+direct CREATE VIEW v2 AS SELECT id FROM t2
+direct CREATE PROCEDURE p2() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r2', 't2', 't2b', 't2bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x2', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y2', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x2', 'y2')
+ddpub q2 - 0
+ddart q2 t2c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w2', 'pw2', '')
+direct CREATE TABLE t3 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t3b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t3c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t3i ON t3 (pid)
+direct CREATE INDEX t3bi ON t3b (pid)
+direct CREATE VIEW v3 AS SELECT id FROM t3
+direct CREATE PROCEDURE p3() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r3', 't3', 't3b', 't3bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x3', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y3', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x3', 'y3')
+ddpub q3 - 0
+ddart q3 t3c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w3', 'pw3', '')
+direct CREATE TABLE t4 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t4b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t4c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t4i ON t4 (pid)
+direct CREATE INDEX t4bi ON t4b (pid)
+direct CREATE VIEW v4 AS SELECT id FROM t4
+direct CREATE PROCEDURE p4() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r4', 't4', 't4b', 't4bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x4', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y4', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x4', 'y4')
+ddpub q4 - 0
+ddart q4 t4c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w4', 'pw4', '')
+direct CREATE TABLE t5 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t5b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t5c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t5i ON t5 (pid)
+direct CREATE INDEX t5bi ON t5b (pid)
+direct CREATE VIEW v5 AS SELECT id FROM t5
+direct CREATE PROCEDURE p5() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r5', 't5', 't5b', 't5bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x5', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y5', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x5', 'y5')
+ddpub q5 - 0
+ddart q5 t5c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w5', 'pw5', '')
+direct CREATE TABLE t6 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t6b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t6c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t6i ON t6 (pid)
+direct CREATE INDEX t6bi ON t6b (pid)
+direct CREATE VIEW v6 AS SELECT id FROM t6
+direct CREATE PROCEDURE p6() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r6', 't6', 't6b', 't6bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x6', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y6', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x6', 'y6')
+ddpub q6 - 0
+ddart q6 t6c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w6', 'pw6', '')
+direct CREATE TABLE t7 (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE t7b (id INTEGER, pid INTEGER)
+direct CREATE TABLE t7c (id INTEGER, pid INTEGER, PRIMARY KEY (id))
+direct CREATE INDEX t7i ON t7 (pid)
+direct CREATE INDEX t7bi ON t7b (pid)
+direct CREATE VIEW v7 AS SELECT id FROM t7
+direct CREATE PROCEDURE p7() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r7', 't7', 't7b', 't7bi', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateUser('x7', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('y7', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('x7', 'y7')
+ddpub q7 - 0
+ddart q7 t7c id 0
+direct EXECUTE PROCEDURE sp_CreateUser('w7', 'pw7', '')
+direct GRANT ALTER ON t2 TO w2
+direct GRANT ALTER ON t2b TO w2
+direct GRANT ALTER ON t2c TO w2
+direct GRANT ALTER ON v2 TO w2
+direct GRANT ALTER ON p2 TO w2
+direct GRANT ALTER ON x2 TO w2
+direct GRANT ALTER ON y2 TO w2
+direct GRANT ALTER ON q2 TO w2
+direct GRANT DROP ON t3 TO w3
+direct GRANT DROP ON t3b TO w3
+direct GRANT DROP ON t3c TO w3
+direct GRANT DROP ON v3 TO w3
+direct GRANT DROP ON p3 TO w3
+direct GRANT DROP ON x3 TO w3
+direct GRANT DROP ON y3 TO w3
+direct GRANT DROP ON q3 TO w3
+direct GRANT ALTER ON t4 TO w4
+direct GRANT DROP ON t4 TO w4
+direct GRANT ALTER ON t4b TO w4
+direct GRANT DROP ON t4b TO w4
+direct GRANT ALTER ON t4c TO w4
+direct GRANT DROP ON t4c TO w4
+direct GRANT ALTER ON v4 TO w4
+direct GRANT DROP ON v4 TO w4
+direct GRANT ALTER ON p4 TO w4
+direct GRANT DROP ON p4 TO w4
+direct GRANT ALTER ON x4 TO w4
+direct GRANT DROP ON x4 TO w4
+direct GRANT ALTER ON y4 TO w4
+direct GRANT DROP ON y4 TO w4
+direct GRANT ALTER ON q4 TO w4
+direct GRANT DROP ON q4 TO w4
+direct GRANT ALTER ON t6 TO w6
+direct GRANT ALTER ON t7b TO w7
+direct EXECUTE PROCEDURE sp_AddUserToGroup('w5', 'DB:Admin')
+disconnect
+connect ar\ar.add w1 pw1
+ddapi AdsDDSetFieldProperty t1 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t1 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t1 #1 c4 #L
+ddapi AdsDDSetUserProperty y1 #1 c6 #L
+ddapi AdsDDRemoveView t1c
+ddapi AdsDDRemoveTable v1 #0
+ddapi AdsDDDeleteIndex t1 nosuch
+ddapi AdsDDRemoveIndexFile t1 nofile #0
+ddapi AdsDDAddUserToGroup y1 nosuch
+ddapi AdsDDRemoveUserFromGroup y1 nosuch
+ddapi AdsDDDeleteArticle q1 nosuch
+ddapi AdsDDDeleteArticle nosuch t1c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t1 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t1 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t1 t1i #1 c3 #L
+ddapi AdsDDSetViewProperty v1 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p1 #1 c5 #L
+ddapi AdsDDSetUserProperty x1 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y1 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q1 #1 c8 #L
+ddapi AdsDDSetArticleProperty q1 t1c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t1 t1i
+ddapi AdsDDRemoveRefIntegrity r1
+ddapi AdsDDRemoveView v1
+ddapi AdsDDRemoveProcedure p1
+ddapi AdsDDDeleteArticle q1 t1c
+ddapi AdsDDDeletePublication q1
+ddapi AdsDDRemoveTable t1c #1
+ddapi AdsDDAddUserToGroup y1 x1
+ddapi AdsDDRemoveUserFromGroup y1 x1
+ddapi AdsDDDeleteUser x1
+ddapi AdsDDDeleteUserGroup y1
+disconnect
+connect ar\ar.add w2 pw2
+ddapi AdsDDSetFieldProperty t2 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t2 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t2 #1 c4 #L
+ddapi AdsDDSetUserProperty y2 #1 c6 #L
+ddapi AdsDDRemoveView t2c
+ddapi AdsDDRemoveTable v2 #0
+ddapi AdsDDDeleteIndex t2 nosuch
+ddapi AdsDDRemoveIndexFile t2 nofile #0
+ddapi AdsDDAddUserToGroup y2 nosuch
+ddapi AdsDDRemoveUserFromGroup y2 nosuch
+ddapi AdsDDDeleteArticle q2 nosuch
+ddapi AdsDDDeleteArticle nosuch t2c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t2 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t2 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t2 t2i #1 c3 #L
+ddapi AdsDDSetViewProperty v2 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p2 #1 c5 #L
+ddapi AdsDDSetUserProperty x2 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y2 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q2 #1 c8 #L
+ddapi AdsDDSetArticleProperty q2 t2c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t2 t2i
+ddapi AdsDDRemoveRefIntegrity r2
+ddapi AdsDDRemoveView v2
+ddapi AdsDDRemoveProcedure p2
+ddapi AdsDDDeleteArticle q2 t2c
+ddapi AdsDDDeletePublication q2
+ddapi AdsDDRemoveTable t2c #1
+ddapi AdsDDAddUserToGroup y2 x2
+ddapi AdsDDRemoveUserFromGroup y2 x2
+ddapi AdsDDDeleteUser x2
+ddapi AdsDDDeleteUserGroup y2
+disconnect
+connect ar\ar.add w3 pw3
+ddapi AdsDDSetFieldProperty t3 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t3 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t3 #1 c4 #L
+ddapi AdsDDSetUserProperty y3 #1 c6 #L
+ddapi AdsDDRemoveView t3c
+ddapi AdsDDRemoveTable v3 #0
+ddapi AdsDDDeleteIndex t3 nosuch
+ddapi AdsDDRemoveIndexFile t3 nofile #0
+ddapi AdsDDAddUserToGroup y3 nosuch
+ddapi AdsDDRemoveUserFromGroup y3 nosuch
+ddapi AdsDDDeleteArticle q3 nosuch
+ddapi AdsDDDeleteArticle nosuch t3c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t3 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t3 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t3 t3i #1 c3 #L
+ddapi AdsDDSetViewProperty v3 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p3 #1 c5 #L
+ddapi AdsDDSetUserProperty x3 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y3 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q3 #1 c8 #L
+ddapi AdsDDSetArticleProperty q3 t3c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t3 t3i
+ddapi AdsDDRemoveRefIntegrity r3
+ddapi AdsDDRemoveView v3
+ddapi AdsDDRemoveProcedure p3
+ddapi AdsDDDeleteArticle q3 t3c
+ddapi AdsDDDeletePublication q3
+ddapi AdsDDRemoveTable t3c #1
+ddapi AdsDDAddUserToGroup y3 x3
+ddapi AdsDDRemoveUserFromGroup y3 x3
+ddapi AdsDDDeleteUser x3
+ddapi AdsDDDeleteUserGroup y3
+disconnect
+connect ar\ar.add w4 pw4
+ddapi AdsDDSetFieldProperty t4 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t4 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t4 #1 c4 #L
+ddapi AdsDDSetUserProperty y4 #1 c6 #L
+ddapi AdsDDRemoveView t4c
+ddapi AdsDDRemoveTable v4 #0
+ddapi AdsDDDeleteIndex t4 nosuch
+ddapi AdsDDRemoveIndexFile t4 nofile #0
+ddapi AdsDDAddUserToGroup y4 nosuch
+ddapi AdsDDRemoveUserFromGroup y4 nosuch
+ddapi AdsDDDeleteArticle q4 nosuch
+ddapi AdsDDDeleteArticle nosuch t4c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t4 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t4 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t4 t4i #1 c3 #L
+ddapi AdsDDSetViewProperty v4 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p4 #1 c5 #L
+ddapi AdsDDSetUserProperty x4 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y4 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q4 #1 c8 #L
+ddapi AdsDDSetArticleProperty q4 t4c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t4 t4i
+ddapi AdsDDRemoveRefIntegrity r4
+ddapi AdsDDRemoveView v4
+ddapi AdsDDRemoveProcedure p4
+ddapi AdsDDDeleteArticle q4 t4c
+ddapi AdsDDDeletePublication q4
+ddapi AdsDDRemoveTable t4c #1
+ddapi AdsDDAddUserToGroup y4 x4
+ddapi AdsDDRemoveUserFromGroup y4 x4
+ddapi AdsDDDeleteUser x4
+ddapi AdsDDDeleteUserGroup y4
+disconnect
+connect ar\ar.add w5 pw5
+ddapi AdsDDSetFieldProperty t5 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t5 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t5 #1 c4 #L
+ddapi AdsDDSetUserProperty y5 #1 c6 #L
+ddapi AdsDDRemoveView t5c
+ddapi AdsDDRemoveTable v5 #0
+ddapi AdsDDDeleteIndex t5 nosuch
+ddapi AdsDDRemoveIndexFile t5 nofile #0
+ddapi AdsDDAddUserToGroup y5 nosuch
+ddapi AdsDDRemoveUserFromGroup y5 nosuch
+ddapi AdsDDDeleteArticle q5 nosuch
+ddapi AdsDDDeleteArticle nosuch t5c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t5 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t5 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t5 t5i #1 c3 #L
+ddapi AdsDDSetViewProperty v5 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p5 #1 c5 #L
+ddapi AdsDDSetUserProperty x5 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y5 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q5 #1 c8 #L
+ddapi AdsDDSetArticleProperty q5 t5c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t5 t5i
+ddapi AdsDDRemoveRefIntegrity r5
+ddapi AdsDDRemoveView v5
+ddapi AdsDDRemoveProcedure p5
+ddapi AdsDDDeleteArticle q5 t5c
+ddapi AdsDDDeletePublication q5
+ddapi AdsDDRemoveTable t5c #1
+ddapi AdsDDAddUserToGroup y5 x5
+ddapi AdsDDRemoveUserFromGroup y5 x5
+ddapi AdsDDDeleteUser x5
+ddapi AdsDDDeleteUserGroup y5
+disconnect
+connect ar\ar.add w6 pw6
+ddapi AdsDDSetFieldProperty t6 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t6 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t6 #1 c4 #L
+ddapi AdsDDSetUserProperty y6 #1 c6 #L
+ddapi AdsDDRemoveView t6c
+ddapi AdsDDRemoveTable v6 #0
+ddapi AdsDDDeleteIndex t6 nosuch
+ddapi AdsDDRemoveIndexFile t6 nofile #0
+ddapi AdsDDAddUserToGroup y6 nosuch
+ddapi AdsDDRemoveUserFromGroup y6 nosuch
+ddapi AdsDDDeleteArticle q6 nosuch
+ddapi AdsDDDeleteArticle nosuch t6c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t6 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t6 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t6 t6i #1 c3 #L
+ddapi AdsDDSetViewProperty v6 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p6 #1 c5 #L
+ddapi AdsDDSetUserProperty x6 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y6 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q6 #1 c8 #L
+ddapi AdsDDSetArticleProperty q6 t6c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t6 t6i
+ddapi AdsDDRemoveRefIntegrity r6
+ddapi AdsDDRemoveView v6
+ddapi AdsDDRemoveProcedure p6
+ddapi AdsDDDeleteArticle q6 t6c
+ddapi AdsDDDeletePublication q6
+ddapi AdsDDRemoveTable t6c #1
+ddapi AdsDDAddUserToGroup y6 x6
+ddapi AdsDDRemoveUserFromGroup y6 x6
+ddapi AdsDDDeleteUser x6
+ddapi AdsDDDeleteUserGroup y6
+disconnect
+connect ar\ar.add w7 pw7
+ddapi AdsDDSetFieldProperty t7 nofield #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t7 nosuch #1 c3 #L
+ddapi AdsDDSetViewProperty t7 #1 c4 #L
+ddapi AdsDDSetUserProperty y7 #1 c6 #L
+ddapi AdsDDRemoveView t7c
+ddapi AdsDDRemoveTable v7 #0
+ddapi AdsDDDeleteIndex t7 nosuch
+ddapi AdsDDRemoveIndexFile t7 nofile #0
+ddapi AdsDDAddUserToGroup y7 nosuch
+ddapi AdsDDRemoveUserFromGroup y7 nosuch
+ddapi AdsDDDeleteArticle q7 nosuch
+ddapi AdsDDDeleteArticle nosuch t7c
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+ddapi AdsDDSetTableProperty t7 #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty t7 id #1 c2 #L #0 -
+ddapi AdsDDSetIndexProperty t7 t7i #1 c3 #L
+ddapi AdsDDSetViewProperty v7 #1 c4 #L
+ddapi AdsDDSetProcedureProperty p7 #1 c5 #L
+ddapi AdsDDSetUserProperty x7 #1 c6 #L
+ddapi AdsDDSetUserGroupProperty y7 #1 c7 #L
+ddapi AdsDDSetPublicationProperty q7 #1 c8 #L
+ddapi AdsDDSetArticleProperty q7 t7c #1607 c9 #2
+dddbprop 1 -1 c10
+ddapi AdsDDDeleteIndex t7 t7i
+ddapi AdsDDRemoveRefIntegrity r7
+ddapi AdsDDRemoveView v7
+ddapi AdsDDRemoveProcedure p7
+ddapi AdsDDDeleteArticle q7 t7c
+ddapi AdsDDDeletePublication q7
+ddapi AdsDDRemoveTable t7c #1
+ddapi AdsDDAddUserToGroup y7 x7
+ddapi AdsDDRemoveUserFromGroup y7 x7
+ddapi AdsDDDeleteUser x7
+ddapi AdsDDDeleteUserGroup y7
+disconnect
+connect ar\ar.add adssys
+ddapi AdsDDSetTableProperty nosuch #1 c1 #L #0 -
+ddapi AdsDDSetFieldProperty nosuch id #1 c2 #L #0 -
+ddapi AdsDDSetViewProperty nosuch #1 c4 #L
+ddapi AdsDDSetProcedureProperty nosuch #1 c5 #L
+ddapi AdsDDSetUserProperty nosuch #1 c6 #L
+ddapi AdsDDSetUserGroupProperty nosuch #1 c7 #L
+ddapi AdsDDSetPublicationProperty nosuch #1 c8 #L
+ddapi AdsDDSetIndexProperty nosuch nosuch #1 c3 #L
+ddapi AdsDDDeleteIndex nosuch nosuch
+ddapi AdsDDRemoveIndexFile nosuch nofile #0
+ddapi AdsDDRemoveRefIntegrity nosuch
+ddapi AdsDDRemoveView nosuch
+ddapi AdsDDRemoveProcedure nosuch
+ddapi AdsDDRemoveTable nosuch #0
+ddapi AdsDDDeleteUser nosuch
+ddapi AdsDDDeleteUserGroup nosuch
+ddapi AdsDDRemoveUserFromGroup nosuch nosuch
+ddapi AdsDDAddUserToGroup nosuch nosuch
+ddapi AdsDDDeleteArticle nosuch nosuch
+ddapi AdsDDSetArticleProperty nosuch nosuch #1607 c9 #2
+ddapi AdsDDDeletePublication nosuch
+stmt
+query SELECT Name FROM system.tables
+query SELECT Name FROM system.views
+query SELECT Name FROM system.storedprocedures
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.indexes
+query SELECT * FROM system.relations
+query SELECT Parent, Name, Comment FROM system.columns WHERE Name = 'id'
+disconnect

@@ -1,0 +1,366 @@
+# Renames of indexed fields, a type change and a position; a field added
+# and one deleted.
+restructure t.adt 0 ||name,nm,Char,6;amount,amount,Char,12;id,id,Double,2,(3)
+open t.adt
+top
+record
+get m
+order name
+rows
+order expr
+rows
+close
+restructure u.adt 0 extra,Char,4|b|
+restructure u.adt 0 ||a,aa,Char,8,(2)
+open u.adt
+top
+record
+close
+# Errors: no such field, one that exists, no such type, a field an order
+# uses, an open table, options.
+restructure a.adt 0 |nosuch|
+restructure a.adt 0 x,Integer|
+restructure a.adt 0 ||nosuch,q,Integer
+restructure a.adt 0 bad,Nosuchtype|
+restructure k.adt 0 |y|
+open b.adt shared
+restructure b.adt 0 z,Integer||
+close
+# Text to an integer; an AutoInc added first; a conversion that fails and
+# changes nothing.
+restructure a.adt 0 ||y,y,Integer
+open a.adt
+top
+record
+close
+restructure b.adt 0 z,AutoInc,(1)||
+open b.adt
+top
+record
+skip 1
+record
+close
+restructure c.adt 0 ||x,x,Char,2;z,z,Integer;y,y,Numeric,4,1
+open c.adt
+top
+record
+close
+# Memo values with new block sizes.
+restructure e.adt 1024 ||
+restructure e.adt 64 w,Char,3||
+open e.adt
+top
+get m
+skip 2
+get m
+close
+# Values converted to other types.
+restructure int_chr.adt 0 ||f,f,Char,10
+open int_chr.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure int_dat.adt 0 ||f,f,Date
+open int_dat.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure int_lgc.adt 0 ||f,f,Logical
+open int_lgc.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure int_tim.adt 0 ||f,f,Time
+open int_tim.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure sht_tim.adt 0 ||f,f,Time
+open sht_tim.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure dbl_int.adt 0 ||f,f,Integer
+open dbl_int.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure dbl_mon.adt 0 ||f,f,Money
+open dbl_mon.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure dbl_chr.adt 0 ||f,f,Char,10
+open dbl_chr.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure num_sht.adt 0 ||f,f,ShortInt
+open num_sht.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure num_chr.adt 0 ||f,f,Char,10
+open num_chr.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure num_lgc.adt 0 ||f,f,Logical
+open num_lgc.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_int.adt 0 ||f,f,Integer
+open chr_int.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_dbl.adt 0 ||f,f,Double,2
+open chr_dbl.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_num.adt 0 ||f,f,Numeric,8,2
+open chr_num.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_dat.adt 0 ||f,f,Date
+open chr_dat.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_lgc.adt 0 ||f,f,Logical
+open chr_lgc.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_tsp.adt 0 ||f,f,TimeStamp
+open chr_tsp.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_tim.adt 0 ||f,f,Time
+open chr_tim.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure chr_mem.adt 0 ||f,f,Memo
+open chr_mem.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure dat_tsp.adt 0 ||f,f,TimeStamp
+open dat_tsp.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure dat_chr.adt 0 ||f,f,Char,10
+open dat_chr.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure lgc_int.adt 0 ||f,f,Integer
+open lgc_int.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure lgc_tim.adt 0 ||f,f,Time
+open lgc_tim.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure tsp_dat.adt 0 ||f,f,Date
+open tsp_dat.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure tsp_tim.adt 0 ||f,f,Time
+open tsp_tim.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure mem_dbl.adt 0 ||f,f,Double,2
+open mem_dbl.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure mem_chr.adt 0 ||f,f,Char,10
+open mem_chr.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure tim_tsp.adt 0 ||f,f,TimeStamp
+open tim_tsp.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure mon_num.adt 0 ||f,f,Numeric,8,2
+open mon_num.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+restructure mon_tsp.adt 0 ||f,f,TimeStamp
+open mon_tsp.adt
+top
+get f
+skip 1
+get f
+skip 1
+get f
+close
+# ALTER TABLE: a column added at a position, several actions at once, a
+# new memo block size; a column that does not exist, a constraint.
+sql ALTER TABLE al ADD COLUMN w CHAR(3) POSITION 1
+sql ALTER TABLE al DROP COLUMN b ALTER COLUMN a aa INTEGER MEMOBLOCKSIZE 128
+sql ALTER TABLE al DROP COLUMN nosuch
+sql ALTER TABLE al ADD COLUMN z CHAR(3) DEFAULT 'x'
+open al.adt
+top
+record
+get m
+order a
+rows
+close
+# AutoInc fields from an Integer (its values kept, NULL a record's place),
+# from text and new; RowVersion and ModTime fields added.
+restructure ai.adt 0 ||x,x,AutoInc
+open ai.adt
+top
+record
+skip 2
+record
+append
+write
+state
+close
+restructure rv.adt 0 v,RowVersion;t,ModTime;a,AutoInc||
+open rv.adt
+top
+record
+skip 1
+record
+close
+restructure ch.adt 0 ||x,x,AutoInc
+open ch.adt
+top
+record
+skip 1
+record
+close

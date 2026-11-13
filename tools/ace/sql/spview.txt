@@ -1,0 +1,91 @@
+# sp_GetColumns on a dictionary's views, and sp_GetTables/sp_GetColumns
+# following its links. Run by sql.c on the SQL data folder, connecting to a
+# copy of the props dictionary in views/ (which the script changes: it adds
+# views and a link to the dict/ dictionary). Each view's SELECT is kept short
+# enough for the dictionary record's property field (see KNOWN_ISSUES).
+#
+#     run.sh <work> <ace32.dll> spview.txt > ../../../fixtures/sql/spview.json
+connect views\props.add ADSSYS adssyspw
+stmt
+ddview v_plain SELECT code, label FROM parent
+ddview v_expr SELECT TRIM(code) AS t, (code) AS paren, code + 'x' AS cat, 'abc' AS lit, 1 AS one, 1.5 AS onefive, CAST(NULL AS SQL_INTEGER) AS nul, CAST(weight AS SQL_NUMERIC(10,2)) AS num, CURDATE() AS d, id FROM parent
+ddview v_noalias SELECT id + 1, code, 'x' FROM parent
+ddview v_agg SELECT code, COUNT(*) AS n, SUM(weight) AS s, MAX(label) AS m FROM parent GROUP BY code
+ddview v_agg2 SELECT MAX(code) AS a1, MIN(id) AS a2, AVG(id) AS a3, COUNT(label) AS a4, COUNT(DISTINCT code) AS a5, SUM(id) AS a6, COUNT(code) AS a7 FROM parent
+ddview v_join SELECT p.code, c.* FROM parent p JOIN child c ON p.id = c.id
+ddview v_left SELECT c.*, p.code FROM child c LEFT JOIN parent p ON p.id = c.id
+ddview v_g SELECT p.code AS pc, c.id AS cid FROM parent p, child c WHERE p.id = c.parent_id
+ddview v_g2 SELECT parent.code, child.* FROM parent, child
+ddview v_star SELECT * FROM parent
+ddview v_where SELECT code, weight FROM parent WHERE id > 0
+ddview v_alias SELECT weight AS w, weight, id AS i, label AS l FROM parent
+ddview v_case SELECT CODE, parent.Label FROM parent
+ddview v_dup SELECT code, code, id AS code FROM parent
+ddview v_paren SELECT (code), ((code)) AS pp, code AS code FROM parent
+ddview v_memo SELECT m, rv, id FROM extra
+ddview v_dist SELECT DISTINCT code FROM parent
+ddview v_top SELECT TOP 1 code, weight FROM parent ORDER BY code
+ddview v_e1 SELECT TRIM(label) AS x1, UPPER(code) AS x2, label + 'x' AS x3, COALESCE(label, 'x') AS x4, IFNULL(label, 'x') AS x5, IIF(id > 0, 'a', 'b') AS x6, CASE WHEN id > 0 THEN 'a' END AS x7, CASE WHEN id > 0 THEN 'a' ELSE 'b' END AS x8 FROM parent
+ddview v_e2 SELECT id IS NULL AS x10, id > 0 AS x11, CAST(code AS SQL_CHAR(5)) AS x12, CONVERT(id, SQL_CHAR) AS x13, LENGTH(label) AS x14, LENGTH(code) AS x15, SUBSTRING(code, 1, 2) AS x16 FROM parent
+ddview v_e3 SELECT (SELECT MAX(id) FROM child) AS x17, NOW() AS x18, -id AS x20, weight * 2 AS x21, CAST(id AS SQL_DOUBLE) AS x22, ROUND(weight, 1) AS x23 FROM parent
+ddview v_e4 SELECT ABS(id) AS x24, code = 'x' AS x25, 'a' + 'b' AS x26, LEFT(code, 3) AS x28, RTRIM(code) AS x29, MOD(id, 2) AS x30 FROM parent
+ddview v_e5 SELECT CASE WHEN code = 'x' THEN 'a' END AS c1, CASE WHEN code = 'x' THEN 'a' ELSE 'b' END AS c2, IIF(code = 'x', 'a', 'b') AS c3, CASE code WHEN 'x' THEN 'a' END AS c4 FROM parent
+ddview v_e6 SELECT COALESCE(code, 'x') AS c5, EXISTS (SELECT 1 FROM child) AS c6, code IN ('a', 'b') AS c7, code IS NULL AS c8, CAST(NULL AS SQL_CHAR(3)) AS c9, code + CAST(NULL AS SQL_CHAR(2)) AS c10 FROM parent
+ddview v_u1 SELECT label FROM parent UNION SELECT code FROM parent
+ddview v_u2 SELECT code FROM parent UNION ALL SELECT label FROM parent
+ddview v_u3 SELECT 'a' AS x FROM parent UNION SELECT label FROM parent
+ddview v_u4 SELECT code FROM parent UNION SELECT code FROM parent
+ddview v_u5 SELECT code FROM parent UNION SELECT CAST('x' AS SQL_CHAR(10)) FROM parent
+ddview v_u6 SELECT id FROM child UNION SELECT parent_id FROM child
+ddview v_u7 SELECT CAST(NULL AS SQL_CHAR(10)) AS z FROM parent UNION SELECT code FROM parent
+ddview v_u8 SELECT weight FROM parent UNION SELECT weight FROM parent
+ddview v_nested SELECT parent_code_column, code FROM wide_parent, parent
+ddview v_u9 SELECT code FROM parent UNION SELECT parent_code_column FROM wide_parent
+ddlink dlink ..\dict\dict.add alice secret 1
+# Tables and views in object order, each link's tables (not its views) where
+# the link is, then the system tables; filtered by catalog and type.
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, null)
+query EXECUTE PROCEDURE sp_GetTables(null, null, 'p%', null)
+query EXECUTE PROCEDURE sp_GetTables('selflink', null, null, null)
+query EXECUTE PROCEDURE sp_GetTables('SELF%', null, 'P%', null)
+query EXECUTE PROCEDURE sp_GetTables('dlink', null, null, null)
+query EXECUTE PROCEDURE sp_GetTables('', null, null, null)
+query EXECUTE PROCEDURE sp_GetTables('system', null, null, null)
+query EXECUTE PROCEDURE sp_GetTables('nosuch', null, null, null)
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'view')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, ' VIEW')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'SYSTEM TABLE')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'V%')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'TABLE,VIEW')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, 'LINK')
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, '')
+# A table's columns, the link's copies where the link is.
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'parent', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'extra', null)
+query EXECUTE PROCEDURE sp_GetColumns('selflink', null, 'zzz%', null)
+query EXECUTE PROCEDURE sp_GetColumns('SELFLINK', null, 'child', null)
+query EXECUTE PROCEDURE sp_GetColumns('dlink', null, '%', null)
+query EXECUTE PROCEDURE sp_GetColumns('', null, '%', 'c%')
+# A view's columns: the cursor's types, a plain column's comment, default
+# and nullability carried through.
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'wide_parent', null)
+query EXECUTE PROCEDURE sp_GetColumns('', null, 'v_%', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'v_expr', 'n%')
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'wide_parent', 'zzz')
+# A pattern that takes in a system table fails (5018): 'v_%' takes in
+# system.views.
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'v_%', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'tables', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'pa%', null)
+query EXECUTE PROCEDURE sp_GetColumns('system', null, 'tables', null)
+query EXECUTE PROCEDURE sp_GetColumns('selflink', null, 'tables', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'iota', null)
+# A view reading a SELECT in FROM fails (5112).
+ddview v_sub SELECT x.code FROM (SELECT code FROM parent) x
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'v_sub', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, '%', null)
+# The dict/ dictionary's view.
+connect dict\dict.add alice secret
+stmt
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'big_orders', null)

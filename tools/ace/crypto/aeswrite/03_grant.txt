@@ -1,0 +1,10 @@
+# A grant. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql GRANT SELECT ON t TO u1
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql GRANT SELECT ON t TO u1
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql GRANT SELECT ON t TO u1
+disconnect

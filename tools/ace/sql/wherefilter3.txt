@@ -1,0 +1,47 @@
+# Which WHERE constructs a condition may hold and still run as a filter: the
+# division by zero of the second condition shows when the first and second
+# are both evaluated for the row with n = 0. For fixtures/sql/wherefilter3.json.
+stmt
+direct CREATE TABLE t (n integer, x integer, s char(10), m memo)
+directnull INSERT INTO t (n, x, s) VALUES (0, 10, 'abc')
+directnull INSERT INTO t (n, x, s) VALUES (2, 10, 'abd')
+directnull INSERT INTO t (n, x, s) VALUES (5, 10, 'xyz')
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND s LIKE 'ab%'
+query SELECT n FROM t WHERE s LIKE 'ab%' AND n > 0 AND x / n > 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND UPPER(s) = 'ABD'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND s || 'x' = 'abdx'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND s + 'x' = 'abdx'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND n BETWEEN 1 AND 3
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND s IS NOT NULL
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND s IN ('abd', 'xyz')
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND CAST(n AS SQL_CHAR) = '2'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND EXISTS (SELECT 1 FROM t t2 WHERE t2.n = 2)
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND n IN (SELECT n FROM t t2)
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND n > (SELECT MIN(n) FROM t t2)
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND LEFT(s, 2) = 'ab'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND ABS(n) > 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND IFNULL(n, 1) > 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND CONTAINS(m, 'a')
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND m IS NULL
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND n * 1.5 > 2
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND CONVERT(n, SQL_CHAR) = '2'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND TRIM(s) = 'abd'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND ROWNUM() > 0
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND IIF(s = 'abd', 1, 0) = 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND EMPTY(s)
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND LENGTH(s) = 3
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND TIMESTAMPADD(SQL_TSI_DAY, 1, NOW()) > NOW()
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND MOD(n, 2) = 0
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND SQRT(n) > 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND REPLACE(s, 'a', 'b') = 'bbd'
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND CASE WHEN n > 1 THEN 1 ELSE 0 END = 1
+query SELECT n FROM t WHERE CASE WHEN n > 1 THEN 1 ELSE 0 END = 1 AND n > 0 AND x / n > 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 OR CASE WHEN n > 1 THEN 1 ELSE 0 END = 1
+query SELECT n FROM t WHERE n > 0 AND x / n > 1 AND n IN (SELECT n FROM t t2)
+query SELECT t1.n FROM t t1, t t2 WHERE t1.n > 0 AND t1.x / t1.n > 1 AND t1.n = t2.n
+query SELECT t1.n FROM t t1 JOIN t t2 ON t1.n = t2.n WHERE t1.n > 0 AND t1.x / t1.n > 1
+query SELECT t1.n FROM t t1 LEFT JOIN t t2 ON t1.n = t2.n WHERE t1.n > 0 AND t1.x / t1.n > 1
+query SELECT t1.n FROM t t1 JOIN t t2 ON t1.n = t2.n WHERE t2.n > 0 AND t2.x / t2.n > 1
+query SELECT n FROM t GROUP BY n, x HAVING n > 0 AND x / n > 1
+directnull UPDATE t SET x = 1 WHERE n > 0 AND x / n > 1
+directnull DELETE FROM t WHERE n > 0 AND x / n > 5

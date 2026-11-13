@@ -1,0 +1,2040 @@
+tabletype cdx
+sql CREATE INDEX ct_fts ON ct (body) CONTENT
+sql CREATE INDEX ct_m ON ct (m) CONTENT KEEPSCORE
+sql CREATE INDEX ct_case ON ct (m) CONTENT CASESENSITIVE MAX WORD 6
+sql CREATE INDEX ct_fixed ON ct (body) CONTENT NOTMAINTAINED
+sql CREATE INDEX ct_bl ON ct (bl) CONTENT
+sql CREATE INDEX cbig_fts ON cbig (m) CONTENT
+sql CREATE INDEX cbig_sc ON cbig (m) CONTENT KEEPSCORE
+open ct.dbf
+createfts - a1 body 0 3 30 0 1 - 1 - 1 - 1 -
+createfts own.cdx a2 m 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a3 id 0 3 30 0 1 - 1 - 1 - 1 -
+state
+append
+set id long 63
+set body string fresh words appended
+set m string fresh words appended
+write
+state
+append
+set id long 69
+set body string Repeat REPEAT repeat
+set m string Repeat REPEAT repeat
+write
+state
+append
+set id long 75
+set body string 
+set m string 
+write
+state
+goto 1
+set body string The quick red fox
+set m string memo changed
+write
+state
+goto 2
+set body null
+write
+state
+goto 3
+set m string completely different
+write
+state
+goto 4
+delete
+state
+recall
+state
+goto 5
+delete
+state
+goto 6
+set id long 600
+write
+state
+recall
+state
+close
+open cbig.dbf
+goto 273
+set m string wehah
+write
+append
+set id long 1001
+set m string nohu wesa gakofu buduvuj nohu jatibawo
+write
+goto 212
+set m string zif retoheka retoheka posedi gutok pik beho vecuduc calugic hama
+write
+append
+set id long 1003
+set m string nade tesun kudokaru wuzaz fuj nade buduvuj tepu carusop zip
+write
+append
+set id long 1004
+set m string boco sezahu vusal vococubi kalemah
+write
+goto 81
+set m string toci
+write
+append
+set id long 1006
+set m string lidima pojojub tog
+write
+append
+set id long 1007
+set m string wewipi beho posedi
+write
+goto 215
+set m string gozig
+write
+append
+set id long 1009
+set m string debiw hiz vefiko totor debiw bus
+write
+append
+set id long 1010
+set m string jep bus toci totor nasaje pigebi carusop zif kalemah boco
+write
+goto 250
+delete
+goto 15
+delete
+goto 56
+set m string gozig huf sezahu
+write
+goto 190
+set m string reh tudizuc ludasu lacelefu
+write
+goto 181
+delete
+goto 8
+set m string kebajime gijugo posedi sodajaha ramekodi
+write
+goto 73
+set m string zif posedi noci
+write
+goto 239
+delete
+append
+set id long 1019
+set m string sezahu mocar ribi wapudif guju retoheka
+write
+goto 187
+set m string tepu degaf
+write
+append
+set id long 1021
+set m string den nepu jefa kalemah hama den tog
+write
+goto 101
+set m string ramekodi bizedebi degaf vococubi hiz debiw pigebi
+write
+goto 196
+delete
+goto 262
+set m string gud buduvuj
+write
+goto 151
+set m string vusal wesa wehah furo zigih rina retoheka baco zurahu posedi tudizuc
+write
+goto 224
+delete
+append
+set id long 1027
+set m string hiz vefiko fatuj dojage
+write
+append
+set id long 1028
+set m string pigebi biv zobanan guju fuj toci pik kalemah baco
+write
+goto 178
+set m string kiwufo carusop kalemah guju lidima
+write
+append
+set id long 1030
+set m string retoheka sodajaha posedi
+write
+goto 34
+delete
+append
+set id long 1032
+set m string pigebi
+write
+append
+set id long 1033
+set m string rina lidima
+write
+goto 243
+delete
+goto 85
+set m string zigih lacelefu wehah kalemah wapudif zobanan gozig vococubi bus ribi
+write
+goto 287
+set m string ramab lidima vococubi ludasu kalemah vefiko lacelefu
+write
+goto 105
+set m string ramekodi biv jatibawo zohivifa zohivifa lidima
+write
+goto 61
+delete
+goto 237
+set m string pik tesun tesun biv nohu den kudokaru
+write
+goto 139
+set m string debiw sog reh ramekodi tog pigebi hiz
+write
+goto 112
+set m string zigih nepu carusop bus
+write
+append
+set id long 1042
+set m string furo baco gijugo hama lidima zurahu rina vococubi huf wewipi vusal
+write
+goto 109
+set m string guju lacelefu vusal gozig gakofu
+write
+goto 130
+set m string noci ramekodi
+write
+append
+set id long 1045
+set m string jefa gozig lacelefu lon
+write
+goto 103
+delete
+append
+set id long 1047
+set m string wuzaz bus
+write
+append
+set id long 1048
+set m string sodajaha
+write
+append
+set id long 1049
+set m string retoheka calugic totor pojojub
+write
+goto 79
+set m string vecuduc tudizuc reh ludasu gud mocar toci degaf bus tesun
+write
+append
+set id long 1051
+set m string wuzaz wewipi
+write
+goto 253
+delete
+goto 70
+delete
+goto 286
+delete
+append
+set id long 1055
+set m string gutok baco beho
+write
+append
+set id long 1056
+set m string tesun wesa rina sodajaha wewazi tesun wewazi vefiko ramekodi lidima sezahu
+write
+append
+set id long 1057
+set m string zobanan nade
+write
+goto 175
+set m string tesun vusal biv tesun beho ganorezi ramab lidima guju hama
+write
+append
+set id long 1059
+set m string nade
+write
+goto 143
+delete
+goto 114
+set m string pik guju buduvuj wapudif toci wuzaz rina
+write
+goto 158
+delete
+append
+set id long 1063
+set m string fad furo den den gozig zip furo
+write
+goto 111
+set m string tesun
+write
+goto 91
+delete
+goto 160
+delete
+append
+set id long 1067
+set m string bus tog pik gud zurahu jep hiz vefiko buduvuj vusal
+write
+goto 272
+delete
+goto 60
+set m string vococubi vecuduc vusal den sodajaha sog posedi
+write
+goto 273
+delete
+goto 84
+set m string pigebi ramekodi tudizuc dojage lacelefu nade jefa wapudif toci
+write
+goto 152
+delete
+append
+set id long 1073
+set m string tesun totor calugic toci ganorezi vococubi civicir vecuduc toci nepu zurahu
+write
+append
+set id long 1074
+set m string lon
+write
+append
+set id long 1075
+set m string ribi lon wewazi retoheka tesun retoheka lon kebajime kalemah
+write
+goto 24
+delete
+goto 221
+set m string tesun ramekodi zip kebajime
+write
+append
+set id long 1078
+set m string gutok wehah buduvuj kiwufo fad vefiko
+write
+goto 167
+set m string jatibawo wewazi lacelefu gud lacelefu wewipi totor beho lacelefu
+write
+append
+set id long 1080
+set m string wewazi sog degaf hiz tepu ramab pik calugic degaf
+write
+goto 43
+set m string pojojub tudizuc kalemah rina vefiko
+write
+goto 134
+delete
+goto 92
+set m string wuzaz gozig vococubi lacelefu beho wehah jep bizedebi zurahu wuzaz
+write
+goto 164
+set m string nohu wewazi tesun zigih ludasu gozig bizedebi
+write
+goto 300
+set m string rina calugic den baco totor hiz pik
+write
+append
+set id long 1086
+set m string fad
+write
+append
+set id long 1087
+set m string fuj wewipi
+write
+append
+set id long 1088
+set m string furo kebajime wewipi hama lidima toci civicir retoheka hiz guju
+write
+append
+set id long 1089
+set m string nepu huf fuj jatibawo tudizuc gijugo gozig zip nepu bizedebi debiw
+write
+goto 198
+delete
+goto 19
+set m string beho
+write
+goto 178
+set m string tesun lidima
+write
+append
+set id long 1093
+set m string zif bus kebajime posedi nepu gozig zip hama zigih fad debiw
+write
+goto 17
+delete
+goto 48
+set m string beho den wesa ramab dojage zip
+write
+append
+set id long 1096
+set m string zobanan kiwufo noci huf ribi zigih
+write
+append
+set id long 1097
+set m string bizedebi wewazi zurahu den kebajime
+write
+goto 76
+set m string boco degaf pik sezahu gijugo buduvuj posedi
+write
+goto 289
+set m string ribi civicir tudizuc ramekodi
+write
+goto 192
+set m string wesa gakofu dojage pik furo mocar wewazi carusop sezahu
+write
+goto 120
+set m string sezahu wewipi calugic pojojub nohu wuzaz sezahu
+write
+append
+set id long 1102
+set m string totor wewipi ramab toci toci jep kudokaru kiwufo degaf
+write
+append
+set id long 1103
+set m string gozig
+write
+goto 67
+set m string debiw
+write
+goto 84
+set m string jatibawo noci fatuj gud boco zobanan pigebi zigih jep toci
+write
+append
+set id long 1106
+set m string nasaje
+write
+goto 267
+set m string wesa
+write
+goto 57
+set m string baco
+write
+goto 295
+delete
+goto 81
+delete
+goto 63
+set m string fatuj kalemah gakofu zip boco beho jefa hiz furo calugic
+write
+goto 93
+delete
+append
+set id long 1113
+set m string reh calugic wesa kudokaru wewipi posedi degaf pojojub
+write
+goto 53
+delete
+goto 97
+delete
+goto 214
+set m string posedi bizedebi gutok lon sog zip
+write
+goto 126
+set m string baco sezahu gakofu baco wesa carusop jep toci
+write
+goto 86
+set m string zif zobanan sodajaha noci
+write
+append
+set id long 1119
+set m string retoheka tepu pik bizedebi mocar ramekodi
+write
+append
+set id long 1120
+set m string carusop lacelefu gozig nade
+write
+goto 226
+set m string jefa wuzaz gutok ribi gud
+write
+goto 174
+set m string ganorezi tudizuc den debiw tog pik huf lidima wewipi bizedebi
+write
+append
+set id long 1123
+set m string degaf rina
+write
+append
+set id long 1124
+set m string ramekodi zip biv furo hiz zif pojojub kebajime vococubi retoheka
+write
+goto 56
+set m string lacelefu
+write
+goto 242
+delete
+append
+set id long 1127
+set m string buduvuj zigih huf ribi zif nohu
+write
+goto 274
+delete
+append
+set id long 1129
+set m string lon bus
+write
+goto 31
+set m string gud tudizuc
+write
+goto 297
+set m string carusop ramab dojage debiw wewazi baco vococubi wuzaz gozig wapudif
+write
+append
+set id long 1132
+set m string zigih ribi bizedebi
+write
+append
+set id long 1133
+set m string zip sog kiwufo kalemah
+write
+goto 197
+delete
+goto 217
+set m string zobanan wehah lidima tepu ganorezi kalemah reh retoheka vefiko noci biv
+write
+append
+set id long 1136
+set m string jatibawo sodajaha vecuduc biv wapudif bizedebi posedi mocar zobanan civicir
+write
+goto 164
+set m string calugic zip dojage boco ganorezi furo retoheka fuj biv nasaje wuzaz
+write
+goto 175
+delete
+goto 49
+set m string sog
+write
+append
+set id long 1140
+set m string pik civicir kiwufo
+write
+goto 41
+set m string nade vefiko zurahu
+write
+append
+set id long 1142
+set m string lon civicir zobanan
+write
+goto 254
+set m string hiz gakofu bus beho nepu
+write
+append
+set id long 1144
+set m string pik gakofu
+write
+goto 257
+set m string carusop wehah jefa gozig huf wesa vusal buduvuj gud
+write
+append
+set id long 1146
+set m string ribi wewipi wewazi hama dojage sezahu posedi wewazi ramab sog ganorezi
+write
+goto 185
+set m string guju jefa sezahu gijugo gud
+write
+goto 271
+set m string fuj wewipi ramekodi baco jefa tog buduvuj wesa zigih
+write
+goto 241
+delete
+append
+set id long 1150
+set m string lidima lidima
+write
+append
+set id long 1151
+set m string hiz dojage
+write
+append
+set id long 1152
+set m string pigebi civicir gijugo hama furo noci
+write
+goto 49
+set m string civicir wewazi debiw
+write
+goto 269
+set m string zurahu wewazi rina gud wesa kalemah
+write
+goto 264
+set m string wesa civicir guju zif ribi ganorezi zigih lon fatuj toci
+write
+goto 191
+set m string gijugo nepu wewazi boco hama gutok vecuduc jep fad
+write
+goto 63
+set m string vecuduc furo hama gijugo nasaje wuzaz
+write
+append
+set id long 1158
+set m string hama vusal degaf vusal posedi pik degaf ramekodi vefiko
+write
+goto 298
+set m string debiw fad nade wewipi fad sodajaha
+write
+append
+set id long 1160
+set m string debiw pojojub mocar reh vococubi ramab totor
+write
+goto 119
+set m string fad jefa pojojub bus
+write
+goto 204
+set m string reh vococubi zohivifa noci nasaje pik
+write
+goto 228
+delete
+goto 150
+delete
+goto 236
+set m string fuj
+write
+goto 73
+set m string noci
+write
+append
+set id long 1167
+set m string gijugo wuzaz ribi baco kalemah rina jep wapudif wewazi pigebi kalemah
+write
+goto 206
+delete
+goto 66
+set m string zigih buduvuj biv buduvuj gakofu ramekodi zurahu
+write
+goto 193
+delete
+goto 287
+delete
+append
+set id long 1172
+set m string pigebi buduvuj boco zigih
+write
+append
+set id long 1173
+set m string debiw gakofu sodajaha reh retoheka dojage kalemah kudokaru jep pojojub hama
+write
+append
+set id long 1174
+set m string debiw noci calugic pojojub guju ribi
+write
+goto 298
+delete
+append
+set id long 1176
+set m string civicir vusal nade retoheka
+write
+append
+set id long 1177
+set m string pik noci tesun totor huf ludasu kebajime buduvuj
+write
+goto 100
+set m string bus fad posedi nohu
+write
+goto 30
+delete
+append
+set id long 1180
+set m string jefa kebajime vecuduc civicir lidima den fatuj
+write
+append
+set id long 1181
+set m string fuj gozig carusop lon reh reh wewipi huf calugic fuj guju
+write
+goto 119
+set m string kalemah nade vecuduc
+write
+goto 79
+set m string wewipi
+write
+goto 270
+set m string sog vusal ribi buduvuj kudokaru fatuj pojojub noci hiz
+write
+goto 168
+delete
+goto 219
+delete
+goto 281
+delete
+append
+set id long 1188
+set m string zip
+write
+append
+set id long 1189
+set m string degaf zif zip guju vusal kudokaru jatibawo ramekodi wewipi biv
+write
+goto 155
+delete
+goto 251
+delete
+goto 269
+set m string jep fuj fad ramab pojojub lacelefu nohu huf fatuj wesa wewazi
+write
+append
+set id long 1193
+set m string civicir
+write
+append
+set id long 1194
+set m string wewipi lidima toci wewazi zohivifa tesun gutok bus lon fatuj jefa
+write
+append
+set id long 1195
+set m string pojojub buduvuj furo wapudif fad
+write
+goto 57
+set m string kiwufo totor biv nasaje
+write
+goto 159
+set m string tudizuc ramab reh zigih boco wapudif wapudif nade degaf
+write
+goto 113
+delete
+append
+set id long 1199
+set m string debiw wewazi tepu
+write
+goto 163
+set m string boco zurahu kebajime nepu kudokaru sezahu zohivifa
+write
+goto 284
+delete
+goto 164
+set m string zif fad beho baco calugic lon lon fatuj tepu nasaje vefiko
+write
+goto 293
+set m string fad jep bus
+write
+append
+set id long 1204
+set m string gakofu ludasu sodajaha degaf pik jep fatuj mocar
+write
+goto 245
+set m string zohivifa pik kudokaru lidima fad kebajime
+write
+goto 234
+delete
+goto 55
+delete
+goto 108
+set m string totor ramekodi biv wesa den totor fuj ludasu
+write
+append
+set id long 1209
+set m string lidima wuzaz zobanan wewipi beho posedi fatuj retoheka posedi
+write
+goto 294
+set m string bizedebi boco hama kebajime huf den fatuj zigih zurahu lacelefu zobanan
+write
+goto 268
+set m string wewipi boco
+write
+goto 291
+delete
+append
+set id long 1213
+set m string lon gud totor mocar totor retoheka zigih fatuj kudokaru
+write
+goto 177
+set m string boco kalemah kudokaru lacelefu lacelefu wesa rina wewipi wewazi
+write
+goto 57
+set m string jefa degaf civicir tesun tesun jatibawo
+write
+append
+set id long 1216
+set m string retoheka zigih kebajime dojage zigih lacelefu pik tudizuc nasaje
+write
+goto 41
+set m string gud rina wapudif zip zif calugic calugic gutok sezahu bizedebi nade
+write
+goto 44
+set m string dojage rina sezahu lidima
+write
+append
+set id long 1219
+set m string ramab pigebi hama baco zigih posedi vecuduc tog civicir zip
+write
+append
+set id long 1220
+set m string carusop gutok
+write
+append
+set id long 1221
+set m string ludasu degaf wapudif sog
+write
+goto 39
+set m string sezahu ramekodi totor vococubi beho zobanan tepu
+write
+append
+set id long 1223
+set m string boco nade pigebi
+write
+append
+set id long 1224
+set m string zohivifa wewazi calugic lon toci degaf nade tesun
+write
+append
+set id long 1225
+set m string debiw beho nepu wewipi den wehah
+write
+goto 16
+set m string vecuduc
+write
+append
+set id long 1227
+set m string nohu vefiko lidima sodajaha kudokaru vefiko sog fuj zif
+write
+goto 231
+delete
+append
+set id long 1229
+set m string biv wapudif civicir kudokaru nade ramab nasaje sog gud hama
+write
+goto 248
+set m string wehah zif beho
+write
+goto 177
+delete
+append
+set id long 1232
+set m string gijugo wuzaz tepu tog nepu vococubi biv ribi zif
+write
+goto 147
+set m string dojage
+write
+goto 36
+set m string kiwufo nasaje
+write
+goto 74
+delete
+goto 264
+set m string gijugo jefa lon kiwufo ramab kiwufo fatuj zobanan
+write
+goto 258
+set m string bus vusal sodajaha ganorezi nade sezahu hama
+write
+goto 57
+set m string zobanan wapudif wuzaz lon gozig
+write
+append
+set id long 1239
+set m string ramekodi vusal guju
+write
+goto 149
+set m string vecuduc wapudif carusop nepu nepu
+write
+goto 214
+set m string sezahu ramab kiwufo
+write
+goto 66
+set m string buduvuj totor vefiko huf nepu ludasu hama
+write
+goto 223
+set m string ramekodi pik retoheka guju ganorezi zohivifa bus
+write
+append
+set id long 1244
+set m string biv jep fatuj kalemah
+write
+goto 132
+set m string fad huf sog pojojub kiwufo gud wewazi
+write
+goto 192
+set m string rina lidima degaf nasaje wewipi kebajime degaf kebajime
+write
+goto 118
+set m string beho vusal ribi baco furo gakofu retoheka wewazi
+write
+append
+set id long 1248
+set m string zif toci bizedebi ribi lacelefu
+write
+append
+set id long 1249
+set m string vecuduc nohu
+write
+goto 277
+set m string wesa hiz gozig nepu kalemah sezahu nohu debiw zif civicir
+write
+goto 217
+set m string totor reh beho noci debiw nepu ribi nasaje
+write
+goto 104
+delete
+append
+set id long 1253
+set m string jatibawo wuzaz vecuduc tepu
+write
+goto 125
+set m string tog vecuduc lon
+write
+goto 264
+set m string carusop zigih tudizuc
+write
+goto 258
+delete
+goto 90
+set m string zurahu boco fuj ramab
+write
+goto 209
+set m string sodajaha ludasu nepu
+write
+goto 299
+delete
+append
+set id long 1260
+set m string zobanan
+write
+append
+set id long 1261
+set m string pojojub wehah hiz lon zip
+write
+append
+set id long 1262
+set m string jep rina totor ramab den tesun nepu pik
+write
+goto 216
+set m string jefa zif kebajime den lidima
+write
+goto 154
+set m string kiwufo toci ribi kiwufo pojojub sodajaha gozig
+write
+append
+set id long 1265
+set m string ludasu lidima
+write
+goto 51
+set m string fad rina gozig lon sog sezahu guju
+write
+append
+set id long 1267
+set m string hiz reh pigebi nade
+write
+append
+set id long 1268
+set m string tesun zip wapudif boco
+write
+goto 285
+delete
+append
+set id long 1270
+set m string tudizuc toci wewipi calugic pigebi
+write
+append
+set id long 1271
+set m string wapudif bizedebi toci kudokaru bizedebi degaf zigih pigebi baco
+write
+goto 261
+set m string zurahu sodajaha buduvuj tudizuc ramekodi
+write
+append
+set id long 1273
+set m string gutok ramekodi
+write
+append
+set id long 1274
+set m string pojojub vefiko
+write
+goto 202
+delete
+append
+set id long 1276
+set m string debiw
+write
+goto 290
+delete
+goto 40
+set m string lon zobanan ganorezi wapudif mocar ganorezi totor dojage sog
+write
+goto 16
+delete
+append
+set id long 1280
+set m string sog tog guju zip vecuduc kebajime pigebi calugic totor calugic fuj
+write
+goto 43
+set m string lacelefu carusop gutok
+write
+goto 82
+set m string wewazi wewipi posedi rina toci
+write
+append
+set id long 1283
+set m string huf wewazi kebajime nohu zurahu vococubi
+write
+append
+set id long 1284
+set m string zobanan pigebi debiw beho kalemah
+write
+goto 277
+set m string rina den sodajaha kebajime nohu reh lon wewipi noci calugic fatuj
+write
+append
+set id long 1286
+set m string debiw buduvuj beho pigebi dojage rina
+write
+append
+set id long 1287
+set m string nasaje hiz den tepu
+write
+goto 101
+set m string zip zip ludasu vecuduc zobanan wesa
+write
+goto 28
+set m string reh wehah boco lidima bizedebi kiwufo totor tesun buduvuj
+write
+append
+set id long 1290
+set m string hama wuzaz
+write
+goto 189
+delete
+goto 13
+delete
+goto 1
+set m string carusop
+write
+goto 118
+set m string zigih toci jatibawo jefa dojage carusop gud jep jep gijugo
+write
+goto 218
+set m string vococubi zigih gutok toci nade gozig
+write
+append
+set id long 1296
+set m string zigih jefa
+write
+goto 129
+set m string buduvuj sog
+write
+append
+set id long 1298
+set m string vefiko totor dojage bizedebi ludasu sezahu
+write
+goto 51
+set m string sodajaha carusop huf wewipi furo gakofu tudizuc sezahu bizedebi
+write
+state
+reindex
+state
+reindexfts 0
+state
+pack
+state
+zap
+state
+append
+set id long 1
+set m string after zap
+write
+state
+close
+tabletype vfp
+sql CREATE INDEX vt_fts ON vt (body) CONTENT
+sql CREATE INDEX vt_m ON vt (m) CONTENT KEEPSCORE
+sql CREATE INDEX vt_case ON vt (m) CONTENT CASESENSITIVE MAX WORD 6
+sql CREATE INDEX vt_fixed ON vt (body) CONTENT NOTMAINTAINED
+sql CREATE INDEX vt_bl ON vt (bl) CONTENT
+sql CREATE INDEX vbig_fts ON vbig (m) CONTENT
+sql CREATE INDEX vbig_sc ON vbig (m) CONTENT KEEPSCORE
+open vt.dbf
+createfts - a1 body 0 3 30 0 1 - 1 - 1 - 1 -
+createfts own.cdx a2 m 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a3 id 0 3 30 0 1 - 1 - 1 - 1 -
+state
+append
+set id long 1086
+set body string fresh words appended
+set m string fresh words appended
+write
+state
+append
+set id long 1092
+set body string Repeat REPEAT repeat
+set m string Repeat REPEAT repeat
+write
+state
+append
+set id long 1098
+set body string 
+set m string 
+write
+state
+goto 1
+set body string The quick red fox
+set m string memo changed
+write
+state
+goto 2
+set body null
+write
+state
+goto 3
+set m string completely different
+write
+state
+goto 4
+delete
+state
+recall
+state
+goto 5
+delete
+state
+goto 6
+set id long 600
+write
+state
+recall
+state
+close
+open vbig.dbf
+append
+set id long 1000
+set m string civicir pojojub fad ramab fatuj lidima
+write
+goto 33
+set m string guju vococubi jatibawo zip nohu buduvuj wapudif ramab ramekodi fuj vusal
+write
+goto 242
+set m string pik
+write
+goto 123
+set m string zohivifa zobanan hama beho jefa wewipi jatibawo zohivifa lidima hama tesun
+write
+goto 290
+set m string noci kudokaru
+write
+append
+set id long 1005
+set m string rina carusop kebajime nohu jefa guju gud tudizuc wapudif degaf
+write
+goto 266
+set m string civicir degaf noci noci boco gutok
+write
+goto 269
+set m string gakofu rina nohu nade tesun fuj gozig zif nepu beho wesa
+write
+append
+set id long 1008
+set m string kiwufo gakofu gakofu gud
+write
+append
+set id long 1009
+set m string beho mocar lacelefu
+write
+goto 145
+set m string tepu biv wapudif jatibawo mocar zigih fuj jefa nohu nohu ramab
+write
+append
+set id long 1011
+set m string hiz ganorezi
+write
+goto 113
+delete
+goto 180
+delete
+append
+set id long 1014
+set m string gud lidima wewazi ludasu hiz reh jefa buduvuj den tog pik
+write
+goto 195
+delete
+goto 188
+set m string gud den zohivifa reh ribi boco wewazi buduvuj wewipi
+write
+goto 114
+set m string ganorezi mocar kudokaru gakofu civicir sezahu ribi wehah
+write
+append
+set id long 1018
+set m string wapudif den wapudif vusal toci gijugo pigebi kiwufo jefa ramekodi
+write
+goto 133
+delete
+goto 140
+delete
+append
+set id long 1021
+set m string nasaje rina
+write
+goto 210
+delete
+goto 285
+set m string debiw sog zohivifa kudokaru beho bus wapudif biv zigih
+write
+append
+set id long 1024
+set m string guju nohu nasaje
+write
+goto 101
+delete
+append
+set id long 1026
+set m string sog lon
+write
+goto 17
+delete
+append
+set id long 1028
+set m string posedi jefa nohu calugic pigebi vefiko tog zif nepu
+write
+goto 155
+delete
+append
+set id long 1030
+set m string wewipi kebajime kudokaru zif gud wewipi gakofu vusal
+write
+goto 196
+delete
+append
+set id long 1032
+set m string hama calugic hiz buduvuj jep kudokaru nasaje
+write
+goto 235
+set m string gud
+write
+goto 116
+set m string zip vefiko nohu fatuj
+write
+goto 1
+delete
+goto 177
+set m string nepu lidima vusal kalemah
+write
+goto 231
+set m string lacelefu kalemah jefa
+write
+goto 91
+set m string jatibawo vefiko furo fatuj wehah wuzaz nohu wuzaz gijugo
+write
+append
+set id long 1039
+set m string kalemah gozig pigebi fatuj ramab
+write
+append
+set id long 1040
+set m string debiw fad degaf wapudif gijugo jatibawo furo kalemah kiwufo
+write
+goto 139
+set m string zigih hiz zif bus tudizuc bizedebi jefa vococubi mocar
+write
+goto 282
+set m string civicir carusop gakofu debiw gijugo boco
+write
+goto 214
+delete
+goto 248
+delete
+goto 135
+set m string fatuj baco ramekodi calugic
+write
+goto 115
+set m string ribi sog
+write
+goto 182
+set m string huf
+write
+goto 240
+set m string kudokaru reh bizedebi beho wapudif kudokaru den
+write
+goto 150
+delete
+goto 141
+set m string zif civicir gud totor ribi totor
+write
+append
+set id long 1051
+set m string wewipi jefa wewipi zurahu rina bus gakofu dojage lon
+write
+goto 229
+set m string sezahu beho ribi sodajaha ganorezi retoheka retoheka nepu wuzaz fad
+write
+append
+set id long 1053
+set m string jep degaf calugic gutok hiz rina wewazi zip
+write
+goto 38
+set m string gutok pojojub wewazi
+write
+goto 52
+delete
+append
+set id long 1056
+set m string baco reh mocar lon vococubi tudizuc vecuduc nohu wehah nade ramab
+write
+goto 109
+delete
+goto 234
+set m string toci bizedebi debiw kiwufo sodajaha zobanan vococubi baco
+write
+goto 259
+set m string wewazi pik boco kiwufo hama lidima sezahu vecuduc sog ribi
+write
+goto 31
+set m string gozig nepu zobanan
+write
+append
+set id long 1061
+set m string beho totor
+write
+append
+set id long 1062
+set m string jep jep ganorezi
+write
+append
+set id long 1063
+set m string lacelefu pik kudokaru lidima den tesun lidima dojage tesun tudizuc civicir
+write
+append
+set id long 1064
+set m string lacelefu carusop tepu baco wesa
+write
+goto 13
+set m string gakofu ramekodi jatibawo buduvuj vefiko tudizuc
+write
+append
+set id long 1066
+set m string huf vecuduc
+write
+append
+set id long 1067
+set m string zigih tog calugic ribi ludasu kebajime posedi den furo kiwufo
+write
+append
+set id long 1068
+set m string mocar nade reh sodajaha wewipi pojojub calugic kudokaru zobanan
+write
+goto 218
+set m string gakofu zurahu zohivifa
+write
+goto 69
+set m string bus biv jefa sodajaha ribi civicir
+write
+goto 48
+set m string ribi fad hama sog vecuduc
+write
+goto 86
+set m string jep retoheka ludasu sog fatuj tepu
+write
+goto 217
+delete
+goto 151
+set m string nasaje nasaje pik carusop
+write
+goto 94
+set m string sog pik den bizedebi
+write
+goto 287
+delete
+goto 254
+set m string fuj
+write
+goto 246
+set m string dojage
+write
+goto 29
+delete
+append
+set id long 1080
+set m string carusop kiwufo ludasu
+write
+goto 279
+delete
+append
+set id long 1082
+set m string lon wewipi sog calugic
+write
+append
+set id long 1083
+set m string totor guju gijugo gud fuj hiz fatuj ribi nepu
+write
+goto 274
+delete
+goto 42
+set m string zohivifa totor lidima lacelefu furo kudokaru
+write
+goto 20
+set m string jep zobanan zurahu lacelefu tog lacelefu beho sezahu toci sodajaha buduvuj
+write
+goto 252
+set m string sodajaha nade tog retoheka kudokaru zigih calugic
+write
+append
+set id long 1088
+set m string pik sezahu
+write
+goto 81
+set m string zobanan vococubi gutok biv nasaje
+write
+goto 79
+set m string tudizuc wewipi sezahu tesun huf jep gud dojage toci ganorezi
+write
+goto 237
+set m string sog rina tog nade ramekodi calugic sezahu
+write
+goto 161
+delete
+goto 56
+delete
+append
+set id long 1094
+set m string vococubi hama pik gozig degaf zurahu noci zigih
+write
+goto 260
+set m string gakofu kalemah wewipi wuzaz nohu
+write
+append
+set id long 1096
+set m string fatuj buduvuj vefiko ganorezi sezahu zigih gozig calugic gud zurahu
+write
+goto 215
+delete
+goto 183
+delete
+goto 141
+set m string jatibawo posedi
+write
+append
+set id long 1100
+set m string hiz bizedebi pojojub zif lacelefu buduvuj fatuj retoheka carusop baco
+write
+goto 126
+delete
+append
+set id long 1102
+set m string gakofu sog
+write
+goto 57
+set m string kalemah reh biv beho kalemah pik guju
+write
+goto 83
+set m string fuj wehah zigih tesun pigebi kudokaru furo nade zurahu ramab tog
+write
+goto 184
+set m string zohivifa sezahu degaf zigih
+write
+append
+set id long 1106
+set m string wehah tepu ludasu kudokaru huf kebajime gud vefiko reh
+write
+goto 226
+set m string pik nade jep pigebi lacelefu fuj sezahu ludasu posedi
+write
+goto 7
+delete
+goto 122
+delete
+goto 272
+delete
+append
+set id long 1111
+set m string sog gutok tesun
+write
+goto 184
+delete
+goto 55
+set m string kalemah
+write
+append
+set id long 1114
+set m string wewazi wewipi furo degaf
+write
+goto 229
+set m string fad jefa wewipi beho wesa sog kebajime vusal
+write
+goto 225
+delete
+goto 172
+delete
+goto 277
+set m string ramab lidima kiwufo kiwufo ludasu vusal
+write
+goto 16
+set m string fad pigebi gijugo den zohivifa pigebi mocar nade
+write
+goto 151
+set m string jefa furo pigebi kiwufo vusal retoheka debiw vecuduc furo
+write
+goto 262
+set m string vococubi wewipi totor
+write
+goto 23
+set m string zohivifa posedi pik nohu noci den
+write
+goto 86
+set m string zigih furo biv
+write
+append
+set id long 1124
+set m string tudizuc ramekodi ramekodi nohu baco tepu noci tudizuc pik lon zif
+write
+goto 211
+set m string wuzaz vefiko den
+write
+goto 227
+set m string fuj ramekodi reh jatibawo zip gijugo wesa
+write
+append
+set id long 1127
+set m string gutok huf bizedebi kebajime
+write
+goto 55
+set m string guju nasaje
+write
+append
+set id long 1129
+set m string kebajime zip debiw rina reh vefiko retoheka
+write
+goto 4
+set m string lacelefu gijugo sodajaha sezahu sezahu debiw
+write
+goto 50
+set m string totor pigebi carusop vecuduc fad sezahu
+write
+goto 239
+delete
+append
+set id long 1133
+set m string vecuduc gutok tudizuc
+write
+goto 148
+set m string dojage gijugo calugic gutok
+write
+goto 108
+set m string vecuduc retoheka kudokaru vococubi
+write
+append
+set id long 1136
+set m string lacelefu pojojub pigebi vococubi ganorezi wuzaz fad baco calugic jatibawo pojojub
+write
+goto 104
+set m string carusop gud tudizuc ramab ganorezi kebajime
+write
+append
+set id long 1138
+set m string ramekodi
+write
+goto 202
+set m string wapudif nohu wewipi reh zobanan jep gijugo zurahu kudokaru gud
+write
+goto 297
+delete
+append
+set id long 1141
+set m string baco toci kebajime retoheka buduvuj zurahu ludasu wewipi
+write
+append
+set id long 1142
+set m string pojojub buduvuj wapudif
+write
+append
+set id long 1143
+set m string kudokaru kebajime
+write
+goto 260
+delete
+append
+set id long 1145
+set m string sezahu sodajaha kebajime gozig toci vusal
+write
+append
+set id long 1146
+set m string ribi nade kudokaru kebajime
+write
+goto 49
+set m string sezahu ramab vecuduc wapudif fad toci tudizuc pigebi
+write
+goto 127
+set m string gozig sezahu biv zif fad zigih tepu noci
+write
+goto 139
+delete
+append
+set id long 1150
+set m string baco bus reh wewazi zurahu rina tesun wapudif huf sodajaha rina
+write
+append
+set id long 1151
+set m string vecuduc dojage debiw civicir rina zurahu bizedebi nasaje vococubi civicir
+write
+append
+set id long 1152
+set m string jefa beho lon huf zigih kudokaru
+write
+goto 117
+set m string zigih civicir vusal
+write
+goto 199
+set m string ludasu jatibawo ramekodi nepu tudizuc wewipi
+write
+goto 169
+delete
+goto 221
+set m string sodajaha
+write
+goto 129
+set m string gutok zigih beho wewipi
+write
+goto 94
+set m string zobanan sezahu
+write
+append
+set id long 1159
+set m string zif tudizuc zobanan gozig posedi reh vefiko
+write
+goto 50
+set m string toci zigih tesun fatuj nohu
+write
+goto 149
+set m string zigih vusal ludasu baco carusop tudizuc hiz nasaje degaf
+write
+append
+set id long 1162
+set m string nepu den tudizuc buduvuj
+write
+append
+set id long 1163
+set m string wewipi ramekodi boco hiz tudizuc lidima
+write
+goto 35
+delete
+goto 162
+set m string dojage gozig beho bus mocar hama mocar ribi wuzaz tepu sog
+write
+goto 93
+set m string furo gud bus debiw sezahu sodajaha zip mocar zohivifa jefa carusop
+write
+goto 38
+set m string totor boco ramekodi vecuduc vococubi ramekodi debiw
+write
+goto 19
+set m string zurahu
+write
+goto 295
+delete
+goto 25
+set m string furo
+write
+append
+set id long 1171
+set m string wehah mocar rina zigih degaf lidima retoheka sog vecuduc
+write
+append
+set id long 1172
+set m string nasaje gozig zigih
+write
+append
+set id long 1173
+set m string vococubi sog vococubi wewazi civicir wesa
+write
+goto 48
+delete
+goto 211
+set m string tepu wehah wewipi
+write
+goto 269
+delete
+goto 16
+delete
+append
+set id long 1178
+set m string zigih zohivifa nepu carusop zohivifa jatibawo
+write
+goto 50
+set m string zobanan hiz degaf boco ramab baco retoheka baco wewazi
+write
+goto 181
+set m string sodajaha zip
+write
+append
+set id long 1181
+set m string fatuj
+write
+goto 211
+set m string nepu hiz
+write
+append
+set id long 1183
+set m string wesa
+write
+goto 234
+set m string hama kebajime dojage kebajime guju fatuj kebajime
+write
+goto 224
+set m string gakofu calugic hiz wapudif jep
+write
+goto 60
+delete
+goto 201
+delete
+append
+set id long 1188
+set m string zif vococubi debiw
+write
+goto 120
+set m string zip vefiko pojojub
+write
+goto 105
+delete
+goto 207
+set m string vococubi tepu huf sodajaha
+write
+goto 275
+set m string nohu kebajime bizedebi tesun hiz tudizuc jefa ribi kudokaru
+write
+goto 141
+set m string gakofu
+write
+append
+set id long 1194
+set m string hama lidima jefa sodajaha wehah gud tudizuc mocar beho
+write
+append
+set id long 1195
+set m string tudizuc wuzaz ludasu zobanan tepu
+write
+goto 236
+delete
+append
+set id long 1197
+set m string ganorezi hiz debiw kalemah vusal
+write
+goto 103
+delete
+goto 84
+set m string den nasaje rina totor
+write
+append
+set id long 1200
+set m string hama kalemah kalemah pigebi tepu
+write
+goto 70
+set m string mocar degaf vococubi den jep biv tepu nohu
+write
+append
+set id long 1202
+set m string den calugic zohivifa zif nepu ludasu bus ramekodi
+write
+goto 230
+set m string beho gijugo fatuj tog jatibawo bus tog baco
+write
+goto 26
+delete
+append
+set id long 1205
+set m string ribi degaf sezahu zurahu civicir tog lon zigih buduvuj zigih
+write
+append
+set id long 1206
+set m string rina gijugo gud zurahu nohu pik den vococubi
+write
+goto 10
+set m string zobanan retoheka ramekodi hama zif
+write
+append
+set id long 1208
+set m string totor jep dojage
+write
+append
+set id long 1209
+set m string kiwufo baco lidima ganorezi civicir nade wewazi posedi noci gijugo
+write
+append
+set id long 1210
+set m string den ribi furo vusal fad kalemah
+write
+goto 282
+set m string reh fad rina wehah nepu ribi gud
+write
+goto 92
+set m string degaf wapudif gakofu gutok wehah retoheka lacelefu
+write
+goto 81
+set m string guju kiwufo
+write
+goto 251
+set m string ganorezi ribi lidima calugic den
+write
+append
+set id long 1215
+set m string gozig sodajaha jep sog nade zohivifa wapudif vococubi zohivifa
+write
+goto 78
+delete
+append
+set id long 1217
+set m string tudizuc civicir gakofu guju
+write
+goto 95
+delete
+goto 57
+set m string pigebi pik tudizuc nasaje carusop civicir ludasu nohu jatibawo nepu
+write
+append
+set id long 1220
+set m string gud toci huf wuzaz biv nade wesa
+write
+goto 177
+delete
+goto 293
+delete
+append
+set id long 1223
+set m string lon noci jefa gijugo gozig kudokaru buduvuj
+write
+goto 154
+set m string wapudif ludasu kalemah zip furo bus zohivifa kiwufo wewazi
+write
+goto 208
+set m string kalemah baco
+write
+goto 179
+set m string hama biv debiw buduvuj zurahu kiwufo
+write
+append
+set id long 1227
+set m string hama civicir zip gutok
+write
+append
+set id long 1228
+set m string carusop nohu noci fuj tudizuc sezahu tog vococubi tudizuc rina
+write
+goto 11
+delete
+append
+set id long 1230
+set m string furo tepu
+write
+goto 34
+set m string jatibawo ludasu wewazi den hiz wapudif reh wewipi
+write
+append
+set id long 1232
+set m string ramekodi lidima
+write
+append
+set id long 1233
+set m string zurahu gakofu wuzaz hiz zobanan gozig ribi hama
+write
+goto 288
+set m string wewipi kudokaru gakofu wewazi lacelefu
+write
+append
+set id long 1235
+set m string zobanan wehah zohivifa den tepu fatuj gutok jefa den sezahu
+write
+append
+set id long 1236
+set m string gakofu wehah
+write
+append
+set id long 1237
+set m string noci zif tesun tudizuc vusal
+write
+goto 120
+delete
+append
+set id long 1239
+set m string gijugo vefiko
+write
+goto 224
+set m string buduvuj ribi bizedebi ramekodi nohu sodajaha kiwufo
+write
+goto 171
+set m string wewazi vecuduc
+write
+append
+set id long 1242
+set m string ribi sog gijugo ganorezi dojage jep ludasu jatibawo dojage
+write
+goto 230
+delete
+append
+set id long 1244
+set m string totor totor
+write
+goto 284
+set m string vococubi mocar
+write
+goto 233
+set m string kalemah posedi calugic den gozig wesa
+write
+append
+set id long 1247
+set m string bus
+write
+goto 49
+set m string kebajime gijugo boco mocar nasaje guju pik zigih zobanan den jatibawo
+write
+append
+set id long 1249
+set m string reh nasaje kebajime
+write
+goto 188
+set m string huf wewazi
+write
+goto 28
+set m string sezahu debiw toci nepu
+write
+goto 166
+set m string zip beho nasaje vecuduc vusal nasaje nasaje nepu boco biv vecuduc
+write
+append
+set id long 1253
+set m string kudokaru buduvuj jefa dojage fuj noci zip nepu wewipi
+write
+goto 88
+set m string fatuj noci lidima zohivifa furo kiwufo
+write
+goto 173
+set m string pojojub buduvuj nohu kudokaru
+write
+goto 81
+set m string dojage
+write
+append
+set id long 1257
+set m string hama fuj boco tesun lidima den biv carusop zurahu wesa beho
+write
+goto 121
+set m string ludasu
+write
+append
+set id long 1259
+set m string reh posedi nohu vococubi zobanan retoheka lidima wewazi ribi
+write
+goto 20
+set m string huf vococubi jefa
+write
+append
+set id long 1261
+set m string toci
+write
+append
+set id long 1262
+set m string gud gutok
+write
+goto 289
+delete
+goto 94
+set m string ribi wapudif
+write
+append
+set id long 1265
+set m string zip pigebi kebajime
+write
+goto 42
+set m string jep furo
+write
+goto 189
+set m string zif hama gakofu sezahu vefiko mocar rina beho hiz
+write
+append
+set id long 1268
+set m string kiwufo lidima
+write
+goto 39
+set m string wewazi huf nade sodajaha fatuj nade civicir nohu den
+write
+goto 275
+set m string retoheka gud zip totor toci kiwufo furo huf sezahu zobanan
+write
+goto 170
+delete
+goto 182
+set m string vefiko kiwufo ribi
+write
+goto 171
+set m string furo posedi bus
+write
+append
+set id long 1274
+set m string lacelefu rina zif
+write
+goto 174
+delete
+goto 42
+delete
+goto 138
+delete
+append
+set id long 1278
+set m string vusal lacelefu wuzaz wesa hiz pik jefa zif ribi lacelefu
+write
+goto 21
+set m string tudizuc nade kalemah nohu noci retoheka vefiko
+write
+goto 89
+delete
+goto 4
+set m string gutok ganorezi ramab reh
+write
+goto 211
+set m string zif vecuduc sezahu debiw
+write
+goto 234
+set m string ribi civicir posedi zurahu
+write
+append
+set id long 1284
+set m string hama kebajime vusal bizedebi nepu kebajime rina wapudif
+write
+append
+set id long 1285
+set m string totor baco posedi zobanan
+write
+append
+set id long 1286
+set m string jatibawo kiwufo gutok nasaje
+write
+goto 242
+set m string gijugo ludasu gud fad vecuduc gud wewazi pigebi degaf nohu
+write
+append
+set id long 1288
+set m string furo
+write
+append
+set id long 1289
+set m string nepu gakofu lacelefu sodajaha gozig zohivifa wewipi hama
+write
+goto 182
+set m string zurahu baco fatuj fad gakofu lacelefu gijugo pigebi kebajime
+write
+append
+set id long 1291
+set m string zurahu calugic boco ramab mocar kiwufo wewazi totor boco
+write
+goto 131
+set m string zif jefa zurahu kalemah tesun vococubi tesun wewazi degaf
+write
+append
+set id long 1293
+set m string wesa lon den boco gozig jefa zurahu jep fuj kalemah
+write
+goto 99
+delete
+goto 36
+set m string noci rina posedi lidima
+write
+goto 167
+set m string tepu kebajime vococubi posedi pik tesun noci
+write
+goto 22
+delete
+append
+set id long 1298
+set m string vefiko pojojub tudizuc ramekodi ludasu gud zurahu gijugo vefiko huf tog
+write
+append
+set id long 1299
+set m string pigebi sezahu wuzaz retoheka calugic zurahu ganorezi tepu
+write
+state
+reindex
+state
+reindexfts 0
+state
+pack
+state
+zap
+state
+append
+set id long 1
+set m string after zap
+write
+state
+close

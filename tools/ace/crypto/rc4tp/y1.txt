@@ -1,0 +1,57 @@
+# DBF tables made or added in a dictionary with ENCRYPT_NEW_TABLE on (RC4, a table password): the ones AdsCreateTable and CREATE TABLE make, and the free ones AdsDDAddTable adds (with a record each).
+connect Data Source=%D\y1\free;ServerType=LOCAL;
+createt 2 %D\y1\free\fcdx
+createt 1 %D\y1\free\fntx
+createt 4 %D\y1\free\fvfp
+createt 2 %D\y1\free\gcdx
+createt 1 %D\y1\free\gntx
+createt 4 %D\y1\free\gvfp
+stmttype 2
+sql INSERT INTO fcdx VALUES (1, 'free memo')
+sql INSERT INTO gcdx VALUES (1, 'free memo')
+stmttype 1
+sql INSERT INTO fntx VALUES (1, 'free memo')
+sql INSERT INTO gntx VALUES (1, 'free memo')
+stmttype 4
+sql INSERT INTO fvfp VALUES (1, 'free memo')
+sql INSERT INTO gvfp VALUES (1, 'free memo')
+disconnect
+ddcreate 0 %D\y1\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+createt 2 ccdx
+createt 1 cntx
+createt 4 cvfp
+createt 3 cadt
+stmttype 2
+sql CREATE TABLE scdx (id INTEGER, note MEMO)
+stmttype 1
+sql CREATE TABLE sntx (id INTEGER, note MEMO)
+stmttype 4
+sql CREATE TABLE svfp (id INTEGER, note MEMO)
+addtablet 2 acdx %D\y1\free\fcdx.dbf
+addtablet 1 antx %D\y1\free\fntx.dbf
+addtablet 4 avfp %D\y1\free\fvfp.dbf
+stmttype 2
+sql INSERT INTO ccdx VALUES (1, 'created memo')
+sql INSERT INTO scdx VALUES (1, 'sql memo')
+sql INSERT INTO acdx VALUES (2, 'added memo')
+stmttype 1
+sql INSERT INTO cntx VALUES (1, 'created memo')
+sql INSERT INTO sntx VALUES (1, 'sql memo')
+sql INSERT INTO antx VALUES (2, 'added memo')
+stmttype 4
+sql INSERT INTO cvfp VALUES (1, 'created memo')
+sql INSERT INTO svfp VALUES (1, 'sql memo')
+sql INSERT INTO avfp VALUES (2, 'added memo')
+tget ccdx 214
+tget cntx 214
+tget cvfp 214
+tget scdx 214
+tget sntx 214
+tget svfp 214
+tget acdx 214
+tget antx 214
+tget avfp 214
+tget cadt 214
+disconnect

@@ -1,0 +1,71 @@
+# Every field type of an AES table, read by a handle that has the password and one that has not.
+connect c1 Data Source=%D;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+connect c2 Data Source=%D;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+create a c1 %D\t.adt CH,Character,10;CI,CICharacter,10;VC,VarChar,12;SI,ShortInt;N1,Integer;DB,Double,10,2;CD,CurDouble,10,2;MO,Money;LG,Logical;DT,Date;TM,Time;TS,TimeStamp;AI,AutoInc;RV,RowVersion;NC,NChar,6;NV,NVarChar,8;BN,Binary,4;RW,Raw,6;NU,Numeric,8,2;LL,LongInt;GD,GUID;VB,VarBinary,10;VF,VarCharFox,10;M1,Memo;NM,NMemo;IM,Image
+tablecheck a
+append a
+set a CH alpha
+set a CI Alpha
+set a VC varchar-one
+set a SI 7
+set a N1 100
+set a DB 1.5
+set a CD 2.25
+set a MO 3.75
+set a LG T
+set a DT 01/02/2024
+set a TM 10:11:12
+set a TS 01/02/2024 10:11:12
+set a NC wide
+set a NV nvar
+set a RW rawdat
+set a NU 12.5
+set a LL 123456789012
+set a GD {01234567-89AB-CDEF-0123-456789ABCDEF}
+set a VB varbin
+set a VF varfox
+set a M1 memo one
+set a NM nmemo one
+write a
+append a
+set a CH bravo
+set a CI Bravo
+set a VC varchar-two
+set a SI 8
+set a N1 200
+set a DB 2.5
+set a LG F
+set a DT 03/03/2024
+set a NC wide2
+set a M1 memo two
+write a
+append a
+set a CH charlie
+set a N1 300
+write a
+enable a secret
+encrypt a
+tablecheck a
+index ich a %D\t.adi ICH 0 CH
+index in1 a %D\t.adi IN1 0 N1
+index idesc a %D\t.adi IDESC 8 N1
+index iup a %D\t.adi IUP 0 UPPER(CH)
+index icmp a %D\t.adi ICMP 0 CH+STR(N1,5)
+close a
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+tablecheck h1
+tablecheck h2
+count h1
+count h2
+top h1
+dump h1
+top h2
+dump h2
+skip h2 1
+dump h2
+skip h2 1
+dump h2
+skip h2 1
+dump h2

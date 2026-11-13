@@ -1,0 +1,17 @@
+[
+{"cmd": "open t shared", "rc": 0, "table": 1},
+{"cmd": "begin", "rc": 0},
+{"cmd": "goto 1", "rc": 0},
+{"cmd": "set name string uno", "rc": 0},
+{"cmd": "set m string changed", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "append", "rc": 0},
+{"cmd": "set id long 3", "rc": 0},
+{"cmd": "set name string three", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "goto 2", "rc": 0},
+{"cmd": "delete", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "flush", "rc": 0},
+{"cmd": "snapshot during", "rc": 0}
+]

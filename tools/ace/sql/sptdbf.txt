@@ -1,0 +1,85 @@
+# The table system procedures on DBF tables (CDX, NTX and VFP), on the local
+# server; the files they leave are fixtures/sql/sptdbf/. (Encrypting them is
+# left out: tflip does not encrypt DBF tables.)
+#
+#     run.sh <work> <ace32.dll> sptdbf.txt > ../../../fixtures/sql/sptdbf.json
+#     cp <work>/data/* ../../../fixtures/sql/sptdbf/
+stmt
+tabletype 2
+query CREATE TABLE pc (id INTEGER, name CHAR(10), m MEMO)
+query CREATE INDEX cid ON pc (id)
+query CREATE INDEX cname ON pc (name)
+query INSERT INTO pc VALUES (1, 'one', 'memo one')
+query INSERT INTO pc VALUES (2, 'two', 'memo two')
+query INSERT INTO pc VALUES (3, 'three', 'memo three')
+query INSERT INTO pc VALUES (4, 'four', NULL)
+query DELETE FROM pc WHERE id IN (2, 4)
+tabletype 1
+query CREATE TABLE pn (id INTEGER, name CHAR(10), m MEMO)
+query CREATE INDEX nid ON pn (id)
+query INSERT INTO pn VALUES (1, 'one', 'memo one')
+query INSERT INTO pn VALUES (2, 'two', 'memo two')
+query INSERT INTO pn VALUES (3, 'three', 'memo three')
+query DELETE FROM pn WHERE id = 2
+tabletype 4
+query CREATE TABLE pv (id INTEGER, name CHAR(10), m MEMO)
+query CREATE INDEX vid ON pv (id)
+query INSERT INTO pv VALUES (1, 'one', 'memo one')
+query INSERT INTO pv VALUES (2, 'two', 'memo two')
+query INSERT INTO pv VALUES (3, 'three', 'memo three')
+query DELETE FROM pv WHERE id = 2
+closestmt
+stmt
+tabletype 2
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc.dbf')
+query EXECUTE PROCEDURE sp_GetTableEncryptionType('pc')
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc.dbf', 1)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc', 2)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc.dbf', 3)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc.dbf', 5)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc.dbf', 0)
+query EXECUTE PROCEDURE sp_PackTable('pc')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pc.dbf', 2)
+query EXECUTE PROCEDURE sp_Reindex('pc', 0)
+query EXECUTE PROCEDURE sp_Reindex('pc', 1024)
+query EXECUTE PROCEDURE sp_Reindex('pc', 100)
+query EXECUTE PROCEDURE sp_PackTable('pc', 1)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_PackTable('pc', 32)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_PackTable('pc', 33)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_PackTable('pc', 100)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_PackTable('pc', 1024)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+query EXECUTE PROCEDURE sp_PackTable('pc', 1025)
+query EXECUTE PROCEDURE sp_PackTable('pc', 65536)
+query EXECUTE PROCEDURE sp_PackTable('pc', 64)
+query EXECUTE PROCEDURE sp_PackTable('pc.adt')
+query EXECUTE PROCEDURE sp_ZapTable('pc')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')
+tabletype 1
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pn.dbf', 1)
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pn.dbf', 2)
+query EXECUTE PROCEDURE sp_PackTable('pn')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')
+query EXECUTE PROCEDURE sp_PackTable('pn', 8)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')
+query EXECUTE PROCEDURE sp_PackTable('pn', 1025)
+query EXECUTE PROCEDURE sp_Reindex('pn', 0)
+query EXECUTE PROCEDURE sp_ZapTable('pn')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')
+tabletype 4
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')
+query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\pv.dbf', 1)
+query EXECUTE PROCEDURE sp_PackTable('pv')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')
+query EXECUTE PROCEDURE sp_PackTable('pv', 2)
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')
+query EXECUTE PROCEDURE sp_Reindex('pv', 0)
+query EXECUTE PROCEDURE sp_ZapTable('pv')
+query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')

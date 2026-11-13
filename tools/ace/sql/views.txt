@@ -1,0 +1,207 @@
+# Which views open a live cursor, and what a client can do with one: a
+# dictionary made here (vw.add, next to the free tables) with views over
+# indexed.adt (it has indexes) and cust.adt. peek is AdsSqlPeekStatement's
+# live flag. A view takes no ORDER BY without TOP (AdsDDAddView fails with
+# 2117, as the end shows), so no view here sorts.
+#
+#     run.sh <work> <ace32.dll> views.txt > ../../../fixtures/sql/views.json
+ddcreate vw.add
+stmt
+ddview v_all SELECT * FROM indexed
+ddview v_sub SELECT id, name FROM indexed
+ddview v_where SELECT id, name FROM indexed WHERE id > 1
+ddview v_alias SELECT id AS ident, name AS label FROM indexed
+ddview v_of_view SELECT id, name FROM v_sub
+ddview v_of_view_where SELECT id FROM v_where WHERE id < 4
+ddview v_expr SELECT id, UPPER(name) AS n FROM indexed
+ddview v_top SELECT TOP 2 id, name FROM indexed
+ddview v_topord SELECT TOP 2 id, name FROM indexed ORDER BY name
+ddview v_dist SELECT DISTINCT name FROM indexed
+ddview v_join SELECT i.id, c.name FROM indexed i JOIN cust c ON c.id = i.id
+ddview v_like SELECT id, name FROM indexed WHERE name LIKE 'A%'
+ddview v_static SELECT {static} id, name FROM indexed
+ddview v_cust SELECT * FROM cust
+ddview v_dup SELECT id, id AS id2 FROM indexed
+ddview v_union SELECT id FROM indexed UNION SELECT id FROM cust
+ddview v_from SELECT * FROM (SELECT id, name FROM indexed) t
+ddview v_grp SELECT name, COUNT(*) AS n FROM indexed GROUP BY name
+# The plans.
+query SHOW PLAN FOR SELECT * FROM v_sub
+query SHOW PLAN FOR SELECT * FROM v_where
+query SHOW PLAN FOR SELECT * FROM v_where WHERE id < 4 ORDER BY name
+query SHOW PLAN FOR SELECT * FROM v_of_view_where
+query SHOW PLAN FOR SELECT * FROM v_expr
+# The tables, as a baseline.
+direct SELECT * FROM indexed
+peek
+indexes
+closecursor
+direct SELECT id, name FROM indexed
+peek
+closecursor
+direct SELECT * FROM v_all
+peek
+info
+indexes
+closecursor
+direct SELECT * FROM v_sub
+peek
+indexes
+closecursor
+direct SELECT * FROM v_where
+peek
+info
+closecursor
+direct SELECT * FROM v_alias
+peek
+closecursor
+direct SELECT * FROM v_of_view
+peek
+closecursor
+direct SELECT * FROM v_of_view_where
+peek
+info
+closecursor
+direct SELECT * FROM v_expr
+peek
+closecursor
+direct SELECT * FROM v_top
+peek
+closecursor
+direct SELECT * FROM v_topord
+peek
+closecursor
+direct SELECT * FROM v_dist
+peek
+closecursor
+direct SELECT * FROM v_join
+peek
+closecursor
+direct SELECT * FROM v_like
+peek
+closecursor
+direct SELECT * FROM v_static
+peek
+closecursor
+direct SELECT * FROM v_cust
+peek
+closecursor
+direct SELECT * FROM v_dup
+peek
+closecursor
+direct SELECT * FROM v_union
+peek
+closecursor
+direct SELECT * FROM v_from
+peek
+closecursor
+direct SELECT * FROM v_grp
+peek
+closecursor
+# A statement on a view: a column subset, a WHERE and an ORDER BY of its own.
+direct SELECT id FROM v_sub
+peek
+closecursor
+direct SELECT * FROM v_sub WHERE id > 2
+peek
+info
+closecursor
+direct SELECT * FROM v_where WHERE id < 4
+peek
+info
+closecursor
+direct SELECT * FROM v_where WHERE id < 4 ORDER BY name
+peek
+info
+closecursor
+direct SELECT * FROM v_sub ORDER BY name DESC
+peek
+indexes
+closecursor
+direct SELECT * FROM v_sub WHERE id > 2 ORDER BY id
+peek
+closecursor
+direct SELECT name AS n FROM v_sub
+peek
+closecursor
+direct SELECT UPPER(name) FROM v_sub
+peek
+closecursor
+direct SELECT * FROM v_all a JOIN v_sub b ON a.id = b.id
+peek
+closecursor
+direct SELECT * FROM (SELECT id, name FROM v_sub) t
+peek
+closecursor
+direct SELECT * FROM (SELECT id, name FROM indexed) t
+peek
+closecursor
+direct SELECT * FROM v_sub WHERE name LIKE 'A%'
+peek
+closecursor
+direct SELECT {static} * FROM v_sub
+peek
+closecursor
+# Moves on a view's cursor.
+direct SELECT * FROM v_where
+gotop
+skip 1
+gobottom
+gorec 1
+closecursor
+# A view's ORDER BY: AdsDDAddView and CREATE VIEW refuse one without TOP
+# (2117), whatever it sorts by.
+ddview v_ord SELECT id, name FROM indexed ORDER BY name
+ddview v_ord SELECT id, name FROM indexed ORDER BY id DESC
+ddview v_ord SELECT id, name FROM indexed WHERE id > 1 ORDER BY 1
+ddview v_ord SELECT * FROM v_sub ORDER BY name
+ddview v_ord SELECT id FROM indexed UNION SELECT id FROM cust ORDER BY 1
+ddview v_ord4 SELECT * FROM (SELECT id FROM indexed ORDER BY id) t
+ddview v_ord SELECT DISTINCT name FROM indexed ORDER BY name
+ddview v_ord SELECT TOP 2 id FROM indexed ORDER BY id DESC
+ddview v_ord3 SELECT TOP 100 PERCENT id FROM indexed ORDER BY id
+ddview v_ord2 SELECT id FROM indexed ORDER BY id
+ddview v_ord2 SELECT id FROM indexed
+stmt
+direct CREATE VIEW v_sql_ord AS SELECT id, name FROM indexed ORDER BY name
+direct CREATE VIEW v_sql_ord AS SELECT TOP 2 id, name FROM indexed ORDER BY name
+direct CREATE VIEW v_sql_plain AS SELECT id, name FROM indexed
+direct SELECT * FROM v_sql_ord
+closecursor
+direct SELECT * FROM v_ord3
+closecursor
+
+# Edits through a view's cursor, and through the table's own.
+direct SELECT * FROM v_all
+gotop
+edit 2 viewedit
+row
+closecursor
+direct SELECT * FROM indexed
+gotop
+edit 2 tableedit
+closecursor
+direct SELECT * FROM v_sub
+gotop
+edit 2 viewsub
+append
+delrec
+closecursor
+direct SELECT name FROM indexed
+gotop
+edit 1 tableedit2
+closecursor
+direct SELECT {static} * FROM indexed
+gotop
+edit 2 staticedit
+closecursor
+direct SELECT * FROM v_alias
+gotop
+edit 2 viewalias
+closecursor
+direct SELECT * FROM v_where
+gotop
+edit 2 viewwhere
+closecursor
+direct SELECT * FROM indexed
+closecursor

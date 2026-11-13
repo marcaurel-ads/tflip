@@ -1,0 +1,66 @@
+cursor SELECT * FROM ta
+state
+append
+state
+set name string new
+set n long 99
+write
+state
+rows
+count
+goto 6
+get name
+append
+set name string pend
+top
+state
+rows
+goto 2
+delete
+state
+rows
+goto 2
+state
+recall
+state
+goto 3
+delete
+write
+goto 3
+recall
+rows
+goto 4
+set name string chg
+cancel
+get name
+set name string chg2
+writeall
+get name
+goto 1
+delete
+append
+state
+cancel
+state
+delete
+rows
+closecursor
+open ta.adt exclusive
+rows
+get name
+close
+cursor SELECT name FROM tb
+append
+state
+set name string only
+write
+state
+rows
+get name
+closecursor
+open tb.adt shared
+goto 6
+get id
+get n
+record
+close

@@ -1,0 +1,7 @@
+shell mkdir @CLIENT@\fsrc
+connopt EncryptionType=AES128;
+free 0
+free 1 fsrc
+#table 1 f_e1 3 20
+sql 1 EXECUTE PROCEDURE sp_EncryptTable('f_e1', 'pass1234')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\img', NULL, 'pass1234')

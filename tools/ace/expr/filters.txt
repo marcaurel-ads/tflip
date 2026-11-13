@@ -1,0 +1,196 @@
+# Filter behaviour for filters.c; see there for the format.
+# keys.adt: records 1-6; k_integer 1, -1, 0, 2147483647, -2147483647, NULL.
+# k_logical T, F, F, T, T, NULL.
+
+@table adi_keys/keys.adt
+
+# Setting a filter does not move
+goto 2
+filter k_logical
+getfilter
+skip 1
+skip -1
+skip -1
+top
+skip 1
+skip 1
+skip 1
+bottom
+skip -1
+goto 2
+skip 1
+goto 3
+skip -1
+clearfilter
+getfilter
+clearfilter
+
+# From a hidden record, without asking for its number
+!number 0
+filter k_logical
+goto 2
+skip 1
+goto 3
+skip -1
+goto 2
+skip 2
+goto 2
+skip -2
+goto 2
+skip 0
+goto 2
+!number 1
+!number 0
+goto 2
+inaof 2
+clearfilter
+aof k_logical
+goto 2
+skip 1
+goto 3
+skip -1
+clearaof
+
+# Index order from a hidden record
+order I_INTEGER
+filter k_integer >= 0
+goto 5
+skip 1
+goto 2
+skip -1
+goto 6
+skip 1
+goto 6
+skip -1
+clearfilter
+order -
+!number 1
+
+# Record order, all hidden
+filter k_integer > 2147483647
+top
+bottom
+skip 1
+clearfilter
+
+# Invalid filters
+filter nosuchfield
+getfilter
+filter 1 +
+filter k_integer
+filter 'abc'
+filter
+filter UPPER(
+aof nosuchfield
+aof k_integer
+aof 'abc'
+aof 1 +
+getaof
+
+# Index orders
+order I_INTEGER
+filter k_integer >= 0
+top
+skip 1
+skip 1
+skip 1
+bottom
+skip -1
+skip -1
+seek hard 0
+seek soft -5
+seek hard -1
+seek gt 0
+seek soft 3000000000
+goto 5
+skip 1
+goto 2
+skip -1
+clearfilter
+order -
+
+# AOFs
+aof k_logical
+getaof
+top
+skip 1
+skip 1
+skip 1
+inaof 1
+inaof 2
+inaof 6
+inaof 7
+goto 2
+skip 1
+order I_CHAR
+top
+skip 1
+skip 1
+skip 1
+bottom
+order -
+filter k_integer > 0
+top
+skip 1
+skip 1
+clearfilter
+custom 1 2
+inaof 2
+top
+skip 1
+custom 2 1
+top
+custom 3 1 4
+top
+skip 1
+clearaof
+custom 1 2
+clearaof
+getaof
+
+# Exact
+!exact 0
+filter k_char = 'a'
+top
+skip 1
+skip 1
+!exact 1
+top
+skip 1
+!exact 0
+clearfilter
+
+# Locate
+locate 1 k_integer < 0
+locate 1 k_integer < 0
+locate 1 k_integer < 0
+locate 0 k_integer < 0
+locate 1 nosuchfield
+filter k_logical
+goto 1
+locate 1 k_integer < 0
+clearfilter
+
+# A filter evaluated at an empty position
+goto 0
+filter k_logical
+skip 1
+clearfilter
+
+@table adi_options/opts.adt
+
+order COND
+filter id < 40
+top
+skip 1
+bottom
+clearfilter
+order -
+
+@table indexes/indexed.adt
+
+filter .T.
+top
+bottom
+skip -1
+clearfilter

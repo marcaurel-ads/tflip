@@ -1,0 +1,188 @@
+# The scenarios public.exe (grants.c, see public.sh) runs: rights granted to the
+# built-in DB:Public, which the engine keeps in the object itself (a table's
+# property slot 12, a view's slot 5, ...) instead of a Permission object. Each
+# `@ name` starts a new dictionary; public.sh keeps the ones named there as
+# goldens.
+
+# Every kind of object that takes rights, and what each takes and refuses.
+@ publicgrants
+user bob
+group G1
+table t
+table a1
+table a2
+table a3
+table a4
+table a5
+table a6
+table a7
+table a8
+view v1 SELECT id FROM t
+view v2 SELECT id FROM t
+view v3 SELECT id FROM t
+proc p
+sql CREATE FUNCTION f1 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+sql CREATE PACKAGE pk1
+sql CREATE FUNCTION pk1.f2 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 3; END
+link lnk
+pub pb
+sub sb
+grant 1|a1||DB:Public|0x1
+grant 1|a2||DB:Public|0x2
+grant 1|a3||DB:Public|0x3
+grant 1|a4||DB:Public|0x10
+grant 1|a5||DB:Public|0x20
+grant 1|a6||DB:Public|0x100
+grant 1|a7||DB:Public|0x200
+grant 1|a8||DB:Public|0xFFFFFFFF
+grant 6|v1||DB:Public|0x1
+grant 0|v2||DB:Public|0x13
+grant 0|v3||DB:Public|0x333
+grant 0|p||DB:Public|0x4
+grant 0|p||DB:Public|0x100
+grant 0|f1||DB:Public|0x4
+grant 0|f1||DB:Public|0x200
+grant 0|pk1||DB:Public|0x4
+grant 0|lnk||DB:Public|0x40
+grant 12|lnk||DB:Public|0x100
+grant 0|pb||DB:Public|0x100
+grant 0|sb||DB:Public|0x200
+grant 0|bob||DB:Public|0x100
+grant 0|G1||DB:Public|0x200
+grant 11|-|-|DB:Public|0x100
+get DB:Public|1|a3||0
+get DB:Public|1|a8||0
+get DB:Public|4|id|a3|0
+get DB:Public|0|t||0
+get DB:Public|6|v2||0
+get DB:Public|10|p||0
+get DB:Public|18|f1||0
+get DB:Public|19|pk1||0
+get DB:Public|12|lnk||0
+get DB:Public|15|pb||0
+get DB:Public|17|sb||0
+get DB:Public|8|bob||0
+get DB:Public|9|G1||0
+get DB:Public|11|Database||0
+# A user holds what is granted to DB:Public whether it inherits or not, a
+# group does not, and a column does not take it (get): none of these.
+get bob|1|a3||0
+get bob|1|a3||1
+get bob|6|v2||1
+get bob|10|p||1
+get bob|11|Database||1
+get bob|4|id|a3|1
+get G1|9|G1||1
+get G1|1|a3||1
+dump SELECT * FROM system.permissions WHERE Grantee = 'DB:Public' AND Object_Type <> 4
+dump SELECT * FROM system.effectivepermissions WHERE Grantee = 'bob' AND Object_Type <> 4
+dump SELECT * FROM system.effectivepermissions WHERE Grantee = 'bob' AND Object_Type IN (1, 4)
+# What it refuses.
+grant 1|t||DB:Public|0x4
+grant 1|t||DB:Public|0x8
+grant 1|t||DB:Public|0x80
+grant 1|t||DB:Public|0x400
+grant 1|t||DB:Public|0x80000001
+grant 1|t||DB:Public|0x8FFFFFFF
+grant 1|t||DB:Public|0x0
+grant 4|id|t|DB:Public|0x1
+grant 5|t||DB:Public|0x1
+grant 0|nosuch||DB:Public|0x1
+grant 1|nosuch||DB:Public|0x1
+grant 9|DB:Admin||DB:Public|0x100
+grant 0|DB:Public||DB:Public|0x100
+grant 18|f2|pk1|DB:Public|0x4
+revoke 1|t||DB:Public|0x80000001
+revoke 4|id|t|DB:Public|0x1
+sql GRANT SELECT(id) ON t TO "DB:Public"
+sql GRANT SELECT ON t TO "DB:Public" WITH GRANT
+sql GRANT INHERIT ON t TO "DB:Public"
+sql GRANT ALL ON t TO "DB:Public" WITH GRANT
+get DB:Public|0|t||0
+
+# SQL and the API change the same slot, a grant adds to it, a revoke takes from
+# it, and each write makes the slot anew.
+@ publicrevoke
+table t1
+table t2
+table t3
+table t4
+view v SELECT id FROM t1
+sql GRANT SELECT ON t1 TO "DB:Public"
+sql GRANT UPDATE, INSERT ON t1 TO [DB:Public]
+get DB:Public|1|t1||0
+grant 1|t1||DB:Public|0x1
+revoke 1|t1||DB:Public|0x2
+get DB:Public|1|t1||0
+sql REVOKE SELECT, INSERT ON t1 FROM "DB:Public"
+get DB:Public|1|t1||0
+sql REVOKE ALL ON t1 FROM "DB:Public"
+get DB:Public|1|t1||0
+revoke 1|t2||DB:Public|0x1
+revoke 1|t3||DB:Public|0xFFFFFFFF
+sql REVOKE ALL ON v FROM "DB:Public"
+sql GRANT ALL ON t4 TO "DB:Public"
+sql GRANT ALL ON v TO "DB:Public"
+get DB:Public|1|t4||0
+get DB:Public|6|v||0
+sql REVOKE DELETE, DROP ON t4 FROM "DB:Public"
+get DB:Public|1|t4||0
+dump SELECT * FROM system.permissions WHERE Grantee = 'DB:Public' AND Object_Type <> 4
+
+# A user holds DB:Public's rights on tables, views and the rest as its own,
+# also with no inherit bit, and through a group it holds none of them.
+@ publicusers
+user bob
+user amy
+user cy
+group G1
+member G1 bob
+table t
+table t2
+table t3
+view v SELECT id FROM t
+verify 1
+sql GRANT SELECT ON t TO "DB:Public"
+sql GRANT SELECT, INSERT ON t2 TO G1
+sql GRANT SELECT, DELETE ON t3 TO "DB:Public"
+sql GRANT UPDATE ON t3 TO bob
+sql REVOKE INHERIT ON t3 FROM bob
+sql GRANT SELECT(id) ON t2 TO cy
+sql GRANT SELECT ON v TO "DB:Public"
+get bob|0|t||0
+get bob|0|t||1
+get amy|0|t||1
+get cy|0|t||1
+get G1|0|t||1
+get bob|0|t2||1
+get bob|0|t3||1
+get bob|0|t3||0
+get cy|4|id|t|1
+get cy|4|id|t2|1
+get cy|4|s|t2|1
+get DB:Public|4|id|t|0
+dump SELECT * FROM system.effectivepermissions WHERE Grantee IN ('bob', 'amy', 'cy', 'G1') AND Object_Type IN (1, 4)
+as amy
+sql SELECT * FROM t
+sql SELECT * FROM t2
+sql INSERT INTO t (id) VALUES (1)
+sql DELETE FROM t3
+sql SELECT * FROM v
+as bob
+sql SELECT * FROM t
+sql DELETE FROM t3
+sql UPDATE t3 SET id = 1
+as cy
+sql SELECT * FROM t
+sql DELETE FROM t3
+sql INSERT INTO t3 (id) VALUES (7)
+asadmin
+sql GRANT INSERT ON t TO bob WITH GRANT
+as bob
+sql GRANT SELECT ON t TO "DB:Public"
+sql GRANT INSERT ON t TO "DB:Public"
+grant 1|t||DB:Public|0x2
+revoke 1|t||DB:Public|0x1
+sql REVOKE INSERT ON t FROM "DB:Public"
+asadmin
+get DB:Public|1|t||0

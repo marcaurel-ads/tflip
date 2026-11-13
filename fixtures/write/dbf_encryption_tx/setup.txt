@@ -1,0 +1,19 @@
+# Free tables for the transactions on encrypted ones.
+tabletype ntx
+sql CREATE TABLE t_ntx (d1 CHAR(20), n1 INTEGER, m1 MEMO)
+sql CREATE INDEX t_ntx_d1 ON t_ntx (d1)
+sql INSERT INTO t_ntx VALUES ('alpha', 1, 'memo_alpha')
+sql INSERT INTO t_ntx VALUES ('bravo', 2, 'memo_bravo')
+sql INSERT INTO t_ntx VALUES ('gamma', 3, 'memo_gamma')
+tabletype cdx
+sql CREATE TABLE t_cdx (d1 CHAR(20), n1 INTEGER, m1 MEMO)
+sql CREATE INDEX t_cdx_d1 ON t_cdx (d1)
+sql INSERT INTO t_cdx VALUES ('alpha', 1, 'memo_alpha')
+sql INSERT INTO t_cdx VALUES ('bravo', 2, 'memo_bravo')
+sql INSERT INTO t_cdx VALUES ('gamma', 3, 'memo_gamma')
+tabletype vfp
+sql CREATE TABLE t_vfp (d1 CHAR(20), n1 INTEGER, m1 MEMO)
+sql CREATE INDEX t_vfp_d1 ON t_vfp (d1)
+sql INSERT INTO t_vfp VALUES ('alpha', 1, 'memo_alpha')
+sql INSERT INTO t_vfp VALUES ('bravo', 2, 'memo_bravo')
+sql INSERT INTO t_vfp VALUES ('gamma', 3, 'memo_gamma')

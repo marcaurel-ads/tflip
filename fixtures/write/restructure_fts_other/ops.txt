@@ -1,0 +1,25 @@
+restructure a.adt 0 front,Char,4,(1)||
+restructure b.adt 0 extra,Char,4||
+restructure c.adt 0 extra,Char,4|title|
+restructure d.adt 0 |body|
+restructure e.adt 0 ||body,text,Char,40
+open a.adt
+top
+record
+close
+open b.adt
+top
+record
+close
+open c.adt
+top
+record
+close
+open d.adt
+top
+record
+close
+open e.adt
+top
+record
+close

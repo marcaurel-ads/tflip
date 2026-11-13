@@ -1,0 +1,209 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE sn (id INTEGER, ch CHAR(6), d DATE)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sn (id, ch, d) VALUES (1, 'one', '2020-01-02')", "rc": 0},
+{"cmd": "query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT * FROM #moneyn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharn FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: SQL_CICHAR. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #cicharn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  cicharn Table name: #cicharn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timen FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Time fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #timen", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  timen Table name: #timen", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #shortn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsn FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Timestamp fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #tsn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  tsn Table name: #tsn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawn FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Raw fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #rawn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  rawn Table name: #rawn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbn FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  VarBinaryFox Fields are only supported with ADS_VFP files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #varbn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  varbn Table name: #varbn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_REAL) AS x INTO #realn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT * FROM #realn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #tinyn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decn FROM sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #decn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  decn Table name: #decn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 5, 10, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT * FROM #lvcn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 5, 10, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT * FROM #wvcn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT LASTAUTOINC(STATEMENT) AS x INTO #ain FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT * FROM #ain", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT ROWNUM() AS x INTO #rnn FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #rnn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bign FROM sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #bign", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query CREATE TABLE sc (id INTEGER, ch CHAR(6), d DATE)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sc (id, ch, d) VALUES (1, 'one', '2020-01-02')", "rc": 0},
+{"cmd": "query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT * FROM #moneyc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharc FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: SQL_CICHAR. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #cicharc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  cicharc Table name: #cicharc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timec FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Time fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #timec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  timec Table name: #timec", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #shortc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsc FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Timestamp fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #tsc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  tsc Table name: #tsc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawc FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Raw fields not supported with DBF files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #rawc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  rawc Table name: #rawc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbc FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  VarBinaryFox Fields are only supported with ADS_VFP files. Field: \"X\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #varbc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  varbc Table name: #varbc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_REAL) AS x INTO #realc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT * FROM #realc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #tinyc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decc FROM sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #decc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  decc Table name: #decc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 5, 10, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT * FROM #lvcc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 5, 10, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT * FROM #wvcc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT LASTAUTOINC(STATEMENT) AS x INTO #aic FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT * FROM #aic", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT ROWNUM() AS x INTO #rnc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #rnc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bigc FROM sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #bigc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE sv (id INTEGER, ch CHAR(6), d DATE, ts TIMESTAMP, mo MONEY, ai AUTOINC, vb VARBINARY(5))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sv (id, ch, d) VALUES (1, 'one', '2020-01-02')", "rc": 0},
+{"cmd": "query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT * FROM #moneyv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 2, 21, 4]], "rows": [
+  [1, ["               1.0000"]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharv FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: SQL_CICHAR. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #cicharv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  cicharv Table name: #cicharv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timev FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Time fields not supported with DBF files. Field: \"x\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #timev", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  timev Table name: #timev", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortv FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Short integer fields not supported with DBF files. Field: \"x\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #shortv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  shortv Table name: #shortv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 14, 8, 0]], "rows": [
+  [1, ["01/02/2020 12:00:00 AM"]]]}},
+{"cmd": "query SELECT * FROM #tsv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 14, 8, 0]], "rows": [
+  [1, ["01/02/2020 12:00:00 AM"]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawv FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Raw fields not supported with DBF files. Field: \"x\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #rawv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  rawv Table name: #rawv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 24, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT * FROM #varbv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 24, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_REAL) AS x INTO #realv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT * FROM #realv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyv FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Short integer fields not supported with DBF files. Field: \"x\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #tinyv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  tinyv Table name: #tinyv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decv FROM sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #decv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7112;  [SAP][Advantage SQL Engine][ASA] Error 7112:  The temporary table cannot be found.  decv Table name: #decv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 5, 4, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT * FROM #lvcv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 5, 4, 0]], "rows": [
+  [1, ["one   "]]]}},
+{"cmd": "query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT * FROM #wvcv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 27, 4, 0]], "rows": [
+  [1, ["one "]]]}},
+{"cmd": "query SELECT LASTAUTOINC(STATEMENT) AS x INTO #aiv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #aiv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT ROWNUM() AS x INTO #rnv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #rnv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bigv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #bigv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT ts INTO #ctsv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ts", 14, 8, 0]], "rows": [
+  [1, ["  /  /     12:00:00 AM"]]]}},
+{"cmd": "query SELECT * FROM #ctsv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ts", 14, 8, 0]], "rows": [
+  [1, ["  /  /     12:00:00 AM"]]]}},
+{"cmd": "query SELECT mo INTO #cmov FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["mo", 2, 23, 4]], "rows": [
+  [1, ["                 0.0000"]]]}},
+{"cmd": "query SELECT * FROM #cmov", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["mo", 2, 23, 4]], "rows": [
+  [1, ["                 0.0000"]]]}},
+{"cmd": "query SELECT ai INTO #caiv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ai", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM #caiv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ai", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT vb INTO #cvbv FROM sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_30.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["vb", 24, 5, 0]], "rows": [
+  [1, [""]]]}},
+{"cmd": "query SELECT * FROM #cvbv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_30.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["vb", 24, 5, 0]], "rows": [
+  [1, [""]]]}},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE sn2 (a INTEGER NULL, b CHAR(3) NULL, c CHAR(3) NOT NULL, m MEMO NULL, d CHAR(3) NOCPTRANS, e CHAR(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sn2 (c) VALUES ('x')", "rc": 0},
+{"cmd": "query SELECT * INTO #nul FROM sn2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 4, 3, 0], ["c", 4, 3, 0], ["m", 5, 4, 0], ["d", 4, 3, 0], ["e", 4, 3, 0]], "rows": [
+  [1, ["0", "   ", "x  ", "", "   ", "   "]]]}},
+{"cmd": "query SELECT * FROM #nul", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 4, 3, 0], ["c", 4, 3, 0], ["m", 5, 4, 0], ["d", 4, 3, 0], ["e", 4, 3, 0]], "rows": [
+  [1, ["0", "   ", "x  ", "", "   ", "   "]]]}},
+{"cmd": "query SELECT a, a + 1 AS a1, c + 'x' AS cx, b INTO #nul2 FROM sn2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["a1", 11, 4, 0], ["cx", 23, 4, 0], ["b", 4, 3, 0]], "rows": [
+  [1, ["0", "1", "x  x", "   "]]]}},
+{"cmd": "query SELECT * FROM #nul2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["a1", 11, 4, 0], ["cx", 23, 4, 0], ["b", 4, 3, 0]], "rows": [
+  [1, ["0", "1", "x  x", "   "]]]}},
+{"cmd": "query INSERT INTO #nul VALUES (NULL, NULL, 'y', NULL, 'q', 'r')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM #nul", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["a", 11, 4, 0], ["b", 4, 3, 0], ["c", 4, 3, 0], ["m", 5, 4, 0], ["d", 4, 3, 0], ["e", 4, 3, 0]], "rows": [
+  [1, ["0", "   ", "x  ", "", "   ", "   "]],
+  [2, [null, null, "y  ", null, "q  ", "r  "]]]}},
+{"cmd": "query SELECT * FROM #nul WHERE a IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 4, 3, 0], ["c", 4, 3, 0], ["m", 5, 4, 0], ["d", 4, 3, 0], ["e", 4, 3, 0]], "rows": [
+  [2, [null, null, "y  ", null, "q  ", "r  "]]]}},
+{"cmd": "query SELECT * FROM #nul WHERE b IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 4, 3, 0], ["c", 4, 3, 0], ["m", 5, 4, 0], ["d", 4, 3, 0], ["e", 4, 3, 0]], "rows": [
+  [2, [null, null, "y  ", null, "q  ", "r  "]]]}},
+{"cmd": "query SELECT * FROM #nul2 WHERE a IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["a", 11, 4, 0], ["a1", 11, 4, 0], ["cx", 23, 4, 0], ["b", 4, 3, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM #nul2 WHERE b IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["a", 11, 4, 0], ["a1", 11, 4, 0], ["cx", 23, 4, 0], ["b", 4, 3, 0]], "rows": []}},
+{"cmd": "query INSERT INTO #nul2 VALUES (NULL, NULL, 'y', NULL)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM #nul2 WHERE a IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["a1", 11, 4, 0], ["cx", 23, 4, 0], ["b", 4, 3, 0]], "rows": [
+  [2, [null, null, "y", null]]]}},
+{"cmd": "query INSERT INTO #nul2 VALUES (NULL, NULL, NULL, NULL)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE sn3 (id INTEGER, ch CHAR(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sn3 VALUES (1, 'a')", "rc": 0},
+{"cmd": "query SELECT * INTO #nn3 FROM sn3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["ch", 4, 3, 0]], "rows": [
+  [1, ["1", "a  "]]]}},
+{"cmd": "query INSERT INTO #nn3 VALUES (NULL, NULL)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM #nn3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["ch", 4, 3, 0]], "rows": [
+  [1, ["1", "a  "]],
+  [2, [null, null]]]}},
+{"cmd": "query SELECT * FROM #nn3 WHERE id IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["ch", 4, 3, 0]], "rows": [
+  [2, [null, null]]]}},
+{"cmd": "query INSERT INTO sn3 VALUES (NULL, NULL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5205;  [SAP][Advantage SQL Engine][ASA] Error 5205:  This operation is only allowed on Nullable fields within an ADS_VFP table.  Field: \"id\"", "has_cursor": false, "affected": 4294967295}
+]

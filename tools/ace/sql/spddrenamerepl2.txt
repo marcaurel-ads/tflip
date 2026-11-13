@@ -1,0 +1,90 @@
+# AdsDDRenameObject on every kind of object, to the names of publications and
+# subscriptions (and the reverse), on a dictionary connection in an empty folder
+# (the dictionary, de/de.add, is kept in fixtures/sql/spddrenamerepl2/): which
+# names a publication or a subscription is refused, and which kinds it refuses.
+# spddrenamerepl.txt is the same for the publications and subscriptions alone.
+# The dictionary's index (de.ai) is not compared: a dictionary of this size keeps
+# it in pages the original's renames left in another order.
+#
+#     run.sh <work> <ace32.dll> spddrenamerepl2.txt > ../../../fixtures/sql/spddrenamerepl2.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddrenamerepl2/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE VIEW v1 AS SELECT id FROM ft1
+direct CREATE DATABASE "other.add"
+direct CREATE TABLE parent (id INTEGER, PRIMARY KEY (id))
+direct CREATE TABLE child (cid INTEGER, pid INTEGER)
+direct CREATE INDEX pid ON child (pid)
+direct CREATE PROCEDURE p1() BEGIN INSERT INTO ft1 VALUES (3, 'three'); END
+direct CREATE FUNCTION fn1(a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+direct CREATE PACKAGE pk1
+direct CREATE TRIGGER tr1 ON ft1 AFTER INSERT BEGIN INSERT INTO ft1 VALUES (3, 'three'); END
+direct CREATE TRIGGER tr2 ON ft2 AFTER INSERT BEGIN INSERT INTO ft2 VALUES (3, 'three'); END
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 2, 2, '', 'no parent', 'cascade')
+ddpub pa2 - 0
+ddpub pdd - 0
+ddsub sa pa2 target1 usr pw q1.adt 0 - 0
+ddsub sb pdd target2 usr pw q2.adt 0 - 0
+ddrename sa sa2 17 0
+ddrename sb sd1 17 0
+ddrename ft2 pa2 1 0
+ddrename v1 pa2 6 0
+ddrename p1 pa2 10 0
+ddrename fn1 pa2 18 0
+ddrename pk1 pa2 19 0
+ddrename u1 pa2 8 0
+ddrename g1 pa2 9 0
+ddrename lk1 pa2 12 0
+ddrename ri1 pa2 2 0
+ddrename ft2 sa2 1 0
+ddrename v1 sa2 6 0
+ddrename p1 sa2 10 0
+ddrename fn1 sa2 18 0
+ddrename pk1 sa2 19 0
+ddrename u1 sa2 8 0
+ddrename g1 sa2 9 0
+ddrename lk1 sa2 12 0
+ddrename ri1 sa2 2 0
+ddrename ft1::tr1 pa2 14 0
+ddrename ft2::tr2 sa2 14 0
+ddrename pdd ft2 15 0
+ddrename pdd v1 15 0
+ddrename pdd p1 15 0
+ddrename pdd fn1 15 0
+ddrename pdd pk1 15 0
+ddrename pdd u1 15 0
+ddrename pdd g1 15 0
+ddrename pdd lk1 15 0
+ddrename pdd ri1 15 0
+ddrename pdd DB:Admin 15 0
+ddrename pdd pa2 15 0
+ddrename pdd tr1 15 0
+ddrename tr1 ADSSYS 15 0
+ddrename sd1 ft2 17 0
+ddrename sd1 v1 17 0
+ddrename sd1 p1 17 0
+ddrename sd1 fn1 17 0
+ddrename sd1 pk1 17 0
+ddrename sd1 u1 17 0
+ddrename sd1 g1 17 0
+ddrename sd1 lk1 17 0
+ddrename sd1 ri1 17 0
+ddrename sd1 DB:Admin 17 0
+ddrename sd1 ADSSYS 17 0
+ddrename sd1 sa2 17 0
+# A queue table's name is the subscription's, with __ before it.
+ddrename sd1 __sb 17 0
+ddrename sd1 __sa 17 0
+ddrename sd1 tr2 17 0
+ddrename tr2 ADSSYS 17 0
+ddrename tr2 sd1 17 0
+query SELECT * FROM system.tables
+query SELECT * FROM system.triggers
+query SELECT * FROM system.relations
+query SELECT Name FROM system.links
+

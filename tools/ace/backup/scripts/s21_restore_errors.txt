@@ -1,0 +1,28 @@
+#include dd_all.txt
+sql 1 EXECUTE PROCEDURE sp_CreateUser('plain', 'pp', 'not a backup user')
+sql 1 EXECUTE PROCEDURE sp_AddUserToGroup('bkuser', 'DB:Backup')
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\xnodir\d.add', '', '@ROOT@\e1\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img', '', '@ROOT@\e2\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img/t_adt.adt', '', '@ROOT@\e3\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e4', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e5\d.dat', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\img\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\src\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\img\other.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('', '', '@ROOT@\e6\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase(NULL, '', '@ROOT@\e7\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', 'Z:\usr\bkprobe\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e8\d.add', 'Bogus')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e9\d.add', 'Diff')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e10\d.add', 'PrepareDiff')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e11\d.add', 'include=t_adt, nosuch')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e12\d.add')
+connect 2 src\d.add plain pp
+sql 2 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'secret', '@ROOT@\e13\d.add', NULL)
+connect 3 src\d.add bkuser pw
+sql 3 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e14\d.add', NULL)
+sql 3 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e15\d.add', 'User=bkuser')
+sql 1 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\e16\d.add', NULL)

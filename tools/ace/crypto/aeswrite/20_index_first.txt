@@ -1,0 +1,40 @@
+# An encrypted table with no index gets one, which is dropped again; a new table is encrypted before its index is made. On each dictionary of 00_create.txt that has the table of 11_indexes.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tk (id INTEGER, name CHAR(10))
+sql INSERT INTO tk VALUES (1, 'one')
+sql INSERT INTO tk VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tk')
+sql CREATE INDEX tk_name ON tk (name)
+sql INSERT INTO tk VALUES (3, 'three')
+sql CREATE INDEX tk_id ON tk (id)
+sql DROP INDEX tk.tk_name
+sql DROP INDEX tk.tk_id
+sql INSERT INTO tk VALUES (4, 'four')
+sql CREATE INDEX tk_name ON tk (name)
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tk (id INTEGER, name CHAR(10))
+sql INSERT INTO tk VALUES (1, 'one')
+sql INSERT INTO tk VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tk')
+sql CREATE INDEX tk_name ON tk (name)
+sql INSERT INTO tk VALUES (3, 'three')
+sql CREATE INDEX tk_id ON tk (id)
+sql DROP INDEX tk.tk_name
+sql DROP INDEX tk.tk_id
+sql INSERT INTO tk VALUES (4, 'four')
+sql CREATE INDEX tk_name ON tk (name)
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tk (id INTEGER, name CHAR(10))
+sql INSERT INTO tk VALUES (1, 'one')
+sql INSERT INTO tk VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tk')
+sql CREATE INDEX tk_name ON tk (name)
+sql INSERT INTO tk VALUES (3, 'three')
+sql CREATE INDEX tk_id ON tk (id)
+sql DROP INDEX tk.tk_name
+sql DROP INDEX tk.tk_id
+sql INSERT INTO tk VALUES (4, 'four')
+sql CREATE INDEX tk_name ON tk (name)
+disconnect

@@ -1,0 +1,1185 @@
+# Orders on expressions of NChar and NVarChar fields.
+open ne.adt exclusive
+createindex - o0 0 0 UPPER(nc)
+createindex - o1 0 0 LOWER(nv)
+createindex - o2 0 0 SUBSTR(nc,2,3)
+createindex - o3 0 0 SUBSTR(nc,2)
+createindex - o4 0 0 TRIM(nv)
+createindex - o5 0 0 LTRIM(nv)
+createindex - o6 0 0 ALLTRIM(nc)
+createindex - o7 0 0 nc+nv
+createindex - o8 0 0 nc+c
+createindex - o9 0 0 c+nc
+createindex - o10 0 0 LEFT(nc,3)
+createindex - o11 0 0 RIGHT(nv,3)
+createindex - o12 0 0 UPPER(nc)+c
+createindex - o13 0 0 UPPER(nc)+LOWER(nv)
+createindex - o14 0 0 SUBSTR(nc,1,2)+STR(id,3)
+createindex - o15 0 0 PADL(nc,10)
+createindex - o16 0 0 PADR(nc,10,'*')
+createindex - o17 0 0 PADC(nc,12)
+createindex - o18 0 0 PADL(nc,3)
+createindex - o19 0 0 PADR(nc,12,'ab')
+createindex - o20 0 0 PADL(nc,12,nv)
+createindex - o21 0 0 REVERSE(nc)
+createindex - o22 0 0 IIF(id>2,nc,nv)
+createindex - o23 0 0 IIF(id>2,nv,nc)
+createindex - o24 0 0 IIF(id>2,nc,'xyz')
+createindex - o25 0 0 COALESCE(nc,nv)
+createindex - o26 0 0 COALESCE(nv,nc)
+createindex - o27 0 0 COALESCE(nc,'zz')
+createindex - o28 0 0 COALESCE(nc,nc2,nv)
+# Records written through them.
+append
+set id long 11
+set nc stringu 1f0440043804320435044204
+set nv stringu a9036d0065006700610020002000
+set c string Ab
+set nc2 stringu e900
+write
+append
+set id long 12
+set nc stringu 1f0440043804320435044204
+set nv stringu e400f600fc00
+set c string ab
+set nc2 stringu c9034d004500
+write
+append
+set id long 13
+set nc stringu 3f0440043804320435044204
+set nv stringu e5652c679e8a
+set c string Ab
+set nc2 stringu c400d600dc00
+write
+append
+set id long 14
+set nc stringu a9036d00650067006100
+set nv stringu 5cd56dadb4c5
+set c string  x
+set nc2 stringu e400f600fc00
+write
+append
+set id long 15
+set nc stringu c9034d00450047004100
+set nv stringu 440e170e220e
+set c string Äb
+set nc2 stringu e5652c679e8a
+write
+append
+set id long 16
+set nc stringu c400d600dc00
+set nv stringu c501c601c401
+set c string zz
+set nc2 stringu 5cd56dadb4c5
+write
+append
+set id long 17
+set nc stringu e400f600fc00
+set nv stringu 01fb6e0061006c00
+set c string ab
+set nc2 stringu 440e170e220e
+write
+append
+set id long 18
+set nc stringu e5652c679e8a
+set nv stringu 7300740072006100df006500
+set c string Ab
+set nc2 stringu c501c601c401
+write
+append
+set id long 19
+set nc stringu 5cd56dadb4c5
+set nv stringu 9103a303
+set c string  x
+set nc2 stringu 01fb6e006100
+write
+append
+set id long 20
+set nc stringu 440e170e220e
+set nv stringu b903c203
+set c string Äb
+set nc2 stringu 730074007200
+write
+append
+set id long 21
+set nc stringu c501c601c401
+set nv stringu f101f201f301
+set c string zz
+set nc2 stringu 9103a303
+write
+append
+set id long 22
+set nc stringu 01fb6e0061006c00
+set nv stringu 30016900
+set c string ab
+set nc2 stringu b903c203
+write
+append
+set id long 23
+set nc stringu 7300740072006100df006500
+set nv stringu 31014900
+set c string Ab
+set nc2 stringu f101f201f301
+write
+append
+set id long 24
+set nc stringu 9103a303
+set nv stringu 481f9403a503a303a30395038e03a303
+set c string  x
+set nc2 stringu 30016900
+write
+append
+set id long 25
+set nc stringu b903c203
+set nv stringu b31fbc1f
+set c string Äb
+set nc2 stringu 31014900
+write
+append
+set id long 26
+set nc stringu f101f201f301
+set nv stringu 70216021
+set c string zz
+set nc2 stringu 481f9403a503
+write
+append
+set id long 27
+set nc stringu 30016900
+set nv stringu 41ff42ff43ff
+set c string ab
+set nc2 stringu b31fbc1f
+write
+append
+set id long 28
+set nc stringu 31014900
+set nv stringu d024b624
+set c string Ab
+set nc2 stringu 70216021
+write
+append
+set id long 29
+set nc stringu 481f9403a503a303a30395038e03a303
+set nv stringu 2a2165006c00760069006e00
+set c string  x
+set nc2 stringu 41ff42ff43ff
+write
+append
+set id long 30
+set nc stringu b31fbc1f
+set nv stringu ac20750072006f00
+set c string Äb
+set nc2 stringu d024b624
+write
+append
+set id long 31
+set nc stringu 70216021
+set nv stringu 2000200061006200
+set c string zz
+set nc2 stringu 2a2165006c00
+write
+append
+set id long 32
+set nc stringu 41ff42ff43ff
+set nv stringu 3dd842de6100
+set c string ab
+set nc2 stringu ac2075007200
+write
+append
+set id long 33
+set nc stringu d024b624
+set nv stringu 61003dd842de6200
+set c string Ab
+set nc2 stringu 200020006100
+write
+append
+set id long 34
+set nc stringu 2a2165006c00760069006e00
+set nv stringu 01d828dc01d800dc
+set c string  x
+set nc2 stringu 3dd842de6100
+write
+append
+set id long 35
+set nc stringu ac20750072006f00
+set nv stringu 40d800dc7800
+set c string Äb
+set nc2 stringu 61003dd842de
+write
+append
+set id long 36
+set nc stringu 2000200061006200
+set nv stringu 780040d800dc
+set c string zz
+set nc2 stringu 01d828dc
+write
+append
+set id long 37
+set nc stringu 3dd842de6100
+set nv stringu 1f0440043804320435044204
+set c string ab
+set nc2 stringu 40d800dc7800
+write
+append
+set id long 38
+set nc stringu 61003dd842de6200
+set nv stringu 3f0440043804320435044204
+set c string Ab
+set nc2 stringu 780040d800dc
+write
+append
+set id long 39
+set nc stringu 01d828dc01d800dc
+set nv stringu a9036d00650067006100
+set c string  x
+set nc2 stringu 1f0440043804
+write
+append
+set id long 40
+set nc stringu 40d800dc7800
+set nv stringu c9034d00450047004100
+set c string Äb
+set nc2 stringu 3f0440043804
+write
+append
+set id long 41
+set nc stringu 780040d800dc
+set nv stringu c400d600dc00
+set c string zz
+set nc2 stringu a9036d006500
+write
+append
+set id long 99
+set nc null
+set nv null
+set c null
+write
+# Changes and deletes.
+goto 1
+set nc stringu 2f0416040104
+write
+goto 4
+set nv stringu 7a006500620072006100
+write
+goto 6
+delete
+write
+goto 10
+set nc null
+write
+goto 13
+delete
+write
+createindex - p0 0 0 nc+SPACE(2)
+createindex - p1 0 0 SPACE(3)+nc
+createindex - p2 0 0 'ab'+nc
+createindex - p3 0 0 nc+'é'
+createindex - p4 0 0 STR(id,3)+nc
+createindex - p5 0 0 STRZERO(id,4)+nv
+createindex - p6 0 0 nc+c+nv
+createindex - p7 0 0 c+nc+c
+createindex - p8 0 0 LEFT(nc,20)
+createindex - p9 0 0 RIGHT(nc,20)
+createindex - p10 0 0 SUBSTR(nc,2,20)
+createindex - p11 0 0 SUBSTR(nc,-3)
+createindex - p12 0 0 SUBSTR(nc,0,2)
+createindex - p13 0 0 SUBSTR(nc,3,0)
+createindex - p14 0 0 LEFT(nc,0)
+createindex - p15 0 0 LEFT(nc,-1)
+createindex - p16 0 0 RIGHT(nc,0)
+createindex - p17 0 0 RIGHT(nc,-1)
+createindex - p18 0 0 PADL(nc,0)
+createindex - p19 0 0 LEN(nc)
+createindex - p20 0 0 LENGTH(nc)
+createindex - p21 0 0 LEN(nc)+LEN(nv)
+createindex - p22 0 0 LENGTH(nv)
+createindex - p23 0 0 UPPER(c)
+createindex - p24 0 0 UPPER(nc2)+UPPER(nv)
+createindex - p25 0 0 UPPER(nc)+STR(LEN(nc),3)
+createindex - p26 0 0 LOWER(UPPER(nc))
+createindex - p27 0 0 TRIM(UPPER(nv))+nc2
+createindex - p28 0 0 PADL(nc,12,'xyz')
+createindex - p29 0 0 PADR(nc,12,'xyz')
+createindex - p30 0 0 PADC(nc,13,'xyz')
+createindex - p31 0 0 PADC(nc,12,nv)
+createindex - p32 0 0 PADL(nc,12,'')
+createindex - up_s 536870912 0 UPPER(nc)
+createindex - up_l 1073741824 0 UPPER(nc)
+createindex - up_x 1610612736 0 UPPER(nc)
+createindex - cat_x 1610612736 0 nc+nv
+createindex - up_d 8 0 UPPER(nc)
+createindex - uniq 1 0 COALESCE(nc,nc2,'zz')+STR(id,3)
+createindex - up_dx 1610612744 0 LOWER(nv)
+createindex - sub_s 536870912 0 SUBSTR(nv,2,4)
+createindex - c_s 536870912 0 UPPER(c)
+createindex - nc_f 0 0 nc
+createindex - nv_f 0 0 nv
+createindex - ncnv_f 0 0 nc;nv
+createindex ne2.adi up_for 0 512 UPPER(nc) FOR id > 4
+createindex ne2.adi cat_for 0 512 nc+nv FOR id < 8
+# More records, with the orders there.
+append
+set id long 70
+set nc stringu 5c016d015d01
+set nv stringu 25016d01
+set c string Ab
+write
+append
+set id long 71
+set nc stringu 20002000200020002000200020002000
+set nv stringu 20002000
+set c string x
+write
+close
+open ne.adt exclusive
+reindex
+pack
+close
+open ns.adt exclusive
+createindex - a 0 0 UPPER(nc)
+createindex - b 0 0 nc+nv
+createindex - c 0 0 PADL(nc,12)
+createindex - d 0 0 nc+c
+createindex - e 0 0 LOWER(nv)
+createindex - f 0 0 COALESCE(nc,nv)
+createindex - g 0 0 TRIM(nv)+nc
+createindex - h 0 0 IIF(id>2,nc,nv)
+append
+set id long 1
+set nc stringu 3dd842de6100
+set nv stringu 01d828dc01d800dc
+set c string Zz
+write
+append
+set id long 2
+set nc stringu 61003dd842de6200
+set nv stringu 40d800dc7800
+set c string Zz
+write
+append
+set id long 3
+set nc stringu 01d828dc01d800dc
+set nv stringu 780040d800dc
+set c string Zz
+write
+append
+set id long 4
+set nc stringu 40d800dc7800
+set nv stringu 3dd842de6100
+set c string Zz
+write
+append
+set id long 5
+set nc stringu 780040d800dc
+set nv stringu 61003dd842de6200
+set c string Zz
+write
+append
+set id long 6
+set nc stringu 6100
+set nv stringu 01d828dc01d800dc
+set c string Zz
+write
+append
+set id long 7
+set nc stringu 62003dd800de
+set nv stringu 40d800dc7800
+set c string Zz
+write
+close
+open ns.adt exclusive
+reindex
+close
+open ne.adt shared
+openindex ne2.adi
+order o0
+rows
+seek 1 ABC
+seek 2 ABC
+seek 4 ABC
+seek 1 ÉTÉ
+seek 2 ÉTÉ
+seek 4 ÉTÉ
+seek 1 abc
+seek 2 abc
+seek 4 abc
+seek 1 ABCD
+seek 2 ABCD
+seek 4 ABCD
+seek 1 A
+seek 2 A
+seek 4 A
+seek 1 
+seek 2 
+seek 4 
+seek 1 z
+seek 2 z
+seek 4 z
+scope 1 ABC
+scope 2 zz
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o1
+rows
+seek 1 zebra
+seek 2 zebra
+seek 4 zebra
+seek 1 apple
+seek 2 apple
+seek 4 apple
+seek 1 ZEBRA
+seek 2 ZEBRA
+seek 4 ZEBRA
+seek 1 straße
+seek 2 straße
+seek 4 straße
+seek 1 x
+seek 2 x
+seek 4 x
+scope 1 zebra
+scope 2 xz
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o2
+rows
+seek 1 bc
+seek 2 bc
+seek 4 bc
+seek 1 bcd
+seek 2 bcd
+seek 4 bcd
+seek 1 té
+seek 2 té
+seek 4 té
+scope 1 bc
+scope 2 téz
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o3
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o4
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o5
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o6
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o7
+rows
+seek 1 abc
+seek 2 abc
+seek 4 abc
+seek 1 abc     Zebra
+seek 2 abc     Zebra
+seek 4 abc     Zebra
+seek 1 été     apple
+seek 2 été     apple
+seek 4 été     apple
+scope 1 abc
+scope 2 été     applez
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o8
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o9
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o10
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o11
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o12
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o13
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o14
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o15
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o16
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o17
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o18
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o19
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o20
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o21
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o22
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o23
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o24
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o25
+rows
+seek 1 abc
+seek 2 abc
+seek 4 abc
+seek 1 Zebra
+seek 2 Zebra
+seek 4 Zebra
+seek 1 apple
+seek 2 apple
+seek 4 apple
+scope 1 abc
+scope 2 applez
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o26
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o27
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o28
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p0
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p1
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p2
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p3
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p4
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p5
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p6
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p7
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p8
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p9
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p10
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p11
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p12
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p13
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p14
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p15
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p16
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p17
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p18
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p19
+rows
+order p20
+rows
+order p21
+rows
+order p22
+rows
+order p23
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p24
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p25
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p26
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p27
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p28
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p29
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p30
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p31
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p32
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order up_s
+rows
+seek 1 ab
+seek 2 É
+order up_l
+rows
+seek 1 ab
+seek 2 É
+order up_x
+rows
+seek 1 ab
+seek 2 É
+order cat_x
+rows
+seek 1 ab
+seek 2 É
+order up_d
+rows
+seek 1 ab
+seek 2 É
+order uniq
+rows
+seek 1 ab
+seek 2 É
+order up_dx
+rows
+seek 1 ab
+seek 2 É
+order sub_s
+rows
+seek 1 ab
+seek 2 É
+order c_s
+rows
+seek 1 ab
+seek 2 É
+order nc_f
+rows
+seek 1 abc
+seek 1 ét
+scope 1 abc
+scope 2 ég
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order nv_f
+rows
+seek 1 abc
+seek 1 ét
+scope 1 abc
+scope 2 ég
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order ncnv_f
+rows
+seek 1 abc
+seek 1 ét
+scope 1 abc
+scope 2 ég
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order up_for
+rows
+order cat_for
+rows
+close
+open ns.adt shared
+order a
+rows
+seek 1 a
+order b
+rows
+order c
+rows
+order d
+rows
+order e
+rows
+order f
+rows
+order g
+rows
+order h
+rows
+close

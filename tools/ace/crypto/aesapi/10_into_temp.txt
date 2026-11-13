@@ -1,0 +1,57 @@
+# Temporary tables on AES connections: INTO #t and CREATE TABLE #t, on free connections (plain, AES-128, AES-256) and a dictionary's (AES-128): their record lengths say whether they are laid out for AES.
+connect c0 Data Source=%D;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql c0 CREATE DATABASE "j.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql c0 CREATE TABLE src (id INTEGER, name CHAR(10), note MEMO)
+sql c0 INSERT INTO src VALUES (1, 'one', 'a memo')
+sql c0 INSERT INTO src VALUES (2, 'two', 'b memo')
+open s c0 %D\src.adt 4
+reclen s
+tablecheck s
+sql c0 SELECT * INTO #t FROM src
+sql c0 SELECT * FROM #t
+open t c0 #t 4
+reclen t
+tablecheck t
+opts t
+count t
+close t
+sql c0 SELECT id, name INTO #w FROM src
+open w c0 #w 4
+reclen w
+count w
+top w
+dump w
+close w
+sql c0 SELECT id, name INTO #u FROM src WHERE id > 1
+open u c0 #u 4
+reclen u
+close u
+sql c0 CREATE TABLE #v (id INTEGER, name CHAR(10))
+open v c0 #v 4
+reclen v
+close v
+disconnect c0
+connect c1 Data Source=%D;ServerType=LOCAL;
+sql c1 SELECT * INTO #t FROM src
+open t c1 #t 4
+reclen t
+close t
+disconnect c1
+connect c2 Data Source=%D;ServerType=LOCAL;EncryptionType=AES256;FIPS=FALSE;
+sql c2 CREATE TABLE src2 (id INTEGER, name CHAR(10), note MEMO)
+sql c2 INSERT INTO src2 VALUES (1, 'one', 'a memo')
+open s2 c2 %D\src2.adt 4
+reclen s2
+sql c2 SELECT * INTO #t FROM src2
+open t c2 #t 4
+reclen t
+close t
+disconnect c2
+connect cd Data Source=%D\j.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql cd CREATE TABLE tt (id INTEGER, name CHAR(10), note MEMO)
+sql cd INSERT INTO tt VALUES (1, 'one', 'a memo')
+sql cd SELECT * INTO #t FROM tt
+sql cd SELECT * FROM #t
+openn tb cd tt 4
+reclen tb
+tablecheck tb

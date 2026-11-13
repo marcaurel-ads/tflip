@@ -1,0 +1,6 @@
+# OEM tables: the client's text converted to its OEM code page.
+chartype oem
+tabletype ntx
+sql CREATE TABLE oem_ntx (c CHAR(1), m MEMO)
+tabletype cdx
+sql CREATE TABLE oem_cdx (c CHAR(1), m MEMO)

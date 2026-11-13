@@ -1,0 +1,478 @@
+# Reads only: the level, the part not optimized and the records of each AOF;
+# a term `.OR. RECNO() = 99`, which no order finds, shows what evaluating it
+# on each record gives.
+tabletype vfp
+open v.dbf shared
+aof 1 EMPTY(id)
+aoflevel
+rows
+aof 1 EMPTY(id) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(id)
+aoflevel
+rows
+aof 1 ISNULL(id) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 EMPTY(name) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(name)
+aoflevel
+rows
+aof 1 ISNULL(name) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(vc)
+aoflevel
+rows
+aof 1 EMPTY(vc) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(vc)
+aoflevel
+rows
+aof 1 ISNULL(vc) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(born)
+aoflevel
+rows
+aof 1 EMPTY(born) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(born)
+aoflevel
+rows
+aof 1 ISNULL(born) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(amount)
+aoflevel
+rows
+aof 1 EMPTY(amount) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(amount)
+aoflevel
+rows
+aof 1 ISNULL(amount) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(active)
+aoflevel
+rows
+aof 1 EMPTY(active) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(active)
+aoflevel
+rows
+aof 1 ISNULL(active) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(d)
+aoflevel
+rows
+aof 1 EMPTY(d) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(d)
+aoflevel
+rows
+aof 1 ISNULL(d) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(nn)
+aoflevel
+rows
+aof 1 EMPTY(nn) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(nn)
+aoflevel
+rows
+aof 1 ISNULL(nn) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(nd)
+aoflevel
+rows
+aof 1 EMPTY(nd) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(nd)
+aoflevel
+rows
+aof 1 ISNULL(nd) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(UPPER(name))
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name)) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(UPPER(name))
+aoflevel
+rows
+aof 1 ISNULL(UPPER(name)) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .T.
+aoflevel
+rows
+aof 1 EMPTY(name) = .T. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(name) = .T.
+aoflevel
+rows
+aof 1 ISNULL(name) = .T. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .F.
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(name) = .F.
+aoflevel
+rows
+aof 1 ISNULL(name) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(id) = .F.
+aoflevel
+rows
+aof 1 EMPTY(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(id) = .F.
+aoflevel
+rows
+aof 1 ISNULL(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(born) = .F.
+aoflevel
+rows
+aof 1 EMPTY(born) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(born) = .F.
+aoflevel
+rows
+aof 1 ISNULL(born) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(nn) = .F.
+aoflevel
+rows
+aof 1 EMPTY(nn) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(nd) = .F.
+aoflevel
+rows
+aof 1 EMPTY(nd) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(active) = .F.
+aoflevel
+rows
+aof 1 EMPTY(active) = .F. .OR. RECNO() = 99
+rows
+aof 1 !EMPTY(name)
+aoflevel
+rows
+aof 1 !EMPTY(name) .OR. RECNO() = 99
+rows
+aof 1 !ISNULL(name)
+aoflevel
+rows
+aof 1 !ISNULL(name) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) .AND. id > 0
+aoflevel
+rows
+aof 1 EMPTY(name) .AND. id > 0 .OR. RECNO() = 99
+rows
+aof 1 ISNULL(name) .OR. id = 1
+aoflevel
+rows
+aof 1 ISNULL(name) .OR. id = 1 .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .F. .AND. id > 0
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .AND. id > 0 .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) <> .T.
+aoflevel
+rows
+aof 1 EMPTY(name) <> .T. .OR. RECNO() = 99
+rows
+aof 1 .NOT. (EMPTY(name) = .F.)
+aoflevel
+rows
+aof 1 .NOT. (EMPTY(name) = .F.) .OR. RECNO() = 99
+rows
+aof 1 EMPTY(UPPER(name)) = .F.
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name)) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(UPPER(name)) = .F.
+aoflevel
+rows
+aof 1 ISNULL(UPPER(name)) = .F. .OR. RECNO() = 99
+rows
+close
+tabletype cdx
+open c.dbf shared
+aof 1 EMPTY(name) = .F.
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) <> .T.
+aoflevel
+rows
+aof 1 EMPTY(name) <> .T. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) == .F.
+aoflevel
+rows
+aof 1 EMPTY(name) == .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(id) = .F.
+aoflevel
+rows
+aof 1 EMPTY(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(born) = .F.
+aoflevel
+rows
+aof 1 EMPTY(born) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(active) = .F.
+aoflevel
+rows
+aof 1 EMPTY(active) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(amount) = .F.
+aoflevel
+rows
+aof 1 EMPTY(amount) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(UPPER(name)) = .F.
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name)) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(name) = .F.
+aoflevel
+rows
+aof 1 ISNULL(name) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(id) = .F.
+aoflevel
+rows
+aof 1 ISNULL(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .F. .AND. id > 1
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .AND. id > 1 .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .F. .OR. id = 2
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .OR. id = 2 .OR. RECNO() = 99
+rows
+aof 1 .NOT. (EMPTY(name) = .F.)
+aoflevel
+rows
+aof 1 .NOT. (EMPTY(name) = .F.) .OR. RECNO() = 99
+rows
+close
+open cm.dbf shared
+aof 1 EMPTY(a) = .F.
+aoflevel
+rows
+aof 1 EMPTY(a) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(a)
+aoflevel
+rows
+aof 1 EMPTY(a) .OR. RECNO() = 99
+rows
+aof 1 ISNULL(a) = .F.
+aoflevel
+rows
+aof 1 ISNULL(a) = .F. .OR. RECNO() = 99
+rows
+close
+tabletype adt
+open p.adt shared
+aof 1 EMPTY(id) = .F.
+aoflevel
+rows
+aof 1 EMPTY(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(name) = .F.
+aoflevel
+rows
+aof 1 EMPTY(name) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(born) = .F.
+aoflevel
+rows
+aof 1 EMPTY(born) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(d) = .F.
+aoflevel
+rows
+aof 1 EMPTY(d) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(UPPER(name)) = .F.
+aoflevel
+rows
+aof 1 EMPTY(UPPER(name)) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(id) = .F.
+aoflevel
+rows
+aof 1 ISNULL(id) = .F. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(id) <> .T.
+aoflevel
+rows
+aof 1 EMPTY(id) <> .T. .OR. RECNO() = 99
+rows
+aof 1 EMPTY(id) = .F. .AND. id < 5
+aoflevel
+rows
+aof 1 EMPTY(id) = .F. .AND. id < 5 .OR. RECNO() = 99
+rows
+aof 1 .NOT. (EMPTY(id) = .F.)
+aoflevel
+rows
+aof 1 .NOT. (EMPTY(id) = .F.) .OR. RECNO() = 99
+rows
+close
+open m.adt shared
+aof 1 EMPTY(a) = .F.
+aoflevel
+rows
+aof 1 EMPTY(a) = .F. .OR. RECNO() = 99
+rows
+aof 1 ISNULL(a) = .F.
+aoflevel
+rows
+aof 1 ISNULL(a) = .F. .OR. RECNO() = 99
+rows
+close
+collation GERMAN_VFP_CI_AS_1252
+tabletype adt
+open g.adt shared
+aof 1 name $ 'apfel'
+aoflevel
+rows
+aof 1 name $ 'apfel' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xapfel     x'
+aoflevel
+rows
+aof 1 name $ 'xapfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xApfel     x'
+aoflevel
+rows
+aof 1 name $ 'xApfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xAPFEL     x'
+aoflevel
+rows
+aof 1 name $ 'xAPFEL     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xÄpfel     x'
+aoflevel
+rows
+aof 1 name $ 'xÄpfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'apfelbaum '
+aoflevel
+rows
+aof 1 name $ 'apfelbaum ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'ss        '
+aoflevel
+rows
+aof 1 name $ 'ss        ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xß         x'
+aoflevel
+rows
+aof 1 name $ 'xß         x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'Birne     ss        '
+aoflevel
+rows
+aof 1 name $ 'Birne     ss        ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'a'
+aoflevel
+rows
+aof 1 name $ 'a' .OR. RECNO() = 99
+rows
+aof 1 name $ ''
+aoflevel
+rows
+aof 1 name $ '' .OR. RECNO() = 99
+rows
+aof 1 name $ 'apfel' .AND. id > 1
+aoflevel
+rows
+aof 1 name $ 'apfel' .AND. id > 1 .OR. RECNO() = 99
+rows
+close
+tabletype vfp
+open vg.dbf shared
+aof 1 name $ 'apfel'
+aoflevel
+rows
+aof 1 name $ 'apfel' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xapfel     x'
+aoflevel
+rows
+aof 1 name $ 'xapfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xApfel     x'
+aoflevel
+rows
+aof 1 name $ 'xApfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xAPFEL     x'
+aoflevel
+rows
+aof 1 name $ 'xAPFEL     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xÄpfel     x'
+aoflevel
+rows
+aof 1 name $ 'xÄpfel     x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'apfelbaum '
+aoflevel
+rows
+aof 1 name $ 'apfelbaum ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'ss        '
+aoflevel
+rows
+aof 1 name $ 'ss        ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'xß         x'
+aoflevel
+rows
+aof 1 name $ 'xß         x' .OR. RECNO() = 99
+rows
+aof 1 name $ 'Birne     ss        '
+aoflevel
+rows
+aof 1 name $ 'Birne     ss        ' .OR. RECNO() = 99
+rows
+aof 1 name $ 'a'
+aoflevel
+rows
+aof 1 name $ 'a' .OR. RECNO() = 99
+rows
+aof 1 name $ ''
+aoflevel
+rows
+aof 1 name $ '' .OR. RECNO() = 99
+rows
+aof 1 name $ 'apfel' .AND. id > 1
+aoflevel
+rows
+aof 1 name $ 'apfel' .AND. id > 1 .OR. RECNO() = 99
+rows
+close

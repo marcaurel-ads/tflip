@@ -1,0 +1,381 @@
+# What the original makes of parameters that nothing types: CASE WHEN ?, CAST(? AS date types),
+# IIF, CASE and IN with parameters, - ? and NOT ? of a parameter typed earlier by its name,
+# for fixtures/sql/params2.json (an empty data folder).
+stmt
+prepare SELECT CASE WHEN ? THEN 1 ELSE 0 END FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CASE WHEN ? THEN 1 ELSE 0 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN ? THEN 1 ELSE 0 END FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CASE WHEN ? = 1 THEN 1 ELSE 0 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN ? = 1 THEN 1 ELSE 0 END FROM system.iota
+param 1 string 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN ? ELSE 0 END FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN ? ELSE 0 END FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN ? ELSE ? END FROM system.iota
+param 1 long 5
+param 2 long 6
+exec
+closecursor
+prepare SELECT CASE ? WHEN 1 THEN 1 ELSE 0 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE 1 WHEN ? THEN 1 ELSE 0 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN 1 ELSE ? END FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN 1 ELSE ? END FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 null
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string 2020-01-01 10:00:00
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string 10:00:00
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, ?) FROM system.iota
+param 1 long 5
+param 2 long 6
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, ?) FROM system.iota
+param 1 string a
+param 2 string b
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, 2) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, 2) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, 2) FROM system.iota
+param 1 double 2.5
+exec
+closecursor
+prepare SELECT IIF(1 = 1, 2, ?) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT IIF(1 = 1, 2, ?) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, 'x') FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, 'x') FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT IIF(? = 1, 1, 2) FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT ? IN (?, ?) FROM system.iota
+param 1 long 1
+param 2 long 1
+param 3 long 2
+exec
+closecursor
+prepare SELECT ? IN (?, ?) FROM system.iota
+param 1 string a
+param 2 string a
+param 3 string b
+exec
+closecursor
+prepare SELECT 1 IN (?, ?) FROM system.iota
+param 1 long 1
+param 2 long 2
+exec
+closecursor
+prepare SELECT 1 IN (?, ?) FROM system.iota
+param 1 string 1
+param 2 string 2
+exec
+closecursor
+prepare SELECT ? IN (1, 2) FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT ? IN ('a', 'b') FROM system.iota
+param 1 string a
+exec
+closecursor
+prepare SELECT ? IN ('a', 'b') FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT 'a' IN (?, 'b') FROM system.iota
+param 1 string a
+exec
+closecursor
+prepare SELECT ? IN (?, 1) FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT NOT ? FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT NOT ? FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT NOT ? FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT NOT :a FROM system.iota
+param a logical 1
+exec
+closecursor
+prepare SELECT NOT :a FROM system.iota
+param a long 1
+exec
+closecursor
+prepare SELECT :a = 1, NOT :a FROM system.iota
+param a long 1
+exec
+closecursor
+prepare SELECT :a = 1, NOT :a FROM system.iota
+param a logical 1
+exec
+closecursor
+prepare SELECT :a = TRUE, NOT :a FROM system.iota
+param a logical 1
+exec
+closecursor
+prepare SELECT :a = TRUE, NOT :a FROM system.iota
+param a long 1
+exec
+closecursor
+prepare SELECT :a + 1, - :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a + 1, - :a FROM system.iota
+param a double 2.5
+exec
+closecursor
+prepare SELECT :a + 1, - :a FROM system.iota
+param a string 7
+exec
+closecursor
+prepare SELECT :a + 1.5, - :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a + 1.5, - :a FROM system.iota
+param a string 7
+exec
+closecursor
+prepare SELECT - :a, :a + 1 FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a + 1, + :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a + 1, + :a FROM system.iota
+param a string 7
+exec
+closecursor
+prepare SELECT :a + 1, ~ :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a + 1, NOT :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a, - :a FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT :a = 'x', - :a FROM system.iota
+param a string x
+exec
+closecursor
+prepare SELECT ? + 1, - ? FROM system.iota
+param 1 long 5
+param 2 long 6
+exec
+closecursor
+prepare SELECT ? = 1, NOT ? FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT ? + ? FROM system.iota
+param 1 long 5
+param 2 long 6
+exec
+closecursor
+prepare SELECT ? = ? FROM system.iota
+param 1 long 5
+param 2 long 6
+exec
+closecursor
+prepare SELECT ? AND ? FROM system.iota
+param 1 logical 1
+param 2 logical 1
+exec
+closecursor
+prepare SELECT ? AND 1 = 1 FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT ? BETWEEN ? AND ? FROM system.iota
+param 1 long 1
+param 2 long 0
+param 3 long 2
+exec
+closecursor
+prepare SELECT 1 BETWEEN ? AND ? FROM system.iota
+param 1 long 0
+param 2 long 2
+exec
+closecursor
+prepare SELECT ? LIKE ? FROM system.iota
+param 1 string a
+param 2 string a
+exec
+closecursor
+prepare SELECT ? IS NULL, ? + 1 FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN 1 WHEN ? THEN 2 END FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN 1 WHEN 1 = 1 THEN ? END FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN ? WHEN 1 = 1 THEN ? END FROM system.iota
+param 1 long 5
+param 2 long 5
+exec
+closecursor
+prepare SELECT CASE WHEN ? THEN 1 WHEN ? THEN 2 END FROM system.iota
+param 1 logical 1
+param 2 logical 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 0 THEN 1 WHEN 1 = 0 THEN 2 WHEN ? THEN 3 END FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CASE ? WHEN ? THEN 1 END FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT CASE 1 WHEN 2 THEN 1 WHEN ? THEN 2 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN 1 ELSE CASE WHEN ? THEN 2 END END FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN 1 END, ? FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT 1 + CASE WHEN 1 = 1 THEN ? END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT IIF(1 = 1, 1, 2) + ? FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT IIF(1 = 1, ?, ?) FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT IIF(? = 1, ?, 2) FROM system.iota
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+prepare SELECT IIF(1 = 1, CAST(? AS SQL_INTEGER), 2) FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN 1 = 1 THEN CAST(? AS SQL_INTEGER) ELSE 2 END FROM system.iota
+param 1 long 1
+exec
+closecursor
+prepare SELECT CASE WHEN CAST(? AS SQL_BIT) THEN 1 ELSE 2 END FROM system.iota
+param 1 logical 1
+exec
+closecursor

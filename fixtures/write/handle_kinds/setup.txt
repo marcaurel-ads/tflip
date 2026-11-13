@@ -1,0 +1,9 @@
+sql CREATE TABLE f (id INTEGER, doc MEMO)
+sql INSERT INTO f VALUES (1, 'alpha beta gamma')
+sql INSERT INTO f VALUES (2, 'delta epsilon')
+sql CREATE INDEX ix ON f (id)
+sql CREATE INDEX fts ON f (doc) CONTENT
+sql CREATE TABLE g (id INTEGER)
+ddcreate hk.add
+sql CREATE TABLE t (id INTEGER, doc MEMO)
+sql INSERT INTO t VALUES (1, 'alpha beta gamma')

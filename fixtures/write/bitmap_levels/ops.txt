@@ -1,0 +1,79 @@
+# A binary order whose bitmap takes 124 leaves, under two full interior nodes:
+# a 125th leaf needs a third. Records deleted in each node, a
+# second order built after it, then both rebuilt. Snapshots of closed files:
+# the index files in them are compared too.
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('c', 'c', 'del', 'DELETED()', NULL, 4098, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('c', 'c', 'del2', 'DELETED()', NULL, 4098, 512, NULL)
+open c.adt exclusive
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 400000
+pos
+oskip 1
+pos
+order del2
+count
+obottom
+pos
+close
+open c.adt exclusive
+append
+set x string b
+write
+append
+set x string a
+write
+append
+set x string b
+write
+goto 3
+delete
+write
+goto 100000
+delete
+write
+goto 246016
+delete
+write
+goto 492032
+delete
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 420000
+pos
+oskip 1
+pos
+order del2
+count
+obottom
+pos
+oskip -1
+pos
+close
+snapshot grown
+open c.adt exclusive
+reindex
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 400000
+pos
+close

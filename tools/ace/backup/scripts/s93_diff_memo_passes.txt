@@ -1,0 +1,91 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+ttype 3
+sql 1 CREATE TABLE x_s1 (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_s1 VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_s1 VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_s1 VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_s1 VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_s1 VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 INSERT INTO x_s1 VALUES (6, 'n6', 'memo 6', NULL)
+sql 1 INSERT INTO x_s1 VALUES (7, 'n7', 'memo 7', NULL)
+sql 1 INSERT INTO x_s1 VALUES (8, 'n8', 'memo 8', NULL)
+sql 1 CREATE TABLE x_s2 (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_s2 VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_s2 VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_s2 VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_s2 VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_s2 VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 INSERT INTO x_s2 VALUES (6, 'n6', 'memo 6', NULL)
+sql 1 INSERT INTO x_s2 VALUES (7, 'n7', 'memo 7', NULL)
+sql 1 INSERT INTO x_s2 VALUES (8, 'n8', 'memo 8', NULL)
+sql 1 CREATE TABLE x_s3 (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_s3 VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_s3 VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_s3 VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_s3 VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_s3 VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 INSERT INTO x_s3 VALUES (6, 'n6', 'memo 6', NULL)
+sql 1 INSERT INTO x_s3 VALUES (7, 'n7', 'memo 7', NULL)
+sql 1 INSERT INTO x_s3 VALUES (8, 'n8', 'memo 8', NULL)
+sql 1 CREATE TABLE x_s4 (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_s4 VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_s4 VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_s4 VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_s4 VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_s4 VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 INSERT INTO x_s4 VALUES (6, 'n6', 'memo 6', NULL)
+sql 1 INSERT INTO x_s4 VALUES (7, 'n7', 'memo 7', NULL)
+sql 1 INSERT INTO x_s4 VALUES (8, 'n8', 'memo 8', NULL)
+ttype 0
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\img @CLIENT@\snap0\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed1' WHERE id = 3
+sql 1 UPDATE x_s2 SET name = 'ed1' WHERE id = 1
+sql 1 UPDATE x_s3 SET name = 'ed1' WHERE id = 2
+sql 1 UPDATE x_s4 SET name = 'ed1' WHERE id = 5
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap1\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed2' WHERE id = 4
+sql 1 UPDATE x_s2 SET name = 'ed2' WHERE id = 2
+sql 1 UPDATE x_s3 SET name = 'ed2' WHERE id = 1
+sql 1 UPDATE x_s4 SET name = 'ed2' WHERE id = 6
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap2\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed3' WHERE id = 2
+sql 1 UPDATE x_s2 SET name = 'ed3' WHERE id = 1
+sql 1 UPDATE x_s3 SET name = 'ed3' WHERE id = 2
+sql 1 UPDATE x_s4 SET name = 'ed3' WHERE id = 7
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap3\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed4' WHERE id = 1
+sql 1 UPDATE x_s2 SET name = 'ed4' WHERE id = 2
+sql 1 UPDATE x_s3 SET name = 'ed4' WHERE id = 1
+sql 1 UPDATE x_s4 SET name = 'ed4' WHERE id = 8
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap4\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed5' WHERE id = 2
+sql 1 UPDATE x_s2 SET name = 'ed5' WHERE id = 3
+sql 1 UPDATE x_s3 SET name = 'ed5' WHERE id = 4
+sql 1 UPDATE x_s4 SET name = 'ed5' WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap5\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed6' WHERE id = 1
+sql 1 UPDATE x_s2 SET name = 'ed6' WHERE id = 3
+sql 1 UPDATE x_s3 SET name = 'ed6' WHERE id = 4
+sql 1 UPDATE x_s4 SET name = 'ed6' WHERE id = 2
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap6\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed7' WHERE id = 5
+sql 1 UPDATE x_s2 SET name = 'ed7' WHERE id = 1
+sql 1 UPDATE x_s3 SET name = 'ed7' WHERE id = 2
+sql 1 UPDATE x_s4 SET name = 'ed7' WHERE id = 3
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap7\ /E /I /Q
+sql 1 UPDATE x_s1 SET name = 'ed8' WHERE id = 3
+sql 1 UPDATE x_s2 SET name = 'ed8' WHERE id = 2
+sql 1 UPDATE x_s3 SET name = 'ed8' WHERE id = 1
+sql 1 UPDATE x_s4 SET name = 'ed8' WHERE id = 4
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap8\ /E /I /Q

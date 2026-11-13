@@ -1,0 +1,466 @@
+# Assignments that round or truncate: a number with more decimals than a NUMERIC
+# column or a money variable has, from a literal, an expression and each kind of
+# parameter, and parameters read by other types. Probe for fixtures/sql/gram_assign.json.
+#
+#     run.sh <work> <ace32.dll> gram_assign.txt > ../../../fixtures/sql/gram_assign.json
+stmt
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct CREATE TABLE t1 (i INTEGER, n NUMERIC(10,2), d DOUBLE, m MONEY, dt DATE, l LOGICAL, c CHAR(10), ts TIMESTAMP)
+direct INSERT INTO t1 VALUES (1, 1.5, 1.5, 1.5, '2024-01-02', TRUE, 'abc', '2024-01-02 10:11:12')
+direct INSERT INTO t1 VALUES (2, 2.5, 2.5, 2.5, '2024-02-03', FALSE, 'def', '2024-02-03 10:11:12')
+query INSERT INTO t3 (k, v) VALUES (11, 1.555)
+query INSERT INTO t3 (k, v) VALUES (12, -1.555)
+query INSERT INTO t3 (k, v) VALUES (13, 1.554)
+query INSERT INTO t3 (k, v) VALUES (14, 1.5551)
+query INSERT INTO t3 (k, v) VALUES (15, 1.545)
+query INSERT INTO t3 (k, v) VALUES (16, 0.005)
+query INSERT INTO t3 (k, v) VALUES (17, 0.004)
+query INSERT INTO t3 (k, v) VALUES (18, -0.005)
+query INSERT INTO t3 (k, v) VALUES (19, '1.235')
+query INSERT INTO t3 (k, v) VALUES (20, '1.236')
+query INSERT INTO t3 (k, v) VALUES (21, 1.235e0)
+query INSERT INTO t3 (k, v) VALUES (22, CAST(1.235 AS SQL_DOUBLE))
+query INSERT INTO t3 (k, v) VALUES (23, CAST(1.236 AS SQL_DOUBLE))
+query INSERT INTO t3 (k, v) VALUES (24, 1.235 + 0)
+query INSERT INTO t3 (k, v) VALUES (25, 1.5 * 1.5)
+query INSERT INTO t3 (k, v) VALUES (26, 1.555 * 1)
+query INSERT INTO t3 (k, v) VALUES (27, 1 / 3)
+query INSERT INTO t3 (k, v) VALUES (28, CAST(1.555 AS SQL_NUMERIC(10,3)))
+query INSERT INTO t3 (k, v) VALUES (29, CAST(1.555 AS SQL_MONEY))
+query INSERT INTO t3 (k, v) VALUES (30, 1.5555 * 1)
+query INSERT INTO t3 (k, v) VALUES (31, 12345.678)
+query INSERT INTO t3 (k, v) VALUES (32, CAST('1.235' AS SQL_DOUBLE))
+query INSERT INTO t3 (k, v) VALUES (33, 99.995)
+query INSERT INTO t3 (k, v) VALUES (34, 999999.995)
+query SELECT k, v FROM t3 WHERE k > 10 ORDER BY k
+query UPDATE t3 SET v = 1.555 WHERE k = 1
+query SELECT v FROM t3 WHERE k = 1
+query UPDATE t3 SET v = 1.235e0 WHERE k = 1
+query SELECT v FROM t3 WHERE k = 1
+query UPDATE t3 SET v = '1.235' WHERE k = 1
+query SELECT v FROM t3 WHERE k = 1
+query UPDATE t3 SET v = CAST(2.345 AS SQL_DOUBLE) WHERE k = 1
+query SELECT v FROM t3 WHERE k = 1
+query UPDATE t3 SET v = 7 / 3 WHERE k = 1
+query SELECT v FROM t3 WHERE k = 1
+query INSERT INTO t3 (k, v) SELECT 50, 1.555 FROM system.iota
+query INSERT INTO t3 (k, v) SELECT 50, '1.235' FROM system.iota
+query SELECT k, v FROM t3 WHERE k = 50
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (61, ?)
+param 1 string 1.235
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (62, ?)
+param 1 string 1.236
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (63, ?)
+param 1 string -1.235
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (64, ?)
+param 1 string 1.2
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (65, ?)
+param 1 string abc
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (66, ?)
+param 1 string 1e0
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (67, ?)
+param 1 string 1.5e0
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (68, ?)
+param 1 double 1.235
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (69, ?)
+param 1 double 1.236
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (70, ?)
+param 1 double 99.999
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (71, ?)
+param 1 double 1.5
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (72, ?)
+param 1 double -2.345
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (73, ?)
+param 1 long 3
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (74, ?)
+param 1 short 3
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (76, ?)
+param 1 string
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (77, ?)
+param 1 empty
+exec
+closecursor
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (78, ?)
+param 1 null
+exec
+closecursor
+query SELECT k, v FROM t3 WHERE k > 60 ORDER BY k
+clearparams
+prepare UPDATE t3 SET v = ? WHERE k = 2
+param 1 string 1.235
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 2
+clearparams
+prepare UPDATE t3 SET v = ? WHERE k = 2
+param 1 double 99.999
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 2
+clearparams
+prepare UPDATE t3 SET v = ? WHERE k = 2
+param 1 double 2.5
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 2
+clearparams
+prepare UPDATE t3 SET v = ? WHERE k = 2
+param 1 string 2.5
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 2
+clearparams
+prepare SELECT ? + 1.5 AS r FROM t1
+param 1 double 2.25
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1.5 AS r FROM t1
+param 1 double 2.5
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1.5 AS r FROM t1
+param 1 long 2
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1.5 AS r FROM t1
+param 1 string 2.25
+exec
+closecursor
+clearparams
+prepare SELECT ? * 2 AS r FROM t1
+param 1 double 2.25
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1 AS r FROM t1
+param 1 double 2.25
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1 AS r FROM t1
+param 1 string 2.25
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 string 123456789.1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 string 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 double 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 string 99999999999
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 string abc
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 double 99999999999.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string x
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string 1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string 99999999999
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 double 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 double 1.0
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string  1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string 1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string +1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string 0x1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE d = ?
+param 1 string 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE d = ?
+param 1 string x
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE m = ?
+param 1 string 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE m = ?
+param 1 string x
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE m = ?
+param 1 double 1.5
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string garbage
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string 2024-01-02
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string 01/02/2024
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string 2024-13-45
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string 2024
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 long 1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 double 2460312
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 date 2024-01-02
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE ts = ?
+param 1 string garbage
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE ts = ?
+param 1 string 2024-01-02 10:11:12
+exec
+closecursor
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 long 3
+exec
+closecursor
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 double 3.7
+exec
+closecursor
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 string 3
+exec
+closecursor
+clearparams
+prepare SELECT dt - ? AS r FROM t1
+param 1 long 3
+exec
+closecursor
+clearparams
+prepare SELECT dt - ? AS r FROM t1
+param 1 double 3.7
+exec
+closecursor
+clearparams
+prepare SELECT ? + dt AS r FROM t1
+param 1 long 3
+exec
+closecursor
+clearparams
+prepare SELECT ts + ? AS r FROM t1
+param 1 long 3
+exec
+closecursor
+clearparams
+prepare SELECT ts + ? AS r FROM t1
+param 1 double 3.7
+exec
+closecursor
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 short 3
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string T
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string TRUE
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string 1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string x
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 long 1
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string FALSE
+exec
+closecursor
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string F
+exec
+closecursor
+query INSERT INTO t3 (k, v) VALUES (200, 12345.67)
+query INSERT INTO t3 (k, v) VALUES (201, 12345.6)
+query INSERT INTO t3 (k, v) VALUES (202, 12345)
+query INSERT INTO t3 (k, v) VALUES (203, 99999.99)
+query INSERT INTO t3 (k, v) VALUES (204, 99999.995)
+query INSERT INTO t3 (k, v) VALUES (205, -9999.995)
+query INSERT INTO t3 (k, v) VALUES (206, -12345.67)
+query INSERT INTO t3 (k, v) VALUES (207, 1234.5678)
+query INSERT INTO t3 (k, v) VALUES (208, 1234.567)
+query INSERT INTO t3 (k, v) VALUES (209, 123.45678)
+query INSERT INTO t3 (k, v) VALUES (210, 12.345678)
+query INSERT INTO t3 (k, v) VALUES (211, 1.2345678)
+query INSERT INTO t3 (k, v) VALUES (212, 1.234567)
+query INSERT INTO t3 (k, v) VALUES (213, 1.23456)
+query INSERT INTO t3 (k, v) VALUES (214, 123456.7)
+query INSERT INTO t3 (k, v) VALUES (215, 123456)
+query INSERT INTO t3 (k, v) VALUES (216, 1234567.5)
+query INSERT INTO t3 (k, v) VALUES (217, 0.123456789)
+query INSERT INTO t3 (k, v) VALUES (218, 0.12345678)
+query INSERT INTO t3 (k, v) VALUES (219, -0.1234567)
+query INSERT INTO t3 (k, v) VALUES (220, 123456.78)
+query SELECT k, v FROM t3 WHERE k >= 200 ORDER BY k
+query DECLARE x MONEY; SET x = 1.23456;
+query DECLARE x MONEY; SET x = 1.2345;
+query DECLARE x NUMERIC(8,2); SET x = 1.555;
+query DECLARE x NUMERIC(8,2); SET x = 1.5;

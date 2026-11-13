@@ -1,0 +1,29 @@
+# Structures and tables copied: every record, through a filter, in an
+# order; records appended to another table by field name; a FoxPro
+# table's deleted records copied while they are shown.
+open t.adt
+copystructure s.adt
+copytable 2 c1.adt
+filter n > 1
+copytable 1 c2.adt
+copytable 2 c3.adt
+clearfilter
+order name
+copytable 2 c4.adt
+order -
+open dest.adt
+use 1
+copycontents 2 2
+use 2
+rows
+close
+use 1
+close
+tabletype cdx
+open f.dbf
+copytable 2 fc.dbf
+copystructure fs.dbf
+showdeleted 0
+copytable 2 fd.dbf
+showdeleted 1
+close

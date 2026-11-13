@@ -1,0 +1,121 @@
+# The trigger variables ::stmt.TrigName, TrigTableName, TrigEventType,
+# TrigType, TrigRecNo, TrigRowid and UpdateCount, read by triggers of every
+# timing and event, with what else they read of their statement and
+# connection, on a copy of the psm dictionary (fixtures/adt/psm) alone, whose
+# own triggers it drops first. Recorded on the remote server (the evaluation
+# server under Wine), whose transactions tflip has, as triggers.txt is:
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> trigvars.txt <share>
+#             > ../../../fixtures/sql/trigvars.json
+#
+# (<share> the server's path to the work folder's data/, as for triggers.txt.)
+# The database part of a ROWID is the path of the dictionary, which differs
+# from one run to the next; the rest is asked about.
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tv1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('BI ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tv2 ON items BEFORE UPDATE BEGIN INSERT INTO audit (msg) VALUES ('BU ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tv3 ON items BEFORE DELETE BEGIN INSERT INTO audit (msg) VALUES ('BD ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tv4 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('AI ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tv5 ON items AFTER UPDATE BEGIN INSERT INTO audit (msg) VALUES ('AU ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tv6 ON items AFTER DELETE BEGIN INSERT INTO audit (msg) VALUES ('AD ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm'); 
+direct UPDATE items SET name = 'c'
+direct DELETE FROM items WHERE id = 1
+query SELECT msg FROM audit ORDER BY seq
+query SELECT ::stmt.TrigName, ::stmt.TrigRecNo, ::stmt.UpdateCount FROM system.iota
+direct DROP TRIGGER items.tv1
+direct DROP TRIGGER items.tv2
+direct DROP TRIGGER items.tv3
+direct DROP TRIGGER items.tv4
+direct DROP TRIGGER items.tv5
+direct DROP TRIGGER items.tv6
+direct DELETE FROM audit
+direct DELETE FROM items
+direct CREATE TRIGGER tiI ON items INSTEAD OF INSERT BEGIN INSERT INTO audit (msg) VALUES ('II ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct INSERT INTO items VALUES (6, 'f', 0, 'm')
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tiI
+direct DELETE FROM audit
+direct DELETE FROM items
+direct INSERT INTO items VALUES (5, 'e', 0, 'm')
+direct CREATE TRIGGER tiU ON items INSTEAD OF UPDATE BEGIN INSERT INTO audit (msg) VALUES ('IU ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct UPDATE items SET name = 'g'
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tiU
+direct DELETE FROM audit
+direct DELETE FROM items
+direct INSERT INTO items VALUES (5, 'e', 0, 'm')
+direct CREATE TRIGGER tiD ON items INSTEAD OF DELETE BEGIN INSERT INTO audit (msg) VALUES ('ID ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct DELETE FROM items
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tiD
+direct DELETE FROM audit
+direct DELETE FROM items
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm')
+direct INSERT INTO items VALUES (3, 'c', 0, 'm')
+direct CREATE TRIGGER tm1 ON items AFTER UPDATE BEGIN INSERT INTO audit (msg) VALUES ('M ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct UPDATE items SET qty = 1 WHERE id > 1
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tm1
+direct DELETE FROM audit
+direct CREATE TRIGGER tm2 ON items AFTER UPDATE BEGIN DECLARE s STRING; s = ::stmt.TrigName; IF ::stmt.TrigRecNo > 1 THEN INSERT INTO audit (msg) VALUES ('rec ' + s); END IF; END
+direct UPDATE items SET qty = 2
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tm2
+direct DELETE FROM audit
+direct CREATE TRIGGER tm3 ON items AFTER UPDATE BEGIN SET ::stmt.TrigName = 'x'; END
+direct UPDATE items SET qty = 3
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tm3
+direct CREATE TRIGGER tm4 ON items AFTER UPDATE BEGIN DECLARE n INTEGER; INSERT INTO audit (msg) VALUES ('x'); INSERT INTO audit (msg) VALUES ('y'); n = ::stmt.UpdateCount; INSERT INTO audit (msg) VALUES ('uc ' + TRIM(CAST(n AS SQL_CHAR))); END
+direct UPDATE items SET qty = 4 WHERE id = 1
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tm4
+direct DELETE FROM audit
+direct DELETE FROM items
+direct INSERT INTO items VALUES (7, 'g', 0, 'm')
+direct CREATE TRIGGER tn1 ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('n1 ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct CREATE TRIGGER tn2 ON audit AFTER INSERT BEGIN UPDATE items SET qty = qty + 1 WHERE id = 7 AND qty = 0; END
+direct CREATE TRIGGER tn3 ON items AFTER UPDATE BEGIN IF __new.qty = 1 THEN INSERT INTO audit (msg) VALUES ('n3 ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END IF; END
+direct INSERT INTO items VALUES (8, 'h', 0, 'm')
+query SELECT msg FROM audit ORDER BY seq
+query SELECT id, qty FROM items
+direct DROP TRIGGER items.tn1
+direct DROP TRIGGER audit.tn2
+direct DROP TRIGGER items.tn3
+direct DELETE FROM audit
+direct DELETE FROM items
+direct CREATE TABLE t2 (a INTEGER)
+direct INSERT INTO t2 VALUES (1)
+direct INSERT INTO t2 VALUES (2)
+direct INSERT INTO t2 VALUES (3)
+direct CREATE TRIGGER t2i ON t2 INSTEAD OF INSERT BEGIN INSERT INTO audit (msg) VALUES ('T ' + IFNULL(::stmt.TrigName,'-') + '|' + IFNULL(::stmt.TrigTableName,'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigEventType AS SQL_CHAR)),'-') + '|' + IFNULL(TRIM(CAST(::stmt.TrigType AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + IFNULL(SUBSTRING(::stmt.TrigRowid, 7, 12),'-') + '/' + IFNULL(TRIM(CAST(LENGTH(::stmt.TrigRowid) AS SQL_CHAR)),'-') + '|' + TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR))); END
+direct INSERT INTO t2 VALUES (4)
+direct DELETE FROM t2 WHERE a = 2
+direct INSERT INTO t2 VALUES (4)
+direct DELETE FROM t2 WHERE a = 1
+direct INSERT INTO t2 VALUES (4)
+direct DELETE FROM t2
+direct INSERT INTO t2 VALUES (4)
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER t2.t2i
+direct DROP TABLE t2
+direct DELETE FROM audit
+direct CREATE TRIGGER tq ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('q ' + LEFT(IFNULL(::stmt.Name, '-'), 1) + '|' + TRIM(CAST(LENGTH(IFNULL(::stmt.Name, '-')) AS SQL_CHAR)) + '|' + LEFT(::conn.Name, 4) + '|' + TRIM(CAST(::conn.TransactionCount AS SQL_CHAR)) + '|' + ::conn.Collation + '|' + IIF(::conn.IsRoot, 'T', 'F') + '|' + IIF(::server.OldestActiveTxn IS NULL, 'N', 'V') + '|' + IIF(::conn.OperationCount > 0, 'o', '-')); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT msg FROM audit ORDER BY seq
+direct DROP TRIGGER items.tq
+direct DELETE FROM audit
+direct DELETE FROM items
+query SELECT LEFT(::conn.Name, 4) AS a, ::conn.IsRoot AS b, ::conn.Collation AS c, ::conn.TransactionCount AS d FROM system.iota

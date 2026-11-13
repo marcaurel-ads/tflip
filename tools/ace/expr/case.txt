@@ -1,0 +1,9 @@
+# UPPER and LOWER of the charset_german `ca` table (c is each byte 32..255,
+# w holds accented words), to see whether the static ANSI collation changes
+# how expressions fold case. Run under the default collation and under
+# ANSI_CHAR_SET=German (run_case.sh).
+@table ca
+UPPER(c)
+LOWER(c)
+UPPER(w)
+LOWER(w)

@@ -1,0 +1,95 @@
+# EXECUTE PROCEDURE as a table in FROM (table-ref ::= ... | execute-procedure
+# alias-name), on a copy of the psm dictionary: user procedures (fixed
+# output, CURSOR VARYING, with arguments), a system procedure, joins and
+# conditions over the result, the cursor's type, and what fails.
+#
+#     run.sh <work> <ace32.dll> execproc.txt > ../../../fixtures/sql/execproc.json
+connect psm.add ADSSYS adssyspw
+stmt
+query SELECT * FROM items
+direct SELECT * FROM (EXECUTE PROCEDURE numbers(4)) p
+info
+closecursor
+query SELECT * FROM (EXECUTE PROCEDURE numbers(5)) p WHERE v > 2 ORDER BY v DESC
+query SELECT v * 2 AS d, COUNT(*) AS c FROM (EXECUTE PROCEDURE numbers(5)) p GROUP BY v * 2
+query SELECT p.v, i.name FROM (EXECUTE PROCEDURE numbers(3)) p INNER JOIN items i ON p.v = i.id
+query SELECT p.v, i.name FROM items i LEFT JOIN (EXECUTE PROCEDURE numbers(5)) p ON p.v = i.id ORDER BY i.id
+query SELECT i.name, p.v FROM items i, (EXECUTE PROCEDURE numbers(2)) p ORDER BY i.id, p.v
+query SELECT * FROM (EXECUTE PROCEDURE pick(1)) p
+query SELECT name FROM (EXECUTE PROCEDURE pick(1)) p WHERE qty > 5 ORDER BY name DESC
+query SELECT * FROM (EXECUTE PROCEDURE pick(2)) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 'items', NULL)) t
+query SELECT TABLE_NAME, TABLE_TYPE FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'TABLE')) t ORDER BY TABLE_NAME
+query SELECT COLUMN_NAME FROM (EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'items', NULL)) c WHERE DATA_TYPE = 4
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)) t
+query SELECT COUNT(*) AS c, SUM(p.v * q.v) AS s FROM (EXECUTE PROCEDURE numbers(2)) p, (EXECUTE PROCEDURE numbers(3)) q
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p UNION SELECT id FROM items
+query SELECT id FROM items WHERE id IN (SELECT v FROM (EXECUTE PROCEDURE numbers(2)) p)
+query SELECT {static} * FROM (EXECUTE PROCEDURE numbers(2)) p
+query SELECT TOP 2 * FROM (EXECUTE PROCEDURE numbers(5)) p
+query SELECT DISTINCT v / 2 AS h FROM (EXECUTE PROCEDURE numbers(5)) p
+# Arguments: expressions, parameters, columns of the SELECT around.
+query SELECT * FROM (EXECUTE PROCEDURE numbers(1 + 2)) p
+prepare SELECT * FROM (EXECUTE PROCEDURE numbers(?)) p
+param 1 long 2
+exec
+info
+closecursor
+prepare SELECT * FROM (EXECUTE PROCEDURE numbers(?)) p WHERE v > ?
+param 1 long 3
+param 2 long 1
+exec
+closecursor
+query SELECT i.id, p.v FROM items i, (EXECUTE PROCEDURE numbers(i.id)) p
+query SELECT * FROM (EXECUTE PROCEDURE numbers(NULL)) p
+query SELECT * FROM (EXECUTE PROCEDURE numbers()) p
+query SELECT * FROM (EXECUTE PROCEDURE numbers(1, 2)) p
+query SELECT * FROM (EXECUTE PROCEDURE add_item(1)) p
+query SELECT * FROM (EXECUTE PROCEDURE add_item(1, 'a')) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables()) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL, NULL)) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'items')) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetApplicationID(1)) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_SetApplicationID('abc')) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetSQLKeywords()) p WHERE 1 = 2
+query SELECT * FROM (EXECUTE PROCEDURE sp_MgGetInstallInfo()) p WHERE 1 = 2
+# No alias, wrong names, the procedure's own failures.
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2))
+query SELECT v FROM (EXECUTE PROCEDURE numbers(2))
+query SELECT * FROM (EXECUTE PROCEDURE nosuch(2)) p
+query SELECT nosuch FROM (EXECUTE PROCEDURE numbers(2)) p
+query SELECT * FROM (EXECUTE numbers(2)) p
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2) p
+query SELECT * FROM EXECUTE PROCEDURE numbers(2) p
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL)) t
+query SELECT * FROM (EXECUTE PROCEDURE sp_NoSuch()) t
+query SELECT * FROM (EXECUTE PROCEDURE pick(1)) p INNER JOIN items i ON p.id = i.id
+query SELECT * INTO f_proc FROM (EXECUTE PROCEDURE numbers(3)) p
+query SELECT * FROM (SELECT * FROM (EXECUTE PROCEDURE numbers(3)) p) x
+query SELECT (SELECT COUNT(*) FROM (EXECUTE PROCEDURE numbers(3)) p) AS n FROM items
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 'items', NULL)
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p WHERE v = (SELECT MAX(id) FROM items)
+# A procedure that writes: when it runs, and how often.
+prepare SELECT * FROM (EXECUTE PROCEDURE add_item(10, 'a', 1)) p
+exec
+closecursor
+exec
+closecursor
+query SELECT COUNT(*) AS c FROM items
+verify SELECT * FROM (EXECUTE PROCEDURE add_item(11, 'b', 1)) p
+query SELECT COUNT(*) AS c FROM items
+query SELECT * FROM items i, (EXECUTE PROCEDURE add_item(12, 'c', 1)) p
+query SELECT COUNT(*) AS c FROM items
+query SELECT (SELECT COUNT(*) FROM (EXECUTE PROCEDURE add_item(13, 'd', 1)) p) AS n FROM items
+query SELECT COUNT(*) AS c FROM items
+query SELECT * FROM (EXECUTE PROCEDURE add_item(14, 'e', 1)) p WHERE 1 = 2
+query SELECT COUNT(*) AS c FROM items
+query SELECT * FROM (EXECUTE PROCEDURE add_item(15, 'f', 1)) p, (EXECUTE PROCEDURE add_item(16, 'g', 1)) q
+query SELECT COUNT(*) AS c FROM items
+query SELECT * FROM (EXECUTE PROCEDURE add_item(1, 'zz', 'notanumber')) p
+query SELECT COUNT(*) AS c FROM items
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p WHERE v = (SELECT MAX(id) FROM items)
+query SELECT * FROM (EXECUTE PROCEDURE numbers('x')) p
+query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) AS p
+query SELECT p.* FROM (EXECUTE PROCEDURE numbers(2)) p
+query SELECT p.v FROM (EXECUTE PROCEDURE numbers(2)) p WHERE q.v = 1

@@ -1,0 +1,7 @@
+sql CREATE TABLE p (id integer, name char(10))
+sql INSERT INTO p VALUES (1, 'a')
+sql INSERT INTO p VALUES (2, 'b')
+sql INSERT INTO p VALUES (3, 'c')
+sql INSERT INTO p VALUES (4, 'd')
+sql CREATE INDEX name ON p (name)
+sql DELETE FROM p WHERE id = 2

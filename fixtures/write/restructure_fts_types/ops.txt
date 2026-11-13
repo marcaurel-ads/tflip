@@ -1,0 +1,71 @@
+# Restructures of tables with full-text orders.
+restructure a.adt 0 front,Char,4,(1)||
+restructure b.adt 0 ||m,m,Char,40
+restructure c.adt 0 ||body,words,Char,50
+restructure d.adt 0 |title|body,body,Memo,10
+restructure e.adt 0 ||body,body,Integer,4
+restructure f.adt 0 ||m,m,Integer,4
+restructure g.adt 0 ||body,body,CICharacter,40
+restructure h.adt 0 ||body,body,Double,8
+restructure i.adt 0 ||body,body,Char,10
+restructure j.adt 0 |m|
+restructure k.adt 0 |id|body,text,Char,40
+restructure p.adt 0 extra,Memo,10|title|m,m2,Memo,10
+restructure r.adt 0 ||body,body,Integer,4
+restructure q.adt 0 extra,Char,4||
+open a.adt
+top
+record
+close
+open b.adt
+top
+record
+close
+open c.adt
+top
+record
+close
+open d.adt
+top
+record
+close
+open e.adt
+top
+record
+close
+open f.adt
+top
+record
+close
+open g.adt
+top
+record
+close
+open h.adt
+top
+record
+close
+open i.adt
+top
+record
+close
+open j.adt
+top
+record
+close
+open k.adt
+top
+record
+close
+open p.adt
+top
+record
+close
+open q.adt
+top
+record
+close
+open r.adt
+top
+record
+close

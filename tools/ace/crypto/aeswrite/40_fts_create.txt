@@ -1,0 +1,39 @@
+# Full-text orders on tables with an enciphered index: q (AES-128) and r (AES-256) are dictionaries that encipher their records and indexes; a table with a memo gets a full-text order (CONTENT) as its first index, then an ordinary one, rows are inserted, changed and deleted, and the full-text order is rebuilt, dropped and made again.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "q\q.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "r\r.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\q\q.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tf (id INTEGER, body MEMO, name CHAR(10))
+sql INSERT INTO tf VALUES (1, 'red green blue', 'one')
+sql INSERT INTO tf VALUES (2, 'green yellow', 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tf')
+sql CREATE INDEX tf_body ON tf (body) CONTENT
+sql INSERT INTO tf VALUES (3, 'blue black red', 'three')
+sql CREATE INDEX tf_id ON tf (id)
+sql INSERT INTO tf VALUES (4, 'white red', 'four')
+sql UPDATE tf SET body = 'purple orange' WHERE id = 2
+sql DELETE FROM tf WHERE id = 1
+sql EXECUTE PROCEDURE sp_Reindex('tf', 0)
+sql INSERT INTO tf VALUES (5, 'red red red', 'five')
+sql DROP INDEX tf.tf_body
+sql CREATE INDEX tf_body2 ON tf (body) CONTENT
+disconnect
+connect Data Source=%D\r\r.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tf (id INTEGER, body MEMO, name CHAR(10))
+sql INSERT INTO tf VALUES (1, 'red green blue', 'one')
+sql INSERT INTO tf VALUES (2, 'green yellow', 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tf')
+sql CREATE INDEX tf_body ON tf (body) CONTENT
+sql INSERT INTO tf VALUES (3, 'blue black red', 'three')
+sql CREATE INDEX tf_id ON tf (id)
+sql INSERT INTO tf VALUES (4, 'white red', 'four')
+sql UPDATE tf SET body = 'purple orange' WHERE id = 2
+sql DELETE FROM tf WHERE id = 1
+sql EXECUTE PROCEDURE sp_Reindex('tf', 0)
+sql INSERT INTO tf VALUES (5, 'red red red', 'five')
+sql DROP INDEX tf.tf_body
+sql CREATE INDEX tf_body2 ON tf (body) CONTENT
+disconnect

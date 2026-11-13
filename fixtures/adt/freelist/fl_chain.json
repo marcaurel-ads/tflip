@@ -1,0 +1,23 @@
+{
+ "table_type": "adt",
+ "record_count": 5,
+ "record_length": 21,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "c_id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "c_name", "type": 4, "type_name": "Character", "length": 12, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 2, "deleted": false, "raw": "04000000000200000074776f202020202020202020", "values": {"c_id": {"text": "2"}, "c_name": {"text": "two         "}}},
+  {"recno": 4, "deleted": false, "raw": "040000000004000000666f75722020202020202020", "values": {"c_id": {"text": "4"}, "c_name": {"text": "four        "}}},
+  {"recno": 5, "deleted": false, "raw": "040000000005000000666976652020202020202020", "values": {"c_id": {"text": "5"}, "c_name": {"text": "five        "}}},
+  {"recno": 7, "deleted": false, "raw": "040000000007000000736576656e20202020202020", "values": {"c_id": {"text": "7"}, "c_name": {"text": "seven       "}}},
+  {"recno": 8, "deleted": false, "raw": "040000000008000000656967687420202020202020", "values": {"c_id": {"text": "8"}, "c_name": {"text": "eight       "}}}
+ ]
+}

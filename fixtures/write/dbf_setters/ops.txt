@@ -1,0 +1,9328 @@
+tabletype ntx
+open s_ntx.dbf
+append
+# ntx c
+set c string abc
+get c
+raw c
+set c string ""
+get c
+raw c
+set c string abcdefghijklmnopqrstuvwxyz
+get c
+raw c
+set c string   12.5
+get c
+raw c
+set c string T
+get c
+raw c
+set c string 11/08/2017
+get c
+raw c
+set c string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c string \xe4\x80
+get c
+raw c
+set c stringw caf\xe9
+get c
+raw c
+set c stringw abcdefghijkl
+get c
+raw c
+set c field abc
+get c
+raw c
+set c field ""
+get c
+raw c
+set c field  42
+get c
+raw c
+set c field -1.005
+get c
+raw c
+set c field 123456789.125
+get c
+raw c
+set c field 1e3
+get c
+raw c
+set c field x1
+get c
+raw c
+set c field T
+get c
+raw c
+set c field n
+get c
+raw c
+set c field 11/08/2017
+get c
+raw c
+set c field 2/30/2017
+get c
+raw c
+set c field 13:45
+get c
+raw c
+set c field 12/31/1999 23:59:59.999
+get c
+raw c
+set c field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c field \xde\xad\xbe\xef\x01
+get c
+raw c
+set c long 0
+get c
+raw c
+set c long -5
+get c
+raw c
+set c long 40000
+get c
+raw c
+set c long 2147483647
+get c
+raw c
+set c long -2147483648
+get c
+raw c
+set c short -32768
+get c
+raw c
+set c short 7
+get c
+raw c
+set c longlong 9223372036854775807
+get c
+raw c
+set c longlong -3
+get c
+raw c
+set c double 2.5
+get c
+raw c
+set c double -0.125
+get c
+raw c
+set c double 12345.678
+get c
+raw c
+set c double 1e20
+get c
+raw c
+set c double 0.005
+get c
+raw c
+set c logical 0
+get c
+raw c
+set c logical 1
+get c
+raw c
+set c logical 2
+get c
+raw c
+set c date 11/08/2017
+get c
+raw c
+set c date 13/45/2017
+get c
+raw c
+set c date ""
+get c
+raw c
+set c date 1/2/3
+get c
+raw c
+set c julian 2458066
+get c
+raw c
+set c julian 0
+get c
+raw c
+set c time 13:45:30.250
+get c
+raw c
+set c time 25:00
+get c
+raw c
+set c time ""
+get c
+raw c
+set c ms 0
+get c
+raw c
+set c ms 86399999
+get c
+raw c
+set c ms -1
+get c
+raw c
+set c timestamp 11/08/2017 13:45:30.250
+get c
+raw c
+set c timestamp 11/08/2017
+get c
+raw c
+set c money 123456
+get c
+raw c
+set c money -1
+get c
+raw c
+set c binary 0102
+get c
+raw c
+set c binary 0102030405060708090a
+get c
+raw c
+set c null
+get c
+raw c
+set c empty
+get c
+raw c
+set c string kept
+get c
+raw c
+# ntx n
+set n string abc
+get n
+raw n
+set n string ""
+get n
+raw n
+set n string abcdefghijklmnopqrstuvwxyz
+get n
+raw n
+set n string   12.5
+get n
+raw n
+set n string T
+get n
+raw n
+set n string 11/08/2017
+get n
+raw n
+set n string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n string \xe4\x80
+get n
+raw n
+set n stringw caf\xe9
+get n
+raw n
+set n stringw abcdefghijkl
+get n
+raw n
+set n field abc
+get n
+raw n
+set n field ""
+get n
+raw n
+set n field  42
+get n
+raw n
+set n field -1.005
+get n
+raw n
+set n field 123456789.125
+get n
+raw n
+set n field 1e3
+get n
+raw n
+set n field x1
+get n
+raw n
+set n field T
+get n
+raw n
+set n field n
+get n
+raw n
+set n field 11/08/2017
+get n
+raw n
+set n field 2/30/2017
+get n
+raw n
+set n field 13:45
+get n
+raw n
+set n field 12/31/1999 23:59:59.999
+get n
+raw n
+set n field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n field \xde\xad\xbe\xef\x01
+get n
+raw n
+set n long 0
+get n
+raw n
+set n long -5
+get n
+raw n
+set n long 40000
+get n
+raw n
+set n long 2147483647
+get n
+raw n
+set n long -2147483648
+get n
+raw n
+set n short -32768
+get n
+raw n
+set n short 7
+get n
+raw n
+set n longlong 9223372036854775807
+get n
+raw n
+set n longlong -3
+get n
+raw n
+set n double 2.5
+get n
+raw n
+set n double -0.125
+get n
+raw n
+set n double 12345.678
+get n
+raw n
+set n double 1e20
+get n
+raw n
+set n double 0.005
+get n
+raw n
+set n logical 0
+get n
+raw n
+set n logical 1
+get n
+raw n
+set n logical 2
+get n
+raw n
+set n date 11/08/2017
+get n
+raw n
+set n date 13/45/2017
+get n
+raw n
+set n date ""
+get n
+raw n
+set n date 1/2/3
+get n
+raw n
+set n julian 2458066
+get n
+raw n
+set n julian 0
+get n
+raw n
+set n time 13:45:30.250
+get n
+raw n
+set n time 25:00
+get n
+raw n
+set n time ""
+get n
+raw n
+set n ms 0
+get n
+raw n
+set n ms 86399999
+get n
+raw n
+set n ms -1
+get n
+raw n
+set n timestamp 11/08/2017 13:45:30.250
+get n
+raw n
+set n timestamp 11/08/2017
+get n
+raw n
+set n money 123456
+get n
+raw n
+set n money -1
+get n
+raw n
+set n binary 0102
+get n
+raw n
+set n binary 0102030405060708090a
+get n
+raw n
+set n null
+get n
+raw n
+set n empty
+get n
+raw n
+set n string kept
+get n
+raw n
+# ntx n0
+set n0 string abc
+get n0
+raw n0
+set n0 string ""
+get n0
+raw n0
+set n0 string abcdefghijklmnopqrstuvwxyz
+get n0
+raw n0
+set n0 string   12.5
+get n0
+raw n0
+set n0 string T
+get n0
+raw n0
+set n0 string 11/08/2017
+get n0
+raw n0
+set n0 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 string \xe4\x80
+get n0
+raw n0
+set n0 stringw caf\xe9
+get n0
+raw n0
+set n0 stringw abcdefghijkl
+get n0
+raw n0
+set n0 field abc
+get n0
+raw n0
+set n0 field ""
+get n0
+raw n0
+set n0 field  42
+get n0
+raw n0
+set n0 field -1.005
+get n0
+raw n0
+set n0 field 123456789.125
+get n0
+raw n0
+set n0 field 1e3
+get n0
+raw n0
+set n0 field x1
+get n0
+raw n0
+set n0 field T
+get n0
+raw n0
+set n0 field n
+get n0
+raw n0
+set n0 field 11/08/2017
+get n0
+raw n0
+set n0 field 2/30/2017
+get n0
+raw n0
+set n0 field 13:45
+get n0
+raw n0
+set n0 field 12/31/1999 23:59:59.999
+get n0
+raw n0
+set n0 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 field \xde\xad\xbe\xef\x01
+get n0
+raw n0
+set n0 long 0
+get n0
+raw n0
+set n0 long -5
+get n0
+raw n0
+set n0 long 40000
+get n0
+raw n0
+set n0 long 2147483647
+get n0
+raw n0
+set n0 long -2147483648
+get n0
+raw n0
+set n0 short -32768
+get n0
+raw n0
+set n0 short 7
+get n0
+raw n0
+set n0 longlong 9223372036854775807
+get n0
+raw n0
+set n0 longlong -3
+get n0
+raw n0
+set n0 double 2.5
+get n0
+raw n0
+set n0 double -0.125
+get n0
+raw n0
+set n0 double 12345.678
+get n0
+raw n0
+set n0 double 1e20
+get n0
+raw n0
+set n0 double 0.005
+get n0
+raw n0
+set n0 logical 0
+get n0
+raw n0
+set n0 logical 1
+get n0
+raw n0
+set n0 logical 2
+get n0
+raw n0
+set n0 date 11/08/2017
+get n0
+raw n0
+set n0 date 13/45/2017
+get n0
+raw n0
+set n0 date ""
+get n0
+raw n0
+set n0 date 1/2/3
+get n0
+raw n0
+set n0 julian 2458066
+get n0
+raw n0
+set n0 julian 0
+get n0
+raw n0
+set n0 time 13:45:30.250
+get n0
+raw n0
+set n0 time 25:00
+get n0
+raw n0
+set n0 time ""
+get n0
+raw n0
+set n0 ms 0
+get n0
+raw n0
+set n0 ms 86399999
+get n0
+raw n0
+set n0 ms -1
+get n0
+raw n0
+set n0 timestamp 11/08/2017 13:45:30.250
+get n0
+raw n0
+set n0 timestamp 11/08/2017
+get n0
+raw n0
+set n0 money 123456
+get n0
+raw n0
+set n0 money -1
+get n0
+raw n0
+set n0 binary 0102
+get n0
+raw n0
+set n0 binary 0102030405060708090a
+get n0
+raw n0
+set n0 null
+get n0
+raw n0
+set n0 empty
+get n0
+raw n0
+set n0 string kept
+get n0
+raw n0
+# ntx d
+set d string abc
+get d
+raw d
+set d string ""
+get d
+raw d
+set d string abcdefghijklmnopqrstuvwxyz
+get d
+raw d
+set d string   12.5
+get d
+raw d
+set d string T
+get d
+raw d
+set d string 11/08/2017
+get d
+raw d
+set d string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d string \xe4\x80
+get d
+raw d
+set d stringw caf\xe9
+get d
+raw d
+set d stringw abcdefghijkl
+get d
+raw d
+set d field abc
+get d
+raw d
+set d field ""
+get d
+raw d
+set d field  42
+get d
+raw d
+set d field -1.005
+get d
+raw d
+set d field 123456789.125
+get d
+raw d
+set d field 1e3
+get d
+raw d
+set d field x1
+get d
+raw d
+set d field T
+get d
+raw d
+set d field n
+get d
+raw d
+set d field 11/08/2017
+get d
+raw d
+set d field 2/30/2017
+get d
+raw d
+set d field 13:45
+get d
+raw d
+set d field 12/31/1999 23:59:59.999
+get d
+raw d
+set d field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d field \xde\xad\xbe\xef\x01
+get d
+raw d
+set d long 0
+get d
+raw d
+set d long -5
+get d
+raw d
+set d long 40000
+get d
+raw d
+set d long 2147483647
+get d
+raw d
+set d long -2147483648
+get d
+raw d
+set d short -32768
+get d
+raw d
+set d short 7
+get d
+raw d
+set d longlong 9223372036854775807
+get d
+raw d
+set d longlong -3
+get d
+raw d
+set d double 2.5
+get d
+raw d
+set d double -0.125
+get d
+raw d
+set d double 12345.678
+get d
+raw d
+set d double 1e20
+get d
+raw d
+set d double 0.005
+get d
+raw d
+set d logical 0
+get d
+raw d
+set d logical 1
+get d
+raw d
+set d logical 2
+get d
+raw d
+set d date 11/08/2017
+get d
+raw d
+set d date 13/45/2017
+get d
+raw d
+set d date ""
+get d
+raw d
+set d date 1/2/3
+get d
+raw d
+set d julian 2458066
+get d
+raw d
+set d julian 0
+get d
+raw d
+set d time 13:45:30.250
+get d
+raw d
+set d time 25:00
+get d
+raw d
+set d time ""
+get d
+raw d
+set d ms 0
+get d
+raw d
+set d ms 86399999
+get d
+raw d
+set d ms -1
+get d
+raw d
+set d timestamp 11/08/2017 13:45:30.250
+get d
+raw d
+set d timestamp 11/08/2017
+get d
+raw d
+set d money 123456
+get d
+raw d
+set d money -1
+get d
+raw d
+set d binary 0102
+get d
+raw d
+set d binary 0102030405060708090a
+get d
+raw d
+set d null
+get d
+raw d
+set d empty
+get d
+raw d
+set d string kept
+get d
+raw d
+# ntx l
+set l string abc
+get l
+raw l
+set l string ""
+get l
+raw l
+set l string abcdefghijklmnopqrstuvwxyz
+get l
+raw l
+set l string   12.5
+get l
+raw l
+set l string T
+get l
+raw l
+set l string 11/08/2017
+get l
+raw l
+set l string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l string \xe4\x80
+get l
+raw l
+set l stringw caf\xe9
+get l
+raw l
+set l stringw abcdefghijkl
+get l
+raw l
+set l field abc
+get l
+raw l
+set l field ""
+get l
+raw l
+set l field  42
+get l
+raw l
+set l field -1.005
+get l
+raw l
+set l field 123456789.125
+get l
+raw l
+set l field 1e3
+get l
+raw l
+set l field x1
+get l
+raw l
+set l field T
+get l
+raw l
+set l field n
+get l
+raw l
+set l field 11/08/2017
+get l
+raw l
+set l field 2/30/2017
+get l
+raw l
+set l field 13:45
+get l
+raw l
+set l field 12/31/1999 23:59:59.999
+get l
+raw l
+set l field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l field \xde\xad\xbe\xef\x01
+get l
+raw l
+set l long 0
+get l
+raw l
+set l long -5
+get l
+raw l
+set l long 40000
+get l
+raw l
+set l long 2147483647
+get l
+raw l
+set l long -2147483648
+get l
+raw l
+set l short -32768
+get l
+raw l
+set l short 7
+get l
+raw l
+set l longlong 9223372036854775807
+get l
+raw l
+set l longlong -3
+get l
+raw l
+set l double 2.5
+get l
+raw l
+set l double -0.125
+get l
+raw l
+set l double 12345.678
+get l
+raw l
+set l double 1e20
+get l
+raw l
+set l double 0.005
+get l
+raw l
+set l logical 0
+get l
+raw l
+set l logical 1
+get l
+raw l
+set l logical 2
+get l
+raw l
+set l date 11/08/2017
+get l
+raw l
+set l date 13/45/2017
+get l
+raw l
+set l date ""
+get l
+raw l
+set l date 1/2/3
+get l
+raw l
+set l julian 2458066
+get l
+raw l
+set l julian 0
+get l
+raw l
+set l time 13:45:30.250
+get l
+raw l
+set l time 25:00
+get l
+raw l
+set l time ""
+get l
+raw l
+set l ms 0
+get l
+raw l
+set l ms 86399999
+get l
+raw l
+set l ms -1
+get l
+raw l
+set l timestamp 11/08/2017 13:45:30.250
+get l
+raw l
+set l timestamp 11/08/2017
+get l
+raw l
+set l money 123456
+get l
+raw l
+set l money -1
+get l
+raw l
+set l binary 0102
+get l
+raw l
+set l binary 0102030405060708090a
+get l
+raw l
+set l null
+get l
+raw l
+set l empty
+get l
+raw l
+set l string kept
+get l
+raw l
+# ntx b
+set b string abc
+get b
+raw b
+set b string ""
+get b
+raw b
+set b string abcdefghijklmnopqrstuvwxyz
+get b
+raw b
+set b string   12.5
+get b
+raw b
+set b string T
+get b
+raw b
+set b string 11/08/2017
+get b
+raw b
+set b string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b string \xe4\x80
+get b
+raw b
+set b stringw caf\xe9
+get b
+raw b
+set b stringw abcdefghijkl
+get b
+raw b
+set b field abc
+get b
+raw b
+set b field ""
+get b
+raw b
+set b field  42
+get b
+raw b
+set b field -1.005
+get b
+raw b
+set b field 123456789.125
+get b
+raw b
+set b field 1e3
+get b
+raw b
+set b field x1
+get b
+raw b
+set b field T
+get b
+raw b
+set b field n
+get b
+raw b
+set b field 11/08/2017
+get b
+raw b
+set b field 2/30/2017
+get b
+raw b
+set b field 13:45
+get b
+raw b
+set b field 12/31/1999 23:59:59.999
+get b
+raw b
+set b field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b field \xde\xad\xbe\xef\x01
+get b
+raw b
+set b long 0
+get b
+raw b
+set b long -5
+get b
+raw b
+set b long 40000
+get b
+raw b
+set b long 2147483647
+get b
+raw b
+set b long -2147483648
+get b
+raw b
+set b short -32768
+get b
+raw b
+set b short 7
+get b
+raw b
+set b longlong 9223372036854775807
+get b
+raw b
+set b longlong -3
+get b
+raw b
+set b double 2.5
+get b
+raw b
+set b double -0.125
+get b
+raw b
+set b double 12345.678
+get b
+raw b
+set b double 1e20
+get b
+raw b
+set b double 0.005
+get b
+raw b
+set b logical 0
+get b
+raw b
+set b logical 1
+get b
+raw b
+set b logical 2
+get b
+raw b
+set b date 11/08/2017
+get b
+raw b
+set b date 13/45/2017
+get b
+raw b
+set b date ""
+get b
+raw b
+set b date 1/2/3
+get b
+raw b
+set b julian 2458066
+get b
+raw b
+set b julian 0
+get b
+raw b
+set b time 13:45:30.250
+get b
+raw b
+set b time 25:00
+get b
+raw b
+set b time ""
+get b
+raw b
+set b ms 0
+get b
+raw b
+set b ms 86399999
+get b
+raw b
+set b ms -1
+get b
+raw b
+set b timestamp 11/08/2017 13:45:30.250
+get b
+raw b
+set b timestamp 11/08/2017
+get b
+raw b
+set b money 123456
+get b
+raw b
+set b money -1
+get b
+raw b
+set b binary 0102
+get b
+raw b
+set b binary 0102030405060708090a
+get b
+raw b
+set b null
+get b
+raw b
+set b empty
+get b
+raw b
+set b string kept
+get b
+raw b
+# ntx i
+set i string abc
+get i
+raw i
+set i string ""
+get i
+raw i
+set i string abcdefghijklmnopqrstuvwxyz
+get i
+raw i
+set i string   12.5
+get i
+raw i
+set i string T
+get i
+raw i
+set i string 11/08/2017
+get i
+raw i
+set i string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i string \xe4\x80
+get i
+raw i
+set i stringw caf\xe9
+get i
+raw i
+set i stringw abcdefghijkl
+get i
+raw i
+set i field abc
+get i
+raw i
+set i field ""
+get i
+raw i
+set i field  42
+get i
+raw i
+set i field -1.005
+get i
+raw i
+set i field 123456789.125
+get i
+raw i
+set i field 1e3
+get i
+raw i
+set i field x1
+get i
+raw i
+set i field T
+get i
+raw i
+set i field n
+get i
+raw i
+set i field 11/08/2017
+get i
+raw i
+set i field 2/30/2017
+get i
+raw i
+set i field 13:45
+get i
+raw i
+set i field 12/31/1999 23:59:59.999
+get i
+raw i
+set i field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i field \xde\xad\xbe\xef\x01
+get i
+raw i
+set i long 0
+get i
+raw i
+set i long -5
+get i
+raw i
+set i long 40000
+get i
+raw i
+set i long 2147483647
+get i
+raw i
+set i long -2147483648
+get i
+raw i
+set i short -32768
+get i
+raw i
+set i short 7
+get i
+raw i
+set i longlong 9223372036854775807
+get i
+raw i
+set i longlong -3
+get i
+raw i
+set i double 2.5
+get i
+raw i
+set i double -0.125
+get i
+raw i
+set i double 12345.678
+get i
+raw i
+set i double 1e20
+get i
+raw i
+set i double 0.005
+get i
+raw i
+set i logical 0
+get i
+raw i
+set i logical 1
+get i
+raw i
+set i logical 2
+get i
+raw i
+set i date 11/08/2017
+get i
+raw i
+set i date 13/45/2017
+get i
+raw i
+set i date ""
+get i
+raw i
+set i date 1/2/3
+get i
+raw i
+set i julian 2458066
+get i
+raw i
+set i julian 0
+get i
+raw i
+set i time 13:45:30.250
+get i
+raw i
+set i time 25:00
+get i
+raw i
+set i time ""
+get i
+raw i
+set i ms 0
+get i
+raw i
+set i ms 86399999
+get i
+raw i
+set i ms -1
+get i
+raw i
+set i timestamp 11/08/2017 13:45:30.250
+get i
+raw i
+set i timestamp 11/08/2017
+get i
+raw i
+set i money 123456
+get i
+raw i
+set i money -1
+get i
+raw i
+set i binary 0102
+get i
+raw i
+set i binary 0102030405060708090a
+get i
+raw i
+set i null
+get i
+raw i
+set i empty
+get i
+raw i
+set i string kept
+get i
+raw i
+# ntx lg
+set lg string abc
+get lg
+raw lg
+set lg string ""
+get lg
+raw lg
+set lg string abcdefghijklmnopqrstuvwxyz
+get lg
+raw lg
+set lg string   12.5
+get lg
+raw lg
+set lg string T
+get lg
+raw lg
+set lg string 11/08/2017
+get lg
+raw lg
+set lg string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg string \xe4\x80
+get lg
+raw lg
+set lg stringw caf\xe9
+get lg
+raw lg
+set lg stringw abcdefghijkl
+get lg
+raw lg
+set lg field abc
+get lg
+raw lg
+set lg field ""
+get lg
+raw lg
+set lg field  42
+get lg
+raw lg
+set lg field -1.005
+get lg
+raw lg
+set lg field 123456789.125
+get lg
+raw lg
+set lg field 1e3
+get lg
+raw lg
+set lg field x1
+get lg
+raw lg
+set lg field T
+get lg
+raw lg
+set lg field n
+get lg
+raw lg
+set lg field 11/08/2017
+get lg
+raw lg
+set lg field 2/30/2017
+get lg
+raw lg
+set lg field 13:45
+get lg
+raw lg
+set lg field 12/31/1999 23:59:59.999
+get lg
+raw lg
+set lg field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg field \xde\xad\xbe\xef\x01
+get lg
+raw lg
+set lg long 0
+get lg
+raw lg
+set lg long -5
+get lg
+raw lg
+set lg long 40000
+get lg
+raw lg
+set lg long 2147483647
+get lg
+raw lg
+set lg long -2147483648
+get lg
+raw lg
+set lg short -32768
+get lg
+raw lg
+set lg short 7
+get lg
+raw lg
+set lg longlong 9223372036854775807
+get lg
+raw lg
+set lg longlong -3
+get lg
+raw lg
+set lg double 2.5
+get lg
+raw lg
+set lg double -0.125
+get lg
+raw lg
+set lg double 12345.678
+get lg
+raw lg
+set lg double 1e20
+get lg
+raw lg
+set lg double 0.005
+get lg
+raw lg
+set lg logical 0
+get lg
+raw lg
+set lg logical 1
+get lg
+raw lg
+set lg logical 2
+get lg
+raw lg
+set lg date 11/08/2017
+get lg
+raw lg
+set lg date 13/45/2017
+get lg
+raw lg
+set lg date ""
+get lg
+raw lg
+set lg date 1/2/3
+get lg
+raw lg
+set lg julian 2458066
+get lg
+raw lg
+set lg julian 0
+get lg
+raw lg
+set lg time 13:45:30.250
+get lg
+raw lg
+set lg time 25:00
+get lg
+raw lg
+set lg time ""
+get lg
+raw lg
+set lg ms 0
+get lg
+raw lg
+set lg ms 86399999
+get lg
+raw lg
+set lg ms -1
+get lg
+raw lg
+set lg timestamp 11/08/2017 13:45:30.250
+get lg
+raw lg
+set lg timestamp 11/08/2017
+get lg
+raw lg
+set lg money 123456
+get lg
+raw lg
+set lg money -1
+get lg
+raw lg
+set lg binary 0102
+get lg
+raw lg
+set lg binary 0102030405060708090a
+get lg
+raw lg
+set lg null
+get lg
+raw lg
+set lg empty
+get lg
+raw lg
+set lg string kept
+get lg
+raw lg
+# ntx g
+set g string abc
+get g
+raw g
+set g string ""
+get g
+raw g
+set g string abcdefghijklmnopqrstuvwxyz
+get g
+raw g
+set g string   12.5
+get g
+raw g
+set g string T
+get g
+raw g
+set g string 11/08/2017
+get g
+raw g
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g string \xe4\x80
+get g
+raw g
+set g stringw caf\xe9
+get g
+raw g
+set g stringw abcdefghijkl
+get g
+raw g
+set g field abc
+get g
+raw g
+set g field ""
+get g
+raw g
+set g field  42
+get g
+raw g
+set g field -1.005
+get g
+raw g
+set g field 123456789.125
+get g
+raw g
+set g field 1e3
+get g
+raw g
+set g field x1
+get g
+raw g
+set g field T
+get g
+raw g
+set g field n
+get g
+raw g
+set g field 11/08/2017
+get g
+raw g
+set g field 2/30/2017
+get g
+raw g
+set g field 13:45
+get g
+raw g
+set g field 12/31/1999 23:59:59.999
+get g
+raw g
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g field \xde\xad\xbe\xef\x01
+get g
+raw g
+set g long 0
+get g
+raw g
+set g long -5
+get g
+raw g
+set g long 40000
+get g
+raw g
+set g long 2147483647
+get g
+raw g
+set g long -2147483648
+get g
+raw g
+set g short -32768
+get g
+raw g
+set g short 7
+get g
+raw g
+set g longlong 9223372036854775807
+get g
+raw g
+set g longlong -3
+get g
+raw g
+set g double 2.5
+get g
+raw g
+set g double -0.125
+get g
+raw g
+set g double 12345.678
+get g
+raw g
+set g double 1e20
+get g
+raw g
+set g double 0.005
+get g
+raw g
+set g logical 0
+get g
+raw g
+set g logical 1
+get g
+raw g
+set g logical 2
+get g
+raw g
+set g date 11/08/2017
+get g
+raw g
+set g date 13/45/2017
+get g
+raw g
+set g date ""
+get g
+raw g
+set g date 1/2/3
+get g
+raw g
+set g julian 2458066
+get g
+raw g
+set g julian 0
+get g
+raw g
+set g time 13:45:30.250
+get g
+raw g
+set g time 25:00
+get g
+raw g
+set g time ""
+get g
+raw g
+set g ms 0
+get g
+raw g
+set g ms 86399999
+get g
+raw g
+set g ms -1
+get g
+raw g
+set g timestamp 11/08/2017 13:45:30.250
+get g
+raw g
+set g timestamp 11/08/2017
+get g
+raw g
+set g money 123456
+get g
+raw g
+set g money -1
+get g
+raw g
+set g binary 0102
+get g
+raw g
+set g binary 0102030405060708090a
+get g
+raw g
+set g null
+get g
+raw g
+set g empty
+get g
+raw g
+set g string kept
+get g
+raw g
+# ntx v
+set v string abc
+get v
+raw v
+set v string ""
+get v
+raw v
+set v string abcdefghijklmnopqrstuvwxyz
+get v
+raw v
+set v string   12.5
+get v
+raw v
+set v string T
+get v
+raw v
+set v string 11/08/2017
+get v
+raw v
+set v string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v string \xe4\x80
+get v
+raw v
+set v stringw caf\xe9
+get v
+raw v
+set v stringw abcdefghijkl
+get v
+raw v
+set v field abc
+get v
+raw v
+set v field ""
+get v
+raw v
+set v field  42
+get v
+raw v
+set v field -1.005
+get v
+raw v
+set v field 123456789.125
+get v
+raw v
+set v field 1e3
+get v
+raw v
+set v field x1
+get v
+raw v
+set v field T
+get v
+raw v
+set v field n
+get v
+raw v
+set v field 11/08/2017
+get v
+raw v
+set v field 2/30/2017
+get v
+raw v
+set v field 13:45
+get v
+raw v
+set v field 12/31/1999 23:59:59.999
+get v
+raw v
+set v field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v field \xde\xad\xbe\xef\x01
+get v
+raw v
+set v long 0
+get v
+raw v
+set v long -5
+get v
+raw v
+set v long 40000
+get v
+raw v
+set v long 2147483647
+get v
+raw v
+set v long -2147483648
+get v
+raw v
+set v short -32768
+get v
+raw v
+set v short 7
+get v
+raw v
+set v longlong 9223372036854775807
+get v
+raw v
+set v longlong -3
+get v
+raw v
+set v double 2.5
+get v
+raw v
+set v double -0.125
+get v
+raw v
+set v double 12345.678
+get v
+raw v
+set v double 1e20
+get v
+raw v
+set v double 0.005
+get v
+raw v
+set v logical 0
+get v
+raw v
+set v logical 1
+get v
+raw v
+set v logical 2
+get v
+raw v
+set v date 11/08/2017
+get v
+raw v
+set v date 13/45/2017
+get v
+raw v
+set v date ""
+get v
+raw v
+set v date 1/2/3
+get v
+raw v
+set v julian 2458066
+get v
+raw v
+set v julian 0
+get v
+raw v
+set v time 13:45:30.250
+get v
+raw v
+set v time 25:00
+get v
+raw v
+set v time ""
+get v
+raw v
+set v ms 0
+get v
+raw v
+set v ms 86399999
+get v
+raw v
+set v ms -1
+get v
+raw v
+set v timestamp 11/08/2017 13:45:30.250
+get v
+raw v
+set v timestamp 11/08/2017
+get v
+raw v
+set v money 123456
+get v
+raw v
+set v money -1
+get v
+raw v
+set v binary 0102
+get v
+raw v
+set v binary 0102030405060708090a
+get v
+raw v
+set v null
+get v
+raw v
+set v empty
+get v
+raw v
+set v string kept
+get v
+raw v
+# ntx nc
+set nc string abc
+get nc
+raw nc
+set nc string ""
+get nc
+raw nc
+set nc string abcdefghijklmnopqrstuvwxyz
+get nc
+raw nc
+set nc string   12.5
+get nc
+raw nc
+set nc string T
+get nc
+raw nc
+set nc string 11/08/2017
+get nc
+raw nc
+set nc string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc string \xe4\x80
+get nc
+raw nc
+set nc stringw caf\xe9
+get nc
+raw nc
+set nc stringw abcdefghijkl
+get nc
+raw nc
+set nc field abc
+get nc
+raw nc
+set nc field ""
+get nc
+raw nc
+set nc field  42
+get nc
+raw nc
+set nc field -1.005
+get nc
+raw nc
+set nc field 123456789.125
+get nc
+raw nc
+set nc field 1e3
+get nc
+raw nc
+set nc field x1
+get nc
+raw nc
+set nc field T
+get nc
+raw nc
+set nc field n
+get nc
+raw nc
+set nc field 11/08/2017
+get nc
+raw nc
+set nc field 2/30/2017
+get nc
+raw nc
+set nc field 13:45
+get nc
+raw nc
+set nc field 12/31/1999 23:59:59.999
+get nc
+raw nc
+set nc field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc field \xde\xad\xbe\xef\x01
+get nc
+raw nc
+set nc long 0
+get nc
+raw nc
+set nc long -5
+get nc
+raw nc
+set nc long 40000
+get nc
+raw nc
+set nc long 2147483647
+get nc
+raw nc
+set nc long -2147483648
+get nc
+raw nc
+set nc short -32768
+get nc
+raw nc
+set nc short 7
+get nc
+raw nc
+set nc longlong 9223372036854775807
+get nc
+raw nc
+set nc longlong -3
+get nc
+raw nc
+set nc double 2.5
+get nc
+raw nc
+set nc double -0.125
+get nc
+raw nc
+set nc double 12345.678
+get nc
+raw nc
+set nc double 1e20
+get nc
+raw nc
+set nc double 0.005
+get nc
+raw nc
+set nc logical 0
+get nc
+raw nc
+set nc logical 1
+get nc
+raw nc
+set nc logical 2
+get nc
+raw nc
+set nc date 11/08/2017
+get nc
+raw nc
+set nc date 13/45/2017
+get nc
+raw nc
+set nc date ""
+get nc
+raw nc
+set nc date 1/2/3
+get nc
+raw nc
+set nc julian 2458066
+get nc
+raw nc
+set nc julian 0
+get nc
+raw nc
+set nc time 13:45:30.250
+get nc
+raw nc
+set nc time 25:00
+get nc
+raw nc
+set nc time ""
+get nc
+raw nc
+set nc ms 0
+get nc
+raw nc
+set nc ms 86399999
+get nc
+raw nc
+set nc ms -1
+get nc
+raw nc
+set nc timestamp 11/08/2017 13:45:30.250
+get nc
+raw nc
+set nc timestamp 11/08/2017
+get nc
+raw nc
+set nc money 123456
+get nc
+raw nc
+set nc money -1
+get nc
+raw nc
+set nc binary 0102
+get nc
+raw nc
+set nc binary 0102030405060708090a
+get nc
+raw nc
+set nc null
+get nc
+raw nc
+set nc empty
+get nc
+raw nc
+set nc string kept
+get nc
+raw nc
+# ntx nv
+set nv string abc
+get nv
+raw nv
+set nv string ""
+get nv
+raw nv
+set nv string abcdefghijklmnopqrstuvwxyz
+get nv
+raw nv
+set nv string   12.5
+get nv
+raw nv
+set nv string T
+get nv
+raw nv
+set nv string 11/08/2017
+get nv
+raw nv
+set nv string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv string \xe4\x80
+get nv
+raw nv
+set nv stringw caf\xe9
+get nv
+raw nv
+set nv stringw abcdefghijkl
+get nv
+raw nv
+set nv field abc
+get nv
+raw nv
+set nv field ""
+get nv
+raw nv
+set nv field  42
+get nv
+raw nv
+set nv field -1.005
+get nv
+raw nv
+set nv field 123456789.125
+get nv
+raw nv
+set nv field 1e3
+get nv
+raw nv
+set nv field x1
+get nv
+raw nv
+set nv field T
+get nv
+raw nv
+set nv field n
+get nv
+raw nv
+set nv field 11/08/2017
+get nv
+raw nv
+set nv field 2/30/2017
+get nv
+raw nv
+set nv field 13:45
+get nv
+raw nv
+set nv field 12/31/1999 23:59:59.999
+get nv
+raw nv
+set nv field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv field \xde\xad\xbe\xef\x01
+get nv
+raw nv
+set nv long 0
+get nv
+raw nv
+set nv long -5
+get nv
+raw nv
+set nv long 40000
+get nv
+raw nv
+set nv long 2147483647
+get nv
+raw nv
+set nv long -2147483648
+get nv
+raw nv
+set nv short -32768
+get nv
+raw nv
+set nv short 7
+get nv
+raw nv
+set nv longlong 9223372036854775807
+get nv
+raw nv
+set nv longlong -3
+get nv
+raw nv
+set nv double 2.5
+get nv
+raw nv
+set nv double -0.125
+get nv
+raw nv
+set nv double 12345.678
+get nv
+raw nv
+set nv double 1e20
+get nv
+raw nv
+set nv double 0.005
+get nv
+raw nv
+set nv logical 0
+get nv
+raw nv
+set nv logical 1
+get nv
+raw nv
+set nv logical 2
+get nv
+raw nv
+set nv date 11/08/2017
+get nv
+raw nv
+set nv date 13/45/2017
+get nv
+raw nv
+set nv date ""
+get nv
+raw nv
+set nv date 1/2/3
+get nv
+raw nv
+set nv julian 2458066
+get nv
+raw nv
+set nv julian 0
+get nv
+raw nv
+set nv time 13:45:30.250
+get nv
+raw nv
+set nv time 25:00
+get nv
+raw nv
+set nv time ""
+get nv
+raw nv
+set nv ms 0
+get nv
+raw nv
+set nv ms 86399999
+get nv
+raw nv
+set nv ms -1
+get nv
+raw nv
+set nv timestamp 11/08/2017 13:45:30.250
+get nv
+raw nv
+set nv timestamp 11/08/2017
+get nv
+raw nv
+set nv money 123456
+get nv
+raw nv
+set nv money -1
+get nv
+raw nv
+set nv binary 0102
+get nv
+raw nv
+set nv binary 0102030405060708090a
+get nv
+raw nv
+set nv null
+get nv
+raw nv
+set nv empty
+get nv
+raw nv
+set nv string kept
+get nv
+raw nv
+# ntx wide
+set wide string abc
+get wide
+raw wide
+set wide string ""
+get wide
+raw wide
+set wide string abcdefghijklmnopqrstuvwxyz
+get wide
+raw wide
+set wide string   12.5
+get wide
+raw wide
+set wide string T
+get wide
+raw wide
+set wide string 11/08/2017
+get wide
+raw wide
+set wide string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide string \xe4\x80
+get wide
+raw wide
+set wide stringw caf\xe9
+get wide
+raw wide
+set wide stringw abcdefghijkl
+get wide
+raw wide
+set wide field abc
+get wide
+raw wide
+set wide field ""
+get wide
+raw wide
+set wide field  42
+get wide
+raw wide
+set wide field -1.005
+get wide
+raw wide
+set wide field 123456789.125
+get wide
+raw wide
+set wide field 1e3
+get wide
+raw wide
+set wide field x1
+get wide
+raw wide
+set wide field T
+get wide
+raw wide
+set wide field n
+get wide
+raw wide
+set wide field 11/08/2017
+get wide
+raw wide
+set wide field 2/30/2017
+get wide
+raw wide
+set wide field 13:45
+get wide
+raw wide
+set wide field 12/31/1999 23:59:59.999
+get wide
+raw wide
+set wide field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide field \xde\xad\xbe\xef\x01
+get wide
+raw wide
+set wide long 0
+get wide
+raw wide
+set wide long -5
+get wide
+raw wide
+set wide long 40000
+get wide
+raw wide
+set wide long 2147483647
+get wide
+raw wide
+set wide long -2147483648
+get wide
+raw wide
+set wide short -32768
+get wide
+raw wide
+set wide short 7
+get wide
+raw wide
+set wide longlong 9223372036854775807
+get wide
+raw wide
+set wide longlong -3
+get wide
+raw wide
+set wide double 2.5
+get wide
+raw wide
+set wide double -0.125
+get wide
+raw wide
+set wide double 12345.678
+get wide
+raw wide
+set wide double 1e20
+get wide
+raw wide
+set wide double 0.005
+get wide
+raw wide
+set wide logical 0
+get wide
+raw wide
+set wide logical 1
+get wide
+raw wide
+set wide logical 2
+get wide
+raw wide
+set wide date 11/08/2017
+get wide
+raw wide
+set wide date 13/45/2017
+get wide
+raw wide
+set wide date ""
+get wide
+raw wide
+set wide date 1/2/3
+get wide
+raw wide
+set wide julian 2458066
+get wide
+raw wide
+set wide julian 0
+get wide
+raw wide
+set wide time 13:45:30.250
+get wide
+raw wide
+set wide time 25:00
+get wide
+raw wide
+set wide time ""
+get wide
+raw wide
+set wide ms 0
+get wide
+raw wide
+set wide ms 86399999
+get wide
+raw wide
+set wide ms -1
+get wide
+raw wide
+set wide timestamp 11/08/2017 13:45:30.250
+get wide
+raw wide
+set wide timestamp 11/08/2017
+get wide
+raw wide
+set wide money 123456
+get wide
+raw wide
+set wide money -1
+get wide
+raw wide
+set wide binary 0102
+get wide
+raw wide
+set wide binary 0102030405060708090a
+get wide
+raw wide
+set wide null
+get wide
+raw wide
+set wide empty
+get wide
+raw wide
+set wide string kept
+get wide
+raw wide
+# ntx b2
+set b2 string abc
+get b2
+raw b2
+set b2 string ""
+get b2
+raw b2
+set b2 string abcdefghijklmnopqrstuvwxyz
+get b2
+raw b2
+set b2 string   12.5
+get b2
+raw b2
+set b2 string T
+get b2
+raw b2
+set b2 string 11/08/2017
+get b2
+raw b2
+set b2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 string \xe4\x80
+get b2
+raw b2
+set b2 stringw caf\xe9
+get b2
+raw b2
+set b2 stringw abcdefghijkl
+get b2
+raw b2
+set b2 field abc
+get b2
+raw b2
+set b2 field ""
+get b2
+raw b2
+set b2 field  42
+get b2
+raw b2
+set b2 field -1.005
+get b2
+raw b2
+set b2 field 123456789.125
+get b2
+raw b2
+set b2 field 1e3
+get b2
+raw b2
+set b2 field x1
+get b2
+raw b2
+set b2 field T
+get b2
+raw b2
+set b2 field n
+get b2
+raw b2
+set b2 field 11/08/2017
+get b2
+raw b2
+set b2 field 2/30/2017
+get b2
+raw b2
+set b2 field 13:45
+get b2
+raw b2
+set b2 field 12/31/1999 23:59:59.999
+get b2
+raw b2
+set b2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 field \xde\xad\xbe\xef\x01
+get b2
+raw b2
+set b2 long 0
+get b2
+raw b2
+set b2 long -5
+get b2
+raw b2
+set b2 long 40000
+get b2
+raw b2
+set b2 long 2147483647
+get b2
+raw b2
+set b2 long -2147483648
+get b2
+raw b2
+set b2 short -32768
+get b2
+raw b2
+set b2 short 7
+get b2
+raw b2
+set b2 longlong 9223372036854775807
+get b2
+raw b2
+set b2 longlong -3
+get b2
+raw b2
+set b2 double 2.5
+get b2
+raw b2
+set b2 double -0.125
+get b2
+raw b2
+set b2 double 12345.678
+get b2
+raw b2
+set b2 double 1e20
+get b2
+raw b2
+set b2 double 0.005
+get b2
+raw b2
+set b2 logical 0
+get b2
+raw b2
+set b2 logical 1
+get b2
+raw b2
+set b2 logical 2
+get b2
+raw b2
+set b2 date 11/08/2017
+get b2
+raw b2
+set b2 date 13/45/2017
+get b2
+raw b2
+set b2 date ""
+get b2
+raw b2
+set b2 date 1/2/3
+get b2
+raw b2
+set b2 julian 2458066
+get b2
+raw b2
+set b2 julian 0
+get b2
+raw b2
+set b2 time 13:45:30.250
+get b2
+raw b2
+set b2 time 25:00
+get b2
+raw b2
+set b2 time ""
+get b2
+raw b2
+set b2 ms 0
+get b2
+raw b2
+set b2 ms 86399999
+get b2
+raw b2
+set b2 ms -1
+get b2
+raw b2
+set b2 timestamp 11/08/2017 13:45:30.250
+get b2
+raw b2
+set b2 timestamp 11/08/2017
+get b2
+raw b2
+set b2 money 123456
+get b2
+raw b2
+set b2 money -1
+get b2
+raw b2
+set b2 binary 0102
+get b2
+raw b2
+set b2 binary 0102030405060708090a
+get b2
+raw b2
+set b2 null
+get b2
+raw b2
+set b2 empty
+get b2
+raw b2
+set b2 string kept
+get b2
+raw b2
+write
+state
+close
+tabletype cdx
+open s_cdx.dbf
+append
+# cdx c
+set c string abc
+get c
+raw c
+set c string ""
+get c
+raw c
+set c string abcdefghijklmnopqrstuvwxyz
+get c
+raw c
+set c string   12.5
+get c
+raw c
+set c string T
+get c
+raw c
+set c string 11/08/2017
+get c
+raw c
+set c string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c string \xe4\x80
+get c
+raw c
+set c stringw caf\xe9
+get c
+raw c
+set c stringw abcdefghijkl
+get c
+raw c
+set c field abc
+get c
+raw c
+set c field ""
+get c
+raw c
+set c field  42
+get c
+raw c
+set c field -1.005
+get c
+raw c
+set c field 123456789.125
+get c
+raw c
+set c field 1e3
+get c
+raw c
+set c field x1
+get c
+raw c
+set c field T
+get c
+raw c
+set c field n
+get c
+raw c
+set c field 11/08/2017
+get c
+raw c
+set c field 2/30/2017
+get c
+raw c
+set c field 13:45
+get c
+raw c
+set c field 12/31/1999 23:59:59.999
+get c
+raw c
+set c field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c field \xde\xad\xbe\xef\x01
+get c
+raw c
+set c long 0
+get c
+raw c
+set c long -5
+get c
+raw c
+set c long 40000
+get c
+raw c
+set c long 2147483647
+get c
+raw c
+set c long -2147483648
+get c
+raw c
+set c short -32768
+get c
+raw c
+set c short 7
+get c
+raw c
+set c longlong 9223372036854775807
+get c
+raw c
+set c longlong -3
+get c
+raw c
+set c double 2.5
+get c
+raw c
+set c double -0.125
+get c
+raw c
+set c double 12345.678
+get c
+raw c
+set c double 1e20
+get c
+raw c
+set c double 0.005
+get c
+raw c
+set c logical 0
+get c
+raw c
+set c logical 1
+get c
+raw c
+set c logical 2
+get c
+raw c
+set c date 11/08/2017
+get c
+raw c
+set c date 13/45/2017
+get c
+raw c
+set c date ""
+get c
+raw c
+set c date 1/2/3
+get c
+raw c
+set c julian 2458066
+get c
+raw c
+set c julian 0
+get c
+raw c
+set c time 13:45:30.250
+get c
+raw c
+set c time 25:00
+get c
+raw c
+set c time ""
+get c
+raw c
+set c ms 0
+get c
+raw c
+set c ms 86399999
+get c
+raw c
+set c ms -1
+get c
+raw c
+set c timestamp 11/08/2017 13:45:30.250
+get c
+raw c
+set c timestamp 11/08/2017
+get c
+raw c
+set c money 123456
+get c
+raw c
+set c money -1
+get c
+raw c
+set c binary 0102
+get c
+raw c
+set c binary 0102030405060708090a
+get c
+raw c
+set c null
+get c
+raw c
+set c empty
+get c
+raw c
+set c string kept
+get c
+raw c
+# cdx n
+set n string abc
+get n
+raw n
+set n string ""
+get n
+raw n
+set n string abcdefghijklmnopqrstuvwxyz
+get n
+raw n
+set n string   12.5
+get n
+raw n
+set n string T
+get n
+raw n
+set n string 11/08/2017
+get n
+raw n
+set n string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n string \xe4\x80
+get n
+raw n
+set n stringw caf\xe9
+get n
+raw n
+set n stringw abcdefghijkl
+get n
+raw n
+set n field abc
+get n
+raw n
+set n field ""
+get n
+raw n
+set n field  42
+get n
+raw n
+set n field -1.005
+get n
+raw n
+set n field 123456789.125
+get n
+raw n
+set n field 1e3
+get n
+raw n
+set n field x1
+get n
+raw n
+set n field T
+get n
+raw n
+set n field n
+get n
+raw n
+set n field 11/08/2017
+get n
+raw n
+set n field 2/30/2017
+get n
+raw n
+set n field 13:45
+get n
+raw n
+set n field 12/31/1999 23:59:59.999
+get n
+raw n
+set n field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n field \xde\xad\xbe\xef\x01
+get n
+raw n
+set n long 0
+get n
+raw n
+set n long -5
+get n
+raw n
+set n long 40000
+get n
+raw n
+set n long 2147483647
+get n
+raw n
+set n long -2147483648
+get n
+raw n
+set n short -32768
+get n
+raw n
+set n short 7
+get n
+raw n
+set n longlong 9223372036854775807
+get n
+raw n
+set n longlong -3
+get n
+raw n
+set n double 2.5
+get n
+raw n
+set n double -0.125
+get n
+raw n
+set n double 12345.678
+get n
+raw n
+set n double 1e20
+get n
+raw n
+set n double 0.005
+get n
+raw n
+set n logical 0
+get n
+raw n
+set n logical 1
+get n
+raw n
+set n logical 2
+get n
+raw n
+set n date 11/08/2017
+get n
+raw n
+set n date 13/45/2017
+get n
+raw n
+set n date ""
+get n
+raw n
+set n date 1/2/3
+get n
+raw n
+set n julian 2458066
+get n
+raw n
+set n julian 0
+get n
+raw n
+set n time 13:45:30.250
+get n
+raw n
+set n time 25:00
+get n
+raw n
+set n time ""
+get n
+raw n
+set n ms 0
+get n
+raw n
+set n ms 86399999
+get n
+raw n
+set n ms -1
+get n
+raw n
+set n timestamp 11/08/2017 13:45:30.250
+get n
+raw n
+set n timestamp 11/08/2017
+get n
+raw n
+set n money 123456
+get n
+raw n
+set n money -1
+get n
+raw n
+set n binary 0102
+get n
+raw n
+set n binary 0102030405060708090a
+get n
+raw n
+set n null
+get n
+raw n
+set n empty
+get n
+raw n
+set n string kept
+get n
+raw n
+# cdx n0
+set n0 string abc
+get n0
+raw n0
+set n0 string ""
+get n0
+raw n0
+set n0 string abcdefghijklmnopqrstuvwxyz
+get n0
+raw n0
+set n0 string   12.5
+get n0
+raw n0
+set n0 string T
+get n0
+raw n0
+set n0 string 11/08/2017
+get n0
+raw n0
+set n0 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 string \xe4\x80
+get n0
+raw n0
+set n0 stringw caf\xe9
+get n0
+raw n0
+set n0 stringw abcdefghijkl
+get n0
+raw n0
+set n0 field abc
+get n0
+raw n0
+set n0 field ""
+get n0
+raw n0
+set n0 field  42
+get n0
+raw n0
+set n0 field -1.005
+get n0
+raw n0
+set n0 field 123456789.125
+get n0
+raw n0
+set n0 field 1e3
+get n0
+raw n0
+set n0 field x1
+get n0
+raw n0
+set n0 field T
+get n0
+raw n0
+set n0 field n
+get n0
+raw n0
+set n0 field 11/08/2017
+get n0
+raw n0
+set n0 field 2/30/2017
+get n0
+raw n0
+set n0 field 13:45
+get n0
+raw n0
+set n0 field 12/31/1999 23:59:59.999
+get n0
+raw n0
+set n0 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 field \xde\xad\xbe\xef\x01
+get n0
+raw n0
+set n0 long 0
+get n0
+raw n0
+set n0 long -5
+get n0
+raw n0
+set n0 long 40000
+get n0
+raw n0
+set n0 long 2147483647
+get n0
+raw n0
+set n0 long -2147483648
+get n0
+raw n0
+set n0 short -32768
+get n0
+raw n0
+set n0 short 7
+get n0
+raw n0
+set n0 longlong 9223372036854775807
+get n0
+raw n0
+set n0 longlong -3
+get n0
+raw n0
+set n0 double 2.5
+get n0
+raw n0
+set n0 double -0.125
+get n0
+raw n0
+set n0 double 12345.678
+get n0
+raw n0
+set n0 double 1e20
+get n0
+raw n0
+set n0 double 0.005
+get n0
+raw n0
+set n0 logical 0
+get n0
+raw n0
+set n0 logical 1
+get n0
+raw n0
+set n0 logical 2
+get n0
+raw n0
+set n0 date 11/08/2017
+get n0
+raw n0
+set n0 date 13/45/2017
+get n0
+raw n0
+set n0 date ""
+get n0
+raw n0
+set n0 date 1/2/3
+get n0
+raw n0
+set n0 julian 2458066
+get n0
+raw n0
+set n0 julian 0
+get n0
+raw n0
+set n0 time 13:45:30.250
+get n0
+raw n0
+set n0 time 25:00
+get n0
+raw n0
+set n0 time ""
+get n0
+raw n0
+set n0 ms 0
+get n0
+raw n0
+set n0 ms 86399999
+get n0
+raw n0
+set n0 ms -1
+get n0
+raw n0
+set n0 timestamp 11/08/2017 13:45:30.250
+get n0
+raw n0
+set n0 timestamp 11/08/2017
+get n0
+raw n0
+set n0 money 123456
+get n0
+raw n0
+set n0 money -1
+get n0
+raw n0
+set n0 binary 0102
+get n0
+raw n0
+set n0 binary 0102030405060708090a
+get n0
+raw n0
+set n0 null
+get n0
+raw n0
+set n0 empty
+get n0
+raw n0
+set n0 string kept
+get n0
+raw n0
+# cdx d
+set d string abc
+get d
+raw d
+set d string ""
+get d
+raw d
+set d string abcdefghijklmnopqrstuvwxyz
+get d
+raw d
+set d string   12.5
+get d
+raw d
+set d string T
+get d
+raw d
+set d string 11/08/2017
+get d
+raw d
+set d string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d string \xe4\x80
+get d
+raw d
+set d stringw caf\xe9
+get d
+raw d
+set d stringw abcdefghijkl
+get d
+raw d
+set d field abc
+get d
+raw d
+set d field ""
+get d
+raw d
+set d field  42
+get d
+raw d
+set d field -1.005
+get d
+raw d
+set d field 123456789.125
+get d
+raw d
+set d field 1e3
+get d
+raw d
+set d field x1
+get d
+raw d
+set d field T
+get d
+raw d
+set d field n
+get d
+raw d
+set d field 11/08/2017
+get d
+raw d
+set d field 2/30/2017
+get d
+raw d
+set d field 13:45
+get d
+raw d
+set d field 12/31/1999 23:59:59.999
+get d
+raw d
+set d field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d field \xde\xad\xbe\xef\x01
+get d
+raw d
+set d long 0
+get d
+raw d
+set d long -5
+get d
+raw d
+set d long 40000
+get d
+raw d
+set d long 2147483647
+get d
+raw d
+set d long -2147483648
+get d
+raw d
+set d short -32768
+get d
+raw d
+set d short 7
+get d
+raw d
+set d longlong 9223372036854775807
+get d
+raw d
+set d longlong -3
+get d
+raw d
+set d double 2.5
+get d
+raw d
+set d double -0.125
+get d
+raw d
+set d double 12345.678
+get d
+raw d
+set d double 1e20
+get d
+raw d
+set d double 0.005
+get d
+raw d
+set d logical 0
+get d
+raw d
+set d logical 1
+get d
+raw d
+set d logical 2
+get d
+raw d
+set d date 11/08/2017
+get d
+raw d
+set d date 13/45/2017
+get d
+raw d
+set d date ""
+get d
+raw d
+set d date 1/2/3
+get d
+raw d
+set d julian 2458066
+get d
+raw d
+set d julian 0
+get d
+raw d
+set d time 13:45:30.250
+get d
+raw d
+set d time 25:00
+get d
+raw d
+set d time ""
+get d
+raw d
+set d ms 0
+get d
+raw d
+set d ms 86399999
+get d
+raw d
+set d ms -1
+get d
+raw d
+set d timestamp 11/08/2017 13:45:30.250
+get d
+raw d
+set d timestamp 11/08/2017
+get d
+raw d
+set d money 123456
+get d
+raw d
+set d money -1
+get d
+raw d
+set d binary 0102
+get d
+raw d
+set d binary 0102030405060708090a
+get d
+raw d
+set d null
+get d
+raw d
+set d empty
+get d
+raw d
+set d string kept
+get d
+raw d
+# cdx l
+set l string abc
+get l
+raw l
+set l string ""
+get l
+raw l
+set l string abcdefghijklmnopqrstuvwxyz
+get l
+raw l
+set l string   12.5
+get l
+raw l
+set l string T
+get l
+raw l
+set l string 11/08/2017
+get l
+raw l
+set l string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l string \xe4\x80
+get l
+raw l
+set l stringw caf\xe9
+get l
+raw l
+set l stringw abcdefghijkl
+get l
+raw l
+set l field abc
+get l
+raw l
+set l field ""
+get l
+raw l
+set l field  42
+get l
+raw l
+set l field -1.005
+get l
+raw l
+set l field 123456789.125
+get l
+raw l
+set l field 1e3
+get l
+raw l
+set l field x1
+get l
+raw l
+set l field T
+get l
+raw l
+set l field n
+get l
+raw l
+set l field 11/08/2017
+get l
+raw l
+set l field 2/30/2017
+get l
+raw l
+set l field 13:45
+get l
+raw l
+set l field 12/31/1999 23:59:59.999
+get l
+raw l
+set l field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l field \xde\xad\xbe\xef\x01
+get l
+raw l
+set l long 0
+get l
+raw l
+set l long -5
+get l
+raw l
+set l long 40000
+get l
+raw l
+set l long 2147483647
+get l
+raw l
+set l long -2147483648
+get l
+raw l
+set l short -32768
+get l
+raw l
+set l short 7
+get l
+raw l
+set l longlong 9223372036854775807
+get l
+raw l
+set l longlong -3
+get l
+raw l
+set l double 2.5
+get l
+raw l
+set l double -0.125
+get l
+raw l
+set l double 12345.678
+get l
+raw l
+set l double 1e20
+get l
+raw l
+set l double 0.005
+get l
+raw l
+set l logical 0
+get l
+raw l
+set l logical 1
+get l
+raw l
+set l logical 2
+get l
+raw l
+set l date 11/08/2017
+get l
+raw l
+set l date 13/45/2017
+get l
+raw l
+set l date ""
+get l
+raw l
+set l date 1/2/3
+get l
+raw l
+set l julian 2458066
+get l
+raw l
+set l julian 0
+get l
+raw l
+set l time 13:45:30.250
+get l
+raw l
+set l time 25:00
+get l
+raw l
+set l time ""
+get l
+raw l
+set l ms 0
+get l
+raw l
+set l ms 86399999
+get l
+raw l
+set l ms -1
+get l
+raw l
+set l timestamp 11/08/2017 13:45:30.250
+get l
+raw l
+set l timestamp 11/08/2017
+get l
+raw l
+set l money 123456
+get l
+raw l
+set l money -1
+get l
+raw l
+set l binary 0102
+get l
+raw l
+set l binary 0102030405060708090a
+get l
+raw l
+set l null
+get l
+raw l
+set l empty
+get l
+raw l
+set l string kept
+get l
+raw l
+# cdx b
+set b string abc
+get b
+raw b
+set b string ""
+get b
+raw b
+set b string abcdefghijklmnopqrstuvwxyz
+get b
+raw b
+set b string   12.5
+get b
+raw b
+set b string T
+get b
+raw b
+set b string 11/08/2017
+get b
+raw b
+set b string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b string \xe4\x80
+get b
+raw b
+set b stringw caf\xe9
+get b
+raw b
+set b stringw abcdefghijkl
+get b
+raw b
+set b field abc
+get b
+raw b
+set b field ""
+get b
+raw b
+set b field  42
+get b
+raw b
+set b field -1.005
+get b
+raw b
+set b field 123456789.125
+get b
+raw b
+set b field 1e3
+get b
+raw b
+set b field x1
+get b
+raw b
+set b field T
+get b
+raw b
+set b field n
+get b
+raw b
+set b field 11/08/2017
+get b
+raw b
+set b field 2/30/2017
+get b
+raw b
+set b field 13:45
+get b
+raw b
+set b field 12/31/1999 23:59:59.999
+get b
+raw b
+set b field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b field \xde\xad\xbe\xef\x01
+get b
+raw b
+set b long 0
+get b
+raw b
+set b long -5
+get b
+raw b
+set b long 40000
+get b
+raw b
+set b long 2147483647
+get b
+raw b
+set b long -2147483648
+get b
+raw b
+set b short -32768
+get b
+raw b
+set b short 7
+get b
+raw b
+set b longlong 9223372036854775807
+get b
+raw b
+set b longlong -3
+get b
+raw b
+set b double 2.5
+get b
+raw b
+set b double -0.125
+get b
+raw b
+set b double 12345.678
+get b
+raw b
+set b double 1e20
+get b
+raw b
+set b double 0.005
+get b
+raw b
+set b logical 0
+get b
+raw b
+set b logical 1
+get b
+raw b
+set b logical 2
+get b
+raw b
+set b date 11/08/2017
+get b
+raw b
+set b date 13/45/2017
+get b
+raw b
+set b date ""
+get b
+raw b
+set b date 1/2/3
+get b
+raw b
+set b julian 2458066
+get b
+raw b
+set b julian 0
+get b
+raw b
+set b time 13:45:30.250
+get b
+raw b
+set b time 25:00
+get b
+raw b
+set b time ""
+get b
+raw b
+set b ms 0
+get b
+raw b
+set b ms 86399999
+get b
+raw b
+set b ms -1
+get b
+raw b
+set b timestamp 11/08/2017 13:45:30.250
+get b
+raw b
+set b timestamp 11/08/2017
+get b
+raw b
+set b money 123456
+get b
+raw b
+set b money -1
+get b
+raw b
+set b binary 0102
+get b
+raw b
+set b binary 0102030405060708090a
+get b
+raw b
+set b null
+get b
+raw b
+set b empty
+get b
+raw b
+set b string kept
+get b
+raw b
+# cdx i
+set i string abc
+get i
+raw i
+set i string ""
+get i
+raw i
+set i string abcdefghijklmnopqrstuvwxyz
+get i
+raw i
+set i string   12.5
+get i
+raw i
+set i string T
+get i
+raw i
+set i string 11/08/2017
+get i
+raw i
+set i string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i string \xe4\x80
+get i
+raw i
+set i stringw caf\xe9
+get i
+raw i
+set i stringw abcdefghijkl
+get i
+raw i
+set i field abc
+get i
+raw i
+set i field ""
+get i
+raw i
+set i field  42
+get i
+raw i
+set i field -1.005
+get i
+raw i
+set i field 123456789.125
+get i
+raw i
+set i field 1e3
+get i
+raw i
+set i field x1
+get i
+raw i
+set i field T
+get i
+raw i
+set i field n
+get i
+raw i
+set i field 11/08/2017
+get i
+raw i
+set i field 2/30/2017
+get i
+raw i
+set i field 13:45
+get i
+raw i
+set i field 12/31/1999 23:59:59.999
+get i
+raw i
+set i field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i field \xde\xad\xbe\xef\x01
+get i
+raw i
+set i long 0
+get i
+raw i
+set i long -5
+get i
+raw i
+set i long 40000
+get i
+raw i
+set i long 2147483647
+get i
+raw i
+set i long -2147483648
+get i
+raw i
+set i short -32768
+get i
+raw i
+set i short 7
+get i
+raw i
+set i longlong 9223372036854775807
+get i
+raw i
+set i longlong -3
+get i
+raw i
+set i double 2.5
+get i
+raw i
+set i double -0.125
+get i
+raw i
+set i double 12345.678
+get i
+raw i
+set i double 1e20
+get i
+raw i
+set i double 0.005
+get i
+raw i
+set i logical 0
+get i
+raw i
+set i logical 1
+get i
+raw i
+set i logical 2
+get i
+raw i
+set i date 11/08/2017
+get i
+raw i
+set i date 13/45/2017
+get i
+raw i
+set i date ""
+get i
+raw i
+set i date 1/2/3
+get i
+raw i
+set i julian 2458066
+get i
+raw i
+set i julian 0
+get i
+raw i
+set i time 13:45:30.250
+get i
+raw i
+set i time 25:00
+get i
+raw i
+set i time ""
+get i
+raw i
+set i ms 0
+get i
+raw i
+set i ms 86399999
+get i
+raw i
+set i ms -1
+get i
+raw i
+set i timestamp 11/08/2017 13:45:30.250
+get i
+raw i
+set i timestamp 11/08/2017
+get i
+raw i
+set i money 123456
+get i
+raw i
+set i money -1
+get i
+raw i
+set i binary 0102
+get i
+raw i
+set i binary 0102030405060708090a
+get i
+raw i
+set i null
+get i
+raw i
+set i empty
+get i
+raw i
+set i string kept
+get i
+raw i
+# cdx lg
+set lg string abc
+get lg
+raw lg
+set lg string ""
+get lg
+raw lg
+set lg string abcdefghijklmnopqrstuvwxyz
+get lg
+raw lg
+set lg string   12.5
+get lg
+raw lg
+set lg string T
+get lg
+raw lg
+set lg string 11/08/2017
+get lg
+raw lg
+set lg string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg string \xe4\x80
+get lg
+raw lg
+set lg stringw caf\xe9
+get lg
+raw lg
+set lg stringw abcdefghijkl
+get lg
+raw lg
+set lg field abc
+get lg
+raw lg
+set lg field ""
+get lg
+raw lg
+set lg field  42
+get lg
+raw lg
+set lg field -1.005
+get lg
+raw lg
+set lg field 123456789.125
+get lg
+raw lg
+set lg field 1e3
+get lg
+raw lg
+set lg field x1
+get lg
+raw lg
+set lg field T
+get lg
+raw lg
+set lg field n
+get lg
+raw lg
+set lg field 11/08/2017
+get lg
+raw lg
+set lg field 2/30/2017
+get lg
+raw lg
+set lg field 13:45
+get lg
+raw lg
+set lg field 12/31/1999 23:59:59.999
+get lg
+raw lg
+set lg field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg field \xde\xad\xbe\xef\x01
+get lg
+raw lg
+set lg long 0
+get lg
+raw lg
+set lg long -5
+get lg
+raw lg
+set lg long 40000
+get lg
+raw lg
+set lg long 2147483647
+get lg
+raw lg
+set lg long -2147483648
+get lg
+raw lg
+set lg short -32768
+get lg
+raw lg
+set lg short 7
+get lg
+raw lg
+set lg longlong 9223372036854775807
+get lg
+raw lg
+set lg longlong -3
+get lg
+raw lg
+set lg double 2.5
+get lg
+raw lg
+set lg double -0.125
+get lg
+raw lg
+set lg double 12345.678
+get lg
+raw lg
+set lg double 1e20
+get lg
+raw lg
+set lg double 0.005
+get lg
+raw lg
+set lg logical 0
+get lg
+raw lg
+set lg logical 1
+get lg
+raw lg
+set lg logical 2
+get lg
+raw lg
+set lg date 11/08/2017
+get lg
+raw lg
+set lg date 13/45/2017
+get lg
+raw lg
+set lg date ""
+get lg
+raw lg
+set lg date 1/2/3
+get lg
+raw lg
+set lg julian 2458066
+get lg
+raw lg
+set lg julian 0
+get lg
+raw lg
+set lg time 13:45:30.250
+get lg
+raw lg
+set lg time 25:00
+get lg
+raw lg
+set lg time ""
+get lg
+raw lg
+set lg ms 0
+get lg
+raw lg
+set lg ms 86399999
+get lg
+raw lg
+set lg ms -1
+get lg
+raw lg
+set lg timestamp 11/08/2017 13:45:30.250
+get lg
+raw lg
+set lg timestamp 11/08/2017
+get lg
+raw lg
+set lg money 123456
+get lg
+raw lg
+set lg money -1
+get lg
+raw lg
+set lg binary 0102
+get lg
+raw lg
+set lg binary 0102030405060708090a
+get lg
+raw lg
+set lg null
+get lg
+raw lg
+set lg empty
+get lg
+raw lg
+set lg string kept
+get lg
+raw lg
+# cdx g
+set g string abc
+get g
+raw g
+set g string ""
+get g
+raw g
+set g string abcdefghijklmnopqrstuvwxyz
+get g
+raw g
+set g string   12.5
+get g
+raw g
+set g string T
+get g
+raw g
+set g string 11/08/2017
+get g
+raw g
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g string \xe4\x80
+get g
+raw g
+set g stringw caf\xe9
+get g
+raw g
+set g stringw abcdefghijkl
+get g
+raw g
+set g field abc
+get g
+raw g
+set g field ""
+get g
+raw g
+set g field  42
+get g
+raw g
+set g field -1.005
+get g
+raw g
+set g field 123456789.125
+get g
+raw g
+set g field 1e3
+get g
+raw g
+set g field x1
+get g
+raw g
+set g field T
+get g
+raw g
+set g field n
+get g
+raw g
+set g field 11/08/2017
+get g
+raw g
+set g field 2/30/2017
+get g
+raw g
+set g field 13:45
+get g
+raw g
+set g field 12/31/1999 23:59:59.999
+get g
+raw g
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g field \xde\xad\xbe\xef\x01
+get g
+raw g
+set g long 0
+get g
+raw g
+set g long -5
+get g
+raw g
+set g long 40000
+get g
+raw g
+set g long 2147483647
+get g
+raw g
+set g long -2147483648
+get g
+raw g
+set g short -32768
+get g
+raw g
+set g short 7
+get g
+raw g
+set g longlong 9223372036854775807
+get g
+raw g
+set g longlong -3
+get g
+raw g
+set g double 2.5
+get g
+raw g
+set g double -0.125
+get g
+raw g
+set g double 12345.678
+get g
+raw g
+set g double 1e20
+get g
+raw g
+set g double 0.005
+get g
+raw g
+set g logical 0
+get g
+raw g
+set g logical 1
+get g
+raw g
+set g logical 2
+get g
+raw g
+set g date 11/08/2017
+get g
+raw g
+set g date 13/45/2017
+get g
+raw g
+set g date ""
+get g
+raw g
+set g date 1/2/3
+get g
+raw g
+set g julian 2458066
+get g
+raw g
+set g julian 0
+get g
+raw g
+set g time 13:45:30.250
+get g
+raw g
+set g time 25:00
+get g
+raw g
+set g time ""
+get g
+raw g
+set g ms 0
+get g
+raw g
+set g ms 86399999
+get g
+raw g
+set g ms -1
+get g
+raw g
+set g timestamp 11/08/2017 13:45:30.250
+get g
+raw g
+set g timestamp 11/08/2017
+get g
+raw g
+set g money 123456
+get g
+raw g
+set g money -1
+get g
+raw g
+set g binary 0102
+get g
+raw g
+set g binary 0102030405060708090a
+get g
+raw g
+set g null
+get g
+raw g
+set g empty
+get g
+raw g
+set g string kept
+get g
+raw g
+# cdx v
+set v string abc
+get v
+raw v
+set v string ""
+get v
+raw v
+set v string abcdefghijklmnopqrstuvwxyz
+get v
+raw v
+set v string   12.5
+get v
+raw v
+set v string T
+get v
+raw v
+set v string 11/08/2017
+get v
+raw v
+set v string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v string \xe4\x80
+get v
+raw v
+set v stringw caf\xe9
+get v
+raw v
+set v stringw abcdefghijkl
+get v
+raw v
+set v field abc
+get v
+raw v
+set v field ""
+get v
+raw v
+set v field  42
+get v
+raw v
+set v field -1.005
+get v
+raw v
+set v field 123456789.125
+get v
+raw v
+set v field 1e3
+get v
+raw v
+set v field x1
+get v
+raw v
+set v field T
+get v
+raw v
+set v field n
+get v
+raw v
+set v field 11/08/2017
+get v
+raw v
+set v field 2/30/2017
+get v
+raw v
+set v field 13:45
+get v
+raw v
+set v field 12/31/1999 23:59:59.999
+get v
+raw v
+set v field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v field \xde\xad\xbe\xef\x01
+get v
+raw v
+set v long 0
+get v
+raw v
+set v long -5
+get v
+raw v
+set v long 40000
+get v
+raw v
+set v long 2147483647
+get v
+raw v
+set v long -2147483648
+get v
+raw v
+set v short -32768
+get v
+raw v
+set v short 7
+get v
+raw v
+set v longlong 9223372036854775807
+get v
+raw v
+set v longlong -3
+get v
+raw v
+set v double 2.5
+get v
+raw v
+set v double -0.125
+get v
+raw v
+set v double 12345.678
+get v
+raw v
+set v double 1e20
+get v
+raw v
+set v double 0.005
+get v
+raw v
+set v logical 0
+get v
+raw v
+set v logical 1
+get v
+raw v
+set v logical 2
+get v
+raw v
+set v date 11/08/2017
+get v
+raw v
+set v date 13/45/2017
+get v
+raw v
+set v date ""
+get v
+raw v
+set v date 1/2/3
+get v
+raw v
+set v julian 2458066
+get v
+raw v
+set v julian 0
+get v
+raw v
+set v time 13:45:30.250
+get v
+raw v
+set v time 25:00
+get v
+raw v
+set v time ""
+get v
+raw v
+set v ms 0
+get v
+raw v
+set v ms 86399999
+get v
+raw v
+set v ms -1
+get v
+raw v
+set v timestamp 11/08/2017 13:45:30.250
+get v
+raw v
+set v timestamp 11/08/2017
+get v
+raw v
+set v money 123456
+get v
+raw v
+set v money -1
+get v
+raw v
+set v binary 0102
+get v
+raw v
+set v binary 0102030405060708090a
+get v
+raw v
+set v null
+get v
+raw v
+set v empty
+get v
+raw v
+set v string kept
+get v
+raw v
+# cdx nc
+set nc string abc
+get nc
+raw nc
+set nc string ""
+get nc
+raw nc
+set nc string abcdefghijklmnopqrstuvwxyz
+get nc
+raw nc
+set nc string   12.5
+get nc
+raw nc
+set nc string T
+get nc
+raw nc
+set nc string 11/08/2017
+get nc
+raw nc
+set nc string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc string \xe4\x80
+get nc
+raw nc
+set nc stringw caf\xe9
+get nc
+raw nc
+set nc stringw abcdefghijkl
+get nc
+raw nc
+set nc field abc
+get nc
+raw nc
+set nc field ""
+get nc
+raw nc
+set nc field  42
+get nc
+raw nc
+set nc field -1.005
+get nc
+raw nc
+set nc field 123456789.125
+get nc
+raw nc
+set nc field 1e3
+get nc
+raw nc
+set nc field x1
+get nc
+raw nc
+set nc field T
+get nc
+raw nc
+set nc field n
+get nc
+raw nc
+set nc field 11/08/2017
+get nc
+raw nc
+set nc field 2/30/2017
+get nc
+raw nc
+set nc field 13:45
+get nc
+raw nc
+set nc field 12/31/1999 23:59:59.999
+get nc
+raw nc
+set nc field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc field \xde\xad\xbe\xef\x01
+get nc
+raw nc
+set nc long 0
+get nc
+raw nc
+set nc long -5
+get nc
+raw nc
+set nc long 40000
+get nc
+raw nc
+set nc long 2147483647
+get nc
+raw nc
+set nc long -2147483648
+get nc
+raw nc
+set nc short -32768
+get nc
+raw nc
+set nc short 7
+get nc
+raw nc
+set nc longlong 9223372036854775807
+get nc
+raw nc
+set nc longlong -3
+get nc
+raw nc
+set nc double 2.5
+get nc
+raw nc
+set nc double -0.125
+get nc
+raw nc
+set nc double 12345.678
+get nc
+raw nc
+set nc double 1e20
+get nc
+raw nc
+set nc double 0.005
+get nc
+raw nc
+set nc logical 0
+get nc
+raw nc
+set nc logical 1
+get nc
+raw nc
+set nc logical 2
+get nc
+raw nc
+set nc date 11/08/2017
+get nc
+raw nc
+set nc date 13/45/2017
+get nc
+raw nc
+set nc date ""
+get nc
+raw nc
+set nc date 1/2/3
+get nc
+raw nc
+set nc julian 2458066
+get nc
+raw nc
+set nc julian 0
+get nc
+raw nc
+set nc time 13:45:30.250
+get nc
+raw nc
+set nc time 25:00
+get nc
+raw nc
+set nc time ""
+get nc
+raw nc
+set nc ms 0
+get nc
+raw nc
+set nc ms 86399999
+get nc
+raw nc
+set nc ms -1
+get nc
+raw nc
+set nc timestamp 11/08/2017 13:45:30.250
+get nc
+raw nc
+set nc timestamp 11/08/2017
+get nc
+raw nc
+set nc money 123456
+get nc
+raw nc
+set nc money -1
+get nc
+raw nc
+set nc binary 0102
+get nc
+raw nc
+set nc binary 0102030405060708090a
+get nc
+raw nc
+set nc null
+get nc
+raw nc
+set nc empty
+get nc
+raw nc
+set nc string kept
+get nc
+raw nc
+# cdx nv
+set nv string abc
+get nv
+raw nv
+set nv string ""
+get nv
+raw nv
+set nv string abcdefghijklmnopqrstuvwxyz
+get nv
+raw nv
+set nv string   12.5
+get nv
+raw nv
+set nv string T
+get nv
+raw nv
+set nv string 11/08/2017
+get nv
+raw nv
+set nv string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv string \xe4\x80
+get nv
+raw nv
+set nv stringw caf\xe9
+get nv
+raw nv
+set nv stringw abcdefghijkl
+get nv
+raw nv
+set nv field abc
+get nv
+raw nv
+set nv field ""
+get nv
+raw nv
+set nv field  42
+get nv
+raw nv
+set nv field -1.005
+get nv
+raw nv
+set nv field 123456789.125
+get nv
+raw nv
+set nv field 1e3
+get nv
+raw nv
+set nv field x1
+get nv
+raw nv
+set nv field T
+get nv
+raw nv
+set nv field n
+get nv
+raw nv
+set nv field 11/08/2017
+get nv
+raw nv
+set nv field 2/30/2017
+get nv
+raw nv
+set nv field 13:45
+get nv
+raw nv
+set nv field 12/31/1999 23:59:59.999
+get nv
+raw nv
+set nv field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv field \xde\xad\xbe\xef\x01
+get nv
+raw nv
+set nv long 0
+get nv
+raw nv
+set nv long -5
+get nv
+raw nv
+set nv long 40000
+get nv
+raw nv
+set nv long 2147483647
+get nv
+raw nv
+set nv long -2147483648
+get nv
+raw nv
+set nv short -32768
+get nv
+raw nv
+set nv short 7
+get nv
+raw nv
+set nv longlong 9223372036854775807
+get nv
+raw nv
+set nv longlong -3
+get nv
+raw nv
+set nv double 2.5
+get nv
+raw nv
+set nv double -0.125
+get nv
+raw nv
+set nv double 12345.678
+get nv
+raw nv
+set nv double 1e20
+get nv
+raw nv
+set nv double 0.005
+get nv
+raw nv
+set nv logical 0
+get nv
+raw nv
+set nv logical 1
+get nv
+raw nv
+set nv logical 2
+get nv
+raw nv
+set nv date 11/08/2017
+get nv
+raw nv
+set nv date 13/45/2017
+get nv
+raw nv
+set nv date ""
+get nv
+raw nv
+set nv date 1/2/3
+get nv
+raw nv
+set nv julian 2458066
+get nv
+raw nv
+set nv julian 0
+get nv
+raw nv
+set nv time 13:45:30.250
+get nv
+raw nv
+set nv time 25:00
+get nv
+raw nv
+set nv time ""
+get nv
+raw nv
+set nv ms 0
+get nv
+raw nv
+set nv ms 86399999
+get nv
+raw nv
+set nv ms -1
+get nv
+raw nv
+set nv timestamp 11/08/2017 13:45:30.250
+get nv
+raw nv
+set nv timestamp 11/08/2017
+get nv
+raw nv
+set nv money 123456
+get nv
+raw nv
+set nv money -1
+get nv
+raw nv
+set nv binary 0102
+get nv
+raw nv
+set nv binary 0102030405060708090a
+get nv
+raw nv
+set nv null
+get nv
+raw nv
+set nv empty
+get nv
+raw nv
+set nv string kept
+get nv
+raw nv
+# cdx wide
+set wide string abc
+get wide
+raw wide
+set wide string ""
+get wide
+raw wide
+set wide string abcdefghijklmnopqrstuvwxyz
+get wide
+raw wide
+set wide string   12.5
+get wide
+raw wide
+set wide string T
+get wide
+raw wide
+set wide string 11/08/2017
+get wide
+raw wide
+set wide string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide string \xe4\x80
+get wide
+raw wide
+set wide stringw caf\xe9
+get wide
+raw wide
+set wide stringw abcdefghijkl
+get wide
+raw wide
+set wide field abc
+get wide
+raw wide
+set wide field ""
+get wide
+raw wide
+set wide field  42
+get wide
+raw wide
+set wide field -1.005
+get wide
+raw wide
+set wide field 123456789.125
+get wide
+raw wide
+set wide field 1e3
+get wide
+raw wide
+set wide field x1
+get wide
+raw wide
+set wide field T
+get wide
+raw wide
+set wide field n
+get wide
+raw wide
+set wide field 11/08/2017
+get wide
+raw wide
+set wide field 2/30/2017
+get wide
+raw wide
+set wide field 13:45
+get wide
+raw wide
+set wide field 12/31/1999 23:59:59.999
+get wide
+raw wide
+set wide field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide field \xde\xad\xbe\xef\x01
+get wide
+raw wide
+set wide long 0
+get wide
+raw wide
+set wide long -5
+get wide
+raw wide
+set wide long 40000
+get wide
+raw wide
+set wide long 2147483647
+get wide
+raw wide
+set wide long -2147483648
+get wide
+raw wide
+set wide short -32768
+get wide
+raw wide
+set wide short 7
+get wide
+raw wide
+set wide longlong 9223372036854775807
+get wide
+raw wide
+set wide longlong -3
+get wide
+raw wide
+set wide double 2.5
+get wide
+raw wide
+set wide double -0.125
+get wide
+raw wide
+set wide double 12345.678
+get wide
+raw wide
+set wide double 1e20
+get wide
+raw wide
+set wide double 0.005
+get wide
+raw wide
+set wide logical 0
+get wide
+raw wide
+set wide logical 1
+get wide
+raw wide
+set wide logical 2
+get wide
+raw wide
+set wide date 11/08/2017
+get wide
+raw wide
+set wide date 13/45/2017
+get wide
+raw wide
+set wide date ""
+get wide
+raw wide
+set wide date 1/2/3
+get wide
+raw wide
+set wide julian 2458066
+get wide
+raw wide
+set wide julian 0
+get wide
+raw wide
+set wide time 13:45:30.250
+get wide
+raw wide
+set wide time 25:00
+get wide
+raw wide
+set wide time ""
+get wide
+raw wide
+set wide ms 0
+get wide
+raw wide
+set wide ms 86399999
+get wide
+raw wide
+set wide ms -1
+get wide
+raw wide
+set wide timestamp 11/08/2017 13:45:30.250
+get wide
+raw wide
+set wide timestamp 11/08/2017
+get wide
+raw wide
+set wide money 123456
+get wide
+raw wide
+set wide money -1
+get wide
+raw wide
+set wide binary 0102
+get wide
+raw wide
+set wide binary 0102030405060708090a
+get wide
+raw wide
+set wide null
+get wide
+raw wide
+set wide empty
+get wide
+raw wide
+set wide string kept
+get wide
+raw wide
+# cdx b2
+set b2 string abc
+get b2
+raw b2
+set b2 string ""
+get b2
+raw b2
+set b2 string abcdefghijklmnopqrstuvwxyz
+get b2
+raw b2
+set b2 string   12.5
+get b2
+raw b2
+set b2 string T
+get b2
+raw b2
+set b2 string 11/08/2017
+get b2
+raw b2
+set b2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 string \xe4\x80
+get b2
+raw b2
+set b2 stringw caf\xe9
+get b2
+raw b2
+set b2 stringw abcdefghijkl
+get b2
+raw b2
+set b2 field abc
+get b2
+raw b2
+set b2 field ""
+get b2
+raw b2
+set b2 field  42
+get b2
+raw b2
+set b2 field -1.005
+get b2
+raw b2
+set b2 field 123456789.125
+get b2
+raw b2
+set b2 field 1e3
+get b2
+raw b2
+set b2 field x1
+get b2
+raw b2
+set b2 field T
+get b2
+raw b2
+set b2 field n
+get b2
+raw b2
+set b2 field 11/08/2017
+get b2
+raw b2
+set b2 field 2/30/2017
+get b2
+raw b2
+set b2 field 13:45
+get b2
+raw b2
+set b2 field 12/31/1999 23:59:59.999
+get b2
+raw b2
+set b2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 field \xde\xad\xbe\xef\x01
+get b2
+raw b2
+set b2 long 0
+get b2
+raw b2
+set b2 long -5
+get b2
+raw b2
+set b2 long 40000
+get b2
+raw b2
+set b2 long 2147483647
+get b2
+raw b2
+set b2 long -2147483648
+get b2
+raw b2
+set b2 short -32768
+get b2
+raw b2
+set b2 short 7
+get b2
+raw b2
+set b2 longlong 9223372036854775807
+get b2
+raw b2
+set b2 longlong -3
+get b2
+raw b2
+set b2 double 2.5
+get b2
+raw b2
+set b2 double -0.125
+get b2
+raw b2
+set b2 double 12345.678
+get b2
+raw b2
+set b2 double 1e20
+get b2
+raw b2
+set b2 double 0.005
+get b2
+raw b2
+set b2 logical 0
+get b2
+raw b2
+set b2 logical 1
+get b2
+raw b2
+set b2 logical 2
+get b2
+raw b2
+set b2 date 11/08/2017
+get b2
+raw b2
+set b2 date 13/45/2017
+get b2
+raw b2
+set b2 date ""
+get b2
+raw b2
+set b2 date 1/2/3
+get b2
+raw b2
+set b2 julian 2458066
+get b2
+raw b2
+set b2 julian 0
+get b2
+raw b2
+set b2 time 13:45:30.250
+get b2
+raw b2
+set b2 time 25:00
+get b2
+raw b2
+set b2 time ""
+get b2
+raw b2
+set b2 ms 0
+get b2
+raw b2
+set b2 ms 86399999
+get b2
+raw b2
+set b2 ms -1
+get b2
+raw b2
+set b2 timestamp 11/08/2017 13:45:30.250
+get b2
+raw b2
+set b2 timestamp 11/08/2017
+get b2
+raw b2
+set b2 money 123456
+get b2
+raw b2
+set b2 money -1
+get b2
+raw b2
+set b2 binary 0102
+get b2
+raw b2
+set b2 binary 0102030405060708090a
+get b2
+raw b2
+set b2 null
+get b2
+raw b2
+set b2 empty
+get b2
+raw b2
+set b2 string kept
+get b2
+raw b2
+write
+state
+close
+tabletype vfp
+open s_vfp.dbf
+append
+# vfp c
+set c string abc
+get c
+raw c
+set c string ""
+get c
+raw c
+set c string abcdefghijklmnopqrstuvwxyz
+get c
+raw c
+set c string   12.5
+get c
+raw c
+set c string T
+get c
+raw c
+set c string 11/08/2017
+get c
+raw c
+set c string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c string \xe4\x80
+get c
+raw c
+set c stringw caf\xe9
+get c
+raw c
+set c stringw abcdefghijkl
+get c
+raw c
+set c field abc
+get c
+raw c
+set c field ""
+get c
+raw c
+set c field  42
+get c
+raw c
+set c field -1.005
+get c
+raw c
+set c field 123456789.125
+get c
+raw c
+set c field 1e3
+get c
+raw c
+set c field x1
+get c
+raw c
+set c field T
+get c
+raw c
+set c field n
+get c
+raw c
+set c field 11/08/2017
+get c
+raw c
+set c field 2/30/2017
+get c
+raw c
+set c field 13:45
+get c
+raw c
+set c field 12/31/1999 23:59:59.999
+get c
+raw c
+set c field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c
+raw c
+set c field \xde\xad\xbe\xef\x01
+get c
+raw c
+set c long 0
+get c
+raw c
+set c long -5
+get c
+raw c
+set c long 40000
+get c
+raw c
+set c long 2147483647
+get c
+raw c
+set c long -2147483648
+get c
+raw c
+set c short -32768
+get c
+raw c
+set c short 7
+get c
+raw c
+set c longlong 9223372036854775807
+get c
+raw c
+set c longlong -3
+get c
+raw c
+set c double 2.5
+get c
+raw c
+set c double -0.125
+get c
+raw c
+set c double 12345.678
+get c
+raw c
+set c double 1e20
+get c
+raw c
+set c double 0.005
+get c
+raw c
+set c logical 0
+get c
+raw c
+set c logical 1
+get c
+raw c
+set c logical 2
+get c
+raw c
+set c date 11/08/2017
+get c
+raw c
+set c date 13/45/2017
+get c
+raw c
+set c date ""
+get c
+raw c
+set c date 1/2/3
+get c
+raw c
+set c julian 2458066
+get c
+raw c
+set c julian 0
+get c
+raw c
+set c time 13:45:30.250
+get c
+raw c
+set c time 25:00
+get c
+raw c
+set c time ""
+get c
+raw c
+set c ms 0
+get c
+raw c
+set c ms 86399999
+get c
+raw c
+set c ms -1
+get c
+raw c
+set c timestamp 11/08/2017 13:45:30.250
+get c
+raw c
+set c timestamp 11/08/2017
+get c
+raw c
+set c money 123456
+get c
+raw c
+set c money -1
+get c
+raw c
+set c binary 0102
+get c
+raw c
+set c binary 0102030405060708090a
+get c
+raw c
+set c null
+get c
+raw c
+set c empty
+get c
+raw c
+set c string kept
+get c
+raw c
+# vfp n
+set n string abc
+get n
+raw n
+set n string ""
+get n
+raw n
+set n string abcdefghijklmnopqrstuvwxyz
+get n
+raw n
+set n string   12.5
+get n
+raw n
+set n string T
+get n
+raw n
+set n string 11/08/2017
+get n
+raw n
+set n string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n string \xe4\x80
+get n
+raw n
+set n stringw caf\xe9
+get n
+raw n
+set n stringw abcdefghijkl
+get n
+raw n
+set n field abc
+get n
+raw n
+set n field ""
+get n
+raw n
+set n field  42
+get n
+raw n
+set n field -1.005
+get n
+raw n
+set n field 123456789.125
+get n
+raw n
+set n field 1e3
+get n
+raw n
+set n field x1
+get n
+raw n
+set n field T
+get n
+raw n
+set n field n
+get n
+raw n
+set n field 11/08/2017
+get n
+raw n
+set n field 2/30/2017
+get n
+raw n
+set n field 13:45
+get n
+raw n
+set n field 12/31/1999 23:59:59.999
+get n
+raw n
+set n field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n
+raw n
+set n field \xde\xad\xbe\xef\x01
+get n
+raw n
+set n long 0
+get n
+raw n
+set n long -5
+get n
+raw n
+set n long 40000
+get n
+raw n
+set n long 2147483647
+get n
+raw n
+set n long -2147483648
+get n
+raw n
+set n short -32768
+get n
+raw n
+set n short 7
+get n
+raw n
+set n longlong 9223372036854775807
+get n
+raw n
+set n longlong -3
+get n
+raw n
+set n double 2.5
+get n
+raw n
+set n double -0.125
+get n
+raw n
+set n double 12345.678
+get n
+raw n
+set n double 1e20
+get n
+raw n
+set n double 0.005
+get n
+raw n
+set n logical 0
+get n
+raw n
+set n logical 1
+get n
+raw n
+set n logical 2
+get n
+raw n
+set n date 11/08/2017
+get n
+raw n
+set n date 13/45/2017
+get n
+raw n
+set n date ""
+get n
+raw n
+set n date 1/2/3
+get n
+raw n
+set n julian 2458066
+get n
+raw n
+set n julian 0
+get n
+raw n
+set n time 13:45:30.250
+get n
+raw n
+set n time 25:00
+get n
+raw n
+set n time ""
+get n
+raw n
+set n ms 0
+get n
+raw n
+set n ms 86399999
+get n
+raw n
+set n ms -1
+get n
+raw n
+set n timestamp 11/08/2017 13:45:30.250
+get n
+raw n
+set n timestamp 11/08/2017
+get n
+raw n
+set n money 123456
+get n
+raw n
+set n money -1
+get n
+raw n
+set n binary 0102
+get n
+raw n
+set n binary 0102030405060708090a
+get n
+raw n
+set n null
+get n
+raw n
+set n empty
+get n
+raw n
+set n string kept
+get n
+raw n
+# vfp n0
+set n0 string abc
+get n0
+raw n0
+set n0 string ""
+get n0
+raw n0
+set n0 string abcdefghijklmnopqrstuvwxyz
+get n0
+raw n0
+set n0 string   12.5
+get n0
+raw n0
+set n0 string T
+get n0
+raw n0
+set n0 string 11/08/2017
+get n0
+raw n0
+set n0 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 string \xe4\x80
+get n0
+raw n0
+set n0 stringw caf\xe9
+get n0
+raw n0
+set n0 stringw abcdefghijkl
+get n0
+raw n0
+set n0 field abc
+get n0
+raw n0
+set n0 field ""
+get n0
+raw n0
+set n0 field  42
+get n0
+raw n0
+set n0 field -1.005
+get n0
+raw n0
+set n0 field 123456789.125
+get n0
+raw n0
+set n0 field 1e3
+get n0
+raw n0
+set n0 field x1
+get n0
+raw n0
+set n0 field T
+get n0
+raw n0
+set n0 field n
+get n0
+raw n0
+set n0 field 11/08/2017
+get n0
+raw n0
+set n0 field 2/30/2017
+get n0
+raw n0
+set n0 field 13:45
+get n0
+raw n0
+set n0 field 12/31/1999 23:59:59.999
+get n0
+raw n0
+set n0 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get n0
+raw n0
+set n0 field \xde\xad\xbe\xef\x01
+get n0
+raw n0
+set n0 long 0
+get n0
+raw n0
+set n0 long -5
+get n0
+raw n0
+set n0 long 40000
+get n0
+raw n0
+set n0 long 2147483647
+get n0
+raw n0
+set n0 long -2147483648
+get n0
+raw n0
+set n0 short -32768
+get n0
+raw n0
+set n0 short 7
+get n0
+raw n0
+set n0 longlong 9223372036854775807
+get n0
+raw n0
+set n0 longlong -3
+get n0
+raw n0
+set n0 double 2.5
+get n0
+raw n0
+set n0 double -0.125
+get n0
+raw n0
+set n0 double 12345.678
+get n0
+raw n0
+set n0 double 1e20
+get n0
+raw n0
+set n0 double 0.005
+get n0
+raw n0
+set n0 logical 0
+get n0
+raw n0
+set n0 logical 1
+get n0
+raw n0
+set n0 logical 2
+get n0
+raw n0
+set n0 date 11/08/2017
+get n0
+raw n0
+set n0 date 13/45/2017
+get n0
+raw n0
+set n0 date ""
+get n0
+raw n0
+set n0 date 1/2/3
+get n0
+raw n0
+set n0 julian 2458066
+get n0
+raw n0
+set n0 julian 0
+get n0
+raw n0
+set n0 time 13:45:30.250
+get n0
+raw n0
+set n0 time 25:00
+get n0
+raw n0
+set n0 time ""
+get n0
+raw n0
+set n0 ms 0
+get n0
+raw n0
+set n0 ms 86399999
+get n0
+raw n0
+set n0 ms -1
+get n0
+raw n0
+set n0 timestamp 11/08/2017 13:45:30.250
+get n0
+raw n0
+set n0 timestamp 11/08/2017
+get n0
+raw n0
+set n0 money 123456
+get n0
+raw n0
+set n0 money -1
+get n0
+raw n0
+set n0 binary 0102
+get n0
+raw n0
+set n0 binary 0102030405060708090a
+get n0
+raw n0
+set n0 null
+get n0
+raw n0
+set n0 empty
+get n0
+raw n0
+set n0 string kept
+get n0
+raw n0
+# vfp d
+set d string abc
+get d
+raw d
+set d string ""
+get d
+raw d
+set d string abcdefghijklmnopqrstuvwxyz
+get d
+raw d
+set d string   12.5
+get d
+raw d
+set d string T
+get d
+raw d
+set d string 11/08/2017
+get d
+raw d
+set d string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d string \xe4\x80
+get d
+raw d
+set d stringw caf\xe9
+get d
+raw d
+set d stringw abcdefghijkl
+get d
+raw d
+set d field abc
+get d
+raw d
+set d field ""
+get d
+raw d
+set d field  42
+get d
+raw d
+set d field -1.005
+get d
+raw d
+set d field 123456789.125
+get d
+raw d
+set d field 1e3
+get d
+raw d
+set d field x1
+get d
+raw d
+set d field T
+get d
+raw d
+set d field n
+get d
+raw d
+set d field 11/08/2017
+get d
+raw d
+set d field 2/30/2017
+get d
+raw d
+set d field 13:45
+get d
+raw d
+set d field 12/31/1999 23:59:59.999
+get d
+raw d
+set d field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get d
+raw d
+set d field \xde\xad\xbe\xef\x01
+get d
+raw d
+set d long 0
+get d
+raw d
+set d long -5
+get d
+raw d
+set d long 40000
+get d
+raw d
+set d long 2147483647
+get d
+raw d
+set d long -2147483648
+get d
+raw d
+set d short -32768
+get d
+raw d
+set d short 7
+get d
+raw d
+set d longlong 9223372036854775807
+get d
+raw d
+set d longlong -3
+get d
+raw d
+set d double 2.5
+get d
+raw d
+set d double -0.125
+get d
+raw d
+set d double 12345.678
+get d
+raw d
+set d double 1e20
+get d
+raw d
+set d double 0.005
+get d
+raw d
+set d logical 0
+get d
+raw d
+set d logical 1
+get d
+raw d
+set d logical 2
+get d
+raw d
+set d date 11/08/2017
+get d
+raw d
+set d date 13/45/2017
+get d
+raw d
+set d date ""
+get d
+raw d
+set d date 1/2/3
+get d
+raw d
+set d julian 2458066
+get d
+raw d
+set d julian 0
+get d
+raw d
+set d time 13:45:30.250
+get d
+raw d
+set d time 25:00
+get d
+raw d
+set d time ""
+get d
+raw d
+set d ms 0
+get d
+raw d
+set d ms 86399999
+get d
+raw d
+set d ms -1
+get d
+raw d
+set d timestamp 11/08/2017 13:45:30.250
+get d
+raw d
+set d timestamp 11/08/2017
+get d
+raw d
+set d money 123456
+get d
+raw d
+set d money -1
+get d
+raw d
+set d binary 0102
+get d
+raw d
+set d binary 0102030405060708090a
+get d
+raw d
+set d null
+get d
+raw d
+set d empty
+get d
+raw d
+set d string kept
+get d
+raw d
+# vfp l
+set l string abc
+get l
+raw l
+set l string ""
+get l
+raw l
+set l string abcdefghijklmnopqrstuvwxyz
+get l
+raw l
+set l string   12.5
+get l
+raw l
+set l string T
+get l
+raw l
+set l string 11/08/2017
+get l
+raw l
+set l string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l string \xe4\x80
+get l
+raw l
+set l stringw caf\xe9
+get l
+raw l
+set l stringw abcdefghijkl
+get l
+raw l
+set l field abc
+get l
+raw l
+set l field ""
+get l
+raw l
+set l field  42
+get l
+raw l
+set l field -1.005
+get l
+raw l
+set l field 123456789.125
+get l
+raw l
+set l field 1e3
+get l
+raw l
+set l field x1
+get l
+raw l
+set l field T
+get l
+raw l
+set l field n
+get l
+raw l
+set l field 11/08/2017
+get l
+raw l
+set l field 2/30/2017
+get l
+raw l
+set l field 13:45
+get l
+raw l
+set l field 12/31/1999 23:59:59.999
+get l
+raw l
+set l field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get l
+raw l
+set l field \xde\xad\xbe\xef\x01
+get l
+raw l
+set l long 0
+get l
+raw l
+set l long -5
+get l
+raw l
+set l long 40000
+get l
+raw l
+set l long 2147483647
+get l
+raw l
+set l long -2147483648
+get l
+raw l
+set l short -32768
+get l
+raw l
+set l short 7
+get l
+raw l
+set l longlong 9223372036854775807
+get l
+raw l
+set l longlong -3
+get l
+raw l
+set l double 2.5
+get l
+raw l
+set l double -0.125
+get l
+raw l
+set l double 12345.678
+get l
+raw l
+set l double 1e20
+get l
+raw l
+set l double 0.005
+get l
+raw l
+set l logical 0
+get l
+raw l
+set l logical 1
+get l
+raw l
+set l logical 2
+get l
+raw l
+set l date 11/08/2017
+get l
+raw l
+set l date 13/45/2017
+get l
+raw l
+set l date ""
+get l
+raw l
+set l date 1/2/3
+get l
+raw l
+set l julian 2458066
+get l
+raw l
+set l julian 0
+get l
+raw l
+set l time 13:45:30.250
+get l
+raw l
+set l time 25:00
+get l
+raw l
+set l time ""
+get l
+raw l
+set l ms 0
+get l
+raw l
+set l ms 86399999
+get l
+raw l
+set l ms -1
+get l
+raw l
+set l timestamp 11/08/2017 13:45:30.250
+get l
+raw l
+set l timestamp 11/08/2017
+get l
+raw l
+set l money 123456
+get l
+raw l
+set l money -1
+get l
+raw l
+set l binary 0102
+get l
+raw l
+set l binary 0102030405060708090a
+get l
+raw l
+set l null
+get l
+raw l
+set l empty
+get l
+raw l
+set l string kept
+get l
+raw l
+# vfp b
+set b string abc
+get b
+raw b
+set b string ""
+get b
+raw b
+set b string abcdefghijklmnopqrstuvwxyz
+get b
+raw b
+set b string   12.5
+get b
+raw b
+set b string T
+get b
+raw b
+set b string 11/08/2017
+get b
+raw b
+set b string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b string \xe4\x80
+get b
+raw b
+set b stringw caf\xe9
+get b
+raw b
+set b stringw abcdefghijkl
+get b
+raw b
+set b field abc
+get b
+raw b
+set b field ""
+get b
+raw b
+set b field  42
+get b
+raw b
+set b field -1.005
+get b
+raw b
+set b field 123456789.125
+get b
+raw b
+set b field 1e3
+get b
+raw b
+set b field x1
+get b
+raw b
+set b field T
+get b
+raw b
+set b field n
+get b
+raw b
+set b field 11/08/2017
+get b
+raw b
+set b field 2/30/2017
+get b
+raw b
+set b field 13:45
+get b
+raw b
+set b field 12/31/1999 23:59:59.999
+get b
+raw b
+set b field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b
+raw b
+set b field \xde\xad\xbe\xef\x01
+get b
+raw b
+set b long 0
+get b
+raw b
+set b long -5
+get b
+raw b
+set b long 40000
+get b
+raw b
+set b long 2147483647
+get b
+raw b
+set b long -2147483648
+get b
+raw b
+set b short -32768
+get b
+raw b
+set b short 7
+get b
+raw b
+set b longlong 9223372036854775807
+get b
+raw b
+set b longlong -3
+get b
+raw b
+set b double 2.5
+get b
+raw b
+set b double -0.125
+get b
+raw b
+set b double 12345.678
+get b
+raw b
+set b double 1e20
+get b
+raw b
+set b double 0.005
+get b
+raw b
+set b logical 0
+get b
+raw b
+set b logical 1
+get b
+raw b
+set b logical 2
+get b
+raw b
+set b date 11/08/2017
+get b
+raw b
+set b date 13/45/2017
+get b
+raw b
+set b date ""
+get b
+raw b
+set b date 1/2/3
+get b
+raw b
+set b julian 2458066
+get b
+raw b
+set b julian 0
+get b
+raw b
+set b time 13:45:30.250
+get b
+raw b
+set b time 25:00
+get b
+raw b
+set b time ""
+get b
+raw b
+set b ms 0
+get b
+raw b
+set b ms 86399999
+get b
+raw b
+set b ms -1
+get b
+raw b
+set b timestamp 11/08/2017 13:45:30.250
+get b
+raw b
+set b timestamp 11/08/2017
+get b
+raw b
+set b money 123456
+get b
+raw b
+set b money -1
+get b
+raw b
+set b binary 0102
+get b
+raw b
+set b binary 0102030405060708090a
+get b
+raw b
+set b null
+get b
+raw b
+set b empty
+get b
+raw b
+set b string kept
+get b
+raw b
+# vfp i
+set i string abc
+get i
+raw i
+set i string ""
+get i
+raw i
+set i string abcdefghijklmnopqrstuvwxyz
+get i
+raw i
+set i string   12.5
+get i
+raw i
+set i string T
+get i
+raw i
+set i string 11/08/2017
+get i
+raw i
+set i string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i string \xe4\x80
+get i
+raw i
+set i stringw caf\xe9
+get i
+raw i
+set i stringw abcdefghijkl
+get i
+raw i
+set i field abc
+get i
+raw i
+set i field ""
+get i
+raw i
+set i field  42
+get i
+raw i
+set i field -1.005
+get i
+raw i
+set i field 123456789.125
+get i
+raw i
+set i field 1e3
+get i
+raw i
+set i field x1
+get i
+raw i
+set i field T
+get i
+raw i
+set i field n
+get i
+raw i
+set i field 11/08/2017
+get i
+raw i
+set i field 2/30/2017
+get i
+raw i
+set i field 13:45
+get i
+raw i
+set i field 12/31/1999 23:59:59.999
+get i
+raw i
+set i field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i
+raw i
+set i field \xde\xad\xbe\xef\x01
+get i
+raw i
+set i long 0
+get i
+raw i
+set i long -5
+get i
+raw i
+set i long 40000
+get i
+raw i
+set i long 2147483647
+get i
+raw i
+set i long -2147483648
+get i
+raw i
+set i short -32768
+get i
+raw i
+set i short 7
+get i
+raw i
+set i longlong 9223372036854775807
+get i
+raw i
+set i longlong -3
+get i
+raw i
+set i double 2.5
+get i
+raw i
+set i double -0.125
+get i
+raw i
+set i double 12345.678
+get i
+raw i
+set i double 1e20
+get i
+raw i
+set i double 0.005
+get i
+raw i
+set i logical 0
+get i
+raw i
+set i logical 1
+get i
+raw i
+set i logical 2
+get i
+raw i
+set i date 11/08/2017
+get i
+raw i
+set i date 13/45/2017
+get i
+raw i
+set i date ""
+get i
+raw i
+set i date 1/2/3
+get i
+raw i
+set i julian 2458066
+get i
+raw i
+set i julian 0
+get i
+raw i
+set i time 13:45:30.250
+get i
+raw i
+set i time 25:00
+get i
+raw i
+set i time ""
+get i
+raw i
+set i ms 0
+get i
+raw i
+set i ms 86399999
+get i
+raw i
+set i ms -1
+get i
+raw i
+set i timestamp 11/08/2017 13:45:30.250
+get i
+raw i
+set i timestamp 11/08/2017
+get i
+raw i
+set i money 123456
+get i
+raw i
+set i money -1
+get i
+raw i
+set i binary 0102
+get i
+raw i
+set i binary 0102030405060708090a
+get i
+raw i
+set i null
+get i
+raw i
+set i empty
+get i
+raw i
+set i string kept
+get i
+raw i
+# vfp lg
+set lg string abc
+get lg
+raw lg
+set lg string ""
+get lg
+raw lg
+set lg string abcdefghijklmnopqrstuvwxyz
+get lg
+raw lg
+set lg string   12.5
+get lg
+raw lg
+set lg string T
+get lg
+raw lg
+set lg string 11/08/2017
+get lg
+raw lg
+set lg string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg string \xe4\x80
+get lg
+raw lg
+set lg stringw caf\xe9
+get lg
+raw lg
+set lg stringw abcdefghijkl
+get lg
+raw lg
+set lg field abc
+get lg
+raw lg
+set lg field ""
+get lg
+raw lg
+set lg field  42
+get lg
+raw lg
+set lg field -1.005
+get lg
+raw lg
+set lg field 123456789.125
+get lg
+raw lg
+set lg field 1e3
+get lg
+raw lg
+set lg field x1
+get lg
+raw lg
+set lg field T
+get lg
+raw lg
+set lg field n
+get lg
+raw lg
+set lg field 11/08/2017
+get lg
+raw lg
+set lg field 2/30/2017
+get lg
+raw lg
+set lg field 13:45
+get lg
+raw lg
+set lg field 12/31/1999 23:59:59.999
+get lg
+raw lg
+set lg field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get lg
+raw lg
+set lg field \xde\xad\xbe\xef\x01
+get lg
+raw lg
+set lg long 0
+get lg
+raw lg
+set lg long -5
+get lg
+raw lg
+set lg long 40000
+get lg
+raw lg
+set lg long 2147483647
+get lg
+raw lg
+set lg long -2147483648
+get lg
+raw lg
+set lg short -32768
+get lg
+raw lg
+set lg short 7
+get lg
+raw lg
+set lg longlong 9223372036854775807
+get lg
+raw lg
+set lg longlong -3
+get lg
+raw lg
+set lg double 2.5
+get lg
+raw lg
+set lg double -0.125
+get lg
+raw lg
+set lg double 12345.678
+get lg
+raw lg
+set lg double 1e20
+get lg
+raw lg
+set lg double 0.005
+get lg
+raw lg
+set lg logical 0
+get lg
+raw lg
+set lg logical 1
+get lg
+raw lg
+set lg logical 2
+get lg
+raw lg
+set lg date 11/08/2017
+get lg
+raw lg
+set lg date 13/45/2017
+get lg
+raw lg
+set lg date ""
+get lg
+raw lg
+set lg date 1/2/3
+get lg
+raw lg
+set lg julian 2458066
+get lg
+raw lg
+set lg julian 0
+get lg
+raw lg
+set lg time 13:45:30.250
+get lg
+raw lg
+set lg time 25:00
+get lg
+raw lg
+set lg time ""
+get lg
+raw lg
+set lg ms 0
+get lg
+raw lg
+set lg ms 86399999
+get lg
+raw lg
+set lg ms -1
+get lg
+raw lg
+set lg timestamp 11/08/2017 13:45:30.250
+get lg
+raw lg
+set lg timestamp 11/08/2017
+get lg
+raw lg
+set lg money 123456
+get lg
+raw lg
+set lg money -1
+get lg
+raw lg
+set lg binary 0102
+get lg
+raw lg
+set lg binary 0102030405060708090a
+get lg
+raw lg
+set lg null
+get lg
+raw lg
+set lg empty
+get lg
+raw lg
+set lg string kept
+get lg
+raw lg
+# vfp g
+set g string abc
+get g
+raw g
+set g string ""
+get g
+raw g
+set g string abcdefghijklmnopqrstuvwxyz
+get g
+raw g
+set g string   12.5
+get g
+raw g
+set g string T
+get g
+raw g
+set g string 11/08/2017
+get g
+raw g
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g string \xe4\x80
+get g
+raw g
+set g stringw caf\xe9
+get g
+raw g
+set g stringw abcdefghijkl
+get g
+raw g
+set g field abc
+get g
+raw g
+set g field ""
+get g
+raw g
+set g field  42
+get g
+raw g
+set g field -1.005
+get g
+raw g
+set g field 123456789.125
+get g
+raw g
+set g field 1e3
+get g
+raw g
+set g field x1
+get g
+raw g
+set g field T
+get g
+raw g
+set g field n
+get g
+raw g
+set g field 11/08/2017
+get g
+raw g
+set g field 2/30/2017
+get g
+raw g
+set g field 13:45
+get g
+raw g
+set g field 12/31/1999 23:59:59.999
+get g
+raw g
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get g
+raw g
+set g field \xde\xad\xbe\xef\x01
+get g
+raw g
+set g long 0
+get g
+raw g
+set g long -5
+get g
+raw g
+set g long 40000
+get g
+raw g
+set g long 2147483647
+get g
+raw g
+set g long -2147483648
+get g
+raw g
+set g short -32768
+get g
+raw g
+set g short 7
+get g
+raw g
+set g longlong 9223372036854775807
+get g
+raw g
+set g longlong -3
+get g
+raw g
+set g double 2.5
+get g
+raw g
+set g double -0.125
+get g
+raw g
+set g double 12345.678
+get g
+raw g
+set g double 1e20
+get g
+raw g
+set g double 0.005
+get g
+raw g
+set g logical 0
+get g
+raw g
+set g logical 1
+get g
+raw g
+set g logical 2
+get g
+raw g
+set g date 11/08/2017
+get g
+raw g
+set g date 13/45/2017
+get g
+raw g
+set g date ""
+get g
+raw g
+set g date 1/2/3
+get g
+raw g
+set g julian 2458066
+get g
+raw g
+set g julian 0
+get g
+raw g
+set g time 13:45:30.250
+get g
+raw g
+set g time 25:00
+get g
+raw g
+set g time ""
+get g
+raw g
+set g ms 0
+get g
+raw g
+set g ms 86399999
+get g
+raw g
+set g ms -1
+get g
+raw g
+set g timestamp 11/08/2017 13:45:30.250
+get g
+raw g
+set g timestamp 11/08/2017
+get g
+raw g
+set g money 123456
+get g
+raw g
+set g money -1
+get g
+raw g
+set g binary 0102
+get g
+raw g
+set g binary 0102030405060708090a
+get g
+raw g
+set g null
+get g
+raw g
+set g empty
+get g
+raw g
+set g string kept
+get g
+raw g
+# vfp v
+set v string abc
+get v
+raw v
+set v string ""
+get v
+raw v
+set v string abcdefghijklmnopqrstuvwxyz
+get v
+raw v
+set v string   12.5
+get v
+raw v
+set v string T
+get v
+raw v
+set v string 11/08/2017
+get v
+raw v
+set v string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v string \xe4\x80
+get v
+raw v
+set v stringw caf\xe9
+get v
+raw v
+set v stringw abcdefghijkl
+get v
+raw v
+set v field abc
+get v
+raw v
+set v field ""
+get v
+raw v
+set v field  42
+get v
+raw v
+set v field -1.005
+get v
+raw v
+set v field 123456789.125
+get v
+raw v
+set v field 1e3
+get v
+raw v
+set v field x1
+get v
+raw v
+set v field T
+get v
+raw v
+set v field n
+get v
+raw v
+set v field 11/08/2017
+get v
+raw v
+set v field 2/30/2017
+get v
+raw v
+set v field 13:45
+get v
+raw v
+set v field 12/31/1999 23:59:59.999
+get v
+raw v
+set v field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v
+raw v
+set v field \xde\xad\xbe\xef\x01
+get v
+raw v
+set v long 0
+get v
+raw v
+set v long -5
+get v
+raw v
+set v long 40000
+get v
+raw v
+set v long 2147483647
+get v
+raw v
+set v long -2147483648
+get v
+raw v
+set v short -32768
+get v
+raw v
+set v short 7
+get v
+raw v
+set v longlong 9223372036854775807
+get v
+raw v
+set v longlong -3
+get v
+raw v
+set v double 2.5
+get v
+raw v
+set v double -0.125
+get v
+raw v
+set v double 12345.678
+get v
+raw v
+set v double 1e20
+get v
+raw v
+set v double 0.005
+get v
+raw v
+set v logical 0
+get v
+raw v
+set v logical 1
+get v
+raw v
+set v logical 2
+get v
+raw v
+set v date 11/08/2017
+get v
+raw v
+set v date 13/45/2017
+get v
+raw v
+set v date ""
+get v
+raw v
+set v date 1/2/3
+get v
+raw v
+set v julian 2458066
+get v
+raw v
+set v julian 0
+get v
+raw v
+set v time 13:45:30.250
+get v
+raw v
+set v time 25:00
+get v
+raw v
+set v time ""
+get v
+raw v
+set v ms 0
+get v
+raw v
+set v ms 86399999
+get v
+raw v
+set v ms -1
+get v
+raw v
+set v timestamp 11/08/2017 13:45:30.250
+get v
+raw v
+set v timestamp 11/08/2017
+get v
+raw v
+set v money 123456
+get v
+raw v
+set v money -1
+get v
+raw v
+set v binary 0102
+get v
+raw v
+set v binary 0102030405060708090a
+get v
+raw v
+set v null
+get v
+raw v
+set v empty
+get v
+raw v
+set v string kept
+get v
+raw v
+# vfp nc
+set nc string abc
+get nc
+raw nc
+set nc string ""
+get nc
+raw nc
+set nc string abcdefghijklmnopqrstuvwxyz
+get nc
+raw nc
+set nc string   12.5
+get nc
+raw nc
+set nc string T
+get nc
+raw nc
+set nc string 11/08/2017
+get nc
+raw nc
+set nc string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc string \xe4\x80
+get nc
+raw nc
+set nc stringw caf\xe9
+get nc
+raw nc
+set nc stringw abcdefghijkl
+get nc
+raw nc
+set nc field abc
+get nc
+raw nc
+set nc field ""
+get nc
+raw nc
+set nc field  42
+get nc
+raw nc
+set nc field -1.005
+get nc
+raw nc
+set nc field 123456789.125
+get nc
+raw nc
+set nc field 1e3
+get nc
+raw nc
+set nc field x1
+get nc
+raw nc
+set nc field T
+get nc
+raw nc
+set nc field n
+get nc
+raw nc
+set nc field 11/08/2017
+get nc
+raw nc
+set nc field 2/30/2017
+get nc
+raw nc
+set nc field 13:45
+get nc
+raw nc
+set nc field 12/31/1999 23:59:59.999
+get nc
+raw nc
+set nc field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nc
+raw nc
+set nc field \xde\xad\xbe\xef\x01
+get nc
+raw nc
+set nc long 0
+get nc
+raw nc
+set nc long -5
+get nc
+raw nc
+set nc long 40000
+get nc
+raw nc
+set nc long 2147483647
+get nc
+raw nc
+set nc long -2147483648
+get nc
+raw nc
+set nc short -32768
+get nc
+raw nc
+set nc short 7
+get nc
+raw nc
+set nc longlong 9223372036854775807
+get nc
+raw nc
+set nc longlong -3
+get nc
+raw nc
+set nc double 2.5
+get nc
+raw nc
+set nc double -0.125
+get nc
+raw nc
+set nc double 12345.678
+get nc
+raw nc
+set nc double 1e20
+get nc
+raw nc
+set nc double 0.005
+get nc
+raw nc
+set nc logical 0
+get nc
+raw nc
+set nc logical 1
+get nc
+raw nc
+set nc logical 2
+get nc
+raw nc
+set nc date 11/08/2017
+get nc
+raw nc
+set nc date 13/45/2017
+get nc
+raw nc
+set nc date ""
+get nc
+raw nc
+set nc date 1/2/3
+get nc
+raw nc
+set nc julian 2458066
+get nc
+raw nc
+set nc julian 0
+get nc
+raw nc
+set nc time 13:45:30.250
+get nc
+raw nc
+set nc time 25:00
+get nc
+raw nc
+set nc time ""
+get nc
+raw nc
+set nc ms 0
+get nc
+raw nc
+set nc ms 86399999
+get nc
+raw nc
+set nc ms -1
+get nc
+raw nc
+set nc timestamp 11/08/2017 13:45:30.250
+get nc
+raw nc
+set nc timestamp 11/08/2017
+get nc
+raw nc
+set nc money 123456
+get nc
+raw nc
+set nc money -1
+get nc
+raw nc
+set nc binary 0102
+get nc
+raw nc
+set nc binary 0102030405060708090a
+get nc
+raw nc
+set nc null
+get nc
+raw nc
+set nc empty
+get nc
+raw nc
+set nc string kept
+get nc
+raw nc
+# vfp nv
+set nv string abc
+get nv
+raw nv
+set nv string ""
+get nv
+raw nv
+set nv string abcdefghijklmnopqrstuvwxyz
+get nv
+raw nv
+set nv string   12.5
+get nv
+raw nv
+set nv string T
+get nv
+raw nv
+set nv string 11/08/2017
+get nv
+raw nv
+set nv string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv string \xe4\x80
+get nv
+raw nv
+set nv stringw caf\xe9
+get nv
+raw nv
+set nv stringw abcdefghijkl
+get nv
+raw nv
+set nv field abc
+get nv
+raw nv
+set nv field ""
+get nv
+raw nv
+set nv field  42
+get nv
+raw nv
+set nv field -1.005
+get nv
+raw nv
+set nv field 123456789.125
+get nv
+raw nv
+set nv field 1e3
+get nv
+raw nv
+set nv field x1
+get nv
+raw nv
+set nv field T
+get nv
+raw nv
+set nv field n
+get nv
+raw nv
+set nv field 11/08/2017
+get nv
+raw nv
+set nv field 2/30/2017
+get nv
+raw nv
+set nv field 13:45
+get nv
+raw nv
+set nv field 12/31/1999 23:59:59.999
+get nv
+raw nv
+set nv field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get nv
+raw nv
+set nv field \xde\xad\xbe\xef\x01
+get nv
+raw nv
+set nv long 0
+get nv
+raw nv
+set nv long -5
+get nv
+raw nv
+set nv long 40000
+get nv
+raw nv
+set nv long 2147483647
+get nv
+raw nv
+set nv long -2147483648
+get nv
+raw nv
+set nv short -32768
+get nv
+raw nv
+set nv short 7
+get nv
+raw nv
+set nv longlong 9223372036854775807
+get nv
+raw nv
+set nv longlong -3
+get nv
+raw nv
+set nv double 2.5
+get nv
+raw nv
+set nv double -0.125
+get nv
+raw nv
+set nv double 12345.678
+get nv
+raw nv
+set nv double 1e20
+get nv
+raw nv
+set nv double 0.005
+get nv
+raw nv
+set nv logical 0
+get nv
+raw nv
+set nv logical 1
+get nv
+raw nv
+set nv logical 2
+get nv
+raw nv
+set nv date 11/08/2017
+get nv
+raw nv
+set nv date 13/45/2017
+get nv
+raw nv
+set nv date ""
+get nv
+raw nv
+set nv date 1/2/3
+get nv
+raw nv
+set nv julian 2458066
+get nv
+raw nv
+set nv julian 0
+get nv
+raw nv
+set nv time 13:45:30.250
+get nv
+raw nv
+set nv time 25:00
+get nv
+raw nv
+set nv time ""
+get nv
+raw nv
+set nv ms 0
+get nv
+raw nv
+set nv ms 86399999
+get nv
+raw nv
+set nv ms -1
+get nv
+raw nv
+set nv timestamp 11/08/2017 13:45:30.250
+get nv
+raw nv
+set nv timestamp 11/08/2017
+get nv
+raw nv
+set nv money 123456
+get nv
+raw nv
+set nv money -1
+get nv
+raw nv
+set nv binary 0102
+get nv
+raw nv
+set nv binary 0102030405060708090a
+get nv
+raw nv
+set nv null
+get nv
+raw nv
+set nv empty
+get nv
+raw nv
+set nv string kept
+get nv
+raw nv
+# vfp wide
+set wide string abc
+get wide
+raw wide
+set wide string ""
+get wide
+raw wide
+set wide string abcdefghijklmnopqrstuvwxyz
+get wide
+raw wide
+set wide string   12.5
+get wide
+raw wide
+set wide string T
+get wide
+raw wide
+set wide string 11/08/2017
+get wide
+raw wide
+set wide string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide string \xe4\x80
+get wide
+raw wide
+set wide stringw caf\xe9
+get wide
+raw wide
+set wide stringw abcdefghijkl
+get wide
+raw wide
+set wide field abc
+get wide
+raw wide
+set wide field ""
+get wide
+raw wide
+set wide field  42
+get wide
+raw wide
+set wide field -1.005
+get wide
+raw wide
+set wide field 123456789.125
+get wide
+raw wide
+set wide field 1e3
+get wide
+raw wide
+set wide field x1
+get wide
+raw wide
+set wide field T
+get wide
+raw wide
+set wide field n
+get wide
+raw wide
+set wide field 11/08/2017
+get wide
+raw wide
+set wide field 2/30/2017
+get wide
+raw wide
+set wide field 13:45
+get wide
+raw wide
+set wide field 12/31/1999 23:59:59.999
+get wide
+raw wide
+set wide field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get wide
+raw wide
+set wide field \xde\xad\xbe\xef\x01
+get wide
+raw wide
+set wide long 0
+get wide
+raw wide
+set wide long -5
+get wide
+raw wide
+set wide long 40000
+get wide
+raw wide
+set wide long 2147483647
+get wide
+raw wide
+set wide long -2147483648
+get wide
+raw wide
+set wide short -32768
+get wide
+raw wide
+set wide short 7
+get wide
+raw wide
+set wide longlong 9223372036854775807
+get wide
+raw wide
+set wide longlong -3
+get wide
+raw wide
+set wide double 2.5
+get wide
+raw wide
+set wide double -0.125
+get wide
+raw wide
+set wide double 12345.678
+get wide
+raw wide
+set wide double 1e20
+get wide
+raw wide
+set wide double 0.005
+get wide
+raw wide
+set wide logical 0
+get wide
+raw wide
+set wide logical 1
+get wide
+raw wide
+set wide logical 2
+get wide
+raw wide
+set wide date 11/08/2017
+get wide
+raw wide
+set wide date 13/45/2017
+get wide
+raw wide
+set wide date ""
+get wide
+raw wide
+set wide date 1/2/3
+get wide
+raw wide
+set wide julian 2458066
+get wide
+raw wide
+set wide julian 0
+get wide
+raw wide
+set wide time 13:45:30.250
+get wide
+raw wide
+set wide time 25:00
+get wide
+raw wide
+set wide time ""
+get wide
+raw wide
+set wide ms 0
+get wide
+raw wide
+set wide ms 86399999
+get wide
+raw wide
+set wide ms -1
+get wide
+raw wide
+set wide timestamp 11/08/2017 13:45:30.250
+get wide
+raw wide
+set wide timestamp 11/08/2017
+get wide
+raw wide
+set wide money 123456
+get wide
+raw wide
+set wide money -1
+get wide
+raw wide
+set wide binary 0102
+get wide
+raw wide
+set wide binary 0102030405060708090a
+get wide
+raw wide
+set wide null
+get wide
+raw wide
+set wide empty
+get wide
+raw wide
+set wide string kept
+get wide
+raw wide
+# vfp q
+set q string abc
+get q
+raw q
+set q string ""
+get q
+raw q
+set q string abcdefghijklmnopqrstuvwxyz
+get q
+raw q
+set q string   12.5
+get q
+raw q
+set q string T
+get q
+raw q
+set q string 11/08/2017
+get q
+raw q
+set q string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get q
+raw q
+set q string \xe4\x80
+get q
+raw q
+set q stringw caf\xe9
+get q
+raw q
+set q stringw abcdefghijkl
+get q
+raw q
+set q field abc
+get q
+raw q
+set q field ""
+get q
+raw q
+set q field  42
+get q
+raw q
+set q field -1.005
+get q
+raw q
+set q field 123456789.125
+get q
+raw q
+set q field 1e3
+get q
+raw q
+set q field x1
+get q
+raw q
+set q field T
+get q
+raw q
+set q field n
+get q
+raw q
+set q field 11/08/2017
+get q
+raw q
+set q field 2/30/2017
+get q
+raw q
+set q field 13:45
+get q
+raw q
+set q field 12/31/1999 23:59:59.999
+get q
+raw q
+set q field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get q
+raw q
+set q field \xde\xad\xbe\xef\x01
+get q
+raw q
+set q long 0
+get q
+raw q
+set q long -5
+get q
+raw q
+set q long 40000
+get q
+raw q
+set q long 2147483647
+get q
+raw q
+set q long -2147483648
+get q
+raw q
+set q short -32768
+get q
+raw q
+set q short 7
+get q
+raw q
+set q longlong 9223372036854775807
+get q
+raw q
+set q longlong -3
+get q
+raw q
+set q double 2.5
+get q
+raw q
+set q double -0.125
+get q
+raw q
+set q double 12345.678
+get q
+raw q
+set q double 1e20
+get q
+raw q
+set q double 0.005
+get q
+raw q
+set q logical 0
+get q
+raw q
+set q logical 1
+get q
+raw q
+set q logical 2
+get q
+raw q
+set q date 11/08/2017
+get q
+raw q
+set q date 13/45/2017
+get q
+raw q
+set q date ""
+get q
+raw q
+set q date 1/2/3
+get q
+raw q
+set q julian 2458066
+get q
+raw q
+set q julian 0
+get q
+raw q
+set q time 13:45:30.250
+get q
+raw q
+set q time 25:00
+get q
+raw q
+set q time ""
+get q
+raw q
+set q ms 0
+get q
+raw q
+set q ms 86399999
+get q
+raw q
+set q ms -1
+get q
+raw q
+set q timestamp 11/08/2017 13:45:30.250
+get q
+raw q
+set q timestamp 11/08/2017
+get q
+raw q
+set q money 123456
+get q
+raw q
+set q money -1
+get q
+raw q
+set q binary 0102
+get q
+raw q
+set q binary 0102030405060708090a
+get q
+raw q
+set q null
+get q
+raw q
+set q empty
+get q
+raw q
+set q string kept
+get q
+raw q
+# vfp y
+set y string abc
+get y
+raw y
+set y string ""
+get y
+raw y
+set y string abcdefghijklmnopqrstuvwxyz
+get y
+raw y
+set y string   12.5
+get y
+raw y
+set y string T
+get y
+raw y
+set y string 11/08/2017
+get y
+raw y
+set y string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get y
+raw y
+set y string \xe4\x80
+get y
+raw y
+set y stringw caf\xe9
+get y
+raw y
+set y stringw abcdefghijkl
+get y
+raw y
+set y field abc
+get y
+raw y
+set y field ""
+get y
+raw y
+set y field  42
+get y
+raw y
+set y field -1.005
+get y
+raw y
+set y field 123456789.125
+get y
+raw y
+set y field 1e3
+get y
+raw y
+set y field x1
+get y
+raw y
+set y field T
+get y
+raw y
+set y field n
+get y
+raw y
+set y field 11/08/2017
+get y
+raw y
+set y field 2/30/2017
+get y
+raw y
+set y field 13:45
+get y
+raw y
+set y field 12/31/1999 23:59:59.999
+get y
+raw y
+set y field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get y
+raw y
+set y field \xde\xad\xbe\xef\x01
+get y
+raw y
+set y long 0
+get y
+raw y
+set y long -5
+get y
+raw y
+set y long 40000
+get y
+raw y
+set y long 2147483647
+get y
+raw y
+set y long -2147483648
+get y
+raw y
+set y short -32768
+get y
+raw y
+set y short 7
+get y
+raw y
+set y longlong 9223372036854775807
+get y
+raw y
+set y longlong -3
+get y
+raw y
+set y double 2.5
+get y
+raw y
+set y double -0.125
+get y
+raw y
+set y double 12345.678
+get y
+raw y
+set y double 1e20
+get y
+raw y
+set y double 0.005
+get y
+raw y
+set y logical 0
+get y
+raw y
+set y logical 1
+get y
+raw y
+set y logical 2
+get y
+raw y
+set y date 11/08/2017
+get y
+raw y
+set y date 13/45/2017
+get y
+raw y
+set y date ""
+get y
+raw y
+set y date 1/2/3
+get y
+raw y
+set y julian 2458066
+get y
+raw y
+set y julian 0
+get y
+raw y
+set y time 13:45:30.250
+get y
+raw y
+set y time 25:00
+get y
+raw y
+set y time ""
+get y
+raw y
+set y ms 0
+get y
+raw y
+set y ms 86399999
+get y
+raw y
+set y ms -1
+get y
+raw y
+set y timestamp 11/08/2017 13:45:30.250
+get y
+raw y
+set y timestamp 11/08/2017
+get y
+raw y
+set y money 123456
+get y
+raw y
+set y money -1
+get y
+raw y
+set y binary 0102
+get y
+raw y
+set y binary 0102030405060708090a
+get y
+raw y
+set y null
+get y
+raw y
+set y empty
+get y
+raw y
+set y string kept
+get y
+raw y
+# vfp ts
+set ts string abc
+get ts
+raw ts
+set ts string ""
+get ts
+raw ts
+set ts string abcdefghijklmnopqrstuvwxyz
+get ts
+raw ts
+set ts string   12.5
+get ts
+raw ts
+set ts string T
+get ts
+raw ts
+set ts string 11/08/2017
+get ts
+raw ts
+set ts string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get ts
+raw ts
+set ts string \xe4\x80
+get ts
+raw ts
+set ts stringw caf\xe9
+get ts
+raw ts
+set ts stringw abcdefghijkl
+get ts
+raw ts
+set ts field abc
+get ts
+raw ts
+set ts field ""
+get ts
+raw ts
+set ts field  42
+get ts
+raw ts
+set ts field -1.005
+get ts
+raw ts
+set ts field 123456789.125
+get ts
+raw ts
+set ts field 1e3
+get ts
+raw ts
+set ts field x1
+get ts
+raw ts
+set ts field T
+get ts
+raw ts
+set ts field n
+get ts
+raw ts
+set ts field 11/08/2017
+get ts
+raw ts
+set ts field 2/30/2017
+get ts
+raw ts
+set ts field 13:45
+get ts
+raw ts
+set ts field 12/31/1999 23:59:59.999
+get ts
+raw ts
+set ts field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get ts
+raw ts
+set ts field \xde\xad\xbe\xef\x01
+get ts
+raw ts
+set ts long 0
+get ts
+raw ts
+set ts long -5
+get ts
+raw ts
+set ts long 40000
+get ts
+raw ts
+set ts long 2147483647
+get ts
+raw ts
+set ts long -2147483648
+get ts
+raw ts
+set ts short -32768
+get ts
+raw ts
+set ts short 7
+get ts
+raw ts
+set ts longlong 9223372036854775807
+get ts
+raw ts
+set ts longlong -3
+get ts
+raw ts
+set ts double 2.5
+get ts
+raw ts
+set ts double -0.125
+get ts
+raw ts
+set ts double 12345.678
+get ts
+raw ts
+set ts double 1e20
+get ts
+raw ts
+set ts double 0.005
+get ts
+raw ts
+set ts logical 0
+get ts
+raw ts
+set ts logical 1
+get ts
+raw ts
+set ts logical 2
+get ts
+raw ts
+set ts date 11/08/2017
+get ts
+raw ts
+set ts date 13/45/2017
+get ts
+raw ts
+set ts date ""
+get ts
+raw ts
+set ts date 1/2/3
+get ts
+raw ts
+set ts julian 2458066
+get ts
+raw ts
+set ts julian 0
+get ts
+raw ts
+set ts time 13:45:30.250
+get ts
+raw ts
+set ts time 25:00
+get ts
+raw ts
+set ts time ""
+get ts
+raw ts
+set ts ms 0
+get ts
+raw ts
+set ts ms 86399999
+get ts
+raw ts
+set ts ms -1
+get ts
+raw ts
+set ts timestamp 11/08/2017 13:45:30.250
+get ts
+raw ts
+set ts timestamp 11/08/2017
+get ts
+raw ts
+set ts money 123456
+get ts
+raw ts
+set ts money -1
+get ts
+raw ts
+set ts binary 0102
+get ts
+raw ts
+set ts binary 0102030405060708090a
+get ts
+raw ts
+set ts null
+get ts
+raw ts
+set ts empty
+get ts
+raw ts
+set ts string kept
+get ts
+raw ts
+# vfp ai
+set ai string abc
+get ai
+raw ai
+set ai string ""
+get ai
+raw ai
+set ai string abcdefghijklmnopqrstuvwxyz
+get ai
+raw ai
+set ai string   12.5
+get ai
+raw ai
+set ai string T
+get ai
+raw ai
+set ai string 11/08/2017
+get ai
+raw ai
+set ai string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get ai
+raw ai
+set ai string \xe4\x80
+get ai
+raw ai
+set ai stringw caf\xe9
+get ai
+raw ai
+set ai stringw abcdefghijkl
+get ai
+raw ai
+set ai field abc
+get ai
+raw ai
+set ai field ""
+get ai
+raw ai
+set ai field  42
+get ai
+raw ai
+set ai field -1.005
+get ai
+raw ai
+set ai field 123456789.125
+get ai
+raw ai
+set ai field 1e3
+get ai
+raw ai
+set ai field x1
+get ai
+raw ai
+set ai field T
+get ai
+raw ai
+set ai field n
+get ai
+raw ai
+set ai field 11/08/2017
+get ai
+raw ai
+set ai field 2/30/2017
+get ai
+raw ai
+set ai field 13:45
+get ai
+raw ai
+set ai field 12/31/1999 23:59:59.999
+get ai
+raw ai
+set ai field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get ai
+raw ai
+set ai field \xde\xad\xbe\xef\x01
+get ai
+raw ai
+set ai long 0
+get ai
+raw ai
+set ai long -5
+get ai
+raw ai
+set ai long 40000
+get ai
+raw ai
+set ai long 2147483647
+get ai
+raw ai
+set ai long -2147483648
+get ai
+raw ai
+set ai short -32768
+get ai
+raw ai
+set ai short 7
+get ai
+raw ai
+set ai longlong 9223372036854775807
+get ai
+raw ai
+set ai longlong -3
+get ai
+raw ai
+set ai double 2.5
+get ai
+raw ai
+set ai double -0.125
+get ai
+raw ai
+set ai double 12345.678
+get ai
+raw ai
+set ai double 1e20
+get ai
+raw ai
+set ai double 0.005
+get ai
+raw ai
+set ai logical 0
+get ai
+raw ai
+set ai logical 1
+get ai
+raw ai
+set ai logical 2
+get ai
+raw ai
+set ai date 11/08/2017
+get ai
+raw ai
+set ai date 13/45/2017
+get ai
+raw ai
+set ai date ""
+get ai
+raw ai
+set ai date 1/2/3
+get ai
+raw ai
+set ai julian 2458066
+get ai
+raw ai
+set ai julian 0
+get ai
+raw ai
+set ai time 13:45:30.250
+get ai
+raw ai
+set ai time 25:00
+get ai
+raw ai
+set ai time ""
+get ai
+raw ai
+set ai ms 0
+get ai
+raw ai
+set ai ms 86399999
+get ai
+raw ai
+set ai ms -1
+get ai
+raw ai
+set ai timestamp 11/08/2017 13:45:30.250
+get ai
+raw ai
+set ai timestamp 11/08/2017
+get ai
+raw ai
+set ai money 123456
+get ai
+raw ai
+set ai money -1
+get ai
+raw ai
+set ai binary 0102
+get ai
+raw ai
+set ai binary 0102030405060708090a
+get ai
+raw ai
+set ai null
+get ai
+raw ai
+set ai empty
+get ai
+raw ai
+set ai string kept
+get ai
+raw ai
+# vfp v2
+set v2 string abc
+get v2
+raw v2
+set v2 string ""
+get v2
+raw v2
+set v2 string abcdefghijklmnopqrstuvwxyz
+get v2
+raw v2
+set v2 string   12.5
+get v2
+raw v2
+set v2 string T
+get v2
+raw v2
+set v2 string 11/08/2017
+get v2
+raw v2
+set v2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v2
+raw v2
+set v2 string \xe4\x80
+get v2
+raw v2
+set v2 stringw caf\xe9
+get v2
+raw v2
+set v2 stringw abcdefghijkl
+get v2
+raw v2
+set v2 field abc
+get v2
+raw v2
+set v2 field ""
+get v2
+raw v2
+set v2 field  42
+get v2
+raw v2
+set v2 field -1.005
+get v2
+raw v2
+set v2 field 123456789.125
+get v2
+raw v2
+set v2 field 1e3
+get v2
+raw v2
+set v2 field x1
+get v2
+raw v2
+set v2 field T
+get v2
+raw v2
+set v2 field n
+get v2
+raw v2
+set v2 field 11/08/2017
+get v2
+raw v2
+set v2 field 2/30/2017
+get v2
+raw v2
+set v2 field 13:45
+get v2
+raw v2
+set v2 field 12/31/1999 23:59:59.999
+get v2
+raw v2
+set v2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get v2
+raw v2
+set v2 field \xde\xad\xbe\xef\x01
+get v2
+raw v2
+set v2 long 0
+get v2
+raw v2
+set v2 long -5
+get v2
+raw v2
+set v2 long 40000
+get v2
+raw v2
+set v2 long 2147483647
+get v2
+raw v2
+set v2 long -2147483648
+get v2
+raw v2
+set v2 short -32768
+get v2
+raw v2
+set v2 short 7
+get v2
+raw v2
+set v2 longlong 9223372036854775807
+get v2
+raw v2
+set v2 longlong -3
+get v2
+raw v2
+set v2 double 2.5
+get v2
+raw v2
+set v2 double -0.125
+get v2
+raw v2
+set v2 double 12345.678
+get v2
+raw v2
+set v2 double 1e20
+get v2
+raw v2
+set v2 double 0.005
+get v2
+raw v2
+set v2 logical 0
+get v2
+raw v2
+set v2 logical 1
+get v2
+raw v2
+set v2 logical 2
+get v2
+raw v2
+set v2 date 11/08/2017
+get v2
+raw v2
+set v2 date 13/45/2017
+get v2
+raw v2
+set v2 date ""
+get v2
+raw v2
+set v2 date 1/2/3
+get v2
+raw v2
+set v2 julian 2458066
+get v2
+raw v2
+set v2 julian 0
+get v2
+raw v2
+set v2 time 13:45:30.250
+get v2
+raw v2
+set v2 time 25:00
+get v2
+raw v2
+set v2 time ""
+get v2
+raw v2
+set v2 ms 0
+get v2
+raw v2
+set v2 ms 86399999
+get v2
+raw v2
+set v2 ms -1
+get v2
+raw v2
+set v2 timestamp 11/08/2017 13:45:30.250
+get v2
+raw v2
+set v2 timestamp 11/08/2017
+get v2
+raw v2
+set v2 money 123456
+get v2
+raw v2
+set v2 money -1
+get v2
+raw v2
+set v2 binary 0102
+get v2
+raw v2
+set v2 binary 0102030405060708090a
+get v2
+raw v2
+set v2 null
+get v2
+raw v2
+set v2 empty
+get v2
+raw v2
+set v2 string kept
+get v2
+raw v2
+# vfp c2
+set c2 string abc
+get c2
+raw c2
+set c2 string ""
+get c2
+raw c2
+set c2 string abcdefghijklmnopqrstuvwxyz
+get c2
+raw c2
+set c2 string   12.5
+get c2
+raw c2
+set c2 string T
+get c2
+raw c2
+set c2 string 11/08/2017
+get c2
+raw c2
+set c2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c2
+raw c2
+set c2 string \xe4\x80
+get c2
+raw c2
+set c2 stringw caf\xe9
+get c2
+raw c2
+set c2 stringw abcdefghijkl
+get c2
+raw c2
+set c2 field abc
+get c2
+raw c2
+set c2 field ""
+get c2
+raw c2
+set c2 field  42
+get c2
+raw c2
+set c2 field -1.005
+get c2
+raw c2
+set c2 field 123456789.125
+get c2
+raw c2
+set c2 field 1e3
+get c2
+raw c2
+set c2 field x1
+get c2
+raw c2
+set c2 field T
+get c2
+raw c2
+set c2 field n
+get c2
+raw c2
+set c2 field 11/08/2017
+get c2
+raw c2
+set c2 field 2/30/2017
+get c2
+raw c2
+set c2 field 13:45
+get c2
+raw c2
+set c2 field 12/31/1999 23:59:59.999
+get c2
+raw c2
+set c2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c2
+raw c2
+set c2 field \xde\xad\xbe\xef\x01
+get c2
+raw c2
+set c2 long 0
+get c2
+raw c2
+set c2 long -5
+get c2
+raw c2
+set c2 long 40000
+get c2
+raw c2
+set c2 long 2147483647
+get c2
+raw c2
+set c2 long -2147483648
+get c2
+raw c2
+set c2 short -32768
+get c2
+raw c2
+set c2 short 7
+get c2
+raw c2
+set c2 longlong 9223372036854775807
+get c2
+raw c2
+set c2 longlong -3
+get c2
+raw c2
+set c2 double 2.5
+get c2
+raw c2
+set c2 double -0.125
+get c2
+raw c2
+set c2 double 12345.678
+get c2
+raw c2
+set c2 double 1e20
+get c2
+raw c2
+set c2 double 0.005
+get c2
+raw c2
+set c2 logical 0
+get c2
+raw c2
+set c2 logical 1
+get c2
+raw c2
+set c2 logical 2
+get c2
+raw c2
+set c2 date 11/08/2017
+get c2
+raw c2
+set c2 date 13/45/2017
+get c2
+raw c2
+set c2 date ""
+get c2
+raw c2
+set c2 date 1/2/3
+get c2
+raw c2
+set c2 julian 2458066
+get c2
+raw c2
+set c2 julian 0
+get c2
+raw c2
+set c2 time 13:45:30.250
+get c2
+raw c2
+set c2 time 25:00
+get c2
+raw c2
+set c2 time ""
+get c2
+raw c2
+set c2 ms 0
+get c2
+raw c2
+set c2 ms 86399999
+get c2
+raw c2
+set c2 ms -1
+get c2
+raw c2
+set c2 timestamp 11/08/2017 13:45:30.250
+get c2
+raw c2
+set c2 timestamp 11/08/2017
+get c2
+raw c2
+set c2 money 123456
+get c2
+raw c2
+set c2 money -1
+get c2
+raw c2
+set c2 binary 0102
+get c2
+raw c2
+set c2 binary 0102030405060708090a
+get c2
+raw c2
+set c2 null
+get c2
+raw c2
+set c2 empty
+get c2
+raw c2
+set c2 string kept
+get c2
+raw c2
+# vfp b2
+set b2 string abc
+get b2
+raw b2
+set b2 string ""
+get b2
+raw b2
+set b2 string abcdefghijklmnopqrstuvwxyz
+get b2
+raw b2
+set b2 string   12.5
+get b2
+raw b2
+set b2 string T
+get b2
+raw b2
+set b2 string 11/08/2017
+get b2
+raw b2
+set b2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 string \xe4\x80
+get b2
+raw b2
+set b2 stringw caf\xe9
+get b2
+raw b2
+set b2 stringw abcdefghijkl
+get b2
+raw b2
+set b2 field abc
+get b2
+raw b2
+set b2 field ""
+get b2
+raw b2
+set b2 field  42
+get b2
+raw b2
+set b2 field -1.005
+get b2
+raw b2
+set b2 field 123456789.125
+get b2
+raw b2
+set b2 field 1e3
+get b2
+raw b2
+set b2 field x1
+get b2
+raw b2
+set b2 field T
+get b2
+raw b2
+set b2 field n
+get b2
+raw b2
+set b2 field 11/08/2017
+get b2
+raw b2
+set b2 field 2/30/2017
+get b2
+raw b2
+set b2 field 13:45
+get b2
+raw b2
+set b2 field 12/31/1999 23:59:59.999
+get b2
+raw b2
+set b2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get b2
+raw b2
+set b2 field \xde\xad\xbe\xef\x01
+get b2
+raw b2
+set b2 long 0
+get b2
+raw b2
+set b2 long -5
+get b2
+raw b2
+set b2 long 40000
+get b2
+raw b2
+set b2 long 2147483647
+get b2
+raw b2
+set b2 long -2147483648
+get b2
+raw b2
+set b2 short -32768
+get b2
+raw b2
+set b2 short 7
+get b2
+raw b2
+set b2 longlong 9223372036854775807
+get b2
+raw b2
+set b2 longlong -3
+get b2
+raw b2
+set b2 double 2.5
+get b2
+raw b2
+set b2 double -0.125
+get b2
+raw b2
+set b2 double 12345.678
+get b2
+raw b2
+set b2 double 1e20
+get b2
+raw b2
+set b2 double 0.005
+get b2
+raw b2
+set b2 logical 0
+get b2
+raw b2
+set b2 logical 1
+get b2
+raw b2
+set b2 logical 2
+get b2
+raw b2
+set b2 date 11/08/2017
+get b2
+raw b2
+set b2 date 13/45/2017
+get b2
+raw b2
+set b2 date ""
+get b2
+raw b2
+set b2 date 1/2/3
+get b2
+raw b2
+set b2 julian 2458066
+get b2
+raw b2
+set b2 julian 0
+get b2
+raw b2
+set b2 time 13:45:30.250
+get b2
+raw b2
+set b2 time 25:00
+get b2
+raw b2
+set b2 time ""
+get b2
+raw b2
+set b2 ms 0
+get b2
+raw b2
+set b2 ms 86399999
+get b2
+raw b2
+set b2 ms -1
+get b2
+raw b2
+set b2 timestamp 11/08/2017 13:45:30.250
+get b2
+raw b2
+set b2 timestamp 11/08/2017
+get b2
+raw b2
+set b2 money 123456
+get b2
+raw b2
+set b2 money -1
+get b2
+raw b2
+set b2 binary 0102
+get b2
+raw b2
+set b2 binary 0102030405060708090a
+get b2
+raw b2
+set b2 null
+get b2
+raw b2
+set b2 empty
+get b2
+raw b2
+set b2 string kept
+get b2
+raw b2
+# vfp i2
+set i2 string abc
+get i2
+raw i2
+set i2 string ""
+get i2
+raw i2
+set i2 string abcdefghijklmnopqrstuvwxyz
+get i2
+raw i2
+set i2 string   12.5
+get i2
+raw i2
+set i2 string T
+get i2
+raw i2
+set i2 string 11/08/2017
+get i2
+raw i2
+set i2 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i2
+raw i2
+set i2 string \xe4\x80
+get i2
+raw i2
+set i2 stringw caf\xe9
+get i2
+raw i2
+set i2 stringw abcdefghijkl
+get i2
+raw i2
+set i2 field abc
+get i2
+raw i2
+set i2 field ""
+get i2
+raw i2
+set i2 field  42
+get i2
+raw i2
+set i2 field -1.005
+get i2
+raw i2
+set i2 field 123456789.125
+get i2
+raw i2
+set i2 field 1e3
+get i2
+raw i2
+set i2 field x1
+get i2
+raw i2
+set i2 field T
+get i2
+raw i2
+set i2 field n
+get i2
+raw i2
+set i2 field 11/08/2017
+get i2
+raw i2
+set i2 field 2/30/2017
+get i2
+raw i2
+set i2 field 13:45
+get i2
+raw i2
+set i2 field 12/31/1999 23:59:59.999
+get i2
+raw i2
+set i2 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get i2
+raw i2
+set i2 field \xde\xad\xbe\xef\x01
+get i2
+raw i2
+set i2 long 0
+get i2
+raw i2
+set i2 long -5
+get i2
+raw i2
+set i2 long 40000
+get i2
+raw i2
+set i2 long 2147483647
+get i2
+raw i2
+set i2 long -2147483648
+get i2
+raw i2
+set i2 short -32768
+get i2
+raw i2
+set i2 short 7
+get i2
+raw i2
+set i2 longlong 9223372036854775807
+get i2
+raw i2
+set i2 longlong -3
+get i2
+raw i2
+set i2 double 2.5
+get i2
+raw i2
+set i2 double -0.125
+get i2
+raw i2
+set i2 double 12345.678
+get i2
+raw i2
+set i2 double 1e20
+get i2
+raw i2
+set i2 double 0.005
+get i2
+raw i2
+set i2 logical 0
+get i2
+raw i2
+set i2 logical 1
+get i2
+raw i2
+set i2 logical 2
+get i2
+raw i2
+set i2 date 11/08/2017
+get i2
+raw i2
+set i2 date 13/45/2017
+get i2
+raw i2
+set i2 date ""
+get i2
+raw i2
+set i2 date 1/2/3
+get i2
+raw i2
+set i2 julian 2458066
+get i2
+raw i2
+set i2 julian 0
+get i2
+raw i2
+set i2 time 13:45:30.250
+get i2
+raw i2
+set i2 time 25:00
+get i2
+raw i2
+set i2 time ""
+get i2
+raw i2
+set i2 ms 0
+get i2
+raw i2
+set i2 ms 86399999
+get i2
+raw i2
+set i2 ms -1
+get i2
+raw i2
+set i2 timestamp 11/08/2017 13:45:30.250
+get i2
+raw i2
+set i2 timestamp 11/08/2017
+get i2
+raw i2
+set i2 money 123456
+get i2
+raw i2
+set i2 money -1
+get i2
+raw i2
+set i2 binary 0102
+get i2
+raw i2
+set i2 binary 0102030405060708090a
+get i2
+raw i2
+set i2 null
+get i2
+raw i2
+set i2 empty
+get i2
+raw i2
+set i2 string kept
+get i2
+raw i2
+write
+state
+close

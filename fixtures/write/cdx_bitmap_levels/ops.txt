@@ -1,0 +1,118 @@
+# Binary orders of 76 leaves (the root over a full interior node and one of 14
+# leaves) and of 124 (two full ones), kept current as records are added, past
+# the 124th leaf too, and the second rebuilt.
+tabletype cdx
+open m.dbf exclusive
+createindex - del 4098 512 DELETED()
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 250000
+pos
+oskip 1
+pos
+append
+set x string b
+write
+append
+set x string a
+write
+goto 249984
+delete
+write
+goto 300000
+delete
+write
+goto 8
+delete
+write
+goto 8
+recall
+write
+goto 300000
+recall
+write
+goto 300002
+delete
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 260000
+pos
+oskip 1
+pos
+close
+open c.dbf exclusive
+createindex - del 4098 512 DELETED()
+order del
+count
+obottom
+pos
+otop
+pos
+oskip 400000
+pos
+append
+set x string b
+write
+append
+set x string a
+write
+append
+set x string b
+write
+goto 3
+delete
+write
+goto 100000
+delete
+write
+goto 246016
+delete
+write
+goto 492032
+delete
+write
+goto 8
+recall
+write
+goto 399995
+recall
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 420000
+pos
+oskip 1
+pos
+reindex
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 420000
+pos
+oskip 1
+pos
+close

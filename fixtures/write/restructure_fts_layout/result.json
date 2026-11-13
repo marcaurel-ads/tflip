@@ -1,0 +1,4 @@
+[
+{"cmd": "restructure pp.adt 0 extra,Char,4||", "rc": 0},
+{"cmd": "restructure pq.adt 0 extra,Char,4||", "rc": 0}
+]

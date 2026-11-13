@@ -1,0 +1,33 @@
+# Query logging on a free connection: sp_EnableQueryLogging,
+# sp_DisableQueryLogging, sp_GetQueryLoggingResults and sp_ViewQueryLogging,
+# the table the log is kept in, what it records, and what is refused.
+# Replayed with the times masked.
+#
+#     run.sh <work> <ace32.dll> spql.txt > ../../../fixtures/sql/spql.json
+stmt
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_ViewQueryLogging(1)
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults()
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_DisableQueryLogging(1)
+query EXECUTE PROCEDURE sp_EnableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query CREATE TABLE t1 (id INTEGER, name CHAR(10))
+query INSERT INTO t1 VALUES (1, 'one')
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query SELECT * FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog2', 1, 0, 0, '', 0)
+query EXECUTE PROCEDURE sp_EnableQueryLogging('', 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging(NULL, 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('t1', 0, 0, 0, '')

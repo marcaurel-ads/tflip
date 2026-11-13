@@ -1,0 +1,170 @@
+[
+{"cmd": "connect psm.add ADSSYS adssyspw", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT * FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "items.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["qty", 11, 4, 0], ["note", 5, 9, 0]], "rows": [
+  [1, ["1", "apple     ", "6", null]],
+  [2, ["2", "pear      ", "0", null]]]}},
+{"cmd": "direct SELECT * FROM (EXECUTE PROCEDURE numbers(4)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]]]}},
+{"cmd": "info", "stmt_type": 4, "cursor_type": 5, "owner_rc": 0, "owner_is_stmt": true, "sql_rc": 0, "sql": "SELECT * FROM (EXECUTE PROCEDURE numbers(4)) p", "filter_rc": 5037, "filter": "", "aof_rc": 5037, "aof": ""},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(5)) p WHERE v > 2 ORDER BY v DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["v", 11, 4, 0]], "rows": [
+  [3, ["5"]],
+  [2, ["4"]],
+  [1, ["3"]]]}},
+{"cmd": "query SELECT v * 2 AS d, COUNT(*) AS c FROM (EXECUTE PROCEDURE numbers(5)) p GROUP BY v * 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["d", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["2", "1"]],
+  [2, ["4", "1"]],
+  [3, ["6", "1"]],
+  [4, ["8", "1"]],
+  [5, ["10", "1"]]]}},
+{"cmd": "query SELECT p.v, i.name FROM (EXECUTE PROCEDURE numbers(3)) p INNER JOIN items i ON p.v = i.id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "apple     "]],
+  [2, ["2", "pear      "]]]}},
+{"cmd": "query SELECT p.v, i.name FROM items i LEFT JOIN (EXECUTE PROCEDURE numbers(5)) p ON p.v = i.id ORDER BY i.id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "apple     "]],
+  [2, ["2", "pear      "]]]}},
+{"cmd": "query SELECT i.name, p.v FROM items i, (EXECUTE PROCEDURE numbers(2)) p ORDER BY i.id, p.v", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["name", 4, 10, 0], ["v", 11, 4, 0]], "rows": [
+  [1, ["apple     ", "1"]],
+  [2, ["apple     ", "2"]],
+  [3, ["pear      ", "1"]],
+  [4, ["pear      ", "2"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE pick(1)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2235;  [SAP][Advantage SQL Engine]Cannot SELECT from a procedure with no output or varying output parameters. Stored procedure: pick -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT name FROM (EXECUTE PROCEDURE pick(1)) p WHERE qty > 5 ORDER BY name DESC", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2235;  [SAP][Advantage SQL Engine]Cannot SELECT from a procedure with no output or varying output parameters. Stored procedure: pick -- Location of error in the SQL statement is: 37", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE pick(2)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2235;  [SAP][Advantage SQL Engine]Cannot SELECT from a procedure with no output or varying output parameters. Stored procedure: pick -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 'items', NULL)) t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TABLE_CAT", 20, 200, 0], ["TABLE_SCHEM", 20, 200, 0], ["TABLE_NAME", 20, 255, 0], ["TABLE_TYPE", 20, 17, 0], ["REMARKS", 5, 9, 0]], "rows": [
+  [1, ["<data>\\psm.add                                                                                             ", null, "items                                                                                                                                                                                                                                                          ", "TABLE            ", null]]]}},
+{"cmd": "query SELECT TABLE_NAME, TABLE_TYPE FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'TABLE')) t ORDER BY TABLE_NAME", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["TABLE_NAME", 20, 255, 0], ["TABLE_TYPE", 20, 17, 0]], "rows": [
+  [2, ["audit                                                                                                                                                                                                                                                          ", "TABLE            "]],
+  [1, ["items                                                                                                                                                                                                                                                          ", "TABLE            "]]]}},
+{"cmd": "query SELECT COLUMN_NAME FROM (EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'items', NULL)) c WHERE DATA_TYPE = 4", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["COLUMN_NAME", 20, 200, 0]], "rows": [
+  [1, ["id                                                                                                                                                                                                      "]],
+  [2, ["qty                                                                                                                                                                                                     "]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)) t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["23"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c, SUM(p.v * q.v) AS s FROM (EXECUTE PROCEDURE numbers(2)) p, (EXECUTE PROCEDURE numbers(3)) q", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0], ["s", 11, 4, 0]], "rows": [
+  [1, ["6", "18"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p UNION SELECT id FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_49.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT id FROM items WHERE id IN (SELECT v FROM (EXECUTE PROCEDURE numbers(2)) p)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT {static} * FROM (EXECUTE PROCEDURE numbers(2)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT TOP 2 * FROM (EXECUTE PROCEDURE numbers(5)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_56.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT DISTINCT v / 2 AS h FROM (EXECUTE PROCEDURE numbers(5)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["h", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["1"]],
+  [3, ["2"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(1 + 2)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "prepare SELECT * FROM (EXECUTE PROCEDURE numbers(?)) p", "rc": 0},
+{"cmd": "param 1 long 2", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_63.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "info", "stmt_type": 4, "cursor_type": 5, "owner_rc": 0, "owner_is_stmt": true, "sql_rc": 0, "sql": "SELECT * FROM (EXECUTE PROCEDURE numbers(?)) p", "filter_rc": 5037, "filter": "", "aof_rc": 5037, "aof": ""},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT * FROM (EXECUTE PROCEDURE numbers(?)) p WHERE v > ?", "rc": 0},
+{"cmd": "param 1 long 3", "rc": 0},
+{"cmd": "param 2 long 1", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_67.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["2"]],
+  [2, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "query SELECT i.id, p.v FROM items i, (EXECUTE PROCEDURE numbers(i.id)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: id -- Location of error in the SQL statement is: 61", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(NULL)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["v", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers()) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(1, 2)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE add_item(1)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE add_item(1, 'a')) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables()) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL, NULL)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 'items')) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetApplicationID(1)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: sp_GetApplicationID -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_SetApplicationID('abc')) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2235;  [SAP][Advantage SQL Engine]Cannot SELECT from a procedure with no output or varying output parameters. Stored procedure: sp_SetApplicationID -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetSQLKeywords()) p WHERE 1 = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["Keyword", 20, 100, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_MgGetInstallInfo()) p WHERE 1 = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_73.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["Owner", 20, 36, 0], ["SerialNumber", 20, 16, 0], ["UserOption", 11, 4, 0], ["Version", 20, 16, 0], ["InstallDate", 20, 16, 0], ["EvalExpireDate", 20, 16, 0], ["ANSI", 20, 16, 0], ["OEM", 20, 16, 0], ["ReplicationEnabled", 1, 1, 0], ["MaxStatefulUsers", 11, 4, 0], ["MaxStatelessUsers", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2125;  [SAP][Advantage SQL Engine]Invalid table name:  Missing alias for EXECUTE PROCEDURE in the FROM clause. There was a problem parsing the table names after the FROM keyword. -- Location of error in the SQL statement is: 44", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT v FROM (EXECUTE PROCEDURE numbers(2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2125;  [SAP][Advantage SQL Engine]Invalid table name:  Missing alias for EXECUTE PROCEDURE in the FROM clause. There was a problem parsing the table names after the FROM keyword. -- Location of error in the SQL statement is: 44", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE nosuch(2)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2198;  [SAP][Advantage SQL Engine]The stored procedure name is invalid: nosuch -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT nosuch FROM (EXECUTE PROCEDURE numbers(2)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: nosuch -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE numbers(2)) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting keyword PROCEDURE, IMMEDIATE, DPRINT or PRINT after the EXECUTE keyword. -- Location of error in the SQL statement is: 24 There was a problem parsing the table names after the FROM keyword.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) There was a problem parsing the table names after the FROM keyword. -- Location of error in the SQL statement is: 45", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM EXECUTE PROCEDURE numbers(2) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <identifier> -- Missing table name. There was a problem parsing the table names after the FROM keyword. -- Location of error in the SQL statement is: 15", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetTables(NULL)) t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_NoSuch()) t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2198;  [SAP][Advantage SQL Engine]The stored procedure name is invalid: sp_NoSuch -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE pick(1)) p INNER JOIN items i ON p.id = i.id", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2235;  [SAP][Advantage SQL Engine]Cannot SELECT from a procedure with no output or varying output parameters. Stored procedure: pick -- Location of error in the SQL statement is: 34", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * INTO f_proc FROM (EXECUTE PROCEDURE numbers(3)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "f_proc.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT * FROM (SELECT * FROM (EXECUTE PROCEDURE numbers(3)) p) x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT (SELECT COUNT(*) FROM (EXECUTE PROCEDURE numbers(3)) p) AS n FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_82.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["3"]],
+  [2, ["3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 'items', NULL)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_83.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TABLE_CAT", 20, 200, 0], ["TABLE_SCHEM", 20, 200, 0], ["TABLE_NAME", 20, 255, 0], ["TABLE_TYPE", 20, 17, 0], ["REMARKS", 5, 9, 0]], "rows": [
+  [1, ["<data>\\psm.add                                                                                             ", null, "items                                                                                                                                                                                                                                                          ", "TABLE            ", null]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p WHERE v = (SELECT MAX(id) FROM items)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "prepare SELECT * FROM (EXECUTE PROCEDURE add_item(10, 'a', 1)) p", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_90.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["new_count", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_93.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["new_count", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_95.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "verify SELECT * FROM (EXECUTE PROCEDURE add_item(11, 'b', 1)) p", "rc": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_99.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "query SELECT * FROM items i, (EXECUTE PROCEDURE add_item(12, 'c', 1)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["qty", 11, 4, 0], ["note", 5, 9, 0], ["new_count", 11, 4, 0]], "rows": [
+  [1, ["1", "apple     ", "6", null, "5"]],
+  [2, ["2", "pear      ", "0", null, "5"]],
+  [3, ["10", "a         ", "1", null, "5"]],
+  [4, ["10", "a         ", "1", null, "5"]],
+  [5, ["12", "c         ", "1", null, "5"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "query SELECT (SELECT COUNT(*) FROM (EXECUTE PROCEDURE add_item(13, 'd', 1)) p) AS n FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 6, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]],
+  [3, ["1"]],
+  [4, ["1"]],
+  [5, ["1"]],
+  [6, ["1"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE add_item(14, 'e', 1)) p WHERE 1 = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ad.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["new_count", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_af.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["7"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE add_item(15, 'f', 1)) p, (EXECUTE PROCEDURE add_item(16, 'g', 1)) q", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["new_count", 11, 4, 0], ["new_count_1", 11, 4, 0]], "rows": [
+  [1, ["9", "8"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ba.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["9"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE add_item(1, 'zz', 'notanumber')) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Target Data Type: <Integer> Source Data Type: <Character> Target Name: qty -- Location of error in the SQL statement is: 52", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COUNT(*) AS c FROM items", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_bc.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["9"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) p WHERE v = (SELECT MAX(id) FROM items)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["v", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers('x')) p", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Target Data Type: <Integer> Source Data Type: <Character> Target Name: n -- Location of error in the SQL statement is: 42", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE numbers(2)) AS p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT p.* FROM (EXECUTE PROCEDURE numbers(2)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ca.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT p.v FROM (EXECUTE PROCEDURE numbers(2)) p WHERE q.v = 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2122;  [SAP][Advantage SQL Engine]Table or alias not found: q -- Location of error in the SQL statement is: 58", "has_cursor": false, "affected": 4294967295}
+]

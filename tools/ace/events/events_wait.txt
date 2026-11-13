@@ -1,0 +1,28 @@
+# A wait that is signalled while it waits (no timeout is the wait that goes
+# on until it is, -1), and one a second connection cancels with
+# sp_CancelQuery, which ends in 7209 and keeps the signal (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_wait.txt
+#             > ../../../fixtures/events/events_wait.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;
+connect 2 d\d.add
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('x', 0)
+async 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 20000, 0, 0)
+sleep 800
+cancel 2
+sql 2 EXECUTE PROCEDURE sig0('x')
+join 1
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 0)
+async 1 EXECUTE PROCEDURE sp_WaitForEvent('x', -1, 0, 0)
+sleep 800
+sql 2 EXECUTE PROCEDURE sig0('x')
+join 1
+async 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(5000, 0, 0)
+sleep 800
+sql 2 EXECUTE PROCEDURE sig0('x')
+join 1

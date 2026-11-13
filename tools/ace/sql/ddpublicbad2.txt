@@ -1,0 +1,46 @@
+# What a view (v1) whose rights slot for DB:Public does not check (a byte of its
+# 32 flipped by crates/tflip-storage/examples/pubslot.rs, in a dictionary made
+# by ddpublicbad_make.txt (as pubslot view v1 0)) does to the user and to the administrator: opening
+# it, a query, an insert, the system tables that evaluate the rights on it,
+# the catalog procedure, and dropping it. Run in a fresh process, as the
+# engine keeps a dictionary's key open across connections. The corrupted
+# dictionary and its tables, pb.add and t1.adt ..., are kept in
+# fixtures/sql/ddpublicbad2/:
+#
+#     run.sh <work> <ace32.dll> ddpublicbad2.txt > ../../../fixtures/sql/ddpublicbad2.json
+#
+# (the work folder's data/ copy of fixtures/sql/ddpublicbad2/ is made by run.sh;
+# the original's results are of that dictionary).
+connect pb.add adssys
+stmt
+query SELECT * FROM system.effectivepermissions
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+open t1
+open t2
+query SELECT * FROM t1
+query SELECT * FROM t2
+query SELECT * FROM v1
+direct INSERT INTO t1 VALUES ('2', 'two')
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add bob bobpw
+stmt
+query SELECT * FROM system.effectivepermissions
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+query SELECT * FROM system.views
+open t1
+open t2
+query SELECT * FROM t1
+query SELECT * FROM t2
+query SELECT * FROM v1
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+disconnect
+connect pb.add adssys
+stmt
+direct DROP TABLE t1
+direct DROP VIEW v1
+direct DROP TABLE t2
+query SELECT * FROM system.tables
+disconnect

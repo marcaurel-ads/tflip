@@ -1,0 +1,846 @@
+# ntx
+tabletype ntx
+open r_ntx.dbf shared
+state
+# A record with a value in every field.
+append
+state
+islocked 1
+set c string abc
+set n double 12345.67
+set n0 long 42
+set d date 11/08/2017
+set l logical 1
+set b double 3.5
+set i long -7
+set lg longlong 1234567890123
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+set v string var
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set wide string \@00290w
+set m string a memo
+set b2 double 1.25
+record
+get c
+get n
+get d
+write
+state
+islocked 1
+# Strings through AdsSetField, and boundary values.
+append
+set c field zzzzzzzzzzzz
+set n field -999999.99
+set n0 field 99999
+set i field -2147483647
+set d field 01/01/0001
+set l field F
+set b field -12345.5
+write
+state
+# A record with nothing set.
+append
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get b2
+get m
+# NULL in every field.
+append
+set c null
+set n null
+set n0 null
+set d null
+set l null
+set b null
+set i null
+set lg null
+set g null
+set v null
+set nc null
+set nv null
+set wide null
+set b2 null
+set m null
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get b2
+get m
+# Empty values.
+goto 1
+set c empty
+set n empty
+set n0 empty
+set d empty
+set l empty
+set b empty
+set i empty
+set lg empty
+set g empty
+set v empty
+set nc empty
+set nv empty
+set wide empty
+set b2 empty
+set m empty
+record
+write
+record
+# A change written by moving off the record.
+goto 2
+set c string moved
+skip 1
+goto 2
+get c
+state
+# A change cancelled.
+goto 2
+set c string cancelled
+cancel
+get c
+# An append cancelled.
+append
+set c string gone
+state
+cancel
+state
+bottom
+state
+record
+# Deletes and recalls.
+goto 1
+delete
+state
+write
+state
+goto 1
+state
+recall
+state
+goto 2
+delete
+set c string deleted
+write
+state
+showdeleted 0
+top
+state
+goto 2
+state
+showdeleted 1
+top
+state
+goto 2
+recall
+skip 1
+goto 2
+state
+# More appends after the deletes: no free list.
+append
+set c string tail
+write
+state
+append
+set c string tail2
+skip -1
+state
+close
+# Two handles: locks.
+open p_ntx.dbf shared
+open p_ntx.dbf shared
+use 2
+append
+set id long 1
+set c string one
+write
+append
+set id long 2
+write
+use 3
+lock 1
+islocked 1
+use 2
+lock 1
+goto 1
+set c string x
+write
+use 3
+unlock 1
+use 2
+lock 1
+locks
+goto 1
+set c string x
+write
+unlock 1
+use 3
+goto 1
+set c string y
+islocked 1
+use 2
+islocked 1
+locktable
+use 3
+write
+unlock 1
+locktable
+use 2
+tablelocked
+unlocktable
+use 3
+locktable
+tablelocked
+append
+set id long 3
+write
+state
+unlocktable
+use 2
+bottom
+state
+append
+set id long 4
+use 3
+append
+set id long 5
+write
+use 2
+write
+use 3
+state
+close
+use 2
+close
+open p_ntx.dbf readonly
+goto 1
+set c string ro
+append
+delete
+close
+open p_ntx.dbf exclusive
+open p_ntx.dbf shared
+use 5
+append
+set id long 6
+write
+state
+close
+# cdx
+tabletype cdx
+open r_cdx.dbf shared
+state
+# A record with a value in every field.
+append
+state
+islocked 1
+set c string abc
+set n double 12345.67
+set n0 long 42
+set d date 11/08/2017
+set l logical 1
+set b double 3.5
+set i long -7
+set lg longlong 1234567890123
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+set v string var
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set wide string \@00290w
+set m string a memo
+set b2 double 1.25
+record
+get c
+get n
+get d
+write
+state
+islocked 1
+# Strings through AdsSetField, and boundary values.
+append
+set c field zzzzzzzzzzzz
+set n field -999999.99
+set n0 field 99999
+set i field -2147483647
+set d field 01/01/0001
+set l field F
+set b field -12345.5
+write
+state
+# A record with nothing set.
+append
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get b2
+get m
+# NULL in every field.
+append
+set c null
+set n null
+set n0 null
+set d null
+set l null
+set b null
+set i null
+set lg null
+set g null
+set v null
+set nc null
+set nv null
+set wide null
+set b2 null
+set m null
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get b2
+get m
+# Empty values.
+goto 1
+set c empty
+set n empty
+set n0 empty
+set d empty
+set l empty
+set b empty
+set i empty
+set lg empty
+set g empty
+set v empty
+set nc empty
+set nv empty
+set wide empty
+set b2 empty
+set m empty
+record
+write
+record
+# A change written by moving off the record.
+goto 2
+set c string moved
+skip 1
+goto 2
+get c
+state
+# A change cancelled.
+goto 2
+set c string cancelled
+cancel
+get c
+# An append cancelled.
+append
+set c string gone
+state
+cancel
+state
+bottom
+state
+record
+# Deletes and recalls.
+goto 1
+delete
+state
+write
+state
+goto 1
+state
+recall
+state
+goto 2
+delete
+set c string deleted
+write
+state
+showdeleted 0
+top
+state
+goto 2
+state
+showdeleted 1
+top
+state
+goto 2
+recall
+skip 1
+goto 2
+state
+# More appends after the deletes: no free list.
+append
+set c string tail
+write
+state
+append
+set c string tail2
+skip -1
+state
+close
+# Two handles: locks.
+open p_cdx.dbf shared
+open p_cdx.dbf shared
+use 7
+append
+set id long 1
+set c string one
+write
+append
+set id long 2
+write
+use 8
+lock 1
+islocked 1
+use 7
+lock 1
+goto 1
+set c string x
+write
+use 8
+unlock 1
+use 7
+lock 1
+locks
+goto 1
+set c string x
+write
+unlock 1
+use 8
+goto 1
+set c string y
+islocked 1
+use 7
+islocked 1
+locktable
+use 8
+write
+unlock 1
+locktable
+use 7
+tablelocked
+unlocktable
+use 8
+locktable
+tablelocked
+append
+set id long 3
+write
+state
+unlocktable
+use 7
+bottom
+state
+append
+set id long 4
+use 8
+append
+set id long 5
+write
+use 7
+write
+use 8
+state
+close
+use 7
+close
+open p_cdx.dbf readonly
+goto 1
+set c string ro
+append
+delete
+close
+open p_cdx.dbf exclusive
+open p_cdx.dbf shared
+use 10
+append
+set id long 6
+write
+state
+close
+# vfp
+tabletype vfp
+open r_vfp.dbf shared
+state
+# A record with a value in every field.
+append
+state
+islocked 1
+set c string abc
+set n double 12345.67
+set n0 long 42
+set d date 11/08/2017
+set l logical 1
+set b double 3.5
+set i long -7
+set lg longlong 1234567890123
+set g string {01234567-89AB-CDEF-0123-456789ABCDEF}
+set v string var
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set wide string \@00290w
+set m string a memo
+set b2 double 1.25
+set q binary 0102
+set y money 123456
+set ts timestamp 11/08/2017 13:45:30.250
+set v2 string yy
+set c2 string raw
+set i2 long 9
+record
+get c
+get n
+get d
+write
+state
+islocked 1
+# Strings through AdsSetField, and boundary values.
+append
+set c field zzzzzzzzzzzz
+set n field -999999.99
+set n0 field 99999
+set i field -2147483647
+set d field 01/01/0001
+set l field F
+set b field -12345.5
+write
+state
+# A record with nothing set.
+append
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get q
+get y
+get ts
+get ai
+get v2
+get c2
+get b2
+get i2
+get m
+# NULL in every field.
+append
+set c null
+set n null
+set n0 null
+set d null
+set l null
+set b null
+set i null
+set lg null
+set g null
+set v null
+set nc null
+set nv null
+set wide null
+set q null
+set y null
+set ts null
+set ai null
+set v2 null
+set c2 null
+set b2 null
+set i2 null
+set m null
+write
+record
+get c
+get n
+get n0
+get d
+get l
+get b
+get i
+get lg
+get g
+get v
+get nc
+get nv
+get wide
+get q
+get y
+get ts
+get ai
+get v2
+get c2
+get b2
+get i2
+get m
+# Empty values.
+goto 1
+set c empty
+set n empty
+set n0 empty
+set d empty
+set l empty
+set b empty
+set i empty
+set lg empty
+set g empty
+set v empty
+set nc empty
+set nv empty
+set wide empty
+set q empty
+set y empty
+set ts empty
+set ai empty
+set v2 empty
+set c2 empty
+set b2 empty
+set i2 empty
+set m empty
+record
+write
+record
+# A change written by moving off the record.
+goto 2
+set c string moved
+skip 1
+goto 2
+get c
+state
+# A change cancelled.
+goto 2
+set c string cancelled
+cancel
+get c
+# An append cancelled.
+append
+set c string gone
+state
+cancel
+state
+bottom
+state
+record
+# Deletes and recalls.
+goto 1
+delete
+state
+write
+state
+goto 1
+state
+recall
+state
+goto 2
+delete
+set c string deleted
+write
+state
+showdeleted 0
+top
+state
+goto 2
+state
+showdeleted 1
+top
+state
+goto 2
+recall
+skip 1
+goto 2
+state
+# More appends after the deletes: no free list.
+append
+set c string tail
+write
+state
+append
+set c string tail2
+skip -1
+state
+# AutoInc.
+goto 1
+get ai
+goto 2
+get ai
+append
+get ai
+state
+set ai long 99
+write
+get ai
+state
+close
+# Two handles: locks.
+open p_vfp.dbf shared
+open p_vfp.dbf shared
+use 12
+append
+set id long 1
+set c string one
+write
+append
+set id long 2
+write
+use 13
+lock 1
+islocked 1
+use 12
+lock 1
+goto 1
+set c string x
+write
+use 13
+unlock 1
+use 12
+lock 1
+locks
+goto 1
+set c string x
+write
+unlock 1
+use 13
+goto 1
+set c string y
+islocked 1
+use 12
+islocked 1
+locktable
+use 13
+write
+unlock 1
+locktable
+use 12
+tablelocked
+unlocktable
+use 13
+locktable
+tablelocked
+append
+set id long 3
+write
+state
+unlocktable
+use 12
+bottom
+state
+append
+set id long 4
+use 13
+append
+set id long 5
+write
+use 12
+write
+use 13
+state
+close
+use 12
+close
+open p_vfp.dbf readonly
+goto 1
+set c string ro
+append
+delete
+close
+open p_vfp.dbf exclusive
+open p_vfp.dbf shared
+use 15
+append
+set id long 6
+write
+state
+close
+# The OEM tables.
+chartype oem
+tabletype cdx
+open o_cdx.dbf shared
+append
+set c string \xe4\xf6\xfc\xdf
+set m string \xc4\xd6\xdc memo
+write
+raw c
+get c
+append
+set c string \x80\x9c
+get c
+raw c
+set c stringw \x80
+set c string ok
+write
+raw c
+set m string \x80
+write
+close
+tabletype ntx
+open o_ntx.dbf shared
+append
+set c string \xe4\xf6\xfc\xdf
+set m string \xc4\xd6\xdc memo
+write
+raw c
+get c
+append
+set c string \x80\x9c
+get c
+raw c
+set c stringw \x80
+set c string ok
+write
+raw c
+set m string \x80
+write
+close
+chartype ansi

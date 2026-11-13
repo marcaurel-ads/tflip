@@ -1,0 +1,80 @@
+# MERGE on a dictionary connection: the dictionary's defaults, field constraints,
+# primary key, AutoInc column and triggers, in an empty folder with the
+# dictionary the script creates, ct/ct.add; the files it leaves are kept in
+# fixtures/sql/mergedd/:
+#
+#     run.sh <work> <ace32.dll> mergedd.txt > ../../../fixtures/sql/mergedd.json
+#     cp <work>/data/ct/* ../../../fixtures/sql/mergedd/
+ddcreate ct\ct.add
+stmt
+direct CREATE TABLE acct (id INTEGER CONSTRAINT NOT NULL, name CHAR(10) DEFAULT 'anon', qty INTEGER CONSTRAINT MINIMUM '0' CONSTRAINT MAXIMUM '100' CONSTRAINT ERROR MESSAGE 'qty out of range' DEFAULT '5', a AUTOINC, PRIMARY KEY (id))
+direct CREATE TABLE log (msg CHAR(60))
+direct CREATE TABLE feed (id INTEGER, name CHAR(10), qty INTEGER)
+direct INSERT INTO feed VALUES (1, 'one', 10)
+direct INSERT INTO feed VALUES (2, 'two', 20)
+direct INSERT INTO feed VALUES (3, 'three', 300)
+direct INSERT INTO feed VALUES (4, 'four', 40)
+direct INSERT INTO acct (id, name) VALUES (2, DEFAULT)
+direct INSERT INTO acct (id, name, qty) VALUES (3, DEFAULT, DEFAULT)
+direct INSERT INTO acct DEFAULT VALUES
+direct INSERT INTO acct (id) VALUES (9)
+query SELECT * FROM acct
+direct DELETE FROM acct WHERE id = 9
+direct DELETE FROM acct WHERE id = 3
+query SELECT * FROM acct
+# Defaults, the AutoInc column and the constraints
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET name = f.name, qty = f.qty WHEN NOT MATCHED THEN INSERT (id, name) VALUES (f.id, f.name)
+count
+query SELECT * FROM acct
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET qty = f.qty * 100
+count
+query SELECT * FROM acct
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET qty = f.qty * 100
+direct MERGE acct a USING feed f ON a.id = f.id + 10 WHEN NOT MATCHED THEN INSERT (id, name, qty) VALUES (f.id + 10, f.name, f.qty)
+count
+query SELECT * FROM acct
+direct MERGE acct a USING feed f ON a.id = f.id + 20 WHEN NOT MATCHED THEN INSERT (id, name, qty) VALUES (f.id + 20, f.name, NULL)
+count
+direct MERGE acct a USING feed f ON a.id = f.id + 20 WHEN NOT MATCHED THEN INSERT (name) VALUES (f.name)
+count
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET id = NULL
+count
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET id = 1
+count
+query SELECT * FROM acct
+direct MERGE acct a ON (a.id = 70) WHEN NOT MATCHED THEN INSERT (id) VALUES (70), (70)
+count
+direct MERGE acct a ON (a.id > 0) WHEN MATCHED THEN UPDATE SET id = 71
+count
+query SELECT * FROM acct
+# Triggers, in the order they fire
+direct CREATE TRIGGER a_bi ON acct BEFORE INSERT BEGIN INSERT INTO log (msg) SELECT 'bi ' + TRIM(CAST(id AS SQL_CHAR)) FROM __new; END
+direct CREATE TRIGGER a_ai ON acct AFTER INSERT BEGIN INSERT INTO log (msg) SELECT 'ai ' + TRIM(CAST(id AS SQL_CHAR)) FROM __new; END
+direct CREATE TRIGGER a_bu ON acct BEFORE UPDATE BEGIN INSERT INTO log (msg) SELECT 'bu ' + TRIM(CAST(o.qty AS SQL_CHAR)) + '>' + TRIM(CAST(n.qty AS SQL_CHAR)) FROM __old o, __new n; END
+direct CREATE TRIGGER a_au ON acct AFTER UPDATE BEGIN INSERT INTO log (msg) SELECT 'au ' + TRIM(CAST(o.qty AS SQL_CHAR)) + '>' + TRIM(CAST(n.qty AS SQL_CHAR)) FROM __old o, __new n; END
+direct MERGE acct a USING feed f ON a.id = f.id + 100 WHEN NOT MATCHED THEN INSERT (id, qty) VALUES (f.id + 100, f.qty / 10)
+count
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET qty = f.qty / 10 - 1
+count
+query SELECT * FROM log
+query SELECT * FROM acct
+direct DELETE FROM log
+direct MERGE acct a USING feed f ON a.id = f.id + 200 WHEN NOT MATCHED THEN INSERT (id, qty) VALUES (f.id + 200, f.qty / 10)
+count
+query SELECT * FROM log
+direct DELETE FROM log
+# An INSTEAD OF trigger takes the place of the insert and of the update
+direct CREATE TABLE inst (id INTEGER, qty INTEGER)
+direct INSERT INTO inst VALUES (1, 1)
+direct CREATE TRIGGER i_ii ON inst INSTEAD OF INSERT BEGIN INSERT INTO log (msg) SELECT 'ii ' + TRIM(CAST(id AS SQL_CHAR)) FROM __new; END
+direct CREATE TRIGGER i_iu ON inst INSTEAD OF UPDATE BEGIN INSERT INTO log (msg) SELECT 'iu ' + TRIM(CAST(o.qty AS SQL_CHAR)) + '>' + TRIM(CAST(n.qty AS SQL_CHAR)) FROM __old o, __new n; END
+direct MERGE inst i USING feed f ON i.id = f.id WHEN MATCHED THEN UPDATE SET qty = f.qty WHEN NOT MATCHED THEN INSERT (id, qty) VALUES (f.id, f.qty)
+count
+query SELECT * FROM inst
+query SELECT * FROM log
+direct DELETE FROM log
+direct CREATE TRIGGER a_bu2 ON acct BEFORE UPDATE BEGIN RAISE x(1, 'no update'); END
+direct MERGE acct a USING feed f ON a.id = f.id WHEN MATCHED THEN UPDATE SET qty = f.qty / 10 - 2
+count
+query SELECT * FROM acct
+query SELECT * FROM log

@@ -1,0 +1,3 @@
+{
+ "138": {"fields": ["pos", "rcs"], "why": "a grandchild whose parent found no key: the original's first call on it fails with 5068 (AdsGetRecordNum here) and leaves it at EOF; tflip's goes to EOF without the error (KNOWN_ISSUES.md, Relations)"}
+}

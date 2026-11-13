@@ -1,0 +1,82 @@
+# ALTER TABLE of a dictionary's tables whose order the new types cannot build (a
+# field with an order becomes a memo), in shapes with more orders than fields,
+# in one index file: the slots the failed restructure puts the table's objects back in.
+# On a dictionary connection (de\de.add) in an empty folder; the dictionary and
+# the files it leaves are kept in fixtures/sql/spddalterfail2/:
+#
+#     run.sh <work> <ace32.dll> spddalterfail2.txt > ../../../fixtures/sql/spddalterfail2.json
+#     cp <work>/data/de/de.a* <work>/data/de/[w]*.* ../../../fixtures/sql/spddalterfail2/
+ddcreate de\de.add
+stmt
+tabletype 3
+direct CREATE TABLE w00 (a CHAR(4))
+direct CREATE INDEX w00a0 ON w00 (a)
+direct CREATE INDEX w00a1 ON w00 (a)
+direct ALTER TABLE w00 ALTER COLUMN a a MEMO
+direct CREATE TABLE w01 (a CHAR(4))
+direct CREATE INDEX w01a0 ON w01 (a)
+direct CREATE INDEX w01a1 ON w01 (a)
+direct CREATE INDEX w01a2 ON w01 (a)
+direct INSERT INTO w01 VALUES ('a0')
+direct INSERT INTO w01 VALUES ('za')
+direct ALTER TABLE w01 ALTER COLUMN a a MEMO
+direct CREATE TABLE w02 (a CHAR(4), b CHAR(4))
+direct CREATE INDEX w02b0 ON w02 (b)
+direct CREATE INDEX w02a1 ON w02 (a)
+direct CREATE INDEX w02b2 ON w02 (b)
+direct ALTER TABLE w02 ALTER COLUMN b b MEMO
+direct CREATE TABLE w03 (a CHAR(4), b CHAR(4))
+direct CREATE INDEX w03a0 ON w03 (a)
+direct CREATE INDEX w03b1 ON w03 (b)
+direct CREATE INDEX w03a2 ON w03 (a)
+direct CREATE INDEX w03b3 ON w03 (b)
+direct INSERT INTO w03 VALUES ('a0', 'b0')
+direct INSERT INTO w03 VALUES ('za', 'zb')
+direct ALTER TABLE w03 ALTER COLUMN b b MEMO
+direct CREATE TABLE w04 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX w04c0 ON w04 (c)
+direct CREATE INDEX w04b1 ON w04 (b)
+direct CREATE INDEX w04a2 ON w04 (a)
+direct CREATE INDEX w04b3 ON w04 (b)
+direct ALTER TABLE w04 ALTER COLUMN b b MEMO
+direct CREATE TABLE w05 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX w05a0 ON w05 (a)
+direct CREATE INDEX w05b1 ON w05 (b)
+direct CREATE INDEX w05c2 ON w05 (c)
+direct CREATE INDEX w05a3 ON w05 (a)
+direct CREATE INDEX w05b4 ON w05 (b)
+direct INSERT INTO w05 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO w05 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE w05 ALTER COLUMN b b MEMO
+direct CREATE TABLE w06 (a CHAR(4), b CHAR(4))
+direct CREATE INDEX w06a0 ON w06 (a)
+direct CREATE INDEX w06b1 ON w06 (b)
+direct CREATE INDEX w06b2 ON w06 (b)
+direct ALTER TABLE w06 ALTER COLUMN b b MEMO
+direct CREATE TABLE w07 (a CHAR(4), b CHAR(4))
+direct CREATE INDEX w07b0 ON w07 (b)
+direct CREATE INDEX w07b1 ON w07 (b)
+direct CREATE INDEX w07a2 ON w07 (a)
+direct CREATE INDEX w07a3 ON w07 (a)
+direct INSERT INTO w07 VALUES ('a0', 'b0')
+direct INSERT INTO w07 VALUES ('za', 'zb')
+direct ALTER TABLE w07 ALTER COLUMN b b MEMO
+direct CREATE TABLE w08 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX w08c0 ON w08 (c)
+direct CREATE INDEX w08c1 ON w08 (c)
+direct CREATE INDEX w08b2 ON w08 (b)
+direct CREATE INDEX w08a3 ON w08 (a)
+direct CREATE INDEX w08b4 ON w08 (b)
+direct ALTER TABLE w08 ALTER COLUMN b b MEMO
+direct CREATE TABLE w09 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX w09a0 ON w09 (a)
+direct CREATE INDEX w09a1 ON w09 (a)
+direct CREATE INDEX w09a2 ON w09 (a)
+direct CREATE INDEX w09b3 ON w09 (b)
+direct INSERT INTO w09 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO w09 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE w09 ALTER COLUMN b b MEMO
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexfiles
+query SELECT Name, Parent FROM system.indexes
+query SELECT Name, Parent FROM system.columns

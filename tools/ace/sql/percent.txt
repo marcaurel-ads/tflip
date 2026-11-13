@@ -1,0 +1,74 @@
+# TOP n PERCENT, for fixtures/sql/percent.json. The script makes its own ADT
+# tables, in an empty folder.
+stmt
+direct CREATE TABLE t (n integer, s char(4))
+directnull INSERT INTO t (n, s) VALUES (5, 'e')
+directnull INSERT INTO t (n, s) VALUES (3, 'c')
+directnull INSERT INTO t (n, s) VALUES (7, 'g')
+directnull INSERT INTO t (n, s) VALUES (1, 'a')
+directnull INSERT INTO t (n, s) VALUES (9, 'i')
+directnull INSERT INTO t (n, s) VALUES (2, 'b')
+directnull INSERT INTO t (n, s) VALUES (8, 'h')
+# The share of the 7 rows is rounded up: 50% is 4 rows, 14% (0.98) 1,
+# 15% (1.05) 2, 28% 2, 29% 3; 1% is 1 row, 0% none, and 100% and more all.
+query SELECT TOP 50 PERCENT n FROM t
+query SELECT TOP 50 PERCENT n FROM t ORDER BY n
+query SELECT TOP 10 PERCENT n FROM t ORDER BY n
+query SELECT TOP 14 PERCENT n FROM t ORDER BY n
+query SELECT TOP 15 PERCENT n FROM t ORDER BY n
+query SELECT TOP 28 PERCENT n FROM t ORDER BY n
+query SELECT TOP 29 PERCENT n FROM t ORDER BY n
+query SELECT TOP 1 PERCENT n FROM t ORDER BY n
+query SELECT TOP 0 PERCENT n FROM t ORDER BY n
+query SELECT TOP 100 PERCENT n FROM t ORDER BY n
+query SELECT TOP 101 PERCENT n FROM t ORDER BY n
+query SELECT TOP 200 PERCENT n FROM t ORDER BY n
+query SELECT TOP 50 percent n FROM t ORDER BY n DESC
+query SELECT TOP 50 PERCENT * FROM t ORDER BY n DESC
+query SELECT TOP 50 PERCENT n FROM t WHERE n > 100
+query SELECT TOP 50 PERCENT n AS percent FROM t ORDER BY n
+# The share is of the rows after DISTINCT and GROUP BY; of an aggregate's one row.
+query SELECT TOP 50 PERCENT DISTINCT a.n FROM t a, t b ORDER BY 1
+query SELECT TOP 50 PERCENT n, COUNT(*) FROM t a GROUP BY n ORDER BY n
+query SELECT TOP 50 PERCENT COUNT(*) FROM t
+# In a UNION each SELECT takes its share; in a derived table and a subquery.
+query SELECT TOP 50 PERCENT n FROM t UNION SELECT TOP 50 PERCENT n FROM t ORDER BY 1
+query SELECT * FROM (SELECT TOP 50 PERCENT n FROM t ORDER BY n) x
+query SELECT n FROM t WHERE n IN (SELECT TOP 50 PERCENT n FROM t ORDER BY n DESC)
+# Exact on 100 rows: 7% is 7 rows (not 8, as 100 * 0.07 in floating point).
+direct CREATE TABLE ten (n integer)
+directnull INSERT INTO ten SELECT n FROM t
+directnull INSERT INTO ten (n) VALUES (0)
+directnull INSERT INTO ten (n) VALUES (4)
+directnull INSERT INTO ten (n) VALUES (6)
+direct CREATE TABLE big (n integer)
+directnull INSERT INTO big SELECT a.n * 10 + b.n FROM ten a, ten b
+query SELECT TOP 7 PERCENT n FROM big ORDER BY n
+query SELECT TOP 29 PERCENT n FROM big ORDER BY n
+query SELECT TOP 57 PERCENT n FROM big ORDER BY n
+query SELECT TOP 58 PERCENT n FROM big ORDER BY n
+# The count wraps at 2^32, with PERCENT or without: 2^32 is 0, 2^32 + 1 is 1,
+# 2^32 + 50 is 50%; 2^64 + 2 is 2.
+query SELECT TOP 4294967296 PERCENT n FROM t
+query SELECT TOP 4294967297 PERCENT n FROM t
+query SELECT TOP 4294967346 PERCENT n FROM t
+query SELECT TOP 2147483648 PERCENT n FROM t
+query SELECT TOP 4294967295 PERCENT n FROM t
+query SELECT TOP 18446744073709551618 PERCENT n FROM big ORDER BY n
+query SELECT TOP 4294967296 n FROM t
+query SELECT TOP 4294967297 n FROM t
+query SELECT TOP 18446744073709551618 n FROM t
+query SELECT TOP 2 START AT 4294967299 n FROM t ORDER BY n
+# PERCENT takes no START AT: the START after it is the first column, and a
+# PERCENT after START AT is a column too.
+query SELECT TOP 50 PERCENT START AT 3 n FROM t ORDER BY n
+query SELECT TOP 50 START AT 3 PERCENT n FROM t ORDER BY n
+query SELECT TOP 50 PERCENT START FROM t
+query SELECT TOP 50 PERCENT PERCENT FROM t
+# A TOP not followed by a number is a column: so is TOP -5 (TOP minus 5).
+query SELECT TOP PERCENT n FROM t
+query SELECT TOP -5 n FROM t
+query SELECT TOP FROM t
+# AT is a keyword, not an alias; START is not.
+query SELECT n at FROM t
+query SELECT n start FROM t ORDER BY n

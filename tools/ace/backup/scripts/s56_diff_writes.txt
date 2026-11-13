@@ -1,0 +1,35 @@
+#include dg_tables.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap0\ /I /Q
+sql 1 UPDATE x_edit SET name = 'edited' WHERE id = 1
+shell xcopy @CLIENT@\src\x_edit.ad? @CLIENT@\snap_edit1\ /I /Q
+sql 1 UPDATE x_edit SET name = 'edit2' WHERE id = 1
+shell xcopy @CLIENT@\src\x_edit.ad? @CLIENT@\snap_edit2\ /I /Q
+sql 1 UPDATE x_edit SET name = 'edit3' WHERE id = 4
+shell xcopy @CLIENT@\src\x_edit.ad? @CLIENT@\snap_edit3\ /I /Q
+sql 1 INSERT INTO x_app VALUES (6, 'n6', 'memo 6', NULL)
+shell xcopy @CLIENT@\src\x_app.ad? @CLIENT@\snap_app\ /I /Q
+sql 1 DELETE FROM x_del WHERE id = 3
+shell xcopy @CLIENT@\src\x_del.ad? @CLIENT@\snap_del\ /I /Q
+showdel 1
+open 1 x_recall x
+goto 1 2
+recall 1
+closetable 1
+shell xcopy @CLIENT@\src\x_recall.ad? @CLIENT@\snap_recall\ /I /Q
+sql 1 UPDATE x_memo SET note = 'grown memo value that does not fit in the old place at all, grown memo value that does not fit in the old place at all, grown memo value that does not fit in the old place at all, grown memo value that does not fit in the old place at all, grown memo value that does not fit in the old place at all' WHERE id = 2
+shell xcopy @CLIENT@\src\x_memo.ad? @CLIENT@\snap_memo\ /I /Q
+open 1 x_part x
+goto 1 3
+setbin 1 bin 20 0 0123456789
+closetable 1
+shell xcopy @CLIENT@\src\x_part.ad? @CLIENT@\snap_part1\ /I /Q
+open 1 x_part x
+goto 1 3
+setbin 1 bin 20 10 abcdefghij
+closetable 1
+shell xcopy @CLIENT@\src\x_part.ad? @CLIENT@\snap_part2\ /I /Q
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_all\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_after\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\snap_img\ /E /I /Q

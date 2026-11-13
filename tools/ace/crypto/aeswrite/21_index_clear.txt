@@ -1,0 +1,61 @@
+# With ENCRYPT_INDEXES off, an encrypted table keeps its index in the clear while indexes are made, reindexed and the table packed, and its first index is made. On each dictionary of 00_create.txt that has the table of 11_indexes.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tl (id INTEGER, name CHAR(10))
+sql CREATE INDEX tl_name ON tl (name)
+sql INSERT INTO tl VALUES (1, 'one')
+sql INSERT INTO tl VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tl')
+sql CREATE INDEX tl_id ON tl (id)
+sql INSERT INTO tl VALUES (3, 'three')
+sql DELETE FROM tl WHERE id = 1
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql EXECUTE PROCEDURE sp_PackTable('tl')
+sql DROP INDEX tl.tl_id
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql CREATE TABLE tn (id INTEGER, name CHAR(10))
+sql INSERT INTO tn VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tn')
+sql CREATE INDEX tn_name ON tn (name)
+sql INSERT INTO tn VALUES (2, 'two')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tl (id INTEGER, name CHAR(10))
+sql CREATE INDEX tl_name ON tl (name)
+sql INSERT INTO tl VALUES (1, 'one')
+sql INSERT INTO tl VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tl')
+sql CREATE INDEX tl_id ON tl (id)
+sql INSERT INTO tl VALUES (3, 'three')
+sql DELETE FROM tl WHERE id = 1
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql EXECUTE PROCEDURE sp_PackTable('tl')
+sql DROP INDEX tl.tl_id
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql CREATE TABLE tn (id INTEGER, name CHAR(10))
+sql INSERT INTO tn VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tn')
+sql CREATE INDEX tn_name ON tn (name)
+sql INSERT INTO tn VALUES (2, 'two')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tl (id INTEGER, name CHAR(10))
+sql CREATE INDEX tl_name ON tl (name)
+sql INSERT INTO tl VALUES (1, 'one')
+sql INSERT INTO tl VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('tl')
+sql CREATE INDEX tl_id ON tl (id)
+sql INSERT INTO tl VALUES (3, 'three')
+sql DELETE FROM tl WHERE id = 1
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql EXECUTE PROCEDURE sp_PackTable('tl')
+sql DROP INDEX tl.tl_id
+sql EXECUTE PROCEDURE sp_Reindex('tl', 0)
+sql CREATE TABLE tn (id INTEGER, name CHAR(10))
+sql INSERT INTO tn VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tn')
+sql CREATE INDEX tn_name ON tn (name)
+sql INSERT INTO tn VALUES (2, 'two')
+disconnect

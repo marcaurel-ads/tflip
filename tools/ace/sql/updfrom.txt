@@ -1,0 +1,588 @@
+# UPDATE ... FROM with joins, and UPDATE ... WITH DELETE | WITH RECALL, on ADT and DBF
+# tables in an empty folder: which row wins when the join is not one to one,
+# the self join, a join in FROM and a comma list, a WHERE across both tables,
+# the rows affected, the errors, and the marks. The tables it leaves are kept
+# in fixtures/sql/updfrom/:
+#
+#     run.sh <work> <ace32.dll> updfrom.txt > ../../../fixtures/sql/updfrom.json
+#     cp <work>/data/*.* ../../../fixtures/sql/updfrom/
+stmt
+directnull CREATE TABLE a (id Integer, name Char(10), val Integer)
+directnull CREATE TABLE b (id Integer, name Char(10), val Integer)
+directnull INSERT INTO a VALUES (1, 'a1', 10)
+directnull INSERT INTO a VALUES (2, 'a2', 20)
+directnull INSERT INTO a VALUES (3, 'a3', 30)
+directnull INSERT INTO a VALUES (4, 'a4', 40)
+directnull INSERT INTO b VALUES (1, 'b1', 100)
+directnull INSERT INTO b VALUES (1, 'b1x', 101)
+directnull INSERT INTO b VALUES (2, 'b2', 200)
+directnull INSERT INTO b VALUES (3, 'b3', 300)
+directnull INSERT INTO b VALUES (3, 'b3x', 301)
+directnull INSERT INTO b VALUES (3, 'b3y', 302)
+directnull INSERT INTO b VALUES (9, 'b9', 900)
+# the help's example: two rows of b for a row of a
+direct UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id
+count
+query SELECT * FROM a
+direct UPDATE a SET val = b.val + 1, name = b.name FROM b WHERE a.id = b.id
+count
+query SELECT * FROM a
+# reverse the order of b's rows
+directnull DELETE FROM b
+directnull INSERT INTO b VALUES (3, 'b3y', 302)
+directnull INSERT INTO b VALUES (3, 'b3x', 301)
+directnull INSERT INTO b VALUES (3, 'b3', 300)
+directnull INSERT INTO b VALUES (2, 'b2', 200)
+directnull INSERT INTO b VALUES (1, 'b1x', 101)
+directnull INSERT INTO b VALUES (1, 'b1', 100)
+directnull INSERT INTO b VALUES (9, 'b9', 900)
+direct UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id
+count
+query SELECT * FROM a
+direct UPDATE a SET name = b.name FROM a, b WHERE a.id = b.id AND b.val > 100
+count
+query SELECT * FROM a
+# a WHERE across both tables, and an expression of both
+direct UPDATE a SET val = a.val + b.val FROM b WHERE a.id = b.id AND b.val < 250 AND a.val > 5
+count
+query SELECT * FROM a
+direct UPDATE a SET val = a.val * 2 FROM a INNER JOIN b ON a.id = b.id WHERE b.name LIKE 'b3%'
+count
+query SELECT * FROM a
+# left join, a row with no match
+direct UPDATE a SET val = b.val FROM a LEFT JOIN b ON a.id = b.id AND b.val > 1000
+count
+query SELECT * FROM a
+direct UPDATE a SET val = 7 FROM a LEFT JOIN b ON a.id = b.id WHERE b.id IS NULL
+count
+query SELECT * FROM a
+# a FROM table that is not joined: every pair
+direct UPDATE a SET val = b.val FROM b
+count
+query SELECT * FROM a
+direct UPDATE a SET val = b.val FROM b WHERE b.id = 9
+count
+query SELECT * FROM a
+# a derived table
+direct UPDATE a SET val = s.m FROM (SELECT id, MAX(val) AS m FROM b GROUP BY id) s WHERE a.id = s.id
+count
+query SELECT * FROM a
+# an alias for the target
+direct UPDATE a x SET x.val = 1 FROM a x INNER JOIN b ON x.id = b.id
+count
+direct UPDATE a SET val = 2 FROM a x INNER JOIN b ON x.id = b.id
+count
+direct UPDATE a x SET val = b.val FROM a x INNER JOIN b ON x.id = b.id
+count
+query SELECT * FROM a
+direct UPDATE x SET val = b.val FROM a x INNER JOIN b ON x.id = b.id WHERE b.val < 150
+count
+query SELECT * FROM a
+direct UPDATE x SET x.val = 5 FROM a x
+count
+query SELECT * FROM a
+direct UPDATE x SET x.val = 5 FROM a
+direct UPDATE b SET val = 0 FROM a
+count
+query SELECT * FROM b
+# qualifier rules of the SET column
+direct UPDATE a SET b.val = 0 FROM a INNER JOIN b ON a.id = b.id
+direct UPDATE a SET z.val = 0 FROM a INNER JOIN b ON a.id = b.id
+direct UPDATE a SET a.val = 3 FROM a INNER JOIN b ON a.id = b.id WHERE a.id = 2
+count
+query SELECT * FROM a
+direct UPDATE a SET a.val = 3 WHERE a.id = 2
+direct UPDATE a SET val = b.val WHERE a.id = b.id
+direct UPDATE a SET val = c.val FROM b
+direct UPDATE a SET val = b.val FROM a, b, nosuch
+direct UPDATE a SET val = b.val FROM
+direct UPDATE a SET val = b.val FROM b WHERE
+direct UPDATE a SET val = id FROM b
+direct UPDATE a SET val = a.id FROM b WHERE b.id = a.id
+# the self join of the help
+directnull CREATE TABLE stock (id Integer, quantity Integer, state Integer)
+directnull INSERT INTO stock VALUES (1, 10, 0)
+directnull INSERT INTO stock VALUES (1, 11, 1)
+directnull INSERT INTO stock VALUES (2, 20, 0)
+directnull INSERT INTO stock VALUES (2, 21, 1)
+directnull INSERT INTO stock VALUES (3, 30, 0)
+direct UPDATE stock SET stock.quantity = t.quantity FROM stock INNER JOIN stock t ON stock.id = t.id WHERE t.state = 1
+count
+query SELECT * FROM stock
+direct UPDATE stock SET stock.quantity = t.quantity FROM stock t1 INNER JOIN stock t ON t1.id = t.id WHERE t.state = 1
+count
+direct UPDATE t1 SET t1.quantity = t.quantity + 100 FROM stock t1 INNER JOIN stock t ON t1.id = t.id WHERE t.state = 1
+count
+query SELECT * FROM stock
+direct UPDATE stock SET quantity = quantity + 1000 FROM stock s2 WHERE stock.id = s2.id
+count
+query SELECT * FROM stock
+direct UPDATE stock SET quantity = quantity + 1 FROM stock WHERE state = 1
+count
+query SELECT * FROM stock
+direct UPDATE stock SET quantity = 0 FROM stock, stock
+direct UPDATE stock SET quantity = 0 FROM stock s, stock s
+# updated rows are seen by later pairs (the target changes while joining)
+directnull CREATE TABLE sq (id Integer, v Integer)
+directnull INSERT INTO sq VALUES (1, 1)
+directnull INSERT INTO sq VALUES (2, 2)
+directnull INSERT INTO sq VALUES (3, 3)
+direct UPDATE sq SET v = o.v + 10 FROM sq INNER JOIN sq o ON sq.id + 1 = o.id
+count
+query SELECT * FROM sq
+direct UPDATE sq SET v = o.v FROM sq o WHERE o.id = 1
+count
+query SELECT * FROM sq
+# key columns: a unique index the update changes
+directnull CREATE TABLE ui (id Integer, v Integer)
+directnull CREATE UNIQUE INDEX uiid ON ui (id)
+directnull INSERT INTO ui VALUES (1, 1)
+directnull INSERT INTO ui VALUES (2, 2)
+directnull INSERT INTO ui VALUES (3, 3)
+direct UPDATE ui SET id = b.val FROM b WHERE b.id = ui.id
+count
+query SELECT * FROM ui
+direct UPDATE ui SET id = ui.id + 100 FROM b WHERE b.id = ui.id
+count
+query SELECT * FROM ui
+direct UPDATE ui SET id = 7 FROM b WHERE b.id = 9 OR b.id = 1
+count
+query SELECT * FROM ui
+# an empty table in FROM
+directnull CREATE TABLE em (id Integer, v Integer)
+direct UPDATE a SET val = em.v FROM em
+count
+direct UPDATE a SET val = em.v FROM a LEFT JOIN em ON a.id = em.id
+count
+query SELECT * FROM a
+# NULL, an aggregate, a subquery
+direct UPDATE a SET val = NULL FROM b WHERE a.id = b.id
+count
+direct UPDATE a SET val = COUNT(*) FROM b
+direct UPDATE a SET val = (SELECT COUNT(*) FROM b WHERE b.id = a.id) FROM b WHERE b.id = a.id
+count
+query SELECT * FROM a
+# missing names
+direct UPDATE nosuch SET val = 1 FROM b
+direct UPDATE a SET val = 1 FROM nosuch
+direct UPDATE a SET nosuch = 1 FROM b
+direct UPDATE a SET val = nosuch FROM b
+direct UPDATE a SET val = val FROM b WHERE id = 1
+#
+# Which row of the join wins: by an index of the inner table, by a filter that
+# an order serves, and what a later pair sees of the rows the earlier ones wrote
+directnull CREATE TABLE o1 (id Integer, k Integer, v Integer)
+directnull CREATE TABLE o2 (id Integer, k Integer, v Integer)
+directnull INSERT INTO o1 VALUES (1, 0, 0)
+directnull INSERT INTO o1 VALUES (2, 0, 0)
+directnull INSERT INTO o2 VALUES (1, 30, 1)
+directnull INSERT INTO o2 VALUES (1, 20, 2)
+directnull INSERT INTO o2 VALUES (1, 10, 3)
+directnull INSERT INTO o2 VALUES (2, 5, 4)
+directnull INSERT INTO o2 VALUES (2, 15, 5)
+direct UPDATE o1 SET v = o2.v FROM o1 INNER JOIN o2 ON o1.id = o2.id
+query SELECT * FROM o1
+directnull CREATE INDEX o2k ON o2 (k)
+direct UPDATE o1 SET v = 10 + o2.v FROM o2 WHERE o1.id = o2.id AND o2.k > 0
+query SELECT * FROM o1
+direct UPDATE o1 SET v = 20 + o2.v FROM o1 INNER JOIN o2 ON o1.id = o2.id AND o2.k > 7
+query SELECT * FROM o1
+direct UPDATE o1 SET v = 30 + o2.v FROM o2, o1 WHERE o1.id = o2.id AND o2.k > 7
+query SELECT * FROM o1
+direct UPDATE o1 SET v = 40 + o2.v FROM o2 WHERE o1.id = o2.id AND o2.k = 15 OR o2.k = 10
+query SELECT * FROM o1
+directnull CREATE INDEX o2id ON o2 (id)
+direct UPDATE o1 SET v = 50 + o2.v FROM o1 INNER JOIN o2 ON o1.id = o2.id
+query SELECT * FROM o1
+direct UPDATE o1 SET v = 60 + o2.v FROM o2 WHERE o1.id = o2.id
+query SELECT * FROM o1
+directnull CREATE TABLE sv (id Integer, v Integer)
+directnull INSERT INTO sv VALUES (1, 1)
+directnull INSERT INTO sv VALUES (2, 2)
+directnull INSERT INTO sv VALUES (3, 3)
+directnull INSERT INTO sv VALUES (4, 4)
+direct UPDATE sv SET v = o.v + 10 FROM sv INNER JOIN sv o ON sv.id = o.id + 1
+count
+query SELECT * FROM sv
+direct UPDATE sv SET v = o.v + 100 FROM sv INNER JOIN sv o ON sv.id + 1 = o.id
+count
+query SELECT * FROM sv
+direct UPDATE sv SET v = (SELECT SUM(v) FROM sv) FROM o2 WHERE o2.id = sv.id
+count
+query SELECT * FROM sv
+directnull CREATE INDEX svid ON sv (id)
+directnull CREATE INDEX svv ON sv (v)
+direct UPDATE sv SET v = o.v + 1000 FROM sv INNER JOIN sv o ON sv.id = o.id + 1
+count
+query SELECT * FROM sv
+direct UPDATE sv SET v = 0 FROM sv o WHERE o.id = 2
+count
+query SELECT * FROM sv
+direct UPDATE sv SET v = v + 1 FROM sv o WHERE o.v > 0
+count
+query SELECT * FROM sv
+direct UPDATE sv SET v = v + 1 FROM sv WHERE sv.v > 0
+count
+query SELECT * FROM sv
+#
+# WITH DELETE / WITH RECALL on an ADT table; deleted records are not read
+directnull CREATE TABLE dl (id Integer, name Char(10), val Integer, m Memo)
+directnull CREATE UNIQUE INDEX dlid ON dl (id)
+directnull INSERT INTO dl VALUES (1, 'one', 10, 'm1')
+directnull INSERT INTO dl VALUES (2, 'two', 20, 'm2')
+directnull INSERT INTO dl VALUES (3, 'three', 30, 'm3')
+directnull INSERT INTO dl VALUES (4, 'four', 40, 'm4')
+directnull INSERT INTO dl VALUES (5, 'five', 50, 'm5')
+directnull INSERT INTO dl VALUES (6, 'six', 60, 'm6')
+direct UPDATE dl WITH DELETE SET val = -1, m = 'new' WHERE id = 2
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET val = -9 WHERE id = 2
+count
+direct UPDATE dl WITH RECALL SET val = -2 WHERE id = 2
+count
+direct UPDATE dl WITH RECALL SET val = -3 WHERE id = 1
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET name = 'del' FROM b WHERE b.id = dl.id AND b.val = 0
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH RECALL SET name = 'rec' FROM b WHERE b.id = dl.id
+count
+direct UPDATE dl WITH DELETE SET id = 3 WHERE id = 4
+count
+direct UPDATE dl WITH DELETE SET id = 40 WHERE id = 4
+count
+direct UPDATE dl WITH DELETE SET id = id + 100 WHERE id > 5
+count
+direct INSERT INTO dl VALUES (4, 'again', 1, 'x')
+direct INSERT INTO dl VALUES (2, 'again', 1, 'x')
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET val = 7 FROM dl d2 WHERE d2.id = 5
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET val = 7 FROM b WHERE b.id = 9
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET val = 8
+count
+query SELECT * FROM dl
+direct UPDATE dl WITH DELETE SET val = 8
+count
+#
+# the marks on DBF tables: deleted records are read
+tabletype 2
+directnull CREATE TABLE cs (id Integer, name Char(10), val Integer)
+directnull INSERT INTO cs VALUES (1, 'c1', 100)
+directnull INSERT INTO cs VALUES (1, 'c1x', 101)
+directnull INSERT INTO cs VALUES (2, 'c2', 200)
+directnull INSERT INTO cs VALUES (3, 'c3', 300)
+directnull CREATE TABLE ct (id Integer, name Char(10), val Integer, m Memo)
+directnull CREATE UNIQUE INDEX ctid ON ct (id)
+directnull INSERT INTO ct VALUES (1, 'one', 10, 'm1')
+directnull INSERT INTO ct VALUES (2, 'two', 20, 'm2')
+directnull INSERT INTO ct VALUES (3, 'three', 30, 'm3')
+directnull INSERT INTO ct VALUES (4, 'four', 40, 'm4')
+direct UPDATE ct SET val = cs.val, m = cs.name FROM cs WHERE ct.id = cs.id
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH DELETE SET val = -1, m = 'del' WHERE id = 2
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH DELETE SET val = -9 WHERE id = 2
+count
+direct UPDATE ct WITH RECALL SET val = -2 WHERE id = 1
+count
+direct UPDATE ct WITH RECALL SET val = -3, m = 'rec' WHERE id = 2
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH DELETE SET name = cs.name FROM ct INNER JOIN cs ON ct.id = cs.id
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH RECALL SET name = 'r' FROM cs WHERE cs.id = ct.id AND cs.val > 100
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH DELETE SET id = 1 WHERE id = 4
+count
+direct UPDATE ct WITH RECALL SET id = 1 WHERE id = 4
+count
+direct UPDATE ct WITH DELETE SET id = 5 WHERE id = 4
+count
+query SELECT * FROM ct
+direct UPDATE ct WITH RECALL SET val = 0
+count
+query SELECT * FROM ct
+direct UPDATE cs WITH DELETE SET val = ct.id FROM ct WHERE ct.id = cs.id
+count
+query SELECT * FROM cs
+direct UPDATE ct SET val = cs.val FROM cs WHERE ct.id = cs.id
+count
+query SELECT * FROM ct
+tabletype 1
+directnull CREATE TABLE ns (id Integer, name Char(10), val Integer)
+directnull INSERT INTO ns VALUES (1, 'n1', 100)
+directnull INSERT INTO ns VALUES (2, 'n2', 200)
+directnull INSERT INTO ns VALUES (3, 'n3', 300)
+directnull CREATE UNIQUE INDEX nsid ON ns (id)
+direct UPDATE ns SET val = val + 1 FROM ns o WHERE o.id = 1
+count
+direct UPDATE ns WITH DELETE SET val = -1 WHERE id = 2
+count
+direct UPDATE ns WITH RECALL SET val = -2
+count
+query SELECT * FROM ns
+tabletype 4
+directnull CREATE TABLE vs (id Integer, name Char(10) NULL, val Integer NULL, a AutoInc)
+directnull INSERT INTO vs (id, name, val) VALUES (1, 'v1', 100)
+directnull INSERT INTO vs (id, name, val) VALUES (2, 'v2', 200)
+directnull INSERT INTO vs (id, name, val) VALUES (3, 'v3', 300)
+direct UPDATE vs SET val = NULL FROM vs v2 WHERE v2.id = 2
+count
+direct UPDATE vs WITH DELETE SET val = -1 WHERE id = 2
+count
+direct UPDATE vs WITH RECALL SET val = -2
+count
+query SELECT * FROM vs
+#
+# more forms, on ADT tables again
+tabletype 3
+directnull CREATE TABLE r1 (id Integer, v Integer)
+directnull CREATE TABLE r2 (id Integer, v Integer)
+directnull INSERT INTO r1 VALUES (1, 1)
+directnull INSERT INTO r1 VALUES (2, 2)
+directnull INSERT INTO r1 VALUES (3, 3)
+directnull INSERT INTO r2 VALUES (2, 20)
+directnull INSERT INTO r2 VALUES (3, 30)
+directnull INSERT INTO r2 VALUES (4, 40)
+direct UPDATE r1 SET v = r2.v FROM r2 LEFT JOIN r1 ON r1.id = r2.id
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = r2.v + 100 FROM r2 RIGHT JOIN r1 ON r1.id = r2.id
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = r2.v + 200 FROM r1 FULL JOIN r2 ON r1.id = r2.id
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = 1 FROM r1 CROSS JOIN r2
+count
+direct UPDATE r1 SET v = 2 FROM r1 INNER JOIN r2
+direct UPDATE r1 SET v = 2 FROM r1, WHERE 1 = 1
+direct UPDATE r1 SET v = 2 FROM r1 INNER JOIN r2 ON
+direct UPDATE r1 SET v = 2 FROM r1 INNER JOIN r2 USING (id)
+direct UPDATE r1 SET v = 2 FROM r1 NATURAL JOIN r2
+direct UPDATE r1 SET x.v = 2 FROM r1 x
+direct UPDATE r1 SET r1.v = 3 FROM r1 x
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = 2 FROM (r1 INNER JOIN r2 ON r1.id = r2.id)
+count
+direct UPDATE r1 SET v = 4 FROM r1 INNER JOIN r2 ON r1.id = r2.id INNER JOIN r2 q ON q.id = r2.id
+count
+direct UPDATE r1 SET v = 5 FROM r2, r2 q WHERE r1.id = r2.id AND q.id = r2.id
+count
+direct UPDATE r1 SET v = 6 FROM r2 INNER JOIN r2 ON r2.id = r2.id
+direct UPDATE r1 SET v = 6 FROM r2 r1
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = r1.v + 1 FROM r2 r1 WHERE r1.id = 4
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = 7 FROM r1, r2
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = ? FROM r2 WHERE r1.id = r2.id
+direct UPDATE r1 SET v = 8, v = 9 FROM r2 WHERE r1.id = r2.id
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = r2.v FROM r2 WHERE r1.id = r2.id AND r2.v = (SELECT MAX(v) FROM r2)
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = r2.v FROM r2 WHERE r2.id IN (SELECT id FROM r1) AND r1.id = 1
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = 0 FROM r2 WHERE EXISTS (SELECT 1 FROM r2 WHERE r2.id = r1.id)
+count
+query SELECT * FROM r1
+direct UPDATE r1 SET v = 1 FROM system.iota
+count
+direct UPDATE r1 SET v = 1 FROM r2 WHERE 1 = 0
+count
+direct UPDATE r1 SET v = 1 FROM r2 WHERE r2.nosuch = 1
+direct UPDATE r1 SET v = 1 FROM r2 WHERE nosuch.id = 1
+direct UPDATE r1 SET v = 1 FROM r2 WHERE id = 1
+#
+# a unique key a WITH DELETE record would repeat, and the plain delete form
+directnull CREATE TABLE ud (id Integer, v Integer)
+directnull CREATE UNIQUE INDEX udid ON ud (id)
+directnull INSERT INTO ud VALUES (1, 1)
+directnull INSERT INTO ud VALUES (2, 2)
+directnull INSERT INTO ud VALUES (3, 3)
+direct UPDATE ud WITH DELETE SET id = 3 WHERE id = 1
+count
+query SELECT * FROM ud
+direct UPDATE ud WITH DELETE SET id = 1 FROM r2 WHERE r2.id = 2
+count
+query SELECT * FROM ud
+direct UPDATE ud WITH DELETE SET v = r2.v FROM ud INNER JOIN r2 ON ud.id = r2.id
+count
+query SELECT * FROM ud
+direct UPDATE ud WITH DELETE SET v = 1 FROM ud INNER JOIN r2 ON ud.id = r2.id
+count
+#
+# outer joins with the target on either side
+directnull CREATE TABLE r3 (id Integer, v Integer)
+directnull CREATE TABLE r4 (id Integer, v Integer)
+directnull INSERT INTO r3 VALUES (1, 1)
+directnull INSERT INTO r3 VALUES (2, 2)
+directnull INSERT INTO r3 VALUES (3, 3)
+directnull INSERT INTO r4 VALUES (2, 20)
+directnull INSERT INTO r4 VALUES (3, 30)
+directnull INSERT INTO r4 VALUES (4, 40)
+direct UPDATE r3 SET v = 5 FROM r4 RIGHT JOIN r3 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+direct UPDATE r3 SET v = r4.v FROM r4 RIGHT JOIN r3 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 6 FROM r3 LEFT JOIN r4 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 7 FROM r3 RIGHT JOIN r4 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 8 FROM r4 LEFT JOIN r3 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 9 FROM r4 FULL JOIN r3 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 10 FROM r3 FULL JOIN r4 ON r3.id = r4.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 11 FROM r4 RIGHT JOIN r3 ON r3.id = r4.id WHERE r4.id IS NULL
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 12 FROM r4 RIGHT JOIN r3 ON r3.id = r4.id AND r4.v > 25
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 13 FROM r4 RIGHT JOIN r3 ON r3.id = r4.id WHERE r3.id > 1
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 14 FROM r4, r3 LEFT JOIN r4 q ON q.id = r3.id
+count
+query SELECT * FROM r3
+directnull UPDATE r3 SET v = id
+direct UPDATE r3 SET v = 15 FROM r4 q LEFT JOIN r4 ON q.id = r4.id INNER JOIN r3 ON r3.id = q.id
+count
+query SELECT * FROM r3
+#
+# which error a statement with several reports: the SET list or the WHERE
+direct UPDATE r1 SET nosuch = 1 WHERE nosuch2 = 1
+direct UPDATE r1 SET v = nosuch WHERE nosuch2 = 1
+direct UPDATE r1 SET v = 'abc' WHERE nosuch2 = 1
+direct UPDATE r1 SET nosuch = 1 WHERE id = 'x'
+direct UPDATE r1 SET v = 'abc' WHERE id = 'x'
+direct UPDATE r1 SET v = (SELECT nosuch FROM r2) WHERE nosuch2 = 1
+direct UPDATE r1 SET v = 1 FROM r2 WHERE nosuch2 = 1
+direct UPDATE r1 SET nosuch = 1 FROM r2 WHERE r2.nosuch2 = 1
+direct UPDATE r1 SET v = nosuch FROM r2 WHERE r2.nosuch2 = 1
+direct UPDATE r1 SET v = 'abc' FROM r2 WHERE r2.nosuch2 = 1
+direct UPDATE r1 SET v = 'abc' FROM r2 WHERE r2.id = 'x'
+direct UPDATE r1 SET v = r2.v FROM r2 WHERE r1.id = r2.id AND r1.nosuch = 1
+direct UPDATE r1 SET v = r2.v FROM r1 INNER JOIN r2 ON r1.nosuch = 1 WHERE r2.nosuch2 = 1
+direct UPDATE r1 SET v = 1 FROM r2 WHERE
+direct DELETE FROM r1 WHERE
+direct UPDATE r1 SET v = 1 WHERE
+#
+# the memo values of a record WITH DELETE updates, on ADT tables: one table
+# for each case, a record added after it showing which blocks were freed
+directnull CREATE TABLE ma (id Integer, val Integer, m Memo)
+directnull INSERT INTO ma VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO ma VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO ma VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE ma WITH DELETE SET val = 20 WHERE id = 2
+directnull INSERT INTO ma VALUES (4, 4, 'memo four memo four memo four mm')
+directnull CREATE TABLE mb (id Integer, val Integer, m Memo)
+directnull INSERT INTO mb VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mb VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mb VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mb WITH DELETE SET m = 'replaced replaced replaced replaced' WHERE id = 2
+directnull INSERT INTO mb VALUES (4, 4, 'memo four memo four memo four mm')
+directnull INSERT INTO mb VALUES (5, 5, 'memo five memo five memo five mm')
+directnull CREATE TABLE mc (id Integer, val Integer, m Memo)
+directnull INSERT INTO mc VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mc VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mc VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mc WITH DELETE SET m = NULL WHERE id = 2
+directnull INSERT INTO mc VALUES (4, 4, 'memo four memo four memo four mm')
+directnull INSERT INTO mc VALUES (5, 5, 'memo five memo five memo five mm')
+directnull CREATE TABLE md (id Integer, val Integer, m Memo)
+directnull INSERT INTO md VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO md VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO md VALUES (3, 3, 'memo three memo three memo three')
+direct DELETE FROM md WHERE id = 2
+directnull INSERT INTO md VALUES (4, 4, 'memo four memo four memo four mm')
+directnull INSERT INTO md VALUES (5, 5, 'memo five memo five memo five mm')
+directnull CREATE TABLE me (id Integer, val Integer, m Memo)
+directnull INSERT INTO me VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO me VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO me VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE me SET m = 'replaced replaced replaced replaced' WHERE id = 2
+directnull INSERT INTO me VALUES (4, 4, 'memo four memo four memo four mm')
+directnull INSERT INTO me VALUES (5, 5, 'memo five memo five memo five mm')
+directnull CREATE TABLE mf (id Integer, val Integer, m Memo)
+directnull INSERT INTO mf VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mf VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mf VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mf WITH DELETE SET m = 'short' WHERE id = 2
+directnull INSERT INTO mf VALUES (4, 4, 'memo four memo four memo four mm')
+directnull INSERT INTO mf VALUES (5, 5, 'x')
+directnull CREATE TABLE mg (id Integer, val Integer, m Memo)
+directnull INSERT INTO mg VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mg VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mg VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mg WITH DELETE SET val = 20 WHERE id = 2
+directnull CREATE TABLE mh (id Integer, val Integer, m Memo)
+directnull INSERT INTO mh VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mh VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mh VALUES (3, 3, 'memo three memo three memo three')
+direct DELETE FROM mh WHERE id = 2
+directnull CREATE TABLE mi (id Integer, val Integer, m Memo)
+directnull INSERT INTO mi VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mi VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mi VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mi WITH DELETE SET m = 'replaced replaced replaced replaced' WHERE id = 2
+directnull CREATE TABLE mj (id Integer, val Integer, m Memo)
+directnull INSERT INTO mj VALUES (1, 1, 'memo one memo one memo one memo one')
+direct MERGE mj ON id = 7 WHEN NOT MATCHED THEN INSERT WITH DELETE (id, val, m) VALUES (7, 7, 'inserted deleted memo inserted deleted')
+directnull INSERT INTO mj VALUES (3, 3, 'memo three memo three memo three')
+directnull CREATE TABLE mk (id Integer, val Integer, m Memo)
+directnull INSERT INTO mk VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mk VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mk VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mk WITH DELETE SET m = NULL WHERE id = 2
+directnull CREATE TABLE ml (id Integer, val Integer, m Memo)
+directnull INSERT INTO ml VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO ml VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO ml VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE ml WITH DELETE SET m = '' WHERE id = 2
+directnull CREATE TABLE mm (id Integer, val Integer, m Memo)
+directnull INSERT INTO mm VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mm VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mm VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mm WITH DELETE SET val = 9, m = 'zzz' WHERE id = 2
+directnull CREATE TABLE mn (id Integer, val Integer, m Memo)
+directnull INSERT INTO mn VALUES (1, 1, 'memo one memo one memo one memo one')
+directnull INSERT INTO mn VALUES (2, 2, 'memo two memo two memo two memo two')
+directnull INSERT INTO mn VALUES (3, 3, 'memo three memo three memo three')
+direct UPDATE mn SET m = NULL WHERE id = 2
+directnull INSERT INTO mn VALUES (4, 4, 'memo four memo four memo four mm')

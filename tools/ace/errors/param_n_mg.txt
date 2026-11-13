@@ -1,0 +1,230 @@
+# Administrator calls given NULL pointers (see param_n_mg.c).
+AdsGetHandleType m p16
+AdsGetHandleType c p16
+AdsGetHandleType x p16
+AdsGetHandleType l p16
+AdsGetHandleType 0 p16
+AdsMgGetServerType m p16
+AdsMgGetServerType c p16
+AdsMgGetServerType l p16
+AdsMgGetServerType m 0
+AdsMgGetCommStats m pbuf pl16:48
+AdsMgGetCommStats c pbuf pl16:48
+AdsMgGetCommStats l pbuf pl16:48
+AdsMgGetCommStats m pbuf pl16:0
+AdsMgGetCommStats m pbuf pl16:10
+AdsMgGetCommStats m 0 0
+AdsMgGetCommStats m 0 pl16:0
+AdsMgGetCommStats m 0 pl16:48
+AdsMgGetCommStats m pbuf 0
+AdsMgGetActivityInfo m pbuf pl16:172
+AdsMgGetActivityInfo c pbuf pl16:172
+AdsMgGetActivityInfo l pbuf pl16:172
+AdsMgGetActivityInfo m pbuf pl16:0
+AdsMgGetActivityInfo m pbuf pl16:10
+AdsMgGetActivityInfo m 0 0
+AdsMgGetActivityInfo m 0 pl16:0
+AdsMgGetActivityInfo m 0 pl16:172
+AdsMgGetActivityInfo m pbuf 0
+AdsMgGetInstallInfo m pbuf pl16:600
+AdsMgGetInstallInfo c pbuf pl16:600
+AdsMgGetInstallInfo l pbuf pl16:600
+AdsMgGetInstallInfo m pbuf pl16:0
+AdsMgGetInstallInfo m pbuf pl16:10
+AdsMgGetInstallInfo m 0 0
+AdsMgGetInstallInfo m 0 pl16:0
+AdsMgGetInstallInfo m 0 pl16:600
+AdsMgGetInstallInfo m pbuf 0
+AdsMgResetCommStats m
+AdsMgResetCommStats c
+AdsMgResetCommStats l
+AdsMgGetConfigInfo m pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo c pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo l pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo m pbuf pl16:0 pbuf pl16:0
+AdsMgGetConfigInfo m pbuf pl16:0 0 pl16:0
+AdsMgGetConfigInfo m 0 pl16:0 pbuf pl16:0
+AdsMgGetConfigInfo m 0 pl16:0 0 pl16:0
+AdsMgGetConfigInfo m pbuf pl16:0 pbuf pl16:56
+AdsMgGetConfigInfo m pbuf pl16:0 0 pl16:56
+AdsMgGetConfigInfo m 0 pl16:0 pbuf pl16:56
+AdsMgGetConfigInfo m 0 pl16:0 0 pl16:56
+AdsMgGetConfigInfo m pbuf pl16:0 pbuf 0
+AdsMgGetConfigInfo m pbuf pl16:0 0 0
+AdsMgGetConfigInfo m 0 pl16:0 pbuf 0
+AdsMgGetConfigInfo m 0 pl16:0 0 0
+AdsMgGetConfigInfo m pbuf pl16:200 pbuf pl16:0
+AdsMgGetConfigInfo m pbuf pl16:200 0 pl16:0
+AdsMgGetConfigInfo m 0 pl16:200 pbuf pl16:0
+AdsMgGetConfigInfo m 0 pl16:200 0 pl16:0
+AdsMgGetConfigInfo m pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo m pbuf pl16:200 0 pl16:56
+AdsMgGetConfigInfo m 0 pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo m 0 pl16:200 0 pl16:56
+AdsMgGetConfigInfo m pbuf pl16:200 pbuf 0
+AdsMgGetConfigInfo m pbuf pl16:200 0 0
+AdsMgGetConfigInfo m 0 pl16:200 pbuf 0
+AdsMgGetConfigInfo m 0 pl16:200 0 0
+AdsMgGetConfigInfo m pbuf 0 pbuf pl16:0
+AdsMgGetConfigInfo m pbuf 0 0 pl16:0
+AdsMgGetConfigInfo m 0 0 pbuf pl16:0
+AdsMgGetConfigInfo m 0 0 0 pl16:0
+AdsMgGetConfigInfo m pbuf 0 pbuf pl16:56
+AdsMgGetConfigInfo m pbuf 0 0 pl16:56
+AdsMgGetConfigInfo m 0 0 pbuf pl16:56
+AdsMgGetConfigInfo m 0 0 0 pl16:56
+AdsMgGetConfigInfo m pbuf 0 pbuf 0
+AdsMgGetConfigInfo m pbuf 0 0 0
+AdsMgGetConfigInfo m 0 0 pbuf 0
+AdsMgGetConfigInfo m 0 0 0 0
+AdsMgGetUserNames m pstr:x pbuf pl16:10 pl16:288
+AdsMgGetUserNames c pstr:x pbuf pl16:10 pl16:288
+AdsMgGetUserNames l pstr:x pbuf pl16:10 pl16:288
+AdsMgGetUserNames m pstr:x pbuf pl16:0 pl16:288
+AdsMgGetUserNames m pstr:x pbuf pl16:10 pl16:0
+AdsMgGetUserNames m pstr:x pbuf pl16:0 pl16:0
+AdsMgGetUserNames m pstr:x 0 pl16:0 pl16:288
+AdsMgGetUserNames m pstr:x 0 pl16:10 pl16:0
+AdsMgGetUserNames m pstr:x 0 pl16:0 pl16:0
+AdsMgGetUserNames m pstr:x 0 0 0
+AdsMgGetUserNames m pstr:x pbuf 0 pl16:288
+AdsMgGetUserNames m pstr:x pbuf pl16:10 0
+AdsMgGetUserNames m pstr:x pbuf 0 0
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenTables c pstr:ADSSYS 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenTables l pstr:ADSSYS 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf pl16:0 pl16:262
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf pl16:10 pl16:0
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf pl16:0 pl16:0
+AdsMgGetOpenTables m pstr:ADSSYS 0 0 pl16:0 pl16:262
+AdsMgGetOpenTables m pstr:ADSSYS 0 0 pl16:10 pl16:0
+AdsMgGetOpenTables m pstr:ADSSYS 0 0 pl16:0 pl16:0
+AdsMgGetOpenTables m pstr:ADSSYS 0 0 0 0
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf 0 pl16:262
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf pl16:10 0
+AdsMgGetOpenTables m pstr:ADSSYS 0 pbuf 0 0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes c pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes l pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf pl16:0 pl16:260
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf pl16:0 pl16:0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 0 pl16:0 pl16:260
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 0 pl16:10 pl16:0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 0 pl16:0 pl16:0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf 0 pl16:260
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf pl16:10 0
+AdsMgGetOpenIndexes m pstr:t pstr:ADSSYS 0 pbuf 0 0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks c pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks l pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf pl16:0 pl16:4
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf pl16:0 pl16:0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 0 pl16:0 pl16:4
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 0 pl16:10 pl16:0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 0 pl16:0 pl16:0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf 0 pl16:4
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf pl16:10 0
+AdsMgGetLocks m pstr:t pstr:ADSSYS 0 pbuf 0 0
+AdsMgGetUserNames m 0 pbuf pl16:10 pl16:288
+AdsMgGetOpenTables m 0 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenIndexes m 0 0 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes m 0 pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes m pstr:t 0 0 pbuf pl16:10 pl16:260
+AdsMgGetLocks m 0 0 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks m 0 0 0 0 0 0
+AdsMgGetLocks m 0 pstr:ADSSYS 0 0 pl16:0 pl16:4
+AdsMgGetLocks m pstr:t 0 0 pbuf pl16:10 pl16:4
+AdsMgGetLockOwner m pstr:t 1 pbuf pl16:288 p16
+AdsMgGetLockOwner c pstr:t 1 pbuf pl16:288 p16
+AdsMgGetLockOwner l pstr:t 1 pbuf pl16:288 p16
+AdsMgGetLockOwner m 0 1 pbuf pl16:288 p16
+AdsMgGetLockOwner m 0 1 0 0 0
+AdsMgGetLockOwner m pstr:t 1 pbuf pl16:0 p16
+AdsMgGetLockOwner m pstr:t 1 pbuf pl16:10 p16
+AdsMgGetLockOwner m pstr:t 1 0 pl16:0 p16
+AdsMgGetLockOwner m pstr:t 1 0 0 0
+AdsMgGetLockOwner m pstr:t 1 pbuf 0 0
+AdsMgGetLockOwner m pstr:t 1 pbuf pl16:288 0
+AdsMgGetWorkerThreadActivity m pbuf pl16:10 pl16:110
+AdsMgGetWorkerThreadActivity c pbuf pl16:10 pl16:110
+AdsMgGetWorkerThreadActivity l pbuf pl16:10 pl16:110
+AdsMgGetWorkerThreadActivity m pbuf pl16:0 pl16:110
+AdsMgGetWorkerThreadActivity m pbuf pl16:10 pl16:0
+AdsMgGetWorkerThreadActivity m pbuf pl16:0 pl16:0
+AdsMgGetWorkerThreadActivity m 0 pl16:0 pl16:110
+AdsMgGetWorkerThreadActivity m 0 pl16:10 pl16:0
+AdsMgGetWorkerThreadActivity m 0 pl16:0 pl16:0
+AdsMgGetWorkerThreadActivity m 0 0 0
+AdsMgGetWorkerThreadActivity m pbuf 0 pl16:110
+AdsMgGetWorkerThreadActivity m pbuf pl16:10 0
+AdsMgKillUser m pstr:nosuch 0
+AdsMgKillUser c pstr:nosuch 0
+AdsMgKillUser l pstr:nosuch 0
+AdsMgKillUser m 0 0
+AdsMgKillUser90 m pstr:nosuch 0 0 p32 4
+AdsMgKillUser90 m 0 0 0 0 0
+AdsMgDumpInternalTables m
+AdsMgDumpInternalTables c
+AdsMgDumpInternalTables l
+AdsMgConnect pstr:127.0.0.1 pstr:ADSSYS pstr:x p32
+AdsMgConnect pstr:127.0.0.1 0 0 p32
+AdsMgConnect 0 0 0 0
+!dead
+AdsMgGetServerType x p16
+AdsMgGetServerType x 0
+AdsMgGetCommStats x pbuf pl16:48
+AdsMgGetCommStats x 0 0
+AdsMgGetActivityInfo x pbuf pl16:172
+AdsMgGetActivityInfo x 0 0
+AdsMgGetInstallInfo x pbuf pl16:600
+AdsMgGetInstallInfo x 0 0
+AdsMgResetCommStats x
+AdsMgGetConfigInfo x pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo x 0 0 0 0
+AdsMgGetUserNames x pstr:x pbuf pl16:10 pl16:288
+AdsMgGetUserNames x pstr:x 0 0 0
+AdsMgGetOpenTables x pstr:ADSSYS 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenTables x pstr:ADSSYS 0 0 0 0
+AdsMgGetOpenIndexes x pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes x pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetLocks x pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks x pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetLockOwner x pstr:t 1 pbuf pl16:288 p16
+AdsMgGetLockOwner x 0 1 0 0 0
+AdsMgGetWorkerThreadActivity x pbuf pl16:10 pl16:110
+AdsMgGetWorkerThreadActivity x 0 0 0
+AdsMgKillUser x pstr:nosuch 0
+AdsMgKillUser x 0 0
+AdsMgDumpInternalTables x
+AdsMgDisconnect x
+AdsMgGetServerType 0 p16
+AdsMgGetServerType 0 0
+AdsMgGetCommStats 0 pbuf pl16:48
+AdsMgGetCommStats 0 0 0
+AdsMgGetActivityInfo 0 pbuf pl16:172
+AdsMgGetActivityInfo 0 0 0
+AdsMgGetInstallInfo 0 pbuf pl16:600
+AdsMgGetInstallInfo 0 0 0
+AdsMgResetCommStats 0
+AdsMgGetConfigInfo 0 pbuf pl16:200 pbuf pl16:56
+AdsMgGetConfigInfo 0 0 0 0 0
+AdsMgGetUserNames 0 pstr:x pbuf pl16:10 pl16:288
+AdsMgGetUserNames 0 pstr:x 0 0 0
+AdsMgGetOpenTables 0 pstr:ADSSYS 0 pbuf pl16:10 pl16:262
+AdsMgGetOpenTables 0 pstr:ADSSYS 0 0 0 0
+AdsMgGetOpenIndexes 0 pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:260
+AdsMgGetOpenIndexes 0 pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetLocks 0 pstr:t pstr:ADSSYS 0 pbuf pl16:10 pl16:4
+AdsMgGetLocks 0 pstr:t pstr:ADSSYS 0 0 0 0
+AdsMgGetLockOwner 0 pstr:t 1 pbuf pl16:288 p16
+AdsMgGetLockOwner 0 0 1 0 0 0
+AdsMgGetWorkerThreadActivity 0 pbuf pl16:10 pl16:110
+AdsMgGetWorkerThreadActivity 0 0 0 0
+AdsMgKillUser 0 pstr:nosuch 0
+AdsMgKillUser 0 0 0
+AdsMgDumpInternalTables 0
+AdsMgDisconnect 0

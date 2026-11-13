@@ -1,0 +1,38 @@
+[package]
+name = "tflip-storage"
+description = "Reader and writer for Advantage-compatible tables, memos and indexes"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+# Lists the bytes tflip writes where the original engine leaves bytes
+# undefined (`undefined::take`), for tests that compare files with its.
+undefined = []
+
+[dependencies]
+# Compressed memo values are written as the reference zlib writes them (the
+# original engine's streams); built in, so the client DLLs need no zlib1.dll.
+flate2 = { version = "1.1.9", default-features = false, features = ["zlib"] }
+libz-sys = { version = "1.1.30", default-features = false, features = ["static"] }
+miniz_oxide = "0.8.9"
+serde.workspace = true
+
+# AES table and dictionary encryption (crypto.rs): the key schedule is
+# PBKDF2-HMAC-SHA1 and the cipher is AES in a CTR mode of the engine's own; the
+# RC4 mode is implemented by hand in the same module.
+aes = "0.8.4"
+pbkdf2 = { version = "0.12.2", default-features = false, features = ["hmac"] }
+sha1 = "0.10.6"
+# The random salt, nonce and IV a new AES table carries (AesMaterial::generate).
+getrandom = "0.2.17"
+
+# Byte-range locks on table files (lock.rs).
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.190"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.52.0", features = ["Win32_Foundation", "Win32_NetworkManagement_WNet", "Win32_Storage_FileSystem", "Win32_System_IO"] }
+
+[dev-dependencies]
+serde_json = "1.0.151"

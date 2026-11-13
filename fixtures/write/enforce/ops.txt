@@ -1,0 +1,57 @@
+# AutoInc: the engine fills k while enforcement is on (an explicit set is
+# dropped); with it off a client's own value is stored and the next value is
+# kept past it.
+open ai.adt
+append
+set v string a
+write
+get k
+append
+set v string b
+write
+get k
+append
+set k long 500
+set v string c
+write
+get k
+conn AdsDisableAutoIncEnforcement
+append
+set k long 100
+set v string d
+write
+get k
+append
+set v string e
+write
+get k
+append
+set k long 7
+set v string f
+write
+get k
+conn AdsEnableAutoIncEnforcement
+append
+set v string g
+write
+get k
+close
+# Unique: a CANDIDATE order refuses a duplicate key while enforcement is on
+# (AE_KEY_NOT_UNIQUE); with it off the duplicate is written and its key added.
+open uq.adt
+append
+set k string AAAA
+set v string first
+write
+append
+set k string AAAA
+set v string dupon
+write
+cancel
+conn AdsDisableUniqueEnforcement
+append
+set k string AAAA
+set v string dupoff
+write
+count
+close

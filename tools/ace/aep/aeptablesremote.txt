@@ -1,0 +1,29 @@
+# External procedures reaching __output through the table API, and __input
+# and __error by their plain names (aeptables.c as aeptables.aep), on the
+# original's remote server (SQL_SERVER_TYPE=2); everything aeptables.txt
+# does on the local server it does the same on this one (the names with the
+# number sign, or without it and with ADS_TEMP_TABLE; 8192). __output opens
+# by none of the names, as on the local server (7112, 7041 for the plain name
+# without options), before or after the procedure wrote to it with SQL
+# (plain_aeptables.aep: the traces have the codes only, the texts name the
+# server's temporary files). Each call's commands are traced into
+# __output, and into the table log, which is read after a call that fails
+# (its __output is lost) and emptied.
+#
+#     tools/ace/aep/run.sh aeptablesremote.txt aeptables.c aeptables.aep > fixtures/sql/aeptablesremote.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE log (s VARCHAR(4000))
+direct CREATE PROCEDURE tp(cmd CHAR(2000), n INTEGER, s CHAR(20), d DOUBLE, trace VARCHAR(4000) OUTPUT, m INTEGER OUTPUT, t CHAR(20) OUTPUT, x DOUBLE OUTPUT) FUNCTION Run IN LIBRARY "plain_aeptables.aep"
+# The first call of the connection that opens nothing, then the names.
+query EXECUTE PROCEDURE tp('ret 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 __input;open 1 #__input;open 2 __input 3 1 1 1 8192;open 3 __input 1 1 1 1 8192;open 4 __error;open 5 #__error;open 6 __error 3 1 1 1 8192', 7, 'abc', 1.5)
+direct DELETE FROM log
+# __output: by name, with and without the option, before and after a write by SQL.
+query EXECUTE PROCEDURE tp('open 0 __output;open 1 #__output;open 2 __output 3 1 1 1 8192;open 3 #__output 3 1 1 1 8192;open 4 __Output 3 1 1 1 8192', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('sql INSERT INTO __output (m) VALUES (1);open 0 __output;open 1 #__output;open 2 __output 3 1 1 1 8192;open 3 #__output 3 1 1 1 8192;info 2', 7, 'abc', 1.5)
+direct DELETE FROM log

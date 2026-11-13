@@ -1,0 +1,18 @@
+ddcreate vw.add
+sql CREATE TABLE vt (id AUTOINC, name CHAR(8) DEFAULT 'dflt', n INTEGER DEFAULT '7')
+sql INSERT INTO vt (name, n) VALUES ('a', 10)
+sql INSERT INTO vt (name, n) VALUES ('b', 20)
+sql INSERT INTO vt (name, n) VALUES ('c', 30)
+sql INSERT INTO vt (name, n) VALUES ('d', 40)
+sql INSERT INTO vt (name, n) VALUES ('e', 50)
+sql CREATE TABLE vu (id AUTOINC, name CHAR(8), n INTEGER)
+sql INSERT INTO vu (name, n) VALUES ('a', 10)
+sql INSERT INTO vu (name, n) VALUES ('b', 20)
+sql INSERT INTO vu (name, n) VALUES ('c', 30)
+sql INSERT INTO vu (name, n) VALUES ('d', 40)
+sql INSERT INTO vu (name, n) VALUES ('e', 50)
+sql CREATE VIEW v_all AS SELECT * FROM vu
+sql CREATE VIEW v_where AS SELECT id, name, n FROM vu WHERE n > 25
+sql CREATE VIEW v_sub AS SELECT name FROM vu
+sql CREATE VIEW v_alias AS SELECT id AS ident, name AS label FROM vu
+sql CREATE VIEW v_of_view AS SELECT ident, label FROM v_alias WHERE ident > 2

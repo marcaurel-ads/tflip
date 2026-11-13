@@ -1,0 +1,262 @@
+sql EXECUTE PROCEDURE sp_ZapTable('sp_zap')
+sql INSERT INTO junk VALUES (1)
+open sp_zap.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql DELETE FROM delete_all
+sql INSERT INTO junk VALUES (1)
+open delete_all.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql DELETE FROM delete_all_pack
+sql EXECUTE PROCEDURE sp_PackTable('delete_all_pack')
+sql INSERT INTO junk VALUES (1)
+open delete_all_pack.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql DELETE FROM delete_some WHERE id > 3
+sql INSERT INTO junk VALUES (1)
+open delete_some.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql DELETE FROM delete_last WHERE id = 5
+sql INSERT INTO junk VALUES (1)
+open delete_last.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql DELETE FROM pack_last WHERE id = 5
+sql EXECUTE PROCEDURE sp_PackTable('pack_last')
+sql INSERT INTO junk VALUES (1)
+open pack_last.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+open api_zap.adt exclusive
+zap
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+open api_pack.adt exclusive
+goto 1
+delete
+goto 2
+delete
+goto 3
+delete
+goto 4
+delete
+goto 5
+delete
+pack
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+open api_delete.adt exclusive
+goto 5
+delete
+write
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql ALTER TABLE alter_values ALTER COLUMN id id AUTOINC
+sql INSERT INTO junk VALUES (1)
+open alter_values.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql ALTER TABLE alter_empty ALTER COLUMN id id AUTOINC
+sql INSERT INTO junk VALUES (1)
+open alter_empty.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql ALTER TABLE alter_zero ALTER COLUMN id id AUTOINC
+sql INSERT INTO junk VALUES (1)
+open alter_zero.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+sql ALTER TABLE alter_dup ALTER COLUMN id id AUTOINC
+sql INSERT INTO junk VALUES (1)
+open alter_dup.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+restructure rs_values.adt 0 ||id,id,AutoInc
+open rs_values.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+restructure rs_empty.adt 0 ||id,id,AutoInc
+open rs_empty.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+restructure rs_zero.adt 0 ||id,id,AutoInc
+open rs_zero.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close
+restructure rs_dup.adt 0 ||id,id,AutoInc
+open rs_dup.adt exclusive
+append
+set name string a
+write
+state
+get id
+append
+set name string b
+write
+state
+get id
+rows
+close

@@ -1,0 +1,5 @@
+# The same in an AES-256 one, ending with a password of more than 20 characters.
+connect Data Source=%D\m_F_tablepw\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'abcdefghijklmnopqrstuvwxyz')
+disconnect

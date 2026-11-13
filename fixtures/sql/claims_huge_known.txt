@@ -1,0 +1,12 @@
+# Commands of the claims script whose results tflip does not give as the original does
+# (see docs/KNOWN_ISSUES.md); `# <case>` names the case of the command below it.
+# o-join-huge-big
+query SHOW PLAN FOR SELECT * FROM huge h, big b WHERE h.id = b.id AND b.grp = 1
+# o-huge-segments
+query SHOW PLAN FOR SELECT * FROM huge WHERE id = 4000 AND city = 'City3' AND grp = 3 AND d > '2020-01-01'
+# o-500-rule-internal
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM huge WHERE id < 50 ORDER BY grp
+# o-500-rule-indexes
+query SELECT * FROM huge WHERE id < 50 ORDER BY grp
+# o-500-rule-600
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM huge WHERE id < 600 ORDER BY grp

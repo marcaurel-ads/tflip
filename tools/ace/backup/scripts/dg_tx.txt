@@ -1,0 +1,29 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+ttype 3
+sql 1 CREATE TABLE x_commit (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_commit VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_commit VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_commit VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_commit VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_commit VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 CREATE TABLE x_rb (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_rb VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_rb VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_rb VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_rb VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_rb VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 CREATE TABLE x_pend (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_pend VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_pend VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_pend VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_pend VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_pend VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 CREATE TABLE x_ctl (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_ctl VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_ctl VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_ctl VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_ctl VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_ctl VALUES (5, 'n5', 'memo 5', NULL)
+ttype 0

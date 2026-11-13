@@ -1,0 +1,524 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "expr 1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 8 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 255 >> 4", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["15"]]]}},
+{"cmd": "expr 1 << 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr 1 << 30", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1073741824"]]]}},
+{"cmd": "expr 1 << 31", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 33", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 62", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 65", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 >> 100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr -8 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-4"]]]}},
+{"cmd": "expr -1 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 >> 31", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 >> 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 >> 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 >> 64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 >> 100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-2"]]]}},
+{"cmd": "expr -1 << 31", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr -1 << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 >> -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 8 >> -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["16"]]]}},
+{"cmd": "expr 8 << -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << -32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << -64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << 2 + 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "expr 1 + 1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "expr 2 * 3 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["12"]]]}},
+{"cmd": "expr 1 << 2 * 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["64"]]]}},
+{"cmd": "expr 16 >> 2 * 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr 16 / 2 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << 2 << 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["32"]]]}},
+{"cmd": "expr 256 >> 2 >> 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "expr 1 << 2 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 3 & 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 << 1 & 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 | 1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_30.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << 2 | 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "expr 1 << 2 = 4", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 4 = 1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 << 2 < 5", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_34.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr - 1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-4"]]]}},
+{"cmd": "expr -(1 << 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-4"]]]}},
+{"cmd": "expr 1 << (1 + 1)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1<<2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1>>1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_39.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 < < 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 > > 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 8 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 <<< 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 >>> 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 <> 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 <= 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 >= 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 2 >= 1 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 << 1.5", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 1.4", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 1.6", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1.5 << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 2.5 >> 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: >> Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << CAST(2 AS SQL_SMALLINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 15", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 16", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_41.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 17", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 31", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_43.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(-1 AS SQL_SMALLINT) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_45.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 31", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_47.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 33", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_48.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 62", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_49.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER) << 64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 31", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["2147483648"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4294967296"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 62", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4611686018427387904"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_50.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << 65", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_51.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(-1 AS SQL_BIGINT) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr CAST(-1 AS SQL_BIGINT) >> 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr CAST(-1 AS SQL_BIGINT) >> 64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_54.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr CAST(9223372036854775807 AS SQL_BIGINT) >> 62", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_55.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(2147483647 AS SQL_INTEGER) << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_56.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-2"]]]}},
+{"cmd": "expr CAST(2147483647 AS SQL_INTEGER) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_57.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1073741823"]]]}},
+{"cmd": "expr CAST(1 AS SQL_DOUBLE) << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(8 AS SQL_DOUBLE) >> 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: >> Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_58.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,2)) << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_MONEY) << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Money value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr TRUE << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_59.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 << TRUE", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Boolean value cannot be the right operand of a bitwise SHIFT operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr '1' << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << '2'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 'a' << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr NULL << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 18 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr NULL >> NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr DATE'2020-01-01' << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr TIME'01:00:00' << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(NULL AS SQL_INTEGER) << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr CAST(1 AS SQL_CHAR(5)) << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << CAST(2 AS SQL_CHAR(5))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << CAST(1 AS SQL_DOUBLE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 2.0", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 1e1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << 3000000000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 3000000000 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["6000000000"]]]}},
+{"cmd": "expr 3000000000 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1500000000"]]]}},
+{"cmd": "expr 9223372036854775807 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-2"]]]}},
+{"cmd": "expr 9223372036854775807 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4611686018427387903"]]]}},
+{"cmd": "expr -9223372036854775807 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_60.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-4611686018427387904"]]]}},
+{"cmd": "expr 4611686018427387904 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_61.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr 2147483648 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_62.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4294967296"]]]}},
+{"cmd": "expr 2147483648 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_63.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1073741824"]]]}},
+{"cmd": "expr 1 << 1 << 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_64.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "direct CREATE TABLE sh (a INTEGER, b INTEGER, s SHORTINT, l BIGINT, d DOUBLE, n NUMERIC(10,2), c CHAR(4), m MONEY, t LOGICAL, dt DATE)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sh VALUES (1, 2, 3, 4, 5.5, 6.25, '7', 8, TRUE, '2020-01-01')", "rc": 0},
+{"cmd": "directnull INSERT INTO sh VALUES (-16, 33, -3, -4, -5.5, -6.25, 'a', -8, FALSE, NULL)", "rc": 0},
+{"cmd": "directnull INSERT INTO sh VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0},
+{"cmd": "query SELECT a << b AS x, a >> b AS y, s << 1 AS z, l << 1 AS w FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_65.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 11, 4, 0], ["z", 12, 2, 0], ["w", 19, 8, 0]], "rows": [
+  [1, ["4", "0", "6", "8"]],
+  [2, ["0", "-1", "-6", "-8"]],
+  [3, [null, null, null, null]]]}},
+{"cmd": "query SELECT a << s AS x, a >> s AS y, s << s AS z, l << a AS w, s >> a AS q FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_66.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 11, 4, 0], ["z", 12, 2, 0], ["w", 19, 8, 0], ["q", 12, 2, 0]], "rows": [
+  [1, ["8", "0", "24", "8", "1"]],
+  [2, ["-2", "-128", "-1", "-1", "0"]],
+  [3, [null, null, null, null, null]]]}},
+{"cmd": "query SELECT l << 40 AS x, l >> 1 AS y, l << b AS z FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_67.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 19, 8, 0], ["y", 19, 8, 0], ["z", 19, 8, 0]], "rows": [
+  [1, ["4398046511104", "2", "16"]],
+  [2, ["-4398046511104", "-2", "-34359738368"]],
+  [3, [null, null, null]]]}},
+{"cmd": "query SELECT d << 1 AS x FROM sh", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n << 1 AS x FROM sh", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT c << 1 AS x FROM sh", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT m << 1 AS x FROM sh", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Money value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT t << 1 AS x FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_68.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 1, 1, 0]], "rows": [
+  [1, ["F"]],
+  [2, ["F"]],
+  [3, [null]]]}},
+{"cmd": "query SELECT dt << 1 AS x FROM sh", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 << a AS x, 1 >> a AS y FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_69.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["y", 11, 4, 0]], "rows": [
+  [1, ["2", "0"]],
+  [2, ["0", "65536"]],
+  [3, [null, null]]]}},
+{"cmd": "query SELECT a FROM sh WHERE a << 1 = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT a FROM sh WHERE (a << 1) > 0 ORDER BY a << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT a << 1 AS x, COUNT(*) AS n FROM sh GROUP BY a << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["x", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, [null, "1"]],
+  [2, ["-32", "1"]],
+  [3, ["2", "1"]]]}},
+{"cmd": "query SELECT SUM(a << 1) AS x FROM sh", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_70.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["-30"]]]}},
+{"cmd": "query SELECT a, b FROM sh WHERE a << b IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_71.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, [null, null]]]}},
+{"cmd": "directnull UPDATE sh SET a = b << 1 WHERE b = 2", "rc": 0},
+{"cmd": "query SELECT a FROM sh ORDER BY b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "sh.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["a", 11, 4, 0]], "rows": [
+  [3, [null]],
+  [1, ["4"]],
+  [2, ["-16"]]]}},
+{"cmd": "directnull INSERT INTO sh (a) VALUES (1 << 4)", "rc": 0},
+{"cmd": "query SELECT a FROM sh WHERE b IS NULL AND s IS NULL ORDER BY a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "sh.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["a", 11, 4, 0]], "rows": [
+  [3, [null]],
+  [4, ["16"]]]}},
+{"cmd": "expr 1 << 1 | 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_74.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "expr 1 | 1 << 1 | 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_75.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "expr 4 ^ 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_76.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["10"]]]}},
+{"cmd": "expr 1 << 1 ^ 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_77.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr 1 << 1 & 3 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_78.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 6 & 3 << 1 | 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_79.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "expr ~1 << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-8"]]]}},
+{"cmd": "expr ~(1 << 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-5"]]]}},
+{"cmd": "expr 1 << ~1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr TRUE << 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr TRUE >> 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr FALSE << 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr TRUE >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_80.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 << TRUE", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Boolean value cannot be the right operand of a bitwise SHIFT operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr TRUE << FALSE", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_81.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_82.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << -2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_83.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(4 AS SQL_BIGINT) << -2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_84.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << -63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_85.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << -64", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_86.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT) << -65", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_87.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr CAST(256 AS SQL_BIGINT) >> -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_88.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["512"]]]}},
+{"cmd": "expr CAST(-256 AS SQL_BIGINT) >> -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_89.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-512"]]]}},
+{"cmd": "expr CAST(-256 AS SQL_BIGINT) << -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-128"]]]}},
+{"cmd": "expr CAST(-256 AS SQL_BIGINT) << -100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr -256 << -100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-1"]]]}},
+{"cmd": "expr 256 << -100", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << CAST(40 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << CAST(2 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << CAST(2 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_90.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << CAST(2 AS SQL_NUMERIC(5,0))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_91.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_TINYINT) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_92.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_TINYINT) << 7", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_93.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["128"]]]}},
+{"cmd": "expr CAST(1 AS SQL_TINYINT) << 8", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_94.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["256"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_95.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(18,0)) << 62", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_96.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4611686018427387904"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(18,0)) << 63", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_97.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(19,0)) << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << CAST(2 AS SQL_NUMERIC(5,0))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_98.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << CAST(2 AS SQL_NUMERIC(5,1))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << CAST(2 AS SQL_MONEY)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Money value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(32767 AS SQL_SMALLINT) << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_99.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["-2"]]]}},
+{"cmd": "expr CAST(16384 AS SQL_SMALLINT) << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(-16384 AS SQL_SMALLINT) << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(-32767 AS SQL_SMALLINT) << 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["-32767"]]]}},
+{"cmd": "expr -2147483648 << 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-2147483648"]]]}},
+{"cmd": "expr -2147483647 >> 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-2147483647"]]]}},
+{"cmd": "expr 1 << 1 AS x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 <<= 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 >>= 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 5 >> 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 7 & 3 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr (7 & 3) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr 7 >> 1 & 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a3.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "expr 1 + 2 << 3 - 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["12"]]]}},
+{"cmd": "expr 100 / 5 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["10"]]]}},
+{"cmd": "expr 100 % 7 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << 2 IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 << 2 BETWEEN 3 AND 5", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 << 2 IN (4, 5)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 4 LIKE 1 << 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: LIKE -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CASE 1 << 2 WHEN 4 THEN 'y' ELSE 'n' END", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_aa.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 1, 0]], "rows": [
+  [1, ["y"]]]}},
+{"cmd": "expr IIF(1 << 2 = 4, 'y', 'n')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ab.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 1, 0]], "rows": [
+  [1, ["y"]]]}},
+{"cmd": "expr ABS(-1 << 1)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ac.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 << LENGTH('ab')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ad.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr (1 << 2) << (1 << 1)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ae.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["16"]]]}},
+{"cmd": "expr 1 << 2 AS a, 2 >> 1 AS b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_af.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["4", "1"]]]}},
+{"cmd": "expr CAST(1 << 2 AS SQL_CHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 5, 0]], "rows": [
+  [1, ["4    "]]]}},
+{"cmd": "expr CAST('4' AS SQL_INTEGER) << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "expr CONVERT(1, SQL_INTEGER) << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 <<2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b3.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1<< 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 >>2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 >> 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 << -2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 1 >>-2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1<<-2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr 12 >> 1 >> 1 << 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ba.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["24"]]]}},
+{"cmd": "expr 1 > 2 >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_bb.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 < 2 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_bc.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 << 1 < 3 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_bd.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 =<< 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 =>> 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 <<> 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 ><< 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << > 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 >> < 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE sh2 (a INTEGER, b INTEGER, s SHORTINT, l BIGINT)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sh2 VALUES (1, 31, 1, 1)", "rc": 0},
+{"cmd": "directnull INSERT INTO sh2 VALUES (2, 32, 15, 63)", "rc": 0},
+{"cmd": "directnull INSERT INTO sh2 VALUES (-2, -1, 16, 64)", "rc": 0},
+{"cmd": "directnull INSERT INTO sh2 VALUES (1, 0, 2, 2)", "rc": 0},
+{"cmd": "query SELECT a << b AS x FROM sh2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"x\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT a >> b AS x FROM sh2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_bf.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["0"]],
+  [3, ["-4"]],
+  [4, ["1"]]]}},
+{"cmd": "query SELECT l << l AS x FROM sh2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 19, 8, 0]], "rows": [
+  [1, ["2"]],
+  [2, [null]],
+  [3, ["0"]],
+  [4, ["8"]]]}},
+{"cmd": "query SELECT s << 1 AS x FROM sh2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 12, 2, 0]], "rows": [
+  [1, ["2"]],
+  [2, ["30"]],
+  [3, ["32"]],
+  [4, ["4"]]]}},
+{"cmd": "query SELECT l >> b AS x FROM sh2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 19, 8, 0]], "rows": [
+  [1, ["0"]],
+  [2, ["0"]],
+  [3, ["128"]],
+  [4, ["2"]]]}},
+{"cmd": "query SELECT a << 1 AS x, s << 1 AS y, l << 1 AS z FROM sh2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c3.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 11, 4, 0], ["y", 12, 2, 0], ["z", 19, 8, 0]], "rows": [
+  [1, ["2", "2", "2"]],
+  [2, ["4", "30", "126"]],
+  [3, ["-4", "32", "128"]],
+  [4, ["2", "4", "4"]]]}},
+{"cmd": "query SELECT a, b FROM sh2 WHERE a << 1 < 0 OR b >> 1 > 10 ORDER BY a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [3, ["-2", "-1"]],
+  [1, ["1", "31"]],
+  [2, ["2", "32"]]]}},
+{"cmd": "query SELECT a, a << 1 AS x FROM sh2 ORDER BY 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 4, "fields": [["a", 11, 4, 0], ["x", 11, 4, 0]], "rows": [
+  [3, ["-2", "-4"]],
+  [1, ["1", "2"]],
+  [4, ["1", "2"]],
+  [2, ["2", "4"]]]}},
+{"cmd": "directnull UPDATE sh2 SET a = a << 1, l = l >> 1 WHERE b = 0", "rc": 0},
+{"cmd": "query SELECT a, l FROM sh2 WHERE b = 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "sh2.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["l", 19, 8, 0]], "rows": [
+  [4, ["2", "1"]]]}},
+{"cmd": "directnull UPDATE sh2 SET a = 1 << 31 WHERE b = 0", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"a\""},
+{"cmd": "directnull UPDATE sh2 SET l = 1 << 63 WHERE b = 0", "rc": 0},
+{"cmd": "query SELECT a, l FROM sh2 WHERE b = 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "sh2.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["l", 19, 8, 0]], "rows": [
+  [4, ["2", "0"]]]}},
+{"cmd": "directnull UPDATE sh2 SET s = CAST(1 AS SQL_BIGINT) << 20 WHERE b = 0", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"s\""},
+{"cmd": "query SELECT s FROM sh2 WHERE b = 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "sh2.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["s", 12, 2, 0]], "rows": [
+  [4, ["2"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(1,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(3,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(4,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ca.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_cb.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(9,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_cc.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_cd.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(18,0)) << 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_ce.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5,0)) << 30", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_cf.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1073741824"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5,0)) << 31", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(9,0)) << 31", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] Error 5179:  The result value exceeded the given buffer size.  Field: \"EXPR\"", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,0)) << 31", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["2147483648"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,0)) << 32", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d3.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4294967296"]]]}},
+{"cmd": "expr CAST(-8 AS SQL_NUMERIC(5,0)) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-4"]]]}},
+{"cmd": "expr CAST(-8 AS SQL_NUMERIC(10,0)) >> 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["-4"]]]}},
+{"cmd": "expr 1 << CAST(2 AS SQL_NUMERIC(10,0))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT) << CAST(2 AS SQL_NUMERIC(10,0))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(3,0)) << CAST(2 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(10,0)) << CAST(2 AS SQL_SMALLINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 | 1 << 1 | 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_da.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "expr 1 << 1 | 1 << 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_db.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "direct CREATE TABLE sh3 (a NUMERIC(5,0), b NUMERIC(12,0), c NUMERIC(5,2), d AUTOINC, e TIMESTAMP, f TIME, g CICHAR(4))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO sh3 (a, b, c) VALUES (1, 2, 3)", "rc": 0},
+{"cmd": "query SELECT a << 1 AS x, b << 1 AS y FROM sh3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_dc.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 12, 2, 0], ["y", 19, 8, 0]], "rows": [
+  [1, ["2", "4"]]]}},
+{"cmd": "query SELECT c << 1 AS x FROM sh3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Numeric operands of a bitwise operator cannot have decimal or precision greater than 18. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT d << 1 AS x FROM sh3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_dd.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query SELECT e << 1 AS x FROM sh3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f << 1 AS x FROM sh3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT g << 1 AS x FROM sh3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295}
+]

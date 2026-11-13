@@ -1,0 +1,62 @@
+# Makes the dictionaries of ddenc.txt, which tflip cannot make (it does not
+# set a table encryption password, nor encrypt a dictionary), in an empty
+# folder with de/ for them: p0 as it is made, p1 with a table encryption
+# password, p2 with ENCRYPT_NEW_TABLE, p3 with ENCRYPT_INDEXES, p4 with
+# both; e0 to e4 the same in a dictionary that is encrypted (ENCRYPT TRUE).
+# Not replayed; the dictionaries are kept in fixtures/adt/ddenc/:
+#
+#     run.sh <work> <ace32.dll> spddencmake.txt > /dev/null
+#     cp <work>/data/de/p?.a* <work>/data/de/e?.a* fixtures/adt/ddenc/
+ddcreate de\de.add
+stmt
+direct CREATE DATABASE "p0.add"
+direct CREATE DATABASE "p1.add"
+direct CREATE DATABASE "p2.add"
+direct CREATE DATABASE "p3.add"
+direct CREATE DATABASE "p4.add"
+direct CREATE DATABASE "e0.add" ENCRYPT TRUE
+direct CREATE DATABASE "e1.add" ENCRYPT TRUE
+direct CREATE DATABASE "e2.add" ENCRYPT TRUE
+direct CREATE DATABASE "e3.add" ENCRYPT TRUE
+direct CREATE DATABASE "e4.add" ENCRYPT TRUE
+disconnect
+connect de\p1.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+disconnect
+connect de\p2.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+disconnect
+connect de\p3.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+disconnect
+connect de\p4.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+disconnect
+connect de\e1.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+disconnect
+connect de\e2.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+disconnect
+connect de\e3.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+disconnect
+connect de\e4.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+disconnect

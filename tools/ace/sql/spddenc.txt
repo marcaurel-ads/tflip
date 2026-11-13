@@ -1,0 +1,40 @@
+# sp_SetDDEncryptionType on a dictionary connection in an empty folder (the
+# dictionary, de/de.add, is kept in fixtures/sql/spddenc/): what it refuses.
+#
+#     run.sh <work> <ace32.dll> spddenc.txt > ../../../fixtures/sql/spddenc.json
+#     cp -r <work>/data/de/* ../../../fixtures/sql/spddenc/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER)
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', 'pw', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', 'x', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'nope', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', '', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', NULL, 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 2)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', -1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', NULL)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('nope.add', '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('', '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType(NULL, '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de', '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de', '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'AES128', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'AES256', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'rc4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4')
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 1, 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 5, 1)
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 1)
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 0)
+query SELECT * FROM system.dictionary
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 1)
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_SetDDEncryptionType('de\de.add', '', '', 'RC4', 1)

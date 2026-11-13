@@ -1,0 +1,40 @@
+sql CREATE TABLE ta (id INTEGER, body MEMO, c CHAR(40))
+sql INSERT INTO ta VALUES (1, 'The quick brown fox jumps', 'fox den')
+sql INSERT INTO ta VALUES (2, 'lazy dog sleeps by the river', 'dog house')
+sql INSERT INTO ta VALUES (3, 'fox and dog together again', 'fox dog')
+sql INSERT INTO ta VALUES (4, 'repeat repeat repeat', NULL)
+sql INSERT INTO ta VALUES (5, NULL, 'only char')
+sql CREATE INDEX ta_fts ON ta (body) CONTENT
+sql CREATE INDEX ta_score ON ta (body) CONTENT KEEPSCORE
+sql CREATE INDEX ta_c ON ta (c) CONTENT
+sql CREATE INDEX ta_id ON ta (id)
+sql CREATE TABLE tq (id INTEGER, body MEMO, c CHAR(40))
+sql INSERT INTO tq VALUES (1, 'The quick brown fox jumps', 'fox den')
+sql INSERT INTO tq VALUES (2, 'lazy dog sleeps by the river', 'dog house')
+sql INSERT INTO tq VALUES (3, 'fox and dog together again', 'fox dog')
+sql INSERT INTO tq VALUES (4, 'repeat repeat repeat', NULL)
+sql INSERT INTO tq VALUES (5, NULL, 'only char')
+sql CREATE INDEX tq_fts ON tq (body) CONTENT
+sql CREATE INDEX tq_score ON tq (body) CONTENT KEEPSCORE
+sql CREATE INDEX tq_c ON tq (c) CONTENT
+sql CREATE INDEX tq_id ON tq (id)
+sql CREATE TABLE tp (id INTEGER, body MEMO, c CHAR(40))
+sql INSERT INTO tp VALUES (1, 'The quick brown fox jumps', 'fox den')
+sql INSERT INTO tp VALUES (2, 'lazy dog sleeps by the river', 'dog house')
+sql INSERT INTO tp VALUES (3, 'fox and dog together again', 'fox dog')
+sql INSERT INTO tp VALUES (4, 'repeat repeat repeat', NULL)
+sql INSERT INTO tp VALUES (5, NULL, 'only char')
+sql CREATE INDEX tp_fts ON tp (body) CONTENT
+sql CREATE INDEX tp_score ON tp (body) CONTENT KEEPSCORE
+sql CREATE INDEX tp_c ON tp (c) CONTENT
+sql CREATE INDEX tp_id ON tp (id)
+sql CREATE TABLE tn (id INTEGER, body MEMO, c CHAR(40))
+sql INSERT INTO tn VALUES (1, 'The quick brown fox jumps', 'fox den')
+sql INSERT INTO tn VALUES (2, 'lazy dog sleeps by the river', 'dog house')
+sql INSERT INTO tn VALUES (3, 'fox and dog together again', 'fox dog')
+sql INSERT INTO tn VALUES (4, 'repeat repeat repeat', NULL)
+sql INSERT INTO tn VALUES (5, NULL, 'only char')
+sql CREATE INDEX tn_fts ON tn (body) CONTENT
+sql CREATE INDEX tn_score ON tn (body) CONTENT KEEPSCORE
+sql CREATE INDEX tn_c ON tn (c) CONTENT
+sql CREATE INDEX tn_id ON tn (id)

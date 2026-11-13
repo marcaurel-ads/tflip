@@ -1,0 +1,571 @@
+# SQL statements on a free-table folder holding copies of the adt fixtures
+# all_types, keys, indexed and pages8k, and then on the dictionaries
+# dictionary_props (props/) and dictionary (dict/); run by sql.c.
+
+## Statement lifecycle
+stmt
+info
+directnull execute procedure sp_SetApplicationID( 'ARC{0D129339-37D2-4C68-B754-85D3DB5F50F7}' )
+count
+direct execute procedure sp_GetApplicationID()
+info
+direct SELECT * FROM indexed
+prepare SELECT id FROM indexed
+closecursor
+direct SELECT * FROM indexed
+info
+closecursor
+info
+directnull SELECT * FROM indexed
+count
+prepare SELECT id FROM indexed
+verify SELECT nosuch FROM indexed
+verify SELECT id FROM indexed
+info
+exec
+closecursor
+exec
+info
+closestmt
+info
+count
+stmt
+exec
+prepare SELECT nosuch FROM indexed
+exec
+prepare
+exec
+closestmt
+stmt
+direct SELECT * FROM indexed
+closestmt
+closecursor
+stmt
+direct SELECT * FROM indexed WHERE id > 2
+info
+closecursor
+
+## Live or static (AdsSqlPeekStatement)
+stmt
+peek stmt
+direct SELECT * FROM indexed
+peek
+closecursor
+direct SELECT name FROM indexed WHERE id > 1 ORDER BY active
+peek
+closecursor
+direct SELECT UPPER(name) FROM indexed
+peek
+closecursor
+direct execute procedure sp_GetApplicationID()
+peek
+closecursor
+peek
+peek table
+peek 0
+closestmt
+
+## ARC's procedures
+stmt
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'all_types.adt', NULL )\r\n
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'indexed', NULL )
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'INDEXED.ADT', 'n%' )
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'inde%', 'n%' )
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'keys.adt', '%' )
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'pages8k.adt', 'n_m_' )
+query EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'nosuch.adt', NULL )
+query EXECUTE PROCEDURE sp_GetTables( NULL, NULL, NULL, 'TABLE' )
+query EXECUTE PROCEDURE sp_GetTables( NULL, NULL, 'i%', 'TABLE' )
+query EXECUTE PROCEDURE sp_GetApplicationID()
+query EXECUTE PROCEDURE sp_mgGetInstallInfo()\r\n
+query EXECUTE PROCEDURE sp_GetSQLStatements()\r\n
+query EXECUTE PROCEDURE sp_Nosuch()
+query execute procedure sp_SetApplicationID( 'x' )
+query EXECUTE PROCEDURE sp_GetApplicationID()
+closestmt
+
+## Live cursors
+stmt
+query SELECT * FROM indexed
+query SELECT * FROM keys
+query SELECT * FROM all_types
+query SELECT id, name FROM indexed
+query SELECT name, id FROM indexed
+query SELECT name AS n, id AS "the id" FROM indexed
+query SELECT x.name FROM indexed x WHERE x.id = 2
+query SELECT indexed.name FROM indexed
+query SELECT * FROM "indexed"
+query SELECT * FROM [indexed.adt]
+query SELECT * FROM indexed WHERE id > 1
+query SELECT * FROM indexed WHERE id >= 2 AND id <= 3
+query SELECT * FROM indexed WHERE id = 1 OR name = 'Delta'
+query SELECT * FROM indexed WHERE NOT active
+query SELECT * FROM indexed WHERE active
+query SELECT * FROM indexed WHERE active = TRUE
+query SELECT * FROM indexed WHERE born < '1980-01-01'
+query SELECT * FROM indexed WHERE born IS NULL
+query SELECT * FROM indexed WHERE born IS NOT NULL
+query SELECT * FROM indexed WHERE amount BETWEEN 0 AND 50
+query SELECT * FROM indexed WHERE id IN (1, 3, 9)
+query SELECT * FROM indexed WHERE id NOT IN (1, 3)
+query SELECT * FROM indexed WHERE name = 'alpha'
+query SELECT * FROM indexed WHERE name = 'ALPHA'
+query SELECT * FROM indexed WHERE ciname = 'ALPHA'
+query SELECT * FROM indexed WHERE name = 'alp'
+query SELECT * FROM indexed WHERE name <> 'alpha'
+query SELECT * FROM indexed WHERE UPPER(name) = 'BRAVO'
+query SELECT * FROM indexed WHERE id + 1 = 3
+query SELECT * FROM indexed WHERE 1 = 0
+query SELECT * FROM indexed WHERE 1 = 1
+query SELECT name FROM indexed ORDER BY name
+query SELECT name FROM indexed ORDER BY name DESC
+query SELECT name FROM indexed ORDER BY ciname
+query SELECT name FROM indexed ORDER BY amount
+query SELECT name FROM indexed ORDER BY amount DESC
+query SELECT name FROM indexed ORDER BY active
+query SELECT name FROM indexed ORDER BY active DESC, name
+query SELECT name FROM indexed ORDER BY born
+query SELECT name FROM indexed ORDER BY born DESC
+query SELECT name, id FROM indexed ORDER BY 2
+query SELECT name AS n FROM indexed ORDER BY n DESC
+query SELECT name FROM indexed WHERE id > 1 ORDER BY name
+query SELECT c_char, c_integer FROM all_types ORDER BY c_integer
+query SELECT c_char FROM all_types ORDER BY c_char DESC
+closestmt
+
+## Static cursors
+stmt
+query SELECT {static} * FROM indexed WHERE id < 3
+query SELECT TOP 2 * FROM indexed
+query SELECT TOP 2 START AT 2 name FROM indexed
+query SELECT TOP 0 name FROM indexed
+query SELECT TOP 10 name FROM indexed ORDER BY name
+query SELECT TOP 2 name FROM indexed ORDER BY name DESC
+query SELECT DISTINCT active FROM indexed
+query SELECT DISTINCT active, born FROM indexed
+query SELECT DISTINCT c_logical FROM all_types
+query SELECT name FROM indexed WHERE name LIKE 'B%'
+query SELECT name FROM indexed WHERE name LIKE '%a%'
+query SELECT name FROM indexed WHERE name LIKE '_elta'
+query SELECT name FROM indexed WHERE name NOT LIKE 'B%'
+query SELECT UPPER(name), id+1 FROM indexed
+query SELECT id * 2 AS twice, name FROM indexed ORDER BY twice DESC
+query SELECT id, name || '!' FROM indexed ORDER BY 2
+query SELECT name, LEFT(name, 1) FROM indexed ORDER BY LEFT(name, 1)
+query SELECT *, id FROM indexed
+query SELECT 1, 'a', NULL FROM indexed
+query SELECT id FROM indexed WHERE id > 1 ORDER BY id DESC
+closestmt
+
+## Parameters
+stmt
+prepare SELECT * FROM indexed WHERE id = ?
+exec
+param 1 long 2
+exec
+closecursor
+param 1 short 3
+exec
+closecursor
+param 1 double 4
+exec
+closecursor
+param 1 string 1
+exec
+closecursor
+param 1 null
+exec
+closecursor
+param 2 long 1
+param 0 long 1
+clearparams
+exec
+prepare SELECT * FROM indexed WHERE name = :nm AND id > :low
+param nm string Bravo
+param low long 0
+exec
+closecursor
+param NM string Delta
+exec
+closecursor
+param :nm string Delta
+param 1 string alpha
+exec
+closecursor
+param zz string x
+prepare SELECT * FROM indexed WHERE born > :d OR active = :b
+param d date 01/01/1990
+param b logical 0
+exec
+closecursor
+prepare SELECT * FROM indexed WHERE amount > :m
+param m money 100000
+exec
+closecursor
+prepare SELECT ? FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT :a + 1 FROM system.iota
+param a long 41
+exec
+closecursor
+param a empty
+exec
+closecursor
+closestmt
+
+## AdsGetSQLStmtParams
+stmtparams SELECT * FROM indexed WHERE id = :id AND name = 'a:b' -- :c
+stmtparams SELECT * FROM t WHERE a = ? /* :x */
+stmtparams EXECUTE PROCEDURE sp_GetColumns( NULL, NULL, 'all_types.adt', NULL )\r\n
+stmtparams SELECT\t* FROM "a:b" WHERE x=:p1 AND y = [:q] AND z=:_z9 and w = ::v and u = :1
+stmtparams SELECT * FROM t WHERE a = :a1b2 AND b = ? AND c = '?' AND d = "?"
+stmtparams SELECT * FROM t // :x\r\nWHERE a = :y
+stmtparams SELECT 'it''s :x' FROM t WHERE a=:b,c=:d)
+stmtparams SELECT * FROM t WHERE a = :ä
+stmtparams
+stmtparams :
+stmtparams ?
+stmtparams /* unterminated :x
+
+## Errors
+stmt
+query SELEC * FROM indexed
+query SELECT * FROM nosuch
+query SELECT nosuch FROM indexed
+query SELECT * FROM indexed WHERE nosuch = 1
+query SELECT * FROM indexed WHERE
+query SELECT * FROM indexed WHERE id = 'x'
+query SELECT * FROM indexed WHERE name = 1
+query SELECT * FROM indexed WHERE id
+query SELECT * FROM indexed ORDER BY 7
+query SELECT * FROM indexed ORDER BY nosuch
+query SELECT name FROM indexed WHERE name = 'x
+query SELECT x.name FROM indexed y
+query SELECT * FROM
+query SELECT
+query
+query SELECT * FROM indexed;
+query SELECT * FROM indexed garbage garbage
+query SELECT 1/0 FROM system.iota
+query SELECT * FROM indexed, keys
+query SELECT COUNT(*) FROM indexed
+query SELECT active, COUNT(*) FROM indexed GROUP BY active
+query SELECT * FROM indexed WHERE id IN (SELECT id FROM indexed)
+query SELECT id FROM indexed UNION SELECT id FROM indexed
+closestmt
+
+## Expressions
+stmt
+query SELECT * FROM system.iota
+query SELECT 1, 2 AS b, 3 FROM system.iota
+query SELECT 1 FROM system.iota WHERE 1 = 0
+expr 1
+expr 1.5
+expr -2
+expr 1e3
+expr 1.5e-3
+expr 12345678901
+expr 123456789012345678901
+expr 0.000
+expr .5
+expr 'abc'
+expr ''
+expr 'it''s'
+expr N'x'
+expr TRUE
+expr FALSE
+expr NULL
+expr {d '2026-09-29'}
+expr {t '13:45:30'}
+expr {ts '2026-09-29 13:45:30.123'}
+expr DATE '2026-09-29'
+expr 1 + 2
+expr 7 - 10
+expr 3 * 4
+expr 7 / 2
+expr -7 / 2
+expr 7.0 / 2
+expr 7 % 3
+expr -(5)
+expr - 5
+expr 1 + 2 * 3
+expr (1 + 2) * 3
+expr 10 - 2 - 3
+expr 1.25 + 1
+expr 1.25 * 2
+expr 1.5 * 1.5
+expr 10 / 4.0
+expr 1 / 3.0
+expr 2 / 3.00
+expr 1.5 + 1e0
+expr 'a' + 'b'
+expr 'a ' + 'b'
+expr 'a' || 'b'
+expr CONCAT('a', 'b')
+expr 1 = 1
+expr 1 <> 1
+expr 1 != 1
+expr 1 < 2
+expr 2 <= 2
+expr 2 > 2
+expr 2 >= 2
+expr 'a' < 'b'
+expr 'a' = 'a  '
+expr 'a' = 'A'
+expr 'B' < 'a'
+expr 1 = NULL
+expr NULL IS NULL
+expr 1 IS NULL
+expr 1 IS NOT NULL
+expr TRUE AND FALSE
+expr TRUE OR FALSE
+expr NOT TRUE
+expr NOT 1 = 2
+expr 2 BETWEEN 1 AND 3
+expr 4 NOT BETWEEN 1 AND 3
+expr 2 IN (1, 2)
+expr 2 NOT IN (1, 3)
+expr 'ab' LIKE 'a%'
+expr 'a_c' LIKE 'a!_c' ESCAPE '!'
+expr 'abc' LIKE 'ABC'
+expr 'abc ' LIKE 'abc'
+expr 'abc' LIKE 'abc '
+expr '' LIKE '%'
+expr 'abc' LIKE 'a_c'
+expr 'abc' NOT LIKE 'a%'
+expr CASE WHEN 1 > 2 THEN 'a' WHEN 2 > 1 THEN 'bb' ELSE 'ccc' END
+expr CASE 2 WHEN 1 THEN 'one' WHEN 2 THEN 'two' END
+expr CASE 3 WHEN 1 THEN 'one' END
+expr CASE WHEN 1 = 1 THEN 1 ELSE 2.5 END
+expr IIF(1 > 0, 'y', 'n')
+expr IIF(1 > 0, 1, 2)
+expr COALESCE(NULL, 'b')
+expr COALESCE(1, 2)
+expr IFNULL(NULL, 3)
+expr IFNULL(2, 3)
+expr ISNULL(NULL, 4)
+expr CAST(1 AS SQL_CHAR(3))
+expr CAST('42' AS SQL_INTEGER)
+expr CAST(3.9 AS SQL_INTEGER)
+expr CAST(2.5 AS SQL_DOUBLE)
+expr CAST(3.14159 AS SQL_NUMERIC(10,2))
+expr CAST(1 AS SQL_BIT)
+expr CAST(3 AS SQL_MONEY)
+expr CAST('2026-09-29' AS SQL_DATE)
+expr CAST(1 AS SQL_VARCHAR(5))
+expr CAST('x' AS SQL_LONGVARCHAR)
+expr CAST(5 AS SQL_SMALLINT)
+expr CAST(5 AS SQL_BIGINT)
+expr CAST(1.5 AS SQL_CHAR(10))
+expr CAST({d '2026-09-29'} AS SQL_CHAR(10))
+expr CAST('13:45:30' AS SQL_TIME)
+expr CAST('2026-09-29 13:45:30' AS SQL_TIMESTAMP)
+expr CONVERT('42', SQL_INTEGER)
+expr CONVERT(3.9, SQL_INTEGER)
+expr CONVERT(1, SQL_CHAR)
+expr UPPER('abc')
+expr LOWER('ABC')
+expr UCASE('a')
+expr LCASE('A')
+expr LEFT('hello', 2)
+expr RIGHT('hello', 2)
+expr SUBSTRING('hello', 2, 3)
+expr SUBSTRING('hello', 2)
+expr SUBSTRING('hello' FROM 2 FOR 3)
+expr LTRIM('  x')
+expr RTRIM('x  ')
+expr TRIM('  x  ')
+expr TRIM(LEADING 'x' FROM 'xxa')
+expr TRIM(TRAILING 'x' FROM 'axx')
+expr TRIM(BOTH 'x' FROM 'xax')
+expr LENGTH('hi ')
+expr LEN('hi ')
+expr CHAR_LENGTH('hi ')
+expr OCTET_LENGTH('abc')
+expr BIT_LENGTH('abc')
+expr LOCATE('l', 'hello')
+expr LOCATE('l', 'hello', 4)
+expr POSITION('l' IN 'hello')
+expr AT('l', 'hello')
+expr RAT('l', 'hello')
+expr REPEAT('ab', 3)
+expr REPLACE('a-b-c', '-', '_')
+expr REVERSE('abc')
+expr SPACE(3)
+expr INSERT('abcde', 2, 1, 'XY')
+expr ASCII('A')
+expr CHAR(66)
+expr SOUNDEX('Smith')
+expr DIFFERENCE('Smith', 'Smyth')
+expr STR(3.14, 6, 2)
+expr STR(42)
+expr STRZERO(42, 5, 0)
+expr VAL('42.5')
+expr CHAR2HEX('AB')
+expr HEX2CHAR('4142')
+expr ABS(-5)
+expr ABS(-2.5)
+expr SIGN(-3)
+expr MOD(17, 5)
+expr CEILING(2.1)
+expr FLOOR(2.9)
+expr ROUND(3.14159, 2)
+expr ROUND(2.5, 0)
+expr TRUNCATE(3.789, 1)
+expr SQRT(2)
+expr POWER(2, 10)
+expr EXP(0)
+expr LOG(1)
+expr LOG10(1000)
+expr PI()
+expr DEGREES(PI())
+expr RADIANS(180)
+expr SIN(0)
+expr COS(0)
+expr COT(1)
+expr YEAR({d '2026-09-29'})
+expr MONTH({d '2026-09-29'})
+expr DAY({d '2026-09-29'})
+expr DAYOFWEEK({d '2026-09-29'})
+expr DAYOFYEAR({d '2026-09-29'})
+expr QUARTER({d '2026-09-29'})
+expr WEEK({d '2026-09-29'})
+expr DAYNAME({d '2026-09-29'})
+expr MONTHNAME({d '2026-09-29'})
+expr DTOC({d '2026-09-29'})
+expr DTOS({d '2026-09-29'})
+expr STOD('20260929')
+expr CTOD('09/29/2026')
+expr HOUR({t '13:45:30'})
+expr MINUTE({t '13:45:30'})
+expr SECOND({t '13:45:30'})
+expr EXTRACT(YEAR FROM {d '2026-09-29'})
+expr EXTRACT(MONTH FROM {ts '2026-09-29 13:45:30'})
+expr TIMESTAMPADD(SQL_TSI_DAY, 7, {ts '2026-09-29 00:00:00'})
+expr TIMESTAMPDIFF(SQL_TSI_DAY, {ts '2026-01-01 00:00:00'}, {ts '2026-12-31 00:00:00'})
+expr {d '2026-09-29'} + 1
+expr {d '2026-09-29'} - 1
+expr {d '2026-09-29'} - {d '2026-09-01'}
+expr CREATETIMESTAMP(2026, 9, 29, 13, 45, 30, 0)
+expr TSTOD({ts '2026-09-29 13:45:30'})
+expr CTOTS('2026-09-29 13:45:30')
+expr {d '2026-09-29'} = '2026-09-29'
+expr {d '2026-09-29'} < {ts '2026-09-29 00:00:01'}
+expr 2147483647 + 1
+expr -2147483648 - 1
+expr 9223372036854775807
+expr 1 / 0
+expr 1.0 / 0
+expr 1 % 0
+expr CAST('x' AS SQL_INTEGER)
+expr NOSUCHFN(1)
+expr UPPER(1)
+expr 'a' + 1
+expr 1 + 'a'
+expr 1 + TRUE
+expr 'a' = 1
+expr 1 = TRUE
+expr UPPER('a', 'b')
+expr (1
+expr 1 +
+closestmt
+
+## Columns in expressions
+stmt
+query SELECT c_char, c_cichar, c_varchar, c_memo, c_logical, c_numeric, c_short, c_integer, c_longint, c_double, c_curdouble, c_money, c_date, c_time, c_timestamp, c_autoinc FROM all_types
+query SELECT c_raw, c_varbinary, c_guid, c_blob, c_rowversion FROM all_types
+query SELECT c_nchar, c_nvarchar, c_nmemo FROM all_types
+query SELECT c_char + 'x', c_cichar + 'x', c_varchar + 'x', c_memo + 'x' FROM all_types
+query SELECT c_integer + 1, c_short * 2, c_longint - 1, c_numeric + 1, c_double / 2, c_money * 2, c_curdouble + 0 FROM all_types
+query SELECT c_integer + c_numeric, c_integer + c_double, c_numeric * c_numeric, c_money + c_integer FROM all_types
+query SELECT c_date + 1, c_timestamp, YEAR(c_date), c_time FROM all_types
+query SELECT UPPER(c_char), LENGTH(c_varchar), c_cichar = 'ABC', c_char = 'abc' FROM all_types
+query SELECT c_logical, NOT c_logical, c_logical AND TRUE FROM all_types
+query SELECT c_integer FROM all_types WHERE c_integer > 0
+query SELECT c_char FROM all_types WHERE c_cichar = 'abc'
+query SELECT c_char FROM all_types WHERE c_memo IS NULL
+query SELECT c_char FROM all_types WHERE c_memo LIKE '%'
+query SELECT c_char FROM all_types WHERE c_date > '2000-01-01'
+query SELECT c_char FROM all_types WHERE c_double > 1.5
+query SELECT k_char, k_integer FROM keys ORDER BY k_integer DESC
+query SELECT DISTINCT k_logical FROM keys
+closestmt
+
+## The SQL debugger (ARC sends DEBUG END after each statement)
+stmt
+query DEBUG END\r\n
+query DEBUG
+query DEBUG NOSUCH
+query DEBUG END x
+query DEBUG WAIT
+query DEBUG DATABASE
+query DEBUG CONNECTION
+query DEBUG RUN
+query DEBUG BREAK
+query DEBUG REMOVE
+query DEBUG BEGIN x
+query DEBUG BEGIN
+query DEBUG BEGIN
+query SELECT 1 FROM system.iota
+query DEBUG END;
+query DEBUG END
+closestmt
+
+## System tables
+# On a free-table connection only system.objects and system.fts work; the
+# others need a data dictionary (5125).
+stmt
+query SELECT * FROM system.objects
+query SELECT * FROM system.fts
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.nosuch
+closestmt
+# Every system table on a dictionary connection, as its administrator.
+connect props\props.add ADSSYS adssyspw
+stmt
+direct SELECT * FROM system.tables
+peek
+info
+closecursor
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.objects
+query SELECT * FROM system.columns
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.indexes
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.functions
+query SELECT * FROM system.triggers
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.effectivepermissions
+query SELECT * FROM system.relations
+query SELECT * FROM system.links
+query SELECT * FROM system.packages
+query SELECT * FROM system.publications
+query SELECT * FROM system.publicationarticles
+query SELECT * FROM system.subscriptions
+query SELECT * FROM system.fts
+query SELECT * FROM system.nosuch
+query SELECT * FROM SYSTEM.TABLES
+query SELECT * FROM system.iota
+query SELECT Name FROM system.tables WHERE Table_Caching > 0 ORDER BY Name
+query SELECT Name, Field_Type FROM system.columns WHERE Parent = 'child'
+query SELECT c.Name FROM system.columns c WHERE c.Field_Num = 1 ORDER BY c.Name DESC
+query SELECT TOP 1 Name FROM system.indexes
+query SELECT DISTINCT Parent FROM system.columns
+query SELECT UPPER(Name) FROM system.tables
+query SELECT * FROM system.users WHERE Name LIKE 'b%'
+closestmt
+# A non-administrator: the original engine returns NULL for the columns the
+# user may not see; tflip does not enforce permissions and returns them.
+connect dict\dict.add alice secret
+stmt
+query SELECT Table_Relative_Path FROM system.tables
+query SELECT Comment FROM system.users
+closestmt

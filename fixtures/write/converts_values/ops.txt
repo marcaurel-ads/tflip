@@ -1,0 +1,36 @@
+# Each ADT table converted to every table type, its own included.
+tabletype adt
+open t.adt
+convert 2 ntx t_n.dbf
+convert 2 cdx t_c.dbf
+convert 2 vfp t_v.dbf
+convert 2 adt t_a.adt
+close
+open dd.adt
+convert 2 ntx dd_n.dbf
+convert 2 cdx dd_c.dbf
+convert 2 vfp dd_v.dbf
+convert 2 adt dd_a.adt
+close
+open nm.adt
+convert 2 ntx nm_n.dbf
+convert 2 cdx nm_c.dbf
+convert 2 vfp nm_v.dbf
+convert 2 adt nm_a.adt
+close
+open big.adt
+convert 2 ntx big_n.dbf
+convert 2 cdx big_c.dbf
+convert 2 vfp big_v.dbf
+close
+open wide.adt
+convert 2 ntx wide_n.dbf
+convert 2 cdx wide_c.dbf
+convert 2 vfp wide_v.dbf
+convert 2 adt wide_a.adt
+close
+open seq.adt
+convert 2 adt seq_a.adt
+convert 2 vfp seq_v.dbf
+convert 2 ntx seq_n.dbf
+close

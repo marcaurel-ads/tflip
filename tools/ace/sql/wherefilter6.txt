@@ -1,0 +1,24 @@
+# A constant condition in a WHERE run as a filter, for fixtures/sql/wherefilter6.json.
+stmt
+direct CREATE TABLE t (n integer, x integer)
+directnull INSERT INTO t (n, x) VALUES (0, 10)
+directnull INSERT INTO t (n, x) VALUES (2, 10)
+directnull INSERT INTO t (n, x) VALUES (5, 10)
+query SELECT n FROM t WHERE 1 = 0 AND x / n > 1
+query SELECT n FROM t WHERE x / n > 1 AND 1 = 0
+query SELECT n FROM t WHERE 1 = 1 AND x / n > 1
+query SELECT n FROM t WHERE 1 = 0 OR x / n > 1
+query SELECT n FROM t WHERE x / n > 1 OR 1 = 1
+query SELECT n FROM t WHERE 1 = 1 OR x / n > 1
+query SELECT n FROM t WHERE n > 0 AND 1 = 0 AND x / n > 1
+query SELECT n FROM t WHERE (1 = 0 AND n > 0) AND x / n > 1
+query SELECT n FROM t WHERE 1 = 0 AND x / 0 > 1
+query SELECT n FROM t WHERE 1 = 1 OR x / 0 > 1
+query SELECT n FROM t WHERE 1 = 1 AND x / 0 > 1
+query SELECT n FROM t WHERE NOT 1 = 1 AND x / n > 1
+query SELECT n FROM t WHERE 1 + 1 = 3 AND x / n > 1
+query SELECT n FROM t WHERE 0 = 1 AND n / 0 > 1 AND x > 0
+query SELECT n FROM t WHERE x / 0 > 1 AND 1 = 0
+query SELECT n FROM t WHERE 1 = 0 AND x / n > 1 ORDER BY n
+query SELECT n FROM t WHERE 1 / 0 = 1
+query SELECT n FROM t WHERE 1 / 0 = 1 AND 1 = 0

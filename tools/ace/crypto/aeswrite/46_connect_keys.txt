@@ -1,0 +1,37 @@
+# AdsDDCreate101 refuses a key of its connect string that it does not know, with 5019, before it looks at anything else (the encryption type, the password, a file that is there) and before it writes a file; the keys it takes are those of AdsConnect101. Starts from nothing.
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;Foo=bar;
+ddcreate101 Foo=bar;Data Source=%D\c\c.add;ServerType=LOCAL;
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;Foo
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;=bar;
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;UID=ADSSYS;
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;Rights=CHECK;
+ddcreate101 Data Source=%D\e\e.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;Foo=bar;
+ddcreate101 Data Source=%D\e\e.add;ServerType=LOCAL;EncryptionType=AES999;Foo=bar;
+ddcreate101 Data Source=%D\e\e.add;ServerType=LOCAL;EncryptionType=AES128;Foo=bar;
+ddcreate101 Data Source=%D\e\e.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+disconnect
+ddcreate101 Data Source=%D\e\e.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;Foo=bar;
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;Password=x;TableType=ADT;CharType=ANSI;LockMode=PROPRIETARY;TrimTrailingSpaces=TRUE;Compression=NEVER;CommType=TCP_IP;Decimals=1;Epoch=1;Description=a dictionary;FIPS=FALSE;
+disconnect
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;Foo=bar;
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;
+# The Password of the string is the administrator's, whatever its User ID (20 characters of it are kept); none or an empty one leaves none.
+ddcreate101 Data Source=%D\f\f.add;ServerType=LOCAL;User ID=bob;Password=x;
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;Password=x;
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;Password=y;
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;
+ddcreate101 Data Source=%D\h\h.add;ServerType=LOCAL;Password=abcdefghijklmnopqrstuvwxyz;
+disconnect
+connect Data Source=%D\h\h.add;ServerType=LOCAL;User ID=ADSSYS;Password=abcdefghijklmnopqrst;
+disconnect
+ddcreate101 Data Source=%D\i\i.add;ServerType=LOCAL;EncryptionType=AES256;DDPassword=ddpw;Password=x;
+disconnect
+connect Data Source=%D\i\i.add;ServerType=LOCAL;EncryptionType=AES256;DDPassword=ddpw;User ID=ADSSYS;Password=x;
+disconnect
+connect Data Source=%D\i\i.add;ServerType=LOCAL;EncryptionType=AES256;DDPassword=ddpw;User ID=ADSSYS;
+ddcreate101 Data Source=%D\j\j.add;ServerType=LOCAL;Password=;
+disconnect
+connect Data Source=%D\j\j.add;ServerType=LOCAL;User ID=ADSSYS;
+disconnect

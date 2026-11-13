@@ -1,0 +1,3 @@
+# A table with a memo and a character field, for ops.txt.
+sql CREATE TABLE s (id INTEGER, m MEMO, body CHAR(40))
+sql INSERT INTO s VALUES (1, 'alpha beta beta gamma', 'xone xtwo xthree xfour xfive xfive'), (2, 'delta delta delta', 'yone'), (3, 'solo', 'zone ztwo'), (4, 'eps eps', NULL)

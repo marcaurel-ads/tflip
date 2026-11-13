@@ -1,0 +1,54 @@
+# Subqueries in a script's own expressions (an assignment, a condition, a
+# RAISE, a RETURN), for fixtures/sql/subq.json, in an empty folder (on the
+# local server):
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> subq.txt > fixtures/sql/subq.json
+stmt
+query CREATE TABLE t (id integer, name char(10))
+query INSERT INTO t VALUES (1, 'one'); INSERT INTO t VALUES (2, 'two'); INSERT INTO t VALUES (3, 'three')
+query CREATE TABLE e (id integer)
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT MAX(id) FROM t WHERE id < 3); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; DECLARE i INTEGER; i = 2; n = (SELECT COUNT(*) FROM t WHERE id >= i); SELECT n AS v FROM system.iota
+query DECLARE s CHAR(10); s = (SELECT name FROM t WHERE id = 2); SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = (SELECT name FROM t WHERE id = 2); SELECT s AS v FROM system.iota
+query DECLARE s CHAR(10); s = (SELECT name FROM t WHERE id = 99); SELECT s AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT id FROM e); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT id FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT id, name FROM t WHERE id = 1); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT name FROM t WHERE id = 1); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM nosuch); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT nosuch FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT 5 FROM system.iota); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 1 + (SELECT COUNT(*) FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t) + (SELECT COUNT(*) FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t WHERE id = (SELECT MAX(id) FROM t)); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = ((SELECT COUNT(*) FROM t)); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t) * 10; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 5; n = (SELECT COUNT(*) FROM t WHERE id < n); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t); INSERT INTO t VALUES (4, 'four'); n = (SELECT COUNT(*) FROM t); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM #tmp); SELECT n AS v FROM system.iota
+# In conditions.
+query DECLARE n INTEGER; IF (SELECT COUNT(*) FROM t) > 3 THEN n = 1; ELSE n = 2; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; IF EXISTS (SELECT 1 FROM t WHERE id = 3) THEN n = 1; ELSE n = 2; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; IF EXISTS (SELECT 1 FROM e) THEN n = 1; ELSE n = 2; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 2; IF n IN (SELECT id FROM t) THEN n = 10; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 9; IF n NOT IN (SELECT id FROM t) THEN n = 10; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 0; WHILE n < (SELECT COUNT(*) FROM t) DO n = n + 1; END WHILE; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 0; WHILE EXISTS (SELECT 1 FROM t WHERE id > n) DO n = n + 1; END WHILE; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 2; IF n > ALL (SELECT id FROM t WHERE id < 2) THEN n = 11; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 2; IF n = ANY (SELECT id FROM t) THEN n = 12; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 1; IF (SELECT COUNT(*) FROM t) THEN n = 2; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 1; IF (SELECT name FROM t WHERE id = 1) = 'one' THEN n = 3; END IF; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = 1; IF (SELECT COUNT(*) FROM t) > 1 AND (SELECT COUNT(*) FROM e) = 0 THEN n = 4; END IF; SELECT n AS v FROM system.iota
+# In other expressions of a script.
+query RAISE boom((SELECT COUNT(*) FROM t), (SELECT name FROM t WHERE id = 1))
+query DECLARE q STRING; q = 'INSERT INTO e VALUES (' + CAST((SELECT COUNT(*) FROM t) AS SQL_CHAR) + ')'; EXECUTE IMMEDIATE q; SELECT COUNT(*) AS c FROM e
+query EXECUTE IMMEDIATE (SELECT 'SELECT 1 FROM system.iota' FROM system.iota)
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t); INSERT INTO e VALUES (n); INSERT INTO e VALUES ((SELECT COUNT(*) FROM t)); SELECT * FROM e ORDER BY id
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t WHERE id = ::stmt.UpdateCount + 1); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; INSERT INTO e VALUES (7); n = (SELECT COUNT(*) FROM t WHERE id = ::stmt.UpdateCount + 1); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM __input); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t GROUP BY id); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT COUNT(*) FROM t UNION SELECT 5 FROM system.iota); SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = (SELECT TOP 1 id FROM t ORDER BY id DESC); SELECT n AS v FROM system.iota

@@ -1,0 +1,30 @@
+# Whose events are whose: the connections to one dictionary (however its
+# path is written) share them, free connections share them by their folder,
+# and another dictionary has its own (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_scope.txt
+#             > ../../../fixtures/events/events_scope.json
+
+free 0
+sql 0 CREATE DATABASE "da\da.add"
+sql 0 CREATE DATABASE "db\db.add"
+connect 1 da\da.add
+sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;
+connect 2 da\.\da.add
+connect 3 da\.\.\da.add
+free 4
+free 5
+connect 6 db\db.add
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('a', 0)
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('a', 0)
+sql 3 EXECUTE PROCEDURE sp_CreateEvent('a', 0)
+sql 2 EXECUTE PROCEDURE sig0('a')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+sql 3 EXECUTE PROCEDURE sp_WaitForEvent('a', 0, 0, 0)
+sql 4 EXECUTE PROCEDURE sp_CreateEvent('f', 0)
+sql 5 EXECUTE PROCEDURE sp_CreateEvent('f', 0)
+sql 5 EXECUTE PROCEDURE sp_SignalEvent('f', false, 0, 'data')
+sql 4 EXECUTE PROCEDURE sp_WaitForEvent('f', 0, 0, 0)
+sql 6 EXECUTE PROCEDURE sp_CreateEvent('f', 0)
+sql 6 EXECUTE PROCEDURE sp_WaitForEvent('f', 0, 0, 0)

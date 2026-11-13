@@ -1,0 +1,29 @@
+# Orders on no records: of a field of each type; a compound one refused.
+tabletype ntx
+open ne.dbf
+createindex ne_c.ntx c 0 1024 c
+createindex ne_n.ntx n 0 1024 n
+createindex ne_d.ntx d 8 1024 d
+createindex ne_x.ntx x 2 1024 c
+close
+# On a few records: unique with a condition, an expression, descending.
+open nr.dbf
+createindex nr_c.ntx c 0 1024 c
+createindex nr_u.ntx u 1 1024 UPPER(c) FOR n > 1
+createindex nr_n.ntx n 8 512 n
+order nr_c
+rows
+append
+set c string beta
+write
+order nr_u
+rows
+close
+# On 3,000 records: trees of two and three levels.
+open big.dbf
+createindex big_c.ntx c 0 1024 c
+createindex big_n.ntx n 0 1024 n
+createindex big_d.ntx dd 8 1024 c
+order big_c
+count
+close

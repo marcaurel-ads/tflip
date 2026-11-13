@@ -1,0 +1,101 @@
+{
+ "table_type": "vfp",
+ "record_count": 7,
+ "record_length": 36,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "k_char", "type": 4, "type_name": "Character", "length": 6, "decimals": 0},
+  {"name": "k_num", "type": 2, "type_name": "Numeric", "length": 8, "decimals": 2},
+  {"name": "k_date", "type": 3, "type_name": "Date", "length": 8, "decimals": 0},
+  {"name": "k_log", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "k_int", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "k_dbl", "type": 10, "type_name": "Double", "length": 8, "decimals": 15}
+ ],
+ "indexes": [
+  {"name": "I_CHAR", "file": "dbf_keys.cdx", "expression": "k_char", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 2, "key": "5a7a20202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 6, "key": "626c616e6b20"},
+   {"recno": 7, "key": "676f6e652020"},
+   {"recno": 4, "key": "c4e980202020"}
+  ]},
+  {"name": "I_NUM", "file": "dbf_keys.cdx", "expression": "k_num", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 5, "key": "3f70c0147ae147ad"},
+   {"recno": 2, "key": "4007ffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 6, "key": "8000000000000000"},
+   {"recno": 1, "key": "bff8000000000000"},
+   {"recno": 7, "key": "c014000000000000"},
+   {"recno": 4, "key": "c0c387feb851eb85"}
+  ]},
+  {"name": "I_DATE", "file": "dbf_keys.cdx", "expression": "k_date", "condition": "", "collation": "", "key_length": 8, "key_type": 3, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 6, "key": "8000000000000000"},
+   {"recno": 3, "key": "c13a445200000000"},
+   {"recno": 5, "key": "c1418a8c80000000"},
+   {"recno": 2, "key": "c1426cd680000000"},
+   {"recno": 7, "key": "c142b42c80000000"},
+   {"recno": 1, "key": "c142c0e900000000"},
+   {"recno": 4, "key": "c1547f8b00000000"}
+  ]},
+  {"name": "I_LOG", "file": "dbf_keys.cdx", "expression": "k_log", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 2, "key": "46"},
+   {"recno": 3, "key": "46"},
+   {"recno": 6, "key": "46"},
+   {"recno": 1, "key": "54"},
+   {"recno": 4, "key": "54"},
+   {"recno": 5, "key": "54"},
+   {"recno": 7, "key": "54"}
+  ]},
+  {"name": "I_INT", "file": "dbf_keys.cdx", "expression": "k_int", "condition": "", "collation": "", "key_length": 4, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 5, "key": "00000001"},
+   {"recno": 2, "key": "7fffffff"},
+   {"recno": 3, "key": "80000000"},
+   {"recno": 6, "key": "80000000"},
+   {"recno": 1, "key": "80000001"},
+   {"recno": 7, "key": "80000005"},
+   {"recno": 4, "key": "ffffffff"}
+  ]},
+  {"name": "I_DBL", "file": "dbf_keys.cdx", "expression": "k_dbl", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 2, "key": "4007ffffffffffff"},
+   {"recno": 5, "key": "40af9db22d0e5603"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 6, "key": "8000000000000000"},
+   {"recno": 1, "key": "bff8000000000000"},
+   {"recno": 7, "key": "c014000000000000"},
+   {"recno": 4, "key": "c19d6f3455000000"}
+  ]},
+  {"name": "I_DESC", "file": "dbf_keys.cdx", "expression": "k_char", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": true, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 4, "key": "c4e980202020"},
+   {"recno": 7, "key": "676f6e652020"},
+   {"recno": 6, "key": "626c616e6b20"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 2, "key": "5a7a20202020"},
+   {"recno": 3, "key": "202020202020"}
+  ]},
+  {"name": "I_MULTI", "file": "dbf_keys.cdx", "expression": "k_char+DtoS(k_date)", "condition": "", "collation": "", "key_length": 14, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 7, "keys": [
+   {"recno": 3, "key": "2020202020203030303130313031"},
+   {"recno": 2, "key": "5a7a202020203139303030313031"},
+   {"recno": 5, "key": "6120202020203135383231303135"},
+   {"recno": 1, "key": "6162632020203230313731313038"},
+   {"recno": 6, "key": "626c616e6b202020202020202020"},
+   {"recno": 7, "key": "676f6e6520203230303030313031"},
+   {"recno": 4, "key": "c4e9802020203939393931323331"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "2061626320202020202020312e353032303137313130385401000000000000000000f83f", "values": {"k_char": {"text": "abc   "}, "k_num": {"text": "    1.50"}, "k_date": {"text": "2017-11-08", "julian": 2458066}, "k_log": {"text": "T"}, "k_int": {"text": "1"}, "k_dbl": {"text": "1.5"}}},
+  {"recno": 2, "deleted": false, "raw": "205a7a202020202020202d312e3530313930303031303146ffffffff000000000000f8bf", "values": {"k_char": {"text": "Zz    "}, "k_num": {"text": "   -1.50"}, "k_date": {"text": "1900-01-01", "julian": 2415021}, "k_log": {"text": "F"}, "k_int": {"text": "-1"}, "k_dbl": {"text": "-1.5"}}},
+  {"recno": 3, "deleted": false, "raw": "2020202020202020202020302e3030303030313031303146000000000000000000000000", "values": {"k_char": {"text": "      "}, "k_num": {"text": "    0.00"}, "k_date": {"text": "0001-01-01", "julian": 1721426}, "k_log": {"text": "F"}, "k_int": {"text": "0"}, "k_dbl": {"text": "0"}}},
+  {"recno": 4, "deleted": false, "raw": "20c4e98020202020393939392e3939393939393132333154ffffff7f00000055346f9d41", "values": {"k_char": {"text": "\u00c4\u00e9\u0080   "}, "k_num": {"text": " 9999.99"}, "k_date": {"text": "9999-12-31", "julian": 5373484}, "k_log": {"text": "T"}, "k_int": {"text": "2147483647"}, "k_dbl": {"text": "123456789.25"}}},
+  {"recno": 5, "deleted": false, "raw": "20612020202020202d3939392e393931353832313031355401000080fca9f1d24d6250bf", "values": {"k_char": {"text": "a     "}, "k_num": {"text": " -999.99"}, "k_date": {"text": "1582-10-15", "julian": 2299161}, "k_log": {"text": "T"}, "k_int": {"text": "-2147483647"}, "k_dbl": {"text": "-0.001"}}},
+  {"recno": 6, "deleted": false, "raw": "20626c616e6b202020202020202020202020202020202020000000000000000000000000", "values": {"k_char": {"text": "blank "}, "k_num": {"text": "        "}, "k_date": {"text": "    -  -  ", "julian": 0}, "k_log": {"text": " "}, "k_int": {"text": "0"}, "k_dbl": {"text": "0"}}},
+  {"recno": 7, "deleted": true, "raw": "2a676f6e65202020202020352e3030323030303031303154050000000000000000001440", "values": {"k_char": {"text": "gone  "}, "k_num": {"text": "    5.00"}, "k_date": {"text": "2000-01-01", "julian": 2451545}, "k_log": {"text": "T"}, "k_int": {"text": "5"}, "k_dbl": {"text": "5"}}}
+ ]
+}

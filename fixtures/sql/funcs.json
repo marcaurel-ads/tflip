@@ -1,0 +1,185 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT DATABASE() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 255, 0]], "rows": [
+  [1, ["<data>"]]]}},
+{"cmd": "query SELECT NEWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 29, 16, 0]], "rows": [
+  [1, ["edcefe76-655d-cf4f-b174-50ddb788f5ce"]]]}},
+{"cmd": "query SELECT NEWIDSTRING() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 38, 0]], "rows": [
+  [1, ["1adf85d9-c703-194a-897e-91bd6f5867da"]]]}},
+{"cmd": "query SELECT NEWIDSTRING(0) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: NEWIDSTRING -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT NEWID(0) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: NEWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RAND(), RAND(), RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15]], "rows": [
+  [1, ["0.998711160597056", "0.542429629131165", "0.042266565595743"]]]}},
+{"cmd": "direct CREATE TABLE t (n integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t (n) VALUES (1)", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n) VALUES (2)", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n) VALUES (3)", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n) VALUES (4)", "rc": 0},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND(1), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15], ["EXPR_5", 10, 8, 15], ["EXPR_6", 10, 8, 15], ["EXPR_7", 10, 8, 15], ["EXPR_8", 10, 8, 15], ["EXPR_9", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570", "0.203459467230847", "0.669574271045627", "0.772751560542384", "0.343363939364453", "0.268265698432140", "0.217092705288449", "0.298703794592966", "0.799375620106994", "0.145816494494228"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.737384838127131"]]]}},
+{"cmd": "query SELECT RAND(2), RAND(100), RAND(65536), RAND(1000000), RAND(1073741823) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15]], "rows": [
+  [1, ["0.999980407083208", "0.999949466683791", "0.979290043618767", "0.684261302487773", "0.000773268307215"]]]}},
+{"cmd": "query SELECT RAND(-1), RAND(2147483647), RAND(-2), RAND(-100), RAND(-2147483647) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15]], "rows": [
+  [1, ["0.000773268307215", "0.000773268307215", "0.998414459377487", "0.998445400242566", "0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND(1073741824), RAND(2147483648), RAND(4294967297), RAND(1e10), RAND(-1e10) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15]], "rows": [
+  [1, ["0.999981038519931", "0.999981038519931", "0.999981038519931", "0.999981038519931", "0.999981038519931"]]]}},
+{"cmd": "query SELECT RAND(1.9), RAND(-1.5), RAND(2147483647.5), RAND(CAST(5 AS SQL_MONEY)), RAND(CAST(1 AS SQL_DOUBLE)) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570", "0.000773268307215", "0.000773268307215", "0.999979459928124", "0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND(-1), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15], ["EXPR_5", 10, 8, 15], ["EXPR_6", 10, 8, 15], ["EXPR_7", 10, 8, 15]], "rows": [
+  [1, ["0.000773268307215", "0.941558414656657", "0.518076506594395", "0.312798459692367", "0.317720387408993", "0.263738468493023", "0.231208343307140", "0.570763108510672"]]]}},
+{"cmd": "query SELECT RAND(1073741824), RAND(), RAND(), RAND(), RAND(), RAND(), RAND(), RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15], ["EXPR_3", 10, 8, 15], ["EXPR_4", 10, 8, 15], ["EXPR_5", 10, 8, 15], ["EXPR_6", 10, 8, 15], ["EXPR_7", 10, 8, 15]], "rows": [
+  [1, ["0.999981038519931", "0.228939909208787", "0.022882341565269", "0.127596098682166", "0.140178621376416", "0.148237506708477", "0.080428530325974", "0.797316780159771"]]]}},
+{"cmd": "query SELECT RAND(n) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]],
+  [2, ["0.999980407083208"]],
+  [3, ["0.999980091364847"]],
+  [4, ["0.999979775646485"]]]}},
+{"cmd": "query SELECT RAND(5), RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15]], "rows": [
+  [1, ["0.999979459928124", "0.101537773824894"]],
+  [2, ["0.999979459928124", "0.101537773824894"]],
+  [3, ["0.999979459928124", "0.101537773824894"]],
+  [4, ["0.999979459928124", "0.101537773824894"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.203459467230847"]],
+  [2, ["0.669574271045627"]],
+  [3, ["0.772751560542384"]],
+  [4, ["0.343363939364453"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT n FROM t WHERE RAND() < 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]],
+  [4, ["4"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.268265698432140"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND() + RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.873033738276474"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1), RAND(NULL), RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15], ["EXPR_1", 10, 8, 15], ["EXPR_2", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570", null, "0.203459467230847"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT RAND(n) FROM t WHERE n = 99", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["EXPR", 10, 8, 15]], "rows": []}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.203459467230847"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["2", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t ORDER BY n DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["4", "0.203459467230847"]],
+  [2, ["3", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t ORDER BY 1 DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["4", "0.203459467230847"]],
+  [2, ["3", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() AS r FROM t ORDER BY r", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["r", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["4", "0.343363939364453"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.268265698432140"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 START AT 2 n, RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["2", "0.203459467230847"]],
+  [2, ["3", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_34.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 50 PERCENT n, RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["2", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.268265698432140"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_39.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 DISTINCT n, RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["2", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.268265698432140"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 1 n, RAND() FROM t GROUP BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_40.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_41.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 1 n, RAND() FROM t WHERE n > 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_43.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["2", "0.203459467230847"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_45.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 1 n, RAND() FROM t UNION ALL SELECT TOP 2 n, RAND() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_46.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["1", "0.669574271045627"]],
+  [3, ["2", "0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_47.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.343363939364453"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_48.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT * FROM (SELECT TOP 2 n, RAND() r FROM t) x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["r", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["2", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t ORDER BY RAND()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.203459467230847"]],
+  [2, ["4", "0.343363939364453"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_50.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.268265698432140"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_51.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t ORDER BY n + 0 DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["4", "0.203459467230847"]],
+  [2, ["3", "0.669574271045627"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_54.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.772751560542384"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_55.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "query SELECT TOP 2 n, RAND() FROM t ORDER BY n + RAND()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_57.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1", "0.268265698432140"]],
+  [2, ["2", "0.217092705288449"]]]}},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_58.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.298703794592966"]]]}},
+{"cmd": "query SELECT RAND(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_59.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.999980722801570"]]]}},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.203459467230847"]]]}},
+{"cmd": "connect dict\\dict.add alice secret", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT RAND() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["0.998711160597056"]]]}},
+{"cmd": "query SELECT RAND('1') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: RAND -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RAND(TRUE) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: RAND -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RAND(CURDATE()) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: RAND -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RAND(1, 2) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: RAND -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295}
+]

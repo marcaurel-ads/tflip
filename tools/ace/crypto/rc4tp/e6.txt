@@ -1,0 +1,9 @@
+ddcreate 0 %D\e6\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t (id INTEGER, note MEMO)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'second')
+sql CREATE TABLE u (id INTEGER, note MEMO)
+sql INSERT INTO u VALUES (1, 'x')
+sql INSERT INTO t VALUES (1, 'x')
+disconnect

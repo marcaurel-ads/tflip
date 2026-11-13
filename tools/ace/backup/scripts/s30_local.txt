@@ -1,0 +1,21 @@
+#include dd_all.txt
+shell mkdir @CLIENT@\fsrc
+free 2 fsrc
+#table 2 f_adt 3 20
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', 'PrepareDiff')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img3', 'Bogus')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('', NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase(NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img4', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\fimg', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\xosrc', '*.adt', '@ROOT@\fimg2', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\fimg3', 'Bogus', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\fimg4', 'ArchiveFile=x.tar', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\xodir\d.add', '', '@ROOT@\dst\d.add', NULL)
+sql 1 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst2\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\fimg', '@ROOT@\fdst', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\xosrc', '@ROOT@\fdst2', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\fimg', '@ROOT@\fdst3', 'Bogus', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst3\d.add', 'Bogus')

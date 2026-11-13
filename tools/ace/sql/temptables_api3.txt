@@ -1,0 +1,45 @@
+# AdsOpenTable of a temporary table SELECT ... INTO made, as the other DBF type
+# than it was made as, after what the statements did with it, on a free
+# connection in an empty folder (see temptables_api2.txt):
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_api3.txt > fixtures/sql/temptables_api3.json
+stmt
+tabletype 1
+query CREATE TABLE t0 (n integer, s char(4))
+directnull INSERT INTO t0 VALUES (1, 'a')
+# made as 1
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1a FROM t0
+otype 2 #into1a
+otype 1 #into1a
+otype 2 #into1a
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1b FROM t0
+tabletype 1
+query SELECT * FROM #into1b
+query SELECT 1 AS a FROM system.iota
+otype 2 #into1b
+otype 1 #into1b
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1c FROM t0
+tabletype 2
+query SELECT * FROM #into1c
+query SELECT 1 AS a FROM system.iota
+otype 1 #into1c
+otype 2 #into1c
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1d FROM t0
+tabletype 1
+directnull INSERT INTO #into1d VALUES (5, 'x')
+query SELECT 1 AS a FROM system.iota
+otype 2 #into1d
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1e FROM t0
+query SELECT 1 AS a FROM system.iota
+otype 2 #into1e
+tabletype 1
+query SELECT n AS x, s AS y INTO #into1f FROM t0
+tabletype 2
+directnull INSERT INTO #into1f VALUES (5, 'x')
+query SELECT 1 AS a FROM system.iota
+otype 1 #into1f

@@ -1,0 +1,5 @@
+# A table encryption password and then AES-128 in a plain dictionary: the wrapped password is enciphered again with the new cipher.
+connect Data Source=%D\m_P_tablepw_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

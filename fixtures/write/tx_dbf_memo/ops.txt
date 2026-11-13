@@ -1,0 +1,105 @@
+# Memo values set in a transaction on the remote server, in FoxPro,
+# Clipper and VFP tables: on a record that has a memo block (record 1) and
+# on records that have none (2, 3), rolled back and committed.
+tabletype cdx
+open c shared
+use 1
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 2
+set m string memo two
+write
+flush
+snapshot c_changed
+rollback
+flush
+snapshot c_rolledback
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 3
+set m string memo three
+write
+goto 2
+set id long 22
+write
+flush
+snapshot c_changed2
+commit
+flush
+snapshot c_committed
+goto 1
+get m
+goto 3
+get m
+tabletype ntx
+open n shared
+use 2
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 2
+set m string memo two
+write
+flush
+snapshot n_changed
+rollback
+flush
+snapshot n_rolledback
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 3
+set m string memo three
+write
+goto 2
+set id long 22
+write
+flush
+snapshot n_changed2
+commit
+flush
+snapshot n_committed
+goto 1
+get m
+goto 3
+get m
+tabletype vfp
+open v shared
+use 3
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 2
+set m string memo two
+write
+flush
+snapshot v_changed
+rollback
+flush
+snapshot v_rolledback
+begin
+goto 1
+set m string a longer memo value for one
+write
+goto 3
+set m string memo three
+write
+goto 2
+set id long 22
+write
+flush
+snapshot v_changed2
+commit
+flush
+snapshot v_committed
+goto 1
+get m
+goto 3
+get m

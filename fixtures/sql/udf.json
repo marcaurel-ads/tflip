@@ -1,0 +1,114 @@
+[
+{"cmd": "connect uf.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT f_cnt(2) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query SELECT id, f_cnt(id) AS c FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["1", "3"]],
+  [2, ["2", "2"]],
+  [3, ["3", "1"]]]}},
+{"cmd": "query SELECT id FROM t1 WHERE f_cnt(id) > 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT id, f_name(id) AS n FROM t1 ORDER BY f_name(id) DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["id", 11, 4, 0], ["n", 4, 10, 0]], "rows": [
+  [2, ["2", "two       "]],
+  [3, ["3", "three     "]],
+  [1, ["1", "one       "]]]}},
+{"cmd": "query SELECT f_name(99) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 4, 10, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT id, f_has(id) AS h, f_has(id + 1) AS g FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["h", 1, 1, 0], ["g", 1, 1, 0]], "rows": [
+  [1, ["1", "T", "T"]],
+  [2, ["2", "T", "T"]],
+  [3, ["3", "T", "F"]]]}},
+{"cmd": "query SELECT f_var(1) AS a, f_var(7) AS b FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["3", "7"]]]}},
+{"cmd": "query SELECT f_loop(1) AS a, f_loop(2) AS b FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["3", "4"]]]}},
+{"cmd": "query SELECT f_nest(2) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query SELECT f_many(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2167;  [SAP][Advantage SQL Engine]SELECT sub-query returned more than one row.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_none(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT f_cnt(NULL) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT SUM(f_cnt(id)) AS s, MAX(f_name(id)) AS m FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["s", 11, 4, 0], ["m", 4, 10, 0]], "rows": [
+  [1, ["6", "two       "]]]}},
+{"cmd": "query SELECT id, f_cnt(id) AS c FROM t1 WHERE f_has(id)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["1", "3"]],
+  [2, ["2", "2"]],
+  [3, ["3", "1"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM t1 GROUP BY f_cnt(id)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]],
+  [3, ["1"]]]}},
+{"cmd": "query SELECT f_cnt(f_cnt(1)) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_43.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT UPPER(f_name(1)) AS u FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_46.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["u", 4, 10, 0]], "rows": [
+  [1, ["ONE       "]]]}},
+{"cmd": "direct SELECT f_cnt(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_48.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT f_cnt(?) AS v FROM system.iota", "rc": 0},
+{"cmd": "param 1 long 2", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "query SELECT f_ins(5) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "query SELECT msg FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["msg", 4, 40, 0]], "rows": [
+  [1, ["ins 5                                   "]]]}},
+{"cmd": "query SELECT id, f_ins(id) AS v FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["v", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["2", "2"]],
+  [3, ["3", "3"]]]}},
+{"cmd": "query SELECT msg FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["msg", 4, 40, 0]], "rows": [
+  [1, ["ins 5                                   "]],
+  [2, ["ins 1                                   "]],
+  [3, ["ins 2                                   "]],
+  [4, ["ins 3                                   "]]]}},
+{"cmd": "query SELECT f_upd(2) AS u, f_upd(99) AS n FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["u", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]]]}},
+{"cmd": "query SELECT id, name FROM t1 ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "upd       "]],
+  [3, ["3", "three     "]]]}},
+{"cmd": "query SELECT f_two(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_50.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "query SELECT f_del(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_55.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT f_sel(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_56.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct INSERT INTO t1 VALUES (f_cnt(1) + 10, 'ins')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct UPDATE t1 SET id = id + f_cnt(10) WHERE id > 10", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct DELETE FROM t1 WHERE id = f_cnt(1) + 10 + 3 - 3", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id, name FROM t1 ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "upd       "]],
+  [3, ["3", "three     "]]]}},
+{"cmd": "query SELECT f_conn(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 4, 20, 0]], "rows": [
+  [1, ["default_ansi        "]]]}},
+{"cmd": "query SELECT f_stmt(1) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 4, 40, 0]], "rows": [
+  [1, ["Q|CONN|-                                "]]]}},
+{"cmd": "query SELECT f_in(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\__input.adt Table name: __input ** Script error information:  -- Location of error in the SQL statement is: 35 Error in UDF: f_in", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_raise(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[boom] 7 : bang} ** Script error information:  -- Location of error in the SQL statement is: 8 Error in UDF: f_raise", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_div(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 22012;   NativeError = 2153;  [SAP][Advantage SQL Engine]Division by zero", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_div2(0) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 22012;   NativeError = 2153;  [SAP][Advantage SQL Engine]Division by zero", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_div2(2) AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_63.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "query SELECT f_div3(0) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 22012;   NativeError = 2153;  [SAP][Advantage SQL Engine]Division by zero", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_nosuch(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\nosuch.adt Table name: nosuch ** Script error information:  -- Location of error in the SQL statement is: 2 Error in UDF: f_nosuch", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_col(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: nosuch -- Location of error in the SQL statement is: 17 Error in UDF: f_col", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_raise(id) AS v FROM t1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[boom] 7 : bang} ** Script error information:  -- Location of error in the SQL statement is: 8 Error in UDF: f_raise", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_cnt(1, 2) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: Too many actual parameters to the function: f_cnt -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_cnt() AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: Not enough actual parameter to the function: f_cnt -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_cnt('x') AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: Parameter 1 in UDF f_cnt -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT nosuch(1) AS v FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: nosuch -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT f_cnt(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_68.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query SELECT f_name(1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 10, 0]], "rows": [
+  [1, ["one       "]]]}}
+]

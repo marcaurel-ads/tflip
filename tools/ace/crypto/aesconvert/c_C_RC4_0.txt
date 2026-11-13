@@ -1,0 +1,4 @@
+# The dictionary of a_C.txt (an AES-128 dictionary that keeps its records in the clear) taken to RC4 with its records in the clear, made in a process of its own (a dictionary that encrypts its records is first opened with its password, which the original asks of a process that did not make it).
+connect Data Source=%D\c_C_RC4_0;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'RC4', 0)
+disconnect

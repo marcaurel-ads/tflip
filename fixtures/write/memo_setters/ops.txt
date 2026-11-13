@@ -1,0 +1,286 @@
+open ms.adt shared
+append
+write
+top
+# m
+set m string abc
+get m
+raw m
+set m string ""
+get m
+raw m
+set m string \xe4\x80 text
+get m
+raw m
+set m stringw caf\xe9
+get m
+raw m
+set m field abc
+get m
+raw m
+set m field ""
+get m
+raw m
+set m field 12/31/1999
+get m
+raw m
+set m long 5
+get m
+raw m
+set m short 7
+get m
+raw m
+set m longlong 9
+get m
+raw m
+set m double 2.5
+get m
+raw m
+set m logical 1
+get m
+raw m
+set m date 11/08/2017
+get m
+raw m
+set m julian 2458066
+get m
+raw m
+set m time 13:45
+get m
+raw m
+set m ms 1000
+get m
+raw m
+set m timestamp 11/08/2017 13:45
+get m
+raw m
+set m money 123456
+get m
+raw m
+set m binary 0102
+get m
+raw m
+set m binary ""
+get m
+raw m
+set m image 0304
+get m
+raw m
+set m null
+get m
+raw m
+set m empty
+get m
+raw m
+# n
+set n string abc
+get n
+raw n
+set n string ""
+get n
+raw n
+set n string \xe4\x80 text
+get n
+raw n
+set n stringw caf\xe9
+get n
+raw n
+set n field abc
+get n
+raw n
+set n field ""
+get n
+raw n
+set n field 12/31/1999
+get n
+raw n
+set n long 5
+get n
+raw n
+set n short 7
+get n
+raw n
+set n longlong 9
+get n
+raw n
+set n double 2.5
+get n
+raw n
+set n logical 1
+get n
+raw n
+set n date 11/08/2017
+get n
+raw n
+set n julian 2458066
+get n
+raw n
+set n time 13:45
+get n
+raw n
+set n ms 1000
+get n
+raw n
+set n timestamp 11/08/2017 13:45
+get n
+raw n
+set n money 123456
+get n
+raw n
+set n binary 0102
+get n
+raw n
+set n binary ""
+get n
+raw n
+set n image 0304
+get n
+raw n
+set n null
+get n
+raw n
+set n empty
+get n
+raw n
+# b
+set b string abc
+get b
+raw b
+set b string ""
+get b
+raw b
+set b string \xe4\x80 text
+get b
+raw b
+set b stringw caf\xe9
+get b
+raw b
+set b field abc
+get b
+raw b
+set b field ""
+get b
+raw b
+set b field 12/31/1999
+get b
+raw b
+set b long 5
+get b
+raw b
+set b short 7
+get b
+raw b
+set b longlong 9
+get b
+raw b
+set b double 2.5
+get b
+raw b
+set b logical 1
+get b
+raw b
+set b date 11/08/2017
+get b
+raw b
+set b julian 2458066
+get b
+raw b
+set b time 13:45
+get b
+raw b
+set b ms 1000
+get b
+raw b
+set b timestamp 11/08/2017 13:45
+get b
+raw b
+set b money 123456
+get b
+raw b
+set b binary 0102
+get b
+raw b
+set b binary ""
+get b
+raw b
+set b image 0304
+get b
+raw b
+set b null
+get b
+raw b
+set b empty
+get b
+raw b
+# i
+set i string abc
+get i
+raw i
+set i string ""
+get i
+raw i
+set i string \xe4\x80 text
+get i
+raw i
+set i stringw caf\xe9
+get i
+raw i
+set i field abc
+get i
+raw i
+set i field ""
+get i
+raw i
+set i field 12/31/1999
+get i
+raw i
+set i long 5
+get i
+raw i
+set i short 7
+get i
+raw i
+set i longlong 9
+get i
+raw i
+set i double 2.5
+get i
+raw i
+set i logical 1
+get i
+raw i
+set i date 11/08/2017
+get i
+raw i
+set i julian 2458066
+get i
+raw i
+set i time 13:45
+get i
+raw i
+set i ms 1000
+get i
+raw i
+set i timestamp 11/08/2017 13:45
+get i
+raw i
+set i money 123456
+get i
+raw i
+set i binary 0102
+get i
+raw i
+set i binary ""
+get i
+raw i
+set i image 0304
+get i
+raw i
+set i null
+get i
+raw i
+set i empty
+get i
+raw i
+write
+close

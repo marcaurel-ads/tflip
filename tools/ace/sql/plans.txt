@@ -1,0 +1,108 @@
+# SHOW PLAN FOR <statement>: the plan cursor ARC's SQL utility shows as a
+# tree; run by sql.c (see run.sh) on fixtures/sql/tables/ and the adt
+# fixtures statements.txt uses.
+stmt
+query SHOW PLAN FOR SELECT * FROM cust
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2
+query SHOW PLAN FOR SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust
+query SHOW PLAN FOR SELECT * FROM cust WHERE id > 2
+query SHOW PLAN FOR SELECT * FROM cust WHERE name LIKE 'A%'
+query SHOW PLAN FOR SELECT name FROM cust
+query SHOW PLAN FOR SELECT UPPER(name) FROM cust
+query SHOW PLAN FOR SELECT * FROM cust ORDER BY name
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY id
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY name DESC
+query SHOW PLAN FOR SELECT DISTINCT city FROM cust
+query SHOW PLAN FOR SELECT TOP 2 * FROM cust
+query SHOW PLAN FOR SELECT {static} * FROM cust
+query SHOW PLAN FOR SELECT COUNT(*) FROM sales
+query SHOW PLAN FOR SELECT cust, SUM(qty) FROM sales GROUP BY cust
+query SHOW PLAN FOR SELECT cust, SUM(qty) FROM sales WHERE paid GROUP BY cust HAVING SUM(qty) > 5 ORDER BY 2 DESC
+query SHOW PLAN FOR SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON c.id = s.cust
+query SHOW PLAN FOR SELECT c.name, s.item FROM cust c RIGHT JOIN sales s ON c.id = s.cust
+query SHOW PLAN FOR SELECT c.name, s.item FROM cust c FULL JOIN sales s ON c.id = s.cust
+query SHOW PLAN FOR SELECT c.name, s.item FROM cust c, sales s WHERE c.id = s.cust AND s.qty > 1
+query SHOW PLAN FOR SELECT c.name, s.item, i.name FROM cust c JOIN sales s ON c.id = s.cust JOIN indexed i ON i.id = c.id
+query SHOW PLAN FOR SELECT i.name, s.item FROM sales s JOIN indexed i ON i.id = s.cust
+query SHOW PLAN FOR SELECT id FROM cust UNION SELECT cust FROM sales
+query SHOW PLAN FOR SELECT id FROM cust UNION ALL SELECT cust FROM sales ORDER BY 1
+query SHOW PLAN FOR SELECT name FROM cust WHERE id IN (SELECT cust FROM sales)
+query SHOW PLAN FOR SELECT name FROM cust c WHERE EXISTS (SELECT * FROM sales s WHERE s.cust = c.id)
+query SHOW PLAN FOR SELECT name, (SELECT COUNT(*) FROM sales s WHERE s.cust = c.id) FROM cust c
+query SHOW PLAN FOR SELECT * FROM (SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust) t WHERE n > 1
+query SHOW PLAN FOR SELECT 1 FROM system.iota
+query SHOW PLAN FOR SELECT * FROM system.tables
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 AND name = 'Bravo'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 OR amount > 5
+query SHOW PLAN FOR SELECT * FROM indexed WHERE ciname = 'bravo'
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_integer BETWEEN 1 AND 3
+query SHOW PLAN FOR SELECT * FROM cust WHERE id = ?
+query show plan for select * from cust
+query SHOW PLAN FOR SELECT nosuch FROM cust
+query SHOW PLAN FOR SELECT * FROM nosuch
+query SHOW PLAN FOR EXECUTE PROCEDURE sp_GetApplicationID()
+query SHOW PLAN SELECT * FROM cust
+query SHOW PLAN FOR
+query SHOW PLAN FOR SELECT * FROM cust; 
+directnull SHOW PLAN FOR SELECT * FROM cust
+query SHOW PLAN FOR SELECT * FROM cust WHERE id = 1 + 1
+
+# Index use in SELECTs that run through their plan
+query SHOW PLAN FOR SELECT DISTINCT name FROM indexed WHERE id = 2
+query SHOW PLAN FOR SELECT TOP 5 * FROM indexed WHERE id > 1
+query SHOW PLAN FOR SELECT TOP 5 * FROM indexed WHERE id > 1 AND name = 'Bravo'
+query SHOW PLAN FOR SELECT TOP 5 * FROM indexed WHERE amount > 1 AND name LIKE 'B%'
+query SHOW PLAN FOR SELECT UPPER(name) FROM indexed WHERE id BETWEEN 1 AND 3 OR amount = 5
+query SHOW PLAN FOR SELECT c.name, i.name FROM cust c JOIN indexed i ON i.id = c.id
+query SHOW PLAN FOR SELECT c.name, i.name FROM cust c LEFT JOIN indexed i ON i.id = c.id
+query SHOW PLAN FOR SELECT c.name, i.name FROM cust c, indexed i WHERE i.id = c.id AND i.amount > 2
+query SHOW PLAN FOR SELECT name FROM cust c WHERE EXISTS (SELECT * FROM indexed i WHERE i.id = c.id)
+query SHOW PLAN FOR SELECT name FROM cust c WHERE id IN (SELECT id FROM indexed i WHERE i.name = 'Bravo')
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_integer >= -1
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_integer > -2
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_integer BETWEEN -1 AND 1
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_integer >= -1 AND k_short >= -100
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_integer IN (1, -1)
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_logical
+query SHOW PLAN FOR SELECT k_autoinc + 0 FROM keys WHERE k_char = 'abc'
+query SHOW PLAN FOR SELECT id + 0 FROM indexed WHERE amount >= 0
+# Live cursors: their WHERE as an AOF, their ORDER BY in an order.
+query SHOW PLAN FOR SELECT * FROM cust WHERE name LIKE 'A%'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 AND amount > 5 AND name = 'Bravo'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 OR id = 3
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 OR active
+query SHOW PLAN FOR SELECT * FROM indexed WHERE active
+query SHOW PLAN FOR SELECT * FROM indexed WHERE NOT active
+query SHOW PLAN FOR SELECT * FROM indexed WHERE NOT (id = 2)
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id <> 2
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id IN (1, 2)
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id BETWEEN 1 AND 3 AND name > 'A'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE 2 = id
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 AND active
+query SHOW PLAN FOR SELECT * FROM indexed WHERE name = 'it''s'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE born = '1990-03-03'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE born > CURDATE()
+query SHOW PLAN FOR SELECT * FROM indexed WHERE amount = 10.25
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id IS NULL
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id IS NOT NULL
+query SHOW PLAN FOR SELECT * FROM indexed WHERE UPPER(name) = 'ALPHA'
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 ORDER BY name
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id > 1 ORDER BY id
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY born
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY born, name
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY name, id
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY amount
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY amount DESC
+query SHOW PLAN FOR SELECT * FROM indexed ORDER BY ciname
+query SHOW PLAN FOR SELECT * FROM indexed WHERE name LIKE 'B%' AND id = 2
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = 2 + 0
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id = -2
+query SHOW PLAN FOR SELECT * FROM indexed WHERE (id = 1 OR id = 2) AND (name = 'a' OR amount < 3)
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id > 1 AND id < 5
+query SHOW PLAN FOR SELECT * FROM indexed WHERE id >= 1 AND id <= 5 AND id <> 3
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_date = '2017-11-08'
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_timestamp > '2017-11-08 00:00:00'
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_logical = TRUE
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_double = 1.5
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_char = 'abc'
+query SHOW PLAN FOR SELECT * FROM keys WHERE k_cichar = 'abc'

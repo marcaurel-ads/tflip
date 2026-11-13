@@ -1,0 +1,27 @@
+# Query logging on free connections: a log table made without a password, one made with an option and a password that logs no row, one made with a password and read, and on a connection that allows AES one made without; the files they make.
+connect c1 Data Source=%D;ServerType=LOCAL;
+sql c1 CREATE TABLE a (id INTEGER)
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 0, 0, 0, '')
+sql c1 INSERT INTO a VALUES (1)
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+open q c1 %D\ql.adt 4
+tablecheck q
+count q
+close q
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql3', 0, 0, 0, 'pw', 1)
+sql c1 SELECT * FROM a
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql4', 0, 0, 0, 'pw')
+sql c1 SELECT * FROM a WHERE id > 5
+sqlc c1 EXECUTE PROCEDURE sp_GetQueryLoggingResults('pw')
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+disconnect c1
+connect c2 Data Source=%D;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+sql c2 CREATE TABLE b (id INTEGER)
+sql c2 EXECUTE PROCEDURE sp_EnableQueryLogging('ql2', 0, 0, 0, '')
+sql c2 INSERT INTO b VALUES (1)
+sql c2 EXECUTE PROCEDURE sp_DisableQueryLogging()
+open q c2 %D\ql2.adt 4
+tablecheck q
+count q
+close q

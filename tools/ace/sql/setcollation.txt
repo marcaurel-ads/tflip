@@ -1,0 +1,141 @@
+# SET ::conn.Collation and SET ::stmt.Collation, sent as statements, on the folder of
+# collation_dynamic.txt (run_collation_dynamic.sh <work> <acesdk> setcollation.txt):
+# which statements and tables take them, what AdsGetCollation says after
+# them, and what they refuse. (SET ::conn.Collation = NULL crashes the
+# original engine; it is not run.) The ger table has an order under
+# GERMAN_VFP_CI_AS_1252, gen one under GENERAL_VFP_CI_AS_1252, and a table
+# opens only with the collation of its orders (5209).
+stmt
+getcollation
+query SELECT TOP 3 code FROM ger ORDER BY code
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+getcollation
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+query SELECT code FROM ca WHERE c = 'A' AND code < 128 ORDER BY code
+stmt
+query SELECT TOP 3 code FROM ger ORDER BY code
+direct SET ::conn.collation = 'general_vfp_ci_as_1252'
+getcollation
+query SELECT TOP 3 code FROM gen ORDER BY code
+query SELECT TOP 3 code FROM ger ORDER BY code
+#
+# ::stmt.Collation, over the connection's; 'default' goes back to it.
+direct SET ::stmt.Collation = 'GERMAN_VFP_CI_AS_1252'
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+direct SET ::stmt.collation = 'default'
+query SELECT TOP 3 code FROM gen ORDER BY code
+direct SET ::stmt.collation = 'GERMAN_VFP_CI_AS_1252'
+stmt
+query SELECT TOP 3 code FROM gen ORDER BY code
+getcollation
+#
+# What is accepted and what is refused.
+direct SET ::conn.Collation = ''
+getcollation
+direct SET ::conn.Collation = 'nosuch'
+getcollation
+direct SET ::stmt.Collation = 'nosuch'
+direct SET ::stmt.Collation = ''
+direct SET ::conn.Collation = 'default'
+direct SET ::conn.Collation = 'default_ansi'
+getcollation
+direct SET ::conn.Collation = 'default_oem'
+getcollation
+direct SET ::stmt.Collation = 'default_ansi'
+direct SET ::stmt.Collation = 'default_oem'
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252:'
+getcollation
+direct SET ::conn.Collation = ':nosuch'
+direct SET ::conn.Collation = ':en_US'
+getcollation
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252:en_US'
+getcollation
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252:nosuch'
+direct SET ::conn.Collation = ' GERMAN_VFP_CI_AS_1252'
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252 '
+getcollation
+direct SET ::conn.Collation = 'ANSI'
+direct SET ::stmt.Collation = 'ANSI'
+direct SET ::stmt.Collation = 'oem'
+direct SET ::stmt.Collation = ':en_US'
+direct SET ::conn.Collation = 5
+direct SET ::conn.Collation = UPPER('german_vfp_ci_as_1252')
+getcollation
+direct SET ::conn.Collation = 'GERMAN' + '_VFP_CI_AS_1252'
+direct SET ::conn.Collation = ?
+param 1 string GENERAL_VFP_CI_AS_1252
+direct SET ::conn.Collation = ?
+exec
+getcollation
+direct SET ::conn.Collation = 'a', ::stmt.Collation = 'b'
+direct SET ::conn.Collation 'GERMAN_VFP_CI_AS_1252'
+direct SET ::conn.Collation =
+direct SET ::conn.Collation
+direct SET ::conn = 'GERMAN_VFP_CI_AS_1252'
+direct SET ::conn. = 'GERMAN_VFP_CI_AS_1252'
+direct SET conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+direct SET :conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+direct SET ::bogus.Collation = 'GERMAN_VFP_CI_AS_1252'
+direct SET ::conn.Bogus = 'x'
+direct SET ::stmt.Bogus = 'x'
+direct SET ::server.Collation = 'x'
+direct SET ::conn.TransactionCount = 1
+direct SET ::stmt.TrigRecNo = 1
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252' extra
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252';
+direct SET @v = 1
+direct SET x = 1
+direct SET
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+getcollation
+verify SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+verify SET ::conn.Collation = 'nosuch'
+prepare SET ::conn.Collation = 'nosuch'
+exec
+prepare SET ::conn.Collation = 'GENERAL_VFP_CI_AS_1252'
+getcollation
+exec
+getcollation
+directnull SET ::conn.Collation = ''
+getcollation
+#
+# Where the collation takes effect: a statement takes the connection's when
+# it asks for 'default'.
+stmt
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+collation default
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+direct SET ::conn.Collation = 'GENERAL_VFP_CI_AS_1252'
+query SELECT TOP 3 code FROM gen ORDER BY code
+query SELECT TOP 3 code FROM ger ORDER BY code
+stmt
+collation default
+query SELECT TOP 3 code FROM gen ORDER BY code
+direct SET ::stmt.Collation = 'GERMAN_VFP_CI_AS_1252'
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+collation GERMAN_VFP_CI_AS_1252
+query SELECT TOP 3 code FROM ger ORDER BY code
+direct SET ::stmt.Collation = 'GENERAL_VFP_CI_AS_1252'
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+setcollation GERMAN_VFP_CI_AS_1252
+getcollation
+collation default
+query SELECT TOP 3 code FROM ger ORDER BY code
+direct SET ::conn.Collation = 'GENERAL_VFP_CI_AS_1252'
+getcollation
+query SELECT TOP 3 code FROM ger ORDER BY code
+query SELECT TOP 3 code FROM gen ORDER BY code
+direct SET ::conn.Collation = 'default_ansi'
+query SELECT TOP 3 code FROM gen ORDER BY code
+query SELECT code FROM ca WHERE c = 'A' AND code < 128 ORDER BY code
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252'
+query SELECT code FROM ca WHERE c = 'A' AND code < 128 ORDER BY code
+direct SET ::conn.Collation = 'default_oem'
+query SELECT code FROM ca WHERE c = 'A' AND code < 128 ORDER BY code
+direct SET ::conn.Collation = 'GERMAN_VFP_CI_AS_1252:en_US'
+query SELECT TOP 3 code FROM ger ORDER BY code

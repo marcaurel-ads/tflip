@@ -1,0 +1,4 @@
+2 resrc.c:1919 C:\ads\data\bk\s04_open_image\img\t_cdx.cdx | 
+7041 index.c:5199 C:\ads\data\bk\s04_open_image\img\t_cdx.cdx | 
+7041 index.c:9568 C:\ads\data\bk\s04_open_image\img\t_cdx.cdx | 
+7041 dbf.c:6922 t_cdx.cdx | 

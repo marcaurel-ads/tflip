@@ -1,0 +1,86 @@
+# Memo values written in transactions on an ADT table open exclusively, committed (xc) and rolled
+# back (xr), and on a shared one (ts): a value that fits the block of the one it replaces, or clears
+# it, waits for the commit, and one that needs a new block (a record without a value, one appended,
+# a longer one) is written at once with its block number in the marked record; a rollback frees the
+# blocks and keeps their data. The last step of each case reads on a fresh handle.
+open xc exclusive
+begin
+goto 1
+set body string a replacement
+write
+goto 2
+set body string
+write
+goto 4
+set body string long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long 
+write
+goto 3
+set body string first value of three
+write
+flush
+snapshot c_first
+set body string second value of three
+write
+append
+set id long 5
+set body string appended value
+write
+flush
+snapshot c_appended
+commit
+flush
+snapshot c_committed
+close
+open xr exclusive
+begin
+goto 1
+set body string a replacement
+write
+goto 2
+set body string
+write
+goto 3
+set body string first value of three
+write
+set body string second value of three
+write
+append
+set id long 5
+set body string appended value
+write
+flush
+snapshot r_written
+rollback
+flush
+snapshot r_rolled
+close
+open ts shared
+begin
+goto 1
+set body string a much longer replacement memo value than the first
+write
+goto 3
+set body string a value for a record without one
+write
+append
+set id long 4
+set body string an appended memo value
+write
+flush
+snapshot s_written
+rollback
+flush
+snapshot s_rolled
+close
+open xc shared
+state
+rows
+close
+open xr shared
+state
+rows
+close
+open ts shared
+state
+rows
+close

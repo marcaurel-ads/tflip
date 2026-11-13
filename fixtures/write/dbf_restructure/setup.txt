@@ -1,0 +1,65 @@
+# FoxPro, Clipper and VFP tables with memo values, a deleted record and
+# orders; another FoxPro table whose order names a field to rename.
+tabletype cdx
+createtable f.dbf 0 c,Character,10;n,Numeric,8,2;m,Memo;d,Date
+append
+set c string bravo
+set n double 2.5
+set m string memo b
+set d date 01/02/2020
+write
+append
+set c string alpha
+set n double -1
+write
+append
+set c string charlie
+write
+goto 2
+delete
+write
+createindex - c 2 512 c
+createindex - u 2 512 UPPER(c)
+close
+tabletype ntx
+createtable n.dbf 0 c,Character,10;n,Numeric,6,0;m,Memo
+append
+set c string x
+set n double 5
+set m string memo x
+write
+append
+set c string y
+write
+createindex n_c.ntx c 0 1024 c
+close
+tabletype vfp
+createtable v.dbf 0 c,Character,10;i,Integer;m,Memo
+append
+set c string vv
+set i long 7
+set m string vm
+write
+close
+tabletype cdx
+createtable g.dbf 0 name,Character,8;qty,Numeric,5,0
+append
+set name string pear
+set qty double 3
+write
+append
+set name string apple
+set qty double 12
+write
+createindex - byname 2 512 UPPER(name) FOR qty > 1
+createindex - byqty 2 512 qty
+close
+tabletype vfp
+createtable w.dbf 0 c,Character,6,NULL;i,Integer,NULL;t,Character,4
+append
+set c string ab
+write
+append
+set i long 9
+write
+close

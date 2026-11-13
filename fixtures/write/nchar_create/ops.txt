@@ -1,0 +1,26 @@
+sql CREATE TABLE nz (id INTEGER, grp SHORT, nc NCHAR(4), nv NVARCHAR(7))
+sql CREATE INDEX by_nc ON nz (nc)
+sql CREATE INDEX by_nv_desc ON nz (nv DESC)
+sql CREATE INDEX by_grp_nc ON nz (grp, nc)
+sql CREATE INDEX by_nv_nc ON nz (nv, nc)
+sql CREATE UNIQUE INDEX by_nc_u ON nz (nc)
+sql INSERT INTO nz VALUES (1, 2, 'abc', 'Zebra')
+sql INSERT INTO nz VALUES (2, 1, 'Abd', 'apple')
+sql INSERT INTO nz VALUES (3, 1, 'été', 'Ömega')
+sql CREATE INDEX by_nv ON nz (nv)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('nz', 'nz', 'cond', 'nc', 'grp > 1', 2, 512, NULL)
+open nz.adt shared
+append
+set id long 4
+set nc stringu 3300e9007a00
+set nv stringu 7a00
+write
+top
+set nc stringu 5900
+write
+delete
+write
+close
+open nz.adt exclusive
+reindex
+close

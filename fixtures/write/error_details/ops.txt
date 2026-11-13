@@ -1,0 +1,48 @@
+# The details AdsGetLastError's text adds after a failure.
+# The AOF calls without an AOF (AdsClearFilter without a filter adds none).
+open p shared
+aoflevel
+deactivateaof
+activateaof
+clearaof
+refreshaof
+clearfilter
+inaof 1
+custom 1 1
+# AdsGotoRecord on an ADT table: a deleted record, one past the end, 0.
+goto 2
+goto 99
+goto 0
+# Scopes not set, and an option that is none.
+order name
+getscope 1
+getscope 2
+getscope 3
+clearscope 1
+clearscope 2
+clearscope 3
+order -
+# Files not found: the path, with the extension added.
+open gone shared
+open gone.adt shared
+open sub\gone.adt shared
+openindex gone.adi
+pack120 512 9
+close
+# A key a unique order in a file of its own refuses: the file without its
+# extension for an ADI file (a CDX file's has it: cdx_indexes).
+open uq.adt
+openindex other.adi
+append
+set k string AAAA
+write
+append
+set k string AAAA
+write
+cancel
+close
+tabletype vfp
+open vv.dbf
+# A candidate order needs a compound index file.
+createindex single.idx CAND3 2048 0 id
+close

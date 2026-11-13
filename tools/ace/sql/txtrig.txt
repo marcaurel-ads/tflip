@@ -1,0 +1,259 @@
+# Transactions in triggers and referential integrity, on the remote server
+# (SQL_SERVER_TYPE=2, see triggers.txt), in a dictionary of an empty folder,
+# py/py.add (triggers.txt has the rest of the triggers' transactions): a
+# savepoint of the caller's rolled back to in a trigger (7130), a transaction
+# begun and not ended, NO TRANSACTION on one of an event's triggers, a
+# cascading rule inside the caller's own transaction after it changed the
+# child, and a trigger's writes taken back with the statement or the caller.
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txtrig.txt <share>
+#             > ../../../fixtures/sql/txtrig.json
+stmt
+direct CREATE DATABASE "py\py.add"
+connect py\py.add ADSSYS
+stmt
+direct CREATE TABLE t (id INTEGER, name CHAR(10))
+direct CREATE TABLE audit (msg CHAR(60)) IGNORE TRANSACTIONS
+txcount
+#
+# A trigger rolling back to a savepoint, the caller's and its own.
+direct CREATE TRIGGER sp1 ON t AFTER INSERT BEGIN ROLLBACK TO SAVEPOINT outer1; END
+direct BEGIN TRANSACTION
+direct SAVEPOINT outer1
+direct INSERT INTO t VALUES (1, 'a')
+txcount
+query SELECT id FROM t
+direct ROLLBACK
+direct DROP TRIGGER t.sp1
+direct CREATE TABLE u (id INTEGER)
+direct CREATE TRIGGER sp2 ON t BEFORE INSERT BEGIN SAVEPOINT inner1; INSERT INTO u VALUES (5); ROLLBACK TO SAVEPOINT inner1; END
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (2, 'b')
+query SELECT id FROM t
+query SELECT id FROM u
+direct ROLLBACK
+direct DROP TRIGGER t.sp2
+direct INSERT INTO t VALUES (8, 'h')
+direct CREATE TRIGGER sp2 ON t AFTER UPDATE BEGIN SAVEPOINT inner1; INSERT INTO u VALUES (7); ROLLBACK TO SAVEPOINT inner1; END
+direct BEGIN TRANSACTION
+direct UPDATE t SET name = 'z' WHERE id = 8
+query SELECT id, name FROM t
+query SELECT id FROM u
+direct ROLLBACK
+direct DROP TRIGGER t.sp2
+direct DELETE FROM t
+# A savepoint a trigger sets does not outlast it.
+direct CREATE TRIGGER sp3 ON t AFTER INSERT BEGIN SAVEPOINT leaked; END
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (3, 'c')
+direct ROLLBACK TO SAVEPOINT leaked
+direct ROLLBACK
+direct DROP TRIGGER t.sp3
+#
+# A trigger that begins a transaction and does not end it, and one that
+# commits what it did not begin.
+direct CREATE TRIGGER b1 ON t AFTER INSERT BEGIN BEGIN TRANSACTION; INSERT INTO audit VALUES ('b1 ' + __new.name); END
+direct INSERT INTO t VALUES (4, 'd')
+txcount
+query SELECT id FROM t
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (5, 'e')
+txcount
+direct ROLLBACK
+query SELECT id FROM t
+direct DROP TRIGGER t.b1
+direct CREATE TRIGGER b2 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('b2 ' + __new.name); COMMIT; END
+direct INSERT INTO t VALUES (6, 'f')
+txcount
+query SELECT id FROM t
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (7, 'g')
+txcount
+direct ROLLBACK
+query SELECT id FROM t
+direct DROP TRIGGER t.b2
+direct DELETE FROM t
+direct DELETE FROM audit
+#
+# NO TRANSACTION on one of an event's triggers: the event's triggers run in a
+# transaction of their own unless one is NO TRANSACTION, or only that one.
+direct CREATE TRIGGER a1 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a1 ' + __new.name); END PRIORITY 1
+direct CREATE TRIGGER a2 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a2 ' + __new.name); RAISE boom(1, 'x'); END NO TRANSACTION PRIORITY 2
+direct INSERT INTO t VALUES (10, 'a')
+query SELECT id FROM t
+query SELECT msg FROM audit
+direct DELETE FROM t
+direct DELETE FROM audit
+direct DROP TRIGGER t.a1
+direct DROP TRIGGER t.a2
+direct CREATE TRIGGER a1 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a1 ' + __new.name); END NO TRANSACTION PRIORITY 1
+direct CREATE TRIGGER a2 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a2 ' + __new.name); RAISE boom(1, 'x'); END PRIORITY 2
+direct INSERT INTO t VALUES (11, 'b')
+query SELECT id FROM t
+query SELECT msg FROM audit
+direct DELETE FROM t
+direct DELETE FROM audit
+direct DROP TRIGGER t.a1
+direct DROP TRIGGER t.a2
+# The count each sees.
+direct CREATE TRIGGER a1 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a1 ' + CAST(::conn.TransactionCount AS SQL_CHAR)); END PRIORITY 1
+direct CREATE TRIGGER a2 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('a2 ' + CAST(::conn.TransactionCount AS SQL_CHAR)); END NO TRANSACTION PRIORITY 2
+direct INSERT INTO t VALUES (12, 'c')
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (13, 'd')
+query SELECT msg FROM audit
+direct ROLLBACK
+direct DELETE FROM t
+direct DELETE FROM audit
+direct DROP TRIGGER t.a1
+direct DROP TRIGGER t.a2
+#
+# A trigger's writes taken back with the statement that fired it, with the
+# caller's rollback, and not with a later statement's failure.
+direct CREATE TABLE t2 (id INTEGER)
+direct CREATE TRIGGER w1 ON t AFTER INSERT BEGIN INSERT INTO t2 VALUES (__new.id); END
+direct INSERT INTO t VALUES (20, 'a')
+query SELECT id FROM t2
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (21, 'b')
+query SELECT id FROM t2
+direct ROLLBACK
+query SELECT id FROM t2
+query SELECT id FROM t
+direct DROP TRIGGER t.w1
+direct DELETE FROM t
+direct DELETE FROM t2
+#
+# Cascade: update rule 1, delete rule 1.
+direct CREATE TABLE p1 (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE c1 (cid INTEGER, pid INTEGER, tag CHAR(10))
+direct CREATE INDEX pid ON c1 (pid)
+direct INSERT INTO p1 VALUES (1, 'one')
+direct INSERT INTO p1 VALUES (2, 'two')
+direct INSERT INTO p1 VALUES (3, 'three')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r1', 'p1', 'c1', 'pid', 1, 1, '', '', '')
+direct INSERT INTO c1 VALUES (10, 1, 'a')
+direct INSERT INTO c1 VALUES (11, 1, 'b')
+direct INSERT INTO c1 VALUES (12, 2, 'c')
+# The child changed first, then its parent's key or the parent deleted.
+direct BEGIN TRANSACTION
+direct UPDATE c1 SET tag = 'x' WHERE cid = 10
+direct DELETE FROM p1 WHERE id = 1
+txcount
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+direct UPDATE p1 SET id = 21 WHERE id = 1
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+# A child inserted first.
+direct BEGIN TRANSACTION
+direct INSERT INTO c1 VALUES (13, 2, 'd')
+direct DELETE FROM p1 WHERE id = 2
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+direct UPDATE p1 SET id = 22 WHERE id = 2
+query SELECT id FROM p1 ORDER BY id
+direct ROLLBACK
+# A child of another parent changed: the rule runs.
+direct BEGIN TRANSACTION
+direct UPDATE c1 SET tag = 'y' WHERE cid = 12
+direct DELETE FROM p1 WHERE id = 1
+txcount
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+# The rule alone in a transaction, then the child changed after it.
+direct BEGIN TRANSACTION
+direct DELETE FROM p1 WHERE id = 1
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+direct UPDATE c1 SET tag = 'z' WHERE cid = 11
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+# The parent and its child written in the transaction.
+direct BEGIN TRANSACTION
+direct INSERT INTO p1 VALUES (5, 'five')
+direct INSERT INTO c1 VALUES (50, 5, 'n')
+direct DELETE FROM p1 WHERE id = 5
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+query SELECT id FROM p1 ORDER BY id
+direct ROLLBACK
+# A rule with the child changed in the transaction through a script.
+direct BEGIN TRANSACTION
+direct UPDATE c1 SET tag = 'w' WHERE cid = 11; DELETE FROM p1 WHERE id = 1;
+query SELECT cid, pid, tag FROM c1 ORDER BY cid
+direct ROLLBACK
+#
+# Set null: update rule 3, delete rule 3.
+direct CREATE TABLE p2 (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE c2 (cid INTEGER, pid INTEGER, tag CHAR(10))
+direct CREATE INDEX pid ON c2 (pid)
+direct INSERT INTO p2 VALUES (1, 'one')
+direct INSERT INTO p2 VALUES (2, 'two')
+direct INSERT INTO p2 VALUES (3, 'three')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('r2', 'p2', 'c2', 'pid', 3, 3, '', '', '')
+direct INSERT INTO c2 VALUES (10, 1, 'a')
+direct INSERT INTO c2 VALUES (11, 1, 'b')
+direct INSERT INTO c2 VALUES (12, 2, 'c')
+# The child changed first, then its parent's key or the parent deleted.
+direct BEGIN TRANSACTION
+direct UPDATE c2 SET tag = 'x' WHERE cid = 10
+direct DELETE FROM p2 WHERE id = 1
+txcount
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+direct UPDATE p2 SET id = 21 WHERE id = 1
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+# A child inserted first.
+direct BEGIN TRANSACTION
+direct INSERT INTO c2 VALUES (13, 2, 'd')
+direct DELETE FROM p2 WHERE id = 2
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+direct UPDATE p2 SET id = 22 WHERE id = 2
+query SELECT id FROM p2 ORDER BY id
+direct ROLLBACK
+# A child of another parent changed: the rule runs.
+direct BEGIN TRANSACTION
+direct UPDATE c2 SET tag = 'y' WHERE cid = 12
+direct DELETE FROM p2 WHERE id = 1
+txcount
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+# The rule alone in a transaction, then the child changed after it.
+direct BEGIN TRANSACTION
+direct DELETE FROM p2 WHERE id = 1
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+direct UPDATE c2 SET tag = 'z' WHERE cid = 11
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+direct ROLLBACK
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+# The parent and its child written in the transaction.
+direct BEGIN TRANSACTION
+direct INSERT INTO p2 VALUES (5, 'five')
+direct INSERT INTO c2 VALUES (50, 5, 'n')
+direct DELETE FROM p2 WHERE id = 5
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+query SELECT id FROM p2 ORDER BY id
+direct ROLLBACK
+# A rule with the child changed in the transaction through a script.
+direct BEGIN TRANSACTION
+direct UPDATE c2 SET tag = 'w' WHERE cid = 11; DELETE FROM p2 WHERE id = 1;
+query SELECT cid, pid, tag FROM c2 ORDER BY cid
+direct ROLLBACK

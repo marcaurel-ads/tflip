@@ -1,0 +1,14 @@
+#include dg_one.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+sql 1 UPDATE x_one SET name = 'edit' WHERE id = 1
+sql 1 CREATE TABLE x_new (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_new VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_new VALUES (2, 'n2', 'memo 2', NULL)
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_before\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_diff\ /E /I /Q
+sql 1 UPDATE x_new SET name = 'edit' WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff2\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_diff2\ /E /I /Q

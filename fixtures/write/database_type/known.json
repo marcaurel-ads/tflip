@@ -1,0 +1,4 @@
+{
+ "19": {"fields": ["error"], "why": "AdsSetTimeStampRaw on a connection: the original's last error text is garbled (a NUL for its first byte, then stack bytes after the text, different in every run; ADS_BUGS.md, Error reporting); tflip's is the text clean"},
+ "26": {"fields": ["error"], "why": "AdsSetFieldRaw on a connection: the original's last error text is garbled (a NUL for its first byte, then stack bytes after the text, different in every run; ADS_BUGS.md, Error reporting); tflip's is the text clean"}
+}

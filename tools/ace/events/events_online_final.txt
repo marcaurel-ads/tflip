@@ -1,0 +1,72 @@
+# The events the online forms of maintenance signal when their final stage
+# begins, on a table of a dictionary of 65536 records (a second connection
+# creates the event and waits for it, as only the connection that created an
+# event can): `__OCIFinalStage_<table>` for CREATE ONLINE INDEX and
+# `__OAFinalStage_<table>` for ALTER ONLINE TABLE, none for the offline forms
+# (the wait ends at its timeout with a count of 0). sp_PackTableOnline signals
+# `__OPFinalStage_<table>` as well, and sp_ReindexOnline no event that the
+# probe saw (not in this script; see KNOWN_ISSUES). The table of a dictionary
+# is closed to the other connections by the offline forms (7008) and open to
+# them for the online ones, as a free table is (events_online.txt).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_online_final.txt
+#             > ../../../fixtures/events/events_online_final.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+connect 2 d\d.add
+connect 3 d\d.add
+sql 1 CREATE TABLE big (n INTEGER, s CHAR(40), x DOUBLE)
+sql 1 INSERT INTO big VALUES (1, 'abcdefghij', 1.5)
+sql 1 INSERT INTO big SELECT n + 1, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 2, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 4, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 8, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 16, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 32, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 64, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 128, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 256, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 512, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 1024, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 2048, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 4096, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 8192, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 16384, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 32768, s, x FROM big
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('__OCIFinalStage_big', 0)
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('__OAFinalStage_big', 0)
+# CREATE INDEX: closed to the other connection, and no event.
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__OCIFinalStage_big', 1500, 0, 0)
+async 1 CREATE INDEX i0 ON big (s, x, n)
+sleep 20
+sql 3 SELECT COUNT(*) FROM big
+join 1
+join 2
+sql 3 DROP INDEX big.i0
+# CREATE ONLINE INDEX: open, and the event at its final stage.
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__OCIFinalStage_big', 8000, 0, 0)
+sleep 50
+async 1 CREATE ONLINE INDEX i1 ON big (s, x, n)
+sleep 20
+sql 3 SELECT COUNT(*) FROM big
+join 2
+join 1
+sql 3 DROP INDEX big.i1
+# ALTER TABLE: closed, and no event.
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__OAFinalStage_big', 1500, 0, 0)
+async 1 ALTER TABLE big ADD COLUMN y INTEGER
+sleep 100
+sql 3 SELECT COUNT(*) FROM big
+join 1
+join 2
+# ALTER ONLINE TABLE: open, and the event.
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__OAFinalStage_big', 8000, 0, 0)
+sleep 50
+async 1 ALTER ONLINE TABLE big ADD COLUMN z INTEGER
+sleep 100
+sql 3 SELECT COUNT(*) FROM big
+join 2
+join 1
+sql 3 SELECT * FROM big WHERE n = 5

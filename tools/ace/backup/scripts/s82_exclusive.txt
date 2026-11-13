@@ -1,0 +1,10 @@
+#include dd_all.txt
+connect 2 src\d.add
+open 2 t_adt x
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', 'include=t_cdx')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img3', 'include=t_adt')
+closetable 2
+open 2 t_cdx x
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img4', NULL)
+closetable 2

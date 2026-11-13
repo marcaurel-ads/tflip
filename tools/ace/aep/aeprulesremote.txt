@@ -1,0 +1,541 @@
+# What an external procedure (aeprules.c as aeprules.aep) may do with the
+# connection handle it is given and with connections of its own, on the
+# original's remote server (SQL_SERVER_TYPE=2; `run.sh aeprulesremote.txt
+# aeprules.c aeprules.aep`): the transaction calls on the passed handle by
+# the API and by SQL, alone and after a write, outside a transaction of the
+# caller and inside one, each from a connection of its own so that what one
+# leaves behind does not reach the next; connections of each type the
+# library opens; the rights of a user without any on the table the
+# procedure writes, the dictionary checking them; and handles kept by a
+# procedure of one connection and used by a procedure of another (5202).
+#
+#     tools/ace/aep/run.sh aeprulesremote.txt aeprules.c aeprules.aep > fixtures/sql/aeprulesremote.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE t (n INTEGER)
+direct INSERT INTO t VALUES (100)
+direct CREATE PROCEDURE api_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiBegin IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE api_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE api_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlBegin IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION WriteT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE read_t(n INTEGER OUTPUT) FUNCTION ReadT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE open_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION OpenT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE kind(a INTEGER OUTPUT, handle INTEGER OUTPUT, b INTEGER OUTPUT, conn INTEGER OUTPUT) FUNCTION Kind IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE keep(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION Keep IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_statement(a INTEGER OUTPUT) FUNCTION UseStatement IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_table(a INTEGER OUTPUT) FUNCTION UseTable IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_cursor(a INTEGER OUTPUT, b INTEGER OUTPUT) FUNCTION UseCursor IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE drop_kept(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION DropKept IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE seq_api_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqApiCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE seq_api_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqApiRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE seq_sql_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqSqlCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE seq_sql_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqSqlRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_api_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteApiCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_api_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteApiRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_sql_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteSqlCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_sql_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteSqlRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE open_api(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION OpenApi IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE open_sql(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION OpenSql IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_both(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnBoth IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_local_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnLocalAis IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_remote_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnRemoteAis IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_default(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnDefault IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_local(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnLocal IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_remote(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnRemote IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnAis IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_any(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnAny IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_statement_text(e CHAR(300) OUTPUT) FUNCTION UseStatementText IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_table_text(e CHAR(300) OUTPUT) FUNCTION UseTableText IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE path_of(p CHAR(200) OUTPUT) FUNCTION PathOf IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own_tx(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT, c7 INTEGER OUTPUT) FUNCTION OwnTx IN LIBRARY "aeprules.aep"
+# The passed handle.
+query EXECUTE PROCEDURE kind()
+query EXECUTE PROCEDURE path_of()
+query EXECUTE PROCEDURE own_tx()
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+# Connections of its own.
+query EXECUTE PROCEDURE own_both()
+query EXECUTE PROCEDURE own_local_ais()
+query EXECUTE PROCEDURE own_remote_ais()
+query EXECUTE PROCEDURE own_default()
+query EXECUTE PROCEDURE own_local()
+query EXECUTE PROCEDURE own_remote()
+query EXECUTE PROCEDURE own_ais()
+query EXECUTE PROCEDURE own_any()
+# The single transaction calls, outside a transaction of the caller and inside one (after a begin of the caller's and a write of its own).
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE api_begin()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_begin()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_begin()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE api_commit()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE api_rollback()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE sql_begin()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_begin()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_begin()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE sql_commit()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE sql_rollback()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE sql_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+# Sequences: a begin, a write and a commit or rollback of the library's, and a write and a commit or rollback.
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE seq_api_commit()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE seq_api_rollback()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE seq_sql_commit()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_sql_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_sql_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE seq_sql_rollback()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_sql_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_sql_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE write_api_commit()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_api_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_api_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE write_api_rollback()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_api_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_api_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE write_sql_commit()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_sql_commit()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_sql_commit()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE write_sql_rollback()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_sql_rollback()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE write_sql_rollback()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE open_api()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE open_api()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE open_api()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE open_sql()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE open_sql()
+txcount
+direct ROLLBACK
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE open_sql()
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+# What a refused call leaves behind: the caller's next transaction commands.
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE seq_sql_commit()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+txcount
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query EXECUTE PROCEDURE api_commit()
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+txcount
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_commit()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct ROLLBACK
+txcount
+direct ROLLBACK
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+txcount
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE api_commit()
+query EXECUTE PROCEDURE api_begin()
+txcount
+query EXECUTE PROCEDURE api_commit()
+txcount
+direct COMMIT
+txcount
+direct COMMIT
+txcount
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+direct BEGIN TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_commit()
+txcount
+query EXECUTE PROCEDURE api_commit()
+txcount
+direct COMMIT
+txcount
+direct COMMIT
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct DELETE FROM t WHERE n >= 1000
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1100)
+query EXECUTE PROCEDURE seq_api_rollback()
+txcount
+query SELECT COUNT(*) AS c FROM t WHERE n >= 1000
+direct COMMIT
+txcount
+direct DELETE FROM t WHERE n >= 1000
+# Rights: a user with none on t, the dictionary checking them, allowed to run the procedures.
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+direct GRANT EXECUTE ON write_t TO u1
+direct GRANT EXECUTE ON read_t TO u1
+direct GRANT EXECUTE ON open_t TO u1
+direct GRANT EXECUTE ON kind TO u1
+direct GRANT EXECUTE ON keep TO u1
+direct GRANT EXECUTE ON use_statement TO u1
+direct GRANT EXECUTE ON use_table TO u1
+direct GRANT EXECUTE ON use_cursor TO u1
+direct GRANT EXECUTE ON drop_kept TO u1
+direct GRANT EXECUTE ON use_statement_text TO u1
+direct GRANT EXECUTE ON use_table_text TO u1
+direct GRANT EXECUTE ON own_remote TO u1
+direct GRANT EXECUTE ON own_local TO u1
+direct GRANT EXECUTE ON own_default TO u1
+direct GRANT EXECUTE ON seq_api_commit TO u1
+direct GRANT EXECUTE ON write_sql_commit TO u1
+disconnect
+connect ae\ae.add u1 pw1
+stmt
+query SELECT * FROM t
+direct INSERT INTO t VALUES (3)
+direct UPDATE t SET n = n
+direct DELETE FROM t WHERE n = 5
+query SELECT COUNT(*) FROM t
+query EXECUTE PROCEDURE read_t()
+query EXECUTE PROCEDURE write_t()
+query EXECUTE PROCEDURE open_t()
+query EXECUTE PROCEDURE kind()
+query EXECUTE PROCEDURE own_remote()
+query EXECUTE PROCEDURE own_local()
+query EXECUTE PROCEDURE own_default()
+query EXECUTE PROCEDURE seq_api_commit()
+query EXECUTE PROCEDURE write_sql_commit()
+# Handles kept on one connection, used on another.
+query EXECUTE PROCEDURE keep()
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+switch
+connect ae\ae.add adssys
+stmt
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+query EXECUTE PROCEDURE use_statement_text()
+query EXECUTE PROCEDURE use_table_text()
+query EXECUTE PROCEDURE drop_kept()
+switch
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+query EXECUTE PROCEDURE drop_kept()

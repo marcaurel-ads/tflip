@@ -1,0 +1,4 @@
+# An RC4 dictionary that encrypts its records given AES-128.
+connect Data Source=%D\m_R_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

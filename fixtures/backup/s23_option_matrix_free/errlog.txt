@@ -1,0 +1,25 @@
+3 resrc.c:1919 C:\ads\data\bk\s23_option_matrix_free\bf8\f_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s23_option_matrix_free\bf8\f_adt.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s23_option_matrix_free\bf8\f_adt.adt | 
+2 resrc.c:1919 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_cdx.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_cdx.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_cdx.adt | 
+2 resrc.c:1919 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+2 resrc.c:1919 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s23_option_matrix_free\fsrc\t_adt.adt | 
+3 resrc.c:1919 C:\ads\data\bk\s23_option_matrix_free\bf19\f_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s23_option_matrix_free\bf19\f_adt.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s23_option_matrix_free\bf19\f_adt.adt | 
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 2
+AuthUsername:adm
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 3
+AuthUsername:adm
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0

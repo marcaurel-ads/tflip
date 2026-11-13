@@ -1,0 +1,61 @@
+# Indexes in SELECTs that run through their plan: text under a dynamic collation, as
+# collation_dynamic.txt runs it (run_collation_dynamic.sh), for fixtures/sql/indexsel3.json.
+stmt
+collation GERMAN_VFP_CI_AS_1252
+query SELECT code + 0 AS r, c, w FROM ger WHERE w = 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w = 'resume'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w = 'RESUME'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w = 'RESUME'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'resume'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'ap'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'ap'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w <= 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w <= 'resume'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w <= 'zebra'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w <= 'zebra'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w > 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w > 'resume'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w < 'b'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w < 'b'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'a' AND w <= 'b'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w >= 'a' AND w <= 'b'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w BETWEEN 'a' AND 'c'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w BETWEEN 'a' AND 'c'
+query SELECT code + 0 AS r, c, w FROM ger WHERE w IN ('resume', 'ss', 'zebra')
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w IN ('resume', 'ss', 'zebra')
+query SELECT code + 0 AS r, c, w FROM ger WHERE w <> 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE w <> 'resume'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c = 'a'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c = 'a'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c = 'A'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c = 'A'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c >= 'y'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c >= 'y'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c <= '1'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c <= '1'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c > 'y'
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c > 'y'
+query SELECT code + 0 AS r, c, w FROM ger WHERE c < ' '
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE c < ' '
+query SELECT code + 0 AS r, c, w FROM ger WHERE code >= 1010
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE code >= 1010
+query SELECT code + 0 AS r, c, w FROM ger WHERE code <= 1003
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE code <= 1003
+query SELECT code + 0 AS r, c, w FROM ger WHERE code = 1005
+query SHOW PLAN FOR SELECT code + 0 AS r, c, w FROM ger WHERE code = 1005
+collation GENERAL_VFP_CI_AS_1252
+query SELECT code + 0 AS r, w FROM gen WHERE w >= 'resume'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w >= 'resume'
+query SELECT code + 0 AS r, w FROM gen WHERE w <= 'resumes'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w <= 'resumes'
+query SELECT code + 0 AS r, w FROM gen WHERE w = 'ch'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w = 'ch'
+query SELECT code + 0 AS r, w FROM gen WHERE w >= 'c'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w >= 'c'
+query SELECT code + 0 AS r, w FROM gen WHERE w <= 'cz'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w <= 'cz'
+query SELECT code + 0 AS r, w FROM gen WHERE w > 'h'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w > 'h'
+query SELECT code + 0 AS r, w FROM gen WHERE w < 'ch'
+query SHOW PLAN FOR SELECT code + 0 AS r, w FROM gen WHERE w < 'ch'

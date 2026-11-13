@@ -1,0 +1,65 @@
+# The field definitions the errors of SELECT ... INTO #name show when a
+# result column's name is too long for a DBF field, per type, on a free
+# connection in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_into4.txt > fixtures/sql/temptables_into4.json
+stmt
+tabletype 1
+query CREATE TABLE sn (id INTEGER, ch CHAR(6), vc VARCHAR(8), nm NUMERIC(8,2), db DOUBLE, lo LOGICAL, d DATE, me MEMO, bl BLOB, bi BIGINT, nc NCHAR(3), nv NVARCHAR(4), nme NMEMO, g GUID)
+directnull INSERT INTO sn (id) VALUES (1)
+query SELECT id AS averyverylongname INTO #lidn FROM sn
+query SELECT ch AS averyverylongname INTO #lchn FROM sn
+query SELECT vc AS averyverylongname INTO #lvcn FROM sn
+query SELECT nm AS averyverylongname INTO #lnmn FROM sn
+query SELECT db AS averyverylongname INTO #ldbn FROM sn
+query SELECT lo AS averyverylongname INTO #llon FROM sn
+query SELECT d AS averyverylongname INTO #ldn FROM sn
+query SELECT me AS averyverylongname INTO #lmen FROM sn
+query SELECT bl AS averyverylongname INTO #lbln FROM sn
+query SELECT bi AS averyverylongname INTO #lbin FROM sn
+query SELECT nc AS averyverylongname INTO #lncn FROM sn
+query SELECT nv AS averyverylongname INTO #lnvn FROM sn
+query SELECT nme AS averyverylongname INTO #lnmen FROM sn
+query SELECT g AS averyverylongname INTO #lgn FROM sn
+query SELECT 1.5 AS averyverylongname INTO #lx1n FROM sn
+query SELECT 'abc' AS averyverylongname INTO #lx2n FROM sn
+query SELECT CAST('10:20:30' AS SQL_TIME) AS b, 1 AS aaaaaaaaaaa INTO #lx3n FROM sn
+query SELECT CAST('10:20:30' AS SQL_TIME) AS averyverylongname INTO #lx4n FROM sn
+tabletype 4
+query CREATE TABLE sv (id INTEGER, ch CHAR(6), vc VARCHAR(8), nm NUMERIC(8,2), db DOUBLE, lo LOGICAL, d DATE, me MEMO, bl BLOB, bi BIGINT, nc NCHAR(3), nv NVARCHAR(4), nme NMEMO, g GUID, ts TIMESTAMP, mo MONEY, vb VARBINARY(5), ai AUTOINC)
+directnull INSERT INTO sv (id) VALUES (1)
+query SELECT id AS averyverylongname INTO #lidv FROM sv
+query SELECT ch AS averyverylongname INTO #lchv FROM sv
+query SELECT vc AS averyverylongname INTO #lvcv FROM sv
+query SELECT nm AS averyverylongname INTO #lnmv FROM sv
+query SELECT db AS averyverylongname INTO #ldbv FROM sv
+query SELECT lo AS averyverylongname INTO #llov FROM sv
+query SELECT d AS averyverylongname INTO #ldv FROM sv
+query SELECT me AS averyverylongname INTO #lmev FROM sv
+query SELECT bl AS averyverylongname INTO #lblv FROM sv
+query SELECT bi AS averyverylongname INTO #lbiv FROM sv
+query SELECT nc AS averyverylongname INTO #lncv FROM sv
+query SELECT nv AS averyverylongname INTO #lnvv FROM sv
+query SELECT nme AS averyverylongname INTO #lnmev FROM sv
+query SELECT g AS averyverylongname INTO #lgv FROM sv
+query SELECT ts AS averyverylongname INTO #ltsv FROM sv
+query SELECT mo AS averyverylongname INTO #lmov FROM sv
+query SELECT vb AS averyverylongname INTO #lvbv FROM sv
+query SELECT ai AS averyverylongname INTO #laiv FROM sv
+query SELECT 1.5 AS averyverylongname INTO #lx1v FROM sv
+query SELECT 'abc' AS averyverylongname INTO #lx2v FROM sv
+query SELECT 1 AS aaaaaaaaaaa, CAST(ts AS SQL_TIMESTAMP) AS b INTO #lx3v FROM sv
+
+query SELECT CAST(ts AS SQL_TIMESTAMP) AS averyverylongname INTO #lx4v FROM sv
+query SELECT CAST('10:20:30' AS SQL_TIME) AS averyverylongname INTO #lx5v FROM sv
+tabletype 2
+query CREATE TABLE sc (id INTEGER, ch CHAR(6), nm NUMERIC(8,2), db DOUBLE, bi BIGINT, g GUID, me MEMO)
+directnull INSERT INTO sc (id) VALUES (1)
+query SELECT id AS averyverylongname INTO #lidc FROM sc
+query SELECT ch AS averyverylongname INTO #lchc FROM sc
+query SELECT nm AS averyverylongname INTO #lnmc FROM sc
+query SELECT db AS averyverylongname INTO #ldbc FROM sc
+query SELECT bi AS averyverylongname INTO #lbic FROM sc
+query SELECT g AS averyverylongname INTO #lgc FROM sc
+query SELECT me AS averyverylongname INTO #lmec FROM sc
+query SELECT 'abc' AS averyverylongname INTO #lx2c FROM sc

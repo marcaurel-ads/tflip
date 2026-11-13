@@ -1,0 +1,20 @@
+{
+ "001_cmd": "ddcreate 0 %D\\e11\\d.add",
+ "001_rc": 0,
+ "002_cmd": "sql CREATE TABLE t0 (id INTEGER, note MEMO)",
+ "002_rc": 0,
+ "003_cmd": "sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')",
+ "003_rc": 0,
+ "004_cmd": "sql EXECUTE PROCEDURE sp_EncryptTable('t0')",
+ "004_rc": 0,
+ "005_cmd": "sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'x')",
+ "005_rc": 7200,
+ "005_err": 7200,
+ "005_text": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5130;  [SAP][Advantage SQL Engine][ASA] Error 5130:  The requested data dictionary operation cannot be completed.  Cannot change database table encryption password when there are encrypted tables in the database.",
+ "006_cmd": "sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'abcdefg')",
+ "006_rc": 7200,
+ "006_err": 7200,
+ "006_text": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5130;  [SAP][Advantage SQL Engine][ASA] Error 5130:  The requested data dictionary operation cannot be completed.  Cannot change database table encryption password when there are encrypted tables in the database.",
+ "007_cmd": "disconnect",
+ "007_rc": 0
+}

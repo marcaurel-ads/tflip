@@ -1,0 +1,6 @@
+tabletype vfp
+sql CREATE TABLE v (id integer, n char(10) NULL, d date NULL, m memo NULL, vc varchar(10) NULL)
+sql CREATE INDEX vn ON v (n)
+sql INSERT INTO v VALUES (1, 'one', '2020-01-02', 'memo one', 'vc one')
+sql INSERT INTO v VALUES (2, NULL, NULL, NULL, NULL)
+sql INSERT INTO v VALUES (3, 'three', NULL, 'memo three', 'x')

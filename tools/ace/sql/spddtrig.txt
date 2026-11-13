@@ -1,0 +1,159 @@
+# sp_DisableTriggers and sp_EnableTriggers on a dictionary connection in an
+# empty folder (the dictionary, de/de.add, is kept in fixtures/sql/spddtrig/):
+# for a table, a trigger and the database, for the connection or all users,
+# what is refused, and whether a table's triggers fire.
+#
+#     run.sh <work> <ace32.dll> spddtrig.txt > ../../../fixtures/sql/spddtrig.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddtrig/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t2 (id INTEGER)
+direct CREATE TABLE audit (a INTEGER)
+direct CREATE TRIGGER tr1 ON t1 AFTER INSERT BEGIN INSERT INTO audit VALUES (1); END
+direct CREATE TRIGGER tr2 ON t1 AFTER UPDATE BEGIN INSERT INTO audit VALUES (2); END
+direct CREATE TRIGGER tr3 ON t2 AFTER INSERT BEGIN INSERT INTO audit VALUES (3); END
+direct CREATE TRIGGER tr4 ON t2 AFTER DELETE BEGIN INSERT INTO audit VALUES (4); END
+direct CREATE TRIGGER tr5 ON t2 BEFORE UPDATE BEGIN INSERT INTO audit VALUES (5); END
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct INSERT INTO t1 VALUES (1, 'one')
+direct INSERT INTO t2 VALUES (1)
+query SELECT * FROM audit
+#
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct INSERT INTO t1 VALUES (2, 'two')
+direct INSERT INTO t2 VALUES (2)
+query SELECT * FROM audit
+query SELECT Name, Triggers_Disabled FROM system.tables
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct INSERT INTO t1 VALUES (3, 'three')
+query SELECT * FROM audit
+#
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 1, 0)
+direct INSERT INTO t1 VALUES (4, 'four')
+query SELECT * FROM audit
+query SELECT Name, Triggers_Disabled FROM system.tables
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 1, 0)
+direct INSERT INTO t1 VALUES (5, 'five')
+query SELECT * FROM audit
+#
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 't1', 0, 0)
+direct INSERT INTO t1 VALUES (6, 'six')
+direct UPDATE t1 SET name = 'x' WHERE id = 6
+query SELECT * FROM audit
+direct EXECUTE PROCEDURE sp_EnableTriggers('tr1', 't1', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr2', 't1', 1, 0)
+direct UPDATE t1 SET name = 'y' WHERE id = 6
+query SELECT * FROM audit
+query SELECT Name, Triggers_Disabled FROM system.triggers
+direct EXECUTE PROCEDURE sp_EnableTriggers('tr2', 't1', 1, 0)
+#
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 0, 0)
+direct INSERT INTO t1 VALUES (7, 'seven')
+direct INSERT INTO t2 VALUES (7)
+query SELECT * FROM audit
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers(NULL, NULL, 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers(NULL, NULL, 1, 0)
+#
+# Twice, and one inside the other.
+direct CREATE VIEW v1 AS SELECT id FROM t1
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t2', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 't1', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('tr1', 't1', 0, 0)
+direct INSERT INTO t1 VALUES (8, 'eight')
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 1, 0)
+direct INSERT INTO t1 VALUES (9, 'nine')
+direct EXECUTE PROCEDURE sp_DisableTriggers('', 't1', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers(NULL, 't1', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', 'nope', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('v1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('v1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('v1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('nope', '', 0, 1)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 0, 1)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 't1', 0, 1)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 'nope', 0, 1)
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('v1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 0, 0)
+direct INSERT INTO t1 VALUES (11, 'eleven')
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 1, 0)
+direct INSERT INTO t1 VALUES (12, 'twelve')
+direct INSERT INTO t1 VALUES (10, 'ten')
+direct INSERT INTO t2 VALUES (10)
+query SELECT * FROM audit
+query SELECT Name, Triggers_Disabled FROM system.tables
+query SELECT Name, Triggers_Disabled FROM system.triggers
+query SELECT Name, Triggers_Disabled FROM system.views
+#
+# Options, and what is refused.
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 1)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 2)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 3)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 4)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 7)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 8)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, -1)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, NULL)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 2, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', NULL, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('nope', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('nope', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 't2', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 'nope', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', NULL, 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('T1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', 't1', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1')
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 'x', 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers()
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 1)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 7)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 8)
+direct EXECUTE PROCEDURE sp_EnableTriggers('nope', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('tr1', 't1', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers()
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0, 0)
+query SELECT * FROM audit
+query SELECT Name, Triggers_Disabled FROM system.tables
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('tr1', 't1', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_DisableTriggers('', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('', '', 1, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('nope', '', 1, 0)
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_DisableTriggers('t1', '', 0, 0)
+direct EXECUTE PROCEDURE sp_EnableTriggers('t1', '', 0, 0)

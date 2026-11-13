@@ -1,0 +1,122 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE t (n integer, s char(4))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t VALUES (1, 'a')", "rc": 0},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query CREATE TABLE #sa (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #sa VALUES (1, 'abc')", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE #sn (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #sn VALUES (1, 'abc')", "rc": 0},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query CREATE TABLE #sc (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #sc VALUES (1, 'abc')", "rc": 0},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE #sv (x integer, y char(3))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO #sv VALUES (1, 'abc')", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7028;  [SAP][Advantage SQL Engine][ASA] Error 7028:  Invalid open mode.  sc Table name: #sc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sv Table name: #sv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7028;  [SAP][Advantage SQL Engine][ASA] Error 7028:  Invalid open mode.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sc", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sv Table name: #sv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sc Table name: #sc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sv", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sv Table name: #sv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sc", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sc Table name: #sc", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "directnull INSERT INTO #sn VALUES (2, 'x')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn"},
+{"cmd": "directnull UPDATE #sn SET x = 3", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn"},
+{"cmd": "directnull DELETE FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn"},
+{"cmd": "query CREATE INDEX ix ON #sn (x)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE #sn ADD z integer", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP TABLE #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sn a JOIN #sn b ON a.x = b.x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0], ["X_1", 11, 4, 0], ["Y_1", 4, 3, 0]], "rows": [
+  [1, ["1", "abc", "1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sn a, #sn b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0], ["X_1", 11, 4, 0], ["Y_1", 4, 3, 0]], "rows": [
+  [1, ["1", "abc", "1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sn a LEFT JOIN #sn b ON a.x = b.x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0], ["X_1", 11, 4, 0], ["Y_1", 4, 3, 0]], "rows": [
+  [1, ["1", "abc", "1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sa a JOIN #sn b ON a.x = b.x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn a JOIN #sv b ON a.x = b.x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sv Table name: #sv", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn WHERE x IN (SELECT x FROM #sa)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn UNION SELECT x, y FROM #sa", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sa a JOIN #sa b ON a.x = b.x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0], ["x_1", 11, 4, 0], ["y_1", 4, 3, 0]], "rows": [
+  [1, ["1", "abc", "1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sa a JOIN t ON a.x = t.n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0], ["n", 11, 4, 0], ["s", 4, 4, 0]], "rows": [
+  [1, ["1", "abc", "1", "a   "]]]}},
+{"cmd": "query SELECT * FROM #sa a JOIN #sn b ON a.x = b.x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM #sn a JOIN #sa b ON a.x = b.x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}},
+{"cmd": "query SELECT * FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\t.dbf Table name: t", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "directnull INSERT INTO #sn VALUES (5, 'q')", "rc": 0},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 1},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]],
+  [2, ["5", "q  "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "directnull INSERT INTO #sn VALUES (6, 'w')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]],
+  [2, ["5", "q  "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "directnull UPDATE #sn SET x = 7", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn"},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]],
+  [2, ["5", "q  "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query CREATE INDEX iy ON #sn (x)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn Table name: #sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]],
+  [2, ["5", "q  "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query ALTER TABLE #sn ADD w integer", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["X", 11, 4, 0], ["Y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]],
+  [2, ["5", "q  "]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query DROP TABLE #sn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sn", "has_cursor": false, "affected": 4294967295},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7016;  [SAP][Advantage SQL Engine][ASA] Error 7016:  Corrupt table.  Make sure you are not attempting to open a DBF with an ADT table type or vice versa.  sa Table name: #sa", "has_cursor": false, "affected": 0},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT * FROM #sa", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 11, 4, 0], ["y", 4, 3, 0]], "rows": [
+  [1, ["1", "abc"]]]}}
+]

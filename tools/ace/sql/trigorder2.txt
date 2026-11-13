@@ -1,0 +1,34 @@
+# The triggers made right after the dictionary's own five were dropped: the first
+# five stand in the places of the dropped ones and fire in the order they were
+# made in, the later ones come before them, newest first (a dictionary's copy
+# of the objects keeps the places of deleted records until a trigger fires), on
+# a copy of the psm dictionary (fixtures/adt/psm) alone:
+#
+#     run.sh <work> <ace32.dll> trigorder2.txt > ../../../fixtures/sql/trigorder2.json
+#
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER v1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v1'); END
+direct CREATE TRIGGER v2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v2'); END
+direct CREATE TRIGGER v3 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v3'); END
+direct CREATE TRIGGER v4 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v4'); END
+direct CREATE TRIGGER v5 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v5'); END
+direct CREATE TRIGGER v6 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v6'); END
+direct CREATE TRIGGER v7 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v7'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- after the first firing a trigger made takes no such place: it comes first
+direct DROP TRIGGER items.v3
+direct CREATE TRIGGER v8 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('v8'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq

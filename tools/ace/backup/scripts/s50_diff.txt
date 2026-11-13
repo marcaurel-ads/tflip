@@ -1,0 +1,19 @@
+#include dd_all.txt
+shell xcopy @CLIENT@\src @CLIENT@\srcA\ /E /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\img @CLIENT@\snap1\ /E /I /Q
+shell xcopy @CLIENT@\src @CLIENT@\srcB\ /E /I /Q
+sql 1 UPDATE t_adt SET qty = 99.5, note = 'edited' WHERE id = 1
+sql 1 INSERT INTO t_adt VALUES (20, 'appended1', 20.5, '2022-05-06', 1, 'new')
+sql 1 INSERT INTO t_adt VALUES (21, 'appended2', 21.5, '2022-05-07', 0, 'new two')
+sql 1 DELETE FROM t_adt WHERE id = 5
+sql 1 UPDATE t_cdx SET qty = 99.5 WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap2\ /E /I /Q
+shell xcopy @CLIENT@\src @CLIENT@\srcC\ /E /I /Q
+sql 1 UPDATE t_adt SET qty = 77.5 WHERE id = 2
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap3\ /E /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\snap4\ /E /I /Q
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)

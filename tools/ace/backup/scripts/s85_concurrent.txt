@@ -1,0 +1,26 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+sql 1 CREATE TABLE t_big (id INTEGER, name CHAR(100), note MEMO)
+sql 1 INSERT INTO t_big SELECT i, 'row', 'memo text' FROM (SELECT 1 i FROM system.iota) a
+sql 1 INSERT INTO t_big SELECT id + 1, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 2, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 4, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 8, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 16, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 32, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 64, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 128, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 256, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 512, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 1024, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 2048, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 4096, name, note FROM t_big
+sql 1 INSERT INTO t_big SELECT id + 8192, name, note FROM t_big
+connect 2 src\d.add
+connect 3 src\d.add
+async 2 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+async 3 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', NULL)
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img3', NULL)
+join 2
+join 3

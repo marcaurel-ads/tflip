@@ -1,0 +1,112 @@
+# The CROSS JOIN keyword syntax in FROM: where the original refuses it (and with
+# which native error), against `FROM a, b` as a control and the other joins.
+# For fixtures/sql/gram_cross.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_cross.txt > ../../../fixtures/sql/gram_cross.json
+stmt
+## tables
+direct CREATE TABLE x1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE x2 (id INTEGER, x1id INTEGER, v CHAR(10))
+direct CREATE TABLE x3 (id INTEGER, w CHAR(10))
+directnull INSERT INTO x1 VALUES (1, 'one')
+directnull INSERT INTO x1 VALUES (2, 'two')
+directnull INSERT INTO x2 VALUES (10, 1, 'a')
+directnull INSERT INTO x2 VALUES (11, 2, 'b')
+directnull INSERT INTO x2 VALUES (12, 2, 'c')
+directnull INSERT INTO x3 VALUES (100, 'p')
+## controls
+query SELECT * FROM x1, x2
+query SELECT * FROM x1 a, x2 b WHERE b.x1id = a.id ORDER BY a.id
+query SELECT * FROM x1, x2, x3
+## CROSS JOIN
+query SELECT * FROM x1 CROSS JOIN x2
+query SELECT * FROM x1 CROSS JOIN x2 ORDER BY x1.id, x2.id
+query SELECT * FROM x1 CROSS JOIN x2 WHERE x2.x1id = x1.id
+query SELECT * FROM x1 a CROSS JOIN x2 b ORDER BY a.id
+query SELECT * FROM x1 AS a CROSS JOIN x2 AS b ORDER BY a.id
+query SELECT * FROM x1 CROSS JOIN x2 CROSS JOIN x3
+query SELECT * FROM x1 CROSS JOIN x2 ON x1.id = x2.x1id
+query SELECT * FROM x1 cross join x2
+query SELECT * FROM x1 CROSS x2
+query SELECT * FROM x1 CROSS
+query SELECT * FROM x1 CROSS JOIN
+query SELECT * FROM x1 CROSS JOIN x2, x3
+query SELECT * FROM x1, x2 CROSS JOIN x3
+## mixed with the other joins
+query SELECT * FROM x1 CROSS JOIN x2 INNER JOIN x3 ON x3.id = 100
+query SELECT * FROM x1 INNER JOIN x2 ON x1.id = x2.x1id CROSS JOIN x3
+query SELECT * FROM x1 LEFT JOIN x2 ON x1.id = x2.x1id CROSS JOIN x3
+query SELECT * FROM x1 CROSS JOIN x2 LEFT JOIN x3 ON x3.id = x2.id
+query SELECT * FROM x1 INNER JOIN x2 ON x1.id = x2.x1id INNER JOIN x3 ON x3.id = 100
+## inside other statements
+query SELECT * FROM x3 WHERE EXISTS (SELECT * FROM x1 CROSS JOIN x2)
+query SELECT * FROM x3 WHERE EXISTS (SELECT * FROM x1, x2)
+query SELECT * FROM x3 WHERE id IN (SELECT x1.id FROM x1 CROSS JOIN x2)
+query SELECT * FROM (SELECT * FROM x1 CROSS JOIN x2) t
+query SELECT (SELECT COUNT(*) FROM x1 CROSS JOIN x2) FROM x3
+query SELECT * FROM x1 CROSS JOIN x2 UNION SELECT * FROM x1 CROSS JOIN x2
+query SELECT * FROM x3 UNION SELECT * FROM x1 CROSS JOIN x2
+query SELECT * FROM {OJ x1 CROSS JOIN x2} ORDER BY x1.id
+query SELECT * FROM {OJ x1 LEFT OUTER JOIN x2 ON x1.id = x2.x1id CROSS JOIN x3}
+direct INSERT INTO x3 SELECT x1.id, x2.v FROM x1 CROSS JOIN x2
+direct DELETE FROM x3 WHERE id IN (SELECT x1.id FROM x1 CROSS JOIN x2)
+direct UPDATE x3 SET w = 'q' WHERE EXISTS (SELECT * FROM x1 CROSS JOIN x2)
+direct CREATE VIEW vcross AS SELECT * FROM x1 CROSS JOIN x2
+direct SELECT * INTO #t1 FROM x1 CROSS JOIN x2
+## scripts
+direct DECLARE @n INTEGER; SELECT @n = COUNT(*) FROM x1 CROSS JOIN x2; SELECT @n FROM system.iota;
+direct DECLARE c CURSOR AS SELECT * FROM x1 CROSS JOIN x2; OPEN c; FETCH c; CLOSE c;
+direct DECLARE c CURSOR AS SELECT * FROM x1, x2; OPEN c; FETCH c; CLOSE c;
+direct SELECT * FROM x1 CROSS JOIN x2; SELECT * FROM x1;
+direct SELECT * FROM x1; SELECT * FROM x1 CROSS JOIN x2;
+## CROSS as a table's alias, and the plain JOIN without ON as a control
+query SELECT * FROM x1 JOIN x2
+query SELECT * FROM x1 JOIN
+query SELECT * FROM x1 INNER JOIN
+query SELECT * FROM x1 LEFT JOIN
+query SELECT * FROM x1 JOIN x2 INNER JOIN x3
+query SELECT * FROM x1 JOIN x2 WHERE x1.id = 1
+query SELECT * FROM x1 CROSS JOIN WHERE x1.id = 1
+query SELECT * FROM x1 JOIN WHERE x1.id = 1
+query SELECT * FROM x3 WHERE EXISTS (SELECT * FROM x1 JOIN x2)
+query SELECT * FROM x3 WHERE id IN (SELECT x1.id FROM x1 JOIN x2)
+query SELECT * FROM (SELECT * FROM x1 JOIN x2) t
+query SELECT (SELECT COUNT(*) FROM x1) FROM x3
+query SELECT (SELECT COUNT(*) FROM x1 JOIN x2) FROM x3
+direct DELETE FROM x3 WHERE id IN (SELECT x1.id FROM x1 JOIN x2)
+direct UPDATE x3 SET w = 'q' WHERE EXISTS (SELECT * FROM x1 JOIN x2)
+direct CREATE VIEW vjoin AS SELECT * FROM x1 JOIN x2
+query SELECT * FROM x1 CROSS WHERE id = 1
+query SELECT * FROM x1 CROSS, x2
+query SELECT cross.id FROM x1 CROSS
+query SELECT * FROM x1 AS CROSS
+query SELECT 1 CROSS FROM x1
+query SELECT id AS CROSS FROM x1
+query SELECT * FROM (SELECT * FROM x1) CROSS
+query SELECT * FROM (SELECT * FROM x1) CROSS JOIN x2
+query SELECT * FROM (SELECT * FROM x1) t CROSS JOIN x2
+query SELECT * FROM x1 LEFT JOIN x2 CROSS ON x1.id = x2.x1id
+query SELECT * FROM x1 JOIN x2 CROSS ON x1.id = x2.x1id
+query SELECT * FROM x1, x2 CROSS
+query SELECT * FROM x1 a, x2 CROSS JOIN x3
+query SELECT * FROM x1 CROSS INNER JOIN x2 ON x1.id = x2.x1id
+query SELECT * FROM x1 CROSS LEFT JOIN x2 ON x1.id = x2.x1id
+query SELECT * FROM x1 CROSS JOIN x2 ON CROSS.id = x2.x1id
+query SELECT cross.id FROM x1 CROSS JOIN x2 ON cross.id = x2.x1id
+query SELECT * FROM x1 CROSS JOIN x3 ON 1 = 1
+query SELECT * FROM x1 CROSS JOIN x2 ON 1 = 1 ORDER BY x1.id, x2.id
+direct DELETE FROM x3 CROSS
+direct UPDATE x3 CROSS SET w = 'z'
+direct INSERT INTO x3 CROSS VALUES (1, 'a')
+direct DELETE FROM x3 WHERE id IN (SELECT id FROM x1 CROSS)
+query SELECT * FROM x1 WHERE EXISTS (SELECT * FROM x2 CROSS JOIN x3 ON 1 = 1)
+## joins nest to the right
+query SELECT * FROM x1 JOIN x2 JOIN x3 ON x3.id = 100 ON x1.id = x2.x1id
+query SELECT * FROM x1 CROSS JOIN x2 JOIN x3 ON x3.id = 100 ON x1.id = x2.x1id
+query SELECT * FROM x1 JOIN x2 ON x1.id = x2.x1id JOIN x3 ON x3.id = 100
+query SELECT * FROM x1 JOIN x2 LEFT JOIN x3 ON x3.id = 100
+query SELECT * FROM x1 JOIN x2 LEFT JOIN x3 ON x3.id = 100 WHERE x1.id = 1
+## errors in a subselect of the select list
+query SELECT (SELECT id FROM x1 WHERE) FROM x3
+query SELECT 1, (SELECT id FROM x1 WHERE) FROM x3
+query SELECT (SELECT id FROM x1 JOIN x2) FROM x3

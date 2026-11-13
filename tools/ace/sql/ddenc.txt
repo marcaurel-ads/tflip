@@ -1,0 +1,47 @@
+# The encryption columns of system.dictionary (Dictionary_Encrypted,
+# Encrypt_Table_Password, Encrypt_New_Table, Encrypt_Indexes) in the
+# dictionaries spddencmake.txt made, a copy of fixtures/adt/ddenc/ in data/: p0
+# to p4 are not encrypted and e0 to e4 are; 0 has no table encryption
+# password, 1 has one, 2 also ENCRYPT_NEW_TABLE, 3 ENCRYPT_INDEXES and 4 both.
+#
+#     run.sh <work> <ace32.dll> ddenc.txt > ../../../fixtures/sql/ddenc.json
+connect p0.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect p1.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect p2.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect p3.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect p4.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect e0.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect e1.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect e2.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect e3.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect
+connect e4.add ADSSYS
+stmt
+query SELECT * FROM system.dictionary
+disconnect

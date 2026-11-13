@@ -1,0 +1,4 @@
+{
+ "10": {"fields": ["rc"], "why": "AdsGotoRecord past the last record while on a deleted ADT record fails with 5022 in the original; tflip's succeeds (KNOWN_ISSUES.md, Going past the last record)"},
+ "11": {"fields": ["rc"], "why": "AdsGotoRecord to 0 while on a deleted ADT record fails with 5022 in the original; tflip's succeeds (KNOWN_ISSUES.md, Going past the last record)"}
+}

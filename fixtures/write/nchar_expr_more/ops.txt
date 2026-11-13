@@ -1,0 +1,1616 @@
+# Orders on expressions of NChar and NVarChar fields, the rest.
+open ne.adt exclusive
+createindex - o0 0 0 DESCEND(nc)
+createindex - o1 0 0 DESCEND(nv)
+createindex - o2 0 0 DESCEND(nc2)
+createindex - o3 0 0 DESCEND(UPPER(nc))
+createindex - o4 0 0 DESCEND(nc+nv)
+createindex - o5 0 0 DESCEND(LEN(nc))
+createindex - o6 0 0 DESCEND(SUBSTR(nc,2,3))
+createindex - o7 0 0 DESCEND(COALESCE(nc,nv))
+createindex - o8 0 0 VAL(nc)
+createindex - o9 0 0 VAL(nv)
+createindex - o10 0 0 VAL(nc2)
+createindex - o11 0 0 VAL(UPPER(nc))
+createindex - o12 0 0 SOUNDEX(nc)
+createindex - o13 0 0 SOUNDEX(nv)
+createindex - o14 0 0 SOUNDEX(nc2)
+createindex - o15 0 0 SOUNDEX(UPPER(nc))
+createindex - o16 0 0 COALESCE(c,nc)
+createindex - o17 0 0 COALESCE(c,nv)
+createindex - o18 0 0 COALESCE(c,nc,nv)
+createindex - o19 0 0 COALESCE('zz',nc)
+createindex - o20 0 0 COALESCE(SUBSTR(c,1,2),nc)
+createindex - o21 0 0 COALESCE(STR(id,3),nc)
+createindex - o22 0 0 COALESCE(c,'zz')
+createindex - o23 0 0 COALESCE(UPPER(c),nc)
+createindex - o24 0 0 nc+NULL
+# Records written through them.
+append
+set id long 13
+set nc stringu 1f0440043804320435044204
+set nv stringu a9036d0065006700610020002000
+set c string Ab
+set nc2 stringu e900
+write
+append
+set id long 14
+set nc stringu 1f0440043804320435044204
+set nv stringu e400f600fc00
+set c string ab
+set nc2 stringu c9034d004500
+write
+append
+set id long 15
+set nc stringu 3f0440043804320435044204
+set nv stringu e5652c679e8a
+set c string Ab
+set nc2 stringu c400d600dc00
+write
+append
+set id long 16
+set nc stringu a9036d00650067006100
+set nv stringu 5cd56dadb4c5
+set c string  x
+set nc2 stringu e400f600fc00
+write
+append
+set id long 17
+set nc stringu c9034d00450047004100
+set nv stringu 440e170e220e
+set c string Äb
+set nc2 stringu e5652c679e8a
+write
+append
+set id long 18
+set nc stringu c400d600dc00
+set nv stringu c501c601c401
+set c string zz
+set nc2 stringu 5cd56dadb4c5
+write
+append
+set id long 19
+set nc stringu e400f600fc00
+set nv stringu 01fb6e0061006c00
+set c string ab
+set nc2 stringu 440e170e220e
+write
+append
+set id long 20
+set nc stringu e5652c679e8a
+set nv stringu 7300740072006100df006500
+set c string Ab
+set nc2 stringu c501c601c401
+write
+append
+set id long 21
+set nc stringu 5cd56dadb4c5
+set nv stringu 9103a303
+set c string  x
+set nc2 stringu 01fb6e006100
+write
+append
+set id long 22
+set nc stringu 440e170e220e
+set nv stringu b903c203
+set c string Äb
+set nc2 stringu 730074007200
+write
+append
+set id long 23
+set nc stringu c501c601c401
+set nv stringu f101f201f301
+set c string zz
+set nc2 stringu 9103a303
+write
+append
+set id long 24
+set nc stringu 01fb6e0061006c00
+set nv stringu 30016900
+set c string ab
+set nc2 stringu b903c203
+write
+append
+set id long 25
+set nc stringu 7300740072006100df006500
+set nv stringu 31014900
+set c string Ab
+set nc2 stringu f101f201f301
+write
+append
+set id long 26
+set nc stringu 9103a303
+set nv stringu 481f9403a503a303a30395038e03a303
+set c string  x
+set nc2 stringu 30016900
+write
+append
+set id long 27
+set nc stringu b903c203
+set nv stringu b31fbc1f
+set c string Äb
+set nc2 stringu 31014900
+write
+append
+set id long 28
+set nc stringu f101f201f301
+set nv stringu 70216021
+set c string zz
+set nc2 stringu 481f9403a503
+write
+append
+set id long 29
+set nc stringu 30016900
+set nv stringu 41ff42ff43ff
+set c string ab
+set nc2 stringu b31fbc1f
+write
+append
+set id long 30
+set nc stringu 31014900
+set nv stringu d024b624
+set c string Ab
+set nc2 stringu 70216021
+write
+append
+set id long 31
+set nc stringu 481f9403a503a303a30395038e03a303
+set nv stringu 2a2165006c00760069006e00
+set c string  x
+set nc2 stringu 41ff42ff43ff
+write
+append
+set id long 32
+set nc stringu b31fbc1f
+set nv stringu ac20750072006f00
+set c string Äb
+set nc2 stringu d024b624
+write
+append
+set id long 33
+set nc stringu 70216021
+set nv stringu 2000200061006200
+set c string zz
+set nc2 stringu 2a2165006c00
+write
+append
+set id long 34
+set nc stringu 41ff42ff43ff
+set nv stringu 3dd842de6100
+set c string ab
+set nc2 stringu ac2075007200
+write
+append
+set id long 35
+set nc stringu d024b624
+set nv stringu 61003dd842de6200
+set c string Ab
+set nc2 stringu 200020006100
+write
+append
+set id long 36
+set nc stringu 2a2165006c00760069006e00
+set nv stringu 01d828dc01d800dc
+set c string  x
+set nc2 stringu 3dd842de6100
+write
+append
+set id long 37
+set nc stringu ac20750072006f00
+set nv stringu 40d800dc7800
+set c string Äb
+set nc2 stringu 61003dd842de
+write
+append
+set id long 38
+set nc stringu 2000200061006200
+set nv stringu 780040d800dc
+set c string zz
+set nc2 stringu 01d828dc
+write
+append
+set id long 39
+set nc stringu 3dd842de6100
+set nv stringu 1f0440043804320435044204
+set c string ab
+set nc2 stringu 40d800dc7800
+write
+append
+set id long 40
+set nc stringu 61003dd842de6200
+set nv stringu 3f0440043804320435044204
+set c string Ab
+set nc2 stringu 780040d800dc
+write
+append
+set id long 41
+set nc stringu 01d828dc01d800dc
+set nv stringu a9036d00650067006100
+set c string  x
+set nc2 stringu 1f0440043804
+write
+append
+set id long 42
+set nc stringu 40d800dc7800
+set nv stringu c9034d00450047004100
+set c string Äb
+set nc2 stringu 3f0440043804
+write
+append
+set id long 43
+set nc stringu 780040d800dc
+set nv stringu c400d600dc00
+set c string zz
+set nc2 stringu a9036d006500
+write
+append
+set id long 80
+set nc stringu 3100320013ff
+set nv stringu 11ff12ff13ff
+set c string 77
+write
+append
+set id long 81
+set nc stringu 31003200610062006300
+set nv stringu 33002e00350065003200
+set c string 77
+write
+append
+set id long 82
+set nc stringu 3000780031004600
+set nv stringu 200020003900
+set c string 77
+write
+append
+set id long 83
+set nc stringu 3500
+set nv stringu 2d002e003500
+set c string 77
+write
+append
+set id long 99
+set nc null
+set nv null
+set c null
+write
+# Changes and deletes.
+goto 1
+set nc stringu 2f0416040104
+write
+goto 4
+set nv stringu 7a006500620072006100
+write
+goto 6
+delete
+write
+goto 10
+set nc null
+write
+goto 15
+delete
+write
+createindex - p0 0 0 DESCEND(PADL(nc,12))
+createindex - p1 0 0 DESCEND(TRIM(nv))
+createindex - p2 0 0 DESCEND(nc+c)
+createindex - p3 0 0 DESCEND(IIF(id>2,nc,nv))
+createindex - p4 0 0 DESCEND(LOWER(nv))
+createindex - p5 0 0 VAL(SUBSTR(nc,2,3))
+createindex - p6 0 0 VAL(nc)+VAL(nv)
+createindex - p7 0 0 VAL(nv)*2
+createindex - p8 0 0 SOUNDEX(SUBSTR(nc,2,3))
+createindex - p9 0 0 SOUNDEX(nc)+nv
+createindex - p10 0 0 SOUNDEX(nc)+SOUNDEX(nv)
+createindex - p11 0 0 COALESCE(c,nc)+nv
+createindex - p12 0 0 COALESCE(c,nc2,nv)
+createindex - p13 0 0 COALESCE(STR(id,3),nv)
+createindex - p14 0 0 COALESCE(c+c,nc)
+createindex - p15 0 0 COALESCE(c,nc)+c
+createindex - p16 0 0 UPPER(COALESCE(c,nc))
+createindex - p17 0 0 LOWER(COALESCE('zz',nc))
+createindex - p18 0 0 COALESCE(nc2,nc)
+createindex - p19 0 0 TRIM(COALESCE(c,nc))
+createindex - des_l 1073741824 0 DESCEND(nc)
+createindex - des_d 8 0 DESCEND(nv)
+createindex - coa_s 536870912 0 COALESCE(c,nc)
+createindex - coa_x 1610612736 0 COALESCE(c,nc)
+createindex - coa_u 1 0 COALESCE(c,nc)+STR(id,3)
+createindex ne2.adi des_for 0 512 DESCEND(nc) FOR id < 8
+createindex ne2.adi coa_for 0 512 COALESCE(c,nc) FOR id < 8
+# More records, with the orders there.
+append
+set id long 70
+set nc stringu 5c016d015d01
+set nv stringu 25016d01
+set c string Ab
+write
+append
+set id long 71
+set nc stringu 20002000200020002000200020002000
+set nv stringu 20002000
+set c string x
+write
+close
+open ne.adt exclusive
+reindex
+pack
+close
+open nb.adt exclusive
+createindex - b0 0 0 BASE64ENCODE(nc)
+createindex - b1 0 0 BASE64ENCODE(nv)
+createindex - b2 0 0 BASE64ENCODE(nc2)
+createindex - b3 0 0 BASE64ENCODE(UPPER(nc))
+createindex - b4 0 0 BASE64ENCODE(nc+c)
+createindex - b5 0 0 BASE64ENCODE(c)
+createindex - b6 0 0 BASE64ENCODE(SUBSTR(nc,2,3))
+append
+set id long 10
+set nc stringu 1f0440043804320435044204
+set nv stringu e400f600fc00
+set c string ab
+set nc2 stringu c9034d004500
+write
+append
+set id long 11
+set nc stringu 3f0440043804320435044204
+set nv stringu e5652c679e8a
+set c string Ab
+set nc2 stringu c400d600dc00
+write
+append
+set id long 12
+set nc stringu a9036d00650067006100
+set nv stringu 5cd56dadb4c5
+set c string  x
+set nc2 stringu e400f600fc00
+write
+append
+set id long 13
+set nc stringu c9034d00450047004100
+set nv stringu 440e170e220e
+set c string Äb
+set nc2 stringu e5652c679e8a
+write
+append
+set id long 14
+set nc stringu c400d600dc00
+set nv stringu c501c601c401
+set c string zz
+set nc2 stringu 5cd56dadb4c5
+write
+append
+set id long 15
+set nc stringu e400f600fc00
+set nv stringu 01fb6e0061006c00
+set c string ab
+set nc2 stringu 440e170e220e
+write
+append
+set id long 16
+set nc stringu e5652c679e8a
+set nv stringu 7300740072006100df006500
+set c string Ab
+set nc2 stringu c501c601c401
+write
+append
+set id long 17
+set nc stringu 5cd56dadb4c5
+set nv stringu 9103a303
+set c string  x
+set nc2 stringu 01fb6e006100
+write
+append
+set id long 18
+set nc stringu 440e170e220e
+set nv stringu b903c203
+set c string Äb
+set nc2 stringu 730074007200
+write
+append
+set id long 19
+set nc stringu c501c601c401
+set nv stringu f101f201f301
+set c string zz
+set nc2 stringu 9103a303
+write
+append
+set id long 20
+set nc stringu 01fb6e0061006c00
+set nv stringu 30016900
+set c string ab
+set nc2 stringu b903c203
+write
+append
+set id long 21
+set nc stringu 7300740072006100df006500
+set nv stringu 31014900
+set c string Ab
+set nc2 stringu f101f201f301
+write
+append
+set id long 22
+set nc stringu 9103a303
+set nv stringu 481f9403a503a303a30395038e03a303
+set c string  x
+set nc2 stringu 30016900
+write
+append
+set id long 23
+set nc stringu b903c203
+set nv stringu b31fbc1f
+set c string Äb
+set nc2 stringu 31014900
+write
+append
+set id long 24
+set nc stringu f101f201f301
+set nv stringu 70216021
+set c string zz
+set nc2 stringu 481f9403a503
+write
+append
+set id long 25
+set nc stringu 30016900
+set nv stringu 41ff42ff43ff
+set c string ab
+set nc2 stringu b31fbc1f
+write
+append
+set id long 26
+set nc stringu 31014900
+set nv stringu d024b624
+set c string Ab
+set nc2 stringu 70216021
+write
+append
+set id long 27
+set nc stringu 481f9403a503a303a30395038e03a303
+set nv stringu 2a2165006c00760069006e00
+set c string  x
+set nc2 stringu 41ff42ff43ff
+write
+append
+set id long 28
+set nc stringu b31fbc1f
+set nv stringu ac20750072006f00
+set c string Äb
+set nc2 stringu d024b624
+write
+append
+set id long 29
+set nc stringu 70216021
+set nv stringu 2000200061006200
+set c string zz
+set nc2 stringu 2a2165006c00
+write
+append
+set id long 30
+set nc stringu 41ff42ff43ff
+set nv stringu 1f0440043804320435044204
+set c string ab
+set nc2 stringu ac2075007200
+write
+append
+set id long 31
+set nc stringu d024b624
+set nv stringu 3f0440043804320435044204
+set c string Ab
+set nc2 stringu 200020006100
+write
+append
+set id long 32
+set nc stringu 2a2165006c00760069006e00
+set nv stringu a9036d00650067006100
+set c string  x
+set nc2 stringu 1f0440043804
+write
+append
+set id long 33
+set nc stringu ac20750072006f00
+set nv stringu c9034d00450047004100
+set c string Äb
+set nc2 stringu 3f0440043804
+write
+append
+set id long 34
+set nc stringu 2000200061006200
+set nv stringu c400d600dc00
+set c string zz
+set nc2 stringu a9036d006500
+write
+append
+set id long 99
+set nc null
+set nv null
+set c null
+write
+goto 1
+set nc stringu 2f0416040104
+write
+goto 4
+delete
+write
+createindex - c0 0 0 BASE64ENCODE(nc)+nc
+createindex - c1 0 0 BASE64ENCODE(nc+nv)
+createindex - c2 0 0 BASE64ENCODE(PADL(nc,12))
+createindex - c3 0 0 BASE64ENCODE(nc)+STR(id,3)
+createindex - c4 0 0 BASE64ENCODE(LOWER(nv))
+createindex - c5 0 0 BASE64ENCODE(nc)+BASE64ENCODE(nv)
+createindex - c6 0 0 BASE64ENCODE(TRIM(nv))
+close
+open nb.adt exclusive
+reindex
+pack
+createindex - bs 0 0 BASE64ENCODE(SUBSTR(nc,2,3))
+append
+set id long 60
+set nc stringu 61003dd842de6200
+set nv stringu 7800
+set c string ab
+set nc2 stringu 7900
+write
+close
+open nb.adt shared
+order b0
+rows
+seek 1 a
+seek 2 YQ
+order b1
+rows
+seek 1 a
+seek 2 YQ
+order b2
+rows
+seek 1 a
+seek 2 YQ
+order b3
+rows
+seek 1 a
+seek 2 YQ
+order b4
+rows
+seek 1 a
+seek 2 YQ
+order b5
+rows
+seek 1 a
+seek 2 YQ
+order b6
+rows
+seek 1 a
+seek 2 YQ
+order c0
+rows
+seek 1 a
+seek 2 YQ
+order c1
+rows
+seek 1 a
+seek 2 YQ
+order c2
+rows
+seek 1 a
+seek 2 YQ
+order c3
+rows
+seek 1 a
+seek 2 YQ
+order c4
+rows
+seek 1 a
+seek 2 YQ
+order c5
+rows
+seek 1 a
+seek 2 YQ
+order c6
+rows
+seek 1 a
+seek 2 YQ
+order b0
+seek 1 YQBiAGMAIAAgACAAIAAgAA==
+close
+open nr.adt exclusive
+createindex - q0 0 0 REPEAT(nc,2)
+createindex - q1 0 0 REPEAT(nv,3)
+createindex - q2 0 0 REPEAT(nc,1)
+createindex - q3 0 0 REPEAT(nc,0)
+createindex - q4 0 0 REPEAT(nc,-1)
+createindex - q5 0 0 REPEAT(c,2)
+createindex - q6 0 0 REPEAT(nc+c,2)
+createindex - q7 0 0 REPEAT(nc,2)+nv
+createindex - q8 0 0 REPEAT(UPPER(nc),2)
+createindex - q9 0 0 UPPER(REPEAT(nc,2))
+createindex - q10 0 0 REPEAT(nc2,40)
+createindex - q11 0 0 REPEAT(nc,2.7)
+createindex - q12 0 0 REPEAT(nc,3)+REPEAT(nv,2)
+createindex - q13 0 0 REPEAT(SUBSTR(nc,2,3),3)
+createindex - q14 0 0 REPEAT(LEFT(nc,2),4)
+createindex - q15 0 0 REPEAT(PADL(nc,4),2)
+createindex - q16 0 0 STR(id,3)+REPEAT(nv,2)
+createindex - q17 0 0 REPEAT(nc,2)+REPEAT(nc2,2)
+createindex - q18 0 0 DESCEND(REPEAT(nc,2))
+createindex - q19 0 0 BASE64ENCODE(REPEAT(nc,2))
+createindex - q20 0 0 COALESCE(REPEAT(c,2),nc)
+createindex - q21 0 0 COALESCE(c,REPEAT(nc,2))
+createindex nr2.adi rep_for 0 512 REPEAT(nc,2) FOR id > 4
+createindex - rep_s 536870912 0 REPEAT(nc,2)
+createindex - rep_x 1610612736 0 REPEAT(nc,2)
+createindex - rep_d 8 0 REPEAT(nc,2)
+append
+set id long 10
+set nc stringu 1f0440043804320435044204
+set nv stringu e400f600fc00
+set c string ab
+set nc2 stringu c9034d004500
+write
+append
+set id long 11
+set nc stringu 3f0440043804320435044204
+set nv stringu e5652c679e8a
+set c string Ab
+set nc2 stringu c400d600dc00
+write
+append
+set id long 12
+set nc stringu a9036d00650067006100
+set nv stringu 5cd56dadb4c5
+set c string  x
+set nc2 stringu e400f600fc00
+write
+append
+set id long 13
+set nc stringu c9034d00450047004100
+set nv stringu 440e170e220e
+set c string Äb
+set nc2 stringu e5652c679e8a
+write
+append
+set id long 14
+set nc stringu c400d600dc00
+set nv stringu c501c601c401
+set c string zz
+set nc2 stringu 5cd56dadb4c5
+write
+append
+set id long 15
+set nc stringu e400f600fc00
+set nv stringu 01fb6e0061006c00
+set c string ab
+set nc2 stringu 440e170e220e
+write
+append
+set id long 16
+set nc stringu e5652c679e8a
+set nv stringu 7300740072006100df006500
+set c string Ab
+set nc2 stringu c501c601c401
+write
+append
+set id long 17
+set nc stringu 5cd56dadb4c5
+set nv stringu 9103a303
+set c string  x
+set nc2 stringu 01fb6e006100
+write
+append
+set id long 18
+set nc stringu 440e170e220e
+set nv stringu b903c203
+set c string Äb
+set nc2 stringu 730074007200
+write
+append
+set id long 19
+set nc stringu c501c601c401
+set nv stringu f101f201f301
+set c string zz
+set nc2 stringu 9103a303
+write
+append
+set id long 20
+set nc stringu 01fb6e0061006c00
+set nv stringu 30016900
+set c string ab
+set nc2 stringu b903c203
+write
+append
+set id long 21
+set nc stringu 7300740072006100df006500
+set nv stringu 31014900
+set c string Ab
+set nc2 stringu f101f201f301
+write
+append
+set id long 22
+set nc stringu 9103a303
+set nv stringu 481f9403a503a303a30395038e03a303
+set c string  x
+set nc2 stringu 30016900
+write
+append
+set id long 23
+set nc stringu b903c203
+set nv stringu b31fbc1f
+set c string Äb
+set nc2 stringu 31014900
+write
+append
+set id long 24
+set nc stringu f101f201f301
+set nv stringu 70216021
+set c string zz
+set nc2 stringu 481f9403a503
+write
+append
+set id long 25
+set nc stringu 30016900
+set nv stringu 41ff42ff43ff
+set c string ab
+set nc2 stringu b31fbc1f
+write
+append
+set id long 26
+set nc stringu 31014900
+set nv stringu d024b624
+set c string Ab
+set nc2 stringu 70216021
+write
+append
+set id long 27
+set nc stringu 481f9403a503a303a30395038e03a303
+set nv stringu 2a2165006c00760069006e00
+set c string  x
+set nc2 stringu 41ff42ff43ff
+write
+append
+set id long 28
+set nc stringu b31fbc1f
+set nv stringu ac20750072006f00
+set c string Äb
+set nc2 stringu d024b624
+write
+append
+set id long 29
+set nc stringu 70216021
+set nv stringu 2000200061006200
+set c string zz
+set nc2 stringu 2a2165006c00
+write
+append
+set id long 30
+set nc stringu 41ff42ff43ff
+set nv stringu 3dd842de6100
+set c string ab
+set nc2 stringu ac2075007200
+write
+append
+set id long 31
+set nc stringu d024b624
+set nv stringu 61003dd842de6200
+set c string Ab
+set nc2 stringu 200020006100
+write
+append
+set id long 32
+set nc stringu 2a2165006c00760069006e00
+set nv stringu 01d828dc01d800dc
+set c string  x
+set nc2 stringu 3dd842de6100
+write
+append
+set id long 33
+set nc stringu ac20750072006f00
+set nv stringu 40d800dc7800
+set c string Äb
+set nc2 stringu 61003dd842de
+write
+append
+set id long 34
+set nc stringu 2000200061006200
+set nv stringu 780040d800dc
+set c string zz
+set nc2 stringu 01d828dc
+write
+append
+set id long 35
+set nc stringu 3dd842de6100
+set nv stringu 1f0440043804320435044204
+set c string ab
+set nc2 stringu 40d800dc7800
+write
+append
+set id long 36
+set nc stringu 61003dd842de6200
+set nv stringu 3f0440043804320435044204
+set c string Ab
+set nc2 stringu 780040d800dc
+write
+append
+set id long 37
+set nc stringu 01d828dc01d800dc
+set nv stringu a9036d00650067006100
+set c string  x
+set nc2 stringu 1f0440043804
+write
+append
+set id long 38
+set nc stringu 40d800dc7800
+set nv stringu c9034d00450047004100
+set c string Äb
+set nc2 stringu 3f0440043804
+write
+append
+set id long 39
+set nc stringu 780040d800dc
+set nv stringu c400d600dc00
+set c string zz
+set nc2 stringu a9036d006500
+write
+# Changes and deletes.
+goto 1
+set nc stringu 2f0416040104
+write
+goto 4
+set nv stringu 7a006500620072006100
+write
+goto 6
+delete
+write
+goto 12
+delete
+write
+close
+open nr.adt exclusive
+reindex
+pack
+close
+open ns.adt exclusive
+createindex - a 0 0 SOUNDEX(nc)
+createindex - b 0 0 DESCEND(nc)
+createindex - c 0 0 COALESCE(c,nc)
+createindex - d 0 0 COALESCE(nc,nv)
+createindex - e 0 0 DESCEND(nv)
+createindex - f 0 0 COALESCE(c,nv)
+createindex - g 0 0 VAL(nc)
+createindex - h 0 0 VAL(nv)
+createindex - i 0 0 SOUNDEX(nv)
+append
+set id long 1
+set nc stringu 3dd842de6100
+set nv stringu 01d828dc01d800dc
+set c string Zz
+write
+append
+set id long 2
+set nc stringu 61003dd842de6200
+set nv stringu 40d800dc7800
+set c string Zz
+write
+append
+set id long 3
+set nc stringu 01d828dc01d800dc
+set nv stringu 780040d800dc
+set c string Zz
+write
+append
+set id long 4
+set nc stringu 40d800dc7800
+set nv stringu 3dd842de6100
+set c string Zz
+write
+append
+set id long 5
+set nc stringu 780040d800dc
+set nv stringu 61003dd842de6200
+set c string Zz
+write
+append
+set id long 6
+set nc stringu 6100
+set nv stringu 01d828dc01d800dc
+set c string Zz
+write
+append
+set id long 7
+set nc stringu 62003dd800de
+set nv stringu 40d800dc7800
+set c string Zz
+write
+close
+open ns.adt exclusive
+reindex
+close
+open ne.adt shared
+openindex ne2.adi
+order o0
+rows
+seek 1 abc
+seek 2 abc
+seek 4 abc
+seek 1 ÉTÉ
+seek 2 ÉTÉ
+seek 4 ÉTÉ
+seek 1 abc     
+seek 2 abc     
+seek 4 abc     
+scope 1 abc
+scope 2 abc     z
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o1
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o2
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o3
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o4
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o5
+rows
+order o6
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o7
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o8
+rows
+order o9
+rows
+order o10
+rows
+order o11
+rows
+order o12
+rows
+seek 1 A120
+seek 2 A120
+seek 4 A120
+seek 1 T000
+seek 2 T000
+seek 4 T000
+seek 1 a
+seek 2 a
+seek 4 a
+scope 1 A120
+scope 2 az
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o13
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o14
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o15
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o16
+rows
+seek 1 x
+seek 2 x
+seek 4 x
+seek 1 zz
+seek 2 zz
+seek 4 zz
+seek 1 Äb
+seek 2 Äb
+seek 4 Äb
+scope 1 x
+scope 2 Äbz
+rows
+getscope 1
+getscope 2
+clearscope 1
+clearscope 2
+order o17
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o18
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o19
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o20
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o21
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o22
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o23
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order o24
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p0
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p1
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p2
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p3
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p4
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p5
+rows
+order p6
+rows
+order p7
+rows
+order p8
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p9
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p10
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p11
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p12
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p13
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p14
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p15
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p16
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p17
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p18
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order p19
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+seek 1 ab
+seek 2 ab
+seek 4 ab
+order des_l
+rows
+seek 1 ab
+seek 2 É
+order des_d
+rows
+seek 1 ab
+seek 2 É
+order coa_s
+rows
+seek 1 ab
+seek 2 É
+order coa_x
+rows
+seek 1 ab
+seek 2 É
+order coa_u
+rows
+seek 1 ab
+seek 2 É
+order des_for
+rows
+order coa_for
+rows
+close
+open nr.adt shared
+openindex nr2.adi
+order q0
+rows
+seek 1 abc
+seek 2 abc
+seek 4 abc
+seek 1 abc     abc
+seek 2 abc     abc
+seek 4 abc     abc
+seek 1 été     été
+seek 2 été     été
+seek 4 été     été
+order q1
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q2
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q3
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q4
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q5
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q6
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q7
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q8
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q9
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q10
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q11
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q12
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q13
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q14
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q15
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q16
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q17
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q18
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q19
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q20
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order q21
+rows
+seek 1 a
+seek 2 a
+seek 4 a
+seek 1 É
+seek 2 É
+seek 4 É
+order rep_s
+rows
+seek 1 ab
+order rep_x
+rows
+seek 1 ab
+order rep_d
+rows
+seek 1 ab
+order rep_for
+rows
+seek 1 ab
+close
+open ns.adt shared
+order a
+rows
+seek 1 a
+order b
+rows
+seek 1 a
+order c
+rows
+seek 1 a
+order d
+rows
+seek 1 a
+order e
+rows
+seek 1 a
+order f
+rows
+seek 1 a
+order g
+rows
+seek 1 a
+order h
+rows
+seek 1 a
+order i
+rows
+seek 1 a
+close

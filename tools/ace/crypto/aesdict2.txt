@@ -1,0 +1,29 @@
+# AES dictionaries, part 2, for aesdict.c, in the data folder aesdict.txt
+# left (a3 there). The dictionary password is "ddpw" throughout.
+#
+# e3: the whole dictionary encrypted (ENCRYPT TRUE), with an ADSSYS
+# password, a user, a group, a membership and a grant; new tables encrypted.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "e3\e3.add" PASSWORD 'admpw' ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', '')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (2, 'two')
+disconnect
+#
+# a3 again: ADSSYS without the dictionary password (its records are in the
+# clear), then with it, a row added and the table encrypted.
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;
+sql SELECT * FROM t
+disconnect
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql INSERT INTO t VALUES (3, 'three')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'TABLE_ENCRYPTION', 'TRUE', 'APPEND_FAIL', NULL)
+disconnect

@@ -1,0 +1,53 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "directnull CREATE TABLE g (ID GUID, N Integer)", "rc": 0},
+{"cmd": "directnull INSERT INTO g VALUES ('29d7c2d7-a2be-48e4-8300-000000000000', 1)", "rc": 0},
+{"cmd": "directnull INSERT INTO g VALUES ('{11111111-2222-3333-4444-555555555555}', 2)", "rc": 0},
+{"cmd": "query SELECT ID, N FROM g", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ID", 29, 16, 0], ["N", 11, 4, 0]], "rows": [
+  [1, ["29d7c2d7-a2be-48e4-8300-000000000000", "1"]],
+  [2, ["11111111-2222-3333-4444-555555555555", "2"]]]}},
+{"cmd": "query SELECT CAST(ID AS SQL_CHAR(40)) AS c, CAST(ID AS SQL_BINARY(16)) AS b FROM g", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["c", 4, 40, 0], ["b", 16, 16, 0]], "rows": [
+  [1, ["29d7c2d7-a2be-48e4-8300-000000000000    ", "\u00d7\u00c2\u00d7)\u00be\u00a2\u00e4H\u0083\u0000\u0000\u0000\u0000\u0000\u0000\u0000"]],
+  [2, ["11111111-2222-3333-4444-555555555555    ", "\u0011\u0011\u0011\u0011\"\"33DDUUUUUU"]]]}},
+{"cmd": "query SELECT N FROM g WHERE ID = '29d7c2d7-a2be-48e4-8300-000000000000'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "prepare SELECT N FROM g WHERE ID = ?", "rc": 0},
+{"cmd": "param 1 string 29d7c2d7-a2be-48e4-8300-000000000000", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT N FROM g WHERE ID = ?", "rc": 0},
+{"cmd": "param 1 string {29d7c2d7-a2be-48e4-8300-000000000000}", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT N FROM g WHERE ID = :id", "rc": 0},
+{"cmd": "param id string 29d7c2d7-a2be-48e4-8300-000000000000", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT N FROM g WHERE ? = ID", "rc": 0},
+{"cmd": "param 1 string 29d7c2d7-a2be-48e4-8300-000000000000", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT N FROM g WHERE ID <> ?", "rc": 0},
+{"cmd": "param 1 string 29d7c2d7-a2be-48e4-8300-000000000000", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [2, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare INSERT INTO g VALUES (?, 3)", "rc": 0},
+{"cmd": "param 1 string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT N FROM g WHERE ID = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "g.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["N", 11, 4, 0]], "rows": [
+  [3, ["3"]]]}},
+{"cmd": "prepare UPDATE g SET N = 4 WHERE ID = ?", "rc": 0},
+{"cmd": "param 1 string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "prepare DELETE FROM g WHERE ID = :id", "rc": 0},
+{"cmd": "param id string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "prepare SELECT N FROM g WHERE ID = ?", "rc": 0},
+{"cmd": "param 1 string nonsense", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5228;  [SAP][Advantage SQL Engine][ASA] The supplied data is not valid.", "has_cursor": false, "affected": 1}
+]

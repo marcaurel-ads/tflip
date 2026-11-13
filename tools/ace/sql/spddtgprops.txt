@@ -1,0 +1,97 @@
+# sp_ModifyTriggerProperty on a dictionary connection in an empty folder (the dictionary,
+# de/de.add, is kept in fixtures/sql/spddtgprops/): the properties a trigger has, by name
+# and by number, the values they take, what is refused, a user who is not the
+# administrator, and a free connection.
+#
+#     run.sh <work> <ace32.dll> spddtgprops.txt > ../../../fixtures/sql/spddtgprops.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddtgprops/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t2 (id INTEGER)
+direct CREATE TRIGGER tr1 ON t1 AFTER INSERT BEGIN INSERT INTO t2 VALUES (1); END
+direct CREATE TRIGGER tr2 ON t2 BEFORE UPDATE BEGIN INSERT INTO t2 VALUES (2); END
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_CONTAINER', 'BEGIN INSERT INTO t1 VALUES (4, ''four''); END')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_CONTAINER', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_CONTAINER', '')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_CONTAINER', NULL)
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', 'F')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', '')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', NULL)
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'new comment')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'lower')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', '')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'x')
+query SELECT * FROM system.triggers
+#
+# By name and by number.
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'comment', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIGGERS_DISABLED', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'triggers_disabled', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_CONTAINER', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'trig_container', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_EVENT_TYPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'trig_event_type', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'TRIG_PRIORITY', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'trig_priority', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'USER_DEFINED_PROP', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'user_defined_prop', 'T')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '5', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '5', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1404', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1404', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1401', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1401', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1406', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '1406', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '2', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '999', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '999', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '65535', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '65535', '1')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', '', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', NULL, 'x')
+#
+# What is refused.
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::notrig', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::notrig', 'NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::notrig', 'TRIGGERS_DISABLED', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::notrig', '2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('', 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty(NULL, 'COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('tr1', 'COMMENT', 'unqualified')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('T1::TR1', 'COMMENT', 'case')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t2::tr1', 'COMMENT', 'wrong table')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('nope::tr1', 'COMMENT', 'no table')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('::tr1', 'COMMENT', 'empty table')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::', 'COMMENT', 'empty trigger')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'x', 'y')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 1)
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 1, 'x')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty()
+query SELECT * FROM system.triggers
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::notrig', 'COMMENT', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'NOPE', 'by a user')
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTriggerProperty('t1::tr1', 'COMMENT', 'free')

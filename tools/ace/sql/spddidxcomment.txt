@@ -1,0 +1,43 @@
+# Comments of a dictionary's orders (sp_ModifyIndexProperty COMMENT) short and
+# long, changed, and what the original frees of them when the order or its table is
+# dropped: the dictionary, de/de.add, is kept in fixtures/sql/spddidxcomment/:
+#
+#     run.sh <work> <ace32.dll> spddidxcomment.txt > ../../../fixtures/sql/spddidxcomment.json
+#     cp <work>/data/de/de.a* ../../../fixtures/sql/spddidxcomment/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX i1 ON t1 (id)
+direct CREATE INDEX i2 ON t1 (a)
+direct CREATE INDEX i3 ON t1 (b)
+direct CREATE INDEX i4 ON t1 (c)
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i1', 'COMMENT', 'short comment')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i2', 'COMMENT', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i3', 'COMMENT', 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i4', 'COMMENT', 'another short one')
+direct CREATE TABLE u1 (x INTEGER)
+direct CREATE TABLE u2 (x INTEGER)
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i1', 'COMMENT', 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i2', 'COMMENT', 'now short')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i3', 'COMMENT', 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i4', 'COMMENT', '')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i2', 'COMMENT', 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t1', 'i2', 'COMMENT', 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg')
+direct CREATE TABLE u3 (x INTEGER)
+direct DROP INDEX t1.i1
+direct CREATE TABLE u4 (x INTEGER)
+direct DROP INDEX t1.i2
+direct DROP INDEX t1.i3
+direct DROP INDEX t1.i4
+direct CREATE TABLE u5 (x INTEGER)
+direct CREATE TABLE t2 (id INTEGER, a CHAR(4), b CHAR(4))
+direct CREATE INDEX j1 ON t2 (id)
+direct CREATE INDEX j2 ON t2 (a)
+direct CREATE INDEX j3 ON t2 (b)
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t2', 'j1', 'COMMENT', 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t2', 'j2', 'COMMENT', 'short')
+direct EXECUTE PROCEDURE sp_ModifyIndexProperty('t2', 'j3', 'COMMENT', 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+direct CREATE TABLE u6 (x INTEGER)
+direct DROP TABLE t2
+direct CREATE TABLE u7 (x INTEGER)
+query SELECT * FROM system.indexes

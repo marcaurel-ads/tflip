@@ -1,0 +1,19 @@
+# The precedence of %, for fixtures/sql/modulo.json: the help ranks it below
+# * and /, so 10 % 4 * 2 would be 10 % 8.
+stmt
+query SELECT 10 % 4 * 2 FROM system.iota
+query SELECT 2 * 10 % 4 FROM system.iota
+query SELECT 100 / 10 % 4 FROM system.iota
+query SELECT 10 % 4 / 2 FROM system.iota
+query SELECT 10 % 4 + 1 FROM system.iota
+query SELECT 1 + 10 % 4 FROM system.iota
+query SELECT 10 - 7 % 4 FROM system.iota
+query SELECT 7 % 4 - 10 FROM system.iota
+query SELECT -7 % 4 FROM system.iota
+query SELECT - 7 % 4 FROM system.iota
+query SELECT 7 % -4 FROM system.iota
+query SELECT 10 % 4 % 3 FROM system.iota
+query SELECT 10 % 7 % 2 FROM system.iota
+query SELECT 2 + 3 * 10 % 4 FROM system.iota
+query SELECT 2 * 3 % 4 * 5 FROM system.iota
+query SELECT 17 % 5 * 3 FROM system.iota

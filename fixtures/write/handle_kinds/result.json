@@ -1,0 +1,21 @@
+[
+{"cmd": "use conn", "rc": 0},
+{"cmd": "handletype", "rc": 0, "type": 1},
+{"cmd": "open f.adt", "rc": 0, "table": 1},
+{"cmd": "use 1", "rc": 0},
+{"cmd": "handletype", "rc": 0, "type": 2},
+{"cmd": "handletype ix", "order": 0, "rc": 0, "type": 3},
+{"cmd": "handletype fts", "order": 0, "rc": 0, "type": 8},
+{"cmd": "close", "rc": 0},
+{"cmd": "open g.adt", "rc": 0, "table": 2},
+{"cmd": "append", "rc": 0},
+{"cmd": "set id long 3", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "close", "rc": 0},
+{"cmd": "ddconnect hk.add", "rc": 0},
+{"cmd": "use conn", "rc": 0},
+{"cmd": "handletype", "rc": 0, "type": 6},
+{"cmd": "cursor SELECT * FROM t", "rc": 0, "table": 3},
+{"cmd": "use 3", "rc": 0},
+{"cmd": "handletype", "rc": 0, "type": 5}
+]

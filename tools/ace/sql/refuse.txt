@@ -1,0 +1,271 @@
+# What the original engine does with the statements tflip refuses (7200, native
+# 2200) or words otherwise, on a free connection in an empty folder: which
+# are real SQL there, and the syntax errors it gives the rest, among them those
+# of malformed CREATE TABLE, CREATE INDEX, ALTER TABLE, DROP TABLE and DROP INDEX.
+#
+#     run.sh <work> <ace32.dll> refuse.txt > ../../../fixtures/sql/refuse.json
+stmt
+direct CREATE TABLE t (a INTEGER, b CHAR(10), c INTEGER)
+direct CREATE TABLE u (a INTEGER, b CHAR(10))
+direct CREATE UNIQUE INDEX ui ON u (a)
+#
+# FUNCTION and PACKAGE.
+direct CREATE FUNCTION f() RETURNS INTEGER BEGIN RETURN 1; END
+direct CREATE PACKAGE p
+direct DROP FUNCTION f
+direct DROP PACKAGE p
+direct ALTER FUNCTION f
+direct ALTER PACKAGE p
+#
+# The words after CREATE, DROP and ALTER.
+direct CREATE USER us
+direct CREATE USER GROUP g
+direct CREATE LINK l
+direct CREATE ROLE r
+direct CREATE SEQUENCE s
+direct CREATE TEMPORARY TABLE tt (a INTEGER)
+direct CREATE OR REPLACE VIEW v AS SELECT a FROM t
+direct CREATE ONLINE TABLE ot (a INTEGER)
+direct CREATE UNIQUE ONLINE INDEX i ON t (a)
+direct CREATE ONLINE UNIQUE INDEX oi ON t (a)
+direct DROP USER us
+direct DROP USER GROUP g
+direct DROP LINK l
+direct DROP DATABASE d
+direct DROP INDEX u.ui FROM DATABASE
+direct DROP TABLE IF EXISTS zz
+direct ALTER DATABASE d
+direct ALTER USER us
+direct ALTER VIEW v AS SELECT a FROM t
+direct ALTER INDEX i
+direct ALTER ONLINE INDEX i
+#
+# ALTER TABLE.
+direct ALTER TABLE t DROP FOREIGN KEY f
+direct ALTER TABLE t DROP CONSTRAINT c
+#
+# CREATE TABLE.
+direct CREATE TABLE t7 (a INTEGER) ENCRYPT
+direct CREATE TABLE t8 (a INTEGER) PASSWORD 'x'
+direct CREATE TABLE t9 (a INTEGER) COMMENT 'x'
+direct CREATE TABLE t10 (a INTEGER) IN FILE x
+#
+# CREATE INDEX.
+direct CREATE INDEX i1 ON t (a) BITMAP
+direct CREATE INDEX i3 ON t (a) FOR a > 1
+direct CREATE INDEX i4 ON t (a) COMMENT 'x'
+direct CREATE INDEX i5 ON t (a) CONTENT
+#
+# Other statements.
+direct SET COLLATION = x
+direct SET SCHEMA x
+direct USE x
+direct TRUNCATE TABLE t
+direct RENAME TABLE t TO t2
+direct LOCK TABLE t
+direct VACUUM
+direct PACK t
+direct ZAP t
+direct REINDEX t
+direct CALL p()
+direct EXPLAIN SELECT 1
+direct REPLACE INTO t VALUES (1)
+direct WITH x AS (SELECT 1 FROM system.iota) SELECT * FROM x
+#
+# CACHE PREPARE.
+direct CACHE PREPARE ON
+direct CACHE PREPARE OFF
+direct CACHE PREPARE DEFAULT
+direct CACHE PREPARE
+direct CACHE
+direct CACHE FOO
+direct CACHE PREPARE ON;
+direct CACHE PREPARE on
+direct cache prepare default
+#
+# CACHE PREPARE as a script statement.
+query SELECT 1 AS a FROM system.iota; CACHE PREPARE ON
+query CACHE PREPARE ON; SELECT 2 AS a FROM system.iota
+query CACHE PREPARE ON
+direct DECLARE i INTEGER; CACHE PREPARE OFF; i = 1;
+direct CACHE PREPARE ON CACHE PREPARE OFF
+direct CACHE PREPARE ON; CACHE PREPARE;
+direct CACHE PREPARE ON junk
+direct CACHE PREPARE ON; junk
+direct EXECUTE IMMEDIATE 'CACHE PREPARE ON'
+direct IF 1 = 1 THEN CACHE PREPARE ON; END IF;
+direct BEGIN CACHE PREPARE ON; END
+direct CACHE PREPARE 'ON'
+direct CACHE PREPARE 1
+direct CACHE PREPARE ON,
+direct CACHE PREPARE DEF
+direct CACHE PREPARE ONN
+direct CACHE  PREPARE   ON  ;
+direct CACHE PREPARE ON; CACHE PREPARE OFF; CACHE PREPARE DEFAULT
+verify CACHE PREPARE ON
+prepare CACHE PREPARE ON
+exec
+#
+# Where the words after CREATE, DROP and ALTER are looked for.
+direct CREATE
+direct CREATE USER
+direct CREATE   USER   us
+direct CREATE 1
+direct CREATE (
+direct CREATE 'x'
+direct CREATE UNIQUE
+direct CREATE UNIQUE USER
+direct CREATE ONLINE
+direct CREATE ONLINE USER
+direct CREATE UNIQUE TABLE x (a INTEGER)
+direct DROP
+direct DROP USER
+direct DROP   USER   us
+direct DROP 1
+direct DROP 'x'
+direct DROP (
+direct DROP ONLINE
+direct DROP UNIQUE INDEX u.ui
+direct DROP USER;
+direct ALTER
+direct ALTER USER
+direct ALTER   USER   us
+direct ALTER 1
+direct ALTER 'x'
+direct ALTER ONLINE
+direct ALTER ONLINE USER
+direct ALTER UNIQUE TABLE t ADD d INTEGER
+direct ALTER USER;
+direct ALTER VIEW
+direct ALTER PROCEDURE
+direct ALTER PACKAGE
+direct CREATE OR
+#
+# Malformed DDL: the texts of its syntax errors.
+direct ALTER TABLE t ADD PRIMARY KEY
+direct ALTER TABLE t ADD PRIMARY KEY (a)
+direct ALTER TABLE t ADD PRIMARY
+direct ALTER TABLE t ADD CONSTRAINT
+direct ALTER TABLE t ADD CONSTRAINT c
+direct ALTER TABLE t ADD CONSTRAINT c PRIMARY KEY (a)
+direct ALTER TABLE t ADD UNIQUE
+direct ALTER TABLE t ADD UNIQUE (a)
+direct ALTER TABLE t ADD CHECK
+direct ALTER TABLE t ADD CHECK (a > 0)
+direct ALTER TABLE t ADD FOREIGN KEY (a) REFERENCES u
+direct ALTER TABLE t ADD
+direct ALTER TABLE t
+direct ALTER TABLE
+direct ALTER TABLE t RENAME
+direct ALTER TABLE t RENAME TO tt
+direct ALTER TABLE t RENAME COLUMN a TO aa
+direct ALTER TABLE t RENAME a TO aa
+direct ALTER TABLE t RENAME COLUMN a
+direct ALTER TABLE t RENAME COLUMN
+direct ALTER TABLE t ALTER COLUMN a SET DEFAULT 1
+direct ALTER TABLE t ALTER COLUMN a SET DEFAULT
+direct ALTER TABLE t ALTER COLUMN a SET
+direct ALTER TABLE t ALTER COLUMN a
+direct ALTER TABLE t ALTER COLUMN
+direct ALTER TABLE t ALTER a SET DEFAULT 1
+direct ALTER TABLE t ALTER COLUMN a DROP DEFAULT
+direct ALTER TABLE t DROP
+direct ALTER TABLE t DROP PRIMARY KEY
+query SELECT * FROM t
+direct ALTER TABLE t DROP CONSTRAINT c
+direct CREATE TABLE ta AS SELECT a FROM t
+direct CREATE TABLE ta AS
+direct CREATE TABLE ta (a INTEGER, FOREIGN KEY (a) REFERENCES u)
+direct CREATE TABLE ta (a INTEGER, FOREIGN KEY)
+direct CREATE TABLE ta (a INTEGER, CHECK (a > 0))
+direct CREATE TABLE ta (a INTEGER, CHECK)
+direct CREATE TABLE ta (a INTEGER, PRIMARY KEY (a))
+query SELECT * FROM ta
+direct DROP TABLE ta
+direct CREATE TABLE ta (a INTEGER, CONSTRAINT c PRIMARY KEY (a))
+direct DROP TABLE ta
+direct CREATE TABLE ta (a INTEGER, UNIQUE (a))
+direct CREATE TABLE ta (a INTEGER CHECK (a > 0))
+direct CREATE TABLE ta (a INTEGER PRIMARY KEY)
+direct DROP TABLE ta
+direct CREATE TABLE ta
+direct CREATE TABLE
+direct CREATE TABLE ta ()
+direct CREATE TABLE ta (a)
+direct CREATE INDEX ie ON t (a + 1)
+direct CREATE INDEX ie ON t (UPPER(b))
+direct CREATE INDEX ie ON t (a, b + 1)
+direct CREATE INDEX ie ON t ()
+direct CREATE INDEX ie ON t
+direct CREATE INDEX ie
+direct CREATE INDEX
+direct CREATE INDEX ON t (a)
+direct DROP TABLE
+direct DROP TABLE;
+direct DROP TABLE 1
+direct DROP TABLE t u
+direct DROP INDEX
+direct DROP INDEX ui
+direct DROP INDEX u.
+direct DROP INDEX .ui
+direct DROP INDEX u..ui
+direct DROP INDEX 1
+direct DROP INDEX ui ON u
+direct CREATE TABLE ta (a CHAR(x))
+direct CREATE TABLE ta (a CHAR(10, x))
+direct CREATE TABLE ta (a CHAR()
+direct CREATE TABLE ta (a CHAR(
+direct CREATE TABLE ta (a CHAR(10
+direct CREATE TABLE ta (a CHAR(10,
+direct CREATE TABLE ta (a CHAR(-1))
+direct CREATE TABLE ta (a CHAR(1.5))
+direct ALTER TABLE t ADD d CHAR(x)
+direct ALTER TABLE t ADD d CHAR(5, x)
+direct ALTER TABLE t ADD d
+direct ALTER TABLE t ADD COLUMN
+direct ALTER TABLE t ADD COLUMN d
+direct ALTER TABLE t ALTER COLUMN a b
+direct ALTER TABLE t ALTER COLUMN a b CHAR(x)
+direct CREATE INDEX ie ON
+direct CREATE INDEX ie ON (a)
+direct CREATE INDEX ie ON t (a
+direct CREATE INDEX ie ON t (a,
+direct CREATE INDEX ie ON t (a b)
+direct CREATE INDEX ie ON t (1)
+direct CREATE TABLE ta (a INTEGER,
+direct CREATE TABLE ta (a INTEGER
+direct CREATE TABLE ta (a INTEGER,)
+direct ALTER TABLE t DROP COLUMN
+direct ALTER TABLE t DROP a
+direct ALTER TABLE t DROP ADD
+direct ALTER TABLE t DROP CONSTRAINT
+direct ALTER TABLE t DROP PRIMARY
+direct DROP INDEX u.ui.x
+direct DROP TABLE t FROM
+#
+# Which words an added column cannot be named.
+direct ALTER TABLE t ADD key INTEGER
+direct ALTER TABLE t ADD user INTEGER
+direct ALTER TABLE t ADD default INTEGER
+direct ALTER TABLE t ADD view INTEGER
+direct ALTER TABLE t ADD order INTEGER
+direct ALTER TABLE t ADD index INTEGER
+direct ALTER TABLE t ADD on INTEGER
+direct ALTER TABLE t ADD count INTEGER
+direct ALTER TABLE t ADD set INTEGER
+direct ALTER TABLE t ADD check INTEGER
+direct ALTER TABLE t ADD foreign INTEGER
+direct ALTER TABLE t ADD output INTEGER
+direct ALTER TABLE t ADD select INTEGER
+direct ALTER TABLE t ADD varchar INTEGER
+direct ALTER TABLE t ADD "primary" INTEGER
+direct CREATE TABLE tk (key INTEGER)
+direct CREATE TABLE tk (user INTEGER)
+direct CREATE TABLE tk (set INTEGER)
+direct CREATE TABLE tk (select INTEGER)
+direct CREATE TABLE tk (order INTEGER)
+direct CREATE TABLE tk (1 INTEGER)
+direct CREATE TABLE tk (a INTEGER x)
+direct CREATE INDEX key ON t (a)
+direct CREATE INDEX user ON t (a)
+direct CREATE INDEX select ON t (a)

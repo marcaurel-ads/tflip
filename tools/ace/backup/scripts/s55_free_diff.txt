@@ -1,0 +1,7 @@
+#include free_all.txt
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\img', 'PrepareDiff', NULL)
+sql 1 UPDATE f_adt SET qty = 99.5 WHERE id = 1
+sql 1 INSERT INTO f_adt VALUES (20, 'appended1', 20.5, '2022-05-06', 1, 'new')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\img', 'Diff', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\img', 'Diff', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\img', '@ROOT@\dst', NULL, NULL)

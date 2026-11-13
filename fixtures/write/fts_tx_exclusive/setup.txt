@@ -1,0 +1,5 @@
+sql CREATE TABLE tf (id INTEGER, body MEMO)
+sql INSERT INTO tf VALUES (1, 'one fox'), (2, 'two dog')
+sql CREATE INDEX tf_fts ON tf (body) CONTENT
+sql CREATE TABLE tn (id INTEGER, body MEMO)
+sql INSERT INTO tn VALUES (1, 'one fox'), (2, 'two dog')

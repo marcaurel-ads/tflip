@@ -1,0 +1,6 @@
+{
+ "12": {"fields": ["count"], "why": "the original's handles count the records they read last (KNOWN_ISSUES.md, Other handles see changes at once)"},
+ "13": {"fields": ["count"], "why": "the original's handles count the records they read last (KNOWN_ISSUES.md, Other handles see changes at once)"},
+ "37": {"fields": ["count"], "why": "the original's handles count the records they read last (KNOWN_ISSUES.md, Other handles see changes at once)"},
+ "38": {"fields": ["count"], "why": "the original's handles count the records they read last (KNOWN_ISSUES.md, Other handles see changes at once)"}
+}

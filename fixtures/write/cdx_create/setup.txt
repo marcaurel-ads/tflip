@@ -1,0 +1,39 @@
+# FoxPro tables: one empty, one of four records, one of 3,000; a VFP table.
+tabletype cdx
+createtable ce.dbf 0 c,Character,10;n,Numeric,8,2;d,Date
+close
+createtable cr.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical
+append
+set c string bravo
+set n double 2
+write
+append
+set c string alpha
+set n double 1
+set l logical 1
+write
+append
+set c string charlie
+set n double 3
+set d date 01/02/2020
+write
+append
+set c string alpha
+set n double 4
+write
+close
+sql CREATE TABLE d (n INTEGER)
+sql INSERT INTO d VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+sql CREATE TABLE big (c CHAR(10), n NUMERIC(6, 0))
+sql INSERT INTO big SELECT 'k' + CAST(a.n * 1000 + b.n * 100 + c.n * 10 + e.n AS SQL_CHAR), a.n * 1000 + b.n * 100 + c.n * 10 + e.n FROM d a, d b, d c , d e WHERE a.n < 3
+tabletype vfp
+createtable v.dbf 0 c,Character,6;i,Integer
+append
+set c string zz
+set i long 5
+write
+append
+set c string aa
+set i long -3
+write
+close

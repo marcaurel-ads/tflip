@@ -1,0 +1,483 @@
+# SELECTs beyond one table's rows: aggregates, GROUP BY and HAVING, joins,
+# UNION and subqueries, on fixtures/sql/tables/ (cust, sales) and the adt
+# fixtures statements.txt uses; run by sql.c (see run.sh).
+stmt
+
+## Aggregates without GROUP BY
+query SELECT COUNT(*) FROM sales
+query SELECT COUNT(qty) FROM sales
+query SELECT COUNT(*), COUNT(item), COUNT(note) FROM sales
+query SELECT SUM(qty) FROM sales
+query SELECT SUM(price) FROM sales
+query SELECT SUM(amount) FROM sales
+query SELECT SUM(ratio) FROM sales
+query SELECT AVG(qty) FROM sales
+query SELECT AVG(price) FROM sales
+query SELECT AVG(amount) FROM sales
+query SELECT AVG(ratio) FROM sales
+query SELECT MIN(qty), MAX(qty) FROM sales
+query SELECT MIN(item), MAX(item) FROM sales
+query SELECT MIN(day), MAX(day) FROM sales
+query SELECT MIN(price), MAX(price) FROM sales
+query SELECT MIN(amount), MAX(amount) FROM sales
+query SELECT MIN(ratio), MAX(ratio) FROM sales
+query SELECT MIN(paid), MAX(paid) FROM sales
+query SELECT MIN(name), MAX(name), MIN(city), MAX(city) FROM cust
+query SELECT MIN(since), MAX(credit) FROM cust
+query SELECT COUNT(DISTINCT item) FROM sales
+query SELECT COUNT(DISTINCT cust) FROM sales
+query SELECT SUM(DISTINCT qty) FROM sales
+query SELECT AVG(DISTINCT price) FROM sales
+query SELECT COUNT(*) FROM sales WHERE qty > 100
+query SELECT SUM(qty), AVG(qty), MIN(qty), MAX(qty) FROM sales WHERE qty > 100
+query SELECT COUNT(*) AS n, SUM(qty) total FROM sales
+query SELECT SUM(qty * price) FROM sales
+query SELECT SUM(qty) + 1, COUNT(*) * 2 FROM sales
+query SELECT MAX(qty) - MIN(qty) FROM sales
+query SELECT SUM(qty) / COUNT(*) FROM sales
+query SELECT COUNT(*) FROM indexed
+query SELECT SUM(amount), AVG(amount) FROM indexed
+query SELECT SUM(id), AVG(id) FROM indexed
+query SELECT AVG(k_short), SUM(k_short), AVG(k_double), SUM(k_curdouble), SUM(k_numeric), AVG(k_numeric) FROM keys
+query SELECT SUM(k_longint), AVG(k_longint), SUM(k_money), AVG(k_money) FROM keys
+query SELECT MIN(k_time), MAX(k_timestamp), MIN(k_guid), MIN(k_cichar), MAX(k_varchar) FROM keys
+query SELECT COUNT(*) FROM system.iota
+query SELECT COUNT(*), 1 FROM sales
+query SELECT DISTINCT COUNT(*) FROM sales
+query SELECT TOP 1 COUNT(*) FROM sales
+query SELECT COUNT(*) FROM sales ORDER BY 1
+query SELECT UPPER(MAX(item)) FROM sales
+query SELECT COUNT(*) FROM sales WHERE item LIKE 'p%'
+
+## Aggregate errors
+query SELECT item, COUNT(*) FROM sales
+query SELECT SUM(item) FROM sales
+query SELECT AVG(day) FROM sales
+query SELECT SUM(paid) FROM sales
+query SELECT SUM(note) FROM sales
+query SELECT MAX(note) FROM sales
+query SELECT * FROM sales WHERE COUNT(*) > 1
+query SELECT SUM(SUM(qty)) FROM sales
+query SELECT COUNT(qty, price) FROM sales
+query SELECT COUNT() FROM sales
+query SELECT SUM(*) FROM sales
+query SELECT COUNT(nosuch) FROM sales
+query SELECT id FROM sales HAVING COUNT(*) > 1
+
+## GROUP BY
+query SELECT item, COUNT(*) FROM sales GROUP BY item
+query SELECT cust, SUM(qty), SUM(amount) FROM sales GROUP BY cust
+query SELECT cust, COUNT(*), COUNT(qty), AVG(qty), MIN(day), MAX(day) FROM sales GROUP BY cust
+query SELECT paid, COUNT(*) FROM sales GROUP BY paid
+query SELECT day, COUNT(*) FROM sales GROUP BY day
+query SELECT item, cust, SUM(qty) FROM sales GROUP BY item, cust
+query SELECT cust, item, SUM(qty) FROM sales GROUP BY item, cust
+query SELECT city, COUNT(*) FROM cust GROUP BY city
+query SELECT name, COUNT(*) FROM cust GROUP BY name
+query SELECT UPPER(item), COUNT(*) FROM sales GROUP BY UPPER(item)
+query SELECT UPPER(item) AS u, COUNT(*) FROM sales GROUP BY u
+query SELECT item AS i, COUNT(*) FROM sales GROUP BY i
+query SELECT item, COUNT(*) FROM sales GROUP BY 1
+query SELECT COUNT(*) FROM sales GROUP BY item
+query SELECT SUM(qty) FROM sales GROUP BY cust
+query SELECT item FROM sales GROUP BY item
+query SELECT cust, item FROM sales GROUP BY cust, item
+query SELECT YEAR(day), COUNT(*) FROM sales GROUP BY YEAR(day)
+query SELECT MONTH(day) m, SUM(amount) FROM sales GROUP BY MONTH(day)
+query SELECT qty * price, COUNT(*) FROM sales GROUP BY qty * price
+query SELECT cust, COUNT(*) FROM sales WHERE paid GROUP BY cust
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust ORDER BY 2 DESC
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust ORDER BY COUNT(*) DESC, cust
+query SELECT cust, SUM(qty) s FROM sales GROUP BY cust ORDER BY s
+query SELECT item, COUNT(*) FROM sales GROUP BY item ORDER BY item DESC
+query SELECT DISTINCT cust, COUNT(*) FROM sales GROUP BY cust
+query SELECT TOP 2 cust, COUNT(*) FROM sales GROUP BY cust
+query SELECT TOP 2 cust, COUNT(*) FROM sales GROUP BY cust ORDER BY 2 DESC
+query SELECT cust, SUM(qty) + 100, MAX(item) FROM sales GROUP BY cust
+query SELECT cust + 1, COUNT(*) FROM sales GROUP BY cust
+query SELECT cust + 1, COUNT(*) FROM sales GROUP BY cust + 1
+query SELECT active, COUNT(*), SUM(amount), AVG(amount) FROM indexed GROUP BY active
+query SELECT k_logical, COUNT(*) FROM keys GROUP BY k_logical
+query SELECT k_cichar, COUNT(*) FROM keys GROUP BY k_cichar
+query SELECT * FROM sales GROUP BY cust
+query SELECT item, qty FROM sales GROUP BY item
+query SELECT item, COUNT(*) FROM sales GROUP BY cust
+query SELECT cust, COUNT(*) FROM sales GROUP BY nosuch
+query SELECT cust, COUNT(*) FROM sales GROUP BY COUNT(*)
+query SELECT note, COUNT(*) FROM sales GROUP BY note
+query SELECT cust, COUNT(*) FROM sales GROUP BY 3
+query SELECT cust, COUNT(*) FROM sales GROUP BY 0
+
+## HAVING
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust HAVING COUNT(*) > 1
+query SELECT cust, SUM(qty) FROM sales GROUP BY cust HAVING SUM(qty) > 5
+query SELECT cust, SUM(qty) FROM sales GROUP BY cust HAVING cust > 2
+query SELECT cust FROM sales GROUP BY cust HAVING MAX(qty) >= 4 AND MIN(qty) > 0
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust HAVING cust IS NULL
+query SELECT COUNT(*) FROM sales HAVING COUNT(*) > 1
+query SELECT COUNT(*) FROM sales HAVING COUNT(*) > 100
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust HAVING qty > 1
+query SELECT cust, COUNT(*) n FROM sales GROUP BY cust HAVING n > 1
+
+## Joins
+query SELECT * FROM cust, sales WHERE cust.id = sales.cust
+query SELECT cust.name, sales.item FROM cust, sales WHERE cust.id = sales.cust
+query SELECT c.name, s.item, s.qty FROM cust c, sales s WHERE c.id = s.cust
+query SELECT c.name, s.item FROM cust c INNER JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c LEFT OUTER JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c RIGHT OUTER JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c RIGHT JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c FULL OUTER JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c FULL JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c CROSS JOIN sales s WHERE s.id < 3
+query SELECT COUNT(*) FROM cust, sales
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust AND s.paid
+query SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON c.id = s.cust AND s.paid
+query SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON c.id = s.cust WHERE s.paid
+query SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON c.id = s.cust WHERE s.id IS NULL
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY s.item, c.name
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY 2 DESC, 1
+query SELECT c.name, COUNT(*) FROM cust c JOIN sales s ON c.id = s.cust GROUP BY c.name
+query SELECT c.name, COUNT(s.id), SUM(s.amount) FROM cust c LEFT JOIN sales s ON c.id = s.cust GROUP BY c.name
+query SELECT c.city, SUM(s.qty) FROM cust c JOIN sales s ON c.id = s.cust GROUP BY c.city
+query SELECT c.*, s.item FROM cust c JOIN sales s ON c.id = s.cust WHERE s.qty > 5
+query SELECT s.*, c.name FROM cust c JOIN sales s ON c.id = s.cust WHERE s.qty > 5
+query SELECT id, name FROM cust c JOIN sales s ON c.id = s.cust
+query SELECT name, item FROM cust c JOIN sales s ON c.id = s.cust WHERE qty > 5
+query SELECT c.name, s.item, s.note FROM cust c JOIN sales s ON c.id = s.cust WHERE s.note IS NOT NULL
+query SELECT a.name, b.name FROM cust a, cust b WHERE a.id < b.id AND a.city = b.city
+query SELECT a.name, b.name FROM cust a JOIN cust b ON a.city = b.city
+query SELECT DISTINCT c.city FROM cust c JOIN sales s ON c.id = s.cust
+query SELECT TOP 3 c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY s.amount DESC
+query SELECT c.name, s.item, i.name FROM cust c JOIN sales s ON c.id = s.cust JOIN indexed i ON i.id = c.id
+query SELECT c.name, s.item, i.name FROM cust c LEFT JOIN sales s ON c.id = s.cust LEFT JOIN indexed i ON i.id = s.id
+query SELECT c.name, s.item FROM cust c JOIN sales s ON s.cust = c.id WHERE c.since > '2000-01-01'
+query SELECT c.name, s.item FROM cust c JOIN sales s ON s.cust > c.id WHERE c.id = 4
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.city = s.item
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.name = s.item
+query SELECT * FROM cust c JOIN sales s ON c.id = s.cust WHERE c.id = 5
+query SELECT c.id, s.id FROM cust c JOIN sales s ON c.id = s.cust WHERE c.id = 5
+query SELECT id FROM cust, sales
+query SELECT c.nosuch FROM cust c JOIN sales s ON c.id = s.cust
+query SELECT x.name FROM cust c JOIN sales s ON c.id = s.cust
+query SELECT c.name FROM cust c JOIN sales s ON c.id = s.nosuch
+query SELECT c.name FROM cust c JOIN nosuch s ON c.id = s.cust
+query SELECT c.name FROM cust c JOIN sales c ON c.id = c.cust
+query SELECT c.name FROM cust c JOIN sales s
+query SELECT c.name FROM cust c NATURAL JOIN sales s
+query SELECT cust.name, sales.item FROM cust JOIN sales ON cust.id = sales.cust
+query SELECT c.name, s.item FROM cust AS c JOIN sales AS s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c, sales s WHERE c.id = s.cust AND s.item LIKE 'p%'
+query SELECT c.name, s.qty * s.price AS total FROM cust c JOIN sales s ON c.id = s.cust ORDER BY total DESC
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY c.since
+query SELECT c.name FROM cust c JOIN sales s ON c.id = s.cust ORDER BY s.day DESC
+query SELECT c.name, s.item FROM {static} cust c JOIN sales s ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c JOIN sales s ON (c.id = s.cust)
+query SELECT c.name, s.item FROM (cust c JOIN sales s ON c.id = s.cust)
+query SELECT c.name, s.item FROM cust c JOIN sales s USING (id)
+
+## UNION
+query SELECT id FROM cust UNION SELECT cust FROM sales
+query SELECT id FROM cust UNION ALL SELECT cust FROM sales
+query SELECT name FROM cust UNION SELECT item FROM sales
+query SELECT name FROM cust UNION ALL SELECT item FROM sales
+query SELECT item FROM sales UNION SELECT name FROM cust
+query SELECT id, name FROM cust UNION SELECT id, item FROM sales
+query SELECT id, name FROM cust UNION SELECT id, item FROM sales ORDER BY 2
+query SELECT id, name FROM cust UNION SELECT id, item FROM sales ORDER BY 1 DESC, 2
+query SELECT id, name FROM cust UNION ALL SELECT id, item FROM sales ORDER BY name
+query SELECT id FROM cust UNION SELECT id FROM sales UNION SELECT id FROM indexed
+query SELECT id FROM cust UNION ALL SELECT id FROM sales UNION SELECT id FROM indexed
+query SELECT id FROM cust UNION SELECT id FROM sales UNION ALL SELECT id FROM indexed
+query SELECT id FROM cust WHERE id < 3 UNION SELECT cust FROM sales WHERE qty > 4
+query SELECT credit FROM cust UNION SELECT price FROM sales
+query SELECT credit FROM cust UNION SELECT amount FROM sales
+query SELECT amount FROM sales UNION SELECT credit FROM cust
+query SELECT ratio FROM sales UNION SELECT id FROM cust
+query SELECT id FROM cust UNION SELECT ratio FROM sales
+query SELECT since FROM cust UNION SELECT day FROM sales
+query SELECT city FROM cust UNION SELECT item FROM sales
+query SELECT item FROM sales UNION SELECT city FROM cust
+query SELECT name FROM cust UNION SELECT 'zz' FROM system.iota
+query SELECT 1 FROM system.iota UNION SELECT 2 FROM system.iota
+query SELECT 'a' FROM system.iota UNION ALL SELECT 'bcd' FROM system.iota
+query SELECT 1 AS one FROM system.iota UNION SELECT 2 AS two FROM system.iota
+query SELECT id, name FROM cust UNION SELECT id FROM sales
+query SELECT id FROM cust UNION SELECT name FROM cust
+query SELECT since FROM cust UNION SELECT id FROM cust
+query SELECT note FROM sales UNION SELECT name FROM cust
+query SELECT note FROM sales UNION ALL SELECT name FROM cust
+query SELECT TOP 2 id FROM cust UNION SELECT id FROM sales
+query SELECT id FROM cust UNION SELECT TOP 2 id FROM sales
+query SELECT id FROM cust ORDER BY id UNION SELECT id FROM sales
+query SELECT DISTINCT item FROM sales UNION ALL SELECT item FROM sales
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust UNION SELECT id, 0 FROM cust
+query SELECT id FROM cust UNION SELECT id FROM sales ORDER BY 2
+query SELECT id FROM cust UNION SELECT id FROM sales ORDER BY nosuch
+query SELECT id AS x FROM cust UNION SELECT id FROM sales ORDER BY x
+query SELECT id FROM cust UNION SELECT id AS y FROM sales ORDER BY y
+
+## Subqueries
+query SELECT name FROM cust WHERE id IN (SELECT cust FROM sales)
+query SELECT name FROM cust WHERE id NOT IN (SELECT cust FROM sales)
+query SELECT name FROM cust WHERE id NOT IN (SELECT cust FROM sales WHERE cust IS NOT NULL)
+query SELECT name FROM cust WHERE id IN (SELECT cust FROM sales WHERE paid)
+query SELECT name FROM cust WHERE EXISTS (SELECT * FROM sales WHERE sales.cust = cust.id)
+query SELECT name FROM cust c WHERE NOT EXISTS (SELECT * FROM sales s WHERE s.cust = c.id)
+query SELECT name FROM cust c WHERE EXISTS (SELECT 1 FROM sales s WHERE s.cust = c.id AND s.qty > 5)
+query SELECT name, (SELECT COUNT(*) FROM sales s WHERE s.cust = c.id) FROM cust c
+query SELECT name, (SELECT SUM(qty) FROM sales s WHERE s.cust = c.id) AS q FROM cust c
+query SELECT name, (SELECT MAX(day) FROM sales WHERE sales.cust = cust.id) FROM cust
+query SELECT item FROM sales WHERE qty > (SELECT AVG(qty) FROM sales)
+query SELECT item FROM sales WHERE qty = (SELECT MAX(qty) FROM sales)
+query SELECT item, qty FROM sales s WHERE qty = (SELECT MAX(qty) FROM sales t WHERE t.cust = s.cust)
+query SELECT (SELECT COUNT(*) FROM sales) FROM system.iota
+query SELECT (SELECT COUNT(*) FROM sales) + (SELECT COUNT(*) FROM cust) FROM system.iota
+query SELECT name FROM cust WHERE id = (SELECT cust FROM sales)
+query SELECT name FROM cust WHERE id = (SELECT cust FROM sales WHERE id = 1)
+query SELECT name FROM cust WHERE id = (SELECT cust FROM sales WHERE id = 99)
+query SELECT name FROM cust WHERE id IN (SELECT cust, qty FROM sales)
+query SELECT name FROM cust WHERE (SELECT COUNT(*) FROM sales WHERE cust = cust.id) > 1
+query SELECT name FROM cust WHERE id > ALL (SELECT cust FROM sales WHERE cust < 5)
+query SELECT name FROM cust WHERE id > ANY (SELECT cust FROM sales WHERE cust < 5)
+query SELECT name FROM cust WHERE id = SOME (SELECT cust FROM sales)
+query SELECT * FROM (SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust) t WHERE n > 1
+query SELECT t.cust FROM (SELECT cust FROM sales) t
+query SELECT c.name, t.n FROM cust c JOIN (SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust) t ON t.cust = c.id
+query SELECT name FROM cust WHERE id IN (SELECT cust FROM sales UNION SELECT 4 FROM system.iota)
+query SELECT name FROM cust WHERE id IN (1, 2) AND EXISTS (SELECT * FROM sales WHERE cust = 9)
+query SELECT name FROM cust WHERE city IN (SELECT item FROM sales)
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust HAVING COUNT(*) > (SELECT COUNT(*) FROM cust) / 3
+query SELECT name FROM cust WHERE id IN (SELECT nosuch FROM sales)
+query SELECT name FROM cust WHERE id IN (SELECT cust FROM nosuch)
+
+## More aggregates
+query SELECT AVG(qty) FROM sales WHERE qty < 0
+query SELECT AVG(amount), AVG(price) FROM sales WHERE qty < 0
+query SELECT cust, AVG(amount), AVG(price), AVG(ratio) FROM sales GROUP BY cust
+query SELECT AVG(id) FROM sales WHERE id IN (1, 2)
+query SELECT AVG(id) FROM sales WHERE id IN (1, 2, 4)
+query SELECT AVG(-id) FROM sales WHERE id IN (1, 2)
+query SELECT AVG(-id) FROM sales WHERE id IN (1, 2, 4)
+query SELECT AVG(qty * 1.0) FROM sales
+query SELECT SUM(qty * 1.5), AVG(qty * 1.5) FROM sales
+query SELECT SUM(id * 1000000000) FROM sales
+query SELECT COUNT(DISTINCT city) FROM cust
+query SELECT COUNT(DISTINCT UPPER(item)) FROM sales
+query SELECT COUNT(DISTINCT note) FROM sales
+query SELECT MAX(CASE WHEN paid THEN amount ELSE 0 END) FROM sales
+query SELECT SUM(CASE WHEN paid THEN 1 ELSE 0 END), COUNT(*) FROM sales
+query SELECT MIN(day) + 1, MAX(day) - MIN(day) FROM sales
+query SELECT COUNT(*) FROM sales WHERE 1 = 0 GROUP BY cust
+query SELECT cust, COUNT(*) FROM sales WHERE 1 = 0 GROUP BY cust
+query SELECT MAX(qty) FROM sales GROUP BY cust HAVING MAX(qty) > 5
+query SELECT cust, SUM(qty) FROM sales GROUP BY cust ORDER BY SUM(qty) DESC
+query SELECT cust, SUM(qty) FROM sales GROUP BY cust ORDER BY SUM(qty)
+query SELECT cust, SUM(qty) FROM sales GROUP BY cust ORDER BY MAX(qty)
+query SELECT cust FROM sales GROUP BY cust ORDER BY COUNT(*) DESC
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust ORDER BY cust DESC
+query SELECT item, cust, COUNT(*) FROM sales GROUP BY item, cust ORDER BY item, cust
+query SELECT item, cust, COUNT(*) FROM sales GROUP BY item, cust ORDER BY cust
+query SELECT paid, item, COUNT(*) FROM sales GROUP BY paid, item HAVING COUNT(*) > 1
+query SELECT k_short, COUNT(*) FROM keys GROUP BY k_short
+query SELECT k_double, k_money, COUNT(*) FROM keys GROUP BY k_double, k_money
+query SELECT k_date, k_time, k_timestamp FROM keys GROUP BY k_date, k_time, k_timestamp
+query SELECT k_varchar, k_char, COUNT(*) FROM keys GROUP BY k_varchar, k_char
+query SELECT c_logical, COUNT(*), MAX(c_char), MIN(c_varchar) FROM all_types GROUP BY c_logical
+query SELECT SUM(c_numeric), SUM(c_double), SUM(c_short), SUM(c_longint) FROM all_types
+query SELECT AVG(c_money), AVG(c_curdouble), AVG(c_integer) FROM all_types
+query SELECT ? , COUNT(*) FROM sales
+query SELECT cust, COUNT(*) FROM sales GROUP BY cust HAVING COUNT(*) > ?
+
+## More joins
+query SELECT c.name, s.item FROM sales s RIGHT JOIN cust c ON c.id = s.cust
+query SELECT c.name, s.item FROM sales s LEFT JOIN cust c ON c.id = s.cust
+query SELECT c.name, s.item FROM sales s FULL JOIN cust c ON c.id = s.cust
+query SELECT c.name, s.item FROM cust c LEFT JOIN sales s ON s.cust = c.id AND c.id > 2
+query SELECT c.name, s.item FROM cust c JOIN sales s ON 1 = 1 WHERE s.id = 1
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust JOIN cust d ON d.id = s.cust + 1
+query SELECT c.name, d.name FROM cust c LEFT JOIN cust d ON d.id = c.id + 1 RIGHT JOIN sales s ON s.id = c.id
+query SELECT COUNT(*), COUNT(s.id), COUNT(c.id) FROM cust c FULL JOIN sales s ON c.id = s.cust
+query SELECT c.city, COUNT(*) FROM cust c, sales s WHERE c.id = s.cust GROUP BY c.city HAVING COUNT(*) > 2
+query SELECT DISTINCT s.item, c.name FROM sales s, cust c WHERE c.id = s.cust ORDER BY 1, 2
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust WHERE s.item = 'apple' ORDER BY c.name DESC
+query SELECT c.name, k.k_char FROM cust c, keys k WHERE c.id = k.k_integer
+query SELECT i.name, c.name FROM indexed i JOIN cust c ON i.name = c.name
+query SELECT i.name, c.name FROM indexed i JOIN cust c ON UPPER(i.name) = UPPER(c.name)
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust WHERE c.id = ?
+query SELECT * FROM cust c LEFT JOIN sales s ON c.id = s.cust WHERE s.id IS NULL
+query SELECT s.note, c.name FROM sales s JOIN cust c ON c.id = s.cust WHERE s.note LIKE '%r%'
+query SELECT c.name, s.item FROM cust c JOIN sales s ON c.id = s.cust ORDER BY s.note
+query SELECT name, item, qty FROM cust JOIN sales ON id = cust
+query SELECT cust.*, sales.* FROM cust JOIN sales ON cust.id = sales.cust WHERE sales.id < 3
+query SELECT * FROM cust a, cust b WHERE a.id = b.id
+query SELECT * FROM indexed, keys
+query SELECT COUNT(*) FROM indexed, keys, cust
+
+## More UNION
+query SELECT name, city FROM cust UNION SELECT item, item FROM sales
+query SELECT id, since FROM cust UNION ALL SELECT id, day FROM sales ORDER BY 2 DESC
+query SELECT qty FROM sales UNION SELECT amount FROM sales
+query SELECT amount FROM sales UNION SELECT qty FROM sales
+query SELECT price FROM sales UNION SELECT ratio FROM sales
+query SELECT paid FROM sales UNION SELECT paid FROM sales
+query SELECT id FROM cust UNION SELECT id FROM cust ORDER BY id DESC
+query SELECT id FROM cust UNION SELECT NULL FROM system.iota
+query SELECT k_short FROM keys UNION SELECT k_integer FROM keys
+query SELECT k_integer FROM keys UNION SELECT k_longint FROM keys
+query SELECT k_short FROM keys UNION SELECT k_numeric FROM keys
+query SELECT k_numeric FROM keys UNION SELECT k_short FROM keys
+query SELECT k_char FROM keys UNION SELECT k_varchar FROM keys
+query SELECT k_varchar FROM keys UNION SELECT k_char FROM keys
+query SELECT k_date FROM keys UNION SELECT k_timestamp FROM keys
+query SELECT COUNT(*) FROM sales UNION SELECT COUNT(*) FROM cust
+query SELECT id, name FROM cust WHERE id = 1 UNION ALL SELECT id, name FROM cust WHERE id = 1
+
+## More subqueries
+query SELECT name FROM cust WHERE id IN (SELECT cust FROM sales WHERE qty > (SELECT AVG(qty) FROM sales))
+query SELECT name FROM cust c WHERE EXISTS (SELECT * FROM sales s WHERE s.cust = c.id AND EXISTS (SELECT * FROM cust d WHERE d.id = s.cust AND d.city = c.city))
+query SELECT name, (SELECT MAX(qty) FROM sales WHERE cust = c.id) - (SELECT MIN(qty) FROM sales WHERE cust = c.id) FROM cust c
+query SELECT c.name FROM cust c ORDER BY (SELECT COUNT(*) FROM sales s WHERE s.cust = c.id) DESC
+query SELECT cust, (SELECT name FROM cust WHERE id = s.cust) FROM sales s
+query SELECT name FROM cust WHERE id NOT IN (SELECT cust FROM sales WHERE cust IS NOT NULL) AND id IN (SELECT id FROM cust)
+query SELECT item, qty FROM sales WHERE qty >= ALL (SELECT qty FROM sales WHERE qty IS NOT NULL)
+query SELECT item, qty FROM sales WHERE qty >= ALL (SELECT qty FROM sales)
+query SELECT item FROM sales WHERE qty < ANY (SELECT qty FROM sales WHERE cust = 9)
+query SELECT name FROM cust WHERE id = ANY (SELECT cust FROM sales)
+query SELECT name FROM cust WHERE id <> ALL (SELECT cust FROM sales WHERE cust IS NOT NULL)
+query SELECT name FROM cust WHERE EXISTS (SELECT * FROM sales WHERE 1 = 0)
+query SELECT name FROM cust WHERE EXISTS (SELECT * FROM system.iota)
+query SELECT name FROM cust WHERE id IN (SELECT TOP 2 cust FROM sales ORDER BY cust DESC)
+query SELECT name FROM cust WHERE id IN (SELECT DISTINCT cust FROM sales)
+query SELECT * FROM (SELECT id, name FROM cust WHERE id > 2) AS t ORDER BY name DESC
+query SELECT t.n, COUNT(*) FROM (SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust) t GROUP BY t.n
+query SELECT MAX(n) FROM (SELECT cust, COUNT(*) AS n FROM sales GROUP BY cust) t
+query SELECT * FROM (SELECT id FROM cust UNION SELECT cust FROM sales) t
+query SELECT x.id, y.id FROM (SELECT id FROM cust WHERE id < 3) x, (SELECT id FROM cust WHERE id > 3) y
+query SELECT name FROM cust WHERE name IN (SELECT name FROM indexed)
+query SELECT name FROM cust WHERE (SELECT COUNT(*) FROM sales) > 10
+query SELECT (SELECT name FROM cust WHERE id = 1), (SELECT item FROM sales WHERE id = 3) FROM system.iota
+query SELECT * FROM sales WHERE cust = (SELECT id FROM cust WHERE name = 'Eve') ORDER BY id DESC
+
+## Restrictions an index can serve, in SELECTs that run through their plan
+## (an expression in the select list keeps them from being live cursors)
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'abc'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'ABC'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'Zz'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'zz'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'a'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = ''
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char >= 'Ä'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'abc     '
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = 'abcdefgh'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char IN ('a', 'Zz', 'x', NULL)
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char > 'Z'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE 'a' = k_char
+query SELECT k_autoinc + 0, k_cichar FROM keys WHERE k_cichar = 'ZZ'
+query SELECT k_autoinc + 0, k_cichar FROM keys WHERE k_cichar = 'ABC'
+query SELECT k_autoinc + 0, k_cichar FROM keys WHERE k_cichar = 'äÉ'
+query SELECT k_autoinc + 0, k_cichar FROM keys WHERE k_cichar IN ('A', 'zZ')
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer = 1
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > 0
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= 0
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer < 0
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer <= -1
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer = 1.5
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > 0.5
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer < 1.5
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer BETWEEN -5 AND 5
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer BETWEEN 5 AND -5
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer IN (0, 1, -1, 2147483647)
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > 99999999999
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer < 99999999999
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer = NULL
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > -2147483647 AND k_integer < 2147483647
+query SELECT k_autoinc + 0, k_short FROM keys WHERE k_short > 0
+query SELECT k_autoinc + 0, k_short FROM keys WHERE k_short < 0
+query SELECT k_autoinc + 0, k_longint FROM keys WHERE k_longint > 0
+query SELECT k_autoinc + 0, k_longint FROM keys WHERE k_longint <= 0
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric > 0
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric < 0
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric = 0
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric BETWEEN -1 AND 1.005
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric > 0.001
+query SELECT k_autoinc + 0, k_double FROM keys WHERE k_double > 0
+query SELECT k_autoinc + 0, k_double FROM keys WHERE k_double < 0
+query SELECT k_autoinc + 0, k_double FROM keys WHERE k_double = 0
+query SELECT k_autoinc + 0, k_curdouble FROM keys WHERE k_curdouble >= 0
+query SELECT k_autoinc + 0, k_money FROM keys WHERE k_money > 0
+query SELECT k_autoinc + 0, k_money FROM keys WHERE k_money = 0
+query SELECT k_autoinc + 0, k_money FROM keys WHERE k_money BETWEEN -1 AND 1
+query SELECT k_autoinc + 0, k_date FROM keys WHERE k_date > '2000-01-01'
+query SELECT k_autoinc + 0, k_date FROM keys WHERE k_date < '2000-01-01'
+query SELECT k_autoinc + 0, k_time FROM keys WHERE k_time > '12:00:00'
+query SELECT k_autoinc + 0, k_timestamp FROM keys WHERE k_timestamp > '2000-01-01 00:00:00'
+query SELECT k_autoinc + 0, k_logical FROM keys WHERE k_logical
+query SELECT k_autoinc + 0, k_logical FROM keys WHERE k_logical = FALSE
+query SELECT k_autoinc + 0, k_autoinc FROM keys WHERE k_autoinc > 3
+query SELECT k_autoinc + 0, k_integer, k_char FROM keys WHERE k_integer > 0 AND k_char = 'abc'
+query SELECT k_autoinc + 0, k_integer, k_char FROM keys WHERE k_integer >= 0 AND k_char > 'a'
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > 0 OR k_char = 'abc'
+query SELECT id + 0, name FROM indexed WHERE amount > 2
+query SELECT id + 0, name FROM indexed WHERE amount < 2
+query SELECT id + 0, name FROM indexed WHERE amount = 1
+query SELECT id + 0, name FROM indexed WHERE born < '1980-01-01'
+query SELECT id + 0, name FROM indexed WHERE ciname = 'BRAVO'
+query SELECT DISTINCT name FROM indexed WHERE id = 2
+query SELECT TOP 2 id, name FROM indexed WHERE id > 1
+query SELECT TOP 2 id, name FROM indexed WHERE id > 1 ORDER BY id DESC
+query SELECT COUNT(*) FROM keys WHERE k_integer > 0
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= -1
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer > -2
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer <= 1
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer < 2
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE -1 <= k_integer
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= -1 AND k_integer <= 1
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= -1 AND k_short >= -100
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= -1 AND k_char <> 'x'
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer >= -1 AND k_char LIKE '%'
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer = 1 OR k_integer = -1
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char >= 'a'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char >= 'B'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char > 'B'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char <= 'zzz'
+query SELECT k_autoinc + 0, k_char FROM keys WHERE k_char <> 'abc'
+query SELECT k_autoinc + 0, k_double FROM keys WHERE k_double >= -1000
+query SELECT k_autoinc + 0, k_date FROM keys WHERE k_date >= '1800-01-01'
+query SELECT k_autoinc + 0, k_numeric FROM keys WHERE k_numeric <= 1000
+query SELECT k_autoinc + 0, k_integer FROM keys WHERE k_logical = TRUE
+query SELECT id + 0, amount FROM indexed WHERE amount >= 0
+query SELECT id + 0, amount FROM indexed WHERE amount <= 1000
+query SELECT id + 0, name FROM indexed WHERE name >= 'A'
+query SELECT k_autoinc + 0 FROM keys WHERE k_integer IS NULL
+prepare SELECT k_autoinc + 0, k_integer FROM keys WHERE k_integer = ?
+param 1 long 1
+exec
+prepare SELECT k_autoinc + 0, k_char FROM keys WHERE k_char = :c
+param c string abc
+exec
+param c null
+exec
+clearparams
+
+## Joins whose right table an index finds the rows of
+query SELECT c.name, i.name FROM cust c JOIN indexed i ON i.id = c.id
+query SELECT c.name, i.name FROM cust c JOIN indexed i ON c.id = i.id
+query SELECT c.name, i.name FROM cust c LEFT JOIN indexed i ON i.id = c.id
+query SELECT c.name, i.name FROM cust c LEFT JOIN indexed i ON i.id = c.id AND i.amount > 2
+query SELECT c.name, i.name FROM cust c RIGHT JOIN indexed i ON i.id = c.id
+query SELECT c.name, i.name FROM cust c, indexed i WHERE i.id = c.id AND i.amount > 2
+query SELECT c.name, i.name FROM cust c LEFT JOIN indexed i ON i.id = c.id WHERE i.amount > 2
+query SELECT c.name, i.name FROM cust c JOIN indexed i ON i.name = c.name
+query SELECT s.item, i.name FROM sales s JOIN indexed i ON i.id = s.cust WHERE s.qty > 1
+query SELECT a.k_autoinc, b.k_autoinc FROM keys a JOIN keys b ON b.k_char = a.k_char
+query SELECT a.k_autoinc, b.k_autoinc FROM keys a JOIN keys b ON b.k_cichar = a.k_char
+query SELECT a.k_autoinc, b.k_autoinc FROM keys a JOIN keys b ON b.k_char = a.k_cichar
+query SELECT a.k_autoinc, b.k_autoinc FROM keys a LEFT JOIN keys b ON b.k_integer = a.k_short
+query SELECT a.k_autoinc, b.k_autoinc FROM keys a JOIN keys b ON b.k_date = a.k_date
+query SELECT name FROM cust c WHERE EXISTS (SELECT * FROM indexed i WHERE i.id = c.id)
+query SELECT name FROM cust c WHERE NOT EXISTS (SELECT * FROM indexed i WHERE i.id = c.id)
+query SELECT name, (SELECT COUNT(*) FROM indexed i WHERE i.id <= c.id) FROM cust c
+query SELECT name FROM cust c WHERE id IN (SELECT id FROM indexed i WHERE i.name = 'Bravo')

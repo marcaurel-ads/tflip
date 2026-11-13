@@ -1,0 +1,4 @@
+{
+  "105": {"fields": ["count"], "why": "the record count of a cursor whose WHERE an order found does not count a record appended after the cursor opened until something else changes the cursor (KNOWN_ISSUES)"},
+  "106": {"fields": ["count"], "why": "the same"}
+}

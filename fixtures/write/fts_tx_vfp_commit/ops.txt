@@ -1,0 +1,73 @@
+tabletype vfp
+# Full-text orders kept current in a transaction: what CONTAINS finds
+# on the connection that writes and on another, and the files after the
+# commit.
+# An append, a change of each field and a delete, by the API.
+open ta.dbf shared
+begin
+append
+set id long 6
+set body string zebra and fox
+set c string zebra stripes
+write
+flush
+snapshot appended
+goto 1
+set body string newword here
+write
+goto 3
+set c string zebra
+write
+flush
+snapshot changed
+goto 2
+delete
+write
+goto 4
+set body string newword
+write
+flush
+snapshot deleted
+commit
+flush
+snapshot commit
+state
+rows
+# SQL's statements.
+open tq.dbf shared
+begin
+sql INSERT INTO tq VALUES (10, 'zebra crossing', 'zebra')
+sql UPDATE tq SET body = 'fox and zebra' WHERE id = 5
+sql DELETE FROM tq WHERE id = 3
+flush
+snapshot sql
+commit
+flush
+snapshot sql-commit
+# A savepoint.
+open tp.dbf shared
+begin
+goto 1
+set body string savepoint one
+write
+savepoint s
+goto 2
+set body string savepoint two
+write
+goto 5
+delete
+write
+rollbackto s
+flush
+snapshot savepoint-rolled
+commit
+flush
+snapshot savepoint-commit
+# A change pending when the transaction ends.
+open tn.dbf shared
+begin
+goto 4
+set body string pending words
+commit
+flush
+snapshot pending-commit

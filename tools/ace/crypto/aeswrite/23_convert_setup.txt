@@ -1,0 +1,3 @@
+# A plain dictionary for 24_convert_refused.txt, made in a process of its own (the original keeps a dictionary a process opened usable by its later connections).
+ddcreate 0 %D\p\p.add
+disconnect

@@ -1,0 +1,13 @@
+# Encrypted tables decrypted. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_DecryptTable('t2')
+sql EXECUTE PROCEDURE sp_DecryptTable('t')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_DecryptTable('t2')
+sql EXECUTE PROCEDURE sp_DecryptTable('t')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_DecryptTable('t2')
+sql EXECUTE PROCEDURE sp_DecryptTable('t')
+disconnect

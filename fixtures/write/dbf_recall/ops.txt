@@ -1,0 +1,15 @@
+# Every deleted record recalled: the orders take their keys, uncounted.
+tabletype cdx
+open f.dbf exclusive
+recallall
+state
+order nd
+rows
+close
+tabletype ntx
+open n.dbf exclusive
+openindex n_c.ntx
+recallall
+order n_c
+rows
+close

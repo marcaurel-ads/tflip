@@ -1,0 +1,64 @@
+# sp_EncryptTable, sp_DecryptTable and the TABLE_ENCRYPTION property on DBF tables of an RC4 dictionary that has a table password, ENCRYPT_NEW_TABLE and ENCRYPT_INDEXES off.
+ddcreate 0 %D\y7\d.add
+stmttype 2
+sql CREATE TABLE acdx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO acdx VALUES (1, 'first memo', 'one')
+sql INSERT INTO acdx VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO acdx VALUES (3, 'third', 'three')
+sql DELETE FROM acdx WHERE id = 2
+sql CREATE INDEX acdx_name ON acdx (name)
+stmttype 1
+sql CREATE TABLE antx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO antx VALUES (1, 'first memo', 'one')
+sql INSERT INTO antx VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO antx VALUES (3, 'third', 'three')
+sql DELETE FROM antx WHERE id = 2
+sql CREATE INDEX antx_name ON antx (name)
+stmttype 4
+sql CREATE TABLE avfp (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO avfp VALUES (1, 'first memo', 'one')
+sql INSERT INTO avfp VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO avfp VALUES (3, 'third', 'three')
+sql DELETE FROM avfp WHERE id = 2
+sql CREATE INDEX avfp_name ON avfp (name)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+enc acdx
+dec acdx
+stmttype 2
+sql EXECUTE PROCEDURE sp_EncryptTable('acdx')
+stmttype 1
+sql EXECUTE PROCEDURE sp_EncryptTable('antx')
+stmttype 4
+sql EXECUTE PROCEDURE sp_EncryptTable('avfp')
+sql EXECUTE PROCEDURE sp_EncryptTable('acdx')
+sql EXECUTE PROCEDURE sp_DecryptTable('antx')
+stmttype 2
+sql INSERT INTO acdx VALUES (4, 'fourth memo', 'four')
+sql UPDATE acdx SET note = 'a replacement memo that is much longer than the old one, enough to move it', name = 'uno' WHERE id = 1
+sql DELETE FROM acdx WHERE id = 3
+sql CREATE INDEX acdx_id ON acdx (id)
+stmttype 1
+sql INSERT INTO antx VALUES (4, 'fourth memo', 'four')
+sql UPDATE antx SET note = 'a replacement memo that is much longer than the old one, enough to move it', name = 'uno' WHERE id = 1
+sql DELETE FROM antx WHERE id = 3
+sql CREATE INDEX antx_id ON antx (id)
+stmttype 4
+sql INSERT INTO avfp VALUES (4, 'fourth memo', 'four')
+sql UPDATE avfp SET note = 'a replacement memo that is much longer than the old one, enough to move it', name = 'uno' WHERE id = 1
+sql DELETE FROM avfp WHERE id = 3
+sql CREATE INDEX avfp_id ON avfp (id)
+tget acdx 214
+tget antx 214
+tget avfp 214
+stmttype 2
+sql EXECUTE PROCEDURE sp_DecryptTable('acdx')
+stmttype 1
+sql EXECUTE PROCEDURE sp_DecryptTable('antx')
+stmttype 4
+sql EXECUTE PROCEDURE sp_DecryptTable('avfp')
+tset acdx 214 1
+tset antx 214 1
+tset avfp 214 1
+tset acdx 214 0
+tget acdx 214
+disconnect

@@ -1,0 +1,14 @@
+00:00:00  :  Starting Deployment...
+00:00:00  :  Creating fail table directory {D}\fail.
+00:00:00  :  Turning verify rights on.
+00:00:00  :  Turning logins required on.
+00:00:00  :  Setting table encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting query via root option to FALSE
+00:00:00  :  Analyzing {D}.\t.adt
+00:00:00  :  Starting to add tables to dictionary.
+00:00:00  :  Adding table t to the dictionary.
+00:00:00  :  Adding Index {D}\.\t.adi to the dictionary.
+00:00:00  :  Added stored procedure p1 to the dictionary.
+00:00:00  :  Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.

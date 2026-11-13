@@ -1,0 +1,208 @@
+# Indexes in SELECTs that run through their plan: orders on an expression or on several
+# fields, CICHARACTER ranges and IN lists, with the rows' order and the plan of each
+# (an empty data folder), for fixtures/sql/indexsel.json.
+stmt
+query CREATE TABLE xs (id integer, a char(8), b cichar(8), c integer, d integer)
+query INSERT INTO xs VALUES (1, 'pear', 'Pear', 3, 1)
+query INSERT INTO xs VALUES (2, 'Apple', 'apple', 1, 2)
+query INSERT INTO xs VALUES (3, 'fig', 'FIG', 2, 2)
+query INSERT INTO xs VALUES (4, 'apple', 'Apple', 1, 1)
+query INSERT INTO xs VALUES (5, 'Zed', 'zed', 3, 0)
+query INSERT INTO xs VALUES (6, 'kiwi', 'KIWI', 2, 1)
+query INSERT INTO xs VALUES (7, 'date', 'Date', 1, 3)
+query INSERT INTO xs VALUES (8, 'plum', 'plum', 3, 2)
+query CREATE TABLE ys (id integer, n integer)
+query INSERT INTO ys VALUES (2, 20)
+query INSERT INTO ys VALUES (4, 40)
+query INSERT INTO ys VALUES (6, 60)
+query INSERT INTO ys VALUES (1, 10)
+query INSERT INTO ys VALUES (9, 90)
+query INSERT INTO ys VALUES (3, 30)
+query CREATE TABLE xt (id integer, m char(4), s cichar(8))
+query INSERT INTO xt VALUES (3, 'x3', 'fig')
+query INSERT INTO xt VALUES (1, 'x1', 'APPLE')
+query INSERT INTO xt VALUES (8, 'x8', 'plum')
+query INSERT INTO xt VALUES (5, 'x5', 'Zed')
+query INSERT INTO xt VALUES (9, 'x9', 'none')
+query CREATE INDEX xt_id ON xt (id)
+query CREATE INDEX xt_s ON xt (s)
+query CREATE INDEX x_id ON xs (id)
+query CREATE INDEX x_a ON xs (a)
+query CREATE INDEX x_b ON xs (b)
+query CREATE INDEX x_cd ON xs (c, d)
+query EXECUTE PROCEDURE sp_CreateIndex90('xs', 'xs.adi', 'x_up', 'UPPER(a)', '', 2, 512, '')
+query EXECUTE PROCEDURE sp_CreateIndex90('xs', 'xs.adi', 'x_cond', 'd', 'id > 3', 2, 512, '')
+query EXECUTE PROCEDURE sp_CreateIndex90('xs', 'xs.adi', 'x_sum', 'c + d', '', 2, 512, '')
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) = 'APPLE'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) = 'APPLE'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) >= 'F'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) >= 'F'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) IN ('FIG', 'KIWI')
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE UPPER(a) IN ('FIG', 'KIWI')
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a = 'fig'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a = 'fig'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a >= 'fig'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a >= 'fig'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d = 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d = 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c <= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c <= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c > 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c > 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d > 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d > 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c BETWEEN 1 AND 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c BETWEEN 1 AND 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c IN (1, 3)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c IN (1, 3)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c + d = 4
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c + d = 4
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c + d >= 4
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c + d >= 4
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d >= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d >= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d > 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d > 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b = 'apple'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b = 'apple'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b = 'APPLE'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b = 'APPLE'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b >= 'k'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b >= 'k'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b <= 'k'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b <= 'k'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b > 'FIG'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b > 'FIG'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b < 'k'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b < 'k'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b BETWEEN 'a' AND 'g'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b BETWEEN 'a' AND 'g'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b <> 'fig'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b <> 'fig'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b IN ('fig', 'PEAR')
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE b IN ('fig', 'PEAR')
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d >= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d >= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 1 AND d = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 1 AND d = 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d <= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d <= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 2 AND c = 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE d = 2 AND c = 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d <> 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 1 AND d <> 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d IN (1, 2)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d IN (1, 2)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND a = 'fig'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND a = 'fig'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND id > 0
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND id > 0
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 2 AND d >= 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c >= 2 AND d >= 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 3 AND d = 1 AND id = 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 3 AND d = 1 AND id = 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND c = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND c = 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d = 1 AND a = 'kiwi'
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 2 AND d = 1 AND a = 'kiwi'
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 3 AND d >= 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE c = 3 AND d >= 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7) AND c > 0
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7) AND c > 0
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7) AND d = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 7) AND d = 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a IN ('pear', 'fig', 'date')
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE a IN ('pear', 'fig', 'date')
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (1)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (1)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id NOT IN (1, 2)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id NOT IN (1, 2)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 3)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 3)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 100)
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id IN (3, 1, 100)
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id = 3 OR id = 1
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id = 3 OR id = 1
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id > 6
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id > 6
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id <= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id <= 2
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id >= 6
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id >= 6
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id = 6
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id = 6
+query SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id > 6 AND id < 9
+query SHOW PLAN FOR SELECT id + 0 AS r, a, b, c, d FROM xs WHERE id > 6 AND id < 9
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.id AND xs.c = 1
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.id AND xs.c = 1
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.id AND xs.c = 1
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.id AND xs.c = 1
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON ys.id = xs.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON ys.id = xs.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON ys.id = xs.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON ys.id = xs.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.n / 10
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id = ys.n / 10
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.n / 10
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id = ys.n / 10
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id + 0 = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys JOIN xs ON xs.id + 0 = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id + 0 = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM ys LEFT JOIN xs ON xs.id + 0 = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs JOIN ys ON xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs JOIN ys ON xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs LEFT JOIN ys ON xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs LEFT JOIN ys ON xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs RIGHT JOIN ys ON xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs RIGHT JOIN ys ON xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs, ys WHERE xs.id = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs, ys WHERE xs.id = ys.id
+query SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs, ys WHERE xs.id = ys.id AND ys.n > 20
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r, xs.a FROM xs, ys WHERE xs.id = ys.id AND ys.n > 20
+query SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND id <= 4
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND id <= 4
+query SELECT id + 0 AS r, n FROM ys WHERE n = 20 AND id = 2
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n = 20 AND id = 2
+query SELECT id + 0 AS r, n FROM ys WHERE n <= 40 AND id >= 2
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n <= 40 AND id >= 2
+query SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.id = xs.id
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.id = xs.id
+query SELECT xs.id + 0 AS xid, xt.m FROM xs JOIN xt ON xs.id = xt.id
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xs JOIN xt ON xs.id = xt.id
+query SELECT xt.m, ys.n + 0 AS yn FROM ys JOIN xt ON ys.id = xt.id
+query SHOW PLAN FOR SELECT xt.m, ys.n + 0 AS yn FROM ys JOIN xt ON ys.id = xt.id
+query SELECT xt.m, ys.n + 0 AS yn FROM xt JOIN ys ON xt.id = ys.id
+query SHOW PLAN FOR SELECT xt.m, ys.n + 0 AS yn FROM xt JOIN ys ON xt.id = ys.id
+query SELECT xs.id + 0 AS xid, xt.m FROM xs JOIN xt ON xs.b = xt.s
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xs JOIN xt ON xs.b = xt.s
+query SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.s = xs.b
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.s = xs.b
+query SELECT xs.id + 0 AS xid, xt.m FROM xs LEFT JOIN xt ON xs.id = xt.id
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xs LEFT JOIN xt ON xs.id = xt.id
+query SELECT xs.id + 0 AS xid, xt.m, ys.n + 0 AS yn FROM ys JOIN xs ON xs.id = ys.id JOIN xt ON xt.id = xs.id
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m, ys.n + 0 AS yn FROM ys JOIN xs ON xs.id = ys.id JOIN xt ON xt.id = xs.id
+query SELECT xs.id + 0 AS xid, xt.m, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id JOIN xt ON xt.id = ys.id
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id JOIN xt ON xt.id = ys.id
+query SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.id = xs.id WHERE xs.c = 3
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, xt.m FROM xt JOIN xs ON xt.id = xs.id WHERE xs.c = 3
+query SELECT xs.id + 0 AS xid, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id WHERE xs.c = 1
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id WHERE xs.c = 1
+query SELECT xs.id + 0 AS xid, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id WHERE ys.n > 20
+query SHOW PLAN FOR SELECT xs.id + 0 AS xid, ys.n + 0 AS yn FROM xs JOIN ys ON xs.id = ys.id WHERE ys.n > 20
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r FROM ys JOIN xs ON xs.c = ys.id
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r FROM ys JOIN xs ON xs.c = ys.id AND xs.d = ys.n
+query SHOW PLAN FOR SELECT ys.n, xs.id + 0 AS r FROM ys JOIN xs ON xs.b = 'x'

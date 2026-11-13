@@ -1,0 +1,46 @@
+stmt
+## group huge
+direct CREATE TABLE sq (n INTEGER)
+direct DECLARE i INTEGER; SET i = 0; WHILE i <= 127 DO INSERT INTO sq VALUES (i); SET i = i + 1; END WHILE;
+direct CREATE TABLE s3 (n INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 3000 DO INSERT INTO s3 VALUES (i); SET i = i + 1; END WHILE;
+direct CREATE TABLE huge (id INTEGER, grp INTEGER, city CHAR(10), d DATE)
+direct INSERT INTO huge SELECT a.n * 3000 + b.n, MOD(a.n * 3000 + b.n, 10), 'City' + CAST(MOD(a.n * 3000 + b.n, 50) AS SQL_VARCHAR(2)), CAST('2019-01-01' AS SQL_DATE) + MOD(a.n * 3000 + b.n, 1000) FROM sq a, s3 b
+direct CREATE INDEX HID ON huge (id)
+direct CREATE INDEX HGRP ON huge (grp)
+direct CREATE INDEX HCITY ON huge (city)
+direct CREATE INDEX HD ON huge (d)
+## o-join-huge-big
+direct CREATE TABLE big (id INTEGER, grp INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 3000 DO INSERT INTO big VALUES (i, MOD(i, 10)); SET i = i + 1; END WHILE;
+direct CREATE INDEX GRP ON big (grp)
+query SHOW PLAN FOR SELECT * FROM huge h, big b WHERE h.id = b.id AND b.grp = 1
+direct DROP TABLE big
+direct DROP TABLE sq
+direct DROP TABLE s3
+direct DROP TABLE huge
+direct CREATE TABLE sq (n INTEGER)
+direct DECLARE i INTEGER; SET i = 0; WHILE i <= 127 DO INSERT INTO sq VALUES (i); SET i = i + 1; END WHILE;
+direct CREATE TABLE s3 (n INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 3000 DO INSERT INTO s3 VALUES (i); SET i = i + 1; END WHILE;
+direct CREATE TABLE huge (id INTEGER, grp INTEGER, city CHAR(10), d DATE)
+direct INSERT INTO huge SELECT a.n * 3000 + b.n, MOD(a.n * 3000 + b.n, 10), 'City' + CAST(MOD(a.n * 3000 + b.n, 50) AS SQL_VARCHAR(2)), CAST('2019-01-01' AS SQL_DATE) + MOD(a.n * 3000 + b.n, 1000) FROM sq a, s3 b
+direct CREATE INDEX HID ON huge (id)
+direct CREATE INDEX HGRP ON huge (grp)
+direct CREATE INDEX HCITY ON huge (city)
+direct CREATE INDEX HD ON huge (d)
+## o-huge-segments
+query SHOW PLAN FOR SELECT * FROM huge WHERE id = 4000 AND city = 'City3' AND grp = 3 AND d > '2020-01-01'
+## o-evaluator-live
+query SHOW PLAN FOR SELECT * FROM huge WHERE id < 50 ORDER BY grp
+## o-500-rule-internal
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM huge WHERE id < 50 ORDER BY grp
+## o-500-rule-indexes
+query SELECT * FROM huge WHERE id < 50 ORDER BY grp
+## o-500-rule-600
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM huge WHERE id < 600 ORDER BY grp
+## o-500-rule-600-indexes
+query SELECT * FROM huge WHERE id < 600 ORDER BY grp
+direct DROP TABLE sq
+direct DROP TABLE s3
+direct DROP TABLE huge

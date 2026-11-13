@@ -1,0 +1,5 @@
+createtable t.adt 0 id,Integer;b,Binary;im,Image;v,VarBinary,8;m,Memo
+append
+set id long 1
+write
+close

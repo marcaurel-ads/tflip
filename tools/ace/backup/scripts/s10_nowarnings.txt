@@ -1,0 +1,3 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', 'NoWarnings')

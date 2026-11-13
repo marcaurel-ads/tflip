@@ -1,0 +1,37 @@
+{
+ "table_type": "adt",
+ "record_count": 0,
+ "record_length": 143,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "m", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0},
+  {"name": "b", "type": 6, "type_name": "Binary", "length": 9, "decimals": 0},
+  {"name": "l", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "n", "type": 28, "type_name": "NMemo", "length": 9, "decimals": 0},
+  {"name": "r", "type": 16, "type_name": "Raw", "length": 4, "decimals": 0},
+  {"name": "vb", "type": 24, "type_name": "VarBinaryFox", "length": 10, "decimals": 0},
+  {"name": "c", "type": 4, "type_name": "Character", "length": 5, "decimals": 0},
+  {"name": "nu", "type": 2, "type_name": "Numeric", "length": 6, "decimals": 2},
+  {"name": "d", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "tm", "type": 13, "type_name": "Time", "length": 4, "decimals": 0},
+  {"name": "i", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "ts", "type": 14, "type_name": "TimeStamp", "length": 8, "decimals": 0},
+  {"name": "mo", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "dbl", "type": 10, "type_name": "Double", "length": 8, "decimals": 15},
+  {"name": "ai", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "rv", "type": 21, "type_name": "RowVersion", "length": 8, "decimals": 0},
+  {"name": "mt", "type": 22, "type_name": "ModTime", "length": 8, "decimals": 0},
+  {"name": "ci", "type": 20, "type_name": "CICharacter", "length": 5, "decimals": 0},
+  {"name": "sh", "type": 12, "type_name": "ShortInt", "length": 2, "decimals": 0},
+  {"name": "g", "type": 29, "type_name": "GUID", "length": 16, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+ ]
+}

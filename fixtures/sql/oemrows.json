@@ -1,0 +1,60 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "chartype 2", "rc": 0},
+{"cmd": "query SELECT code, c FROM co WHERE code IN (228, 246, 128, 158)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "co.dbf", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["code", 11, 4, 0], ["c", 4, 1, 0]], "rows": [
+  [97, ["128", "?"]],
+  [127, ["158", "z"]],
+  [197, ["228", "\u00e4"]],
+  [215, ["246", "\u00f6"]]]}},
+{"cmd": "query SELECT x, COUNT(*) FROM (SELECT code, c AS x FROM co WHERE code IN (228, 246, 128, 158)) t GROUP BY x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["x", 4, 1, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["?", "1"]],
+  [2, ["z", "1"]],
+  [3, ["\u00e4", "1"]],
+  [4, ["\u00f6", "1"]]]}},
+{"cmd": "query SELECT code, (SELECT c FROM co b WHERE b.code = a.code) AS x FROM co a WHERE code IN (228, 246, 128, 158)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["code", 11, 4, 0], ["x", 4, 1, 0]], "rows": [
+  [1, ["128", "?"]],
+  [2, ["158", "z"]],
+  [3, ["228", "\u00e4"]],
+  [4, ["246", "\u00f6"]]]}},
+{"cmd": "query SELECT code FROM co WHERE c IN (SELECT c FROM co WHERE code = 228)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [1, ["228"]]]}},
+{"cmd": "query SELECT code FROM co WHERE c = (SELECT c FROM co WHERE code = 228)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [1, ["228"]]]}},
+{"cmd": "query SELECT code FROM co a WHERE EXISTS (SELECT 1 FROM co b WHERE b.c = a.c AND b.code = 228)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [1, ["228"]]]}},
+{"cmd": "query SELECT a.code, b.code FROM co a JOIN co b ON a.c = b.c WHERE a.code IN (228, 246)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["code", 11, 4, 0], ["code_1", 11, 4, 0]], "rows": [
+  [1, ["228", "228"]],
+  [2, ["246", "246"]]]}},
+{"cmd": "query SELECT c, COUNT(*) FROM co WHERE code IN (228, 246) GROUP BY c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["c", 4, 1, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["\u00e4", "1"]],
+  [2, ["\u00f6", "1"]]]}},
+{"cmd": "query SELECT DISTINCT c FROM co WHERE code IN (228, 246)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["c", 4, 1, 0]], "rows": [
+  [1, ["\u00e4"]],
+  [2, ["\u00f6"]]]}},
+{"cmd": "query SELECT c FROM co WHERE code = 228 UNION SELECT c FROM co WHERE code = 246", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["c", 4, 1, 0]], "rows": [
+  [1, ["\u00e4"]],
+  [2, ["\u00f6"]]]}},
+{"cmd": "query SELECT MAX(c), MIN(c) FROM co WHERE code IN (228, 246, 233)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 1, 0], ["EXPR_1", 4, 1, 0]], "rows": [
+  [1, ["\u00f6", "\u00e9"]]]}},
+{"cmd": "query SELECT UPPER(c), LENGTH(c), ASCII(c) FROM co WHERE code IN (228, 246)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 4, 1, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 12, 2, 0]], "rows": [
+  [1, ["\u00e4", "1", "228"]],
+  [2, ["\u00f6", "1", "246"]]]}},
+{"cmd": "query SELECT c + 'x' FROM co WHERE code = 228", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 2, 0]], "rows": [
+  [1, ["\u00e4x"]]]}},
+{"cmd": "query SELECT c FROM co WHERE code = 228 ORDER BY c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "co.dbf", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 1, "count": 1, "fields": [["c", 4, 1, 0]], "rows": [
+  [197, ["\u00e4"]]]}},
+{"cmd": "query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT s AS v, ASCII(s) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 4, 10, 0], ["a", 12, 2, 0]], "rows": [
+  [1, ["\u00e4         ", "228"]]]}},
+{"cmd": "query DECLARE s CHAR(10); SELECT c INTO s FROM co WHERE code = 228; SELECT s AS v, ASCII(s) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 4, 10, 0], ["a", 12, 2, 0]], "rows": [
+  [1, [null, null]]]}},
+{"cmd": "query DECLARE cur CURSOR AS SELECT c FROM co WHERE code = 228; OPEN cur; WHILE FETCH cur DO INSERT INTO __output SELECT c FROM cur; END WHILE; CLOSE cur;", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\__output.dbf Table name: __output ** Script error information:  -- Location of error in the SQL statement is: 87", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO __output SELECT c FROM co WHERE code IN (228, 246);", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\__output.dbf Table name: __output", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); INSERT INTO __output VALUES (s);", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\__output.dbf Table name: __output ** Script error information:  -- Location of error in the SQL statement is: 62", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT code FROM co WHERE c = s", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "co.dbf", "options": 65776, "table_type": 1, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [197, ["228"]]]}},
+{"cmd": "query DECLARE s CHAR(10); s = (SELECT c FROM co WHERE code = 228); SELECT DISTINCT code FROM (SELECT code FROM co WHERE c = s) t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [1, ["228"]]]}},
+{"cmd": "query CREATE TABLE ct (x CHAR(4)); INSERT INTO ct SELECT c FROM co WHERE code = 228; SELECT x, ASCII(x) FROM ct", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 4, 4, 0], ["EXPR", 12, 2, 0]], "rows": [
+  [1, ["\u00e4   ", "228"]]]}}
+]

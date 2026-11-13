@@ -1,0 +1,146 @@
+stmt
+direct CREATE DATABASE "pl\pl.add"
+connect pl\pl.add ADSSYS
+stmt
+direct CREATE TABLE t (n INTEGER)
+# T1: a limit of 3: cursors held open.
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+stmt
+direct SELECT 1 AS a FROM system.iota
+stmt
+direct SELECT 2 AS a FROM system.iota
+stmt
+direct SELECT 3 AS a FROM system.iota
+stmt
+direct SELECT 4 AS a FROM system.iota
+stmt
+direct SELECT 5 AS a FROM system.iota
+closecursor
+stmt
+direct SELECT 6 AS a FROM system.iota
+closecursor
+stmt
+direct SELECT 7 AS a FROM system.iota
+# T2: no limit (0) and (-1)
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(0)
+stmt
+direct SELECT 1 AS a FROM system.iota
+stmt
+direct SELECT 2 AS a FROM system.iota
+stmt
+direct SELECT 3 AS a FROM system.iota
+stmt
+direct SELECT 4 AS a FROM system.iota
+stmt
+direct SELECT 5 AS a FROM system.iota
+stmt
+direct SELECT 6 AS a FROM system.iota
+stmt
+direct SELECT 7 AS a FROM system.iota
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(-1)
+stmt
+direct SELECT 1 AS a FROM system.iota
+stmt
+direct SELECT 2 AS a FROM system.iota
+stmt
+direct SELECT 3 AS a FROM system.iota
+stmt
+direct SELECT 4 AS a FROM system.iota
+stmt
+direct SELECT 5 AS a FROM system.iota
+stmt
+direct SELECT 6 AS a FROM system.iota
+stmt
+direct SELECT 7 AS a FROM system.iota
+# T3: a limit of 3, statements that give no cursor
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+stmt
+directnull INSERT INTO t VALUES (1)
+stmt
+directnull INSERT INTO t VALUES (2)
+stmt
+directnull INSERT INTO t VALUES (3)
+stmt
+directnull INSERT INTO t VALUES (4)
+stmt
+directnull INSERT INTO t VALUES (5)
+# T4: a limit of 3, cursors closed at once (query) on statements kept open
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+stmt
+query SELECT 1 AS a FROM system.iota
+stmt
+query SELECT 2 AS a FROM system.iota
+stmt
+query SELECT 3 AS a FROM system.iota
+stmt
+query SELECT 4 AS a FROM system.iota
+stmt
+query SELECT 5 AS a FROM system.iota
+# T5: a limit of 3, one statement run again and again, its cursor kept
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+direct SELECT 1 AS a FROM system.iota
+direct SELECT 2 AS a FROM system.iota
+direct SELECT 3 AS a FROM system.iota
+direct SELECT 4 AS a FROM system.iota
+direct SELECT 5 AS a FROM system.iota
+# T6: a limit of 3, closing the statement
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+stmt
+direct SELECT 1 AS a FROM system.iota
+closecursor
+closestmt
+stmt
+direct SELECT 2 AS a FROM system.iota
+closecursor
+closestmt
+stmt
+direct SELECT 3 AS a FROM system.iota
+closecursor
+closestmt
+stmt
+direct SELECT 4 AS a FROM system.iota
+closecursor
+closestmt
+stmt
+direct SELECT 5 AS a FROM system.iota
+closecursor
+closestmt
+# T7: a limit of 3, prepared statements
+connect pl\pl.add ADSSYS
+stmt
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(3)
+stmt
+prepare SELECT 1 AS a FROM system.iota
+exec
+stmt
+prepare SELECT 2 AS a FROM system.iota
+exec
+stmt
+prepare SELECT 3 AS a FROM system.iota
+exec
+stmt
+prepare SELECT 4 AS a FROM system.iota
+exec
+stmt
+prepare SELECT 5 AS a FROM system.iota
+exec
+# T8: the limit seen by sp_mgGetConfigInfo after the call, and a call of the limit on a connection with cursors open
+connect pl\pl.add ADSSYS
+stmt
+query EXECUTE PROCEDURE sp_mgGetConfigInfo()
+directnull EXECUTE PROCEDURE sp_SetStatementLimit(7)
+query SELECT Value FROM (EXECUTE PROCEDURE sp_mgGetConfigInfo()) a WHERE Item LIKE '%Limit%'

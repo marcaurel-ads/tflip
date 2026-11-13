@@ -1,0 +1,6 @@
+# The dictionary of a_F.txt (an AES-256 dictionary that encrypts its records) taken to AES-256 enciphering its records, made in a process of its own (a dictionary that encrypts its records is first opened with its password, which the original asks of a process that did not make it).
+connect Data Source=%D\c_F_AES256_1\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+disconnect
+connect Data Source=%D\c_F_AES256_1;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'AES256', 1)
+disconnect

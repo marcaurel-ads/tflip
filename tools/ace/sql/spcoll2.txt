@@ -1,0 +1,22 @@
+# The CollationID sp_GetCollationTable gives: it seems to number the collations
+# in the order the engine loaded them. Which collations a connection, a table
+# or an index loads first.
+#
+#     run.sh <work> <ace32.dll> spcoll2.txt > ../../../fixtures/sql/spcoll2.json
+stmt
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('GERMAN_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('GERMAN_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('SPANISH_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('GERMAN_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('german_vfp_ci_as_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('DUTCH_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('SPANISH_VFP_CI_AS_1252', NULL, NULL)) c
+query EXECUTE PROCEDURE sp_GetCollations('GERMAN%')
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('CZECH_VFP_CI_AS_1250', NULL, NULL)) c
+setcollation GENERAL_VFP_CI_AS_1252
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('GENERAL_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('ICELAND_VFP_CI_AS_1252', NULL, NULL)) c
+query CREATE TABLE ct (id INTEGER, name CHAR(10))
+query EXECUTE PROCEDURE sp_CreateIndex90('ct', 'ct.adi', 'nm', 'name', '', 2, 512, 'NORDAN_VFP_CI_AS_1252')
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('SWEFIN_VFP_CI_AS_1252', NULL, NULL)) c
+query SELECT CollationID, Name FROM (EXECUTE PROCEDURE sp_GetCollationTable('NORDAN_VFP_CI_AS_1252', NULL, NULL)) c

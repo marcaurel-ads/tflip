@@ -1,0 +1,63 @@
+# A trigger created or dropped on a second connection while a statement of the
+# first holds the table open (txtrig2.txt has it on one connection), in a
+# dictionary the script makes (zr/zr.add), in an empty folder with a folder zr:
+# fixtures/sql/txtrig3.json. `switch` goes to the other connection and back.
+ddcreate zr\zr.add
+stmt
+direct CREATE TABLE t (id INTEGER)
+direct CREATE TABLE audit (msg CHAR(30)) IGNORE TRANSACTIONS
+closestmt
+# On one connection, a trigger of a statement of its own is fired by the next.
+stmt
+direct CREATE TRIGGER g0 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('g0'); END
+closestmt
+stmt
+direct INSERT INTO t VALUES (0)
+query SELECT msg FROM audit
+closestmt
+stmt
+direct DROP TRIGGER t.g0
+closestmt
+# The first connection's statement a opens t.
+stmt
+direct INSERT INTO t VALUES (1)
+switch
+connect zr\zr.add ADSSYS
+stmt
+direct CREATE TRIGGER g1 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('g1'); END
+direct INSERT INTO t VALUES (2)
+query SELECT msg FROM audit /* created */
+closestmt
+stmt
+switch
+# g1, made while a held t, is never seen by the statements after, a
+# statement of its own included (the table stays as the first opened it).
+direct INSERT INTO t VALUES (3)
+closestmt
+stmt
+direct INSERT INTO t VALUES (4)
+closestmt
+stmt
+direct INSERT INTO t VALUES (41)
+closestmt
+stmt
+direct INSERT INTO t VALUES (42)
+query SELECT msg FROM audit /* held */
+closestmt
+stmt
+# a's new statement opens t with g1 on it; g1 is dropped on the second
+# connection while it holds t.
+direct INSERT INTO t VALUES (5)
+switch
+direct DROP TRIGGER t.g1
+switch
+direct INSERT INTO t VALUES (6)
+closestmt
+stmt
+direct INSERT INTO t VALUES (7)
+query SELECT msg FROM audit /* dropped */
+closestmt
+stmt
+query SELECT id FROM t ORDER BY id
+closestmt
+stmt

@@ -1,0 +1,431 @@
+# DECLARE of each type a script variable may have, the names that are no
+# type, and the values assigned to variables of each, for
+# fixtures/sql/declare.json, in an empty folder (on the local server):
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> declare.txt > fixtures/sql/declare.json
+stmt
+query DECLARE x INTEGER; SELECT x AS v FROM system.iota
+query DECLARE x SHORT; SELECT x AS v FROM system.iota
+query DECLARE x LONGINT; SELECT x AS v FROM system.iota
+query DECLARE x AUTOINC; SELECT x AS v FROM system.iota
+query DECLARE x DOUBLE; SELECT x AS v FROM system.iota
+query DECLARE x CURDOUBLE; SELECT x AS v FROM system.iota
+query DECLARE x MONEY; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; SELECT x AS v FROM system.iota
+query DECLARE x DATE; SELECT x AS v FROM system.iota
+query DECLARE x TIME; SELECT x AS v FROM system.iota
+query DECLARE x TIMESTAMP; SELECT x AS v FROM system.iota
+query DECLARE x GUID; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(10,2); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x CICHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x NCHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x NVARCHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x STRING; SELECT x AS v FROM system.iota
+query DECLARE x STRING(10); SELECT x AS v FROM system.iota
+query DECLARE x MEMO; SELECT x AS v FROM system.iota
+query DECLARE x NMEMO; SELECT x AS v FROM system.iota
+query DECLARE x RAW(4); SELECT x AS v FROM system.iota
+query DECLARE x VARBINARY(4); SELECT x AS v FROM system.iota
+query DECLARE x BLOB; SELECT x AS v FROM system.iota
+query DECLARE x ROWVERSION; SELECT x AS v FROM system.iota
+query DECLARE x MODTIME; SELECT x AS v FROM system.iota
+# Names that are no type, and sizes that are not given or not right.
+query DECLARE x INT; SELECT x AS v FROM system.iota
+query DECLARE x SMALLINT; SELECT x AS v FROM system.iota
+query DECLARE x SHORTINT; SELECT x AS v FROM system.iota
+query DECLARE x TINYINT; SELECT x AS v FROM system.iota
+query DECLARE x BIGINT; SELECT x AS v FROM system.iota
+query DECLARE x LONG; SELECT x AS v FROM system.iota
+query DECLARE x FLOAT; SELECT x AS v FROM system.iota
+query DECLARE x REAL; SELECT x AS v FROM system.iota
+query DECLARE x BIT; SELECT x AS v FROM system.iota
+query DECLARE x BOOLEAN; SELECT x AS v FROM system.iota
+query DECLARE x DATETIME; SELECT x AS v FROM system.iota
+query DECLARE x DECIMAL(8,3); SELECT x AS v FROM system.iota
+query DECLARE x CHARACTER(5); SELECT x AS v FROM system.iota
+query DECLARE x BINARY(4); SELECT x AS v FROM system.iota
+query DECLARE x IMAGE; SELECT x AS v FROM system.iota
+query DECLARE x LONGVARCHAR; SELECT x AS v FROM system.iota
+query DECLARE x SQL_INTEGER; SELECT x AS v FROM system.iota
+query DECLARE x SQL_CHAR(5); SELECT x AS v FROM system.iota
+query DECLARE x VARCHARFOX(5); SELECT x AS v FROM system.iota
+query DECLARE x UNIQUEIDENTIFIER; SELECT x AS v FROM system.iota
+query DECLARE x CURRENCY; SELECT x AS v FROM system.iota
+query DECLARE x BOGUS; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(10); SELECT x AS v FROM system.iota
+query DECLARE x CHAR; SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR; SELECT x AS v FROM system.iota
+query DECLARE x NCHAR; SELECT x AS v FROM system.iota
+query DECLARE x NVARCHAR; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER(3); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(0); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(-1); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(70000); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(a); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(40,2); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,6); SELECT x AS v FROM system.iota
+query DECLARE x ROWVERSION(4); SELECT x AS v FROM system.iota
+query DECLARE x DATE(3); SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL(1); SELECT x AS v FROM system.iota
+query DECLARE x MONEY(10,2); SELECT x AS v FROM system.iota
+query DECLARE x DOUBLE(10); SELECT x AS v FROM system.iota
+query DECLARE x DOUBLE(10,2); SELECT x AS v FROM system.iota
+query DECLARE x INTEGER DEFAULT 5; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER = 5; SELECT x AS v FROM system.iota
+query DECLARE x; SELECT 1 AS a FROM system.iota
+# Values assigned to variables of each type.
+query DECLARE x ROWVERSION; x = 5; SELECT x AS v FROM system.iota
+query DECLARE x MODTIME; x = '2020-01-02 03:04:05'; SELECT x AS v FROM system.iota
+query DECLARE x MODTIME; x = NOW(); SELECT x IS NOT NULL AS v FROM system.iota
+query DECLARE x SHORT; x = 40000; SELECT x AS v FROM system.iota
+query DECLARE x SHORT; x = 300; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = 5000000000; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = 1.5; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = '12'; SELECT x AS v FROM system.iota
+query DECLARE x LONGINT; x = 5000000000; SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3); x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3); x = 'a'; SELECT x AS v, LENGTH(x) AS l FROM system.iota
+query DECLARE x VARCHAR(3); x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(3); x = 'a'; SELECT x AS v, LENGTH(x) AS l FROM system.iota
+query DECLARE x CICHAR(3); x = 'aBc'; SELECT x AS v, x = 'ABC' AS e FROM system.iota
+query DECLARE x NCHAR(3); x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x NVARCHAR(3); x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x NMEMO; x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x MEMO; x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x STRING; x = 'abcdef'; SELECT x AS v FROM system.iota
+query DECLARE x STRING; x = ''; SELECT x AS v FROM system.iota
+query DECLARE x STRING; x = 'abcdef'; x = 'ab'; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,2); x = 1.239; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,0); x = 3.7; SELECT x AS v FROM system.iota
+query DECLARE x DOUBLE; x = 1; SELECT x AS v FROM system.iota
+query DECLARE x CURDOUBLE; x = 1.25; SELECT x AS v FROM system.iota
+query DECLARE x MONEY; x = 1.23456; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = TRUE; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 1; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 1 = 1; SELECT x AS v FROM system.iota
+query DECLARE x DATE; x = '2020-01-02'; SELECT x AS v FROM system.iota
+query DECLARE x DATE; x = CURDATE(); SELECT x IS NOT NULL AS v FROM system.iota
+query DECLARE x DATE; x = '01/02/2020'; SELECT x AS v FROM system.iota
+query DECLARE x TIME; x = '03:04:05'; SELECT x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '2020-01-02 03:04:05'; SELECT x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = CURDATE(); SELECT x IS NOT NULL AS v FROM system.iota
+query DECLARE x GUID; x = '12345678-1234-1234-1234-123456789012'; SELECT x AS v FROM system.iota
+query DECLARE x GUID; x = 'x'; SELECT x AS v FROM system.iota
+query DECLARE x RAW(4); x = 'ab'; SELECT x AS v FROM system.iota
+query DECLARE x RAW(4); x = 'abcdefgh'; SELECT x AS v FROM system.iota
+query DECLARE x VARBINARY(4); x = 'ab'; SELECT x AS v FROM system.iota
+query DECLARE x BLOB; x = 'ab'; SELECT x AS v FROM system.iota
+query DECLARE x BLOB; x = CAST('ab' AS SQL_BINARY); SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = NULL; SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3); x = NULL; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER, y CHAR(3), z DATE; x = 1; y = 'a'; SELECT x AS x, y AS y, z AS z FROM system.iota
+query DECLARE x CHAR(5); x = 'a'; SELECT x + 'b' AS v FROM system.iota
+query DECLARE x STRING; SELECT x + 'b' AS v FROM system.iota
+query DECLARE x STRING; x = 'a'; SELECT x + 'b' AS v FROM system.iota
+# Where the sizes stop.
+query DECLARE x CHAR(65530); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(65531); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(65535); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(65536); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(65531); SELECT x AS v FROM system.iota
+query DECLARE x CICHAR(65531); SELECT x AS v FROM system.iota
+query DECLARE x NCHAR(65531); SELECT x AS v FROM system.iota
+query DECLARE x NCHAR(32767); SELECT x AS v FROM system.iota
+query DECLARE x NCHAR(32501); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(100); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(255); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(1000); SELECT x AS v FROM system.iota
+query DECLARE x NVARCHAR(100); SELECT x AS v FROM system.iota
+query DECLARE x VARCHAR(1000); SELECT x AS v FROM system.iota
+query DECLARE x NVARCHAR(32501); SELECT x AS v FROM system.iota
+query DECLARE x NCHAR(32500); SELECT x AS v FROM system.iota
+query DECLARE x RAW(65531); SELECT x AS v FROM system.iota
+query DECLARE x VARBINARY(65531); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(32,2); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(33,2); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,5); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,-1); SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(5,2,1); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(5,2); SELECT x AS v FROM system.iota
+query DECLARE x CHAR( 5 ); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(); SELECT x AS v FROM system.iota
+query DECLARE x INTEGER(); SELECT x AS v FROM system.iota
+query DECLARE x STRING(a); SELECT x AS v FROM system.iota
+query DECLARE x STRING(1,2); SELECT x AS v FROM system.iota
+query DECLARE x MEMO(5); SELECT x AS v FROM system.iota
+query DECLARE x BLOB(5); SELECT x AS v FROM system.iota
+query DECLARE x NMEMO(5); SELECT x AS v FROM system.iota
+query DECLARE x CURDOUBLE(10,2); SELECT x AS v FROM system.iota
+query DECLARE x integer; SELECT x AS v FROM system.iota
+query DECLARE x Char(3); SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3) NOT NULL; SELECT x AS v FROM system.iota
+query DECLARE x SQL_CHAR; SELECT x AS v FROM system.iota
+query DECLARE x CHAR (3); SELECT x AS v FROM system.iota
+# What each kind of value does assigned to each type.
+query DECLARE x INTEGER; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x INTEGER; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x SHORT; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LONGINT; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DOUBLE; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MONEY; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x NUMERIC(8,2); x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x LOGICAL; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x DATE; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIME; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x TIMESTAMP; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CHAR(5); x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x VARCHAR(5); x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x CICHAR(5); x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x MEMO; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x GUID; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x RAW(4); x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = 7; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = 7.5; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = 7.0; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = 'abc'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = '7'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = TRUE; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = NULL; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = CURDATE(); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = CAST(7 AS SQL_MONEY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = CAST('ab' AS SQL_BINARY); SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = '12345678-1234-1234-1234-123456789012'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = '2020-01-02 03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = '03:04:05'; SELECT x IS NULL AS n, x AS v FROM system.iota
+query DECLARE x BLOB; x = '2020-01-02'; SELECT x IS NULL AS n, x AS v FROM system.iota
+# Which numbers a logical variable takes.
+query DECLARE x LOGICAL; x = 0; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 2; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = -1; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 1.0; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 0.0; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 1 + 0; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 1 = 0; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; x = 'T'; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; DECLARE i INTEGER; i = 1; x = i; SELECT x AS v FROM system.iota
+# Values that other variables hold.
+query DECLARE x INTEGER; DECLARE s CHAR(3); s = 'abc'; x = s; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; DECLARE b LOGICAL; b = TRUE; x = b; SELECT x AS v FROM system.iota
+query DECLARE x LOGICAL; DECLARE b LOGICAL; b = TRUE; x = b; SELECT x AS v FROM system.iota
+query DECLARE x DATE; DECLARE s CHAR(10); s = '2020-01-02'; x = s; SELECT x AS v FROM system.iota
+query DECLARE x DATE; DECLARE s CHAR(10); s = 'zzz'; x = s; SELECT x AS v FROM system.iota
+query DECLARE x SHORT; DECLARE i INTEGER; i = 70000; x = i; SELECT x AS v FROM system.iota
+query DECLARE x SHORT; DECLARE i INTEGER; i = 7; x = i; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; DECLARE n NUMERIC(8,2); n = 1.5; x = n; SELECT x AS v FROM system.iota
+query DECLARE x NUMERIC(8,1); DECLARE n NUMERIC(8,2); n = 1.25; x = n; SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3); DECLARE s CHAR(5); s = 'abcde'; x = s; SELECT x AS v FROM system.iota
+query DECLARE x CHAR(3); DECLARE i INTEGER; i = 5; x = i; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = 5000000000 + 1; SELECT x AS v FROM system.iota
+query DECLARE x SHORT; x = 300 * 300; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = 1.5 + 1.5; SELECT x AS v FROM system.iota
+query DECLARE x INTEGER; x = 1.5 + 1.5 + 0.5; SELECT x AS v FROM system.iota

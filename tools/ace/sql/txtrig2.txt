@@ -1,0 +1,260 @@
+# A trigger's savepoints, on the remote server (SQL_SERVER_TYPE=2, see triggers.txt),
+# in a dictionary of an empty folder, pq/pq.add (txtrig.txt has the rest of the
+# triggers' transactions): an AFTER INSERT trigger that rolls back to a savepoint
+# it set takes back the insert that fired it, and what it wrote after the
+# savepoint; a NO TRANSACTION trigger is a call as a procedure is, and may not roll
+# back to the caller's savepoints (7129) nor end the caller's levels (5047). A
+# statement of its own (stmt) comes before each CREATE TRIGGER: the original goes on
+# with the triggers a table had when it was opened, which the statement holds.
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txtrig2.txt <share>
+#             > ../../../fixtures/sql/txtrig2.json
+stmt
+direct CREATE DATABASE "pq\pq.add"
+connect pq\pq.add ADSSYS
+stmt
+direct CREATE TABLE t (id INTEGER, name CHAR(10))
+direct CREATE TABLE u (id INTEGER)
+direct CREATE TABLE w (id INTEGER)
+direct CREATE TABLE audit (msg CHAR(60)) IGNORE TRANSACTIONS
+#
+# AFTER INSERT: a savepoint, a write, a rollback to the savepoint, outside a
+# transaction and in one; what the trigger wrote before the savepoint stays.
+closestmt
+stmt
+direct CREATE TRIGGER s1 ON t AFTER INSERT BEGIN SAVEPOINT inner1; INSERT INTO u VALUES (5); ROLLBACK TO SAVEPOINT inner1; END
+direct INSERT INTO t VALUES (1, 'a')
+txcount
+query SELECT id FROM t
+query SELECT id FROM u
+open t.adt
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (2, 'b')
+txcount
+query SELECT id FROM t
+query SELECT id FROM u
+direct COMMIT
+query SELECT id FROM t
+direct DROP TRIGGER t.s1
+direct DELETE FROM t
+direct DELETE FROM u
+closestmt
+stmt
+direct CREATE TRIGGER s2 ON t AFTER INSERT BEGIN INSERT INTO u VALUES (6); SAVEPOINT inner2; INSERT INTO u VALUES (7); ROLLBACK TO SAVEPOINT inner2; END
+direct INSERT INTO t VALUES (3, 'c')
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.s2
+direct DELETE FROM t
+direct DELETE FROM u
+#
+# The other events keep the change that fired the trigger.
+direct INSERT INTO t VALUES (4, 'd')
+closestmt
+stmt
+direct CREATE TRIGGER s3 ON t AFTER UPDATE BEGIN SAVEPOINT inner3; INSERT INTO u VALUES (8); ROLLBACK TO SAVEPOINT inner3; END
+direct UPDATE t SET name = 'e' WHERE id = 4
+query SELECT id, name FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.s3
+closestmt
+stmt
+direct CREATE TRIGGER s4 ON t AFTER DELETE BEGIN SAVEPOINT inner4; INSERT INTO u VALUES (9); ROLLBACK TO SAVEPOINT inner4; END
+direct DELETE FROM t WHERE id = 4
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.s4
+direct INSERT INTO t VALUES (5, 'f')
+closestmt
+stmt
+direct CREATE TRIGGER s5 ON t BEFORE INSERT BEGIN SAVEPOINT inner5; INSERT INTO u VALUES (10); ROLLBACK TO SAVEPOINT inner5; END
+direct INSERT INTO t VALUES (6, 'g')
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.s5
+direct DELETE FROM t
+direct DELETE FROM u
+#
+# In the caller's transaction, after a savepoint of the caller's.
+closestmt
+stmt
+direct CREATE TRIGGER s6 ON t AFTER INSERT BEGIN SAVEPOINT inner6; INSERT INTO u VALUES (11); ROLLBACK TO SAVEPOINT inner6; END
+direct BEGIN TRANSACTION
+direct SAVEPOINT outer6
+direct INSERT INTO t VALUES (7, 'h')
+direct INSERT INTO t VALUES (8, 'i')
+query SELECT id FROM t
+direct ROLLBACK TO SAVEPOINT outer6
+query SELECT id FROM t
+direct COMMIT
+direct DROP TRIGGER t.s6
+direct DELETE FROM t
+direct DELETE FROM u
+#
+# Two triggers of the event: the second runs on, with the insert gone.
+closestmt
+stmt
+direct CREATE TRIGGER s7 ON t AFTER INSERT BEGIN SAVEPOINT i2; ROLLBACK TO SAVEPOINT i2; END PRIORITY 1
+closestmt
+stmt
+direct CREATE TRIGGER s8 ON t AFTER INSERT BEGIN INSERT INTO u VALUES (3); END PRIORITY 2
+direct INSERT INTO t VALUES (7, 'g')
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.s7
+direct DROP TRIGGER t.s8
+direct DELETE FROM t
+direct DELETE FROM u
+#
+# A savepoint set and not rolled back to.
+closestmt
+stmt
+direct CREATE TRIGGER s9 ON t AFTER INSERT BEGIN SAVEPOINT i4; END
+direct INSERT INTO t VALUES (8, 'h')
+query SELECT id FROM t
+direct DROP TRIGGER t.s9
+direct DELETE FROM t
+#
+# Writes after the rollback stay, with the ones before the savepoint, in other tables.
+closestmt
+stmt
+direct CREATE TRIGGER v1 ON t AFTER INSERT BEGIN SAVEPOINT p; ROLLBACK TO SAVEPOINT p; INSERT INTO u VALUES (2); END
+direct INSERT INTO t VALUES (1, 'a')
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.v1
+direct DELETE FROM t
+direct DELETE FROM u
+closestmt
+stmt
+direct CREATE TRIGGER v2 ON t AFTER INSERT BEGIN INSERT INTO u VALUES (1); SAVEPOINT p; ROLLBACK TO SAVEPOINT p; INSERT INTO u VALUES (2); END
+direct INSERT INTO t VALUES (2, 'b')
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.v2
+direct DELETE FROM t
+direct DELETE FROM u
+closestmt
+stmt
+direct CREATE TRIGGER v5 ON t AFTER INSERT BEGIN INSERT INTO w VALUES (1); SAVEPOINT p; INSERT INTO u VALUES (1); ROLLBACK TO SAVEPOINT p; INSERT INTO w VALUES (2); END
+direct INSERT INTO t VALUES (6, 'f')
+query SELECT id FROM t
+query SELECT id FROM u
+query SELECT id FROM w
+direct DROP TRIGGER t.v5
+direct DELETE FROM t
+direct DELETE FROM u
+direct DELETE FROM w
+#
+# More than one row: each one the trigger fires on.
+direct INSERT INTO u VALUES (30)
+direct INSERT INTO u VALUES (31)
+closestmt
+stmt
+direct CREATE TRIGGER v7 ON t AFTER INSERT BEGIN SAVEPOINT p; INSERT INTO w VALUES (__new.id); ROLLBACK TO SAVEPOINT p; END
+direct INSERT INTO t SELECT id, 'sel' FROM u
+query SELECT id FROM t
+query SELECT id FROM w
+direct DROP TRIGGER t.v7
+direct DELETE FROM t
+direct DELETE FROM u
+direct DELETE FROM w
+#
+# NO TRANSACTION: in the caller's transaction the triggers are a call as a procedure is.
+closestmt
+stmt
+direct CREATE TRIGGER n1 ON t AFTER INSERT BEGIN ROLLBACK TO SAVEPOINT outer7; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct SAVEPOINT outer7
+direct INSERT INTO t VALUES (9, 'j')
+txcount
+query SELECT id FROM t
+direct ROLLBACK
+direct DROP TRIGGER t.n1
+direct DELETE FROM t
+closestmt
+stmt
+direct CREATE TRIGGER n2 ON t AFTER INSERT BEGIN SAVEPOINT inner8; INSERT INTO u VALUES (12); ROLLBACK TO SAVEPOINT inner8; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (12, 'm')
+txcount
+query SELECT id FROM t
+query SELECT id FROM u
+direct ROLLBACK
+query SELECT id FROM t
+direct DROP TRIGGER t.n2
+direct DELETE FROM t
+direct DELETE FROM u
+closestmt
+stmt
+direct CREATE TRIGGER n3 ON t AFTER INSERT BEGIN SAVEPOINT leak9; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (13, 'n')
+direct ROLLBACK TO SAVEPOINT leak9
+direct ROLLBACK
+direct DROP TRIGGER t.n3
+direct DELETE FROM t
+#
+# It may not end the transaction it is called in, but one it begins.
+closestmt
+stmt
+direct CREATE TRIGGER n4 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('n4'); COMMIT; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (1, 'a')
+txcount
+query SELECT id FROM t
+direct ROLLBACK
+query SELECT msg FROM audit
+direct DROP TRIGGER t.n4
+direct DELETE FROM t
+direct DELETE FROM audit
+closestmt
+stmt
+direct CREATE TRIGGER n5 ON t AFTER INSERT BEGIN INSERT INTO audit VALUES ('n5'); ROLLBACK; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (2, 'b')
+txcount
+query SELECT id FROM t
+direct ROLLBACK
+query SELECT msg FROM audit
+direct DROP TRIGGER t.n5
+direct DELETE FROM t
+direct DELETE FROM audit
+closestmt
+stmt
+direct CREATE TRIGGER n6 ON t AFTER INSERT BEGIN BEGIN TRANSACTION; INSERT INTO u VALUES (3); COMMIT; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (3, 'c')
+txcount
+query SELECT id FROM t
+query SELECT id FROM u
+direct ROLLBACK
+query SELECT id FROM t
+query SELECT id FROM u
+direct DROP TRIGGER t.n6
+direct DELETE FROM t
+direct DELETE FROM u
+#
+# Its own savepoint and then the caller's; an AFTER UPDATE one rolling back to its own.
+closestmt
+stmt
+direct CREATE TRIGGER n8 ON t AFTER INSERT BEGIN SAVEPOINT own; INSERT INTO audit VALUES ('n8'); ROLLBACK TO SAVEPOINT outer8; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct SAVEPOINT outer8
+direct INSERT INTO t VALUES (5, 'e')
+txcount
+query SELECT id FROM t
+direct ROLLBACK
+direct DROP TRIGGER t.n8
+direct DELETE FROM t
+direct DELETE FROM audit
+direct INSERT INTO t VALUES (6, 'f')
+closestmt
+stmt
+direct CREATE TRIGGER n9 ON t AFTER UPDATE BEGIN SAVEPOINT p; INSERT INTO u VALUES (7); ROLLBACK TO SAVEPOINT p; END NO TRANSACTION
+direct BEGIN TRANSACTION
+direct UPDATE t SET name = 'g' WHERE id = 6
+query SELECT id, name FROM t
+query SELECT id FROM u
+direct ROLLBACK
+direct DROP TRIGGER t.n9

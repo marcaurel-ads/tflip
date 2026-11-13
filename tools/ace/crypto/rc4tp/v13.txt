@@ -1,0 +1,16 @@
+# Copies of an armed VFP table of an AES-128 dictionary: AdsCopyTable, AdsCopyTableContents and SELECT INTO (to free files, to a table of the dictionary).
+connect Data Source=%D\v13\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v13\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+stmttype 4
+sql CREATE TABLE ta (id INTEGER, note MEMO)
+sql INSERT INTO ta VALUES (1, 'one')
+sql INSERT INTO ta VALUES (2, 'two')
+sql CREATE TABLE tb (id INTEGER, note MEMO)
+copy ta %D\v13\cp1
+copyc ta tb
+sql SELECT * INTO "%D\v13\cp2" FROM ta
+sql SELECT * INTO tc FROM ta
+disconnect

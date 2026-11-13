@@ -1,0 +1,240 @@
+# What a user who is not the administrator may do to a dictionary's tables,
+# indexes, views, procedures and triggers (and users, groups, links and
+# integrity rules by the system procedures), before and after the rights
+# GRANT gives: CREATE <type> and the rights on an object (ALTER, DROP), to
+# the user, to a group and to DB:Public. The dictionary, dr/dr.add,
+# is kept in fixtures/sql/ddrights/:
+#
+#     run.sh <work> <ace32.dll> ddrights.txt > ../../../fixtures/sql/ddrights.json
+#     cp <work>/data/dr/* ../../../fixtures/sql/ddrights/
+ddcreate dr\dr.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE t2 (id INTEGER, pid INTEGER)
+direct CREATE TABLE t3 (id INTEGER)
+direct EXECUTE PROCEDURE sp_CreateLink('lk0', 'dr.add', 1, 0, 0, 'ADSSYS', '')
+direct CREATE INDEX t2pid ON t2 (pid)
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct CREATE VIEW vw2 AS SELECT id FROM t1
+direct CREATE VIEW vw3 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE pr2() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE pr3() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TRIGGER tg1 ON t1 AFTER INSERT BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TRIGGER tg2 ON t1 AFTER UPDATE BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw6', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u6', 'g1')
+direct GRANT SELECT, INSERT, UPDATE, DELETE ON t1 TO u2
+direct GRANT SELECT ON t2 TO u2
+direct GRANT SELECT ON vw1 TO u2
+#
+# No rights beyond reading: every one of these is refused.
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct CREATE TABLE n1 (id INTEGER)
+direct CREATE INDEX t1name ON t1 (name)
+direct CREATE VIEW nv1 AS SELECT id FROM t1
+direct CREATE PROCEDURE np1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TRIGGER nt1 ON t1 AFTER DELETE BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE pr1() BEGIN SELECT 2 FROM system.iota; END
+direct DROP PROCEDURE pr1
+direct DROP VIEW vw1
+direct DROP VIEW nosuch
+direct DROP PROCEDURE nosuch
+direct ALTER PROCEDURE nosuch() BEGIN SELECT 2 FROM system.iota; END
+direct CREATE VIEW vw2 AS SELECT id FROM t1
+direct CREATE VIEW t1 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr2() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TABLE n2 (id INTEGER) IN DATABASE
+direct CREATE TABLE t1 (id INTEGER) IN DATABASE
+direct DROP VIEW pr1
+direct DROP PROCEDURE vw1
+direct DROP TRIGGER t1.tg1
+direct CREATE TRIGGER dbt1 ON DATABASE AFTER CONNECT BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_DropGroup('g1')
+direct EXECUTE PROCEDURE sp_DropLink('lk0', 1)
+direct DROP INDEX t2.t2pid
+direct DROP TABLE t3
+direct ALTER TABLE t3 ADD COLUMN x INTEGER
+direct EXECUTE PROCEDURE sp_CreateUser('n2', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('ng', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 't1', 't2', 'pid', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'dr.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_DropUser('u4')
+query SELECT Name FROM system.views
+query SELECT Name FROM system.storedprocedures
+query SELECT Name FROM system.triggers
+disconnect
+#
+# CREATE VIEW and CREATE PROCEDURE given: the views and procedures the user
+# makes and drops, those it may not.
+connect dr\dr.add adssys
+stmt
+direct GRANT CREATE VIEW TO u2
+direct GRANT CREATE PROCEDURE TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct CREATE VIEW nv1 AS SELECT id FROM t1
+direct CREATE VIEW nv2 AS SELECT id FROM t3
+direct CREATE PROCEDURE np1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE np2() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE np1() BEGIN SELECT 2 FROM system.iota; END
+direct ALTER PROCEDURE pr1() BEGIN SELECT 2 FROM system.iota; END
+direct DROP VIEW nv2
+direct DROP VIEW vw1
+direct DROP PROCEDURE np2
+direct DROP PROCEDURE pr1
+query SELECT * FROM nv1
+query SELECT Name FROM system.views
+query SELECT Name FROM system.storedprocedures
+disconnect
+connect dr\dr.add adssys
+stmt
+query SELECT * FROM system.permissions
+#
+# Rights on the objects: ALTER and DROP on views and procedures.
+direct GRANT DROP ON vw1 TO u2
+direct GRANT ALTER ON pr1 TO u2
+direct GRANT DROP ON pr2 TO u2
+direct GRANT ALTER ON pr3 TO u2
+direct GRANT SELECT ON vw2 TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct ALTER PROCEDURE pr1() BEGIN SELECT 2 FROM system.iota; END
+direct DROP PROCEDURE pr1
+direct DROP PROCEDURE pr2
+direct ALTER PROCEDURE pr3() BEGIN SELECT 3 FROM system.iota; END
+direct DROP PROCEDURE pr3
+direct DROP VIEW vw1
+direct DROP VIEW vw2
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct ALTER VIEW vw1 AS SELECT id FROM t1
+query SELECT Name FROM system.views
+query SELECT Name FROM system.storedprocedures
+disconnect
+#
+# A group's rights: a member holds them.
+connect dr\dr.add adssys
+stmt
+direct GRANT CREATE VIEW TO g1
+direct GRANT DROP ON vw3 TO g1
+disconnect
+connect dr\dr.add u3 pw3
+stmt
+direct CREATE PROCEDURE gp1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE VIEW gv1 AS SELECT id FROM t1
+direct DROP VIEW vw3
+direct DROP VIEW gv1
+disconnect
+connect dr\dr.add u5 pw5
+stmt
+direct CREATE VIEW gv2 AS SELECT id FROM t1
+direct DROP VIEW vw3
+direct DROP PROCEDURE pr3
+disconnect
+#
+# Tables, indexes and triggers: CREATE TABLE (in the database or not), the
+# rights on a table that ALTER and DROP need.
+connect dr\dr.add adssys
+stmt
+direct GRANT CREATE TABLE TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct CREATE TABLE tn1 (id INTEGER, name CHAR(10)) IN DATABASE
+direct CREATE TABLE tn2 (id INTEGER PRIMARY KEY, name CHAR(10))
+direct CREATE TABLE tn3 (id INTEGER, name CHAR(10)) AS FREE TABLE
+direct CREATE INDEX tn1name ON tn1 (name)
+direct CREATE TRIGGER tn1tg ON tn1 AFTER DELETE BEGIN SELECT 1 FROM system.iota; END
+query SELECT * FROM tn1
+direct DROP TABLE tn1
+direct DROP TABLE t3
+disconnect
+connect dr\dr.add adssys
+stmt
+query SELECT Name FROM system.tables
+query SELECT * FROM system.permissions
+direct GRANT ALTER ON t2 TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri0', 't1', 't2', 't2pid', 2, 2, '', '', '')
+disconnect
+connect dr\dr.add adssys
+stmt
+direct GRANT ALTER ON t1 TO u2
+direct GRANT ALTER ON t3 TO u2
+direct GRANT DROP ON t3 TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri0', 't1', 't2', 't2pid', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri0')
+direct CREATE INDEX t1name ON t1 (name)
+direct CREATE TRIGGER nt2 ON t1 AFTER DELETE BEGIN SELECT 1 FROM system.iota; END
+direct DROP TRIGGER t1.tg1
+direct DROP TRIGGER t1.nt2
+query SELECT Name FROM system.triggers
+direct DROP INDEX t1.t1name
+query SELECT Name FROM system.triggers
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 't1', 't2', 't2pid', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri1')
+direct DROP TABLE t3
+direct DROP TABLE t2
+disconnect
+connect dr\dr.add adssys
+stmt
+query SELECT Name FROM system.tables
+query SELECT Name FROM system.triggers
+query SELECT * FROM system.permissions
+#
+# Users, groups and links.
+direct GRANT CREATE USER TO u2
+direct GRANT CREATE USER GROUP TO u2
+direct GRANT CREATE LINK TO u2
+disconnect
+connect dr\dr.add u2 pw2
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('n2', 'pw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('ng', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'dr.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('n2', 'ng')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'ng')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('n2', 'g1')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('n2', 'ng')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('n2', 'ng')
+direct EXECUTE PROCEDURE sp_DropLink('lk0', 1)
+direct EXECUTE PROCEDURE sp_DropLink('lk1', 1)
+direct EXECUTE PROCEDURE sp_DropUser('n2')
+direct EXECUTE PROCEDURE sp_DropUser('u6')
+direct EXECUTE PROCEDURE sp_DropGroup('ng')
+disconnect
+connect dr\dr.add adssys
+stmt
+query SELECT Name FROM system.users
+query SELECT * FROM system.permissions
+#
+# DB:Public's rights go to everyone.
+connect dr\dr.add adssys
+stmt
+direct GRANT CREATE VIEW TO "DB:Public"
+disconnect
+connect dr\dr.add u5 pw5
+stmt
+direct CREATE VIEW pv1 AS SELECT id FROM t1
+direct CREATE PROCEDURE pp1() BEGIN SELECT 1 FROM system.iota; END
+disconnect
+connect dr\dr.add adssys
+stmt
+query SELECT * FROM system.permissions
+query SELECT Name FROM system.views

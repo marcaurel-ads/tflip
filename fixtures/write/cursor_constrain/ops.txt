@@ -1,0 +1,77 @@
+constrain 1
+cursor SELECT * FROM tw WHERE n > 25
+top
+state
+set n long 5
+state
+write
+state
+get n
+rows
+top
+set n long 60
+write
+get n
+state
+set name string ok
+write
+get name
+append
+state
+set n long 10
+write
+state
+rows
+append
+set n long 70
+write
+rows
+goto 1
+set n long 99
+write
+get n
+state
+closecursor
+constrain 2
+cursor SELECT * FROM tx WHERE n > 25
+top
+set n long 5
+write
+state
+rows
+closecursor
+constrain 1
+cursor SELECT * FROM tq WHERE n > 25 ORDER BY name DESC
+top
+set n long 5
+write
+state
+get n
+rows
+delete
+state
+rows
+closecursor
+constrain 1
+cursor SELECT * FROM ti WHERE n > 25 ORDER BY n
+top
+set n long 5
+write
+state
+get n
+rows
+closecursor
+constrain 1
+cursor SELECT name FROM tl WHERE n > 25
+top
+set name string cons
+write
+get name
+append
+set name string ap
+write
+rows
+closecursor
+open tw.adt exclusive
+rows
+close

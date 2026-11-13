@@ -1,0 +1,57 @@
+# Query logging on a dictionary connection, the rest: direct and prepared
+# statements, a log that is a table of the dictionary and what it may not be.
+#
+#     run.sh <work> <ace32.dll> spddql2.txt > ../../../fixtures/sql/spddql2.json
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE audit (msg CHAR(20))
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+direct INSERT INTO t1 VALUES (1, 'one')
+query SELECT * FROM t1
+prepare SELECT * FROM t1 WHERE id = ?
+param 1 long 1
+exec
+closecursor
+query SELECT * FROM t1;
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetQueryLoggingResults('')) r
+query SELECT ID, Database, "User Name", "Connection Name", "Application ID", Optimized, "Return Code", "Rows Affected", Query FROM qlog
+query SHOW PLAN SELECT * FROM t1
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT ID, Query FROM qlog
+query SELECT * FROM system.tables
+query SELECT * FROM system.dictionary
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 0, 0, 0, '')
+query SELECT * FROM t1 WHERE name = 'x'
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query DROP TABLE qlog
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query SELECT * FROM system.tables
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('audit', 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('nosuchtable', 1, 0, 0, '')
+query SELECT * FROM system.tables
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', 'pre')
+disconnect
+connect de\de.add ADSSYS
+stmt
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query SELECT * FROM system.tables
+query SELECT * FROM t1
+query SELECT * FROM pre
+query EXECUTE PROCEDURE sp_EnableQueryLogging('pre', 0, 0, 0, '')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('pre2', 1, 0, 0, '')
+query SELECT * FROM t1 WHERE id = 1
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+disconnect
+connect de\de.add u1 pw1
+stmt
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+disconnect
+connect de\de.add ADSSYS
+stmt
+query SELECT ID, "User Name", Query FROM pre2

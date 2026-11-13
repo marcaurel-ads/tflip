@@ -1,0 +1,4 @@
+# The same given RC4.
+connect Data Source=%D\m_E_type3\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '3')
+disconnect

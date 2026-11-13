@@ -1,0 +1,264 @@
+# A trigger body calling a stored procedure (EXECUTE PROCEDURE): arguments from
+# the record (__new, variables, literals), output parameters and cursors that go
+# nowhere, a procedure that fails or raises, one that writes the trigger's own
+# table (nested triggers), a missing one, a system one; on a copy of the psm
+# dictionary (fixtures/adt/psm) alone, whose own triggers it drops first.
+# Recorded on the local server:
+#
+#     run.sh <work> <ace32.dll> trigproc.txt > ../../../fixtures/sql/trigproc.json
+#
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE PROCEDURE logit (m CHAR(40)) BEGIN INSERT INTO audit (msg) VALUES (_m); END
+direct CREATE PROCEDURE logtwo (a CHAR(20), b INTEGER, c INTEGER OUTPUT) BEGIN INSERT INTO audit (msg) VALUES (TRIM(_a) + '/' + CAST(_b AS SQL_CHAR)); INSERT INTO __output VALUES (_b * 2); END
+direct CREATE PROCEDURE logcur (CURSOR VARYING OUTPUT) BEGIN INSERT INTO audit (msg) VALUES ('logcur ran'); SELECT * FROM items; END
+direct CREATE PROCEDURE boom (a INTEGER) BEGIN INSERT INTO audit (msg) VALUES ('boom wrote'); RAISE boomerr(7777, 'boom raised'); END
+direct CREATE PROCEDURE badsql (a INTEGER) BEGIN INSERT INTO audit (msg) VALUES ('badsql wrote'); INSERT INTO nosuchtable VALUES (1); END
+direct CREATE PROCEDURE touch (a INTEGER) BEGIN INSERT INTO audit (msg) VALUES ('touch'); UPDATE items SET qty = qty + 1 WHERE id = _a; END
+direct CREATE PROCEDURE addrow (a INTEGER) BEGIN INSERT INTO items (id, name, qty) VALUES (_a, 'viaproc', 0); END
+direct CREATE PROCEDURE cnt (CURSOR VARYING OUTPUT) BEGIN SELECT COUNT(*) AS n FROM items; END
+direct CREATE PROCEDURE rowsof (i INTEGER) BEGIN INSERT INTO audit (msg) VALUES ('rowsof ' + CAST(_i AS SQL_CHAR) + ' items=' + CAST((SELECT COUNT(*) FROM items) AS SQL_CHAR)); END
+
+# --- literal argument, AFTER INSERT
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logit('lit'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT with __new column as argument
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE logit(__new.name); END
+direct INSERT INTO items VALUES (1, 'bnew', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- scalar subquery on __new as argument
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logit((SELECT name FROM __new)); END
+direct INSERT INTO items VALUES (1, 'sub', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- variable and expression arguments, output parameter ignored
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN DECLARE v INTEGER; v = 21; EXECUTE PROCEDURE logtwo('x', v + 1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- output parameter given explicitly (variable)
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN DECLARE v INTEGER; EXECUTE PROCEDURE logtwo('y', 4, v); INSERT INTO audit (msg) VALUES ('out=' + CAST(v AS SQL_CHAR)); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- too few and too many arguments
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logtwo('z'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logit('a', 'b'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- cursor-returning procedure
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logcur(); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- cursor procedure used as a source
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN INSERT INTO audit (msg) SELECT 'n=' + CAST(n AS SQL_CHAR) FROM (EXECUTE PROCEDURE cnt()) c; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- procedure that raises
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE boom(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- procedure with a failing statement, BEFORE
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE badsql(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- missing procedure
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE nosuchproc(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- procedure writing the trigger's own table: nested triggers (recursion)
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN INSERT INTO audit (msg) SELECT 'AI ' + TRIM(name) FROM __new; EXECUTE PROCEDURE addrow(1 + 100); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items ORDER BY id
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- procedure updating the table in an AFTER UPDATE trigger
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct CREATE TRIGGER tp ON items AFTER UPDATE BEGIN EXECUTE PROCEDURE touch(5); END
+direct UPDATE items SET qty = 9 WHERE id = 1
+query SELECT id, qty FROM items ORDER BY id
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- the procedure sees the table as it is
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE rowsof(1); END
+direct CREATE TRIGGER tq ON items AFTER INSERT BEGIN EXECUTE PROCEDURE rowsof(2); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DROP TRIGGER items.tq
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- INSTEAD OF DELETE calling a procedure
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct CREATE TRIGGER tp ON items INSTEAD OF DELETE BEGIN EXECUTE PROCEDURE logit('iod'); END
+direct DELETE FROM items WHERE id = 1
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- a system procedure
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 'items', NULL); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- the statement's update count around a procedure call
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logit('c'); INSERT INTO audit (msg) VALUES ('uc=' + CAST(::stmt.UpdateCount AS SQL_CHAR)); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- what the failures of a called procedure look like: an engine error of its statement
+direct CREATE PROCEDURE badcol (a INTEGER) BEGIN INSERT INTO audit (nocol) VALUES ('x'); END
+direct CREATE PROCEDURE nested1 (a INTEGER) BEGIN EXECUTE PROCEDURE boom(_a); END
+direct CREATE PROCEDURE nested2 (a INTEGER) BEGIN EXECUTE PROCEDURE badsql(_a); END
+direct CREATE PROCEDURE seesnew (a INTEGER) BEGIN INSERT INTO audit (msg) SELECT 'new=' + TRIM(name) FROM __new; END
+direct CREATE PROCEDURE seesinput (a INTEGER) BEGIN INSERT INTO audit (msg) SELECT 'in=' + CAST(a AS SQL_CHAR) FROM __input; END
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE badcol(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE nested1(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE nested2(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- the pseudo-tables a called procedure sees
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE seesnew(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE seesinput(7); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- TRY/CATCH around the call
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN TRY EXECUTE PROCEDURE boom(1); CATCH ALL INSERT INTO audit (msg) VALUES ('caught ' + CAST(__errcode AS SQL_CHAR) + ' ' + __errtext); END TRY; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN TRY EXECUTE PROCEDURE badsql(1); CATCH ALL INSERT INTO audit (msg) VALUES ('caught ' + CAST(__errcode AS SQL_CHAR) + ' ' + __errtext); END TRY; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- argument types
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE logit(5); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE addrow('x'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- a trigger of another table
+direct CREATE PROCEDURE insitem (a INTEGER) BEGIN INSERT INTO items (id, name, qty) VALUES (_a, 'ai', 0); END
+direct CREATE TRIGGER ta ON audit AFTER INSERT BEGIN EXECUTE PROCEDURE insitem(77); END
+direct CREATE TRIGGER tb ON items AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('from items'); END
+direct INSERT INTO audit (msg) VALUES ('seed')
+query SELECT id FROM items ORDER BY id
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER audit.ta
+direct DROP TRIGGER items.tb
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- a procedure's statement fires a trigger that fails
+direct CREATE PROCEDURE startp (a INTEGER) BEGIN INSERT INTO items (id, name, qty) VALUES (_a, 'x', 0); END
+direct CREATE TRIGGER tp ON items AFTER INSERT BEGIN EXECUTE PROCEDURE boom(1); END
+direct EXECUTE PROCEDURE startp(5)
+query SELECT id FROM items
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN INSERT INTO __error VALUES (12345, 'viaerror'); END
+direct EXECUTE PROCEDURE startp(5)
+query SELECT id FROM items
+direct DROP TRIGGER items.tp
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- a number for a CHAR parameter, as a statement gives it
+direct EXECUTE PROCEDURE logit(5)
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DELETE FROM audit

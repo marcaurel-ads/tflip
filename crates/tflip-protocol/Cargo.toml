@@ -1,0 +1,25 @@
+[package]
+name = "tflip-protocol"
+description = "The protocol between tflip's client library and tflipd: the engine API, its wire format and TLS"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+# What only the server needs: serving sessions and making its certificate.
+server = ["dep:rcgen"]
+
+[dependencies]
+tflip-engine = { path = "../tflip-engine" }
+tflip-storage = { path = "../tflip-storage" }
+serde.workspace = true
+postcard = { version = "1.1.3", features = ["use-std"] }
+rustls = { version = "0.23.45", default-features = false, features = ["ring", "std", "tls12"] }
+sha2 = "0.10.9"
+flate2 = { version = "1.1.9", default-features = false, features = ["zlib"] }
+rustls-platform-verifier = "0.7.1"
+rcgen = { version = "0.14.10", default-features = false, features = ["ring", "pem"], optional = true }
+
+[dev-dependencies]
+tflip-protocol = { path = ".", features = ["server"] }
+rcgen = { version = "0.14.10", default-features = false, features = ["ring", "pem"] }

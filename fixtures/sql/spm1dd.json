@@ -1,0 +1,19 @@
+[
+{"cmd": "ddcreate dm\\dm.add", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE da (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE db (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE dc (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE TABLE dd (id INTEGER) AS FREE TABLE", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "closestmt", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('da')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('db', true)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('db', false)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('dc.adt')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('DC', false)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('dd')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"dd\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('nosuch')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions(NULL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5021;  [SAP][Advantage SQL Engine][ASA] Error 5021:  The pointer given was not valid.  Parameter 2. Table name cannot be an empty string.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_IgnoreTableTransactions('')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5021;  [SAP][Advantage SQL Engine][ASA] Error 5021:  The pointer given was not valid.  Parameter 2. Table name cannot be an empty string.", "has_cursor": false, "affected": 0}
+]

@@ -1,0 +1,22 @@
+sql CREATE TABLE c (id INTEGER, c CHAR(40))
+sql INSERT INTO c VALUES (1, 'alpha bravo')
+sql INSERT INTO c VALUES (2, 'charlie delta')
+sql INSERT INTO c VALUES (3, 'echo foxtrot')
+sql INSERT INTO c VALUES (4, 'golf hotel')
+sql INSERT INTO c VALUES (5, 'india juliet')
+sql CREATE TABLE m (id INTEGER, m MEMO)
+sql INSERT INTO m VALUES (1, 'alpha bravo')
+sql INSERT INTO m VALUES (2, 'charlie delta')
+sql INSERT INTO m VALUES (3, 'echo foxtrot')
+sql INSERT INTO m VALUES (4, 'golf hotel')
+sql INSERT INTO m VALUES (5, 'india juliet')
+sql CREATE TABLE k (id INTEGER, m MEMO)
+sql INSERT INTO k VALUES (1, 'alpha bravo')
+sql INSERT INTO k VALUES (2, 'charlie delta')
+sql INSERT INTO k VALUES (3, 'echo foxtrot')
+sql INSERT INTO k VALUES (4, 'golf hotel')
+sql INSERT INTO k VALUES (5, 'india juliet')
+sql CREATE INDEX c_fts ON c (c) CONTENT KEEPSCORE
+sql CREATE INDEX m_fts ON m (m) CONTENT
+sql CREATE INDEX k_fts ON k (m) CONTENT KEEPSCORE
+sql CREATE INDEX k_id ON k (id)

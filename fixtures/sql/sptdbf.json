@@ -1,0 +1,106 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query CREATE TABLE pc (id INTEGER, name CHAR(10), m MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX cid ON pc (id)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX cname ON pc (name)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO pc VALUES (1, 'one', 'memo one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pc VALUES (2, 'two', 'memo two')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pc VALUES (3, 'three', 'memo three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pc VALUES (4, 'four', NULL)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query DELETE FROM pc WHERE id IN (2, 4)", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query CREATE TABLE pn (id INTEGER, name CHAR(10), m MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX nid ON pn (id)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO pn VALUES (1, 'one', 'memo one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pn VALUES (2, 'two', 'memo two')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pn VALUES (3, 'three', 'memo three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query DELETE FROM pn WHERE id = 2", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query CREATE TABLE pv (id INTEGER, name CHAR(10), m MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX vid ON pv (id)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO pv VALUES (1, 'one', 'memo one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pv VALUES (2, 'two', 'memo two')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO pv VALUES (3, 'three', 'memo three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query DELETE FROM pv WHERE id = 2", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "closestmt", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "4", "0", "512", "64", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc.dbf')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "4", "0", "512", "64", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableEncryptionType('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EncryptionType", 4, 10, 0]], "rows": [
+  [1, ["NONE      "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc.dbf', 1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["34078572", "34078572  "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc', 2)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["301125973", "301125973 "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc.dbf', 3)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["-1470032786", "2824934510"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc.dbf', 5)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5068;  [SAP][Advantage SQL Engine][ASA] Error 5068:  There is no current record.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc.dbf', 0)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5068;  [SAP][Advantage SQL Engine][ASA] Error 5068:  There is no current record.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "64", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pc.dbf', 2)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["1150389112", "1150389112"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('pc', 0)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('pc', 1024)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('pc', 100)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5019;  [SAP][Advantage SQL Engine][ASA] Error 5019:  An invalid option was specified.  Parameter 2.  Page size is outside valid range.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 1)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "512", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 32)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "16384", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 33)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "33", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 100)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "100", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 1024)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "1024", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 1025)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5058;  [SAP][Advantage SQL Engine][ASA] Error 5058:  The specified memo block size is invalid.  AdsPackTable", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 65536)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc', 64)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pc.adt')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pc.adt", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('pc')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pc')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "0", "0", "512", "64", "0"]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "3", "0", "512", "512", "4"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pn.dbf', 1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["-1758890510", "2536076786"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pn.dbf', 2)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["-2065933365", "2229033931"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pn')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "512", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pn', 8)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "2", "0", "512", "512", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pn', 1025)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5058;  [SAP][Advantage SQL Engine][ASA] Error 5058:  The specified memo block size is invalid.  AdsPackTable", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('pn', 0)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('pn')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pn')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["130", "25", "0", "0", "512", "512", "0"]]]}},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["392", "19", "3", "0", "512", "64", "3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\pv.dbf', 1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["936848518", "936848518 "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pv')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["392", "19", "2", "0", "512", "64", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('pv', 2)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["392", "19", "2", "0", "512", "1024", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('pv', 0)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('pv')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('pv')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["392", "19", "0", "0", "512", "1024", "0"]]]}}
+]

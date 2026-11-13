@@ -1,0 +1,50 @@
+{
+ "table_type": "adt",
+ "record_count": 3,
+ "record_length": 31,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "n", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "d", "type": 10, "type_name": "Double", "length": 8, "decimals": 2},
+  {"name": "dt", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "c", "type": 4, "type_name": "Character", "length": 5, "decimals": 0},
+  {"name": "lg", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "X_NUM", "file": "keys.adi", "expression": "n + 1", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 3, "key": "3fffffffffffffff"},
+   {"recno": 1, "key": "c018000000000000"},
+   {"recno": 2, "key": "c026000000000000"}
+  ]},
+  {"name": "X_DBL", "file": "keys.adi", "expression": "d * 2", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "c014000000000000"},
+   {"recno": 2, "key": "c020000000000000"}
+  ]},
+  {"name": "X_DATE", "file": "keys.adi", "expression": "dt + 1", "condition": "", "collation": "", "key_length": 8, "key_type": 3, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 1, "key": "0000000000000000"},
+   {"recno": 2, "key": "0000000000000000"},
+   {"recno": 3, "key": "0000000000000000"}
+  ]},
+  {"name": "X_LOG", "file": "keys.adi", "expression": "n > 0", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 3, "key": "46"},
+   {"recno": 1, "key": "54"},
+   {"recno": 2, "key": "54"}
+  ]},
+  {"name": "X_UPPER", "file": "keys.adi", "expression": "UPPER(c)", "condition": "", "collation": "", "key_length": 5, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 3, "keys": [
+   {"recno": 1, "key": "4142432020"},
+   {"recno": 3, "key": "4d4d4d2020"},
+   {"recno": 2, "key": "58595a2020"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "04000000000100000005000000000000000000044000000000616263202054", "values": {"id": {"text": "1"}, "n": {"text": "5"}, "d": {"text": "2.5"}, "dt": {"null": true}, "c": {"text": "abc  "}, "lg": {"text": "T"}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000020000000a00000000000000000010400000000078797a202046", "values": {"id": {"text": "2"}, "n": {"text": "10"}, "d": {"text": "4"}, "dt": {"null": true}, "c": {"text": "xyz  "}, "lg": {"text": "F"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000003000000fdffffff0000000000000000000000006d6d6d202046", "values": {"id": {"text": "3"}, "n": {"text": "-3"}, "d": {"text": "0"}, "dt": {"null": true}, "c": {"text": "mmm  "}, "lg": {"text": "F"}}}
+ ]
+}

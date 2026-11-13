@@ -1,0 +1,170 @@
+# An ADT table of every field type: a record with a value in every field,
+# one of NULLs, one of empty values, one of boundary values, one deleted.
+tabletype adt
+createtable t.adt 0 c,Char,10;ci,CICharacter,4;n,Numeric,8,2;d,Date;l,Logical;m,Memo;bl,Binary;im,Image;i,Integer;dbl,Double,2;ts,TimeStamp;sh,ShortInt;mo,Money;tm,Time;ai,AutoInc;cd,CurDouble,2;li,LongInt;g,GUID;rw,Raw,4;vb,VarBinary,6;vc,VarChar,10;vf,VarCharFox,10;nc,NChar,3;nv,NVarChar,5;nm,NMemo;rv,RowVersion;mt,ModTime;long,Char,300
+append
+set c string abc
+set ci string Ab
+set n double -1234.5
+set d date 01/02/2020
+set l logical 1
+set m string \@00600m
+set bl binary 0102030405
+set im image 0a0b0c
+set i long -7
+set dbl double 3.125
+set ts timestamp 01/02/2020 03:04:05
+set sh short -3
+set mo double 12.3456
+set tm time 01:02:03
+set cd double 1.5
+set li longlong 1234567890123
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set rw field 01020304
+set vb binary 050607
+set vc string hello
+set vf string fox
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set nm stringw nmemo
+set long string \@00290w
+write
+append
+set c null
+set ci null
+set n null
+set d null
+set l null
+set m null
+set bl null
+set im null
+set i null
+set dbl null
+set ts null
+set sh null
+set mo null
+set tm null
+set cd null
+set li null
+set g null
+set rw null
+set vb null
+set vc null
+set vf null
+set nc null
+set nv null
+set nm null
+set long null
+write
+append
+set c empty
+set ci empty
+set n empty
+set d empty
+set l empty
+set m empty
+set bl empty
+set im empty
+set i empty
+set dbl empty
+set ts empty
+set sh empty
+set mo empty
+set tm empty
+set cd empty
+set li empty
+set g empty
+set rw empty
+set vb empty
+set vc empty
+set vf empty
+set nc empty
+set nv empty
+set nm empty
+set long empty
+write
+append
+set c string last
+set n double 9999.99
+set d date 12/31/9999
+set i long -2147483647
+set dbl double -98765.4321
+set ts timestamp 12/31/9999 23:59:59
+set sh short 32767
+set mo double -922337203685.4775
+set tm time 23:59:59
+set cd double -0.01
+set li longlong -9223372036854775807
+set vc string 0123456789
+set vf string 0123456789
+set nm stringw \@00100n
+set long string \@00300x
+write
+append
+set c string gone
+set m string deleted memo
+set i long 9
+write
+delete
+close
+# Double and CurDouble fields of each count of decimals.
+createtable dd.adt 0 d0,Double,0;d1,Double,1;d5,Double,5;d15,Double,15;d16,Double,16;d17,Double,17;d20,Double,20;c0,CurDouble,0;c4,CurDouble,4
+append
+set d0 double 1.5
+set d1 double 1.5
+set d5 double 1.5
+set d15 double 1.5
+set d16 double 1.5
+set d17 double 1.5
+set d20 double 1.5
+set c0 double 1.5
+set c4 double 1.5
+write
+close
+# Names longer than ten characters, two of them the same in their first ten.
+createtable nm.adt 0 a_long_field_name,Char,2;a_long_field_other,Char,2;Mixed,Char,2
+append
+set #1 string a
+set #2 string b
+set #3 string c
+write
+close
+# Values a converted field cannot hold: a Double wider than its Numeric;
+# a CHAR wider than a DBF Character.
+createtable big.adt 0 k,Char,2;dbl,Double,2
+append
+set k string a
+set dbl double 1.5
+write
+append
+set k string b
+set dbl double 1e300
+write
+append
+set k string c
+set dbl double 2.5
+write
+close
+createtable wide.adt 0 k,Char,2;w,Char,65000
+append
+set k string a
+set w string \@00300w
+write
+close
+# AutoInc and RowVersion values that are not the records' numbers: the
+# first record deleted, the last one changed.
+createtable seq.adt 0 ai,AutoInc;rv,RowVersion;k,Char,2
+append
+set k string a
+write
+append
+set k string b
+write
+append
+set k string c
+write
+set k string cc
+write
+top
+delete
+close

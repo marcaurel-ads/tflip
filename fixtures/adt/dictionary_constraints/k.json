@@ -1,0 +1,19 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 9,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000001000000", "values": {"id": {"text": "1"}}},
+  {"recno": 2, "deleted": false, "raw": "040000000002000000", "values": {"id": {"text": "2"}}}
+ ]
+}

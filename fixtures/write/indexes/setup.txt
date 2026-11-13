@@ -1,0 +1,13 @@
+# Orders of many kinds in a table's structural index, 512-byte pages.
+sql CREATE TABLE ix (id INTEGER, name CHAR(12), grp SHORT, amount NUMERIC(8, 2), d DATE)
+sql CREATE INDEX by_id ON ix (id)
+sql CREATE INDEX by_name ON ix (name)
+sql CREATE INDEX by_grp_desc ON ix (grp DESC)
+sql CREATE INDEX by_name_id ON ix (name, id)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('ix', 'ix', 'upper', 'UPPER(name)', NULL, 2, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('ix', 'ix', 'cond', 'amount', 'grp > 3', 2, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('ix', 'ix', 'cust', 'name', NULL, 6, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('ix', 'ix', 'deleted', 'DELETED()', NULL, 4098, 512, NULL)
+# A unique order.
+sql CREATE TABLE u (id INTEGER, code CHAR(6))
+sql CREATE UNIQUE INDEX by_code ON u (code)

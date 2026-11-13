@@ -1,0 +1,124 @@
+# Candidate orders over a field with NULLs (refused), and reindexed; custom orders of
+# a FoxPro and an ADT table, with keys added, reindexed (emptied) or restructured
+# (refused).
+tabletype vfp
+open v.dbf exclusive
+createindex - cand 2050 512 i
+createindex - cand2 2050 512 c
+createindex - plain 2 512 c
+order cand
+rows
+order cand2
+rows
+append
+set c string cc
+set i long 5
+set k long 4
+write
+append
+set c string dd
+set i long 6
+set k long 5
+write
+order cand
+rows
+order cand2
+rows
+reindex
+order cand
+rows
+order cand2
+rows
+order plain
+rows
+close
+open v.dbf exclusive
+order cand
+rows
+order cand2
+rows
+close
+open w.dbf exclusive
+createindex - cand 2050 512 i
+createindex - cand2 2050 512 c
+createindex - plain 2 512 i
+order plain
+rows
+close
+tabletype cdx
+open f.dbf exclusive
+createindex - cust 6 512 c
+createindex - plain 2 512 c
+order cust
+rows
+goto 1
+addcustom cust
+append
+set c string cc
+set k double 3
+write
+goto 2
+addcustom cust
+order cust
+rows
+reindex
+order cust
+rows
+order plain
+rows
+close
+open f.dbf exclusive
+order cust
+rows
+goto 3
+addcustom cust
+rows
+close
+# Restructuring a FoxPro table with a custom order: its keys are not kept.
+open g.dbf exclusive
+createindex - cust 6 512 c
+createindex - plain 2 512 c
+goto 1
+addcustom cust
+close
+restructure g.dbf 0 extra,Character,4||
+open g.dbf exclusive
+order cust
+rows
+goto 2
+addcustom cust
+rows
+close
+tabletype adt
+open a.adt exclusive
+createindex a.adi cust 4 512 c
+createindex a.adi plain 0 512 c
+order cust
+rows
+goto 1
+addcustom cust
+append
+set c string cc
+set k long 3
+write
+goto 2
+addcustom cust
+order cust
+rows
+reindex
+order cust
+rows
+order plain
+rows
+close
+open b.adt exclusive
+createindex b.adi cust 4 512 c
+createindex b.adi plain 0 512 c
+goto 1
+addcustom cust
+close
+restructure b.adt 0 extra,Character,4||
+open b.adt exclusive
+order cust
+rows
+close

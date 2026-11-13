@@ -1,0 +1,12 @@
+[
+{"cmd": "open x.adt", "rc": 0, "table": 1},
+{"cmd": "convert 2 cdx xc.dbf", "rc": 0},
+{"cmd": "convert 2 ntx xn.dbf", "rc": 0},
+{"cmd": "convert 2 vfp xv.dbf", "rc": 0},
+{"cmd": "close", "rc": 0},
+{"cmd": "tabletype cdx", "rc": 0},
+{"cmd": "open y.dbf", "rc": 0, "table": 2},
+{"cmd": "convert 2 adt ya.adt", "rc": 0},
+{"cmd": "convert 2 vfp yv.dbf", "rc": 0},
+{"cmd": "close", "rc": 0}
+]

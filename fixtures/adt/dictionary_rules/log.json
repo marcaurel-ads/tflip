@@ -1,0 +1,20 @@
+{
+ "table_type": "adt",
+ "record_count": 0,
+ "record_length": 21,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "",
+ "fields": [
+  {"name": "seq", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "ev", "type": 4, "type_name": "Character", "length": 4, "decimals": 0},
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "n", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+ ]
+}

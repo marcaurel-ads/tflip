@@ -1,0 +1,520 @@
+# A memo value changed while another handle stands on the record, in each kind of table.
+tabletype cdx
+open ca shared
+open2 ca shared
+use 2
+goto 2
+use 1
+goto 2
+set body string MEMO 2
+write
+flush
+use 2
+use 1
+close
+use 2
+close
+open cb shared
+open2 cb shared
+use 4
+goto 3
+use 3
+goto 2
+set body string MEMO 2
+write
+flush
+use 4
+use 3
+close
+use 4
+close
+open cc shared
+open2 cc shared
+use 6
+goto 2
+skip 1
+use 5
+goto 2
+set body string MEMO 2
+write
+flush
+use 6
+use 5
+close
+use 6
+close
+open cd shared
+open2 cd shared
+use 8
+goto 2
+use 7
+goto 2
+use 8
+set body string MEMO 2
+write
+flush
+use 7
+close
+use 8
+close
+open ce shared
+open ce shared
+use 10
+goto 2
+use 9
+goto 2
+set body string MEMO 2
+write
+flush
+use 10
+use 9
+close
+use 10
+close
+open cf shared
+open2 cf shared
+use 12
+goto 2
+use 11
+goto 2
+set body string MEMO 2
+write
+set body string memo 2
+write
+set body string Memo 2
+write
+flush
+use 12
+use 11
+close
+use 12
+close
+open cg shared
+open2 cg shared
+use 14
+goto 1
+use 13
+goto 1
+set body string m
+write
+use 14
+goto 2
+use 13
+goto 2
+set body string xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+use 14
+goto 3
+use 13
+goto 3
+set body empty
+write
+flush
+use 13
+close
+use 14
+close
+open ch shared
+open2 ch shared
+use 16
+goto 2
+close
+use 15
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open ci shared
+open2 ci shared
+use 18
+goto 2
+use 17
+begin
+goto 2
+set body string MEMO 2
+write
+flush
+commit
+flush
+use 18
+use 17
+close
+use 18
+close
+open cj shared
+open2 cj shared
+use 20
+goto 2
+use 19
+goto 2
+set body string MEMO 2
+use 20
+use 19
+write
+flush
+close
+use 20
+close
+open ck shared
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open cl shared
+open2 cl shared
+use 22
+goto 2
+set body string MEMO 2
+write
+flush
+close
+use 23
+close
+tabletype vfp
+open va shared
+open2 va shared
+use 25
+goto 2
+use 24
+goto 2
+set body string MEMO 2
+write
+flush
+use 25
+use 24
+close
+use 25
+close
+open vb shared
+open2 vb shared
+use 27
+goto 3
+use 26
+goto 2
+set body string MEMO 2
+write
+flush
+use 27
+use 26
+close
+use 27
+close
+open vc shared
+open2 vc shared
+use 29
+goto 2
+skip 1
+use 28
+goto 2
+set body string MEMO 2
+write
+flush
+use 29
+use 28
+close
+use 29
+close
+open vd shared
+open2 vd shared
+use 31
+goto 2
+use 30
+goto 2
+use 31
+set body string MEMO 2
+write
+flush
+use 30
+close
+use 31
+close
+open ve shared
+open ve shared
+use 33
+goto 2
+use 32
+goto 2
+set body string MEMO 2
+write
+flush
+use 33
+use 32
+close
+use 33
+close
+open vf shared
+open2 vf shared
+use 35
+goto 2
+use 34
+goto 2
+set body string MEMO 2
+write
+set body string memo 2
+write
+set body string Memo 2
+write
+flush
+use 35
+use 34
+close
+use 35
+close
+open vg shared
+open2 vg shared
+use 37
+goto 1
+use 36
+goto 1
+set body string m
+write
+use 37
+goto 2
+use 36
+goto 2
+set body string xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+use 37
+goto 3
+use 36
+goto 3
+set body empty
+write
+flush
+use 36
+close
+use 37
+close
+open vh shared
+open2 vh shared
+use 39
+goto 2
+close
+use 38
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open vi shared
+open2 vi shared
+use 41
+goto 2
+use 40
+begin
+goto 2
+set body string MEMO 2
+write
+flush
+commit
+flush
+use 41
+use 40
+close
+use 41
+close
+open vj shared
+open2 vj shared
+use 43
+goto 2
+use 42
+goto 2
+set body string MEMO 2
+use 43
+use 42
+write
+flush
+close
+use 43
+close
+open vk shared
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open vl shared
+open2 vl shared
+use 45
+goto 2
+set body string MEMO 2
+write
+flush
+close
+use 46
+close
+tabletype ntx
+open na shared
+open2 na shared
+use 48
+goto 2
+use 47
+goto 2
+set body string MEMO 2
+write
+flush
+use 48
+use 47
+close
+use 48
+close
+open nb shared
+open2 nb shared
+use 50
+goto 3
+use 49
+goto 2
+set body string MEMO 2
+write
+flush
+use 50
+use 49
+close
+use 50
+close
+open nc shared
+open2 nc shared
+use 52
+goto 2
+skip 1
+use 51
+goto 2
+set body string MEMO 2
+write
+flush
+use 52
+use 51
+close
+use 52
+close
+open nd shared
+open2 nd shared
+use 54
+goto 2
+use 53
+goto 2
+use 54
+set body string MEMO 2
+write
+flush
+use 53
+close
+use 54
+close
+open ne shared
+open ne shared
+use 56
+goto 2
+use 55
+goto 2
+set body string MEMO 2
+write
+flush
+use 56
+use 55
+close
+use 56
+close
+open nf shared
+open2 nf shared
+use 58
+goto 2
+use 57
+goto 2
+set body string MEMO 2
+write
+set body string memo 2
+write
+set body string Memo 2
+write
+flush
+use 58
+use 57
+close
+use 58
+close
+open ng shared
+open2 ng shared
+use 60
+goto 1
+use 59
+goto 1
+set body string m
+write
+use 60
+goto 2
+use 59
+goto 2
+set body string xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+use 60
+goto 3
+use 59
+goto 3
+set body empty
+write
+flush
+use 59
+close
+use 60
+close
+open nh shared
+open2 nh shared
+use 62
+goto 2
+close
+use 61
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open ni shared
+open2 ni shared
+use 64
+goto 2
+use 63
+begin
+goto 2
+set body string MEMO 2
+write
+flush
+commit
+flush
+use 64
+use 63
+close
+use 64
+close
+open nj shared
+open2 nj shared
+use 66
+goto 2
+use 65
+goto 2
+set body string MEMO 2
+use 66
+use 65
+write
+flush
+close
+use 66
+close
+open nk shared
+goto 2
+set body string MEMO 2
+write
+flush
+close
+open nl shared
+open2 nl shared
+use 68
+goto 2
+set body string MEMO 2
+write
+flush
+close
+use 69
+close

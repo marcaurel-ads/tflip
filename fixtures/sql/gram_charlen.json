@@ -1,0 +1,156 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE cl (c CHAR(8), v VARCHAR(8), nc NCHAR(8), nv NVARCHAR(8), m MEMO, nm NMEMO, b BINARY, r RAW(8), ci CICHAR(8))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO cl VALUES ('ab', 'ab', 'ab', 'ab', 'ab', 'ab', NULL, NULL, 'ab')", "rc": 0},
+{"cmd": "directnull INSERT INTO cl VALUES ('abcdefgh', 'abcdefgh', 'abcdefgh', 'abcdefgh', 'abcdefgh', 'abcdefgh', NULL, NULL, 'abcdefgh')", "rc": 0},
+{"cmd": "directnull INSERT INTO cl VALUES ('', '', '', '', '', '', NULL, NULL, '')", "rc": 0},
+{"cmd": "directnull INSERT INTO cl VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0},
+{"cmd": "directnull INSERT INTO cl VALUES ('\u00e9 \u00fc', '\u00e9 \u00fc', '\u00e9 \u00fc', '\u00e9 \u00fc', '\u00e9 \u00fc', '\u00e9 \u00fc', NULL, NULL, '\u00e9 \u00fc')", "rc": 0},
+{"cmd": "query SELECT CHAR_LENGTH(c) AS a, CHAR_LENGTH(v) AS b, CHAR_LENGTH(nc) AS c, CHAR_LENGTH(nv) AS d, CHAR_LENGTH(m) AS e, CHAR_LENGTH(nm) AS f, CHAR_LENGTH(ci) AS g FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0], ["e", 11, 4, 0], ["f", 11, 4, 0], ["g", 11, 4, 0]], "rows": [
+  [1, ["8", "2", "8", "2", "2", "2", "8"]],
+  [2, ["8", "8", "8", "8", "8", "8", "8"]],
+  [3, ["8", "0", "8", "0", null, null, "8"]],
+  [4, [null, null, null, null, null, null, null]],
+  [5, ["8", "3", "8", "3", "3", "3", "8"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(c USING CHARACTERS) AS a, CHAR_LENGTH(v USING CHARACTERS) AS b, CHAR_LENGTH(nc USING CHARACTERS) AS c, CHAR_LENGTH(nv USING CHARACTERS) AS d, CHAR_LENGTH(m USING CHARACTERS) AS e, CHAR_LENGTH(nm USING CHARACTERS) AS f, CHAR_LENGTH(ci USING CHARACTERS) AS g FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0], ["e", 11, 4, 0], ["f", 11, 4, 0], ["g", 11, 4, 0]], "rows": [
+  [1, ["8", "2", "8", "2", "2", "2", "8"]],
+  [2, ["8", "8", "8", "8", "8", "8", "8"]],
+  [3, ["8", "0", "8", "0", null, null, "8"]],
+  [4, [null, null, null, null, null, null, null]],
+  [5, ["8", "3", "8", "3", "3", "3", "8"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(c USING OCTETS) AS a, CHAR_LENGTH(v USING OCTETS) AS b, CHAR_LENGTH(nc USING OCTETS) AS c, CHAR_LENGTH(nv USING OCTETS) AS d, CHAR_LENGTH(m USING OCTETS) AS e, CHAR_LENGTH(nm USING OCTETS) AS f, CHAR_LENGTH(ci USING OCTETS) AS g FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0], ["e", 11, 4, 0], ["f", 11, 4, 0], ["g", 11, 4, 0]], "rows": [
+  [1, ["8", "2", "16", "4", "2", "4", "8"]],
+  [2, ["8", "8", "16", "16", "8", "16", "8"]],
+  [3, ["8", "0", "16", "0", null, null, "8"]],
+  [4, [null, null, null, null, null, null, null]],
+  [5, ["8", "3", "16", "6", "3", "6", "8"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(c USING CODE_POINTS) AS a, CHAR_LENGTH(v USING CODE_POINTS) AS b, CHAR_LENGTH(nc USING CODE_POINTS) AS c, CHAR_LENGTH(nv USING CODE_POINTS) AS d, CHAR_LENGTH(m USING CODE_POINTS) AS e, CHAR_LENGTH(nm USING CODE_POINTS) AS f, CHAR_LENGTH(ci USING CODE_POINTS) AS g FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0], ["e", 11, 4, 0], ["f", 11, 4, 0], ["g", 11, 4, 0]], "rows": [
+  [1, ["8", "2", "8", "2", "2", "2", "8"]],
+  [2, ["8", "8", "8", "8", "8", "8", "8"]],
+  [3, ["8", "0", "8", "0", null, null, "8"]],
+  [4, [null, null, null, null, null, null, null]],
+  [5, ["8", "3", "8", "3", "3", "3", "8"]]]}},
+{"cmd": "query SELECT CHARACTER_LENGTH(nc USING OCTETS) AS a, CHARACTER_LENGTH(nc USING CODE_POINTS) AS b, CHARACTER_LENGTH(nc USING CHARACTERS) AS c, CHARACTER_LENGTH(nc) AS d FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0]], "rows": [
+  [1, ["16", "8", "8", "8"]],
+  [2, ["16", "8", "8", "8"]],
+  [3, ["16", "8", "8", "8"]],
+  [4, [null, null, null, null]],
+  [5, ["16", "8", "8", "8"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(nc USING octets) AS a, CHAR_LENGTH(nc USING Code_Points) AS b, CHAR_LENGTH(nc USING characters) AS c FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["16", "8", "8"]],
+  [2, ["16", "8", "8"]],
+  [3, ["16", "8", "8"]],
+  [4, [null, null, null]],
+  [5, ["16", "8", "8"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(nc USING OCTETS) + 1 AS a, CHAR_LENGTH(nc USING OCTETS) * 2 AS b FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["17", "32"]],
+  [2, ["17", "32"]],
+  [3, ["17", "32"]],
+  [4, [null, null]],
+  [5, ["17", "32"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(b) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH Argument cannot be LONGVARBINARY. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(r) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(b USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH Argument cannot be LONGVARBINARY. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(r USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(r USING CHARACTERS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(r USING CODE_POINTS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(x'4142' USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH('abc' USING OCTETS) AS a, CHAR_LENGTH('abc' USING CHARACTERS) AS b, CHAR_LENGTH('abc' USING CODE_POINTS) AS c FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["3", "3", "3"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH('\u00e9 \u00fc' USING OCTETS) AS a, CHAR_LENGTH('\u00e9 \u00fc' USING CHARACTERS) AS b, CHAR_LENGTH('\u00e9 \u00fc' USING CODE_POINTS) AS c FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["3", "3", "3"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH('' USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(CAST('\u00e9 \u00fc' AS SQL_WCHAR(5)) USING OCTETS) AS a, CHAR_LENGTH(CAST('\u00e9 \u00fc' AS SQL_WCHAR(5)) USING CODE_POINTS) AS b, CHAR_LENGTH(CAST('\u00e9 \u00fc' AS SQL_WCHAR(5))) AS c FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["10", "5", "5"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(CAST('abc' AS SQL_WVARCHAR(10)) USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(CAST('abc' AS SQL_WLONGVARCHAR) USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(CAST('abc' AS SQL_LONGVARCHAR) USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(123 USING OCTETS) AS a FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(123) AS a FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(NULL USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(c USING BYTES) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <keyword> Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 27 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING 1) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <keyword> Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING 'OCTETS') AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <keyword> Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING OCTETS, 1) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c, OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING OCTETS USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH() AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c, v) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING CHARS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING CODEPOINTS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING CODE_UNITS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(c USING OCTET) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting CHARACTERS, OCTETS or CODE_POINTS after the keyword USING. -- Location of error in the SQL statement is: 28 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LEN(nc USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LENGTH(nc USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT OCTET_LENGTH(nc USING OCTETS) AS a FROM cl", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT OCTET_LENGTH(nc) AS a, OCTET_LENGTH(c) AS b, OCTET_LENGTH(m) AS c, OCTET_LENGTH(nm) AS d, OCTET_LENGTH(nv) AS e FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0], ["d", 11, 4, 0], ["e", 11, 4, 0]], "rows": [
+  [1, ["16", "8", "2", "4", "4"]],
+  [2, ["16", "8", "8", "16", "16"]],
+  [3, ["16", "8", null, null, "0"]],
+  [4, [null, null, null, null, null]],
+  [5, ["16", "8", "3", "6", "6"]]]}},
+{"cmd": "query SELECT BIT_LENGTH(nc) AS a, BIT_LENGTH(c) AS b FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["128", "64"]],
+  [2, ["128", "64"]],
+  [3, ["128", "64"]],
+  [4, [null, null]],
+  [5, ["128", "64"]]]}},
+{"cmd": "query SELECT {fn CHAR_LENGTH(nc USING OCTETS)} AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["16"]],
+  [2, ["16"]],
+  [3, ["16"]],
+  [4, [null]],
+  [5, ["16"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(nc USING OCTETS) AS a, SUM(CHAR_LENGTH(nc USING OCTETS)) AS s FROM cl GROUP BY CHAR_LENGTH(nc USING OCTETS)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["a", 11, 4, 0], ["s", 11, 4, 0]], "rows": [
+  [1, [null, null]],
+  [2, ["16", "64"]]]}},
+{"cmd": "query SELECT c FROM cl WHERE CHAR_LENGTH(nc USING OCTETS) = 16 ORDER BY c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "cl.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 4, "fields": [["c", 4, 8, 0]], "rows": [
+  [3, ["        "]],
+  [1, ["ab      "]],
+  [2, ["abcdefgh"]],
+  [5, ["\u00e9 \u00fc     "]]]}},
+{"cmd": "query SELECT c FROM cl ORDER BY CHAR_LENGTH(nm USING OCTETS), c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["c", 4, 8, 0]], "rows": [
+  [1, [null]],
+  [2, ["        "]],
+  [3, ["ab      "]],
+  [4, ["\u00e9 \u00fc     "]],
+  [5, ["abcdefgh"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(TRIM(nc) USING OCTETS) AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["4"]],
+  [2, ["16"]],
+  [3, ["0"]],
+  [4, [null]],
+  [5, ["6"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(nc + nv USING OCTETS) AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["20"]],
+  [2, ["32"]],
+  [3, ["16"]],
+  [4, [null]],
+  [5, ["22"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(nc USING OCTETS) AS a FROM cl WHERE nc IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT MAX(CHAR_LENGTH(nm USING OCTETS)) AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["16"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(UPPER(nc) USING CODE_POINTS) AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["8"]],
+  [2, ["8"]],
+  [3, ["8"]],
+  [4, [null]],
+  [5, ["8"]]]}},
+{"cmd": "query SELECT CASE WHEN CHAR_LENGTH(c USING OCTETS) > 2 THEN 'long' ELSE 'short' END AS a FROM cl", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["a", 23, 5, 0]], "rows": [
+  [1, ["long"]],
+  [2, ["long"]],
+  [3, ["long"]],
+  [4, ["short"]],
+  [5, ["long"]]]}},
+{"cmd": "query SELECT CHAR_LENGTH(CHAR(65) USING OCTETS) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}}
+]

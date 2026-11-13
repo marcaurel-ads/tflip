@@ -1,0 +1,4 @@
+# The dictionary of a_V.txt (a plain dictionary of about a hundred objects with holes and four subscriptions) taken to AES128 enciphering its records, made in a process of its own.
+connect Data Source=%D\c_V_AES128_1;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'AES128', 1)
+disconnect

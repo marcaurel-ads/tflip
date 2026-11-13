@@ -1,0 +1,95 @@
+# Two handles of one table on one connection, and a third on another: a
+# record locked through one handle and written, locked or unlocked through
+# the other, outside a transaction and in one, on the remote server.
+open a shared
+open a shared
+open2 a shared
+# Outside a transaction.
+use 1
+goto 2
+lock 2
+islocked 2
+use 2
+goto 2
+islocked 2
+lock 2
+islocked 2
+set name string two2
+write
+unlock 2
+islocked 2
+use 1
+islocked 2
+use 3
+goto 2
+get name
+lock 2
+use 1
+unlock 2
+use 3
+lock 2
+unlock 2
+# In a transaction: written through handle 1, locked, read and written
+# through handle 2.
+use 1
+begin
+goto 1
+set name string ten
+write
+islocked 1
+use 2
+goto 1
+islocked 1
+get name
+lock 1
+islocked 1
+set name string eleven
+write
+get name
+unlock 1
+islocked 1
+use 3
+goto 1
+get name
+lock 1
+use 1
+goto 1
+get name
+islocked 1
+use 2
+goto 3
+lock 3
+use 1
+goto 3
+lock 3
+islocked 3
+rollback
+use 2
+goto 1
+get name
+islocked 1
+islocked 3
+use 3
+lock 1
+unlock 1
+use 1
+begin
+goto 1
+set name string twelve
+write
+use 2
+goto 1
+lock 1
+unlock 1
+islocked 1
+use 1
+commit
+use 2
+goto 1
+get name
+islocked 1
+use 3
+goto 1
+get name
+lock 1
+unlock 1

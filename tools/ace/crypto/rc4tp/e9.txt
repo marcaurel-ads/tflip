@@ -1,0 +1,14 @@
+ddcreate 0 %D\e9\d.add
+sql CREATE TABLE t0 (id INTEGER, note MEMO)
+sql EXECUTE PROCEDURE sp_EncryptTable('t0')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t0', 'TABLE_ENCRYPTION', 'TRUE', '', '')
+sql EXECUTE PROCEDURE sp_DecryptTable('t0')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE t1 (id INTEGER, note MEMO)
+sql INSERT INTO t1 VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('t1')
+sql CREATE INDEX t1_id ON t1 (id)
+sql INSERT INTO t1 VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_DecryptTable('t1')
+disconnect

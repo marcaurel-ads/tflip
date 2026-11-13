@@ -1,0 +1,207 @@
+# The order of the rows of a LIKE: a table in neither order, with an index on
+# the column (lk), on another column (lk3) or none (lk2), for
+# fixtures/sql/likeorder.json, in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> likeorder.txt > fixtures/sql/likeorder.json
+stmt
+query CREATE TABLE lk (id integer, name char(12), other char(12))
+query INSERT INTO lk VALUES (5, 'resume', 'emuser')
+query INSERT INTO lk VALUES (3, 'resum_z', 'z_muser')
+query INSERT INTO lk VALUES (9, 'abc', 'cba')
+query INSERT INTO lk VALUES (1, 'resum_a', 'a_muser')
+query INSERT INTO lk VALUES (8, 'xyz', 'zyx')
+query INSERT INTO lk VALUES (2, 'resumx', 'xmuser')
+query INSERT INTO lk VALUES (7, 'res', 'ser')
+query INSERT INTO lk VALUES (4, 'zres', 'serz')
+query INSERT INTO lk VALUES (6, 'resum_b', 'b_muser')
+query CREATE TABLE lk2 (id integer, name char(12), other char(12))
+query INSERT INTO lk2 VALUES (5, 'resume', 'emuser')
+query INSERT INTO lk2 VALUES (3, 'resum_z', 'z_muser')
+query INSERT INTO lk2 VALUES (9, 'abc', 'cba')
+query INSERT INTO lk2 VALUES (1, 'resum_a', 'a_muser')
+query INSERT INTO lk2 VALUES (8, 'xyz', 'zyx')
+query INSERT INTO lk2 VALUES (2, 'resumx', 'xmuser')
+query INSERT INTO lk2 VALUES (7, 'res', 'ser')
+query INSERT INTO lk2 VALUES (4, 'zres', 'serz')
+query INSERT INTO lk2 VALUES (6, 'resum_b', 'b_muser')
+query CREATE TABLE lk3 (id integer, name char(12), other char(12))
+query INSERT INTO lk3 VALUES (5, 'resume', 'emuser')
+query INSERT INTO lk3 VALUES (3, 'resum_z', 'z_muser')
+query INSERT INTO lk3 VALUES (9, 'abc', 'cba')
+query INSERT INTO lk3 VALUES (1, 'resum_a', 'a_muser')
+query INSERT INTO lk3 VALUES (8, 'xyz', 'zyx')
+query INSERT INTO lk3 VALUES (2, 'resumx', 'xmuser')
+query INSERT INTO lk3 VALUES (7, 'res', 'ser')
+query INSERT INTO lk3 VALUES (4, 'zres', 'serz')
+query INSERT INTO lk3 VALUES (6, 'resum_b', 'b_muser')
+query CREATE INDEX nm ON lk (name)
+query CREATE INDEX idi ON lk3 (id)
+query SELECT id, name FROM lk WHERE name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'resum_%'
+query SELECT id, name FROM lk WHERE name LIKE '%sum%'
+query SELECT id, name FROM lk WHERE name LIKE '%x'
+query SELECT id, name FROM lk WHERE name LIKE 'resum_'
+query SELECT id, name FROM lk WHERE name NOT LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id > 0
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id > 3
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id = 3
+query SELECT id, name FROM lk WHERE id > 3 AND name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' OR id = 9
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND name LIKE '%a'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND other LIKE '%e'
+query SELECT id, name FROM lk WHERE other LIKE '%um%'
+query SELECT id, name FROM lk WHERE UPPER(name) LIKE 'RES%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND name <> 'resume'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND 1 = 1
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id IS NOT NULL
+query SELECT id, name FROM lk WHERE name BETWEEN 'a' AND 'z' AND name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM lk WHERE name LIKE 'res%' ORDER BY name DESC
+query SELECT id FROM lk WHERE name LIKE 'res%'
+query SELECT name FROM lk WHERE name LIKE 'res%'
+query SELECT * FROM lk WHERE name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id > 3 ORDER BY id
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'resum_%'
+query SELECT id, name FROM lk2 WHERE name LIKE '%sum%'
+query SELECT id, name FROM lk2 WHERE name LIKE '%x'
+query SELECT id, name FROM lk2 WHERE name LIKE 'resum_'
+query SELECT id, name FROM lk2 WHERE name NOT LIKE 'res%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND id > 0
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND id > 3
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND id = 3
+query SELECT id, name FROM lk2 WHERE id > 3 AND name LIKE 'res%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' OR id = 9
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND name LIKE '%a'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND other LIKE '%e'
+query SELECT id, name FROM lk2 WHERE other LIKE '%um%'
+query SELECT id, name FROM lk2 WHERE UPPER(name) LIKE 'RES%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND name <> 'resume'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND 1 = 1
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND id IS NOT NULL
+query SELECT id, name FROM lk2 WHERE name BETWEEN 'a' AND 'z' AND name LIKE 'res%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' ORDER BY name DESC
+query SELECT id FROM lk2 WHERE name LIKE 'res%'
+query SELECT name FROM lk2 WHERE name LIKE 'res%'
+query SELECT * FROM lk2 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk2 WHERE name LIKE 'res%' AND id > 3 ORDER BY id
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk3 WHERE name LIKE 'resum_%'
+query SELECT id, name FROM lk3 WHERE name LIKE '%sum%'
+query SELECT id, name FROM lk3 WHERE name LIKE '%x'
+query SELECT id, name FROM lk3 WHERE name LIKE 'resum_'
+query SELECT id, name FROM lk3 WHERE name NOT LIKE 'res%'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND id > 0
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND id > 3
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND id = 3
+query SELECT id, name FROM lk3 WHERE id > 3 AND name LIKE 'res%'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' OR id = 9
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND name LIKE '%a'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND other LIKE '%e'
+query SELECT id, name FROM lk3 WHERE other LIKE '%um%'
+query SELECT id, name FROM lk3 WHERE UPPER(name) LIKE 'RES%'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND name <> 'resume'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND 1 = 1
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' AND id IS NOT NULL
+query SELECT id, name FROM lk3 WHERE name BETWEEN 'a' AND 'z' AND name LIKE 'res%'
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM lk3 WHERE name LIKE 'res%' ORDER BY name DESC
+query SELECT id FROM lk3 WHERE name LIKE 'res%'
+query SELECT name FROM lk3 WHERE name LIKE 'res%'
+query SELECT * FROM lk3 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' ORDER BY name
+query CREATE TABLE lk4 (id integer, name char(12), n integer)
+query INSERT INTO lk4 VALUES (1, 'resx', 10)
+query INSERT INTO lk4 VALUES (2, 'Res', 11)
+query INSERT INTO lk4 VALUES (3, 'resx', 12)
+query INSERT INTO lk4 VALUES (4, 'RES', 10)
+query INSERT INTO lk4 VALUES (5, 'resa', 11)
+query INSERT INTO lk4 VALUES (6, 'Resb', 12)
+query INSERT INTO lk4 VALUES (7, 'res_', 10)
+query INSERT INTO lk4 VALUES (8, 'res1', 11)
+query INSERT INTO lk4 VALUES (9, 'rés', 12)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'RES%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res_'
+query SELECT id, name FROM lk4 WHERE name LIKE '_es%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'r%'
+query SELECT id, name FROM lk4 WHERE name LIKE '%'
+query SELECT id, name FROM lk4 WHERE name LIKE ''
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' ESCAPE '\'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res\_%' ESCAPE '\'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res[a-z]%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res' + '%'
+query SELECT id, name FROM lk4 WHERE name LIKE name
+query SELECT id, name FROM lk4 WHERE name LIKE UPPER('res%')
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND (n = 10 OR n = 11)
+query SELECT id, name FROM lk4 WHERE (name LIKE 'res%')
+query SELECT id, name FROM lk4 WHERE NOT (name NOT LIKE 'res%')
+query SELECT id, name FROM lk4 WHERE n LIKE '1%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' OR name LIKE 'RES%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT n = 99
+query SELECT id, name FROM lk4 WHERE id IN (1,2,3,4,5) AND name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' ORDER BY n
+query SELECT n, name FROM lk4 WHERE name LIKE 'res%'
+query SELECT id FROM lk4 WHERE name LIKE 'res%'
+query SELECT DISTINCT n FROM lk4 WHERE name LIKE 'res%'
+query SELECT TOP 3 id, name FROM lk4 WHERE name LIKE 'res%'
+query SELECT id, name FROM lk4 a WHERE a.name LIKE 'res%'
+query SELECT a.id, a.name FROM lk4 a JOIN lk b ON a.n = b.id - 4 WHERE a.name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE id IN (SELECT id FROM lk4 WHERE name LIKE 'res%')
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' UNION ALL SELECT id, name FROM lk4 WHERE name LIKE 'resx%'
+query SELECT id, name FROM (SELECT id, name FROM lk4 WHERE name LIKE 'res%') t
+query SELECT id, name FROM (SELECT id, name FROM lk4) t WHERE name LIKE 'res%'
+query SELECT COUNT(*), MAX(id) FROM lk4 WHERE name LIKE 'res%'
+query SELECT name, COUNT(*) FROM lk4 WHERE name LIKE 'res%' GROUP BY name
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT n = 99
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n <> 99
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n > 0
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n = 10
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT n = 10
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT id = 3
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT id = 99
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id <> 99
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT id > 0
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND NOT 1 = 2
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n <> 10
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id <> 3
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id > 3
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name <> 'resx'
+query SELECT id, name FROM lk4 WHERE NOT n = 99 AND name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n IS NULL
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n IS NOT NULL
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name IS NOT NULL
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n IN (10, 11)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name LIKE '%x'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name LIKE 'res_'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND UPPER(name) = 'RESX'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND LEN(name) > 3
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n + 1 > 5
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id = n
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n BETWEEN 10 AND 11
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name = 'resx'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name >= 'resa'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id > 0 AND n > 0
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id > 0 AND NOT n = 99
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND (id > 0 OR n > 0)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND (id > 0 AND n > 0)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id + 0 > 0
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND ABS(id) > 0
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id > n - 20
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id NOT IN (3)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id NOT BETWEEN 3 AND 4
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name NOT LIKE '%z'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND TRUE
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND EXISTS (SELECT 1 FROM lk WHERE lk.id = lk4.id)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND id IN (SELECT id FROM lk)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND n = (SELECT MAX(n) FROM lk4)
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' OR NOT n = 99
+query SELECT id, name FROM lk4 WHERE NOT n = 99 OR name LIKE 'res%'
+query SELECT id, name FROM lk4 WHERE name LIKE 'res%' AND name > ''
+prepare SELECT id, name FROM lk4 WHERE name LIKE ?
+param 1 string res%
+exec
+closecursor

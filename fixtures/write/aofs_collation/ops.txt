@@ -1,0 +1,86 @@
+# Reads only: the level, the part not optimized and the records of each AOF.
+collation GERMAN_VFP_CI_AS_1252
+open g.adt shared
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name == 'apfel'
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name > 'b'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name = 'Äpfel'
+aoflevel
+rows
+aof 1 name >= 'APFEL' .AND. name <= 'B'
+aoflevel
+rows
+aof 1 TRIM(name) = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'APFEL' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name = 'APFEL' .AND. RECNO() < 99
+aoflevel
+rows
+aof 1 name = 'APFEL' .AND. id > 0
+aoflevel
+rows
+aof 1 UPPER(name) = 'APFEL'
+aoflevel
+rows
+aof 1 name < 'b' .OR. RECNO() = 99
+aoflevel
+rows
+aof 1 name = 'ss' .OR. RECNO() = 99
+aoflevel
+rows
+exact 1
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL' .OR. RECNO() = 99
+aoflevel
+rows
+exact 0
+open h.adt shared
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+exact 1
+aof 1 name = 'APFEL'
+aoflevel
+rows
+exact 0

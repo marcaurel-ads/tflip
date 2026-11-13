@@ -1,0 +1,26 @@
+sql CREATE TABLE am (id INTEGER, body MEMO)
+sql INSERT INTO am VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE bm (id INTEGER, body MEMO)
+sql INSERT INTO bm VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE cm (id INTEGER, body MEMO)
+sql INSERT INTO cm VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE dm (id INTEGER, body MEMO)
+sql INSERT INTO dm VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE em (id INTEGER, body MEMO)
+sql INSERT INTO em VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE fm (id INTEGER, body MEMO)
+sql INSERT INTO fm VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE gm (id INTEGER, body MEMO)
+sql INSERT INTO gm VALUES (1, 'memo 1'), (2, 'memo 2'), (3, 'memo 3')
+sql CREATE TABLE fa (id INTEGER, body MEMO, c CHAR(20))
+sql INSERT INTO fa VALUES (1,'one fox jumps','red fox'),(2,'two dog sleeps','dog house'),(3,'three fox dog','fox dog')
+sql CREATE INDEX fa_fts ON fa (body) CONTENT
+sql CREATE INDEX fa_c ON fa (c) CONTENT
+sql CREATE TABLE fg (id INTEGER, body MEMO, c CHAR(20))
+sql INSERT INTO fg VALUES (1,'one fox jumps','red fox'),(2,'two dog sleeps','dog house'),(3,'three fox dog','fox dog')
+sql CREATE INDEX fg_fts ON fg (body) CONTENT
+sql CREATE INDEX fg_c ON fg (c) CONTENT
+sql CREATE TABLE fh (id INTEGER, body MEMO, c CHAR(20))
+sql INSERT INTO fh VALUES (1,'one fox jumps','red fox'),(2,'two dog sleeps','dog house'),(3,'three fox dog','fox dog')
+sql CREATE INDEX fh_fts ON fh (body) CONTENT
+sql CREATE INDEX fh_c ON fh (c) CONTENT

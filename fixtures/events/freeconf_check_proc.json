@@ -1,0 +1,7 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "connect 1 d.add", "rc": 0},
+{"cmd": "connect 2 d.add u2 pw2", "rc": 0},
+{"cmd": "sql 1 EXECUTE PROCEDURE p1()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: p1. Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt Error executing stored procedure: p1", "ms": 11},
+{"cmd": "sql 2 EXECUTE PROCEDURE p1()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: p1. Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt Error executing stored procedure: p1", "ms": 7}
+]

@@ -1,0 +1,38 @@
+tabletype vfp
+sql CREATE TABLE zz (a CHAR(3))
+open fa
+info
+encstate
+top
+get id
+get note
+state
+skip 1
+get id
+get note
+append
+set id long 9
+set note string appended
+write
+state
+goto 1
+set note string changed
+write
+goto 2
+delete
+goto 3
+get id
+get note
+close
+open ta shared
+top
+get id
+get note
+encstate
+close
+open fr
+top
+get id
+get note
+encstate
+close

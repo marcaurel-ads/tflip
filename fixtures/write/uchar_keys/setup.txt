@@ -1,0 +1,11 @@
+# NChar and NVarChar fields and rows for orders built with the
+# ADS_UCHAR_KEY_* options (the ops create them).
+sql CREATE TABLE uk (id INTEGER, grp SHORT, nc NCHAR(4), nv NVARCHAR(7), c CHAR(5))
+sql INSERT INTO uk VALUES (1, 2, 'abc', 'Zebra', 'x')
+sql INSERT INTO uk VALUES (2, 1, 'été', 'apple', 'y')
+sql INSERT INTO uk VALUES (3, 1, 'ÉTÉ', 'Ömega', 'z')
+sql INSERT INTO uk VALUES (4, 3, 'éééé', 'ÉÉÉÉÉÉÉ', 'w')
+sql INSERT INTO uk VALUES (5, 3, 'ABCD', 'abcdefg', 'v')
+sql INSERT INTO uk VALUES (6, 2, NULL, NULL, NULL)
+sql INSERT INTO uk VALUES (7, 2, '', '', '')
+sql CREATE INDEX by_nc ON uk (nc)

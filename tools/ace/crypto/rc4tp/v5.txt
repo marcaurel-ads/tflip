@@ -1,0 +1,20 @@
+# Free VFP tables added to an AES-128 dictionary with ENCRYPT_NEW_TABLE on (AdsDDAddTable), one with records and a memo field, one empty.
+connect Data Source=%D\v5\free;ServerType=LOCAL;
+createt 4 %D\v5\free\fa
+createt 4 %D\v5\free\fb
+stmttype 4
+sql INSERT INTO fa VALUES (1, 'free memo')
+sql INSERT INTO fa VALUES (2, 'second free memo')
+disconnect
+connect Data Source=%D\v5\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v5\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+addtablet 4 ta %D\v5\free\fa.dbf
+addtablet 4 tb %D\v5\free\fb.dbf
+tget ta 214
+tget tb 214
+stmttype 4
+sql INSERT INTO ta VALUES (3, 'added later')
+disconnect

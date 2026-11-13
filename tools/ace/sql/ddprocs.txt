@@ -1,0 +1,226 @@
+# CREATE, ALTER and DROP PROCEDURE on a dictionary connection, in an empty
+# folder: procedures join (and leave) a dictionary the script creates,
+# dp/dp.add, script and external, with their parameters; ALTER keeps the
+# permissions; the refusals; procedures in deleted objects' slots; a free
+# connection. The dictionary it leaves is kept in fixtures/sql/ddprocs/:
+#
+#     run.sh <work> <ace32.dll> ddprocs.txt > ../../../fixtures/sql/ddprocs.json
+#     cp <work>/data/dp/* ../../../fixtures/sql/ddprocs/
+ddcreate dp\dp.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct INSERT INTO t1 VALUES (1, 'one')
+direct INSERT INTO t1 VALUES (2, 'two')
+direct CREATE VIEW vw AS SELECT id FROM t1
+#
+# Script procedures: no parameters, input parameters of several types,
+# output parameters, a cursor.
+direct CREATE PROCEDURE p1() BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+direct CREATE PROCEDURE p2(a INTEGER, b CHAR(10)) BEGIN INSERT INTO t1 VALUES (_a, _b); END
+direct CREATE PROCEDURE p3(a INTEGER, r INTEGER OUTPUT, s CHAR(20) OUTPUT) BEGIN INSERT INTO __output SELECT _a * 2, 'x' FROM system.iota; END
+direct CREATE PROCEDURE p4(x INTEGER, CURSOR VARYING OUTPUT) BEGIN SELECT * FROM t1 WHERE id > _x; END
+# The types a parameter can have, as the dictionary spells them.
+direct CREATE PROCEDURE ty00(a SHORT, b SHORT OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty01(a SHORTINT, b SHORTINT OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty02(a INTEGER, b INTEGER OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty03(a INT, b INT OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty04(a LONGINT, b LONGINT OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty05(a BIGINT, b BIGINT OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty06(a LONG, b LONG OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty07(a DOUBLE, b DOUBLE OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty08(a DOUBLE(3), b DOUBLE(3) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty09(a NUMERIC(10,3), b NUMERIC(10,3) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty10(a NUMERIC(5), b NUMERIC(5) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty11(a DECIMAL(8,2), b DECIMAL(8,2) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty12(a LOGICAL, b LOGICAL OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty13(a BOOLEAN, b BOOLEAN OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty14(a DATE, b DATE OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty15(a TIMESTAMP, b TIMESTAMP OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty16(a TIME, b TIME OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty17(a VARCHAR(30), b VARCHAR(30) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty18(a CHAR(4), b CHAR(4) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty19(a CICHAR(5), b CICHAR(5) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty20(a MEMO, b MEMO OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty21(a BLOB, b BLOB OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty22(a BINARY, b BINARY OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty23(a MONEY, b MONEY OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty24(a AUTOINC, b AUTOINC OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty25(a RAW(4), b RAW(4) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty26(a VARBINARY(5), b VARBINARY(5) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty27(a CURDOUBLE, b CURDOUBLE OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty28(a NCHAR(4), b NCHAR(4) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty29(a NVARCHAR(6), b NVARCHAR(6) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty30(a NMEMO, b NMEMO OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty31(a ROWVERSION, b ROWVERSION OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty32(a MODTIME, b MODTIME OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty33(a GUID, b GUID OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty34(a CHARACTER(3), b CHARACTER(3) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty36(a CHAR(65530), b CHAR(65530) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty37(a CHAR(70000), b CHAR(70000) OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE p6(a INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE p7(a INTEGER, b INTEGER) BEGIN SELECT * FROM t1; END
+direct CREATE PROCEDURE p8( ) BEGIN SELECT * FROM t1; END
+direct CREATE PROCEDURE p9 () BEGIN SELECT * FROM t1; END
+direct CREATE PROCEDURE "p 10" (a INTEGER) BEGIN SELECT * FROM t1; END
+direct create procedure p11(a integer output) begin insert into __output select 1 from system.iota; end
+#
+# What the dictionary keeps of the script: the text between BEGIN and END as
+# written (lines, comments, a trailing ; or comment).
+direct CREATE PROCEDURE s1() BEGIN\r\n  -- a comment\r\n  SELECT * FROM t1;\r\nEND
+direct CREATE PROCEDURE s2() BEGIN SELECT * FROM t1; END;
+direct CREATE PROCEDURE s3() BEGIN SELECT * FROM t1; END -- tail
+direct CREATE PROCEDURE s4()   BEGIN   SELECT * FROM t1;   END
+direct CREATE PROCEDURE s5() BEGIN END
+direct CREATE PROCEDURE s6() BEGIN SELECT 'a;b' FROM system.iota; END
+direct CREATE PROCEDURE s7() BEGIN IF 1 = 1 THEN SELECT 1 FROM system.iota; END IF; END
+direct CREATE PROCEDURE s8() BEGIN SELECT * FROM nosuch; END
+direct CREATE PROCEDURE s9() BEGIN SELECT nosuch FROM t1; END
+direct CREATE PROCEDURE s10() BEGIN SELEC 1; END
+direct CREATE PROCEDURE s11() BEGIN SELECT 1 FROM system.iota END
+direct CREATE PROCEDURE s12() BEGIN DECLARE x INTEGER; x = 1; END
+direct CREATE PROCEDURE s13() BEGIN CREATE TABLE zz (id INTEGER); END
+direct CREATE PROCEDURE s14() BEGIN\n  SELECT * FROM t1;\nEND
+direct CREATE PROCEDURE s15() BEGIN \r\n  SELECT * FROM t1; END
+direct CREATE PROCEDURE s16() BEGIN\r\n\r\n  SELECT * FROM t1; END
+direct CREATE PROCEDURE s17() BEGIN SELECT * FROM t1; END END
+direct CREATE PROCEDURE s19() BEGIN SELECT 1 FROM system.iota; END END;
+direct CREATE PROCEDURE s20() BEGIN SELECT 1 FROM system.iota; end
+#
+# External procedures: AEP library, COM library, a library path, quoting,
+# parameters, output.
+direct CREATE PROCEDURE e1() FUNCTION f1 IN LIBRARY "lib1.aep"
+direct CREATE PROCEDURE e2(a INTEGER, r CHAR(10) OUTPUT) FUNCTION f2 IN LIBRARY "sub\lib2.aep"
+direct CREATE PROCEDURE e3(a INTEGER) FUNCTION f3 IN COMLIBRARY "Project.Class1"
+direct CREATE PROCEDURE e4() FUNCTION f4 IN LIBRARY [lib4.aep]
+direct CREATE PROCEDURE e5() FUNCTION f5 IN LIBRARY lib5
+direct CREATE PROCEDURE e6() FUNCTION f6 IN LIBRARY "lib6.aep";
+direct CREATE PROCEDURE e7(CURSOR VARYING OUTPUT) FUNCTION f7 IN LIBRARY "lib7.aep"
+direct CREATE PROCEDURE e8() FUNCTION f8 IN COMLIBRARY lib8
+direct CREATE PROCEDURE e9() function f9 in library "lib9.aep"
+direct CREATE PROCEDURE e10(a INTEGER)  FUNCTION "f 10" IN LIBRARY "lib 10.aep"
+direct CREATE PROCEDURE e11() FUNCTION f11 IN LIBRARY ""
+direct CREATE PROCEDURE e12() FUNCTION f12
+direct CREATE PROCEDURE e13() FUNCTION IN LIBRARY "lib13.aep"
+direct CREATE PROCEDURE e14() IN LIBRARY "lib14.aep"
+direct CREATE PROCEDURE e15() FUNCTION f15 IN LIBRARY "\lib\x15.aep"
+direct CREATE PROCEDURE e16() FUNCTION f16 IN LIBRARY ".\y16.aep"
+direct CREATE PROCEDURE e17() FUNCTION f17 IN LIBRARY "..\z17.aep"
+direct CREATE PROCEDURE e18() FUNCTION f18 IN LIBRARY "C:\w18.aep"
+direct CREATE PROCEDURE e19() FUNCTION f19 IN LIBRARY "\\srv\share\v19.aep"
+direct CREATE PROCEDURE e20() FUNCTION f20 IN LIBRARY "a/b20.aep"
+direct CREATE PROCEDURE e21() FUNCTION f21 IN
+direct CREATE PROCEDURE e22() FUNCTION f22 IN DLL "x"
+direct CREATE PROCEDURE e23() FUNCTION f23 IN LIBRARY
+direct CREATE PROCEDURE e24() FUNCTION f24 IN LIBRARY 5
+direct CREATE PROCEDURE e25() FUNCTION f25 IN LIBRARY 'lib25.aep'
+direct CREATE PROCEDURE e26() FUNCTION f26 IN LIBRARY "lib26.aep" extra
+direct CREATE PROCEDURE e27() FUNCTION 'f27' IN LIBRARY "lib27.aep"
+direct CREATE PROCEDURE e28() FUNCTION f28.x IN LIBRARY "lib28.aep"
+# A user with rights on three of them, which ALTER and DROP are to leave
+# alone or take (the user and the rights come first: the calls that make them
+# put them after the last object).
+dduser u1 pw1
+direct GRANT EXECUTE ON p2 TO u1
+direct GRANT EXECUTE ON p4 TO u1
+direct GRANT EXECUTE ON e1 TO u1
+direct GRANT ALTER ON p4 TO u1
+query SELECT * FROM system.permissions
+#
+# The dictionary's procedures, and their parameters.
+query SELECT Name, Proc_Input, Proc_Output, Proc_DLL_Name, Proc_DLL_Function_Name, Proc_Invoke_Option, Comment FROM system.storedprocedures
+#
+# Parameters refused: a missing type, an unknown type, a repeated name, two
+# CURSOR VARYING OUTPUT, one with another output, OUTPUT alone, a
+# CURSOR VARYING OUTPUT of an external procedure.
+direct CREATE PROCEDURE r1(a) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a NOSUCH) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER, a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER OUTPUT, a INTEGER OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct DROP PROCEDURE r1
+direct CREATE PROCEDURE r1(a INTEGER, A INTEGER OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct DROP PROCEDURE r1
+direct CREATE PROCEDURE r1(a INTEGER, b INTEGER, a CHAR(4)) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE au1(a AUTOINC) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE au2(a AUTOINC OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE au3(a INTEGER, CURSOR VARYING OUTPUT, b INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE au4(CURSOR VARYING OUTPUT, a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE au5(CURSOR VARYING OUTPUT, a INTEGER OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(CURSOR VARYING OUTPUT, CURSOR VARYING OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER OUTPUT, CURSOR VARYING OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(CURSOR VARYING) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(CURSOR OUTPUT) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER,) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER b INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a CHAR) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a CHAR(0)) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a CHAR(300)) BEGIN SELECT 1 FROM system.iota; END
+direct DROP PROCEDURE r1
+direct CREATE PROCEDURE r1(a INTEGER NOT NULL) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER DEFAULT 1) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1 BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE r1(a INTEGER)
+direct CREATE PROCEDURE r1(a INTEGER) SELECT 1 FROM system.iota
+direct CREATE PROCEDURE r1(a INTEGER) BEGIN SELECT 1 FROM system.iota;
+direct CREATE PROCEDURE (a INTEGER) BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE
+#
+# Names: in use by a procedure, a table, a view, in other case, an empty one.
+direct CREATE PROCEDURE p1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE P1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE t1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE vw() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE "" () BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TABLE p1 (id INTEGER)
+direct CREATE VIEW p1 AS SELECT id FROM t1
+#
+# ALTER PROCEDURE: a script one into another, into an external one and back,
+# the parameters changed, a procedure that is not there, and an altered one
+# that keeps its permissions (the user u1 has EXECUTE on p2 and p4).
+direct ALTER PROCEDURE p2(a INTEGER) BEGIN SELECT * FROM t1 WHERE id = _a; END
+direct ALTER PROCEDURE p4(x INTEGER, y INTEGER, r CHAR(5) OUTPUT) FUNCTION f4x IN LIBRARY "lib4x.aep"
+direct ALTER PROCEDURE e1(z SHORT) BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE e2() FUNCTION f2b IN COMLIBRARY "Project.Class2"
+direct ALTER PROCEDURE ty05() BEGIN SELECT 5 FROM system.iota; END
+direct ALTER PROCEDURE nosuch() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE
+direct ALTER PROCEDURE "x"() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE p1 BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE p1() SELECT 1 FROM system.iota
+direct ALTER PROCEDURE P1() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE t1() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE p6(a INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota END
+direct ALTER PROCEDURE p6(a INTEGER, CURSOR VARYING OUTPUT) BEGIN SELECT * FROM t1; END
+query SELECT * FROM system.permissions
+query SELECT Name, Proc_Input, Proc_Output, Proc_DLL_Name, Proc_DLL_Function_Name, Proc_Invoke_Option, Comment FROM system.storedprocedures
+#
+# DROP PROCEDURE: one, the same twice, a table, a view, nothing, one with
+# permissions (which stay or go), a procedure made in their slots.
+direct DROP PROCEDURE ty05
+direct DROP PROCEDURE ty05
+direct DROP PROCEDURE t1
+direct DROP PROCEDURE vw
+direct DROP PROCEDURE
+direct DROP PROCEDURE nosuch
+direct DROP PROCEDURE P1
+direct DROP PROCEDURE p4
+query SELECT * FROM system.permissions
+direct DROP PROCEDURE e3
+direct DROP PROCEDURE "p 10"
+direct CREATE PROCEDURE n1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE n2() FUNCTION n2 IN LIBRARY "n2.aep"
+direct CREATE PROCEDURE n3() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE n4() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE n5() BEGIN SELECT 1 FROM system.iota; END
+query SELECT Name FROM system.storedprocedures
+query SELECT * FROM system.permissions
+direct DROP VIEW vw
+direct CREATE VIEW p1 AS SELECT id FROM t1
+#
+# A free connection to the folder: no dictionary.
+connect dp
+stmt
+direct CREATE PROCEDURE f1() BEGIN SELECT 1 FROM system.iota; END
+direct ALTER PROCEDURE f1() BEGIN SELECT 1 FROM system.iota; END
+direct DROP PROCEDURE f1
+direct DROP PROCEDURE

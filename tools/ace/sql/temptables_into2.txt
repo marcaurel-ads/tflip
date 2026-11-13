@@ -1,0 +1,57 @@
+# SELECT ... INTO #name of the result columns of each type and expression, in
+# each DBF table type (what the field types of the new table are), on a free
+# connection in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_into2.txt > fixtures/sql/temptables_into2.json
+stmt
+tabletype 1
+query CREATE TABLE sn (id INTEGER, ch CHAR(6), vc VARCHAR(8), nm NUMERIC(8,2), db DOUBLE, lo LOGICAL, d DATE, me MEMO, bl BLOB, bi BIGINT, nc NCHAR(3), nv NVARCHAR(4), nme NMEMO, g GUID)
+directnull INSERT INTO sn (id, ch, vc, nm, db, lo, d, me, bi, nc, nv, nme, g) VALUES (1, 'one', 'vc', 1.5, 2.25, true, '2020-01-02', 'a memo', 123456789012, 'nc', 'nv', 'nmemo', '12345678-1234-1234-1234-123456789012')
+query SELECT * FROM sn
+query SELECT * INTO #alln FROM sn
+query SELECT id*2 AS a, nm+1 AS b, db*2 AS c, 1 AS d, 1.5 AS e, 'abc' AS f, CURDATE() AS h, TRUE AS i, id/2 AS j, UPPER(ch) AS k, CAST(id AS SQL_CHAR(3)) AS l, CAST(id AS SQL_VARCHAR(3)) AS m INTO #exn FROM sn
+query SELECT COUNT(*) AS n, SUM(nm) AS sn, AVG(db) AS ad, MAX(ch) AS mx, MAX(d) AS md INTO #agn FROM sn
+query SELECT CAST(id AS SQL_BIGINT) AS a, CAST(id AS SQL_DOUBLE) AS b, CAST(id AS SQL_NUMERIC(9,3)) AS c, CAST(me AS SQL_CHAR(10)) AS e, SUBSTRING(me, 1, 3) AS f, me + me AS g3, nc + nc AS h, nv + 'x' AS i, CAST(id AS SQL_INTEGER) AS j INTO #csn FROM sn
+query SELECT 99999999999 AS a, 1e10 AS b, 123456789.123 AS c, id + 1 AS d, bi + 1 AS e INTO #lgn FROM sn
+query SELECT * FROM #alln
+query SELECT * FROM #exn
+query SELECT * FROM #agn
+query SELECT * FROM #csn
+query SELECT * FROM #lgn
+query SELECT id AS id, id AS id INTO #dupn FROM sn
+query SELECT id, ch, 'x' INTO #nnn FROM sn
+query SELECT * FROM #nnn
+tabletype 2
+query CREATE TABLE sc (id INTEGER, ch CHAR(6), vc VARCHAR(8), nm NUMERIC(8,2), db DOUBLE, lo LOGICAL, d DATE, me MEMO, bl BLOB, bi BIGINT, nc NCHAR(3), nv NVARCHAR(4), nme NMEMO, g GUID)
+directnull INSERT INTO sc (id, ch, vc, nm, db, lo, d, me, bi, nc, nv, nme, g) VALUES (1, 'one', 'vc', 1.5, 2.25, true, '2020-01-02', 'a memo', 123456789012, 'nc', 'nv', 'nmemo', '12345678-1234-1234-1234-123456789012')
+query SELECT * FROM sc
+query SELECT * INTO #allc FROM sc
+query SELECT id*2 AS a, nm+1 AS b, db*2 AS c, 1 AS d, 1.5 AS e, 'abc' AS f, CURDATE() AS h, TRUE AS i, id/2 AS j, UPPER(ch) AS k, CAST(id AS SQL_CHAR(3)) AS l, CAST(id AS SQL_VARCHAR(3)) AS m INTO #exc FROM sc
+query SELECT COUNT(*) AS n, SUM(nm) AS sn, AVG(db) AS ad, MAX(ch) AS mx, MAX(d) AS md INTO #agc FROM sc
+query SELECT CAST(id AS SQL_BIGINT) AS a, CAST(id AS SQL_DOUBLE) AS b, CAST(id AS SQL_NUMERIC(9,3)) AS c, CAST(me AS SQL_CHAR(10)) AS e, SUBSTRING(me, 1, 3) AS f, me + me AS g3, nc + nc AS h, nv + 'x' AS i, CAST(id AS SQL_INTEGER) AS j INTO #csc FROM sc
+query SELECT 99999999999 AS a, 1e10 AS b, 123456789.123 AS c, id + 1 AS d, bi + 1 AS e INTO #lgc FROM sc
+query SELECT * FROM #allc
+query SELECT * FROM #exc
+query SELECT * FROM #agc
+query SELECT * FROM #csc
+query SELECT * FROM #lgc
+query SELECT id AS id, id AS id INTO #dupc FROM sc
+query SELECT id, ch, 'x' INTO #nnc FROM sc
+query SELECT * FROM #nnc
+tabletype 4
+query CREATE TABLE sv (id INTEGER, ch CHAR(6), vc VARCHAR(8), nm NUMERIC(8,2), db DOUBLE, lo LOGICAL, d DATE, me MEMO, bl BLOB, bi BIGINT, nc NCHAR(3), nv NVARCHAR(4), nme NMEMO, g GUID, ts TIMESTAMP, mo MONEY, vb VARBINARY(5), ai AUTOINC)
+directnull INSERT INTO sv (id, ch, vc, nm, db, lo, d, me, bi, nc, nv, nme, g, ts, mo) VALUES (1, 'one', 'vc', 1.5, 2.25, true, '2020-01-02', 'a memo', 123456789012, 'nc', 'nv', 'nmemo', '12345678-1234-1234-1234-123456789012', '2020-01-02 10:20:30', 3.5)
+query SELECT * FROM sv
+query SELECT * INTO #allv FROM sv
+query SELECT id*2 AS a, nm+1 AS b, db*2 AS c, 1 AS d, 1.5 AS e, 'abc' AS f, CURDATE() AS h, TRUE AS i, id/2 AS j, UPPER(ch) AS k, CAST(id AS SQL_CHAR(3)) AS l, CAST(id AS SQL_VARCHAR(3)) AS m INTO #exv FROM sv
+query SELECT COUNT(*) AS n, SUM(nm) AS sn, AVG(db) AS ad, MAX(ch) AS mx, MAX(d) AS md INTO #agv FROM sv
+query SELECT CAST(id AS SQL_BIGINT) AS a, CAST(id AS SQL_DOUBLE) AS b, CAST(id AS SQL_NUMERIC(9,3)) AS c, CAST(me AS SQL_CHAR(10)) AS e, SUBSTRING(me, 1, 3) AS f, me + me AS g3, nc + nc AS h, nv + 'x' AS i, CAST(id AS SQL_INTEGER) AS j INTO #csv FROM sv
+query SELECT 99999999999 AS a, 1e10 AS b, 123456789.123 AS c, id + 1 AS d, bi + 1 AS e INTO #lgv FROM sv
+query SELECT * FROM #allv
+query SELECT * FROM #exv
+query SELECT * FROM #agv
+query SELECT * FROM #csv
+query SELECT * FROM #lgv
+query SELECT id AS id, id AS id INTO #dupv FROM sv
+query SELECT id, ch, 'x' INTO #nnv FROM sv
+query SELECT * FROM #nnv

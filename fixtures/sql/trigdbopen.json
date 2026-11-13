@@ -1,0 +1,80 @@
+[
+{"cmd": "cachecursors 0", "rc": 0},
+{"cmd": "ddcreate dbt\\dbt.add", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t1 (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE t2 (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t1 VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct INSERT INTO t1 VALUES (2)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct CREATE TRIGGER o5 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no t2'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct UPDATE t2 SET id = 5", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct DELETE FROM t2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM t2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COUNT(*) FROM t1 a, t2 b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "open t2", "rc": 5177, "error": "Error 5177:  Trigger execution failed.  Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[bad] 1 : no t2} ** Script error information:  -- Location of error in the SQL statement is: 46"},
+{"cmd": "open t1", "rc": 0, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "direct DROP TRIGGER o5", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM t2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t2.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct CREATE TRIGGER o6 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4242, 'no t2'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  TrigError 4242:   no t2 Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "open t2", "rc": 5177, "error": "Error 5177:  Trigger execution failed.  TrigError 4242:   no t2"},
+{"cmd": "direct DROP TRIGGER o6", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o7 ON DATABASE AFTER OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4243, 'no t2 after'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  TrigError 4243:   no t2 after Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "open t2", "rc": 5177, "error": "Error 5177:  Trigger execution failed.  TrigError 4243:   no t2 after"},
+{"cmd": "query SELECT COUNT(*) FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DROP TRIGGER o7", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o8 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' AND __info.IsDirect = 1 THEN INSERT INTO __error (errno, message) VALUES (4244, 'direct'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM t2", "rc": 5177, "error": "Error 5177:  Trigger execution failed.  TrigError 4244:   direct", "has_cursor": false, "affected": 4294967295},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "open t2", "rc": 5177, "error": "Error 5177:  Trigger execution failed.  TrigError 4244:   direct"},
+{"cmd": "direct DROP TRIGGER o8", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o9 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' AND __info.IsDirect = 0 THEN INSERT INTO __error (errno, message) VALUES (4245, 'by a statement'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  TrigError 4245:   by a statement Table name: t2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT * FROM t2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5177;  [SAP][Advantage SQL Engine][ASA] Error 5177:  Trigger execution failed.  TrigError 4245:   by a statement Table name: t2", "has_cursor": false, "affected": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "open t2", "rc": 0, "cursor": {"file": "t2.adt", "options": 82160, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]]]}},
+{"cmd": "direct DROP TRIGGER o9", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o10 ON DATABASE BEFORE OPEN_TABLE BEGIN IF __info.TableType = 2 THEN INSERT INTO __error (errno, message) VALUES (4246, 'a type 2 table'); END IF; IF __info.IsFree = 1 THEN INSERT INTO __error (errno, message) VALUES (4247, 'a free table'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM t1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT * FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["iota", 1, 1, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "open t1", "rc": 0, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "direct DROP TRIGGER o10", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o11 ON DATABASE BEFORE CLOSE_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4248, 'no close'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "open t2", "rc": 0, "cursor": {"file": "t2.adt", "options": 82160, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]],
+  [3, ["1"]]]}},
+{"cmd": "query SELECT COUNT(*) FROM t2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "direct DROP TRIGGER o11", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TRIGGER o12 ON DATABASE AFTER CLOSE_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no close'); END IF; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t2 VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "open t2", "rc": 0, "cursor": {"file": "t2.adt", "options": 82160, "table_type": 3, "handle_type": 2, "indexes": 0, "count": 4, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["1"]],
+  [3, ["1"]],
+  [4, ["1"]]]}},
+{"cmd": "query SELECT COUNT(*) FROM t2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "direct DROP TRIGGER o12", "rc": 0, "has_cursor": false, "affected": 4294967295}
+]

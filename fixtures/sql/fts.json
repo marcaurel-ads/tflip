@@ -1,0 +1,1089 @@
+{
+ "SELECT id FROM docs WHERE CONTAINS(body, 'MEDICAL') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'doc*') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '*tors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '*ock*') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '*ki*') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ],
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'sch*ing') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'lo?ker') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"doc* veterinary\"') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical skiing') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical or skiing') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ],
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'MEDICAL AnD Doctors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical | skiing') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'birthday or medical and skiing') ORDER BY id": {
+  "rows": [
+   [
+    "5"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '(birthday or medical) and skiing') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'not medical') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ],
+   [
+    "3"
+   ],
+   [
+    "4"
+   ],
+   [
+    "5"
+   ],
+   [
+    "6"
+   ],
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'birthday and not card') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'not medical near doctors') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ],
+   [
+    "3"
+   ],
+   [
+    "5"
+   ],
+   [
+    "6"
+   ],
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near doctors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(1) bravo') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ],
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(8) india') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(8) juliet') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near juliet') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(9) juliet') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(1) alpha') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(2) alpha') ORDER BY id": {
+  "rows": [
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(1) (delta and echo)') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(2) (delta and echo)') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(1) (delta or juliet)') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(1) delta near(1) echo') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(2) delta near(1) echo') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near() (delta and echo)') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"alpha bravo\" near(1) delta') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"alpha bravo\" near(2) delta') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'delta near(2) \"alpha bravo\"') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near( 2 ) doctors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near(99999999999) doctors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"medical doctors\"') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"doctors medical\"') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"doctors veterinary\"') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"alpha x y z bravo\"') ORDER BY id": {
+  "rows": [
+   [
+    "6"
+   ],
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"bravo alpha\"') ORDER BY id": {
+  "rows": [
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '-medical') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'mechanism.') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'OMalley') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'O''Malley') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '1,423.99') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '1423.99') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'the medical') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"near\"') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'an*') ORDER BY id": {
+  "rows": [
+   [
+    "3"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'the*') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical(doctors)') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near(3x) doctors') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'the') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'an') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '   ') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '\"medical') ORDER BY id": {
+  "error": 7094
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, '(medical') ORDER BY id": {
+  "error": 7095
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical and') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'and medical') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical and and doctors') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'not not medical') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'near') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical)') ORDER BY id": {
+  "error": 7097
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near (doctors and veterinary)') ORDER BY id": {
+  "error": 7099
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near(0) doctors') ORDER BY id": {
+  "error": 7099
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near(-1) doctors') ORDER BY id": {
+  "error": 7099
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'medical near(x) doctors') ORDER BY id": {
+  "error": 7099
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(1) (not juliet)') ORDER BY id": {
+  "error": 7098
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'charlie near(1) not juliet') ORDER BY id": {
+  "error": 7096
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(*, 'hello')": {
+  "error": 7102
+ },
+ "SELECT id FROM docs WHERE CONTAINS(id, 'alpine')": {
+  "error": 2159
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 5)": {
+  "error": 2159
+ },
+ "SELECT id FROM docs WHERE CONTAINS(*, 'alpine') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(title, 'alpine') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(title, 'not medical') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ],
+   [
+    "3"
+   ],
+   [
+    "4"
+   ],
+   [
+    "5"
+   ],
+   [
+    "6"
+   ],
+   [
+    "7"
+   ]
+  ]
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, 'hello')": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, 'the')": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, 'x')": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, 'alpha near(5) bravo')": {
+  "rows": []
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, 'alpha near(6) bravo')": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM nofts WHERE CONTAINS(c, '\"alpha bravo\"')": {
+  "rows": []
+ },
+ "SELECT id, SCORE(c, 'the x'), SCOREDISTINCT(c, 'the x zulu') FROM nofts WHERE id = 2": {
+  "rows": [
+   [
+    "2",
+    "2",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(title + body, 'skiing')": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, title) ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ],
+   [
+    "2"
+   ],
+   [
+    "5"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, NULL)": {
+  "rows": []
+ },
+ "SELECT id, CONTAINS(body, 'medical'), CONTAINS(body, 'not medical') FROM docs WHERE id IN (1, 4)": {
+  "rows": [
+   [
+    "1",
+    "T",
+    "F"
+   ],
+   [
+    "4",
+    null,
+    null
+   ]
+  ]
+ },
+ "SELECT SCORE(body, 'doctors'), SCORE(body, 'doctor*'), SCORE(body, 'medical doctors'), SCORE(body, 'medical or doctors'), SCORE(body, 'medical near doctors'), SCORE(body, '\"medical doctors\"'), SCORE(body, 'medical and not doctors'), SCORE(body, 'not doctors') FROM docs WHERE id = 1": {
+  "rows": [
+   [
+    "2",
+    "2",
+    "3",
+    "3",
+    "3",
+    "3",
+    "1",
+    "0"
+   ]
+  ]
+ },
+ "SELECT SCOREDISTINCT(body, 'doctors'), SCOREDISTINCT(body, 'medical doctors'), SCOREDISTINCT(body, 'doctors doctors'), SCORE(body, 'doctors doctors'), SCORE(body, 'doc* doctors') FROM docs WHERE id = 1": {
+  "rows": [
+   [
+    "1",
+    "2",
+    "2",
+    "4",
+    "4"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(body, 'alp*'), SCORE(body, '*pha'), SCORE(body, 'alpha bravo'), SCOREDISTINCT(body, 'alpha bravo') FROM docs WHERE id IN (6, 7) ORDER BY id": {
+  "rows": [
+   [
+    "6",
+    "1",
+    "1",
+    "2",
+    "2"
+   ],
+   [
+    "7",
+    "2",
+    "2",
+    "3",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(body, 'card') FROM docs WHERE id IN (4, 5) ORDER BY id": {
+  "rows": [
+   [
+    "4",
+    null
+   ],
+   [
+    "5",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(1), SCOREDISTINCT(1) FROM docs WHERE CONTAINS(body, 'birthday or card')": {
+  "rows": [
+   [
+    "5",
+    "4",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(2) FROM docs WHERE CONTAINS(body, 'birthday') OR CONTAINS(body, 'card')": {
+  "rows": [
+   [
+    "5",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE CONTAINS(body, 'birthday or card or medical') ORDER BY SCORE(1) DESC": {
+  "rows": [
+   [
+    "5"
+   ],
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM docs WHERE SCORE(body, 'card') >= 2": {
+  "rows": [
+   [
+    "5"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(title, 'alpine'), SCORE(*, 'alpine') FROM docs WHERE id = 2": {
+  "rows": [
+   [
+    "2",
+    "1",
+    "2"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(1) FROM docs": {
+  "error": 2159
+ },
+ "SELECT id, SCORE(0) FROM docs WHERE CONTAINS(body, 'card')": {
+  "error": 2159
+ },
+ "SELECT id, SCORE(2) FROM docs WHERE CONTAINS(body, 'card')": {
+  "error": 2159
+ },
+ "SELECT SCORE(body, 'the') FROM docs": {
+  "error": 7103
+ },
+ "SELECT SCORE(*, 'hello') FROM nofts": {
+  "error": 7102
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'Medical') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'medical') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'APPLESAUCE') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'APPLE') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'apples*') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'foo#bar') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(c, 'foobar') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id, SCORE(c, 'apple*') FROM opts ORDER BY id": {
+  "rows": [
+   [
+    "1",
+    "2"
+   ],
+   [
+    "2",
+    "0"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, '1,423.99') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, '423') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'a.b') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'a-b') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'paren') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'OMalley') ORDER BY id": {
+  "rows": []
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'O''Malley') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'zebra') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'zebra;') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM opts WHERE CONTAINS(m, 'bold') ORDER BY id": {
+  "rows": [
+   [
+    "2"
+   ]
+  ]
+ },
+ "SELECT id FROM fixed WHERE CONTAINS(m, 'before') ORDER BY id": {
+  "error": 7103
+ },
+ "SELECT id FROM fixed WHERE CONTAINS(m, 'index') ORDER BY id": {
+  "rows": [
+   [
+    "1"
+   ]
+  ]
+ },
+ "SELECT id, SCORE(m, 'index'), SCOREDISTINCT(m, 'index') FROM fixed ORDER BY id": {
+  "rows": [
+   [
+    "1",
+    "1",
+    "1"
+   ],
+   [
+    "2",
+    "1",
+    "0"
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, 'medical')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(body,\"medical\")=.T.> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(body,\"medical\")=.T., Estimate: NA, Actual: 1\n====================",
+    "1",
+    null
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(*, 'medical')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(*, 'medical')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(*,\"medical\")=.T.> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(*,\"medical\")=.T., Estimate: NA, Actual: 1\n====================",
+    "1",
+    null
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(title, 'medical')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(title, 'medical')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "TABLE SCAN (LIVE)",
+    "\nAOF<CONTAINS(title,\"medical\")=.T.> \n====================\nAOF Optimization Details: \n Index: <none>, Expr: CONTAINS(title,\"medical\")=.T., Estimate: NA, Actual: NA\n====================",
+    "1",
+    "Restriction is not optimized.\nUnoptimized Part : CONTAINS(title,\"medical\")=.T."
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical near doctors')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, 'medical near doctors')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(body,\"medical near doctors\")=.T.> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(body,\"medical near doctors\")=.T., Estimate: NA, Actual: 1\n====================",
+    "1",
+    "Restriction is not fully optimized.\nUnoptimized Part : CONTAINS(body,\"medical near doctors\")=.T."
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '\"medical doctors\"')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, '\"medical doctors\"')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(body,'\"medical doctors\"')=.T.> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(body,'\"medical doctors\"')=.T., Estimate: NA, Actual: 1\n====================",
+    "1",
+    "Restriction is not fully optimized.\nUnoptimized Part : CONTAINS(body,'\"medical doctors\"')=.T."
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not (medical near doctors)')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, 'not (medical near doctors)')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "TABLE SCAN (LIVE)",
+    "\nAOF<CONTAINS(body,\"not (medical near doctors)\")=.T.> \n====================\nAOF Optimization Details: \n Index: <none>, Expr: CONTAINS(body,\"not (medical near doctors)\")=.T., Estimate: NA, Actual: NA\n====================",
+    "1",
+    "Restriction is not optimized.\nUnoptimized Part : CONTAINS(body,\"not (medical near doctors)\")=.T."
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') OR id = 3": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, 'medical') OR id = 3",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "TABLE SCAN (LIVE)",
+    "\nAOF<CONTAINS(body,\"medical\")=.T. .OR. id=3> \n====================\nAOF Optimization Details: \n Index: <none>, Expr: id=3, Estimate: NA, Actual: NA\n Index: BODY_FTS, Expr: CONTAINS(body,\"medical\")=.T., Estimate: NA, Actual: NA\n====================",
+    "1",
+    "Restriction is not optimized.\nUnoptimized Part : (id=3.OR.CONTAINS(body,\"medical\")=.T.)"
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'card')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'card')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    null,
+    "1",
+    "EVALUATE",
+    "WHERE clause \n<CONTAINS([docs].[body],\"card\")=.T.>",
+    null,
+    null
+   ],
+   [
+    "3",
+    "2",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN",
+    "\nAOF<CONTAINS(body,\"card\") = 1> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(body,\"card\")=1, Estimate: NA, Actual: 1\n====================",
+    "1",
+    null
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'card') ORDER BY SCORE(1)": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM docs WHERE CONTAINS(body, 'card') ORDER BY SCORE(1)",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    null,
+    "1",
+    "SORT",
+    "SCORE([docs].[body],\"card\") \n<Using Bookmark>",
+    null,
+    null
+   ],
+   [
+    "3",
+    "2",
+    "PLAN",
+    null,
+    "1",
+    "EVALUATE",
+    "WHERE clause \n<CONTAINS([docs].[body],\"card\")=.T.>",
+    null,
+    null
+   ],
+   [
+    "4",
+    "3",
+    "PLAN",
+    "Table Name : docs\nTable Alias : docs",
+    "1",
+    "AOF SCAN",
+    "\nAOF<CONTAINS(body,\"card\") = 1> \n====================\nAOF Optimization Details: \n Index: BODY_FTS, Expr: CONTAINS(body,\"card\")=1, Estimate: NA, Actual: 1\n====================",
+    "1",
+    null
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'APPLE')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM opts WHERE CONTAINS(c, 'APPLE')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : opts\nTable Alias : opts",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(c,\"APPLE\")=.T.> \n====================\nAOF Optimization Details: \n Index: C_FTS, Expr: CONTAINS(c,\"APPLE\")=.T., Estimate: NA, Actual: 1\n====================",
+    "1",
+    "Restriction is not fully optimized.\nUnoptimized Part : CONTAINS(c,\"APPLE\")=.T."
+   ]
+  ]
+ },
+ "SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'appl')": {
+  "rows": [
+   [
+    "1",
+    "0",
+    "SELECT",
+    "SELECT id FROM opts WHERE CONTAINS(c, 'appl')",
+    "1",
+    null,
+    null,
+    "1",
+    null
+   ],
+   [
+    "2",
+    "1",
+    "PLAN",
+    "Table Name : opts\nTable Alias : opts",
+    "1",
+    "AOF SCAN (LIVE)",
+    "\nAOF<CONTAINS(c,\"appl\")=.T.> \n====================\nAOF Optimization Details: \n Index: C_FTS, Expr: CONTAINS(c,\"appl\")=.T., Estimate: NA, Actual: 0\n====================",
+    "1",
+    null
+   ]
+  ]
+ }
+}

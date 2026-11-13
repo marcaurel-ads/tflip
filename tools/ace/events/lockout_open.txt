@@ -1,0 +1,29 @@
+# Failed logins on the remote server and ENFORCE_MAX_FAILED_LOGINS: a connection that is open is not touched
+# The paces and the good logins between the failures keep the server from
+# resetting the circuit (error 6624), which it does at times, whatever the
+# script: a run that has one is made again.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> lockout_open.txt
+#             > ../../../fixtures/events/lockout_open.json
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 EXECUTE PROCEDURE sp_CreateUser('u7', 'pw7', '')
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'TRUE')
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '2')
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect 1
+connect 1 d\d.add ADSSYS adm
+connect 4 d\d.add u7 pw7
+pace 2000
+connect 5 d\d.add ADSSYS adm
+disconnect 5
+connect 2 d\d.add u7 bad
+pace 2000
+connect 5 d\d.add ADSSYS adm
+disconnect 5
+connect 2 d\d.add u7 bad
+sql 4 SELECT 1 FROM system.users
+disconnect 4
+sql 1 SELECT Name, Logins_Disabled FROM system.users
+disconnect 1

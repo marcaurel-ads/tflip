@@ -1,0 +1,228 @@
+# Appends with memo values and in full-text orders around a rollback to a savepoint, committed: the
+# memo blocks of the slots taken back, the words, the 7138 (see tx_savepoint_lock).
+open am shared
+begin
+append
+set id long 4
+set body string appended 4
+write
+savepoint s
+append
+set id long 5
+set body string appended 5
+write
+rollbackto s
+commit
+txcount
+close
+open bm shared
+begin
+savepoint s
+append
+set id long 4
+set body string appended 4
+write
+rollbackto s
+commit
+txcount
+close
+open cm shared
+begin
+goto 1
+set body string changed 1
+write
+savepoint s
+goto 2
+set body string changed 2
+write
+rollbackto s
+commit
+txcount
+close
+open dm shared
+begin
+append
+set id long 4
+set body string appended 4
+write
+savepoint s
+goto 2
+set body string changed 2
+write
+rollbackto s
+commit
+txcount
+close
+open em shared
+begin
+goto 1
+set body string changed 1
+write
+savepoint s
+append
+set id long 4
+set body string appended 4
+write
+rollbackto s
+commit
+txcount
+close
+open fm shared
+begin
+append
+set id long 4
+set body string appended 4
+write
+savepoint s
+append
+set id long 5
+set body string appended 5
+write
+rollbackto s
+append
+set id long 6
+set body string appended 6
+write
+commit
+txcount
+close
+open gm shared
+begin
+append
+set id long 4
+set body string appended 4
+write
+savepoint s
+append
+set id long 5
+set body string appended 5
+write
+savepoint u
+append
+set id long 6
+set body string appended 6
+write
+rollbackto s
+commit
+txcount
+close
+open am shared
+state
+rows
+close
+open bm shared
+state
+rows
+close
+open cm shared
+state
+rows
+close
+open dm shared
+state
+rows
+close
+open em shared
+state
+rows
+close
+open fm shared
+state
+rows
+close
+open gm shared
+state
+rows
+close
+# fa
+open fa shared
+begin
+append
+set id long 4
+set body string alpha beta
+set c string alpha
+write
+savepoint s
+append
+set id long 5
+set body string gamma delta
+set c string gamma
+write
+rollbackto s
+commit
+close
+open fa shared
+state
+rows
+cursor SELECT id FROM fa WHERE CONTAINS(body, 'alpha')
+column id
+closecursor
+cursor SELECT id FROM fa WHERE CONTAINS(body, 'gamma')
+column id
+closecursor
+close
+# fg
+open fg shared
+begin
+append
+set id long 4
+set body string alpha beta
+set c string alpha
+write
+savepoint s
+append
+set id long 5
+set body string gamma delta
+set c string gamma
+write
+savepoint u
+append
+set id long 6
+set body string epsilon zeta
+set c string epsilon
+write
+rollbackto s
+commit
+close
+open fg shared
+state
+rows
+cursor SELECT id FROM fg WHERE CONTAINS(body, 'alpha')
+column id
+closecursor
+cursor SELECT id FROM fg WHERE CONTAINS(body, 'gamma')
+column id
+closecursor
+close
+# fh
+open fh shared
+begin
+append
+set id long 4
+set body string alpha beta
+set c string alpha
+write
+savepoint s
+append
+set id long 5
+set body string gamma delta
+set c string gamma
+write
+rollbackto s
+append
+set id long 6
+set body string epsilon zeta
+set c string epsilon
+write
+commit
+close
+open fh shared
+state
+rows
+cursor SELECT id FROM fh WHERE CONTAINS(body, 'alpha')
+column id
+closecursor
+cursor SELECT id FROM fh WHERE CONTAINS(body, 'gamma')
+column id
+closecursor
+close

@@ -1,0 +1,79 @@
+# SQL on DBF tables: the statement's table type (AdsStmtSetTableType)
+# decides what CREATE TABLE makes and what the other statements open.
+tabletype ntx
+sql CREATE TABLE ntx_t (id integer, name char(10), v varchar(12), m memo, b blob, d date, n numeric(8,2), l logical, f double, g bigint, u guid, nc nchar(4), nv nvarchar(6), nm nmemo)
+sql INSERT INTO ntx_t (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+sql INSERT INTO ntx_t (id, name) VALUES (2, 'two')
+sql INSERT INTO ntx_t (id, name, v, m, nc, nv, nm) VALUES (3, 'three', 'a longer one', 'another memo value that is longer than one block of the memo file, which is sixty-four bytes or more', 'ab', 'abc', 'nmemo')
+sql INSERT INTO ntx_t (id) VALUES (NULL)
+sql CREATE INDEX ntx_name ON ntx_t (name)
+sql CREATE UNIQUE INDEX ntx_id ON ntx_t (id)
+sql CREATE INDEX ntx_d ON ntx_t (d DESC)
+sql UPDATE ntx_t SET name = 'zwei', m = 'changed' WHERE id = 2
+sql UPDATE ntx_t SET n = n + 1 WHERE n IS NOT NULL
+sql DELETE FROM ntx_t WHERE id = 1
+sql INSERT INTO ntx_t (id, name) VALUES (5, 'five')
+sql INSERT INTO ntx_t (id, name) VALUES (3, 'dup')
+sql CREATE INDEX ntx_two ON ntx_t (name, d)
+sql EXECUTE PROCEDURE sp_CreateIndex90('ntx_t', NULL, 'ntx_ex', 'UPPER(name)', 'id > 1', 0, 512, NULL)
+sql DROP INDEX ntx_t.ntx_d
+sql ALTER TABLE ntx_t ADD COLUMN extra char(3)
+sql INSERT INTO ntx_t (id, extra) VALUES (6, 'xyz')
+sql CREATE TABLE ntx_gone (id integer, m memo)
+sql CREATE INDEX ntx_gid ON ntx_gone (id)
+sql DROP TABLE ntx_gone
+tabletype cdx
+sql CREATE TABLE cdx_t (id integer, name char(10), v varchar(12), m memo, b blob, d date, n numeric(8,2), l logical, f double, g bigint, u guid, nc nchar(4), nv nvarchar(6), nm nmemo)
+sql INSERT INTO cdx_t (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+sql INSERT INTO cdx_t (id, name) VALUES (2, 'two')
+sql INSERT INTO cdx_t (id, name, v, m, nc, nv, nm) VALUES (3, 'three', 'a longer one', 'another memo value that is longer than one block of the memo file, which is sixty-four bytes or more', 'ab', 'abc', 'nmemo')
+sql INSERT INTO cdx_t (id) VALUES (NULL)
+sql CREATE INDEX cdx_name ON cdx_t (name)
+sql CREATE UNIQUE INDEX cdx_id ON cdx_t (id)
+sql CREATE INDEX cdx_d ON cdx_t (d DESC)
+sql UPDATE cdx_t SET name = 'zwei', m = 'changed' WHERE id = 2
+sql UPDATE cdx_t SET n = n + 1 WHERE n IS NOT NULL
+sql DELETE FROM cdx_t WHERE id = 1
+sql INSERT INTO cdx_t (id, name) VALUES (5, 'five')
+sql INSERT INTO cdx_t (id, name) VALUES (3, 'dup')
+sql CREATE INDEX cdx_two ON cdx_t (name, d)
+sql EXECUTE PROCEDURE sp_CreateIndex90('cdx_t', NULL, 'cdx_ex', 'UPPER(name)', 'id > 1', 0, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90('cdx_t', 'cdx_x.idx', 'cdx_i', 'name', '', 0, 512, NULL)
+sql DROP INDEX cdx_t.cdx_d
+sql ALTER TABLE cdx_t ADD COLUMN extra char(3)
+sql INSERT INTO cdx_t (id, extra) VALUES (6, 'xyz')
+sql CREATE TABLE cdx_gone (id integer, m memo)
+sql CREATE INDEX cdx_gid ON cdx_gone (id)
+sql DROP TABLE cdx_gone
+tabletype vfp
+sql CREATE TABLE vfp_t (id integer, a autoinc, name char(10), v varchar(12), m memo, b blob, d date, n numeric(8,2), l logical, f double, g bigint, u guid, ts timestamp, y money, vb varbinary(6), nc nchar(4), nv nvarchar(6), nm nmemo)
+sql INSERT INTO vfp_t (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+sql INSERT INTO vfp_t (id, name) VALUES (2, 'two')
+sql INSERT INTO vfp_t (id, name, v, m, nc, nv, nm) VALUES (3, 'three', 'a longer one', 'another memo value that is longer than one block of the memo file, which is sixty-four bytes or more', 'ab', 'abc', 'nmemo')
+sql INSERT INTO vfp_t (id) VALUES (NULL)
+sql CREATE INDEX vfp_name ON vfp_t (name)
+sql CREATE UNIQUE INDEX vfp_id ON vfp_t (id)
+sql CREATE INDEX vfp_d ON vfp_t (d DESC)
+sql UPDATE vfp_t SET name = 'zwei', m = 'changed' WHERE id = 2
+sql UPDATE vfp_t SET n = n + 1 WHERE n IS NOT NULL
+sql DELETE FROM vfp_t WHERE id = 1
+sql INSERT INTO vfp_t (id, name) VALUES (5, 'five')
+sql INSERT INTO vfp_t (id, name) VALUES (3, 'dup')
+sql CREATE INDEX vfp_two ON vfp_t (name, d)
+sql EXECUTE PROCEDURE sp_CreateIndex90('vfp_t', NULL, 'vfp_ex', 'UPPER(name)', 'id > 1', 0, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90('vfp_t', 'vfp_x.idx', 'vfp_i', 'name', '', 0, 512, NULL)
+sql DROP INDEX vfp_t.vfp_d
+sql ALTER TABLE vfp_t ADD COLUMN extra char(3)
+sql INSERT INTO vfp_t (id, extra) VALUES (6, 'xyz')
+sql CREATE TABLE vfp_gone (id integer, m memo)
+sql CREATE INDEX vfp_gid ON vfp_gone (id)
+sql DROP TABLE vfp_gone
+# Names of another type's table.
+tabletype adt
+sql SELECT * FROM cdx_t
+sql INSERT INTO cdx_t (id) VALUES (9)
+tabletype cdx
+sql INSERT INTO ntx_t (id) VALUES (9)
+sql CREATE INDEX bad ON ntx_t (id)
+tabletype ntx
+sql CREATE INDEX bad ON ntx_t (name, id)

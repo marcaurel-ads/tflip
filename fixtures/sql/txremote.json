@@ -1,0 +1,45 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT ::conn.ClientHostName, ::conn.NetworkAddress, ::conn.IsRoot FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0298.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ClientHostName", 23, 10, 0], ["NetworkAddress", 23, 9, 0], ["IsRoot", 1, 1, 0]], "rows": [
+  [1, ["ADSSERVER1", "127.0.0.1", "F"]]]}},
+{"cmd": "query DECLARE s STRING; s = ::conn.NetworkAddress; SELECT s AS v FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0299.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["v", 23, 9, 0]], "rows": [
+  [1, ["127.0.0.1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_029A.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0], ["DictionaryEncrypted", 1, 1, 0], ["CommType", 4, 10, 0], ["TLSCipher", 4, 20, 0], ["TLSVersion", 4, 20, 0]], "rows": [
+  [1, ["F", "RC4       ", null, "TCP_IP    ", null, null]]]}},
+{"cmd": "query CREATE TABLE t (n INTEGER, s CHAR(8), x INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO t VALUES (1, 'one', 10)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO t VALUES (2, 'two', 20)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE ONLINE INDEX i1 ON t (n)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE UNIQUE ONLINE INDEX i2 ON t (s)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  UNIQUE keyword is only valid for creating index. -- Location of error in the SQL statement is: 15", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE ONLINE INDEX i3 ON t (n) WHERE n > 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2215;  [SAP][Advantage SQL Engine]Invalid create options: WHERE -- Location of error in the SQL statement is: 33", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE ONLINE INDEX ON t (x)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <identifier> You are missing the index name after the keyword INDEX. -- Location of error in the SQL statement is: 21", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE ONLINE UNIQUE INDEX i4 ON t (x)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT name FROM system.indexes WHERE parent = 't'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5125;  [SAP][Advantage SQL Engine][ASA] Error 5125:  Advantage does not have a data dictionary associated with the specified handle.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER ONLINE TABLE t ADD COLUMN y INTEGER", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE ONLINE t ADD COLUMN z INTEGER", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting either \"ADD\", \"ALTER\", or \"DROP\". -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE t ADD ONLINE COLUMN w INTEGER", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2117;  [SAP][Advantage SQL Engine]Unexpected token: Unrecognized column option: w -- Location of error in the SQL statement is: 33", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER TABLE t ONLINE", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  Expecting either \"ADD\", \"ALTER\", or \"DROP\". -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 2, "count": 2, "fields": [["n", 11, 4, 0], ["s", 4, 8, 0], ["x", 11, 4, 0], ["y", 11, 4, 0]], "rows": [
+  [1, ["1", "one     ", "10", null]],
+  [2, ["2", "two     ", "20", null]]]}},
+{"cmd": "query DROP INDEX t.i1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DROP ONLINE INDEX t.i2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2117;  [SAP][Advantage SQL Engine]Unexpected token:  Looking for TABLE, INDEX, VIEW, TRIGGER, PROCEDURE, FUNCTION or PACKAGE after the keyword DROP. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT name FROM system.indexes WHERE parent = 't'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5125;  [SAP][Advantage SQL Engine][ASA] Error 5125:  Advantage does not have a data dictionary associated with the specified handle.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE DATABASE \"ox\\ox.add\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "connect ox\\ox.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE d (n INTEGER, s CHAR(8))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO d VALUES (1, 'one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE ONLINE INDEX j1 ON d (n)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE ONLINE UNIQUE INDEX j2 ON d (s)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER ONLINE TABLE d ADD COLUMN y INTEGER", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT name FROM system.indexes WHERE parent = 'd'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_02A0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["name", 20, 200, 0]], "rows": [
+  [1, ["J1                                                                                                                                                                                                      "]],
+  [2, ["J2                                                                                                                                                                                                      "]]]}},
+{"cmd": "query SELECT * FROM d", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "d.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 2, "count": 1, "fields": [["n", 11, 4, 0], ["s", 4, 8, 0], ["y", 11, 4, 0]], "rows": [
+  [1, ["1", "one     ", null]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE ONLINE INDEX j3 ON d (y)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query ALTER ONLINE TABLE d ADD COLUMN q INTEGER", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5063;  [SAP][Advantage SQL Engine][ASA] Error 5063:  The command specified is illegal within a transaction.  Cannot restructure a table from within a transaction.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295}
+]

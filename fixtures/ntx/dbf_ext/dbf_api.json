@@ -1,0 +1,22 @@
+{
+ "table_type": "ntx",
+ "record_count": 3,
+ "record_length": 19,
+ "memo_block_size": 512,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "D", "type": 9, "type_name": "ShortDate", "length": 3, "decimals": 0},
+  {"name": "I", "type": 7, "type_name": "Image", "length": 10, "decimals": 0},
+  {"name": "C", "type": 4, "type_name": "Character", "length": 5, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "200fc36820202020202020202032696d672020", "values": {"D": {"text": "2017-11-08", "julian": 2458066}, "I": {"hex": "89504e470d0a1a0a"}, "C": {"text": "img  "}}},
+  {"recno": 2, "deleted": false, "raw": "20000221202020202020202020206e6f6e6520", "values": {"D": {"text": "0001-01-01", "julian": 1721426}, "I": {"null": true}, "C": {"text": "none "}}},
+  {"recno": 3, "deleted": false, "raw": "204e1f9f202020202020202020336a70672020", "values": {"D": {"text": "9999-12-31", "julian": 5373484}, "I": {"hex": "ffd8ff"}, "C": {"text": "jpg  "}}}
+ ]
+}

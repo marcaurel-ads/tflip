@@ -1,0 +1,128 @@
+RESULT|same_backup|D|S/newdb.add||1|0|1|0|
+RESULT|missing|D|S/newdb.add||1|0|0|0|
+RESULT|add_field|D|S/newdb.add||1|0|0|0|
+RESULT|drop_field|D|S/newdb.add||1|0|0|0|
+RESULT|change_field|D|S/newdb.add||1|0|0|0|
+RESULT|add_index|D|S/newdb.add||1|0|0|0|
+RESULT|idx_other|D|S/newdb.add||1|0|0|0|
+RESULT|memo_missing|D|S/newdb.add||1|0|0|0|
+RESULT|dbf_same|D|S/newdb.add||1|0|1|0|
+RESULT|dbf_missing|D|S/newdb.add||1|0|0|0|
+RESULT|dbf_add_field|D|S/newdb.add||1|0|0|0|
+RESULT|obj_view|D|S/newdb.add||1|0|0|0|
+RESULT|backup_exists|D|S/newdb.add||1|0|1|0|
+RESULT|backup_misc|D|S/newdb.add||1|0|1|0|
+RESULT|constraint_nv|D|S/newdb.add||1|0|0|0|
+RESULT|dest_dict|D|S/newdb.add||1|0|0|5159|Error 5159:  Error encountered when trying to open a database table.  The table is a database table. It cannot be opened as a free table.
+RESULT|doc_same|D|D/newdb.add||1|0|0|5128|Error 5128:  The data dictionary cannot be created because the file already exists.
+RESULT|drop_index|D|S/newdb.add||1|0|0|0|
+RESULT|dbf_extra_index|D|S/newdb.add||1|0|0|0|
+RESULT|obj_user|D|S/newdb.add||1|0|0|0|
+RESULT|obj_group|D|S/newdb.add||1|0|0|0|
+RESULT|x_users|D|S/newdb.add||1|0|0|0|
+RESULT|x_sqlusers|D|S/newdb.add||1|0|0|0|
+RESULT|x_grant|D|S/newdb.add||1|0|0|0|
+RESULT|x_trigger|D|S/newdb.add||1|0|0|0|
+RESULT|x_ri|D|S/newdb.add||1|0|0|0|
+RESULT|x_link|D|S/newdb.add||1|0|0|0|
+RESULT|x_desc|D|S/newdb.add||1|0|0|0|
+RESULT|x_long|D|S/newdb.add||1|0|0|0|
+RESULT|x_dropped|D|S/newdb.add||1|0|0|0|
+RESULT|sub_a|D|S/newdb.add||1|0|0|0|
+RESULT|subm_a|D|S/newdb.add||1|0|0|0|
+RESULT|subm_b|D|S/newdb.add||1|0|0|0|
+RESULT|x_pub|D|S/newdb.add||1|0|0|0|
+RESULT|x_big|D|S/newdb.add||1|0|0|0|
+RESULT|x_dbset|D|S/newdb.add||1|0|0|0|
+RESULT|constraint|D|S/newdb.add||1|2|0|0|
+RESULT|constraint_backup|D|S/newdb.add||1|2|1|0|
+RESULT|fail_exists|D|S/newdb.add||1|2|0|0|
+RESULT|v_max|D|S/newdb.add||1|2|0|0|
+RESULT|v_both|D|S/newdb.add||1|2|0|0|
+RESULT|v_expr|D|S/newdb.add||1|2|0|0|
+RESULT|v_str|D|S/newdb.add||1|2|0|0|
+RESULT|v_two|D|S/newdb.add||1|2|0|0|
+RESULT|v_sub|D|S/newdb.add||1|2|0|0|
+RESULT|v_none|D|S/newdb.add||1|2|0|0|
+RESULT|v_users|D|S/newdb.add||1|2|0|0|
+RESULT|o1|D|S/newdb.add||1|2|0|0|
+RESULT|o3|D|S/newdb.add||1|2|0|0|
+RESULT|o5|D|S/newdb.add||1|2|0|0|
+RESULT|o8|D|S/newdb.add||1|2|0|0|
+RESULT|o10|D|S/newdb.add||1|2|0|0|
+RESULT|src_pw_given|D|S/newdb.add|secret|1|0|0|0|
+RESULT|src_pw_none|D|S/newdb.add||1|0|0|7078|Error 7078:  The Advantage Database Server cannot authenticate the user.  Make sure the user name and password are correct.  axServerConnect
+RESULT|src_pw_wrong|D|S/newdb.add|secret|1|0|0|7078|Error 7078:  The Advantage Database Server cannot authenticate the user.  Make sure the user name and password are correct.  axServerConnect
+RESULT|src_pw_users|D|S/newdb.add|secret|1|0|0|0|
+RESULT|src_pw_grant|D|S/newdb.add|secret|1|0|0|0|
+RESULT|src_pw_dropped|D|S/newdb.add|secret|1|0|0|0|
+RESULT|src_pw_link|D|S/newdb.add|secret|1|0|0|0|
+RESULT|x_pubv|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubp|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubf|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubk|D|S/newdb.add||1|0|0|0|
+RESULT|x_publ|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubb|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubu|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubg|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubd|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubm|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubt0|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubv0|D|S/newdb.add||1|0|0|0|
+RESULT|x_pubt|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtv|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubt2|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtbig|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtg|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubttr|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtpub|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtri|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtlink|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtproc|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtpkg|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtuser|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtgrp|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtri3|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtri3b|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtpk|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtdbf|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtmemo|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtplain|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtri3c|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtpw|D|S/newdb.add|secret|1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtdbset|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_pubtdbset2|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_sub|D|S/newdb.add||1|0|0|0|
+RESULT|x_sub2|D|S/newdb.add||1|0|0|0|
+RESULT|x_subdir|D|S/newdb.add||1|0|0|0|
+RESULT|x_subpub|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_dbcpub|D|S/newdb.add||1|0|0|5136|Error 5136:  The requested object type is not valid.  Column level permission is not supported by the DB:Public role.
+RESULT|x_dbcom|D|S/newdb.add||1|0|0|0|
+RESULT|w_msg|D|S/newdb.add||1|0|0|0|
+RESULT|w_min|D|S/newdb.add||1|0|0|0|
+RESULT|w_max|D|S/newdb.add||1|0|0|0|
+RESULT|w_def|D|S/newdb.add||1|0|0|0|
+RESULT|w_null|D|S/newdb.add||1|0|0|0|
+RESULT|w_all|D|S/newdb.add||1|0|0|0|
+RESULT|w_dmin|D|S/newdb.add||1|0|0|0|
+RESULT|w_dmax|D|S/newdb.add||1|0|0|0|
+RESULT|w_mm|D|S/newdb.add||1|0|0|0|
+RESULT|w_dmm|D|S/newdb.add||1|0|0|0|
+RESULT|w_allc|D|S/newdb.add||1|0|0|0|
+RESULT|w_alln|D|S/newdb.add||1|0|0|0|
+RESULT|w_allname|D|S/newdb.add||1|0|0|0|
+RESULT|w_allboth|D|S/newdb.add||1|0|0|0|
+RESULT|w_two|D|S/newdb.add||1|0|0|0|
+RESULT|w_cmt|D|S/newdb.add||1|0|0|0|
+RESULT|w_tbl|D|S/newdb.add||1|0|0|0|
+RESULT|d_cdx|D|S/newdb.add||1|2|0|0|
+RESULT|d_cdxmax|D|S/newdb.add||1|2|0|0|
+RESULT|d_ntx|D|S/newdb.add||1|2|0|0|
+RESULT|d_vfp|D|S/newdb.add||1|2|0|0|
+RESULT|d_vfp2|D|S/newdb.add||1|2|0|0|
+RESULT|d_cdxplain|D|S/newdb.add||1|2|0|0|
+RESULT|d_memo|D|S/newdb.add||1|2|0|0|
+RESULT|d_dbfmemo|D|S/newdb.add||1|2|0|0|
+RESULT|d_cdxfail|D|S/newdb.add||1|2|0|0|
+RESULT|d_memov|D|S/newdb.add||1|2|0|0|
+RESULT|d_vfpmemov|D|S/newdb.add||1|2|0|0|

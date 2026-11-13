@@ -1,0 +1,240 @@
+# Small grammar and CAST differences: a constant number where a logical is wanted,
+# x'01' & 1, CAST to type names without SQL_ and to SQL_BINARY without a length,
+# SQL_DECIMAL(10,0), CAST of binary to a number, COALESCE of a VARBINARY, ABS of
+# an integer, syntax errors of a missing operand and ELSEIF THEN, CAST of a
+# ROWVERSION column to SQL_CHAR.
+# For fixtures/sql/gram_cast.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_cast.txt > ../../../fixtures/sql/gram_cast.json
+stmt
+## a constant number as a logical
+expr 1 AND 1
+expr NOT 1
+expr 1 OR 0
+expr 0 AND 1
+expr NOT 0
+expr 2 AND 1
+expr 1.5 AND 1
+expr 'a' AND 1
+expr NOT 'a'
+expr TRUE AND 1
+expr 1 = 1 AND 1
+expr IIF(1, 1, 2)
+expr IIF(0, 1, 2)
+expr IIF(2, 1, 2)
+expr CASE WHEN 1 THEN 1 ELSE 2 END
+expr CASE WHEN 0 THEN 1 ELSE 2 END
+expr 1 IS NULL AND 1
+expr x'01' AND 1
+expr NOT NULL
+expr NULL AND 1
+expr 1 AND NULL
+expr 1 AND 1 AND 1
+expr (1) AND (1)
+expr 1 AND -1
+expr 1 AND 1 = 1
+direct CREATE TABLE lg (id INTEGER, n INTEGER, b LOGICAL, d DOUBLE, s CHAR(5), m MEMO)
+directnull INSERT INTO lg VALUES (1, 5, TRUE, 1.5, 'ab', 'memo')
+directnull INSERT INTO lg VALUES (2, 0, FALSE, 0, NULL, NULL)
+query SELECT id FROM lg WHERE n
+query SELECT id FROM lg WHERE n AND b
+query SELECT id FROM lg WHERE b AND n
+query SELECT id FROM lg WHERE NOT n
+query SELECT id FROM lg WHERE 1 AND b
+query SELECT id FROM lg WHERE b AND 1
+query SELECT id FROM lg WHERE 1
+query SELECT id FROM lg WHERE 0
+query SELECT id FROM lg WHERE d
+query SELECT n AND b FROM lg
+query SELECT NOT n FROM lg
+## binary and arithmetic
+expr x'01' & 1
+expr x'01' | 1
+expr 1 & x'01'
+expr x'0102' & 1
+expr x'01' & x'01'
+expr 3 & 1
+expr 3 | 4
+expr ~1
+## CAST type names
+expr CAST(1 AS CHAR(5))
+expr CAST(1 AS CHAR)
+expr CAST(1 AS BINARY)
+expr CAST(1 AS INTEGER)
+expr CAST(1 AS INT)
+expr CAST(1 AS VARCHAR(5))
+expr CAST(1 AS DOUBLE)
+expr CAST(1 AS NUMERIC(5,2))
+expr CAST(1 AS DECIMAL(5,2))
+expr CAST(1 AS DATE)
+expr CAST(1 AS LOGICAL)
+expr CAST(1 AS MEMO)
+expr CAST(1 AS SQL_CHAR(5))
+expr CAST(1 AS SQL_CHAR)
+expr CAST(1 AS SQL_VARCHAR(5))
+expr CAST(1 AS SQL_INTEGER)
+expr CAST(1 AS SQL_BIGINT)
+expr CAST(1 AS SQL_SMALLINT)
+expr CAST(1 AS SQL_TINYINT)
+expr CAST(1 AS SQL_NUMERIC(5,2))
+expr CAST(1 AS SQL_NUMERIC)
+expr CAST(1 AS SQL_NUMERIC(5))
+expr CAST(1 AS SQL_DECIMAL(10,0))
+expr CAST(1 AS SQL_DECIMAL(10,2))
+expr CAST(1 AS SQL_DECIMAL(10))
+expr CAST(1 AS SQL_DECIMAL)
+expr CAST(1 AS SQL_DOUBLE)
+expr CAST(1 AS SQL_FLOAT)
+expr CAST(1 AS SQL_REAL)
+expr CAST(1 AS SQL_DATE)
+expr CAST(1 AS SQL_BINARY)
+expr CAST(1 AS SQL_BINARY(5))
+expr CAST(1 AS SQL_VARBINARY)
+expr CAST(1 AS SQL_VARBINARY(5))
+expr CAST(1 AS SQL_LONGVARBINARY)
+expr CAST(1 AS SQL_LONGVARCHAR)
+expr CAST(1 AS SQL_BIT)
+expr CAST(1 AS SQL_MONEY)
+expr CAST(1 AS SQL_WCHAR(5))
+expr CAST(1 AS SQL_WVARCHAR(5))
+expr CAST(1 AS SQL_WLONGVARCHAR)
+expr CAST('abc' AS SQL_BINARY)
+expr CAST('abc' AS SQL_BINARY(5))
+expr CAST('abc' AS SQL_BINARY(2))
+expr CAST(x'4142' AS SQL_BINARY)
+expr CAST(x'4142' AS SQL_BINARY(5))
+expr CAST(x'4142' AS SQL_VARBINARY)
+expr CAST(x'4142' AS SQL_VARBINARY(5))
+expr CAST(x'4142' AS SQL_CHAR)
+expr CAST(x'4142' AS SQL_INTEGER)
+expr CAST(x'41424344' AS SQL_INTEGER)
+expr CAST(x'4142434445' AS SQL_INTEGER)
+expr CAST(x'41' AS SQL_INTEGER)
+expr CAST(x'4142' AS SQL_SMALLINT)
+expr CAST(x'41' AS SQL_SMALLINT)
+expr CAST(x'4142434445464748' AS SQL_BIGINT)
+expr CAST(x'41424344' AS SQL_BIGINT)
+expr CAST(x'4142434445464748' AS SQL_DOUBLE)
+expr CAST(x'41424344' AS SQL_DOUBLE)
+expr CAST(x'' AS SQL_INTEGER)
+expr CAST(x'4142' AS SQL_NUMERIC(5,2))
+expr CAST(x'4142' AS SQL_DATE)
+expr CAST(x'4142' AS SQL_LOGICAL)
+expr CAST(x'4142' AS SQL_TIMESTAMP)
+expr CAST(x'4142' AS SQL_MONEY)
+## COALESCE and functions of binary
+expr COALESCE(x'41', x'42')
+expr COALESCE(NULL, x'42')
+expr COALESCE(1, x'42')
+expr COALESCE(x'41', 1)
+expr COALESCE(x'41', NULL)
+expr IFNULL(x'41', x'42')
+expr IIF(1 = 1, x'41', x'42')
+direct CREATE TABLE bn (id INTEGER, r RAW(4), vb VARBINARY(4), bl BLOB, bi BINARY, rv ROWVERSION)
+directnull INSERT INTO bn (id, r, vb, bl, bi) VALUES (1, x'4142', x'4142', x'4142', x'4142')
+directnull INSERT INTO bn (id) VALUES (2)
+query SELECT COALESCE(r, x'41') FROM bn
+query SELECT COALESCE(vb, x'41') FROM bn
+query SELECT COALESCE(bl, x'41') FROM bn
+query SELECT COALESCE(bi, x'41') FROM bn
+query SELECT COALESCE(vb, NULL) FROM bn
+query SELECT COALESCE(NULL, vb) FROM bn
+query SELECT COALESCE(1, vb) FROM bn
+query SELECT COALESCE(vb, vb) FROM bn
+query SELECT IFNULL(vb, x'41') FROM bn
+query SELECT IFNULL(r, x'41') FROM bn
+query SELECT IFNULL(bl, x'41') FROM bn
+query SELECT NULLIF(vb, x'41') FROM bn
+query SELECT NULLIF(r, x'41') FROM bn
+query SELECT IIF(id = 1, vb, x'41') FROM bn
+query SELECT IIF(id = 1, r, x'41') FROM bn
+query SELECT CASE WHEN id = 1 THEN vb ELSE x'41' END FROM bn
+query SELECT CASE WHEN id = 1 THEN r ELSE x'41' END FROM bn
+query SELECT CAST(vb AS SQL_BINARY) FROM bn
+query SELECT CAST(r AS SQL_BINARY) FROM bn
+query SELECT CAST(bl AS SQL_BINARY) FROM bn
+query SELECT CAST(r AS SQL_CHAR) FROM bn
+query SELECT CAST(rv AS SQL_CHAR) FROM bn
+query SELECT CAST(rv AS SQL_VARCHAR) FROM bn
+query SELECT CAST(rv AS SQL_CHAR(30)) FROM bn
+query SELECT CAST(rv AS SQL_BIGINT) FROM bn
+query SELECT CAST(rv AS SQL_BINARY) FROM bn
+query SELECT rv FROM bn
+## ABS
+expr ABS(-2)
+expr ABS(2)
+expr ABS(-2.5)
+expr ABS(CAST(-2 AS SQL_INTEGER))
+expr 1 << ABS(-2)
+expr ABS(-2) + 1
+expr ABS(CAST(-2 AS SQL_SMALLINT))
+expr ABS(CAST(-2 AS SQL_BIGINT))
+expr ABS(CAST(-2 AS SQL_NUMERIC(5,2)))
+expr ABS(CAST(-2 AS SQL_MONEY))
+expr ABS(CAST(-2 AS SQL_DOUBLE))
+query SELECT ABS(n) FROM lg
+query SELECT 1 << ABS(n) FROM lg
+query SELECT SIGN(-2), CEILING(2), FLOOR(2), ROUND(2, 0), TRUNCATE(2, 0) FROM system.iota
+query SELECT SIGN(n), CEILING(n), FLOOR(n), ROUND(n, 0), TRUNCATE(n, 0) FROM lg
+## syntax errors
+expr 1 +
+query SELECT 1 +
+query SELECT 1 + FROM system.iota
+query SELECT x'41' x'42'
+query SELECT x'41' x'42' FROM system.iota
+query SELECT 1 FROM
+query SELECT 1 2
+query SELECT 1 2 FROM system.iota
+query SELECT 1 - 
+query SELECT 1 *
+query SELECT 1 AND
+query SELECT 1 =
+query SELECT (1
+query SELECT (1 +
+query SELECT 'a' 'b'
+query SELECT a b c
+query SELECT x'41' 1
+direct SELECT 1 +
+direct SELECT x'41' x'42'
+## ELSEIF THEN
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF THEN i = 20; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 10; ELSEIF THEN i = 20; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF ; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF i THEN i = 20; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE DO i = 3; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF 0 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i THEN i = 10; ENDWHILE; SELECT i AS i FROM system.iota
+## what is a double to a bitwise operator, and COALESCE of memos
+expr 1 << ABS(CAST(-2 AS SQL_INTEGER))
+expr 1 << SIGN(2)
+expr 1 << CEILING(2)
+expr 1 << FLOOR(2)
+expr 1 << ROUND(2, 0)
+expr 1 << TRUNCATE(2, 0)
+expr 1 << MOD(5, 3)
+expr 1 << LENGTH('ab')
+expr 1 << ABS(CAST(-2 AS SQL_BIGINT))
+expr 1 << ABS(CAST(-2 AS SQL_SMALLINT))
+expr 1 << ABS(CAST(-2 AS SQL_NUMERIC(5,0)))
+expr 1 & ABS(-2)
+expr ABS(-2) & 1
+expr ~ABS(-2)
+expr 1 << (0 + ABS(-2))
+expr 1 << -ABS(-2)
+query SELECT COALESCE(m, 'x') FROM lg
+query SELECT COALESCE(m, m) FROM lg
+query SELECT COALESCE(s, m) FROM lg
+query SELECT COALESCE(1, 2, x'41') FROM bn
+query SELECT COALESCE(r, r) FROM bn
+query SELECT COALESCE(r, NULL) FROM bn
+query SELECT COALESCE(NULL, r) FROM bn
+query SELECT COALESCE(CAST(vb AS SQL_BINARY), x'41') FROM bn
+## FoxPro type names of a table
+direct CREATE TABLE tfx (a VARCHARFOX(5), b VARBINARYFOX(5))
+directnull INSERT INTO tfx VALUES ('abc', x'4142')
+query SELECT a, b FROM tfx
+direct CREATE TABLE tfy (a VARCHARFOX)
+direct CREATE TABLE tfy (a VARCHARFOX(0))
+direct CREATE TABLE tfy (a VARBINARYFOX(5,2))

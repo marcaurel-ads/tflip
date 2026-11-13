@@ -1,0 +1,2 @@
+# Nothing: the tables are created by the ops.
+sql CREATE TABLE dummy (x INTEGER)

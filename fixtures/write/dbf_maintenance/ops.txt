@@ -1,0 +1,66 @@
+# Pack, zap and reindex need the table open exclusively.
+tabletype ntx
+open np.dbf shared
+pack
+close
+open np.dbf exclusive
+openindex np_c.ntx
+openindex np_u.ntx
+pack
+state
+top
+get m
+order np_c
+rows
+close
+open nz.dbf shared
+zap
+close
+open nz.dbf exclusive
+openindex nz_c.ntx
+openindex nz_u.ntx
+zap
+state
+top
+get m
+order nz_c
+rows
+close
+open nr.dbf shared
+reindex
+close
+open nr.dbf exclusive
+openindex nr_c.ntx
+openindex nr_u.ntx
+reindex
+state
+top
+get m
+order nr_c
+rows
+close
+tabletype cdx
+open fp.dbf exclusive
+pack
+state
+top
+get m
+order c
+rows
+close
+open fz.dbf exclusive
+zap
+state
+top
+get m
+order c
+rows
+close
+open fr.dbf exclusive
+reindex
+state
+top
+get m
+order c
+rows
+close

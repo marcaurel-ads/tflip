@@ -1,0 +1,14 @@
+# An ADT table with NChar, NVarChar and Char fields, and one with text of
+# every script (ops create the orders).
+sql CREATE TABLE ne (id INTEGER, nc NCHAR(8), nv NVARCHAR(10), c CHAR(8), nc2 NCHAR(3))
+sql INSERT INTO ne VALUES (1, 'abc', 'Zebra', 'x', 'q')
+sql INSERT INTO ne VALUES (2, 'été', 'apple', 'Yy', 'ré')
+sql INSERT INTO ne VALUES (3, 'ÉTÉ', ' Ömega', 'z', 'Q')
+sql INSERT INTO ne VALUES (4, 'éééé', 'ÉÉÉÉÉÉÉ', 'w', NULL)
+sql INSERT INTO ne VALUES (5, 'ABCD', 'abcdefg', 'v ', '')
+sql INSERT INTO ne VALUES (6, NULL, NULL, NULL, NULL)
+sql INSERT INTO ne VALUES (7, 'Ab', 'Straße', 'Äb', 'ab')
+sql INSERT INTO ne VALUES (8, '  pad', 'tail  ', 'Zz', 'zz')
+sql INSERT INTO ne VALUES (9, 'abcdefgh', 'abcdefghij', 'abcdefgh', 'abc')
+sql INSERT INTO ne VALUES (10, '', '', '', '')
+sql CREATE TABLE ns (id INTEGER, nc NCHAR(8), nv NVARCHAR(10), c CHAR(8))

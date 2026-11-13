@@ -1,0 +1,13 @@
+# What a full-text order's table refuses in a transaction.
+# Reads only: the transaction is rolled back, and the rest is refused.
+open tf exclusive
+begin
+goto 1
+set id long 9
+write
+reindexfts 1024
+reindex
+pack
+zap
+rollback
+close

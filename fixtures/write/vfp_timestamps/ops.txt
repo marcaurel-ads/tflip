@@ -1,0 +1,2267 @@
+# VFP TimeStamp keys: records appended with raw timestamps (day and
+# milliseconds), kept in an order on the field and in a second one built
+# after them, and each record's key as AdsBuildKeyFromRecord gives it.
+tabletype vfp
+open ts.dbf
+append
+set id long 1
+fieldraw t 5968250000000000
+write
+keyfromrecord t
+append
+set id long 2
+fieldraw t 5968250001000000
+write
+keyfromrecord t
+append
+set id long 3
+fieldraw t 59682500e7030000
+write
+keyfromrecord t
+append
+set id long 4
+fieldraw t 59682500e8030000
+write
+keyfromrecord t
+append
+set id long 5
+fieldraw t 59682500002e9302
+write
+keyfromrecord t
+append
+set id long 6
+fieldraw t 59682500ff5b2605
+write
+keyfromrecord t
+append
+set id long 7
+fieldraw t 5968250018582605
+write
+keyfromrecord t
+append
+set id long 8
+fieldraw t 8c3d250080ee3600
+write
+keyfromrecord t
+append
+set id long 9
+fieldraw t 52441a0001000000
+write
+keyfromrecord t
+append
+set id long 10
+fieldraw t add924004e61bc00
+write
+keyfromrecord t
+append
+set id long 11
+fieldraw t 06f72500ff5b2605
+write
+keyfromrecord t
+append
+set id long 12
+fieldraw t 19152300f4010000
+write
+keyfromrecord t
+append
+set id long 13
+fieldraw t 00000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 14
+fieldraw t 010000000c5a2605
+write
+keyfromrecord t
+append
+set id long 15
+fieldraw t 64000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 16
+fieldraw t ffff1f00ff5b2605
+write
+keyfromrecord t
+append
+set id long 17
+fieldraw t ffff3f000c5a2605
+write
+keyfromrecord t
+append
+set id long 18
+fieldraw t 54682500ff5b2605
+write
+keyfromrecord t
+append
+set id long 19
+fieldraw t 0000000000000000
+write
+keyfromrecord t
+append
+set id long 20
+fieldraw t 02000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 21
+fieldraw t 03000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 22
+fieldraw t 04000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 23
+fieldraw t 05000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 24
+fieldraw t 06000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 25
+fieldraw t 07000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 26
+fieldraw t 08000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 27
+fieldraw t 09000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 28
+fieldraw t 0a000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 29
+fieldraw t 0b000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 30
+fieldraw t 0c000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 31
+fieldraw t 0d000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 32
+fieldraw t 0e000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 33
+fieldraw t 0f000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 34
+fieldraw t 10000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 35
+fieldraw t 11000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 36
+fieldraw t 12000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 37
+fieldraw t 13000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 38
+fieldraw t ff000000ff5b2605
+write
+keyfromrecord t
+append
+set id long 39
+fieldraw t 00010000ff5b2605
+write
+keyfromrecord t
+append
+set id long 40
+fieldraw t ffff0000ff5b2605
+write
+keyfromrecord t
+append
+set id long 41
+fieldraw t 00000100ff5b2605
+write
+keyfromrecord t
+append
+set id long 42
+fieldraw t ffff0f00ff5b2605
+write
+keyfromrecord t
+append
+set id long 43
+fieldraw t c1c62d00ff5b2605
+write
+keyfromrecord t
+append
+set id long 44
+fieldraw t c3c62d00ff5b2605
+write
+keyfromrecord t
+append
+set id long 45
+fieldraw t ffff7f00ff5b2605
+write
+keyfromrecord t
+append
+set id long 46
+fieldraw t ffffff7fff5b2605
+write
+keyfromrecord t
+append
+set id long 47
+fieldraw t cd44250069f03401
+write
+keyfromrecord t
+append
+set id long 48
+fieldraw t 26692500fee36200
+write
+keyfromrecord t
+append
+set id long 49
+fieldraw t 16c42400817c4904
+write
+keyfromrecord t
+append
+set id long 50
+fieldraw t 31cf24004feeec02
+write
+keyfromrecord t
+append
+set id long 51
+fieldraw t 63c9250023c87600
+write
+keyfromrecord t
+append
+set id long 52
+fieldraw t cea22500aeb3b701
+write
+keyfromrecord t
+append
+set id long 53
+fieldraw t 32b224001a05b000
+write
+keyfromrecord t
+append
+set id long 54
+fieldraw t 067d2500a46a5803
+write
+keyfromrecord t
+append
+set id long 55
+fieldraw t c4c22400b9e0ec01
+write
+keyfromrecord t
+append
+set id long 56
+fieldraw t 71cd2400768b6804
+write
+keyfromrecord t
+append
+set id long 57
+fieldraw t 5a782500ed0e7900
+write
+keyfromrecord t
+append
+set id long 58
+fieldraw t 83c02500e18bfd00
+write
+keyfromrecord t
+append
+set id long 59
+fieldraw t 4c11250099850b05
+write
+keyfromrecord t
+append
+set id long 60
+fieldraw t 3ee0250047faa904
+write
+keyfromrecord t
+append
+set id long 61
+fieldraw t acbe240026e89d04
+write
+keyfromrecord t
+append
+set id long 62
+fieldraw t ccca2500d0662c03
+write
+keyfromrecord t
+append
+set id long 63
+fieldraw t 63b824008cc6c401
+write
+keyfromrecord t
+append
+set id long 64
+fieldraw t d9b62400b90c7404
+write
+keyfromrecord t
+append
+set id long 65
+fieldraw t 2fe32400ac1e5102
+write
+keyfromrecord t
+append
+set id long 66
+fieldraw t 99752500356f2701
+write
+keyfromrecord t
+append
+set id long 67
+fieldraw t d4b325000e3df100
+write
+keyfromrecord t
+append
+set id long 68
+fieldraw t 4ec3250051c57702
+write
+keyfromrecord t
+append
+set id long 69
+fieldraw t dabd2500ac207201
+write
+keyfromrecord t
+append
+set id long 70
+fieldraw t c3d32400fc1da704
+write
+keyfromrecord t
+append
+set id long 71
+fieldraw t 74c32500aa7e1c05
+write
+keyfromrecord t
+append
+set id long 72
+fieldraw t 30ff240090abfa02
+write
+keyfromrecord t
+append
+set id long 73
+fieldraw t e2d02400d9c76104
+write
+keyfromrecord t
+append
+set id long 74
+fieldraw t 990b260081978000
+write
+keyfromrecord t
+append
+set id long 75
+fieldraw t f4bf25002d107a00
+write
+keyfromrecord t
+append
+set id long 76
+fieldraw t eedb2500aecda501
+write
+keyfromrecord t
+append
+set id long 77
+fieldraw t 2a9d25008bf64004
+write
+keyfromrecord t
+append
+set id long 78
+fieldraw t ed792500975f8302
+write
+keyfromrecord t
+append
+set id long 79
+fieldraw t 638d25000e3baf04
+write
+keyfromrecord t
+append
+set id long 80
+fieldraw t 078725004a85e402
+write
+keyfromrecord t
+append
+set id long 81
+fieldraw t 7b38250013c7fc01
+write
+keyfromrecord t
+append
+set id long 82
+fieldraw t 0afb2400dfe8f301
+write
+keyfromrecord t
+append
+set id long 83
+fieldraw t e8c82400756b9804
+write
+keyfromrecord t
+append
+set id long 84
+fieldraw t ba382500399a3304
+write
+keyfromrecord t
+append
+set id long 85
+fieldraw t 7f9c25002e70bf02
+write
+keyfromrecord t
+append
+set id long 86
+fieldraw t 7914260061369703
+write
+keyfromrecord t
+append
+set id long 87
+fieldraw t 6c322500e725df04
+write
+keyfromrecord t
+append
+set id long 88
+fieldraw t 7ac4240078ccf100
+write
+keyfromrecord t
+append
+set id long 89
+fieldraw t 1ca52500c7505803
+write
+keyfromrecord t
+append
+set id long 90
+fieldraw t 75f32400c187bc02
+write
+keyfromrecord t
+append
+set id long 91
+fieldraw t d0ec24007c65e903
+write
+keyfromrecord t
+append
+set id long 92
+fieldraw t e8762500e44b5000
+write
+keyfromrecord t
+append
+set id long 93
+fieldraw t 20f525007cf79e00
+write
+keyfromrecord t
+append
+set id long 94
+fieldraw t bcbc25009f8e9504
+write
+keyfromrecord t
+append
+set id long 95
+fieldraw t a33f25001292b802
+write
+keyfromrecord t
+append
+set id long 96
+fieldraw t fd022600532acd02
+write
+keyfromrecord t
+append
+set id long 97
+fieldraw t 51cf2500a230f903
+write
+keyfromrecord t
+append
+set id long 98
+fieldraw t e8c72500fb4ea603
+write
+keyfromrecord t
+append
+set id long 99
+fieldraw t 34c2240041afbf00
+write
+keyfromrecord t
+append
+set id long 100
+fieldraw t 3529250011f4ca03
+write
+keyfromrecord t
+append
+set id long 101
+fieldraw t e2032600b51e8500
+write
+keyfromrecord t
+append
+set id long 102
+fieldraw t 10be24006e137a02
+write
+keyfromrecord t
+append
+set id long 103
+fieldraw t 54ea250045a29f04
+write
+keyfromrecord t
+append
+set id long 104
+fieldraw t cbfb25001bac9003
+write
+keyfromrecord t
+append
+set id long 105
+fieldraw t b6302500d2191603
+write
+keyfromrecord t
+append
+set id long 106
+fieldraw t 59f52500b1aac602
+write
+keyfromrecord t
+append
+set id long 107
+fieldraw t 8daa24004c8db103
+write
+keyfromrecord t
+append
+set id long 108
+fieldraw t ff542500bf295801
+write
+keyfromrecord t
+append
+set id long 109
+fieldraw t cad72500ebcfef00
+write
+keyfromrecord t
+append
+set id long 110
+fieldraw t c59b250018bd7800
+write
+keyfromrecord t
+append
+set id long 111
+fieldraw t b80e25001ca94c02
+write
+keyfromrecord t
+append
+set id long 112
+fieldraw t 38e124007c1dfb01
+write
+keyfromrecord t
+append
+set id long 113
+fieldraw t b96a25003caa2003
+write
+keyfromrecord t
+append
+set id long 114
+fieldraw t 369d2500cf07a500
+write
+keyfromrecord t
+append
+set id long 115
+fieldraw t 2df4240090ef9703
+write
+keyfromrecord t
+append
+set id long 116
+fieldraw t a46c2500c0406504
+write
+keyfromrecord t
+append
+set id long 117
+fieldraw t 402d2500bb6c1801
+write
+keyfromrecord t
+append
+set id long 118
+fieldraw t 6d7b250082d96604
+write
+keyfromrecord t
+append
+set id long 119
+fieldraw t 8d2d2500fa865203
+write
+keyfromrecord t
+append
+set id long 120
+fieldraw t b0562500ce240b03
+write
+keyfromrecord t
+append
+set id long 121
+fieldraw t 2515250005163501
+write
+keyfromrecord t
+append
+set id long 122
+fieldraw t 7cc92400d7e46801
+write
+keyfromrecord t
+append
+set id long 123
+fieldraw t 76ec2400330cdb01
+write
+keyfromrecord t
+append
+set id long 124
+fieldraw t 29f025004fdfdd01
+write
+keyfromrecord t
+append
+set id long 125
+fieldraw t 2da524002334e103
+write
+keyfromrecord t
+append
+set id long 126
+fieldraw t a1cc25002e707501
+write
+keyfromrecord t
+append
+set id long 127
+fieldraw t 86252500e5644102
+write
+keyfromrecord t
+append
+set id long 128
+fieldraw t 18a1240062582a01
+write
+keyfromrecord t
+append
+set id long 129
+fieldraw t 80752500a0d74604
+write
+keyfromrecord t
+append
+set id long 130
+fieldraw t 0e5c250057e5e004
+write
+keyfromrecord t
+append
+set id long 131
+fieldraw t f7c0250047848c02
+write
+keyfromrecord t
+append
+set id long 132
+fieldraw t 40df2400f8b91f04
+write
+keyfromrecord t
+append
+set id long 133
+fieldraw t 35db2500d3936e00
+write
+keyfromrecord t
+append
+set id long 134
+fieldraw t cd88250076637904
+write
+keyfromrecord t
+append
+set id long 135
+fieldraw t e5672500213f2f03
+write
+keyfromrecord t
+append
+set id long 136
+fieldraw t 466b250065282703
+write
+keyfromrecord t
+append
+set id long 137
+fieldraw t 02d42400a228da03
+write
+keyfromrecord t
+append
+set id long 138
+fieldraw t c1e32500441b3403
+write
+keyfromrecord t
+append
+set id long 139
+fieldraw t debe24004b5e8601
+write
+keyfromrecord t
+append
+set id long 140
+fieldraw t 7bc12400088cab01
+write
+keyfromrecord t
+append
+set id long 141
+fieldraw t 998025009d654c01
+write
+keyfromrecord t
+append
+set id long 142
+fieldraw t 48d724000c6eb802
+write
+keyfromrecord t
+append
+set id long 143
+fieldraw t 92d22500c2ac6b00
+write
+keyfromrecord t
+append
+set id long 144
+fieldraw t 6bd324004e7a0000
+write
+keyfromrecord t
+append
+set id long 145
+fieldraw t 31c1250063ca3501
+write
+keyfromrecord t
+append
+set id long 146
+fieldraw t bfb125008ccccf00
+write
+keyfromrecord t
+append
+set id long 147
+fieldraw t 2b59250015efe804
+write
+keyfromrecord t
+append
+set id long 148
+fieldraw t 0eac24009c019000
+write
+keyfromrecord t
+append
+set id long 149
+fieldraw t 78092500009de904
+write
+keyfromrecord t
+append
+set id long 150
+fieldraw t a15f25003c3b3001
+write
+keyfromrecord t
+append
+set id long 151
+fieldraw t d1e32500b69f0402
+write
+keyfromrecord t
+append
+set id long 152
+fieldraw t dd502500c077d104
+write
+keyfromrecord t
+append
+set id long 153
+fieldraw t 73592500ec0fcb03
+write
+keyfromrecord t
+append
+set id long 154
+fieldraw t e5dd2400763eec00
+write
+keyfromrecord t
+append
+set id long 155
+fieldraw t e4982500ae58ba03
+write
+keyfromrecord t
+append
+set id long 156
+fieldraw t f6942500b4e4de03
+write
+keyfromrecord t
+append
+set id long 157
+fieldraw t ab3e25004ce4af00
+write
+keyfromrecord t
+append
+set id long 158
+fieldraw t c9e82400bd47d100
+write
+keyfromrecord t
+append
+set id long 159
+fieldraw t d51e2600dbb7bd02
+write
+keyfromrecord t
+append
+set id long 160
+fieldraw t 0f1a2600dc381e02
+write
+keyfromrecord t
+append
+set id long 161
+fieldraw t 0d94250053a04a01
+write
+keyfromrecord t
+append
+set id long 162
+fieldraw t 5ca72500cf4c2f00
+write
+keyfromrecord t
+append
+set id long 163
+fieldraw t 1108250003df3904
+write
+keyfromrecord t
+append
+set id long 164
+fieldraw t 37582500f33d2c01
+write
+keyfromrecord t
+append
+set id long 165
+fieldraw t 50002600c86a5804
+write
+keyfromrecord t
+append
+set id long 166
+fieldraw t d8ac240071913904
+write
+keyfromrecord t
+append
+set id long 167
+fieldraw t 9f372500b5b12405
+write
+keyfromrecord t
+append
+set id long 168
+fieldraw t 98cd240090c31602
+write
+keyfromrecord t
+append
+set id long 169
+fieldraw t 6ba825004c00ef02
+write
+keyfromrecord t
+append
+set id long 170
+fieldraw t 86f424003b77d802
+write
+keyfromrecord t
+append
+set id long 171
+fieldraw t 11112500cdbf4204
+write
+keyfromrecord t
+append
+set id long 172
+fieldraw t 48b4250004860504
+write
+keyfromrecord t
+append
+set id long 173
+fieldraw t c9472500dd6e1705
+write
+keyfromrecord t
+append
+set id long 174
+fieldraw t 3211250032e4e704
+write
+keyfromrecord t
+append
+set id long 175
+fieldraw t 42232600b8a88f01
+write
+keyfromrecord t
+append
+set id long 176
+fieldraw t 91192500019a3403
+write
+keyfromrecord t
+append
+set id long 177
+fieldraw t d0192600cb5cd001
+write
+keyfromrecord t
+append
+set id long 178
+fieldraw t 5b052500c51f2404
+write
+keyfromrecord t
+append
+set id long 179
+fieldraw t 4d9b25002c31d802
+write
+keyfromrecord t
+append
+set id long 180
+fieldraw t 46152600f1593b00
+write
+keyfromrecord t
+append
+set id long 181
+fieldraw t 4dad2400c93f3c02
+write
+keyfromrecord t
+append
+set id long 182
+fieldraw t c990250002ca1202
+write
+keyfromrecord t
+append
+set id long 183
+fieldraw t 250225002153d704
+write
+keyfromrecord t
+append
+set id long 184
+fieldraw t 454f25001aec9303
+write
+keyfromrecord t
+append
+set id long 185
+fieldraw t 3d112600f6d0cb02
+write
+keyfromrecord t
+append
+set id long 186
+fieldraw t b15925002cf1a400
+write
+keyfromrecord t
+append
+set id long 187
+fieldraw t e00f2500c437d100
+write
+keyfromrecord t
+append
+set id long 188
+fieldraw t 251325004bb9c203
+write
+keyfromrecord t
+append
+set id long 189
+fieldraw t b6032500b5afb302
+write
+keyfromrecord t
+append
+set id long 190
+fieldraw t a30725005579dc03
+write
+keyfromrecord t
+append
+set id long 191
+fieldraw t 85de25001ed1e104
+write
+keyfromrecord t
+append
+set id long 192
+fieldraw t fa9f240029f6d503
+write
+keyfromrecord t
+append
+set id long 193
+fieldraw t 53ed2500b086c002
+write
+keyfromrecord t
+append
+set id long 194
+fieldraw t 48e8250057a0ad00
+write
+keyfromrecord t
+append
+set id long 195
+fieldraw t 38f125000890f500
+write
+keyfromrecord t
+append
+set id long 196
+fieldraw t ee652500c5349801
+write
+keyfromrecord t
+append
+set id long 197
+fieldraw t c0932500cb9c6d01
+write
+keyfromrecord t
+append
+set id long 198
+fieldraw t 2b7d250072341605
+write
+keyfromrecord t
+append
+set id long 199
+fieldraw t 3f492500e8a9b100
+write
+keyfromrecord t
+append
+set id long 200
+fieldraw t 931026005fad2a03
+write
+keyfromrecord t
+append
+set id long 201
+fieldraw t 238c25004a0a3603
+write
+keyfromrecord t
+append
+set id long 202
+fieldraw t 981b260024eaad00
+write
+keyfromrecord t
+append
+set id long 203
+fieldraw t 1812260052564501
+write
+keyfromrecord t
+append
+set id long 204
+fieldraw t 0af62400b12c0401
+write
+keyfromrecord t
+append
+set id long 205
+fieldraw t 1aad24007f8e3501
+write
+keyfromrecord t
+append
+set id long 206
+fieldraw t 7ecd2500740bb903
+write
+keyfromrecord t
+append
+set id long 207
+fieldraw t ccee25006f5d2b01
+write
+keyfromrecord t
+append
+set id long 208
+fieldraw t 20d825009f57c404
+write
+keyfromrecord t
+append
+set id long 209
+fieldraw t de91250074a2cd02
+write
+keyfromrecord t
+append
+set id long 210
+fieldraw t d3ee2400e0a76304
+write
+keyfromrecord t
+append
+set id long 211
+fieldraw t b8b7250043410c01
+write
+keyfromrecord t
+append
+set id long 212
+fieldraw t f4a92400662b1d00
+write
+keyfromrecord t
+append
+set id long 213
+fieldraw t e6122600277ad200
+write
+keyfromrecord t
+append
+set id long 214
+fieldraw t 9cac25007c2f1d01
+write
+keyfromrecord t
+append
+set id long 215
+fieldraw t 1c7d250027f68e01
+write
+keyfromrecord t
+append
+set id long 216
+fieldraw t 0d0b2500c6543900
+write
+keyfromrecord t
+append
+set id long 217
+fieldraw t f01f2500e4c5b301
+write
+keyfromrecord t
+append
+set id long 218
+fieldraw t ff3425002e610204
+write
+keyfromrecord t
+append
+set id long 219
+fieldraw t 271a2500f805b104
+write
+keyfromrecord t
+append
+set id long 220
+fieldraw t e8452500d92d1302
+write
+keyfromrecord t
+append
+set id long 221
+fieldraw t b5b5250040235a03
+write
+keyfromrecord t
+append
+set id long 222
+fieldraw t 1ce2240082bb7c00
+write
+keyfromrecord t
+append
+set id long 223
+fieldraw t d7192600b78cd402
+write
+keyfromrecord t
+append
+set id long 224
+fieldraw t 94892500c2b2aa04
+write
+keyfromrecord t
+append
+set id long 225
+fieldraw t 94a725005a725d03
+write
+keyfromrecord t
+append
+set id long 226
+fieldraw t d89f25009bcd0b01
+write
+keyfromrecord t
+append
+set id long 227
+fieldraw t 4baf2500fef53601
+write
+keyfromrecord t
+append
+set id long 228
+fieldraw t 09ab2500ac991504
+write
+keyfromrecord t
+append
+set id long 229
+fieldraw t 93a8240035608503
+write
+keyfromrecord t
+append
+set id long 230
+fieldraw t c0fc2400e551de04
+write
+keyfromrecord t
+append
+set id long 231
+fieldraw t 03a12400a5cb3201
+write
+keyfromrecord t
+append
+set id long 232
+fieldraw t 3df72400abe92101
+write
+keyfromrecord t
+append
+set id long 233
+fieldraw t 6d91250059ebf304
+write
+keyfromrecord t
+append
+set id long 234
+fieldraw t 4c1226000a73f600
+write
+keyfromrecord t
+append
+set id long 235
+fieldraw t eabb25008e797e00
+write
+keyfromrecord t
+append
+set id long 236
+fieldraw t e745250002942504
+write
+keyfromrecord t
+append
+set id long 237
+fieldraw t bbae2500828b7104
+write
+keyfromrecord t
+append
+set id long 238
+fieldraw t 08962500e44fd900
+write
+keyfromrecord t
+append
+set id long 239
+fieldraw t dfbd2500645f7400
+write
+keyfromrecord t
+append
+set id long 240
+fieldraw t 3a1e250082cb8701
+write
+keyfromrecord t
+append
+set id long 241
+fieldraw t c82c25005f6c5600
+write
+keyfromrecord t
+append
+set id long 242
+fieldraw t 0bd124005acc0f04
+write
+keyfromrecord t
+append
+set id long 243
+fieldraw t 83862500fa6b7e04
+write
+keyfromrecord t
+append
+set id long 244
+fieldraw t 44ad240085c78100
+write
+keyfromrecord t
+append
+set id long 245
+fieldraw t f181250052db9a02
+write
+keyfromrecord t
+append
+set id long 246
+fieldraw t 9dd82500705f0b04
+write
+keyfromrecord t
+append
+set id long 247
+fieldraw t 57d525001de81804
+write
+keyfromrecord t
+append
+set id long 248
+fieldraw t 180525000dad3702
+write
+keyfromrecord t
+append
+set id long 249
+fieldraw t 998625002cb41004
+write
+keyfromrecord t
+append
+set id long 250
+fieldraw t 0ab02500b404d303
+write
+keyfromrecord t
+append
+set id long 251
+fieldraw t f8a22500f632fb01
+write
+keyfromrecord t
+append
+set id long 252
+fieldraw t ff0426008a882f04
+write
+keyfromrecord t
+append
+set id long 253
+fieldraw t e92325005fe27904
+write
+keyfromrecord t
+append
+set id long 254
+fieldraw t b9062500ad899403
+write
+keyfromrecord t
+append
+set id long 255
+fieldraw t 36e52400cf455503
+write
+keyfromrecord t
+append
+set id long 256
+fieldraw t 45dd2400ef8f2303
+write
+keyfromrecord t
+append
+set id long 257
+fieldraw t 5d8125006a208702
+write
+keyfromrecord t
+append
+set id long 258
+fieldraw t 24c4240003d4ec01
+write
+keyfromrecord t
+append
+set id long 259
+fieldraw t 4f7a250057c09500
+write
+keyfromrecord t
+append
+set id long 260
+fieldraw t e50b2500f5176c02
+write
+keyfromrecord t
+append
+set id long 261
+fieldraw t a4dd2400824e3c01
+write
+keyfromrecord t
+append
+set id long 262
+fieldraw t a70d26004ecd2505
+write
+keyfromrecord t
+append
+set id long 263
+fieldraw t 0df1250081f1ed02
+write
+keyfromrecord t
+append
+set id long 264
+fieldraw t 34e82400665d0602
+write
+keyfromrecord t
+append
+set id long 265
+fieldraw t 46e5240048ecbd03
+write
+keyfromrecord t
+append
+set id long 266
+fieldraw t 6d0f2500d7c4c000
+write
+keyfromrecord t
+append
+set id long 267
+fieldraw t e86a2500fae8e503
+write
+keyfromrecord t
+append
+set id long 268
+fieldraw t 59f224009b29ca01
+write
+keyfromrecord t
+append
+set id long 269
+fieldraw t abf12400b5c17303
+write
+keyfromrecord t
+append
+set id long 270
+fieldraw t fda625009b003b03
+write
+keyfromrecord t
+append
+set id long 271
+fieldraw t a04c250033c65e03
+write
+keyfromrecord t
+append
+set id long 272
+fieldraw t 38032500db58da02
+write
+keyfromrecord t
+append
+set id long 273
+fieldraw t 1542250038d0bc00
+write
+keyfromrecord t
+append
+set id long 274
+fieldraw t bd1026008378ed02
+write
+keyfromrecord t
+append
+set id long 275
+fieldraw t f9a82400b12eb402
+write
+keyfromrecord t
+append
+set id long 276
+fieldraw t acba2500945bab03
+write
+keyfromrecord t
+append
+set id long 277
+fieldraw t 838025002a082500
+write
+keyfromrecord t
+append
+set id long 278
+fieldraw t c86325005de8a602
+write
+keyfromrecord t
+append
+set id long 279
+fieldraw t eda725007acdfd04
+write
+keyfromrecord t
+append
+set id long 280
+fieldraw t 45362500f71c1904
+write
+keyfromrecord t
+append
+set id long 281
+fieldraw t eabf2400e01de700
+write
+keyfromrecord t
+append
+set id long 282
+fieldraw t 05142500af96d600
+write
+keyfromrecord t
+append
+set id long 283
+fieldraw t 0aca240029e01f02
+write
+keyfromrecord t
+append
+set id long 284
+fieldraw t 392a25009c135100
+write
+keyfromrecord t
+append
+set id long 285
+fieldraw t f4fb2400a4df2902
+write
+keyfromrecord t
+append
+set id long 286
+fieldraw t f52126006c540901
+write
+keyfromrecord t
+append
+set id long 287
+fieldraw t 317725009aa11102
+write
+keyfromrecord t
+append
+set id long 288
+fieldraw t d86e2500d2e73101
+write
+keyfromrecord t
+append
+set id long 289
+fieldraw t bdb1250059461e04
+write
+keyfromrecord t
+append
+set id long 290
+fieldraw t 25c3250028f7f403
+write
+keyfromrecord t
+append
+set id long 291
+fieldraw t 9d0526009bcb9d02
+write
+keyfromrecord t
+append
+set id long 292
+fieldraw t cdcc240004853b02
+write
+keyfromrecord t
+append
+set id long 293
+fieldraw t 74bc2400137d7701
+write
+keyfromrecord t
+append
+set id long 294
+fieldraw t c3782500d74d9400
+write
+keyfromrecord t
+append
+set id long 295
+fieldraw t b0282500ab782200
+write
+keyfromrecord t
+append
+set id long 296
+fieldraw t d5e325000c62b500
+write
+keyfromrecord t
+append
+set id long 297
+fieldraw t 672425003381ab00
+write
+keyfromrecord t
+append
+set id long 298
+fieldraw t 63d62500d77dc701
+write
+keyfromrecord t
+append
+set id long 299
+fieldraw t 1cc124007b981d02
+write
+keyfromrecord t
+append
+set id long 300
+fieldraw t 4cdd24000354a103
+write
+keyfromrecord t
+append
+set id long 301
+fieldraw t e9a424003495b602
+write
+keyfromrecord t
+append
+set id long 302
+fieldraw t 2bba2500ba925703
+write
+keyfromrecord t
+append
+set id long 303
+fieldraw t 24282500a93ff904
+write
+keyfromrecord t
+append
+set id long 304
+fieldraw t 29e12400397c5800
+write
+keyfromrecord t
+append
+set id long 305
+fieldraw t c7ac25003851e801
+write
+keyfromrecord t
+append
+set id long 306
+fieldraw t 0ad72400d2a54a01
+write
+keyfromrecord t
+append
+set id long 307
+fieldraw t 172525007b2d6700
+write
+keyfromrecord t
+append
+set id long 308
+fieldraw t bffb2400ab389d01
+write
+keyfromrecord t
+append
+set id long 309
+fieldraw t bd3e2500b6840705
+write
+keyfromrecord t
+append
+set id long 310
+fieldraw t 293b2500eea93f04
+write
+keyfromrecord t
+append
+set id long 311
+fieldraw t dc232600fb9fa501
+write
+keyfromrecord t
+append
+set id long 312
+fieldraw t 7533250047c49003
+write
+keyfromrecord t
+append
+set id long 313
+fieldraw t 0b9f2500c6566c01
+write
+keyfromrecord t
+append
+set id long 314
+fieldraw t 8129250078a8c602
+write
+keyfromrecord t
+append
+set id long 315
+fieldraw t 4ca8240047eb0002
+write
+keyfromrecord t
+append
+set id long 316
+fieldraw t ebb12400c96d1f00
+write
+keyfromrecord t
+append
+set id long 317
+fieldraw t 70a8240050940b04
+write
+keyfromrecord t
+append
+set id long 318
+fieldraw t 23b92500c4018401
+write
+keyfromrecord t
+append
+set id long 319
+fieldraw t 49a625004e4fcc03
+write
+keyfromrecord t
+append
+set id long 320
+fieldraw t c91c2500dc919303
+write
+keyfromrecord t
+append
+set id long 321
+fieldraw t 6ad5240085197503
+write
+keyfromrecord t
+append
+set id long 322
+fieldraw t 22ef250062c3f503
+write
+keyfromrecord t
+append
+set id long 323
+fieldraw t 81b625004f0a2503
+write
+keyfromrecord t
+append
+set id long 324
+fieldraw t 6ca22500f5567602
+write
+keyfromrecord t
+append
+set id long 325
+fieldraw t 1fff2500e0b0b801
+write
+keyfromrecord t
+append
+set id long 326
+fieldraw t 89142500ecdbbd02
+write
+keyfromrecord t
+append
+set id long 327
+fieldraw t b2042500157b1605
+write
+keyfromrecord t
+append
+set id long 328
+fieldraw t 89e6240026d23c03
+write
+keyfromrecord t
+append
+set id long 329
+fieldraw t f250250041636f00
+write
+keyfromrecord t
+append
+set id long 330
+fieldraw t 77e12400cb311d00
+write
+keyfromrecord t
+append
+set id long 331
+fieldraw t 35c324000beb0005
+write
+keyfromrecord t
+append
+set id long 332
+fieldraw t 551a2600cd740b02
+write
+keyfromrecord t
+append
+set id long 333
+fieldraw t 8a7b250031544e01
+write
+keyfromrecord t
+append
+set id long 334
+fieldraw t 5dbb24006706ad00
+write
+keyfromrecord t
+append
+set id long 335
+fieldraw t 98f32500bf0b0c03
+write
+keyfromrecord t
+append
+set id long 336
+fieldraw t 0aa225003c664102
+write
+keyfromrecord t
+append
+set id long 337
+fieldraw t 93d12500550df001
+write
+keyfromrecord t
+append
+set id long 338
+fieldraw t a70126000d2f5802
+write
+keyfromrecord t
+append
+set id long 339
+fieldraw t 29b62400aaf5ac03
+write
+keyfromrecord t
+append
+set id long 340
+fieldraw t e6fd2400a1a04201
+write
+keyfromrecord t
+append
+set id long 341
+fieldraw t bf2825007e0c9103
+write
+keyfromrecord t
+append
+set id long 342
+fieldraw t daa024002e1f1b02
+write
+keyfromrecord t
+append
+set id long 343
+fieldraw t 705925000aa4a102
+write
+keyfromrecord t
+append
+set id long 344
+fieldraw t 1ab72500f0989602
+write
+keyfromrecord t
+append
+set id long 345
+fieldraw t 281c2500008c4600
+write
+keyfromrecord t
+append
+set id long 346
+fieldraw t 7d3d25007430be01
+write
+keyfromrecord t
+append
+set id long 347
+fieldraw t 92552500e0e76d01
+write
+keyfromrecord t
+append
+set id long 348
+fieldraw t 8c9f240080a79e02
+write
+keyfromrecord t
+append
+set id long 349
+fieldraw t 6462250038c5a700
+write
+keyfromrecord t
+append
+set id long 350
+fieldraw t 0492250098d82d02
+write
+keyfromrecord t
+append
+set id long 351
+fieldraw t 6aa02500e8062005
+write
+keyfromrecord t
+append
+set id long 352
+fieldraw t e6052500685af001
+write
+keyfromrecord t
+append
+set id long 353
+fieldraw t 6ca1250040e30900
+write
+keyfromrecord t
+append
+set id long 354
+fieldraw t 84cd2400e8551002
+write
+keyfromrecord t
+append
+set id long 355
+fieldraw t f4cc240040b81f01
+write
+keyfromrecord t
+append
+set id long 356
+fieldraw t 8c6b250068999504
+write
+keyfromrecord t
+append
+set id long 357
+fieldraw t 55b42400d8f21303
+write
+keyfromrecord t
+append
+set id long 358
+fieldraw t 84aa2400f8495702
+write
+keyfromrecord t
+append
+set id long 359
+fieldraw t c53a2500a056eb04
+write
+keyfromrecord t
+append
+set id long 360
+fieldraw t 32162500e8f5a800
+write
+keyfromrecord t
+append
+set id long 361
+fieldraw t d1ca2500685d2204
+write
+keyfromrecord t
+append
+set id long 362
+fieldraw t 461f260048803601
+write
+keyfromrecord t
+append
+set id long 363
+fieldraw t a9ef2500801da904
+write
+keyfromrecord t
+append
+set id long 364
+fieldraw t 6e66250078448c02
+write
+keyfromrecord t
+append
+set id long 365
+fieldraw t fc0f2600705fdc03
+write
+keyfromrecord t
+append
+set id long 366
+fieldraw t 86eb240018583802
+write
+keyfromrecord t
+append
+set id long 367
+fieldraw t c41126005869d504
+write
+keyfromrecord t
+append
+set id long 368
+fieldraw t 54e82500607d2101
+write
+keyfromrecord t
+append
+set id long 369
+fieldraw t 6bb5240088f40104
+write
+keyfromrecord t
+append
+set id long 370
+fieldraw t 31e0250088795a03
+write
+keyfromrecord t
+append
+set id long 371
+fieldraw t bb162600f013f303
+write
+keyfromrecord t
+append
+set id long 372
+fieldraw t 53e6240028801704
+write
+keyfromrecord t
+append
+set id long 373
+fieldraw t 7720260060baf003
+write
+keyfromrecord t
+append
+set id long 374
+fieldraw t 0fc2250078262000
+write
+keyfromrecord t
+append
+set id long 375
+fieldraw t 79fe2500101f9004
+write
+keyfromrecord t
+append
+set id long 376
+fieldraw t 200b260040c40505
+write
+keyfromrecord t
+append
+set id long 377
+fieldraw t ba142500682eaa00
+write
+keyfromrecord t
+append
+set id long 378
+fieldraw t f4ae2400b0b55300
+write
+keyfromrecord t
+append
+set id long 379
+fieldraw t 24e32400203bfa04
+write
+keyfromrecord t
+append
+set id long 380
+fieldraw t ae572500d8d2d100
+write
+keyfromrecord t
+append
+set id long 381
+fieldraw t d45f250060c58603
+write
+keyfromrecord t
+append
+set id long 382
+fieldraw t f7bc2500188c6500
+write
+keyfromrecord t
+append
+set id long 383
+fieldraw t 6ae0250088ac2500
+write
+keyfromrecord t
+append
+set id long 384
+fieldraw t a0df2500a8e12604
+write
+keyfromrecord t
+append
+set id long 385
+fieldraw t 80fb2500f01ae901
+write
+keyfromrecord t
+append
+set id long 386
+fieldraw t 8499250098920f02
+write
+keyfromrecord t
+append
+set id long 387
+fieldraw t b2a0240008e59103
+write
+keyfromrecord t
+append
+set id long 388
+fieldraw t e5c2240088efed03
+write
+keyfromrecord t
+append
+set id long 389
+fieldraw t 05b1250038e2b700
+write
+keyfromrecord t
+append
+set id long 390
+fieldraw t 8ff02500b0f81b04
+write
+keyfromrecord t
+append
+set id long 391
+fieldraw t d1c0240048b5b303
+write
+keyfromrecord t
+append
+set id long 392
+fieldraw t 1f20250030e59400
+write
+keyfromrecord t
+append
+set id long 393
+fieldraw t f7262500088fd501
+write
+keyfromrecord t
+append
+set id long 394
+fieldraw t 6b142600506e9a01
+write
+keyfromrecord t
+append
+set id long 395
+fieldraw t 23152500b8d91305
+write
+keyfromrecord t
+append
+set id long 396
+fieldraw t b18a250070e2db03
+write
+keyfromrecord t
+append
+set id long 397
+fieldraw t de62250010799900
+write
+keyfromrecord t
+append
+set id long 398
+fieldraw t 4094250078a13e02
+write
+keyfromrecord t
+append
+set id long 399
+fieldraw t efb62400a0f2d104
+write
+keyfromrecord t
+append
+set id long 400
+fieldraw t fde22500c0850505
+write
+keyfromrecord t
+append
+set id long 401
+fieldraw t 8604250010f09a00
+write
+keyfromrecord t
+append
+set id long 402
+fieldraw t 0cd2250078d82601
+write
+keyfromrecord t
+append
+set id long 403
+fieldraw t de482500a0dffb01
+write
+keyfromrecord t
+append
+set id long 404
+fieldraw t 95ec250060d36002
+write
+keyfromrecord t
+append
+set id long 405
+fieldraw t 07dd250068836f04
+write
+keyfromrecord t
+append
+set id long 406
+fieldraw t 52e32400d0ee1800
+write
+keyfromrecord t
+append
+set id long 407
+fieldraw t ff952500b04e7900
+write
+keyfromrecord t
+append
+set id long 408
+fieldraw t ba97250060891902
+write
+keyfromrecord t
+append
+set id long 409
+fieldraw t 10f725002009c700
+write
+keyfromrecord t
+append
+set id long 410
+fieldraw t 660126000861b301
+write
+keyfromrecord t
+append
+set id long 411
+fieldraw t f6f82500b037d303
+write
+keyfromrecord t
+append
+set id long 412
+fieldraw t eb332500d8100904
+write
+keyfromrecord t
+append
+set id long 413
+fieldraw t 323125004052a103
+write
+keyfromrecord t
+append
+set id long 414
+fieldraw t 8a8d2500a0ada403
+write
+keyfromrecord t
+append
+set id long 415
+fieldraw t acdb240000254a04
+write
+keyfromrecord t
+append
+set id long 416
+fieldraw t 0405250038566f02
+write
+keyfromrecord t
+append
+set id long 417
+fieldraw t f5ca240088e0b103
+write
+keyfromrecord t
+append
+set id long 418
+fieldraw t f6a72400a0294302
+write
+keyfromrecord t
+append
+set id long 419
+fieldraw t fe89250070ec9800
+write
+keyfromrecord t
+append
+set id long 420
+fieldraw t 63a2250030e58203
+write
+keyfromrecord t
+append
+set id long 421
+fieldraw t 8d28250080ae0503
+write
+keyfromrecord t
+append
+set id long 422
+fieldraw t 6f0a2500d06aa501
+write
+keyfromrecord t
+append
+set id long 423
+fieldraw t 33c52400f0ee8a04
+write
+keyfromrecord t
+append
+set id long 424
+fieldraw t 3ccd2400507a1b01
+write
+keyfromrecord t
+append
+set id long 425
+fieldraw t b61d260050201804
+write
+keyfromrecord t
+append
+set id long 426
+fieldraw t 0b252500d819cf02
+write
+keyfromrecord t
+append
+set id long 427
+fieldraw t e4e22400e0b9b604
+write
+keyfromrecord t
+append
+set id long 428
+fieldraw t 6ae22500907cf903
+write
+keyfromrecord t
+append
+set id long 429
+fieldraw t 232e25008057e100
+write
+keyfromrecord t
+append
+set id long 430
+fieldraw t 1b072600a85cda02
+write
+keyfromrecord t
+append
+set id long 431
+fieldraw t 77152500f8c5e303
+write
+keyfromrecord t
+append
+set id long 432
+fieldraw t e7972500a0251403
+write
+keyfromrecord t
+append
+set id long 433
+fieldraw t b7ab240068213e01
+write
+keyfromrecord t
+append
+set id long 434
+fieldraw t d6a024001862d703
+write
+keyfromrecord t
+append
+set id long 435
+fieldraw t f9fb250010858503
+write
+keyfromrecord t
+append
+set id long 436
+fieldraw t 936e2500a8e55b02
+write
+keyfromrecord t
+append
+set id long 437
+fieldraw t 5113260010671901
+write
+keyfromrecord t
+append
+set id long 438
+fieldraw t 1574250078e9af02
+write
+keyfromrecord t
+append
+set id long 439
+fieldraw t 905f250020247802
+write
+keyfromrecord t
+append
+set id long 440
+fieldraw t e7dc2400b8a49602
+write
+keyfromrecord t
+append
+set id long 441
+fieldraw t e49f2400f8178902
+write
+keyfromrecord t
+append
+set id long 442
+fieldraw t 601f2600508ba402
+write
+keyfromrecord t
+append
+set id long 443
+fieldraw t e86a2500f014f000
+write
+keyfromrecord t
+append
+set id long 444
+fieldraw t 3803250000701700
+write
+keyfromrecord t
+append
+set id long 445
+fieldraw t d5192600a0a64302
+write
+keyfromrecord t
+append
+set id long 446
+fieldraw t a5202500386ee802
+write
+keyfromrecord t
+createindex - t2 2 0 t
+# Seeks of text timestamps: keys one bit below the nearest double, and
+# milliseconds in the text.
+order t
+seek 2 02/01/1975 05:37:27
+pos
+seek 2 07/24/2000 01:48:01
+pos
+seek 2 11/13/1884 19:58:45
+pos
+seek 2 06/29/2014 15:35:26
+pos
+seek 2 12/11/1883 08:58:21
+pos
+seek 2 03/21/2011 02:12:14
+pos
+seek 2 01/01/2000 00:00:00
+pos
+seek 2 01/01/2000 00:00:00
+pos
+seek 2 01/01/2000 00:00:01
+pos
+seek 2 01/01/2000 00:00:01
+pos
+seek 2 02/01/1975 05:37:27.400
+pos
+seek 2 02/01/1975 05:37:26.600
+pos
+seek 2 02/01/1975 05:37:26.999
+pos
+
+close

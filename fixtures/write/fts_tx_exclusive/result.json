@@ -1,0 +1,13 @@
+[
+{"cmd": "open tf exclusive", "rc": 0, "table": 1},
+{"cmd": "begin", "rc": 0},
+{"cmd": "goto 1", "rc": 0},
+{"cmd": "set id long 9", "rc": 0},
+{"cmd": "write", "rc": 0},
+{"cmd": "reindexfts 1024", "rc": 5063, "error": "Error 5063:  The command specified is illegal within a transaction.  Cannot Reindex."},
+{"cmd": "reindex", "rc": 5063, "error": "Error 5063:  The command specified is illegal within a transaction.  Cannot Reindex."},
+{"cmd": "pack", "rc": 5063, "error": "Error 5063:  The command specified is illegal within a transaction.  Can't Pack in a transaction."},
+{"cmd": "zap", "rc": 5063, "error": "Error 5063:  The command specified is illegal within a transaction.  Can't Zap in a transaction."},
+{"cmd": "rollback", "rc": 0},
+{"cmd": "close", "rc": 0}
+]

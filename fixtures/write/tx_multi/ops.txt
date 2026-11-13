@@ -1,0 +1,59 @@
+# Two tables in one transaction on the remote server: keys changed, a
+# unique key taken in the transaction, rolled back, then committed.
+open a shared
+open b shared
+open2 a shared
+use 1
+begin
+goto 1
+set id long 10
+set name string ten
+write
+append
+set id long 1
+set name string onenew
+write
+# Another user appends the key the transaction gave a record.
+use 3
+append
+set id long 10
+write
+cancel
+use 2
+append
+set id long 2
+set ref long 10
+write
+goto 1
+set ref long 2
+write
+use 3
+goto 1
+get name
+order aid
+rows
+use 1
+order aid
+rows
+txcount
+rollback
+use 1
+rows
+use 2
+order bref
+rows
+use 1
+order -
+begin
+goto 2
+set name string zwei
+write
+use 2
+goto 1
+delete
+write
+commit
+use 3
+rows
+use 1
+rows

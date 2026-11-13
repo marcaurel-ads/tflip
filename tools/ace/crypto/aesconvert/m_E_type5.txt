@@ -1,0 +1,4 @@
+# The same given the type it has.
+connect Data Source=%D\m_E_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

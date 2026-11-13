@@ -1,0 +1,362 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "expr 1 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr NOT 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr 1 OR 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 0 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr NOT 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 2 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1.5 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 'a' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr NOT 'a'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr TRUE AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 = 1 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr IIF(1, 1, 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr IIF(0, 1, 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr IIF(2, 1, 2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 12", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CASE WHEN 1 THEN 1 ELSE 2 END", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function:  - CASE <The WHEN clause(s) of a search case expression must be Boolean expression(s).> -- Location of error in the SQL statement is: 18", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CASE WHEN 0 THEN 1 ELSE 2 END", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function:  - CASE <The WHEN clause(s) of a search case expression must be Boolean expression(s).> -- Location of error in the SQL statement is: 18", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 IS NULL AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr x'01' AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr NOT NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 17 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr NULL AND 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND NULL", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 19 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 AND 1 AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr (1) AND (1)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 AND -1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr 1 AND 1 = 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "direct CREATE TABLE lg (id INTEGER, n INTEGER, b LOGICAL, d DOUBLE, s CHAR(5), m MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO lg VALUES (1, 5, TRUE, 1.5, 'ab', 'memo')", "rc": 0},
+{"cmd": "directnull INSERT INTO lg VALUES (2, 0, FALSE, 0, NULL, NULL)", "rc": 0},
+{"cmd": "query SELECT id FROM lg WHERE n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id FROM lg WHERE n AND b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id FROM lg WHERE b AND n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 31", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id FROM lg WHERE NOT n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 29", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT id FROM lg WHERE 1 AND b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE b AND 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT id FROM lg WHERE 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "lg.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["id", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT id FROM lg WHERE d", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n AND b FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]],
+  [2, ["F"]]]}},
+{"cmd": "query SELECT NOT n FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]],
+  [2, ["T"]]]}},
+{"cmd": "expr x'01' & 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr x'01' | 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["16777217"]]]}},
+{"cmd": "expr 1 & x'01'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr x'0102' & 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr x'01' & x'01'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: & Only one operand of a bitwise operator can be binary. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 3 & 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr 3 | 4", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["7"]]]}},
+{"cmd": "expr ~1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["-2"]]]}},
+{"cmd": "expr CAST(1 AS CHAR(5))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: CHAR. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS CHAR)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: CHAR. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS BINARY)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: BINARY. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: INTEGER. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS INT)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: INT. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS VARCHAR(5))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <identifier> [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS DOUBLE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: DOUBLE. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS NUMERIC(5,2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: NUMERIC. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS DECIMAL(5,2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: DECIMAL. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS DATE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: DATE. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS LOGICAL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: LOGICAL. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS MEMO)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: MEMO. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_CHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 5, 0]], "rows": [
+  [1, ["1    "]]]}},
+{"cmd": "expr CAST(1 AS SQL_CHAR)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 11, 0]], "rows": [
+  [1, ["1          "]]]}},
+{"cmd": "expr CAST(1 AS SQL_VARCHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 5, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_INTEGER)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIGINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_SMALLINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_TINYINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5,2))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 2, 7, 2]], "rows": [
+  [1, ["   1.00"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 2, 2, 0]], "rows": [
+  [1, [" 1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_NUMERIC(5))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - must specify both precision and scale. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_DECIMAL(10,0))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_DECIMAL(10,2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_DECIMAL(10))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - precision should not be specified for the type converted to. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_DECIMAL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 2, 2, 0]], "rows": [
+  [1, [" 1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_DOUBLE)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "expr CAST(1 AS SQL_FLOAT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "expr CAST(1 AS SQL_REAL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["1.000000000000000"]]]}},
+{"cmd": "expr CAST(1 AS SQL_DATE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_BINARY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_30.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["\u0000\u0000\u0000\u0001"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 5, 0]], "rows": [
+  [1, ["\u0000\u0000\u0000\u0001\u0000"]]]}},
+{"cmd": "expr CAST(1 AS SQL_VARBINARY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["\u0000\u0000\u0000\u0001"]]]}},
+{"cmd": "expr CAST(1 AS SQL_VARBINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 5, 0]], "rows": [
+  [1, ["\u0000\u0000\u0000\u0001"]]]}},
+{"cmd": "expr CAST(1 AS SQL_LONGVARBINARY)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = IM001;   NativeError = 2103;  [SAP][Advantage SQL Engine]Not supported", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(1 AS SQL_LONGVARCHAR)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_34.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_BIT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr CAST(1 AS SQL_MONEY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 18, 8, 4]], "rows": [
+  [1, ["1.0000"]]]}},
+{"cmd": "expr CAST(1 AS SQL_WCHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 26, 5, 0]], "rows": [
+  [1, ["1    "]]]}},
+{"cmd": "expr CAST(1 AS SQL_WVARCHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 27, 5, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST(1 AS SQL_WLONGVARCHAR)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_39.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 28, 9, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "expr CAST('abc' AS SQL_BINARY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 3, 0]], "rows": [
+  [1, ["abc"]]]}},
+{"cmd": "expr CAST('abc' AS SQL_BINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 5, 0]], "rows": [
+  [1, ["abc\u0000\u0000"]]]}},
+{"cmd": "expr CAST('abc' AS SQL_BINARY(2))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 2, 0]], "rows": [
+  [1, ["ab"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_BINARY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 2, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_BINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 16, 5, 0]], "rows": [
+  [1, ["AB\u0000\u0000\u0000"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_VARBINARY)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_VARBINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_40.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 5, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_CHAR)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_41.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 2, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error not enough binary data to convert into the specified integer. Scalar: CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'41424344' AS SQL_INTEGER)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_43.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1094861636"]]]}},
+{"cmd": "expr CAST(x'4142434445' AS SQL_INTEGER)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1094861636"]]]}},
+{"cmd": "expr CAST(x'41' AS SQL_INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error not enough binary data to convert into the specified integer. Scalar: CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_SMALLINT)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_46.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["16706"]]]}},
+{"cmd": "expr CAST(x'41' AS SQL_SMALLINT)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error not enough binary data to convert into the specified integer. Scalar: CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142434445464748' AS SQL_BIGINT)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2119;  [SAP][Advantage SQL Engine]Internal error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'41424344' AS SQL_BIGINT)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error not enough binary data to convert into the specified integer. Scalar: CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142434445464748' AS SQL_DOUBLE)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["2393736.541207227900000"]]]}},
+{"cmd": "expr CAST(x'41424344' AS SQL_DOUBLE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'' AS SQL_INTEGER)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error not enough binary data to convert into the specified integer. Scalar: CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_NUMERIC(5,2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_DATE)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_LOGICAL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST - unrecognized data type: SQL_LOGICAL. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_TIMESTAMP)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_MONEY)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2236;  [SAP][Advantage SQL Engine]Conversion error with scalar CAST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr COALESCE(x'41', x'42')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr COALESCE(NULL, x'42')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr COALESCE(1, x'42')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr COALESCE(x'41', 1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr COALESCE(x'41', NULL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr IFNULL(x'41', x'42')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_51.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr IIF(1 = 1, x'41', x'42')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "direct CREATE TABLE bn (id INTEGER, r RAW(4), vb VARBINARY(4), bl BLOB, bi BINARY, rv ROWVERSION)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO bn (id, r, vb, bl, bi) VALUES (1, x'4142', x'4142', x'4142', x'4142')", "rc": 0},
+{"cmd": "directnull INSERT INTO bn (id) VALUES (2)", "rc": 0},
+{"cmd": "query SELECT COALESCE(r, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(vb, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(bl, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(bi, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(vb, NULL) FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(NULL, vb) FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(1, vb) FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT COALESCE(vb, vb) FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 1> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT IFNULL(vb, x'41') FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT IFNULL(r, x'41') FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_54.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT IFNULL(bl, x'41') FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_55.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 6, 9, 0]], "rows": [
+  [1, ["AB"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT NULLIF(vb, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: NULLIF -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT NULLIF(r, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: NULLIF -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT IIF(id = 1, vb, x'41') FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_56.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT IIF(id = 1, r, x'41') FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_57.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT CASE WHEN id = 1 THEN vb ELSE x'41' END FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_58.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT CASE WHEN id = 1 THEN r ELSE x'41' END FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_59.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 24, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, ["A"]]]}},
+{"cmd": "query SELECT CAST(vb AS SQL_BINARY) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT CAST(r AS SQL_BINARY) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT CAST(bl AS SQL_BINARY) FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CAST Argument cannot be LONGVARBINARY. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(r AS SQL_CHAR) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 4, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT CAST(rv AS SQL_CHAR) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 4, 20, 0]], "rows": [
+  [1, ["1                   "]],
+  [2, ["2                   "]]]}},
+{"cmd": "query SELECT CAST(rv AS SQL_VARCHAR) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 23, 20, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT CAST(rv AS SQL_CHAR(30)) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 4, 30, 0]], "rows": [
+  [1, ["1                             "]],
+  [2, ["2                             "]]]}},
+{"cmd": "query SELECT CAST(rv AS SQL_BIGINT) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_60.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT CAST(rv AS SQL_BINARY) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_61.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 20, 0]], "rows": [
+  [1, ["1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"]],
+  [2, ["2\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"]]]}},
+{"cmd": "query SELECT rv FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "bn.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["rv", 21, 8, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "expr ABS(-2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_62.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr ABS(2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_63.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr ABS(-2.5)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_64.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 2, 4, 1]], "rows": [
+  [1, [" 2.5"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_INTEGER))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_65.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 << ABS(-2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr ABS(-2) + 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_66.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_SMALLINT))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_67.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_BIGINT))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_68.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_NUMERIC(5,2)))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_69.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 2, 7, 2]], "rows": [
+  [1, ["   2.00"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_MONEY))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 18, 8, 4]], "rows": [
+  [1, ["2.0000"]]]}},
+{"cmd": "expr ABS(CAST(-2 AS SQL_DOUBLE))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 10, 8, 15]], "rows": [
+  [1, ["2.000000000000000"]]]}},
+{"cmd": "query SELECT ABS(n) FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["5"]],
+  [2, ["0"]]]}},
+{"cmd": "query SELECT 1 << ABS(n) FROM lg", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT SIGN(-2), CEILING(2), FLOOR(2), ROUND(2, 0), TRUNCATE(2, 0) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 12, 2, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0], ["EXPR_3", 11, 4, 0], ["EXPR_4", 11, 4, 0]], "rows": [
+  [1, ["-1", "2", "2", "2", "2"]]]}},
+{"cmd": "query SELECT SIGN(n), CEILING(n), FLOOR(n), ROUND(n, 0), TRUNCATE(n, 0) FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 12, 2, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0], ["EXPR_3", 11, 4, 0], ["EXPR_4", 11, 4, 0]], "rows": [
+  [1, ["1", "5", "5", "5", "5"]],
+  [2, ["0", "0", "0", "0", "0"]]]}},
+{"cmd": "expr 1 +", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 17 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 +", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 10 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 + FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 17 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'41' x'42'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'41' x'42' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 FROM", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: <identifier> -- Missing table name. There was a problem parsing the table names after the FROM keyword. -- Location of error in the SQL statement is: 10", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 10", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 2 FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 10", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 - ", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 *", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 10 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 AND", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 12 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 =", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 10 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT (1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 9", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT (1 +", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 'a' 'b'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 12", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT a b c", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: FROM Missing the keyword FROM after the column definitions in the SELECT statement. -- Location of error in the SQL statement is: 12", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'41' 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct SELECT 1 +", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 10 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct SELECT x'41' x'42'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF THEN i = 20; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 61", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 10; ELSEIF THEN i = 20; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 61", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 35", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF ; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 56", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF i THEN i = 20; ENDIF; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = Boolean value cannot be operated with non-Boolean value. ** Script error information:  -- Location of error in the SQL statement is: 56", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE DO i = 3; ENDWHILE; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: DO -- Location of error in the SQL statement is: 36", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["10"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; IF 0 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_70.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["i", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query DECLARE i INTEGER; i = 2; WHILE i THEN i = 10; ENDWHILE; SELECT i AS i FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: DO -- Location of error in the SQL statement is: 35", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << ABS(CAST(-2 AS SQL_INTEGER))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << SIGN(2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_71.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "expr 1 << CEILING(2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << FLOOR(2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << ROUND(2, 0)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << TRUNCATE(2, 0)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << MOD(5, 3)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_72.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << LENGTH('ab')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_73.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 << ABS(CAST(-2 AS SQL_BIGINT))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << ABS(CAST(-2 AS SQL_SMALLINT))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << ABS(CAST(-2 AS SQL_NUMERIC(5,0)))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_74.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "expr 1 & ABS(-2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: & Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 12", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr ABS(-2) & 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: & Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr ~ABS(-2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: ~ Values with decimals are not valid for bitwise NOT operator. -- Location of error in the SQL statement is: 9", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << (0 + ABS(-2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 16", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << -ABS(-2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << Double value cannot be an operand of a bitwise operator. -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COALESCE(m, 'x') FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_75.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["memo"]],
+  [2, ["x"]]]}},
+{"cmd": "query SELECT COALESCE(m, m) FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_76.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["memo"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT COALESCE(s, m) FROM lg", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_77.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["ab   "]],
+  [2, [null]]]}},
+{"cmd": "query SELECT COALESCE(1, 2, x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 3> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COALESCE(r, r) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_78.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT COALESCE(r, NULL) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_79.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT COALESCE(NULL, r) FROM bn", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 16, 4, 0]], "rows": [
+  [1, ["AB\u0000\u0000"]],
+  [2, [null]]]}},
+{"cmd": "query SELECT COALESCE(CAST(vb AS SQL_BINARY), x'41') FROM bn", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: COALESCE: <Blob arguments not allowed: Argument 2> -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE tfx (a VARCHARFOX(5), b VARBINARYFOX(5))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO tfx VALUES ('abc', x'4142')", "rc": 0},
+{"cmd": "query SELECT a, b FROM tfx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tfx.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 23, 5, 0], ["b", 24, 5, 0]], "rows": [
+  [1, ["abc", "AB"]]]}},
+{"cmd": "direct CREATE TABLE tfy (a VARCHARFOX)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: VARCHARFOX", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE tfy (a VARCHARFOX(0))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5012;  [SAP][Advantage SQL Engine][ASA] Error 5012:  The field definition specified for the table was not valid.  Field must be at least one character long.  The problem field definition is: \"a,VARCHARFOX,0;\".", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE tfy (a VARBINARYFOX(5,2))", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: VARBINARYFOX", "has_cursor": false, "affected": 4294967295}
+]

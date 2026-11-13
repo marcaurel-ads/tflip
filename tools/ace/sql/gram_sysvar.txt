@@ -1,0 +1,68 @@
+# The system variables ::stmt.unicode_sort_key_size and
+# ::conn.TerminalClientAddress, read and set.
+# For fixtures/sql/gram_sysvar.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_sysvar.txt > ../../../fixtures/sql/gram_sysvar.json
+stmt
+## ::stmt.unicode_sort_key_size and ::conn.TerminalClientAddress
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota WHERE 1 = 0
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+query SELECT ::stmt.Unicode_Sort_Key_Size AS a, ::STMT.UNICODE_SORT_KEY_SIZE AS b FROM system.iota
+query SELECT ::stmt.unicode_sort_key_size + 1 AS a FROM system.iota
+query SELECT ::conn.TerminalClientAddress FROM system.iota WHERE 1 = 0
+query SELECT ::conn.TerminalClientAddress FROM system.iota
+query SELECT ::conn.terminalclientaddress AS a, LENGTH(::conn.TerminalClientAddress) AS b, ::conn.TerminalClientAddress IS NULL AS c FROM system.iota
+query SELECT ::conn.TerminalClientAddress, ::conn.ClientHostName, ::conn.NetworkAddress FROM system.iota
+query SELECT ::server.unicode_sort_key_size FROM system.iota
+query SELECT ::conn.unicode_sort_key_size FROM system.iota
+query SELECT ::stmt.TerminalClientAddress FROM system.iota
+query SELECT ::server.TerminalClientAddress FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 5
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 8
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 1
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 0
+direct SET ::stmt.unicode_sort_key_size = 9
+direct SET ::stmt.unicode_sort_key_size = -1
+direct SET ::stmt.unicode_sort_key_size = 100
+direct SET ::stmt.unicode_sort_key_size = 2.5
+direct SET ::stmt.unicode_sort_key_size = 2.0
+direct SET ::stmt.unicode_sort_key_size = '4'
+direct SET ::stmt.unicode_sort_key_size = 'a'
+direct SET ::stmt.unicode_sort_key_size = NULL
+direct SET ::stmt.unicode_sort_key_size = 1 + 1
+direct SET ::stmt.unicode_sort_key_size = TRUE
+direct SET ::stmt.unicode_sort_key_size
+direct SET ::stmt.unicode_sort_key_size =
+direct SET ::stmt.unicode_sort_key_size = 3000000000
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 4
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.UNICODE_SORT_KEY_SIZE = 6
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::conn.unicode_sort_key_size = 4
+direct SET ::conn.TerminalClientAddress = '1.2.3.4'
+direct SET ::stmt.TerminalClientAddress = '1.2.3.4'
+direct SET ::conn.ClientHostName = 'x'
+query SELECT ::conn.TerminalClientAddress FROM system.iota
+query DECLARE n INTEGER; n = ::stmt.unicode_sort_key_size; SELECT n AS n FROM system.iota
+query DECLARE s CHAR(20); s = ::conn.TerminalClientAddress; SELECT s AS s, LENGTH(s) AS l FROM system.iota
+query DECLARE s INTEGER; SET ::stmt.unicode_sort_key_size = 7; s = ::stmt.unicode_sort_key_size; SELECT s AS s FROM system.iota
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+query SET ::stmt.unicode_sort_key_size = 2; SELECT ::stmt.unicode_sort_key_size AS a FROM system.iota
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+## a second statement on the connection
+stmt
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct SET ::stmt.unicode_sort_key_size = 8
+query SELECT ::stmt.unicode_sort_key_size FROM system.iota
+direct CREATE TABLE us (n NVARCHAR(10), c CHAR(10))
+directnull INSERT INTO us VALUES ('b', 'b')
+directnull INSERT INTO us VALUES ('a', 'a')
+directnull INSERT INTO us VALUES ('c', 'c')
+query SELECT n FROM us ORDER BY n
+direct SET ::stmt.unicode_sort_key_size = 1
+query SELECT n FROM us ORDER BY n
+query SELECT n, COUNT(*) AS k FROM us GROUP BY n

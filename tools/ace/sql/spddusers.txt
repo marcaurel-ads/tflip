@@ -1,0 +1,211 @@
+# sp_CreateGroup, sp_CreateUser, sp_AddUserToGroup, sp_RemoveUserFromGroup,
+# sp_DropUser, sp_DropGroup and sp_ChangeCurrentUserPassword on a dictionary
+# connection in an empty folder (the dictionary, de/de.add, is kept in
+# fixtures/sql/spddusers/): the calls, their refusals, a user who is not the
+# administrator, and what the system tables show of them. A string longer than
+# its parameter makes the object with the value cut, then fails. Membership of
+# the built-in groups other than DB:Public is not probed (see KNOWN_ISSUES).
+#
+#     run.sh <work> <ace32.dll> spddusers.txt > ../../../fixtures/sql/spddusers.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddusers/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE VIEW v1 AS SELECT id FROM t1
+direct CREATE PROCEDURE p1() BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+#
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'first group')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'again')
+direct EXECUTE PROCEDURE sp_CreateGroup('G1', 'case')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1 ', 'trailing blank')
+direct EXECUTE PROCEDURE sp_CreateGroup('g2', NULL)
+direct EXECUTE PROCEDURE sp_CreateGroup(NULL, 'null name')
+direct EXECUTE PROCEDURE sp_CreateGroup('', 'empty name')
+direct EXECUTE PROCEDURE sp_CreateGroup('  ', 'blank name')
+direct EXECUTE PROCEDURE sp_CreateGroup('DB:Admin', 'built in')
+direct EXECUTE PROCEDURE sp_CreateGroup('db:public', 'built in')
+direct EXECUTE PROCEDURE sp_CreateGroup('a;b', 'semicolon')
+direct EXECUTE PROCEDURE sp_CreateGroup('t1', 'a table')
+direct EXECUTE PROCEDURE sp_CreateGroup('V1', 'a view')
+direct EXECUTE PROCEDURE sp_CreateGroup('p1', 'a procedure')
+direct EXECUTE PROCEDURE sp_CreateGroup('ADSSYS', 'the administrator')
+direct EXECUTE PROCEDURE sp_CreateGroup('g3')
+direct EXECUTE PROCEDURE sp_CreateGroup('g3', 1)
+direct EXECUTE PROCEDURE sp_CreateGroup(1, 'x')
+direct EXECUTE PROCEDURE sp_CreateGroup('g3', 'x', 'y')
+direct EXECUTE PROCEDURE sp_CreateGroup()
+direct EXECUTE PROCEDURE sp_CreateGroup('g 4', 'a name with a space')
+direct EXECUTE PROCEDURE sp_CreateGroup(' g5', 'a leading blank')
+direct EXECUTE PROCEDURE sp_CreateGroup('a.b-c#d/ef', 'punctuation')
+direct EXECUTE PROCEDURE sp_CreateGroup('g6', 'a description that is rather longer than the others, to take more than one line of the memo file it is kept in, which is why this sentence goes on for a while')
+# Longer than the parameter: the object is made with the value cut, then the error.
+direct EXECUTE PROCEDURE sp_CreateGroup('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'name of 101')
+direct EXECUTE PROCEDURE sp_CreateGroup('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'name of 100')
+direct EXECUTE PROCEDURE sp_CreateGroup('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbc', 'name of 101')
+direct EXECUTE PROCEDURE sp_CreateGroup('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'name of 99')
+query SELECT * FROM system.usergroups
+#
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'user one')
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'again')
+direct EXECUTE PROCEDURE sp_CreateUser('U1', 'pw', 'case')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', 'two')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', NULL)
+direct EXECUTE PROCEDURE sp_CreateUser('u4', NULL, 'no password')
+direct EXECUTE PROCEDURE sp_CreateUser('u5', '', 'empty password')
+direct EXECUTE PROCEDURE sp_CreateUser(NULL, 'pw', 'null name')
+direct EXECUTE PROCEDURE sp_CreateUser('', 'pw', 'empty name')
+direct EXECUTE PROCEDURE sp_CreateUser(' ', 'pw', 'blank name')
+direct EXECUTE PROCEDURE sp_CreateUser('a:b', 'pw', 'colon')
+direct EXECUTE PROCEDURE sp_CreateUser('g1', 'pw', 'the name of a group')
+direct EXECUTE PROCEDURE sp_CreateUser('t1', 'pw', 'a table')
+direct EXECUTE PROCEDURE sp_CreateUser('v1', 'pw', 'a view')
+direct EXECUTE PROCEDURE sp_CreateUser('p1', 'pw', 'a procedure')
+direct EXECUTE PROCEDURE sp_CreateUser('DB:Public', 'pw', 'built in')
+direct EXECUTE PROCEDURE sp_CreateUser('ADSSYS', 'pw', 'the administrator')
+direct EXECUTE PROCEDURE sp_CreateUser('adssys ', 'pw', 'the administrator')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw', 'x', 'y')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 1, 'x')
+direct EXECUTE PROCEDURE sp_CreateUser()
+direct EXECUTE PROCEDURE sp_CreateUser('u7', 'pw7', 'a description that is rather longer than the others, to take more than one line of the memo file it is kept in, which is why this sentence goes on for a while')
+direct EXECUTE PROCEDURE sp_CreateUser('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'pw', 'name of 51')
+direct EXECUTE PROCEDURE sp_CreateUser('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'pw', 'name of 50')
+direct EXECUTE PROCEDURE sp_CreateUser('pl', 'kkkkkkkkkkkkkkkkkkkkk', 'password of 21')
+direct EXECUTE PROCEDURE sp_CreateUser('pm', 'kkkkkkkkkkkkkkkkkkkk', 'password of 20')
+direct EXECUTE PROCEDURE sp_CreateUser('pn', 'kkkkkkkkkkkkkkkkkkk', 'password of 19')
+query SELECT * FROM system.users
+#
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'G1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g2')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('U2', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g 4')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'nogroup')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'nogroup')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'DB:Public')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'DB:Public')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('g1', 'g2')
+direct EXECUTE PROCEDURE sp_AddUserToGroup(NULL, 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', NULL)
+direct EXECUTE PROCEDURE sp_AddUserToGroup(NULL, NULL)
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3')
+query SELECT * FROM system.usergroupmembers
+#
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'g2')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'g2')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('nobody', 'g1')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'nogroup')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'DB:Public')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('nobody', 'DB:Public')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('nobody', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u1', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup(NULL, 'g1')
+query SELECT * FROM system.usergroupmembers
+#
+direct EXECUTE PROCEDURE sp_DropGroup('g1')
+direct EXECUTE PROCEDURE sp_DropGroup('g2')
+direct EXECUTE PROCEDURE sp_DropGroup('g2')
+direct EXECUTE PROCEDURE sp_DropGroup('nogroup')
+direct EXECUTE PROCEDURE sp_DropGroup('DB:Admin')
+direct EXECUTE PROCEDURE sp_DropGroup('DB:Public')
+direct EXECUTE PROCEDURE sp_DropGroup(NULL)
+direct EXECUTE PROCEDURE sp_DropGroup('')
+direct EXECUTE PROCEDURE sp_DropGroup('u1')
+direct EXECUTE PROCEDURE sp_DropUser('u2')
+direct EXECUTE PROCEDURE sp_DropUser('u2')
+direct EXECUTE PROCEDURE sp_DropUser('nobody')
+direct EXECUTE PROCEDURE sp_DropUser('ADSSYS')
+direct EXECUTE PROCEDURE sp_DropUser('g 4')
+direct EXECUTE PROCEDURE sp_DropUser(NULL)
+direct EXECUTE PROCEDURE sp_DropUser('')
+direct EXECUTE PROCEDURE sp_DropUser('U3')
+direct EXECUTE PROCEDURE sp_DropUser()
+direct EXECUTE PROCEDURE sp_DropUser('a', 'b')
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroupmembers
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('wrong', 'pw1b')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('pw1', 'pw1b')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('pw1b', NULL)
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword(NULL, 'pw1c')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('pw1c', 'nnnnnnnnnnnnnnnnnnnnn')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('pw1c', 'nnnnnnnnnnnnnnnnnnnn')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('nnnnnnnnnnnnnnnnnnnn', 'pw1d')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('pw1d')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword()
+direct EXECUTE PROCEDURE sp_CreateUser('u9', 'pw', 'by a user')
+direct EXECUTE PROCEDURE sp_CreateGroup('g9', 'by a user')
+direct EXECUTE PROCEDURE sp_CreateUser('', 'pw', 'empty name by a user')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw', 'existing by a user')
+direct EXECUTE PROCEDURE sp_CreateGroup('', 'empty name by a user')
+direct EXECUTE PROCEDURE sp_CreateGroup('g 4', 'existing by a user')
+direct EXECUTE PROCEDURE sp_DropUser('u4')
+direct EXECUTE PROCEDURE sp_DropUser('nobody')
+direct EXECUTE PROCEDURE sp_DropGroup('g 4')
+direct EXECUTE PROCEDURE sp_DropGroup('nogroup')
+direct EXECUTE PROCEDURE sp_DropGroup('DB:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u4', 'g 4')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'g 4')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('nobody', 'nogroup')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u4', 'DB:Public')
+direct EXECUTE PROCEDURE sp_AddUserToGroup(NULL, NULL)
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u4', 'g 4')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('nobody', 'g 4')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('nobody', 'nogroup')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u4', 'DB:Public')
+disconnect
+connect de\de.add u1 pw1
+connect de\de.add u1 pw1c
+connect de\de.add u1 nnnnnnnnnnnnnnnnnnnn
+connect de\de.add pl kkkkkkkkkkkkkkkkkkkkk
+connect de\de.add pl kkkkkkkkkkkkkkkkkkkk
+connect de\de.add pl kkkkkkkkkkkkkkkkkkkkkk
+connect de\de.add pl kkkkkkkkkkkkkkkkkkk
+connect de\de.add pm kkkkkkkkkkkkkkkkkkkkk
+connect de\de.add pm kkkkkkkkkkkkkkkkkkkk
+connect de\de.add pm kkkkkkkkkkkkkkkkkkk
+connect de\de.add pn kkkkkkkkkkkkkkkkkkk
+connect de\de.add pn kkkkkkkkkkkkkkkkkk
+connect de\de.add pn kkkkkkkkkkkkkkkkkkkk
+#
+# The administrator's password, last: it changes what the dictionary's key is wrapped with.
+connect de\de.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('wrong', 'new1')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('', 'new1')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('', 'new2')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('new1', NULL)
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword(NULL, 'new3')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('new1', 'new3')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('x', 'mmmmmmmmmmmmmmmmmmmmm')
+disconnect
+connect de\de.add ADSSYS
+connect de\de.add ADSSYS new3
+connect de\de.add ADSSYS mmmmmmmmmmmmmmmmmmmm
+connect de\de.add ADSSYS mmmmmmmmmmmmmmmmmmmmm
+connect de\de.add ADSSYS mmmmmmmmmmmmmmmmmmm
+stmt
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroupmembers
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_CreateGroup('f1', 'free')
+direct EXECUTE PROCEDURE sp_CreateUser('f1', 'pw', 'free')
+direct EXECUTE PROCEDURE sp_DropGroup('f1')
+direct EXECUTE PROCEDURE sp_DropUser('f1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('f1', 'f2')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('f1', 'f2')
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('a', 'b')

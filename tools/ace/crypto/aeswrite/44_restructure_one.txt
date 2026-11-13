@@ -1,0 +1,33 @@
+# One ALTER TABLE of an encrypted table of an AES dictionary: x (AES-128) keeps its records enciphered and its indexes in the clear, y (AES-128) enciphers its indexes too, z (AES-256) has no index; each table has a memo and three records, and a column is added to it.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "x\x.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "y\y.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "z\z.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\x\x.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(10))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one')
+sql INSERT INTO tr VALUES (2, 'green yellow', 'two')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three')
+sql CREATE INDEX tr_name ON tr (name)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+disconnect
+connect Data Source=%D\y\y.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(10))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one')
+sql INSERT INTO tr VALUES (2, 'green yellow', 'two')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three')
+sql CREATE INDEX tr_name ON tr (name)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+disconnect
+connect Data Source=%D\z\z.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(10))
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one')
+sql INSERT INTO tr VALUES (2, 'green yellow', 'two')
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three')
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+disconnect

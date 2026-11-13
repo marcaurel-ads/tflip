@@ -1,0 +1,35 @@
+# FoxPro and Clipper tables with deleted records and orders that leave them out.
+tabletype cdx
+createtable f.dbf 0 c,Character,10;m,Memo
+append
+set c string bravo
+set m string memo b
+write
+append
+set c string alpha
+write
+append
+set c string charlie
+write
+goto 2
+delete
+write
+goto 3
+delete
+write
+createindex - c 2 512 c
+createindex - nd 2 512 c FOR !DELETED()
+close
+tabletype ntx
+createtable n.dbf 0 c,Character,10
+append
+set c string x
+write
+append
+set c string y
+write
+goto 1
+delete
+write
+createindex n_c.ntx c 0 1024 c FOR !DELETED()
+close

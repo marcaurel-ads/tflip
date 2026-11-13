@@ -1,0 +1,111 @@
+# ALTER TABLE of a dictionary's tables whose order the new types cannot build (a
+# field with an order becomes a memo), with the orders in several index files
+# (CREATE INDEX ... IN FILE): the orders and files a failed restructure leaves,
+# the failing order first, in the middle and last of a file, in the structural
+# file and in a later one. On a dictionary connection (de\de.add) in an empty
+# folder; the dictionary and the files it leaves are kept in fixtures/sql/spddalterfail3/:
+#
+#     run.sh <work> <ace32.dll> spddalterfail3.txt > ../../../fixtures/sql/spddalterfail3.json
+#     cp <work>/data/de/de.a* <work>/data/de/[m]*.* ../../../fixtures/sql/spddalterfail3/
+ddcreate de\de.add
+stmt
+tabletype 3
+direct CREATE TABLE m00 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m00a0 ON m00 (a)
+direct CREATE INDEX m00b1 ON m00 (b)
+direct CREATE INDEX m00c2 ON m00 (c)
+direct CREATE INDEX m00a3 ON m00 (a) IN FILE m00f1
+direct INSERT INTO m00 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m00 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m00 ALTER COLUMN b b MEMO
+direct CREATE TABLE m01 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m01b0 ON m01 (b)
+direct CREATE INDEX m01a1 ON m01 (a)
+direct CREATE INDEX m01c2 ON m01 (c)
+direct CREATE INDEX m01a3 ON m01 (a) IN FILE m01f1
+direct INSERT INTO m01 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m01 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m01 ALTER COLUMN b b MEMO
+direct CREATE TABLE m02 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m02a0 ON m02 (a)
+direct CREATE INDEX m02c1 ON m02 (c)
+direct CREATE INDEX m02b2 ON m02 (b)
+direct CREATE INDEX m02a3 ON m02 (a) IN FILE m02f1
+direct INSERT INTO m02 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m02 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m02 ALTER COLUMN b b MEMO
+direct CREATE TABLE m03 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m03a0 ON m03 (a)
+direct CREATE INDEX m03b1 ON m03 (b) IN FILE m03f1
+direct CREATE INDEX m03c2 ON m03 (c) IN FILE m03f1
+direct CREATE INDEX m03a3 ON m03 (a) IN FILE m03f2
+direct INSERT INTO m03 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m03 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m03 ALTER COLUMN b b MEMO
+direct CREATE TABLE m04 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m04a0 ON m04 (a)
+direct CREATE INDEX m04a1 ON m04 (a) IN FILE m04f1
+direct CREATE INDEX m04b2 ON m04 (b) IN FILE m04f1
+direct CREATE INDEX m04c3 ON m04 (c) IN FILE m04f1
+direct CREATE INDEX m04a4 ON m04 (a) IN FILE m04f2
+direct INSERT INTO m04 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m04 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m04 ALTER COLUMN b b MEMO
+direct CREATE TABLE m05 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m05a0 ON m05 (a)
+direct CREATE INDEX m05a1 ON m05 (a) IN FILE m05f1
+direct CREATE INDEX m05c2 ON m05 (c) IN FILE m05f1
+direct CREATE INDEX m05b3 ON m05 (b) IN FILE m05f1
+direct CREATE INDEX m05c4 ON m05 (c) IN FILE m05f2
+direct INSERT INTO m05 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m05 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m05 ALTER COLUMN b b MEMO
+direct CREATE TABLE m06 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m06a0 ON m06 (a)
+direct CREATE INDEX m06a1 ON m06 (a) IN FILE m06f1
+direct CREATE INDEX m06b2 ON m06 (b) IN FILE m06f2
+direct CREATE INDEX m06c3 ON m06 (c) IN FILE m06f2
+direct CREATE INDEX m06a4 ON m06 (a) IN FILE m06f3
+direct INSERT INTO m06 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m06 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m06 ALTER COLUMN b b MEMO
+direct CREATE TABLE m07 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m07a0 ON m07 (a)
+direct CREATE INDEX m07b1 ON m07 (b)
+direct CREATE INDEX m07a2 ON m07 (a) IN FILE m07f1
+direct CREATE INDEX m07b3 ON m07 (b) IN FILE m07f1
+direct CREATE INDEX m07a4 ON m07 (a) IN FILE m07f2
+direct CREATE INDEX m07b5 ON m07 (b) IN FILE m07f2
+direct INSERT INTO m07 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m07 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m07 ALTER COLUMN b b MEMO
+direct CREATE TABLE m08 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m08a0 ON m08 (a)
+direct CREATE INDEX m08a1 ON m08 (a) IN FILE m08f1
+direct CREATE INDEX m08b2 ON m08 (b) IN FILE m08f2
+direct INSERT INTO m08 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m08 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m08 ALTER COLUMN b b MEMO
+direct CREATE TABLE m09 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m09a0 ON m09 (a)
+direct CREATE INDEX m09a1 ON m09 (a) IN FILE m09f1
+direct CREATE INDEX m09b2 ON m09 (b) IN FILE m09f1
+direct INSERT INTO m09 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m09 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m09 ALTER COLUMN b b MEMO
+direct CREATE TABLE m10 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m10b0 ON m10 (b)
+direct CREATE INDEX m10a1 ON m10 (a) IN FILE m10f1
+direct CREATE INDEX m10c2 ON m10 (c) IN FILE m10f2
+direct INSERT INTO m10 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m10 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m10 ALTER COLUMN b b MEMO
+direct CREATE TABLE m11 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX m11a0 ON m11 (a)
+direct CREATE INDEX m11c1 ON m11 (c) IN FILE m11f1
+direct CREATE INDEX m11a2 ON m11 (a) IN FILE m11f2
+direct CREATE INDEX m11b3 ON m11 (b) IN FILE m11f2
+direct CREATE INDEX m11c4 ON m11 (c) IN FILE m11f2
+direct INSERT INTO m11 VALUES ('a0', 'b0', 'c0')
+direct INSERT INTO m11 VALUES ('za', 'zb', 'zc')
+direct ALTER TABLE m11 ALTER COLUMN b b MEMO

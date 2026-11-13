@@ -1,0 +1,88 @@
+# The two errors the help promises for a program inside a transaction, tried
+# again on the remote server: 7130 (a rollback to a savepoint earlier than the
+# start of the trigger) and 7187 (an uncommitted transaction in a sub
+# program). Neither came: a savepoint of the caller, of an outer trigger or
+# of a calling procedure is not found (7129), and a transaction a procedure or
+# trigger begins and does not end ends with the call. (tflip answers the same
+# codes, but not the text of a failure two triggers deep, and a trigger cannot
+# call a procedure yet: 5042; the fixture is not replayed.)
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_tx_sub.txt
+#             > ../../../fixtures/events/events_tx_sub.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE TABLE t1 (id INTEGER)
+sql 1 CREATE TABLE t2 (id INTEGER)
+sql 1 CREATE TABLE t3 (id INTEGER)
+sql 1 CREATE TABLE u (id INTEGER)
+# nested triggers: B rolls back to a savepoint trigger A set before B started
+sql 1 CREATE TRIGGER trb ON t2 AFTER INSERT BEGIN ROLLBACK TO SAVEPOINT sa; END
+sql 1 CREATE TRIGGER tra ON t1 AFTER INSERT BEGIN SAVEPOINT sa; INSERT INTO t2 VALUES (1); END
+sql 1 BEGIN TRANSACTION
+sql 1 INSERT INTO t1 VALUES (1)
+sql 1 ROLLBACK
+sql 1 INSERT INTO t1 VALUES (2)
+sql 1 SELECT COUNT(*) FROM t1
+sql 1 DROP TRIGGER t1.tra
+sql 1 DROP TRIGGER t2.trb
+# trigger that begins a transaction it does not end
+sql 1 CREATE TRIGGER tbeg ON t1 AFTER INSERT BEGIN BEGIN TRANSACTION; INSERT INTO u VALUES (1); END
+sql 1 INSERT INTO t1 VALUES (3)
+sql 1 EXECUTE PROCEDURE sp_mgGetConfigInfo()
+sql 1 BEGIN TRANSACTION
+sql 1 INSERT INTO t1 VALUES (4)
+sql 1 COMMIT
+sql 1 COMMIT
+sql 1 DROP TRIGGER t1.tbeg
+# procedures: p2 begins a transaction without ending it; p1 calls p2
+sql 1 CREATE PROCEDURE p2() BEGIN BEGIN TRANSACTION; INSERT INTO u VALUES (2); END;
+sql 1 CREATE PROCEDURE p1() BEGIN EXECUTE PROCEDURE p2(); INSERT INTO u VALUES (3); END;
+sql 1 EXECUTE PROCEDURE p1()
+sql 1 COMMIT
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE p1()
+sql 1 COMMIT
+sql 1 COMMIT
+sql 1 SELECT COUNT(*) FROM u
+# a trigger that calls a procedure that rolls back to the caller's savepoint
+sql 1 CREATE PROCEDURE p3() BEGIN ROLLBACK TO SAVEPOINT sx; END;
+sql 1 CREATE TRIGGER tc ON t3 AFTER INSERT BEGIN EXECUTE PROCEDURE p3(); END
+sql 1 BEGIN TRANSACTION
+sql 1 SAVEPOINT sx
+sql 1 INSERT INTO t3 VALUES (1)
+sql 1 ROLLBACK
+sql 1 DROP TRIGGER t3.tc
+sql 1 CREATE PROCEDURE p4() BEGIN SAVEPOINT sy; INSERT INTO u VALUES (9); EXECUTE PROCEDURE p5(); END;
+sql 1 CREATE PROCEDURE p5() BEGIN ROLLBACK TO SAVEPOINT sy; END;
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE p4()
+sql 1 ROLLBACK
+# In scripts, and a trigger calling a procedure that sets savepoints.
+sql 1 CREATE TRIGGER tc ON t3 AFTER INSERT BEGIN ROLLBACK TO SAVEPOINT sx; END
+sql 1 BEGIN TRANSACTION; SAVEPOINT sx; INSERT INTO t3 VALUES (1); ROLLBACK;
+sql 1 BEGIN TRANSACTION; SAVEPOINT sx; INSERT INTO u VALUES (5); INSERT INTO t3 VALUES (1); COMMIT;
+sql 1 SELECT COUNT(*) FROM u
+sql 1 DROP TRIGGER t3.tc
+sql 1 CREATE TRIGGER td ON t3 AFTER INSERT BEGIN SAVEPOINT sz; INSERT INTO u VALUES (7); EXECUTE PROCEDURE q1(); END
+sql 1 CREATE PROCEDURE q1() BEGIN ROLLBACK TO SAVEPOINT sz; END;
+sql 1 INSERT INTO t3 VALUES (3)
+sql 1 BEGIN TRANSACTION
+sql 1 INSERT INTO t3 VALUES (4)
+sql 1 ROLLBACK
+sql 1 DROP TRIGGER t3.td
+sql 1 CREATE PROCEDURE q2() BEGIN SAVEPOINT sq; EXECUTE PROCEDURE q3(); END;
+sql 1 CREATE PROCEDURE q3() BEGIN SAVEPOINT sr; INSERT INTO u VALUES (8); BEGIN TRANSACTION; END;
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE q2()
+sql 1 SELECT ::conn.TransactionCount FROM system.iota
+sql 1 ROLLBACK
+sql 1 SELECT ::conn.TransactionCount FROM system.iota
+sql 1 ROLLBACK
+sql 1 CREATE PROCEDURE q4() BEGIN BEGIN TRANSACTION; SAVEPOINT s4; END;
+sql 1 CREATE TRIGGER te ON t3 AFTER INSERT BEGIN EXECUTE PROCEDURE q4(); ROLLBACK TO SAVEPOINT s4; END
+sql 1 BEGIN TRANSACTION
+sql 1 INSERT INTO t3 VALUES (5)
+sql 1 SELECT ::conn.TransactionCount FROM system.iota
+sql 1 ROLLBACK

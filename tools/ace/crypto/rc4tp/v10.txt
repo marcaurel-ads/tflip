@@ -1,0 +1,28 @@
+# Free tables added to an AES-128 dictionary that does not encrypt new tables (AdsDDAddTable): a VFP, a FoxPro and a Clipper table with records; and the free tables an AES connection makes of each type.
+connect Data Source=%D\v10\free;ServerType=LOCAL;
+createt 4 %D\v10\free\fv
+createt 2 %D\v10\free\fc
+createt 1 %D\v10\free\fn
+stmttype 4
+sql INSERT INTO fv VALUES (1, 'free memo')
+stmttype 2
+sql INSERT INTO fc VALUES (1, 'free memo')
+stmttype 1
+sql INSERT INTO fn VALUES (1, 'free memo')
+disconnect
+connect Data Source=%D\v10\aes;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+createt 4 %D\v10\aes\av
+createt 2 %D\v10\aes\ac
+createt 1 %D\v10\aes\an
+disconnect
+connect Data Source=%D\v10\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v10\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+addtablet 4 tv %D\v10\free\fv.dbf
+addtablet 2 tc %D\v10\free\fc.dbf
+addtablet 1 tn %D\v10\free\fn.dbf
+tget tv 214
+stmttype 4
+sql INSERT INTO tv VALUES (2, 'added later')
+disconnect

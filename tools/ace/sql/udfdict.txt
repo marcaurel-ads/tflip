@@ -1,0 +1,38 @@
+# The dictionary udf.txt runs on, uf/uf.add with its tables and functions, made
+# by the original engine in an empty folder (tflip makes no functions with SQL
+# yet), and kept in fixtures/sql/udf/:
+#
+#     run.sh <work> <ace32.dll> udfdict.txt > /dev/null
+#     cp <work>/data/uf/* ../../../fixtures/sql/udf/
+ddcreate uf\uf.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct INSERT INTO t1 VALUES (1, 'one')
+direct INSERT INTO t1 VALUES (2, 'two')
+direct INSERT INTO t1 VALUES (3, 'three')
+direct CREATE TABLE lg (msg CHAR(40))
+# Functions that read tables.
+direct CREATE FUNCTION f_cnt(i INTEGER) RETURNS INTEGER BEGIN RETURN (SELECT COUNT(*) FROM t1 WHERE id >= i); END
+direct CREATE FUNCTION f_name(i INTEGER) RETURNS CHAR(10) BEGIN RETURN (SELECT name FROM t1 WHERE id = i); END
+direct CREATE FUNCTION f_has(i INTEGER) RETURNS LOGICAL BEGIN RETURN EXISTS (SELECT 1 FROM t1 WHERE id = i); END
+direct CREATE FUNCTION f_var(i INTEGER) RETURNS INTEGER BEGIN DECLARE n INTEGER; n = (SELECT MAX(id) FROM t1); IF n > i THEN RETURN n; END IF; RETURN i; END
+direct CREATE FUNCTION f_loop(i INTEGER) RETURNS INTEGER BEGIN DECLARE n INTEGER; n = 0; WHILE n < (SELECT COUNT(*) FROM t1) DO n = n + i; END WHILE; RETURN n; END
+direct CREATE FUNCTION f_nest(i INTEGER) RETURNS INTEGER BEGIN RETURN f_cnt(i) + 1; END
+direct CREATE FUNCTION f_many(i INTEGER) RETURNS INTEGER BEGIN RETURN (SELECT id FROM t1); END
+direct CREATE FUNCTION f_none(i INTEGER) RETURNS INTEGER BEGIN RETURN (SELECT id FROM t1 WHERE id > 99); END
+# Functions that write them.
+direct CREATE FUNCTION f_ins(i INTEGER) RETURNS INTEGER BEGIN INSERT INTO lg VALUES ('ins ' + CAST(i AS SQL_CHAR)); RETURN i; END
+direct CREATE FUNCTION f_upd(i INTEGER) RETURNS INTEGER BEGIN UPDATE t1 SET name = 'upd' WHERE id = i; RETURN ::stmt.UpdateCount; END
+direct CREATE FUNCTION f_del(i INTEGER) RETURNS INTEGER BEGIN DELETE FROM lg; RETURN ::stmt.UpdateCount; END
+direct CREATE FUNCTION f_two(i INTEGER) RETURNS INTEGER BEGIN INSERT INTO lg VALUES ('a'); INSERT INTO lg VALUES ('b'); RETURN ::stmt.UpdateCount; END
+direct CREATE FUNCTION f_sel(i INTEGER) RETURNS INTEGER BEGIN SELECT * FROM t1; RETURN 1; END
+# What they read of themselves, and what fails in them.
+direct CREATE FUNCTION f_conn(i INTEGER) RETURNS CHAR(20) BEGIN RETURN ::conn.Collation; END
+direct CREATE FUNCTION f_stmt(i INTEGER) RETURNS CHAR(40) BEGIN RETURN LEFT(::stmt.Name, 1) + '|' + LEFT(::conn.Name, 4) + '|' + IFNULL(::stmt.TrigName, '-'); END
+direct CREATE FUNCTION f_raise(i INTEGER) RETURNS INTEGER BEGIN RAISE boom(7, 'bang'); END
+direct CREATE FUNCTION f_div(i INTEGER) RETURNS INTEGER BEGIN RETURN 1 / 0; END
+direct CREATE FUNCTION f_div2(i INTEGER) RETURNS INTEGER BEGIN RETURN 10 / i; END
+direct CREATE FUNCTION f_div3(i INTEGER) RETURNS INTEGER BEGIN DECLARE n INTEGER; n = 10 / i; RETURN n; END
+direct CREATE FUNCTION f_nosuch(i INTEGER) RETURNS INTEGER BEGIN INSERT INTO nosuch VALUES (1); RETURN 1; END
+direct CREATE FUNCTION f_col(i INTEGER) RETURNS INTEGER BEGIN RETURN (SELECT nosuch FROM t1 WHERE id = 1); END
+direct CREATE FUNCTION f_in(i INTEGER) RETURNS INTEGER BEGIN DECLARE n INTEGER; n = i; RETURN (SELECT COUNT(*) FROM __input); END

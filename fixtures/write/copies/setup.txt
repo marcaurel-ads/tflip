@@ -1,0 +1,21 @@
+# An ADT table with an AutoInc, memo values, an order and a deleted record;
+# a table to append to; a FoxPro table with a deleted record.
+sql CREATE TABLE t (id AUTOINC, name CHAR(10), m MEMO, n INTEGER)
+sql CREATE INDEX name ON t (name)
+sql INSERT INTO t (name, m, n) VALUES ('bravo', 'memo b', 1), ('alpha', NULL, 2), ('charlie', 'memo c is longer than the others by some way', 3), ('delta', 'memo d', 4)
+sql DELETE FROM t WHERE n = 2
+sql CREATE TABLE dest (name CHAR(8), n INTEGER, other CHAR(3))
+sql INSERT INTO dest (name, n) VALUES ('zz', 9)
+tabletype cdx
+createtable f.dbf 0 c,Character,6;m,Memo
+append
+set c string xx
+set m string memo x
+write
+append
+set c string yy
+write
+goto 2
+delete
+write
+close

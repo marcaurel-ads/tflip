@@ -1,0 +1,56 @@
+# A trigger created or dropped on one connection while another's statement
+# holds the table open (the cursor open): the server has one open instance of
+# a table, with the triggers it had when it was first opened, and goes on
+# with it for every connection until none of them keeps the table open (a
+# connection keeps a table its statements closed, until it disconnects), so a
+# trigger created meanwhile fires for none of them. One dropped meanwhile
+# stops at once. A trigger changed while no statement holds the table applies
+# at once, to every connection.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_trigger_open.txt
+#             > ../../../fixtures/events/events_trigger_open.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+connect 2 d\d.add
+sql 1 CREATE TABLE t (id INTEGER, name CHAR(10))
+sql 1 CREATE TABLE log (msg CHAR(20))
+# The first connection holds the table: a trigger the second creates is not
+# fired by either, nor by a connection that comes later, until the table is
+# no longer open on any.
+connect 3 d\d.add
+hold 1 SELECT * FROM t
+sql 2 CREATE TRIGGER tr2 ON t AFTER INSERT BEGIN INSERT INTO log VALUES ('tr2'); END
+sql 1 INSERT INTO t VALUES (4, 'a')
+sql 3 INSERT INTO t VALUES (5, 'a')
+release 1
+sql 1 INSERT INTO t VALUES (6, 'a')
+sql 3 INSERT INTO t VALUES (7, 'a')
+sql 1 SELECT msg FROM log
+sql 1 SELECT name FROM system.triggers
+disconnect 1
+sql 3 INSERT INTO t VALUES (8, 'a')
+sql 3 SELECT msg FROM log
+disconnect 3
+connect 6 d\d.add
+sql 6 INSERT INTO t VALUES (9, 'a')
+sql 6 SELECT msg FROM log
+disconnect 6
+# A trigger dropped while the table is held stops firing for every connection.
+connect 4 d\d.add
+hold 4 SELECT * FROM t
+sql 2 DROP TRIGGER t.tr2
+sql 4 INSERT INTO t VALUES (10, 'b')
+connect 7 d\d.add
+sql 7 INSERT INTO t VALUES (11, 'b')
+release 4
+sql 4 INSERT INTO t VALUES (12, 'b')
+sql 7 SELECT msg FROM log
+sql 7 SELECT name FROM system.triggers
+disconnect 7
+disconnect 4
+disconnect 2
+connect 5 d\d.add
+sql 5 INSERT INTO t VALUES (13, 'c')
+sql 5 SELECT msg FROM log

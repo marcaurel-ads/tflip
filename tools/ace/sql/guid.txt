@@ -1,0 +1,46 @@
+# GUID fields and text parameters: compared with a GUID column, written to
+# one, and text that is no GUID. NEWID() is random, so its values are left
+# out; literals.txt has CAST of text to SQL_GUID.
+# For fixtures/sql/guid.json (an empty data folder):
+#
+#     run.sh <work> <ace32.dll> guid.txt > ../../../fixtures/sql/guid.json
+stmt
+directnull CREATE TABLE g (ID GUID, N Integer)
+directnull INSERT INTO g VALUES ('29d7c2d7-a2be-48e4-8300-000000000000', 1)
+directnull INSERT INTO g VALUES ('{11111111-2222-3333-4444-555555555555}', 2)
+query SELECT ID, N FROM g
+query SELECT CAST(ID AS SQL_CHAR(40)) AS c, CAST(ID AS SQL_BINARY(16)) AS b FROM g
+query SELECT N FROM g WHERE ID = '29d7c2d7-a2be-48e4-8300-000000000000'
+prepare SELECT N FROM g WHERE ID = ?
+param 1 string 29d7c2d7-a2be-48e4-8300-000000000000
+exec
+closecursor
+prepare SELECT N FROM g WHERE ID = ?
+param 1 string {29d7c2d7-a2be-48e4-8300-000000000000}
+exec
+closecursor
+prepare SELECT N FROM g WHERE ID = :id
+param id string 29d7c2d7-a2be-48e4-8300-000000000000
+exec
+closecursor
+prepare SELECT N FROM g WHERE ? = ID
+param 1 string 29d7c2d7-a2be-48e4-8300-000000000000
+exec
+closecursor
+prepare SELECT N FROM g WHERE ID <> ?
+param 1 string 29d7c2d7-a2be-48e4-8300-000000000000
+exec
+closecursor
+prepare INSERT INTO g VALUES (?, 3)
+param 1 string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+exec
+query SELECT N FROM g WHERE ID = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+prepare UPDATE g SET N = 4 WHERE ID = ?
+param 1 string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+exec
+prepare DELETE FROM g WHERE ID = :id
+param id string aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+exec
+prepare SELECT N FROM g WHERE ID = ?
+param 1 string nonsense
+exec

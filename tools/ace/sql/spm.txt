@@ -1,0 +1,101 @@
+# The management procedures on the local server: what each returns on a
+# connection to a folder (its columns, and the rows that do not depend on the
+# machine or on what else the process has open), and what each refuses.
+#
+#     run.sh <work> <ace32.dll> spm.txt > ../../../fixtures/sql/spm.json
+stmt
+query CREATE TABLE mt (id INTEGER, name CHAR(10))
+query CREATE INDEX mti ON mt (id)
+query INSERT INTO mt VALUES (1, 'one')
+query SELECT * FROM mt
+query EXECUTE PROCEDURE sp_mgGetServerType()
+query EXECUTE PROCEDURE sp_mgGetServerType(1)
+query EXECUTE PROCEDURE sp_mgGetActivityInfo()
+query EXECUTE PROCEDURE sp_mgGetActivityInfo(1)
+query EXECUTE PROCEDURE sp_mgGetCommStats()
+query EXECUTE PROCEDURE sp_mgResetCommStats()
+query EXECUTE PROCEDURE sp_mgResetCommStats(1)
+query EXECUTE PROCEDURE sp_mgGetCommStats()
+query EXECUTE PROCEDURE sp_mgGetConfigInfo()
+query EXECUTE PROCEDURE sp_mgGetConfigInfo(1)
+query EXECUTE PROCEDURE sp_SetStatementLimit(10)
+query SELECT Item, Value FROM (EXECUTE PROCEDURE sp_mgGetConfigInfo()) c WHERE Item LIKE '%Limit'
+query EXECUTE PROCEDURE sp_SetStatementLimit(0)
+query SELECT Item, Value FROM (EXECUTE PROCEDURE sp_mgGetConfigInfo()) c WHERE Item LIKE '%Limit'
+query EXECUTE PROCEDURE sp_SetStatementLimit(-5)
+query SELECT Item, Value FROM (EXECUTE PROCEDURE sp_mgGetConfigInfo()) c WHERE Item LIKE '%Limit'
+query EXECUTE PROCEDURE sp_mgGetConfigMemory()
+query EXECUTE PROCEDURE sp_mgGetConfigMemory(1)
+query EXECUTE PROCEDURE sp_mgGetUsageInfo()
+query EXECUTE PROCEDURE sp_mgGetUsageInfo(1)
+query EXECUTE PROCEDURE sp_mgGetConnectedUsers()
+query EXECUTE PROCEDURE sp_mgGetConnectedUsers(1)
+query EXECUTE PROCEDURE sp_mgGetAllTables()
+query EXECUTE PROCEDURE sp_mgGetAllTables(1)
+query EXECUTE PROCEDURE sp_mgGetAllIndexes()
+query EXECUTE PROCEDURE sp_mgGetAllIndexes(1)
+query EXECUTE PROCEDURE sp_mgGetAllLocks('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetAllLocks('<data>\zzz.adt')
+query EXECUTE PROCEDURE sp_mgGetAllLocks('')
+query EXECUTE PROCEDURE sp_mgGetAllLocks(NULL)
+query EXECUTE PROCEDURE sp_mgGetAllLocks()
+query EXECUTE PROCEDURE sp_mgGetAllLocks(5)
+query EXECUTE PROCEDURE sp_mgGetAllLocks('mt', 1)
+query EXECUTE PROCEDURE sp_mgGetIndexUsers('<data>\mti.adi')
+query EXECUTE PROCEDURE sp_mgGetIndexUsers('<data>\zzz.adi')
+query EXECUTE PROCEDURE sp_mgGetIndexUsers('')
+query EXECUTE PROCEDURE sp_mgGetIndexUsers(NULL)
+query EXECUTE PROCEDURE sp_mgGetIndexUsers()
+query EXECUTE PROCEDURE sp_mgGetLockOwner('<data>\zzz.adt', 1)
+query EXECUTE PROCEDURE sp_mgGetLockOwner('', 1)
+query EXECUTE PROCEDURE sp_mgGetLockOwner(NULL, 1)
+query EXECUTE PROCEDURE sp_mgGetLockOwner('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetLockOwner('mt', 'x')
+query EXECUTE PROCEDURE sp_mgGetTableIndexes('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetTableIndexes('<data>\zzz.adt')
+query EXECUTE PROCEDURE sp_mgGetTableIndexes('')
+query EXECUTE PROCEDURE sp_mgGetTableIndexes()
+query EXECUTE PROCEDURE sp_mgGetTableUsers('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetTableUsers('<data>\zzz.adt')
+query EXECUTE PROCEDURE sp_mgGetTableUsers('')
+query EXECUTE PROCEDURE sp_mgGetTableUsers()
+query EXECUTE PROCEDURE sp_mgGetUserIndexes('nobody')
+query EXECUTE PROCEDURE sp_mgGetUserIndexes('')
+query EXECUTE PROCEDURE sp_mgGetUserIndexes(NULL)
+query EXECUTE PROCEDURE sp_mgGetUserIndexes()
+query EXECUTE PROCEDURE sp_mgGetUserLocks('<data>\mt.adt', 'nobody')
+query EXECUTE PROCEDURE sp_mgGetUserLocks('<data>\zzz.adt', 'nobody')
+query EXECUTE PROCEDURE sp_mgGetUserLocks('<data>\mt.adt', '')
+query EXECUTE PROCEDURE sp_mgGetUserLocks('<data>\mt.adt')
+query EXECUTE PROCEDURE sp_mgGetUserTables('nobody')
+query EXECUTE PROCEDURE sp_mgGetUserTables('')
+query EXECUTE PROCEDURE sp_mgGetUserTables(NULL)
+query EXECUTE PROCEDURE sp_mgGetUserTables()
+query EXECUTE PROCEDURE sp_mgGetWorkerThreadActivity()
+query EXECUTE PROCEDURE sp_mgGetWorkerThreadActivity(1)
+query EXECUTE PROCEDURE sp_mgKillUser('nobody')
+query EXECUTE PROCEDURE sp_mgKillUser('')
+query EXECUTE PROCEDURE sp_mgKillUser(NULL)
+query EXECUTE PROCEDURE sp_mgKillUser()
+query EXECUTE PROCEDURE sp_mgKillUser('a', 'b')
+query EXECUTE PROCEDURE sp_mgGetCrashDumpInfo()
+query EXECUTE PROCEDURE sp_mgGetCrashDumpInfo(1)
+query EXECUTE PROCEDURE sp_mgGetErrorLog()
+query EXECUTE PROCEDURE sp_mgGetErrorLog(5)
+query EXECUTE PROCEDURE sp_mgGetErrorLog(5, 5)
+query EXECUTE PROCEDURE sp_mgGetErrorLog(1, 2, 3)
+query EXECUTE PROCEDURE sp_mgGetErrorLog('x')
+query EXECUTE PROCEDURE sp_mgSetConfigValue('CONNECTIONS', '20')
+query EXECUTE PROCEDURE sp_mgSetConfigValue('CONNECTIONS')
+query EXECUTE PROCEDURE sp_mgSetConfigValue()
+query EXECUTE PROCEDURE sp_mgSetConfigValue(1, 2)
+query EXECUTE PROCEDURE sp_mgGetNothing()
+query SELECT ServerType, ServerTypeValue FROM (EXECUTE PROCEDURE sp_mgGetServerType()) s
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgKillUser('nobody')) k
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgResetCommStats()) k
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgGetServerType(1)) k
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgGetAllLocks()) k
+query SELECT * FROM (EXECUTE PROCEDURE sp_mgGetCrashDumpInfo()) k
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_mgGetConfigInfo()) k
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_mgGetConfigMemory()) k
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_mgGetUsageInfo()) k

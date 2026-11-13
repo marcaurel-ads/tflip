@@ -1,0 +1,31 @@
+# CREATE DATABASE … ENCRYPT TRUE without an AES type makes an RC4 dictionary, as AdsDDCreate with a non-zero flag does (22_rc4_create): s with no type, t with ENCRYPTIONTYPE RC4, u with ENCRYPT FALSE, v with ENCRYPTIONTYPE RC4 alone and w with ENCRYPT TRUE and a DDPASSWORD; the same work as 22 is done on s, and a table with an index and a memo is made on t.
+connect Data Source=%D\;ServerType=LOCAL;
+sql CREATE DATABASE "s\s.add" ENCRYPT TRUE
+sql CREATE DATABASE "t\t.add" ENCRYPT TRUE ENCRYPTIONTYPE RC4 DESCRIPTION 'rc4 one'
+sql CREATE DATABASE "u\u.add" ENCRYPT FALSE
+sql CREATE DATABASE "v\v.add" ENCRYPTIONTYPE RC4
+sql CREATE DATABASE "w\w.add" ENCRYPT TRUE DDPASSWORD 'x'
+disconnect
+connect Data Source=%D\s\s.add;ServerType=LOCAL;User ID=ADSSYS;
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'COMMENT', 'a long comment of the table, which is kept in the memo file', '', '')
+sql CREATE VIEW v AS SELECT id FROM t
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER)
+sql EXECUTE PROCEDURE sp_DropUser('u1')
+sql DROP VIEW v
+sql EXECUTE PROCEDURE sp_CreateUser('u2', '', 'second user')
+disconnect
+connect Data Source=%D\t\t.add;ServerType=LOCAL;User ID=ADSSYS;
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+sql SELECT * FROM t
+disconnect

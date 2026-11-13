@@ -1,0 +1,6 @@
+7039 tblutil.c:2081 C:\ads\data\bk\s83_exclusive_free\fsrc\f_adt.adt | 
+7008 tblutil.c:2091 C:\ads\data\bk\s83_exclusive_free\fsrc\f_adt.adt | 
+7008 dbf.c:4361 C:\ads\data\bk\s83_exclusive_free\fsrc\f_adt.adt | 
+7039 tblutil.c:2081 C:\ads\data\bk\s83_exclusive_free\fsrc\f_cdx.dbf | 
+7008 tblutil.c:2091 C:\ads\data\bk\s83_exclusive_free\fsrc\f_cdx.dbf | 
+7008 dbf.c:4361 C:\ads\data\bk\s83_exclusive_free\fsrc\f_cdx.dbf | 

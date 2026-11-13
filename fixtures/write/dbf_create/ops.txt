@@ -1,0 +1,56 @@
+# Clipper tables: the standard and extended types, a memo file of 512-byte
+# blocks whatever is asked, a long Character field; refusals.
+tabletype ntx
+createtable n1.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo
+append
+set c string abc
+set n double 12.5
+set d date 01/02/2020
+set l logical 1
+set m string a memo value
+write
+close
+createtable n2.dbf 1024 sd,ShortDate;b,Binary;im,Image;dbl,Double,10,3;i,Integer;li,LongInt;vc,VarChar,10;nc,NChar,4;nv,NVarChar,4;nm,NMemo;g,GUID;ge,General;pi,Picture;long,Character,300
+close
+createtable n3.dbf 0 c,Character,5
+close
+createtable n4.dbf 0 s,ShortInt
+createtable n5.dbf 0 c,Character,8,NULL
+createtable n6.dbf 0 c,VarCharFox,10
+createtable n7.dbf 0 n,Numeric,33,2
+createtable n8.dbf 0 b,Blob
+# FoxPro tables: memo block sizes.
+tabletype cdx
+createtable c1.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo
+append
+set c string abc
+set m string a memo value
+write
+close
+createtable c2.dbf 128 c,Character,5;m,Memo;b,Binary
+close
+createtable c3.dbf 2 c,Character,5;m,Memo
+close
+createtable c4.dbf 0 sd,ShortDate;dbl,Double,2;i,Integer;li,LongInt;vc,VarChar,10;g,GUID
+close
+createtable c5.dbf 0 t,TimeStamp
+createtable c6.dbf 0 m,Money
+# Visual FoxPro tables: names as given, NULL and NOCPTRANS, AutoInc,
+# VarChar and VarBinary with _NullFlags.
+tabletype vfp
+createtable v1.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo
+append
+set c string abc
+set m string a memo value
+write
+close
+createtable v2.dbf 0 i,Integer;dbl,Double,2;mo,Money;ts,TimeStamp;li,LongInt;g,GUID;nc,NChar,4;nv,NVarChar,4;nm,NMemo;ge,General;pi,Picture
+close
+createtable v3.dbf 0 ai,AutoInc;vc,VarChar,10;vb,VarBinary,6;cn,Character,8,NULL;inn,Integer,NULL;cb,Character,8,0,NULL,NOCPTRANS;b,Binary
+append
+set vc string ab
+write
+state
+close
+createtable v4.dbf 0 sd,ShortDate
+createtable v5.dbf 0 s,ShortInt

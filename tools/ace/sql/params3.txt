@@ -1,0 +1,779 @@
+# Conversions of parameters: text that is no number for CAST(? AS number types), IIF and IN,
+# AdsSetLong and AdsSetDate for a parameter typed as a date, CAST(? AS SQL_CHAR(5)) of a date,
+# and a parameter of a statement that does not parse.
+# For fixtures/sql/params3.json (an empty data folder):
+#
+#     run.sh <work> <ace32.dll> params3.txt > ../../../fixtures/sql/params3.json
+stmt
+query SELECT 1 FROM system.iota
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_INTEGER) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_NUMERIC(10,2)) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DOUBLE) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIGINT) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_SMALLINT) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_MONEY) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_BIT) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 12
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 1.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string   12  
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 1e3
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 99999999999
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string -5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 12abc
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 string 1
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 string 0
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 string true
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 double 1.5
+exec
+closecursor
+prepare SELECT IIF(?, 1, 2) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT ? IN (1, 2) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT ? IN (1, 2) FROM system.iota
+param 1 string 1
+exec
+closecursor
+prepare SELECT ? IN (1, 2) FROM system.iota
+param 1 string 
+exec
+closecursor
+prepare SELECT ? IN (1.5, 2) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT ? IN (1.5, 2) FROM system.iota
+param 1 string 2
+exec
+closecursor
+prepare SELECT ? IN (1.5, 2) FROM system.iota
+param 1 long 2
+exec
+closecursor
+prepare SELECT ? = 1 FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT ? = 1 FROM system.iota
+param 1 string 1
+exec
+closecursor
+prepare SELECT ? < 2 FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT ? BETWEEN 1 AND 2 FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT 1 + ? FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT 1 + ? FROM system.iota
+param 1 string 5
+exec
+closecursor
+prepare SELECT 1.5 + ? FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT 1.5E0 + ? FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 long 0
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 long 0
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 long 0
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 long 2458850
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 long 2458850
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 long 2458850
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 double 2.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 double 2.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 double 2.5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 string 2020-13-45
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 string 2020-13-45
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 string 2020-13-45
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 20200101
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date 20200101
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 20200101
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 2020-1-1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date 2020-1-1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 2020-1-1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 2020/01/01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 date 2020/01/01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 2020/01/01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 date 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 date 
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 money 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 money 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 money 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 logical 1
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_DATE) FROM system.iota
+param 1 short 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIME) FROM system.iota
+param 1 short 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_TIMESTAMP) FROM system.iota
+param 1 short 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(10)) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(20)) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_VARCHAR(10)) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR) FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(10)) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(20)) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_VARCHAR(10)) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR) FROM system.iota
+param 1 date 01/02/2020
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(10)) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(20)) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_VARCHAR(10)) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR) FROM system.iota
+param 1 date abc
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(10)) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(20)) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_VARCHAR(10)) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR) FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(5)) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(10)) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR(20)) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_VARCHAR(10)) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST(? AS SQL_CHAR) FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CURDATE() = ? FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELECT CAST('2020-01-01' AS SQL_DATE) = ? FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT CAST('2020-01-01' AS SQL_DATE) = ? FROM system.iota
+param 1 string 2020-01-01
+exec
+closecursor
+prepare SELECT CAST('2020-01-01' AS SQL_DATE) = ? FROM system.iota
+param 1 date 2020-01-01
+exec
+closecursor
+prepare SELEC ?
+param 1 long 5
+param 1 string abc
+param 2 long 5
+exec
+count
+clearparams
+closecursor
+prepare SELECT FROM ?
+param 1 long 5
+exec
+closecursor
+prepare SELECT ? FROM nosuchtable
+param 1 long 5
+exec
+closecursor
+prepare SELECT 1 FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT ? FROM system.iota
+param 2 long 5
+param 0 long 5
+param 1 long 5
+exec
+closecursor
+prepare SELEC ?
+param a long 5
+exec
+closecursor
+prepare SELECT :a FROM nosuch
+param a long 5
+param b long 5
+exec
+closecursor

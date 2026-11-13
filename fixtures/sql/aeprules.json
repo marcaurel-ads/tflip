@@ -1,0 +1,127 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE DATABASE \"ae\\ae.add\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t (n INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct CREATE PROCEDURE api_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiBegin IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE api_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE api_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlBegin IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION WriteT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE read_t(n INTEGER OUTPUT) FUNCTION ReadT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE open_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION OpenT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE kind(a INTEGER OUTPUT, handle INTEGER OUTPUT, b INTEGER OUTPUT, conn INTEGER OUTPUT) FUNCTION Kind IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE keep(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION Keep IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_statement(a INTEGER OUTPUT) FUNCTION UseStatement IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_table(a INTEGER OUTPUT) FUNCTION UseTable IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_cursor(a INTEGER OUTPUT, b INTEGER OUTPUT) FUNCTION UseCursor IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE drop_kept(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION DropKept IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own(code INTEGER OUTPUT, begin_ INTEGER OUTPUT, ins INTEGER OUTPUT, mine INTEGER OUTPUT, theirs INTEGER OUTPUT, rollback_ INTEGER OUTPUT, after_ INTEGER OUTPUT, ct INTEGER OUTPUT, ctype INTEGER OUTPUT) FUNCTION Own IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE kind()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["handle", 11, 4, 0], ["b", 11, 4, 0], ["conn", 11, 4, 0]], "rows": [
+  [1, ["0", "6", "0", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query EXECUTE PROCEDURE api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COUNT(*) AS c FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["begin_", 11, 4, 0], ["ins", 11, 4, 0], ["mine", 11, 4, 0], ["theirs", 11, 4, 0], ["rollback_", 11, 4, 0], ["after_", 11, 4, 0], ["ct", 11, 4, 0], ["ctype", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "2", "2", "0", "2", "0", "1"]]]}},
+{"cmd": "query SELECT n FROM t ORDER BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [2, ["2"]],
+  [1, ["100"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct GRANT EXECUTE ON write_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON read_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON open_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON kind TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON own TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON keep TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_statement TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_table TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_cursor TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON drop_kept TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add u1 pw1", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT * FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["100"]],
+  [2, ["2"]]]}},
+{"cmd": "direct INSERT INTO t VALUES (3)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE read_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query EXECUTE PROCEDURE write_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["0", "4"]]]}},
+{"cmd": "query EXECUTE PROCEDURE open_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["0", "4"]]]}},
+{"cmd": "query EXECUTE PROCEDURE kind()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["handle", 11, 4, 0], ["b", 11, 4, 0], ["conn", 11, 4, 0]], "rows": [
+  [1, ["0", "6", "0", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["begin_", 11, 4, 0], ["ins", 11, 4, 0], ["mine", 11, 4, 0], ["theirs", 11, 4, 0], ["rollback_", 11, 4, 0], ["after_", 11, 4, 0], ["ct", 11, 4, 0], ["ctype", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "5", "5", "0", "5", "0", "1"]]]}},
+{"cmd": "query SELECT n FROM t ORDER BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["n", 11, 4, 0]], "rows": [
+  [4, ["1"]],
+  [2, ["2"]],
+  [5, ["2"]],
+  [3, ["3"]],
+  [1, ["100"]]]}},
+{"cmd": "query EXECUTE PROCEDURE keep()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_30.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "switch", "rc": 0},
+{"cmd": "connect ae\\ae.add adssys", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_32.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE drop_kept()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_34.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0"]]]}},
+{"cmd": "switch", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["5106"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["5018"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["5018", "5023"]]]}},
+{"cmd": "query EXECUTE PROCEDURE drop_kept()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["5106", "5023", "5023"]]]}}
+]

@@ -1,0 +1,93 @@
+# Settling test: "A child with two parents" (ADS_BUGS.md).
+# Child c is the child of relations from p1 (via its order on k1) and p2 (via
+# its order on k2). c's rows are arranged so the two parents point c at
+# different records; moving each parent reveals which relation wins. Driven by
+# tools/ace/write (write.exe <ace32.dll> <empty data folder> settle/twoparents.txt).
+# Result (real Windows 10, native ace32.dll): both AdsSetRelation calls return 0
+# and the child always follows the parent that moved most recently -- the six
+# pos reads below are records 1, 3, 2, 1, 3, 3, each matching the last-moved
+# parent's key lookup (k1=p1.id after a p1 move, k2=p2.id after a p2 move).
+tabletype adt
+createtable c.adt 0 k1,Integer;k2,Integer;label,Character,4
+append
+set k1 long 1
+set k2 long 3
+set label string a
+write
+append
+set k1 long 2
+set k2 long 2
+set label string b
+write
+append
+set k1 long 3
+set k2 long 1
+set label string c
+write
+createindex - ck1 0 512 k1
+createindex - ck2 0 512 k2
+createtable p1.adt 0 id,Integer;name,Character,4
+append
+set id long 1
+set name string p11
+write
+append
+set id long 2
+set name string p12
+write
+append
+set id long 3
+set name string p13
+write
+createtable p2.adt 0 id,Integer;tag,Character,4
+append
+set id long 1
+set tag string q21
+write
+append
+set id long 2
+set tag string q22
+write
+append
+set id long 3
+set tag string q23
+write
+# table 1 = c, table 2 = p1, table 3 = p2
+use 1
+order ck1
+use 2
+relation 1 id
+use 1
+order ck2
+use 3
+relation 1 id
+# p1 at id=1, then p2 at id=1 (p2 moved last -> child by k2)
+use 2
+top
+use 1
+pos
+use 3
+top
+use 1
+pos
+# move p1 to id=2; child by k1 again
+use 2
+skip 1
+use 1
+pos
+# move p2 to id=3; child by k2
+use 3
+skip 2
+use 1
+pos
+# move p1 to id=3; child by k1
+use 2
+skip 1
+use 1
+pos
+# move p2 to id=1; child by k2
+use 3
+top
+use 1
+pos
+close

@@ -1,0 +1,19 @@
+[
+{"cmd": "free 0", "rc": 7083, "error": "Error 7083:  An Advantage Data Dictionary connection is required.  axServerConnect"},
+{"cmd": "connect 1 d.add", "rc": 0},
+{"cmd": "connect 2 d.add u2 pw2", "rc": 0},
+{"cmd": "sql 1 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 1},
+{"cmd": "sql 1 SELECT * FROM \"free2.dbf\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["2", "two       "]], "ms": 2},
+{"cmd": "sql 2 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 1},
+{"cmd": "sql 1 SELECT * FROM t1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["3", "three     "]], "ms": 1},
+{"cmd": "sql 1 SELECT * FROM v1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 1},
+{"cmd": "sql 2 SELECT * FROM v1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 1},
+{"cmd": "sql 1 EXECUTE PROCEDURE p1()", "rc": 0, "fields": [["id", 11, 4]], "rows": [["1"]], "ms": 1},
+{"cmd": "sql 2 EXECUTE PROCEDURE p1()", "rc": 0, "fields": [["id", 11, 4]], "rows": [["1"]], "ms": 1},
+{"cmd": "sql 1 INSERT INTO \"free1.adt\" VALUES (9, 'nine')", "rc": 0, "ms": 0},
+{"cmd": "sql 1 DELETE FROM \"free1.adt\" WHERE id = 9", "rc": 0, "ms": 0},
+{"cmd": "sql 1 CREATE TABLE \"free3.adt\" (id INTEGER)", "rc": 0, "ms": 13},
+{"cmd": "sql 1 DROP TABLE \"free3.adt\"", "rc": 0, "ms": 2},
+{"cmd": "disconnect 2", "rc": 0},
+{"cmd": "disconnect 1", "rc": 0}
+]

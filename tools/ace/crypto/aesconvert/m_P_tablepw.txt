@@ -1,0 +1,6 @@
+# A table encryption password set, replaced and taken away.
+connect Data Source=%D\m_P_tablepw\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'second')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', '')
+disconnect

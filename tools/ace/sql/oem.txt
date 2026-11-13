@@ -1,0 +1,56 @@
+# SQL text against an OEM table (a Clipper table opened with ADS_OEM):
+# fixtures/sql/oem.json. The data folder holds the `co` table of
+# fixtures/ntx/charset_default alone, whose C field holds the OEM code page
+# 437 bytes of the ANSI character with the number CODE (best fit), and whose
+# records from 226 on hold words in W.
+stmt
+tabletype 1
+chartype 2
+query SELECT code, c FROM co WHERE code IN (65, 228, 246, 223, 233, 128, 158, 255)
+query SELECT code FROM co WHERE c = 'ä'
+query SELECT code FROM co WHERE c = 'ö'
+query SELECT code FROM co WHERE c = 'ü'
+query SELECT code FROM co WHERE c = 'ß'
+query SELECT code FROM co WHERE c = 'é'
+query SELECT code FROM co WHERE c = '€'
+query SELECT code FROM co WHERE c = 'ž'
+query SELECT code FROM co WHERE c = 'Ä'
+query SELECT code FROM co WHERE c = CHAR(132)
+query SELECT code FROM co WHERE c = CHAR(228)
+query SELECT code FROM co WHERE c IN ('ä', 'ö')
+query SELECT code FROM co WHERE c BETWEEN 'ä' AND 'ö'
+query SELECT code FROM co WHERE c > 'ü' AND code < 300
+query SELECT code FROM co WHERE c LIKE 'ä%'
+query SELECT code FROM co WHERE c LIKE '%é'
+query SELECT code FROM co WHERE c <> 'ä' AND code BETWEEN 226 AND 230
+query SELECT code, w FROM co WHERE w = 'resumé'
+query SELECT code, w FROM co WHERE w LIKE 'resum_%'
+query SELECT code, w FROM co WHERE w LIKE '%é%'
+query SELECT code, w FROM co WHERE w LIKE '%¤%'
+query SELECT code, w FROM co WHERE w = 'résumé'
+query SELECT code, w FROM co WHERE UPPER(w) = 'RESUMÉ'
+query SELECT code, w FROM co WHERE LOWER(w) = 'resumé'
+query SELECT code, w FROM co WHERE w = CONCAT('resum', 'é')
+query SELECT code, w FROM co WHERE POSITION('é' IN w) > 0
+query SELECT code, w FROM co WHERE w >= 'resumé' AND code > 225
+query SELECT code, c FROM co WHERE code = 228
+query SELECT code, c, w FROM co WHERE code >= 226
+query SELECT 'ä', 'é€' FROM system.iota
+query SELECT UPPER('äé') FROM system.iota
+query SELECT LOWER('ÄÉ') FROM system.iota
+query SELECT ASCII('ä'), CHAR(228), CHAR(132) FROM system.iota
+query SELECT LENGTH('€'), 'a€b', LENGTH('a€b') FROM system.iota
+query SELECT code, c + 'ä' FROM co WHERE code = 228
+prepare SELECT code FROM co WHERE c = ?
+param 1 string ä
+exec
+closecursor
+param 1 string €
+exec
+closecursor
+directnull INSERT INTO co (code, c, w) VALUES (9999, 'ä', 'ñé€')
+query SELECT code, c, w FROM co WHERE code = 9999
+query SELECT code FROM co WHERE w = 'ñé€'
+directnull UPDATE co SET w = 'ü' WHERE code = 9999
+query SELECT code, c, w FROM co WHERE code = 9999
+query SELECT code FROM co WHERE w = 'ü'

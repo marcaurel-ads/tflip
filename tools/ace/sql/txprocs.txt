@@ -1,0 +1,221 @@
+# Transactions and stored procedures, on the remote server
+# (SQL_SERVER_TYPE=2, see triggers.txt), in a dictionary of an empty folder,
+# px/px.add: a procedure that leaves its transaction count unbalanced, one
+# that commits or rolls back, a procedure's statements in the caller's
+# transaction, a failing procedure, procedures that call procedures, and the
+# count a procedure reads. (Functions and EXECUTE IMMEDIATE in a procedure are
+# not here: tflip has no CREATE FUNCTION in a dictionary yet.)
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txprocs.txt <share>
+#             > ../../../fixtures/sql/txprocs.json
+stmt
+direct CREATE DATABASE "px\px.add"
+connect px\px.add ADSSYS
+stmt
+direct CREATE TABLE t (n INTEGER, s CHAR(8))
+direct CREATE TABLE u (n INTEGER PRIMARY KEY, s CHAR(8))
+txcount
+#
+# A procedure that begins and does not end.
+direct CREATE PROCEDURE p_begin() BEGIN BEGIN TRANSACTION; INSERT INTO t VALUES (1, 'begin'); END
+direct EXECUTE PROCEDURE p_begin()
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM t ORDER BY n
+txcount
+direct EXECUTE PROCEDURE p_begin()
+direct COMMIT
+query SELECT n, s FROM t ORDER BY n
+txcount
+# Called inside the caller's transaction.
+direct DELETE FROM t
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_begin()
+txcount
+direct ROLLBACK
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_begin()
+direct COMMIT
+txcount
+direct COMMIT
+txcount
+query SELECT n, s FROM t ORDER BY n
+#
+# A procedure that commits or rolls back what it did not begin.
+direct DELETE FROM t
+direct CREATE PROCEDURE p_commit() BEGIN INSERT INTO t VALUES (2, 'commit'); COMMIT; END
+direct CREATE PROCEDURE p_rollback() BEGIN INSERT INTO t VALUES (3, 'rollback'); ROLLBACK; END
+direct EXECUTE PROCEDURE p_commit()
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct EXECUTE PROCEDURE p_rollback()
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_commit()
+txcount
+direct ROLLBACK
+query SELECT n, s FROM t ORDER BY n
+txcount
+direct BEGIN TRANSACTION
+direct INSERT INTO t VALUES (4, 'caller')
+direct EXECUTE PROCEDURE p_rollback()
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM t ORDER BY n
+direct DELETE FROM t
+#
+# A procedure that begins, writes and ends its own transaction.
+direct CREATE PROCEDURE p_own() BEGIN BEGIN TRANSACTION; INSERT INTO t VALUES (5, 'own'); COMMIT; END
+direct CREATE PROCEDURE p_own_rb() BEGIN BEGIN TRANSACTION; INSERT INTO t VALUES (6, 'ownrb'); ROLLBACK; END
+direct EXECUTE PROCEDURE p_own()
+txcount
+direct EXECUTE PROCEDURE p_own_rb()
+txcount
+query SELECT n, s FROM t ORDER BY n
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_own()
+txcount
+direct EXECUTE PROCEDURE p_own_rb()
+txcount
+direct ROLLBACK
+query SELECT n, s FROM t ORDER BY n
+txcount
+#
+# A procedure's statements in the caller's transaction.
+direct DELETE FROM t
+direct CREATE PROCEDURE p_ins(a INTEGER) BEGIN INSERT INTO t VALUES (_a, 'p'); END
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_ins(10)
+direct EXECUTE PROCEDURE p_ins(11)
+query SELECT n, s FROM t ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM t ORDER BY n
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_ins(12)
+direct COMMIT
+query SELECT n, s FROM t ORDER BY n
+# The count and the savepoint a procedure sees.
+direct CREATE PROCEDURE p_count(CURSOR VARYING OUTPUT) BEGIN SELECT ::conn.TransactionCount AS c FROM system.iota; END
+query EXECUTE PROCEDURE p_count()
+direct BEGIN TRANSACTION
+query EXECUTE PROCEDURE p_count()
+direct BEGIN TRANSACTION
+query EXECUTE PROCEDURE p_count()
+direct ROLLBACK
+#
+# A procedure that fails after writing.
+direct CREATE PROCEDURE p_fail() BEGIN INSERT INTO u VALUES (1, 'a'); INSERT INTO u VALUES (2, 'b'); RAISE myerr(1, 'x'); END
+direct EXECUTE PROCEDURE p_fail()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct DELETE FROM u
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_fail()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+direct CREATE PROCEDURE p_failtx() BEGIN BEGIN TRANSACTION; INSERT INTO u VALUES (1, 'a'); RAISE myerr(1, 'x'); END
+direct EXECUTE PROCEDURE p_failtx()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_failtx()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+txcount
+#
+# Procedures that call procedures.
+direct DELETE FROM u
+direct CREATE PROCEDURE p_inner(a INTEGER) BEGIN INSERT INTO u VALUES (_a, 'inner'); END
+direct CREATE PROCEDURE p_inner_fail(a INTEGER) BEGIN INSERT INTO u VALUES (_a, 'inner'); RAISE myerr(1, 'x'); END
+direct CREATE PROCEDURE p_outer() BEGIN INSERT INTO u VALUES (20, 'outer'); EXECUTE PROCEDURE p_inner(21); TRY EXECUTE PROCEDURE p_inner_fail(22); CATCH ALL INSERT INTO u VALUES (23, 'caught'); END TRY; END
+direct EXECUTE PROCEDURE p_outer()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct DELETE FROM u
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_outer()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+# A procedure that begins in a nested call and the outer one ends it.
+direct DELETE FROM u
+direct CREATE PROCEDURE p_in_begin() BEGIN BEGIN TRANSACTION; INSERT INTO u VALUES (30, 'in'); END
+direct CREATE PROCEDURE p_out_commit() BEGIN EXECUTE PROCEDURE p_in_begin(); INSERT INTO u VALUES (31, 'out'); COMMIT; END
+direct EXECUTE PROCEDURE p_out_commit()
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct DELETE FROM u
+direct CREATE PROCEDURE p_out_rollback() BEGIN EXECUTE PROCEDURE p_in_begin(); INSERT INTO u VALUES (32, 'out'); ROLLBACK; END
+direct EXECUTE PROCEDURE p_out_rollback()
+txcount
+query SELECT n, s FROM u ORDER BY n
+# Savepoints a procedure sets and rolls back to, and one of the caller's.
+direct DELETE FROM u
+direct CREATE PROCEDURE p_sp() BEGIN SAVEPOINT s1; INSERT INTO u VALUES (40, 'sp'); ROLLBACK TO SAVEPOINT s1; END
+direct BEGIN TRANSACTION
+direct INSERT INTO u VALUES (41, 'caller')
+direct EXECUTE PROCEDURE p_sp()
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+direct EXECUTE PROCEDURE p_sp()
+txcount
+direct CREATE PROCEDURE p_sp_caller() BEGIN ROLLBACK TO SAVEPOINT cs; END
+direct BEGIN TRANSACTION
+direct SAVEPOINT cs
+direct INSERT INTO u VALUES (42, 'caller')
+direct EXECUTE PROCEDURE p_sp_caller()
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+direct CREATE PROCEDURE p_sp_set() BEGIN SAVEPOINT ps; INSERT INTO u VALUES (43, 'in'); END
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE p_sp_set()
+direct ROLLBACK TO SAVEPOINT ps
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+#
+# The count a procedure reads at each step, logged in a table the transactions
+# leave alone, called at the top level and in the caller's transaction.
+direct CREATE TABLE lg (i AUTOINC, k CHAR(20), c INTEGER) IGNORE TRANSACTIONS
+direct CREATE PROCEDURE q1(a INTEGER) BEGIN INSERT INTO lg (k, c) SELECT 'entry', ::conn.TransactionCount FROM system.iota; BEGIN TRANSACTION; INSERT INTO lg (k, c) SELECT 'after begin', ::conn.TransactionCount FROM system.iota; INSERT INTO t VALUES (_a, 'q1'); COMMIT; INSERT INTO lg (k, c) SELECT 'after commit', ::conn.TransactionCount FROM system.iota; END
+direct CREATE PROCEDURE q2(a INTEGER) BEGIN INSERT INTO lg (k, c) SELECT 'entry', ::conn.TransactionCount FROM system.iota; BEGIN TRANSACTION; INSERT INTO lg (k, c) SELECT 'after begin', ::conn.TransactionCount FROM system.iota; INSERT INTO t VALUES (_a, 'q2'); TRY ROLLBACK; CATCH ALL INSERT INTO lg (k, c) SELECT 'rollback err', __errcode FROM system.iota; END TRY; INSERT INTO lg (k, c) SELECT 'after rollback', ::conn.TransactionCount FROM system.iota; END
+direct CREATE PROCEDURE q3(a INTEGER) BEGIN INSERT INTO lg (k, c) SELECT 'entry', ::conn.TransactionCount FROM system.iota; TRY COMMIT; CATCH ALL INSERT INTO lg (k, c) SELECT 'commit err', __errcode FROM system.iota; END TRY; TRY ROLLBACK; CATCH ALL INSERT INTO lg (k, c) SELECT 'rollback err', __errcode FROM system.iota; END TRY; INSERT INTO lg (k, c) SELECT 'exit', ::conn.TransactionCount FROM system.iota; END
+direct DELETE FROM t
+direct EXECUTE PROCEDURE q1(1)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+direct EXECUTE PROCEDURE q2(2)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+direct EXECUTE PROCEDURE q3(3)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+direct BEGIN TRANSACTION
+direct EXECUTE PROCEDURE q1(4)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+direct EXECUTE PROCEDURE q2(5)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+direct EXECUTE PROCEDURE q3(6)
+txcount
+query SELECT k, c FROM lg ORDER BY i
+direct DELETE FROM lg
+query SELECT n, s FROM t ORDER BY n
+direct ROLLBACK
+txcount
+query SELECT n, s FROM t ORDER BY n

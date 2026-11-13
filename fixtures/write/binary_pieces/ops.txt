@@ -1,0 +1,87 @@
+open t.adt
+top
+# a length beyond the total, offsets past it
+setbin b 6 0 0 0102030405
+get b
+setbin b 6 5 0 0102030405
+get b
+# a value in pieces: the first one pads with zeros
+setbin b 6 10 0 0102030405
+get b
+setbin b 6 10 5 060708090a
+get b
+setbin b 6 3 0 0102030405
+setbin b 6 10 20 aabb
+setbin b 6 10 8 aabbccdd
+setbin b 6 0 2 aabb
+get b
+# a piece inside the value, and a length of 0
+setbin b 6 10 7 aabb
+get b
+setbin b 6 10 0
+get b
+write
+get b
+# cut, and a piece beyond what the value held
+setbin b 6 4 2 aabb
+get b
+write
+get b
+setbin b 6 0 0
+get b
+write
+get b
+# a length of 0 on a field that holds nothing
+skip 1
+setbin b 6 6 0
+get b
+setbin i 6 4 0
+get i
+setbin i 6 4 2 0102
+get i
+write
+get i
+# Binary types
+setbin b 7 4 0 01020304
+setbin b 99 4 0 01020304
+setbin b 0 4 0 01020304
+setbin b 5 4 0 01020304
+get b
+# other fields
+setbin m 5 4 0 41424344
+setbin m 6 4 0 41424344
+setbin m 6 8 4 41424344
+get m
+setbin n 6 4 0 41424344
+setbin r 6 4 0 01020304
+setbin r 6 4 2 0304
+get r
+setbin c 6 4 0 41424344
+setbin id 6 4 0 01020304
+# a VarBinary, in pieces
+setbin v 6 4 0 01020304
+get v
+setbin v 6 4 2 0506
+get v
+setbin v 6 8 6 0708
+get v
+setbin v 6 10 0 01
+get v
+write
+get v
+# a compressed field takes the whole value only
+setbin z 6 4 0 01020304
+get z
+setbin z 6 8 0 01020304
+setbin z 6 8 4 05060708
+setbin z 6 0 0
+get z
+# a second field's pieces between a first field's
+top
+setbin b 6 6 0 010203
+setbin i 6 6 0 aabbcc
+setbin b 6 6 3 040506
+setbin i 6 6 3 ddeeff
+get b
+get i
+write

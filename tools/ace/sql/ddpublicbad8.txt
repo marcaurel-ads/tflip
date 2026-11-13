@@ -1,0 +1,44 @@
+# What a member of DB:Admin sees, and may open, when a table's (t1) rights slot
+# for DB:Public does not check (the dictionary of ddpublicbad, kept in
+# fixtures/sql/ddpublicbad8/):
+#
+#     run.sh <work> <ace32.dll> ddpublicbad8.txt > ../../../fixtures/sql/ddpublicbad8.json
+connect pb.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('adm1', 'pw', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('adm1', 'DB:Admin')
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+disconnect
+connect pb.add adm1 pw
+stmt
+cap 200
+stmt
+query SELECT * FROM system.tables
+stmt
+query SELECT * FROM system.columns
+stmt
+query SELECT * FROM system.views
+stmt
+query SELECT * FROM system.users
+stmt
+query SELECT * FROM system.triggers
+stmt
+query SELECT * FROM system.indexfiles
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 't2'
+open t1
+open t2
+stmt
+query SELECT * FROM t2
+stmt
+query SELECT * FROM t1
+stmt
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+disconnect

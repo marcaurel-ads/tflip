@@ -1,0 +1,34 @@
+# Reads only
+cursor SELECT name FROM tl WHERE n > 25
+stmtset constrain 1
+stmtset constrain 2
+stmtset readall 1
+stmtset readall 2
+stmtset readonly 1
+info
+get id
+get n
+get #1
+get #2
+get #0
+closecursor
+constrain 0
+cursor SELECT name FROM tl
+constrain 3
+cursor SELECT name FROM tl
+constrain 1
+readall 0
+cursor SELECT name FROM tl
+readall 3
+cursor SELECT name FROM tl
+readall 1
+constrain 2
+cursor SELECT name FROM tl WHERE n > 25
+info
+get id
+get n
+top
+get id
+get n
+record
+closecursor

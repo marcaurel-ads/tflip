@@ -1,0 +1,188 @@
+# INSERT, UPDATE and DELETE on fixtures/sql/dml/items (made by
+# dml_tables.txt: AutoInc id, unique index on code, index on name, a memo)
+# and the tables statements.txt and select.txt use; run by sql.c (see
+# run.sh). After each change, the rows affected and the table.
+stmt
+
+## INSERT
+directnull INSERT INTO items (code, name, qty) VALUES ('D4', 'date', 7)
+count
+query SELECT * FROM items
+direct INSERT INTO items (code) VALUES ('E5')
+count
+closecursor
+query SELECT * FROM items
+directnull INSERT INTO items VALUES (100, 'F6', 'fig', 1, 2.5, 1.234, 0.75, '2021-03-04', '2021-03-04 05:06:07', TRUE, 'sweet')
+count
+query SELECT * FROM items
+directnull INSERT INTO items VALUES (NULL, 'G7', 'grape', 1, 2.5, 1.234, 0.75, '2021-03-04', '2021-03-04 05:06:07', TRUE, 'sour')
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, name, qty, price, weight, ratio, added, active) VALUES ('H8', 'HONEYDEW', '12', '3.75', '9.8765', '1e3', '12/31/2021', 'T')
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, name, qty, price, weight) VALUES ('I9', 'ice', 1.9, 2, 12345.6789)
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, name) VALUES ('toolong1', 'a name that is far too long')
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, weight) VALUES ('J1', 123456.7)
+count
+directnull INSERT INTO items (code, qty) VALUES ('K1', 'abc')
+count
+directnull INSERT INTO items (code, added) VALUES ('K2', 'not a date')
+count
+directnull INSERT INTO items (code, qty) VALUES ('K3', 3000000000)
+count
+directnull INSERT INTO items (code, active) VALUES ('K4', 1)
+count
+directnull INSERT INTO items (code, stamp) VALUES ('K5', '2021-03-04')
+count
+directnull INSERT INTO items (code, added) VALUES ('K6', CURDATE())
+count
+directnull INSERT INTO items (code, qty) VALUES ('K7', 2 * 3 + 1)
+count
+query SELECT code, qty, added, active, stamp FROM items WHERE code LIKE 'K%'
+directnull INSERT INTO items (code) VALUES ('A1')
+count
+directnull INSERT INTO items (code, name) VALUES ('L1')
+count
+directnull INSERT INTO items (code) VALUES ('L2', 'x')
+count
+directnull INSERT INTO items (nosuch) VALUES (1)
+count
+directnull INSERT INTO items (code, code) VALUES ('L3', 'L4')
+count
+directnull INSERT INTO nosuch (a) VALUES (1)
+count
+directnull INSERT INTO items VALUES ('L5')
+count
+directnull INSERT INTO items (code) VALUES ('M1'), ('M2')
+count
+directnull INSERT INTO items (code, name) SELECT 'S' + CAST(id AS SQL_CHAR(3)), item FROM sales WHERE id < 4
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, qty) SELECT item, qty FROM sales WHERE id > 100
+count
+directnull INSERT INTO items (code) SELECT item, qty FROM sales
+count
+directnull INSERT INTO items SELECT * FROM items WHERE id = 1
+count
+directnull INSERT items (code) VALUES ('N1')
+count
+directnull INSERT INTO items (code, note) VALUES ('N2', 'a memo value that is longer than the block size of the memo file, so that it takes more than one block in the adm file: 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789')
+count
+query SELECT code, note FROM items WHERE code LIKE 'N%'
+
+## UPDATE
+directnull UPDATE items SET qty = qty + 1 WHERE code = 'A1'
+count
+query SELECT * FROM items
+directnull UPDATE items SET qty = 0
+count
+query SELECT code, qty FROM items
+directnull UPDATE items SET name = UPPER(name), price = price * 2 WHERE active
+count
+query SELECT code, name, price FROM items
+directnull UPDATE items SET note = NULL, ratio = NULL WHERE code = 'A1'
+count
+query SELECT code, note, ratio FROM items WHERE code = 'A1'
+directnull UPDATE items SET qty = 5 WHERE code = 'nosuch'
+count
+directnull UPDATE items SET code = 'B2' WHERE code = 'C3'
+count
+query SELECT code FROM items
+directnull UPDATE items SET code = 'Z9' WHERE code = 'C3'
+count
+query SELECT * FROM items
+directnull UPDATE items SET qty = qty + 1 WHERE id IN (SELECT id FROM items WHERE code < 'C')
+count
+query SELECT code, qty FROM items
+directnull UPDATE items SET name = (SELECT item FROM sales WHERE id = 1) WHERE code = 'B2'
+count
+query SELECT code, name FROM items WHERE code = 'B2'
+directnull UPDATE items SET qty = 'abc' WHERE code = 'B2'
+count
+directnull UPDATE items SET nosuch = 1
+count
+directnull UPDATE items SET qty = 1, qty = 2 WHERE code = 'B2'
+count
+query SELECT code, qty FROM items WHERE code = 'B2'
+directnull UPDATE items SET id = 99 WHERE code = 'B2'
+count
+query SELECT id, code FROM items WHERE code = 'B2'
+directnull UPDATE items i SET qty = 3 WHERE i.code = 'B2'
+count
+directnull UPDATE items SET qty = 4 WHERE items.code = 'B2'
+count
+directnull UPDATE nosuch SET a = 1
+count
+directnull UPDATE items SET weight = 99999.999 WHERE code = 'B2'
+count
+query SELECT code, weight FROM items WHERE code = 'B2'
+directnull UPDATE items SET weight = 999999 WHERE code = 'B2'
+count
+directnull UPDATE items SET note = 'changed ' + code WHERE note IS NOT NULL
+count
+query SELECT code, note FROM items
+directnull UPDATE items SET qty = COUNT(*)
+count
+
+## DELETE
+directnull DELETE FROM items WHERE code = 'B2'
+count
+query SELECT * FROM items
+directnull DELETE FROM items WHERE code = 'nosuch'
+count
+directnull DELETE items WHERE code = 'Z9'
+count
+query SELECT code FROM items
+directnull DELETE FROM items WHERE id IN (SELECT id FROM items WHERE code LIKE 'S%')
+count
+query SELECT code FROM items
+directnull DELETE FROM nosuch
+count
+directnull DELETE FROM items WHERE nosuch = 1
+count
+directnull INSERT INTO items (code) VALUES ('B2')
+count
+query SELECT id, code FROM items
+directnull DELETE FROM items
+count
+query SELECT * FROM items
+directnull INSERT INTO items (code, name) VALUES ('P1', 'after')
+count
+query SELECT * FROM items
+
+## Parameters
+prepare INSERT INTO items (code, qty, name) VALUES (:c, :q, ?)
+param c string Q1
+param q long 42
+param 3 string quince
+exec
+count
+param c string Q2
+exec
+count
+query SELECT code, qty, name FROM items
+prepare UPDATE items SET qty = :q WHERE code = :c
+param q long 7
+param c string Q1
+exec
+count
+prepare DELETE FROM items WHERE code = ?
+param 1 string Q2
+exec
+count
+query SELECT code, qty FROM items
+
+## Other tables
+directnull UPDATE cust SET credit = credit + 1 WHERE id = 1
+count
+query SELECT * FROM cust
+directnull INSERT INTO cust (id, name) VALUES (6, 'Fay')
+count
+directnull DELETE FROM cust WHERE id = 6
+count
+query SELECT * FROM cust

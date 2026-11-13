@@ -1,0 +1,83 @@
+# ALTER TABLE of a dictionary's Clipper, FoxPro, Visual FoxPro and ADT tables
+# whose first order the new types cannot build (a field with an order becomes
+# a memo), on a dictionary connection (cf\cf.add) in an empty folder: the
+# table and its memo file, the index files that are left, and the ids of the
+# objects the failed restructure used up. The files it leaves are kept in
+# fixtures/sql/ddalterfail/ (the dictionary file is not compared, for the
+# places of the records it moves):
+#
+#     run.sh <work> <ace32.dll> ddalterfail.txt > ../../../fixtures/sql/ddalterfail.json
+#     cp <work>/data/cf/* ../../../fixtures/sql/ddalterfail/
+ddcreate cf\cf.add
+stmt
+#
+# Table type 1.
+tabletype 1
+direct CREATE TABLE nk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX nkb ON nk (b)
+direct CREATE INDEX nkc ON nk (c)
+direct INSERT INTO nk VALUES (1, 'x', 'p')
+direct ALTER TABLE nk ALTER COLUMN b b MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'nk'
+query SELECT * FROM system.indexes WHERE Parent = 'nk'
+query SELECT * FROM nk
+direct CREATE TABLE nm (id INTEGER)
+#
+# Table type 2.
+tabletype 2
+direct CREATE TABLE ck (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX ckb ON ck (b)
+direct CREATE INDEX ckc ON ck (c)
+direct INSERT INTO ck VALUES (1, 'x', 'p')
+direct ALTER TABLE ck ALTER COLUMN b b MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'ck'
+query SELECT * FROM system.indexes WHERE Parent = 'ck'
+query SELECT * FROM ck
+direct CREATE TABLE cm (id INTEGER)
+#
+# Table type 4.
+tabletype 4
+direct CREATE TABLE vk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX vkb ON vk (b)
+direct CREATE INDEX vkc ON vk (c)
+direct INSERT INTO vk VALUES (1, 'x', 'p')
+direct ALTER TABLE vk ALTER COLUMN b b MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'vk'
+query SELECT * FROM system.indexes WHERE Parent = 'vk'
+query SELECT * FROM vk
+direct CREATE TABLE vm (id INTEGER)
+#
+# Table type 3.
+tabletype 3
+direct CREATE TABLE xk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX xkb ON xk (b)
+direct CREATE INDEX xkc ON xk (c)
+direct INSERT INTO xk VALUES (1, 'x', 'p')
+direct ALTER TABLE xk ALTER COLUMN b b MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'xk'
+query SELECT * FROM system.indexes WHERE Parent = 'xk'
+query SELECT * FROM xk
+direct CREATE TABLE xm (id INTEGER)
+#
+# The objects a failed restructure uses up, by the shape of the table: two
+# ids per field and one per order.
+tabletype 1
+direct CREATE TABLE nz1 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER, e INTEGER)
+direct CREATE INDEX nz1b ON nz1 (b)
+direct ALTER TABLE nz1 ALTER COLUMN b b MEMO
+direct CREATE TABLE nz2 (b CHAR(4))
+direct CREATE INDEX nz2b ON nz2 (b)
+direct ALTER TABLE nz2 ALTER COLUMN b b MEMO
+direct CREATE TABLE nz3 (a INTEGER)
+tabletype 3
+direct CREATE TABLE xz1 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER, e INTEGER)
+direct CREATE INDEX xz1b ON xz1 (b)
+direct ALTER TABLE xz1 ALTER COLUMN b b MEMO
+direct CREATE TABLE xz2 (b CHAR(4))
+direct CREATE INDEX xz2b ON xz2 (b)
+direct ALTER TABLE xz2 ALTER COLUMN b b MEMO
+direct CREATE TABLE xz3 (a INTEGER)
+#
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT * FROM system.indexfiles

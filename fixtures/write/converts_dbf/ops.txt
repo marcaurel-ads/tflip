@@ -1,0 +1,73 @@
+# Each DBF table converted to every table type, its own included.
+tabletype ntx
+open n.dbf
+convert 2 ntx n_n.dbf
+convert 2 cdx n_c.dbf
+convert 2 vfp n_v.dbf
+convert 2 adt n_a.adt
+close
+tabletype cdx
+open c.dbf
+convert 2 ntx c_n.dbf
+convert 2 cdx c_c.dbf
+convert 2 vfp c_v.dbf
+convert 2 adt c_a.adt
+close
+tabletype vfp
+open v.dbf
+convert 2 ntx v_n.dbf
+convert 2 cdx v_c.dbf
+convert 2 vfp v_v.dbf
+convert 2 adt v_a.adt
+close
+open vn.dbf
+convert 2 ntx vn_n.dbf
+convert 2 cdx vn_c.dbf
+convert 2 vfp vn_v.dbf
+convert 2 adt vn_a.adt
+close
+# General and Picture fields convert to a table of their own kind only
+# (5012, before any file is made).
+tabletype ntx
+open ng.dbf
+convert 2 ntx ng_n.dbf
+convert 2 cdx ng_c.dbf
+convert 2 vfp ng_v.dbf
+convert 2 adt ng_a.adt
+close
+tabletype cdx
+open cg.dbf
+convert 2 ntx cg_n.dbf
+convert 2 cdx cg_c.dbf
+convert 2 vfp cg_v.dbf
+convert 2 adt cg_a.adt
+close
+tabletype vfp
+open vg.dbf
+convert 2 ntx vg_n.dbf
+convert 2 cdx vg_c.dbf
+convert 2 vfp vg_v.dbf
+convert 2 adt vg_a.adt
+close
+# A Double too wide for the Numeric a FoxPro table makes of it (5179).
+tabletype ntx
+open nbig.dbf
+convert 2 cdx nbig_c.dbf
+convert 2 vfp nbig_v.dbf
+convert 2 adt nbig_a.adt
+close
+# A file that is there already is overwritten.
+tabletype vfp
+open v.dbf
+convert 2 ntx old.dbf
+convert 2 vfp v_v.dbf
+close
+# Deleted records hidden: left out but with ADS_IGNOREFILTERS (2).
+showdeleted 0
+tabletype ntx
+open n.dbf
+convert 2 ntx nd2_n.dbf
+convert 1 ntx nd1_n.dbf
+convert 1 adt nd1_a.adt
+close
+showdeleted 1

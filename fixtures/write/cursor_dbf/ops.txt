@@ -1,0 +1,77 @@
+tabletype vfp
+cursor SELECT * FROM va
+top
+state
+append
+state
+set name string new
+set n long 99
+write
+state
+rows
+goto 6
+get id
+get name
+goto 2
+delete
+state
+write
+state
+rows
+goto 2
+state
+recall
+state
+write
+rows
+goto 3
+delete
+recall
+write
+state
+goto 4
+set name string chg
+cancel
+get name
+set name string chg2
+writeall
+get name
+append
+set name string pend
+cancel
+state
+rows
+closecursor
+cursor SELECT * FROM vw WHERE n > 25
+top
+state
+append
+set n long 10
+write
+state
+rows
+count
+goto 6
+get n
+top
+delete
+state
+count
+rows
+goto 3
+state
+recall
+state
+rows
+top
+set n long 5
+write
+state
+rows
+closecursor
+open va.dbf exclusive
+rows
+close
+open vw.dbf exclusive
+rows
+close

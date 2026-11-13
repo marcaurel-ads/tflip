@@ -1,0 +1,53 @@
+# AES dictionaries with known secrets, for aesdict.c. Each dictionary has a
+# folder of its own (made by the runner): the dictionary password (the AES
+# key's) is "ddpw" throughout.
+#
+# a0: AES128, no ADSSYS password, one table, nothing else.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "a0\a0.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "a1\a1.add" PASSWORD 'admpw' ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "a2\a2.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "a3\a3.add" PASSWORD 'admpw' ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "a4\a4.add" PASSWORD 'admpw' ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+# A dictionary without AES on an AES connection: refused (5223).
+sql CREATE DATABASE "r3\r3.add" PASSWORD 'admpw'
+disconnect
+#
+# a2: no ADSSYS password; a user, a group, a membership, grants.
+connect Data Source=%D\a2\a2.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', '')
+sql EXECUTE PROCEDURE sp_CreateUser('u2', '', '')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql GRANT SELECT, UPDATE ON t TO g1
+disconnect
+#
+# a3 and a4: the same, with an ADSSYS password.
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', '')
+sql EXECUTE PROCEDURE sp_CreateUser('u2', '', '')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql GRANT SELECT, UPDATE ON t TO g1
+disconnect
+connect Data Source=%D\a4\a4.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', '')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+disconnect
+#
+# Logins that should and should not work, to show the secrets are live.
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=u1;Password=userpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql SELECT * FROM t
+disconnect
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=u1;Password=wrong;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;
+disconnect
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=wrong;
+disconnect

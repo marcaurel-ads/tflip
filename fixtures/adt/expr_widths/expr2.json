@@ -1,0 +1,87 @@
+{
+ "table_type": "adt",
+ "record_count": 4,
+ "record_length": 50,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "a", "type": 2, "type_name": "Numeric", "length": 6, "decimals": 0},
+  {"name": "b", "type": 2, "type_name": "Numeric", "length": 8, "decimals": 2},
+  {"name": "i", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "d", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "l", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "c", "type": 4, "type_name": "Character", "length": 8, "decimals": 0},
+  {"name": "w", "type": 4, "type_name": "Character", "length": 14, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "E_RECNO", "file": "expr2.adi", "expression": "RECNO()", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"},
+   {"recno": 3, "key": "c008000000000000"},
+   {"recno": 4, "key": "c010000000000000"}
+  ]},
+  {"name": "E_YEAR", "file": "expr2.adi", "expression": "YEAR(d)", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "c09db00000000000"},
+   {"recno": 3, "key": "c09f400000000000"},
+   {"recno": 1, "key": "c09f840000000000"},
+   {"recno": 4, "key": "c0c3878000000000"}
+  ]},
+  {"name": "E_LEN", "file": "expr2.adi", "expression": "LEN(c)", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 1, "key": "c020000000000000"},
+   {"recno": 2, "key": "c020000000000000"},
+   {"recno": 3, "key": "c020000000000000"},
+   {"recno": 4, "key": "c020000000000000"}
+  ]},
+  {"name": "E_VAL", "file": "expr2.adi", "expression": "VAL(c)", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "3fe1ffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 4, "key": "bff0000000000000"},
+   {"recno": 1, "key": "c045000000000000"}
+  ]},
+  {"name": "E_VALW", "file": "expr2.adi", "expression": "VAL(w)", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "400fffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "c0fe240800000000"},
+   {"recno": 4, "key": "c2374876e7ff0000"}
+  ]},
+  {"name": "E_ROUND", "file": "expr2.adi", "expression": "ROUND(b,1)", "condition": "", "collation": "", "key_length": 4, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "4999849f"},
+   {"recno": 3, "key": "8000000f"},
+   {"recno": 1, "key": "8000330f"},
+   {"recno": 4, "key": "90000000"}
+  ]},
+  {"name": "E_ROUNDI", "file": "expr2.adi", "expression": "ROUND(a,0)", "condition": "", "collation": "", "key_length": 3, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "499994"},
+   {"recno": 3, "key": "800000"},
+   {"recno": 1, "key": "800012"},
+   {"recno": 4, "key": "899999"}
+  ]},
+  {"name": "E_DPLUS", "file": "expr2.adi", "expression": "d+1", "condition": "", "collation": "", "key_length": 8, "key_type": 3, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "c1426cd700000000"},
+   {"recno": 3, "key": "c142b44a80000000"},
+   {"recno": 1, "key": "c142c0e980000000"},
+   {"recno": 4, "key": "c1547f8b40000000"}
+  ]},
+  {"name": "E_CMP", "file": "expr2.adi", "expression": "a=b", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 1, "key": "46"},
+   {"recno": 2, "key": "46"},
+   {"recno": 4, "key": "46"},
+   {"recno": 3, "key": "54"}
+  ]},
+  {"name": "E_NOTL", "file": "expr2.adi", "expression": "!l", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 1, "key": "46"},
+   {"recno": 4, "key": "46"},
+   {"recno": 2, "key": "54"},
+   {"recno": 3, "key": "54"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000020202020313220202020332e323507000000d28125005434322020202020203132333435362e35202020202020", "values": {"a": {"text": "    12"}, "b": {"text": "    3.25"}, "i": {"text": "7"}, "d": {"text": "2017-11-08", "julian": 2458066}, "l": {"text": "T"}, "c": {"text": "42      "}, "w": {"text": "123456.5      "}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000202020202d352020202d312e3530fdffffffadd92400462d372e35202020202d31202020202020202020202020", "values": {"a": {"text": "    -5"}, "b": {"text": "   -1.50"}, "i": {"text": "-3"}, "d": {"text": "1900-01-01", "julian": 2415021}, "l": {"text": "F"}, "c": {"text": "-7.5    "}, "w": {"text": "-1            "}}},
+  {"recno": 3, "deleted": false, "raw": "040000000020202020203020202020302e303000000000946825004620202020202020202020202020202020202020202020", "values": {"a": {"text": "     0"}, "b": {"text": "    0.00"}, "i": {"text": "0"}, "d": {"text": "2000-02-29", "julian": 2451604}, "l": {"text": "F"}, "c": {"text": "        "}, "w": {"text": "              "}}},
+  {"recno": 4, "deleted": false, "raw": "040000000020393939393920393939392e3939ffffff7f2cfe51005431653320202020203939393939393939393939202020", "values": {"a": {"text": " 99999"}, "b": {"text": " 9999.99"}, "i": {"text": "2147483647"}, "d": {"text": "9999-12-31", "julian": 5373484}, "l": {"text": "T"}, "c": {"text": "1e3     "}, "w": {"text": "99999999999   "}}}
+ ]
+}

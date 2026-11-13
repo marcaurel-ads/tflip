@@ -1,0 +1,24 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 13,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "cid", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "pid", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "CC_FK", "file": "cc.adi", "expression": "pid", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 2, "keys": [
+   {"recno": 1, "key": "c000000000000000"},
+   {"recno": 2, "key": "c018000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000c800000002000000", "values": {"cid": {"text": "200"}, "pid": {"text": "2"}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000ce00000006000000", "values": {"cid": {"text": "206"}, "pid": {"text": "6"}}}
+ ]
+}

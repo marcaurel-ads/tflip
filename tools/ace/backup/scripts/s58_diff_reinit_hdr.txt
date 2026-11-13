@@ -1,0 +1,26 @@
+#include dg_re.txt
+sql 1 CREATE INDEX x_reidx_name ON x_reidx (name)
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tblpassw')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap0\ /I /Q
+sql 1 UPDATE x_pack SET name = 'edit' WHERE id = 1
+sql 1 DELETE FROM x_pack WHERE id = 2
+shell xcopy @CLIENT@\src\x_pack.ad? @CLIENT@\snap_pack_before\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_PackTable('x_pack')
+shell xcopy @CLIENT@\src\x_pack.ad? @CLIENT@\snap_pack\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_ZapTable('x_zap')
+shell xcopy @CLIENT@\src\x_zap.ad? @CLIENT@\snap_zap\ /I /Q
+sql 1 ALTER TABLE x_alter ADD COLUMN extra CHAR(4)
+shell xcopy @CLIENT@\src\x_alter.ad? @CLIENT@\snap_alter\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_EncryptTable('x_enc')
+shell xcopy @CLIENT@\src\x_enc.ad? @CLIENT@\snap_enc\ /I /Q
+sql 1 UPDATE x_reidx SET name = 'chg' WHERE id = 3
+open 1 x_reidx x
+reindex 1
+closetable 1
+shell xcopy @CLIENT@\src\x_reidx.ad? @CLIENT@\snap_reidx\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_diff\ /E /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\img @CLIENT@\img_diff2\ /E /I /Q

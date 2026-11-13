@@ -1,0 +1,81 @@
+# AdsDDRenameObject and sp_RenameDDObject on publications (type 15) and
+# subscriptions (type 17), on a dictionary connection in an empty folder (the
+# dictionary, de/de.add, is kept in fixtures/sql/spddrenamerepl/): what refers
+# to the name (a publication's articles, a subscription's publication), what is
+# refused, and what the names may be.
+#
+#     run.sh <work> <ace32.dll> spddrenamerepl.txt > ../../../fixtures/sql/spddrenamerepl.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddrenamerepl/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE VIEW v1 AS SELECT id FROM ft1
+ddpub pa first 0
+ddpub pb - 0
+ddpub pc third 0
+ddpub pd - 0
+ddart pa ft1 id 0
+ddart pa ft2 id 0
+ddart pb ft1 id 0
+ddsub sa pa target1 usr pw q1.adt 0 a~sub 0
+ddsub sb pa target2 usr pw q2.adt 0 - 0
+#
+# The wrong type, a name that is not there, a name another kind has.
+ddrename pa zz 17 0
+ddrename sa zz 15 0
+ddrename nope zz 15 0
+ddrename nope zz 17 0
+ddrename ft1 zz 15 0
+ddrename v1 zz 17 0
+ddrename pa ft1 15 0
+ddrename pa v1 15 0
+ddrename sa ft1 17 0
+ddrename sa pa 17 0
+ddrename pa sa 15 0
+ddrename sa sb 17 0
+ddrename pa pb 15 0
+ddrename pa PB 15 0
+# Options, and names that are not valid.
+ddrename pa zz 15 1
+ddrename sa zz 17 1
+ddrename pa zz 15 7
+ddrename pa - 15 0
+ddrename pa = 15 0
+ddrename pa a;b 15 0
+ddrename - zz 15 0
+ddrename = zz 15 0
+ddrename sa - 17 0
+ddrename sa = 17 0
+ddrename sa a;b 17 0
+ddrename pa ~~ 15 0
+ddrename ~pa zz 15 0
+ddrename pa pa 15 0
+ddrename pa PA 15 0
+ddrename sa sa 17 0
+ddrename sa SA 17 0
+#
+# Renamed.
+ddrename pa pa2 15 0
+ddrename pa ~pa3~ 15 0
+ddrename sa sa2 17 0
+ddrename pb PBB 15 0
+ddrename pc pcc 15 0
+direct EXECUTE PROCEDURE sp_RenameDDObject('pd', 'pdd', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('sb', 'sdd', 17, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', 'pa2', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', 'sdd', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('sdd', 'pdd', 17, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('sdd', 'sa2', 17, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('nope', 'zz', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('nope', 'zz', 17, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', 'zz', 17, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('sdd', 'zz', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', '', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', 'zz', 15, 1)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', NULL, 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pdd', 'p;q', 15, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('sdd', 'sd1', 17, 0)
+# Things that name them after the rename.
+ddpub pa - 0
+query SELECT * FROM system.objects

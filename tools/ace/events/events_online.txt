@@ -1,0 +1,90 @@
+# Online maintenance on the remote server, on a table of 131072 records that
+# a second connection reads and writes meanwhile: CREATE INDEX and ALTER TABLE
+# leave the table unopenable to it (7008), the ONLINE forms leave it open, and
+# what it wrote meanwhile is in the new index and the new structure.
+# ONLINE_WITH_TRANSITION also leaves it open, but does not end until the
+# connections that opened the table while it copied have disconnected; until
+# then a connection that opens the table sees the old structure. The times
+# are those of the original's engine, which a replay need not keep: they
+# make the statement last long enough for the second connection's.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_online.txt
+#             > ../../../fixtures/events/events_online.json
+
+free 0
+sql 0 CREATE TABLE big (n INTEGER, s CHAR(40), x DOUBLE)
+sql 0 INSERT INTO big VALUES (1, 'abcdefghij', 1.5)
+sql 0 INSERT INTO big SELECT n + 1, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 2, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 4, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 8, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 16, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 32, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 64, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 128, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 256, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 512, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 1024, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 2048, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 4096, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 8192, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 16384, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 32768, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 65536, s, x FROM big
+free 1
+free 2
+# CREATE INDEX: the table is not open to the second connection meanwhile.
+async 0 CREATE INDEX i0 ON big (s, x, n)
+sleep 20
+sql 1 SELECT COUNT(*) FROM big
+sql 1 INSERT INTO big VALUES (-1, 'zz', 0)
+join 0
+sql 1 SELECT COUNT(*) FROM big
+sql 1 DROP INDEX big.i0
+# CREATE ONLINE INDEX: it is, and what it writes is in the index.
+async 0 CREATE ONLINE INDEX i1 ON big (s, x, n)
+sleep 20
+sql 1 SELECT COUNT(*) FROM big
+sql 1 INSERT INTO big VALUES (-1, 'zz', 0)
+sql 1 INSERT INTO big VALUES (-2, 'zz', 0)
+sql 1 UPDATE big SET s = 'yy' WHERE n = 12345
+sql 1 DELETE FROM big WHERE n = 7
+join 0
+sql 1 SELECT COUNT(*) FROM big
+sql 1 SELECT n FROM big WHERE s = 'zz' ORDER BY n
+sql 1 SELECT n FROM big WHERE s + '' = 'zz' ORDER BY n
+sql 1 SELECT n FROM big WHERE s = 'yy'
+sql 1 SELECT n FROM big WHERE s + '' = 'yy'
+sql 1 SELECT COUNT(*) FROM big WHERE n = 7
+sql 1 DROP INDEX big.i1
+# ALTER TABLE: not open meanwhile.
+async 0 ALTER TABLE big ADD COLUMN y INTEGER
+sleep 100
+sql 1 SELECT COUNT(*) FROM big
+sql 1 INSERT INTO big (n, s) VALUES (-3, 'ww')
+join 0
+sql 1 SELECT COUNT(*) FROM big
+# ALTER ONLINE TABLE: open, and what the second connection wrote is in the
+# new structure.
+async 0 ALTER ONLINE TABLE big ADD COLUMN z INTEGER
+sleep 100
+sql 1 UPDATE big SET s = 'xx' WHERE n = 22222
+sql 1 DELETE FROM big WHERE n = 8
+sql 1 INSERT INTO big (n, s) VALUES (-4, 'ww')
+sql 1 SELECT COUNT(*) FROM big
+join 0
+sql 1 SELECT COUNT(*) FROM big
+sql 1 SELECT n FROM big WHERE s = 'xx'
+sql 1 SELECT COUNT(*) FROM big WHERE n = 8
+sql 1 SELECT * FROM big WHERE n < 0
+# ALTER ONLINE_WITH_TRANSITION: the connection that read the table meanwhile
+# keeps it from changing until it disconnects.
+async 0 ALTER ONLINE_WITH_TRANSITION TABLE big ADD COLUMN w INTEGER
+sleep 100
+sql 1 SELECT * FROM big WHERE n = 5
+sleep 4000
+sql 1 SELECT * FROM big WHERE n = 5
+disconnect 1
+sleep 500
+join 0
+sql 2 SELECT * FROM big WHERE n = 5

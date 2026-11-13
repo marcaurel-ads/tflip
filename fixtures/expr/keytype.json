@@ -1,0 +1,11 @@
+[
+{"op": "keytype", "order": "X_NUM", "key_type": 2, "key_length": 8},
+{"op": "keytype", "order": "X_DBL", "key_type": 2, "key_length": 8},
+{"op": "keytype", "order": "X_DATE", "key_type": 3, "key_length": 8},
+{"op": "keytype", "order": "X_LOG", "key_type": 1, "key_length": 1},
+{"op": "keytype", "order": "X_UPPER", "key_type": 4, "key_length": 5},
+{"op": "seek X_NUM 11", "found": 1, "id": "2"},
+{"op": "seek X_NUM 6", "found": 1, "id": "1"},
+{"op": "seek X_NUM 99", "found": 0, "id": null},
+{"op": "seek X_DBL 8", "found": 1, "id": "2"}
+]

@@ -1,0 +1,30 @@
+# (The remote evaluation server answers 5214 to the CREATE DATABASE, "Unable to find or load one of the OpenSSL libraries", even with the patched DLLs beside it, so this has no result.) Transactions on VFP tables of an AES-128 dictionary on the REMOTE server: a table in the clear (ta, made before ENCRYPT_NEW_TABLE) and an encrypted one (tb); an append, an update and a delete rolled back, then committed. Run with the data folder \\127.0.0.1:6262\data (api.exe <ace dll> <folder> v17.txt).
+connect Data Source=%D\v17\;ServerType=REMOTE;CommType=TCP_IP;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v17\d.add;ServerType=REMOTE;CommType=TCP_IP;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+stmttype 4
+sql CREATE TABLE ta (id INTEGER, note MEMO)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE tb (id INTEGER, note MEMO)
+sql INSERT INTO ta VALUES (1, 'one')
+sql INSERT INTO ta VALUES (2, 'two')
+sql INSERT INTO tb VALUES (1, 'one')
+sql INSERT INTO tb VALUES (2, 'two')
+begin
+sql INSERT INTO ta VALUES (3, 'rolled back')
+sql UPDATE ta SET note = 'changed then rolled back' WHERE id = 1
+sql DELETE FROM ta WHERE id = 2
+sql INSERT INTO tb VALUES (3, 'rolled back')
+sql UPDATE tb SET note = 'changed then rolled back' WHERE id = 1
+sql DELETE FROM tb WHERE id = 2
+rollback
+begin
+sql INSERT INTO ta VALUES (4, 'committed')
+sql UPDATE ta SET note = 'changed and committed' WHERE id = 1
+sql DELETE FROM ta WHERE id = 2
+sql INSERT INTO tb VALUES (4, 'committed')
+sql UPDATE tb SET note = 'changed and committed' WHERE id = 1
+sql DELETE FROM tb WHERE id = 2
+commit
+disconnect

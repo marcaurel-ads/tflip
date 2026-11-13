@@ -1,0 +1,33 @@
+{
+ "table_type": "vfp",
+ "record_count": 3,
+ "record_length": 110,
+ "memo_block_size": 64,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "c_char", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "c_varchar", "type": 23, "type_name": "VarCharFox", "length": 20, "decimals": 0},
+  {"name": "c_varbin", "type": 24, "type_name": "VarBinaryFox", "length": 8, "decimals": 0},
+  {"name": "c_numeric", "type": 2, "type_name": "Numeric", "length": 10, "decimals": 2},
+  {"name": "c_integer", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "c_double", "type": 10, "type_name": "Double", "length": 8, "decimals": 15},
+  {"name": "c_money", "type": 18, "type_name": "Money", "length": 8, "decimals": 0},
+  {"name": "c_date", "type": 3, "type_name": "Date", "length": 8, "decimals": 0},
+  {"name": "c_tstamp", "type": 14, "type_name": "TimeStamp", "length": 8, "decimals": 0},
+  {"name": "c_logical", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "c_memo", "type": 5, "type_name": "Memo", "length": 4, "decimals": 0},
+  {"name": "c_blob", "type": 6, "type_name": "Binary", "length": 4, "decimals": 0},
+  {"name": "c_autoinc", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "c_nochar", "type": 4, "type_name": "Character", "length": 10, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "206162632020202020202076617220202020202020202020202020202020030102202020202002202031323334352e363715cd5b070000000000000c4040e20100000000003230313731313038d281250090c4f30254090000000800000001000000726177802020202020200a00", "values": {"c_char": {"text": "abc       "}, "c_varchar": {"text": "var"}, "c_varbin": {"hex": "0102"}, "c_numeric": {"text": "  12345.67"}, "c_integer": {"text": "123456789"}, "c_double": {"text": "3.5"}, "c_money": {"text": "12.3456"}, "c_date": {"text": "2017-11-08", "julian": 2458066}, "c_tstamp": {"text": "2017-11-08 13:45:30.000", "julian": 2458066, "ms": 49530000}, "c_logical": {"text": "T"}, "c_memo": {"text": "memo text"}, "c_blob": {"hex": "00ff10"}, "c_autoinc": {"text": "1"}, "c_nochar": {"text": "raw\u0080      "}}},
+  {"recno": 2, "deleted": false, "raw": "2020202020202020202020202020202020202020202020202020202020200020202020202020002020202020202020202000000000000000000000000000000000000000002020202020202020000000000000000020000000000000000002000000202020202020202020200b00", "values": {"c_char": {"null": true}, "c_varchar": {"text": ""}, "c_varbin": {"hex": ""}, "c_numeric": {"text": "          "}, "c_integer": {"text": "0"}, "c_double": {"text": "0"}, "c_money": {"text": "0.0000"}, "c_date": {"text": "    -  -  ", "julian": 0}, "c_tstamp": {"text": "    -  -   00:00:00.000", "julian": 0, "ms": 0}, "c_logical": {"text": " "}, "c_memo": {"text": ""}, "c_blob": {"hex": ""}, "c_autoinc": {"text": "2"}, "c_nochar": {"text": "          "}}},
+  {"recno": 3, "deleted": false, "raw": "2020202020202020202020202020202020202020202020202020202020200020202020202020002020202020202020202000000000000000000000000000000000000000002020202020202020000000000000000020000000000000000003000000202020202020202020200a00", "values": {"c_char": {"text": "          "}, "c_varchar": {"text": ""}, "c_varbin": {"hex": ""}, "c_numeric": {"text": "          "}, "c_integer": {"text": "0"}, "c_double": {"text": "0"}, "c_money": {"text": "0.0000"}, "c_date": {"text": "    -  -  ", "julian": 0}, "c_tstamp": {"text": "    -  -   00:00:00.000", "julian": 0, "ms": 0}, "c_logical": {"text": " "}, "c_memo": {"text": ""}, "c_blob": {"hex": ""}, "c_autoinc": {"text": "3"}, "c_nochar": {"text": "          "}}}
+ ]
+}

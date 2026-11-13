@@ -1,0 +1,27 @@
+{
+ "table_type": "vfp",
+ "record_count": 4,
+ "record_length": 11,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "GERMAN_VFP_CI_AS_1252",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "name", "type": 4, "type_name": "Character", "length": 10, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "GERMAN", "file": "coll.cdx", "expression": "name", "condition": "", "collation": "GERMAN_VFP_CI_AS_1252", "key_length": 20, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "60667367666d0000000000000000000000000000"},
+   {"recno": 3, "key": "607367666d000000000000000000000000000000"},
+   {"recno": 1, "key": "7e66617560000000000000000000000000000000"},
+   {"recno": 4, "key": "7e66617560000000000000000000000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "205a656272612020202020", "values": {"name": {"text": "Zebra     "}}},
+  {"recno": 2, "deleted": false, "raw": "20e47066656c2020202020", "values": {"name": {"text": "\u00e4pfel     "}}},
+  {"recno": 3, "deleted": false, "raw": "20417066656c2020202020", "values": {"name": {"text": "Apfel     "}}},
+  {"recno": 4, "deleted": false, "raw": "207a656272612020202020", "values": {"name": {"text": "zebra     "}}}
+ ]
+}

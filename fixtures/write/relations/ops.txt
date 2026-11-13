@@ -1,0 +1,277 @@
+# Relations (AdsSetRelation, AdsSetScopedRelation, AdsClearRelation) on
+# ADT tables: what they refuse, how the child follows the parent's moves
+# (a key with no match, EOF, the child moving on its own between them), a
+# chain, cycles, clearing, and the scope of a scoped relation.
+# Reads only: the files stay as they are.
+open p shared
+open c shared
+order cust
+open g shared
+order item
+use 1
+# Refused: no child, a table handle, no expression, bad expressions.
+relation 0 cust
+relation t2 cust
+relation 2 -
+relation 2 nosuchfield
+relation 2 id
+relation 2 ""
+scopedrelation 0 cust
+clearrelation
+# The child before the parent moves.
+use 2
+pos
+use 1
+relation 2 cust
+use 2
+pos
+use 1
+top
+use 2
+pos
+get item
+use 1
+skip 1
+use 2
+pos
+get item
+use 1
+skip 1
+use 2
+pos
+get item
+use 1
+skip 1
+use 2
+pos
+# The child moves on its own; the parent then stays, moves to its record
+# again, or skips 0.
+otop
+pos
+oskip 1
+pos
+use 1
+skip 0
+use 2
+pos
+oskip 1
+pos
+use 1
+goto 4
+use 2
+pos
+oskip 1
+use 1
+refresh
+use 2
+pos
+# The child elsewhere, the parent to the record it is on.
+otop
+use 1
+goto 4
+use 2
+pos
+# The parent away and back, the child not used in between.
+oskip 1
+pos
+use 1
+goto 1
+goto 4
+use 2
+pos
+# The child moved by its table handle after the parent moved.
+otop
+oskip 1
+use 1
+goto 1
+use 2
+skip 1
+pos
+# The parent at EOF and BOF.
+use 1
+bottom
+skip 1
+pos
+use 2
+pos
+use 1
+top
+skip -1
+pos
+use 2
+pos
+# The parent in an order, and seeking.
+use 1
+order pname
+otop
+use 2
+pos
+use 1
+seek 2 e
+use 2
+pos
+use 1
+seek 1 zz
+use 2
+pos
+use 1
+order -
+# Setting the relation again, to another expression: a partial key, and
+# a numeric one.
+relation 2 left(cust, 2)
+goto 2
+use 2
+pos
+order qty
+use 1
+relation 2 id
+goto 4
+use 2
+pos
+get item
+use 1
+relation 2 name
+goto 1
+use 2
+pos
+order cust
+use 1
+relation 2 cust
+# A chain: p -> c -> g.
+use 2
+relation 3 item
+use 1
+goto 4
+use 3
+pos
+get note
+use 1
+goto 1
+use 3
+pos
+get note
+use 1
+goto 3
+use 3
+pos
+pos
+get note
+otop
+pos
+# p's own order as the child, from g: refused.
+relation 3 name
+# Cycles: g -> p (p -> c -> g -> p), c -> p, p -> p.
+use 1
+order pname
+use 3
+relation 1 note
+use 2
+relation 1 item
+use 1
+relation 1 name
+order -
+# Clearing p's relations: the children stay where they are.
+clearrelation
+goto 5
+use 2
+pos
+use 3
+pos
+# c's relation to g stays.
+use 2
+otop
+use 3
+pos
+use 2
+clearrelation
+# Two children of p (g by item: w, x, y for ids 1, 2, 3).
+use 1
+relation 2 cust
+relation 3 chr(118 + id)
+goto 2
+use 2
+pos
+use 3
+pos
+use 1
+clearrelation
+# A scoped relation: its scope once the child is used.
+use 1
+scopedrelation 2 cust
+use 2
+getscope 1
+getscope 2
+pos
+getscope 1
+use 1
+goto 1
+use 2
+getscope 1
+pos
+getscope 1
+getscope 2
+rows
+pos
+otop
+pos
+oskip 1
+pos
+oskip 1
+pos
+top
+pos
+skip 1
+pos
+use 1
+goto 3
+use 2
+pos
+rows
+use 1
+goto 2
+use 2
+rows
+# A scope set on the child, then the parent moves.
+scope 1 C2
+scope 2 C2
+rows
+use 1
+goto 5
+use 2
+getscope 1
+rows
+# Cleared: the scope stays.
+use 1
+clearrelation
+goto 4
+use 2
+getscope 1
+getscope 2
+rows
+clearscope 1
+clearscope 2
+# A plain relation after a scoped one, and the reverse.
+use 1
+relation 2 cust
+goto 4
+use 2
+getscope 1
+rows
+use 1
+scopedrelation 2 cust
+relation 2 cust
+goto 2
+use 2
+getscope 1
+rows
+clearscope 1
+clearscope 2
+# The child closed while the relation stands.
+use 1
+relation 3 name
+use 3
+close
+use 1
+goto 1
+pos
+clearrelation

@@ -1,0 +1,26 @@
+createtable b.adt 0 id,Integer;bl,Binary;im,Image
+append
+set id long 1
+set bl binary 616c70686120627261766f
+set im image 616c70686120627261766f
+write
+append
+set id long 2
+set bl binary 636861726c69652064656c7461
+set im image 636861726c69652064656c7461
+write
+append
+set id long 3
+set bl binary 6563686f20666f7874726f74
+set im image 6563686f20666f7874726f74
+write
+append
+set id long 4
+set bl binary 676f6c6620686f74656c
+set im image 676f6c6620686f74656c
+write
+append
+set id long 5
+set bl binary 696e646961206a756c696574
+set im image 696e646961206a756c696574
+write

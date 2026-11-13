@@ -1,0 +1,12 @@
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\fsrc\f_e1.adt | 
+7060 set.c:5040  | 
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\fsrc\f_e2.adt | 
+7060 set.c:5040  | 
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\fsrc\f_e2.adt | 
+7060 set.c:5040  | 
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\fsrc\f_e2.adt | 
+7060 set.c:5040  | 
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\dst_bad\f_e1.adt | 
+7060 set.c:5040  | 
+7060 set.c:2726 C:\ads\data\bk\s61_free_encrypted\dst_bad\f_e2.adt | 
+7060 set.c:5040  | 

@@ -1,0 +1,169 @@
+# Triggers writing their own table (a BEFORE trigger's own writes fire it again,
+# an AFTER or INSTEAD OF trigger's do not), and transaction statements in a
+# trigger, in an empty folder with a dictionary dbt/dbt.add the script creates
+# (kept in fixtures/sql/trigself/, which the replay compares).
+# Recorded on the local server, which has no transactions (the 7130 of the
+# remote server is not probed):
+#
+#     run.sh <work> <ace32.dll> trigself.txt > ../../../fixtures/sql/trigself.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigself/
+#
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE log (msg VARCHAR(100))
+direct CREATE TABLE tn (id INTEGER, name CHAR(10))
+direct CREATE TABLE ts (id INTEGER, name CHAR(10))
+direct CREATE TABLE tz (id INTEGER)
+#
+# What a BEFORE trigger reads of a row it cannot change, and an INSTEAD OF one that
+# inserts it.
+direct CREATE TRIGGER n1 ON tn BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('n1 ' + IFNULL(CAST(__new.id AS SQL_CHAR(10)), 'null')); END
+direct INSERT INTO tn (name) VALUES ('a')
+direct INSERT INTO tn VALUES (NULL, 'b')
+direct INSERT INTO tn VALUES (1, 'c')
+query SELECT * FROM tn
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DROP TRIGGER tn.n1
+# A BEFORE UPDATE trigger, with the field emptied.
+direct CREATE TRIGGER n2 ON tn BEFORE UPDATE BEGIN INSERT INTO log (msg) VALUES ('n2 ' + IFNULL(CAST(__new.id AS SQL_CHAR(10)), 'null')); END
+direct UPDATE tn SET id = NULL WHERE id = 1
+query SELECT * FROM tn
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DROP TRIGGER tn.n2
+# An INSTEAD OF trigger that inserts the row itself.
+direct CREATE TRIGGER n3 ON tn INSTEAD OF INSERT BEGIN INSERT INTO log (msg) VALUES ('n3 ' + IFNULL(CAST(__new.id AS SQL_CHAR(10)), 'null')); INSERT INTO tn VALUES (IFNULL(__new.id, 99), __new.name); END
+direct INSERT INTO tn (name) VALUES ('d')
+query SELECT * FROM tn
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DROP TRIGGER tn.n3
+#
+# A trigger writing its own table: does it fire again?
+direct CREATE TRIGGER s1 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('s1 ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO ts VALUES (__new.id + 10, 'from s1'); END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DROP TRIGGER ts.s1
+direct CREATE TRIGGER s2 ON ts INSTEAD OF INSERT BEGIN INSERT INTO log (msg) VALUES ('s2 ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO ts VALUES (__new.id + 10, 'from s2'); END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DROP TRIGGER ts.s2
+direct CREATE TRIGGER s3 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('s3 ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO ts VALUES (__new.id + 10, 'from s3'); END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DROP TRIGGER ts.s3
+direct CREATE TRIGGER s4 ON ts AFTER UPDATE BEGIN INSERT INTO log (msg) VALUES ('s4 ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN UPDATE ts SET id = id + 10 WHERE id = __new.id; END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+direct UPDATE ts SET name = 'b'
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DROP TRIGGER ts.s4
+#
+# More: which writes of a trigger to its own table fire triggers (events of the
+# table and the other tables').
+# A: BEFORE logs, AFTER writes its table
+direct CREATE TRIGGER g0 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('b ' + CAST(__new.id AS SQL_CHAR(10))); END
+direct CREATE TRIGGER g1 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('a ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO ts VALUES (__new.id + 10, 'x'); END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER ts.g1
+# B: AFTER INSERT updates and deletes its table, AFTER UPDATE and AFTER DELETE log
+direct CREATE TRIGGER g0 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('ai ' + CAST(__new.id AS SQL_CHAR(10))); UPDATE ts SET name = 'u' WHERE id = __new.id; DELETE FROM ts WHERE id = 99; END
+direct CREATE TRIGGER g1 ON ts AFTER UPDATE BEGIN INSERT INTO log (msg) VALUES ('au ' + CAST(__new.id AS SQL_CHAR(10))); END
+direct CREATE TRIGGER g2 ON ts AFTER DELETE BEGIN INSERT INTO log (msg) VALUES ('ad ' + CAST(__old.id AS SQL_CHAR(10))); END
+direct INSERT INTO ts VALUES (1, 'a')
+direct INSERT INTO ts VALUES (99, 'z')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER ts.g1
+direct DROP TRIGGER ts.g2
+# C: AFTER INSERT writes another table whose trigger writes back
+direct CREATE TRIGGER g0 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('a ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO tz VALUES (__new.id + 10); END IF; END
+direct CREATE TRIGGER g1 ON tz AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('z ' + CAST(__new.id AS SQL_CHAR(10))); INSERT INTO ts VALUES (__new.id + 100, 'from tz'); END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER tz.g1
+# D: AFTER INSERT of ts writes ts: a BEFORE INSERT on tz, tz is written by ts's AFTER
+direct CREATE TRIGGER g0 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('a ' + CAST(__new.id AS SQL_CHAR(10))); INSERT INTO tz VALUES (__new.id); INSERT INTO tz VALUES (__new.id + 1); END
+direct CREATE TRIGGER g1 ON tz BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('zb ' + CAST(__new.id AS SQL_CHAR(10))); END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER tz.g1
+# E: INSTEAD OF INSERT writes its table, a second INSTEAD OF on UPDATE
+direct CREATE TRIGGER g0 ON ts INSTEAD OF INSERT BEGIN INSERT INTO log (msg) VALUES ('ii ' + CAST(__new.id AS SQL_CHAR(10))); INSERT INTO ts VALUES (__new.id, 'ins'); UPDATE ts SET name = 'u'; END
+direct CREATE TRIGGER g1 ON ts INSTEAD OF UPDATE BEGIN INSERT INTO log (msg) VALUES ('iu ' + CAST(__new.id AS SQL_CHAR(10))); END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER ts.g1
+# F: BEFORE INSERT writes its own table, with AFTER INSERT present
+direct CREATE TRIGGER g0 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('b ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN INSERT INTO ts VALUES (__new.id + 10, 'x'); END IF; END
+direct CREATE TRIGGER g1 ON ts AFTER INSERT BEGIN INSERT INTO log (msg) VALUES ('a ' + CAST(__new.id AS SQL_CHAR(10))); END
+direct INSERT INTO ts VALUES (1, 'a')
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+direct DROP TRIGGER ts.g1
+# G: BEFORE UPDATE writes its own table by update
+direct CREATE TRIGGER g0 ON ts BEFORE UPDATE BEGIN INSERT INTO log (msg) VALUES ('bu ' + CAST(__new.id AS SQL_CHAR(10))); IF __new.id < 3 THEN UPDATE ts SET name = 'n' WHERE id = 5; END IF; END
+direct INSERT INTO ts VALUES (1, 'a')
+direct INSERT INTO ts VALUES (5, 'five')
+direct UPDATE ts SET name = 'q' WHERE id = 1
+query SELECT * FROM ts
+query SELECT msg FROM log
+direct DELETE FROM log
+direct DELETE FROM ts
+direct DELETE FROM tz
+direct DROP TRIGGER ts.g0
+#
+# A transaction statement in a trigger.
+direct CREATE TRIGGER x1 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('x1'); COMMIT WORK; END
+direct INSERT INTO ts VALUES (1, 'a')
+direct DROP TRIGGER ts.x1
+direct CREATE TRIGGER x2 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('x2'); BEGIN TRANSACTION; END
+direct INSERT INTO ts VALUES (2, 'a')
+direct DROP TRIGGER ts.x2
+direct CREATE TRIGGER x3 ON ts BEFORE INSERT BEGIN INSERT INTO log (msg) VALUES ('x3'); ROLLBACK WORK; END
+direct INSERT INTO ts VALUES (3, 'a')
+direct DROP TRIGGER ts.x3
+query SELECT * FROM ts
+query SELECT msg FROM log
+txcount

@@ -1,0 +1,111 @@
+ddconnect vw.add
+cursor SELECT * FROM vt
+top
+append
+state
+get name
+get n
+set name string new
+write
+get n
+get name
+state
+rows
+closecursor
+cursor SELECT * FROM v_all
+top
+append
+set name string va
+write
+state
+goto 2
+delete
+state
+write
+goto 2
+recall
+rows
+closecursor
+cursor SELECT * FROM v_where
+top
+state
+append
+set name string vw
+write
+state
+rows
+goto 6
+get n
+top
+set n long 5
+write
+state
+rows
+count
+top
+delete
+state
+rows
+closecursor
+cursor SELECT * FROM v_sub
+top
+append
+set name string vs
+write
+state
+get name
+rows
+goto 1
+set name string vs1
+write
+get name
+get id
+closecursor
+cursor SELECT * FROM v_alias
+top
+set label string al
+write
+get label
+goto 2
+delete
+rows
+append
+set ident long 50
+set label string al2
+write
+state
+rows
+closecursor
+cursor SELECT * FROM v_of_view
+top
+state
+set label string ov
+write
+append
+set label string ov2
+write
+state
+rows
+count
+closecursor
+constrain 1
+cursor SELECT * FROM v_where
+top
+set n long 5
+write
+state
+rows
+closecursor
+cursor SELECT * FROM v_of_view
+top
+set ident long 1
+write
+state
+rows
+closecursor
+cursor SELECT * FROM vu
+rows
+closecursor
+cursor SELECT * FROM vt
+rows
+closecursor

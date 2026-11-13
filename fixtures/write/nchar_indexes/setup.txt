@@ -1,0 +1,13 @@
+# NChar and NVarChar orders in a table's structural index.
+sql CREATE TABLE nx (id INTEGER, nc NCHAR(8), nv NVARCHAR(10), grp SHORT)
+sql CREATE INDEX by_nc ON nx (nc)
+sql CREATE INDEX by_nv ON nx (nv)
+sql CREATE INDEX by_nv_desc ON nx (nv DESC)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('nx', 'nx', 'cond', 'nv', 'grp > 3', 2, 512, NULL)
+sql CREATE TABLE nu (id INTEGER, code NCHAR(6))
+sql CREATE UNIQUE INDEX by_code ON nu (code)
+# Orders on several fields, whose segments are each the field's key.
+sql CREATE TABLE ny (id INTEGER, grp SHORT, nc NCHAR(4), nv NVARCHAR(5))
+sql CREATE INDEX by_grp_nc ON ny (grp, nc)
+sql CREATE INDEX by_nc_nv ON ny (nc, nv)
+sql CREATE INDEX by_nv_grp ON ny (nv, grp)

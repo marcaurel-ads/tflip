@@ -1,0 +1,102 @@
+# CREATE TABLE and DROP TABLE on a data dictionary connection, in an empty
+# folder: the tables join (and leave) a dictionary the script creates,
+# ct/ct.add, with their field constraints, primary keys and memo block
+# sizes; the refusals. The dictionary and the table files it leaves are
+# kept in fixtures/sql/ddtables/:
+#
+#     run.sh <work> <ace32.dll> ddtables.txt > ../../../fixtures/sql/ddtables.json
+#     cp <work>/data/ct/* ../../../fixtures/sql/ddtables/
+ddcreate ct\ct.add
+stmt
+#
+# Plain tables: every common type, a memo file, MEMOBLOCKSIZE (kept in the
+# dictionary, a table without memo fields too), IN DATABASE, and AS FREE
+# TABLE (a free table beside the dictionary, not in it).
+direct CREATE TABLE plain (id INTEGER, s CHAR(10), n NUMERIC(8,2), d DATE, l LOGICAL, ts TIMESTAMP, dbl DOUBLE, c CICHAR(4), m MEMO, b BLOB)
+direct CREATE TABLE blocks (id INTEGER, m MEMO) MEMOBLOCKSIZE 64
+direct CREATE TABLE noblocks (id INTEGER) MEMOBLOCKSIZE 1024
+direct CREATE TABLE indb (id INTEGER) IN DATABASE MEMOBLOCKSIZE 128
+direct CREATE TABLE freed (id INTEGER, m MEMO) MEMOBLOCKSIZE 32 AS FREE TABLE
+#
+# Field constraints: CONSTRAINT NOT NULL, MINIMUM, MAXIMUM and ERROR
+# MESSAGE, and DEFAULT, are kept (an empty value is none, the values are
+# not checked); a plain NOT NULL or NULL is not.
+direct CREATE TABLE cons (id INTEGER CONSTRAINT NOT NULL, name CHAR(10) DEFAULT 'abc' CONSTRAINT NOT NULL, qty INTEGER CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '100' CONSTRAINT ERROR MESSAGE 'qty out of range' DEFAULT '5', d DATE DEFAULT '01/02/2020' CONSTRAINT MINIMUM '01/01/2000', s CHAR(5) NOT NULL, t CHAR(5) NULL, q CHAR(6) DEFAULT 'it''s', e INTEGER DEFAULT '' CONSTRAINT MINIMUM '' CONSTRAINT ERROR MESSAGE '', x INTEGER CONSTRAINT minimum 'abc' CONSTRAINT Maximum 'xyz', n INTEGER CONSTRAINT NOT NULL NOT NULL, m MEMO CONSTRAINT NOT NULL)
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'cons'
+direct INSERT INTO cons (id, s, n, m) VALUES (1, 'x', 2, 'memo')
+direct INSERT INTO cons (s, n, m) VALUES ('x', 2, 'memo')
+direct INSERT INTO cons (id, s, n, m, qty) VALUES (2, 'x', 2, 'memo', 101)
+query SELECT id, name, qty, d, s, t, q, n FROM cons
+query SELECT e FROM cons
+#
+# Primary keys: a column's (the order PK_<TABLE>), a named one (the name
+# in capitals), the table's of two columns and one descending, of other
+# key types, on an AutoInc; the table records its key.
+direct CREATE TABLE pk1 (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE pk2 (id INTEGER CONSTRAINT mykey PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE pk3 (a INTEGER, b CHAR(4), PRIMARY KEY (a, b))
+direct CREATE TABLE pk4 (a INTEGER, b CHAR(5), CONSTRAINT k PRIMARY KEY (b DESC))
+direct CREATE TABLE pk5 (s CICHAR(10), t TIMESTAMP, d DATE, PRIMARY KEY (s, t))
+direct CREATE TABLE pk6 (n AUTOINC PRIMARY KEY, dbl DOUBLE)
+direct CREATE TABLE pk7 (n INTEGER PRIMARY KEY CONSTRAINT NOT NULL, m MEMO) MEMOBLOCKSIZE 16
+query SELECT Name, Table_Primary_Key, Table_Memo_Block_Size FROM system.tables
+query SELECT Name, Parent, Index_File_Name, Index_Expression, Index_Options, Index_Key_Length FROM system.indexes
+direct INSERT INTO pk1 VALUES (1, 'a')
+direct INSERT INTO pk1 VALUES (1, 'b')
+direct INSERT INTO pk1 (s) VALUES ('c')
+query SELECT * FROM pk1
+#
+# The refusals.
+direct CREATE TABLE plain (id INTEGER)
+direct CREATE TABLE plain (id INTEGER CONSTRAINT NOT NULL)
+direct CREATE TABLE bad1 (n INTEGER PRIMARY KEY, s CHAR(3) PRIMARY KEY)
+direct CREATE TABLE bad2 (n INTEGER PRIMARY KEY, PRIMARY KEY (n))
+direct CREATE TABLE bad3 (n INTEGER, CONSTRAINT k PRIMARY KEY (n), CONSTRAINT k2 PRIMARY KEY (n))
+direct CREATE TABLE bad4 (m MEMO PRIMARY KEY)
+direct CREATE TABLE bad5 (n INTEGER, PRIMARY KEY (zz))
+direct CREATE TABLE bad6 (n INTEGER NOT NULL NULL)
+direct CREATE TABLE bad7 (n INTEGER DEFAULT 'a' DEFAULT 'b')
+direct CREATE TABLE bad8 (n INTEGER CONSTRAINT MINIMUM '2' CONSTRAINT MINIMUM '3')
+direct CREATE TABLE bad9 (n INTEGER CONSTRAINT MAXIMUM '2' CONSTRAINT MAXIMUM '3')
+direct CREATE TABLE bad10 (n INTEGER CONSTRAINT NOT NULL CONSTRAINT NOT NULL)
+direct CREATE TABLE bad11 (n INTEGER CONSTRAINT ERROR MESSAGE 'a' CONSTRAINT ERROR MESSAGE 'b')
+direct CREATE TABLE bad12 (n INTEGER CONSTRAINT c1 NOT NULL)
+direct CREATE TABLE bad13 (n INTEGER CONSTRAINT NULL)
+direct CREATE TABLE bad14 (n INTEGER, CONSTRAINT PRIMARY KEY (n))
+direct CREATE TABLE bad15 (n INTEGER UNIQUE)
+direct CREATE TABLE bad16 (n INTEGER DEFAULT 5)
+direct CREATE TABLE bad17 (n INTEGER CONSTRAINT MINIMUM 1)
+direct CREATE TABLE bad18 (n INTEGER, s CHAR(2) CONSTRAINT NOT NULL) AS FREE TABLE
+direct CREATE TABLE bad19 (n INTEGER PRIMARY KEY) AS FREE TABLE
+direct CREATE TABLE bad20 (n INTEGER, n CHAR(2))
+query SELECT Name FROM system.tables
+#
+# DROP TABLE: the table leaves the dictionary with its fields, index file
+# and key, and its files go; a table made after takes the next ids, its
+# objects the slots of the deleted ones (the last deleted first), so the
+# dictionary lists it in their place.
+direct DROP TABLE pk3
+direct DROP TABLE blocks
+direct DROP TABLE nosuch
+direct DROP TABLE freed
+direct CREATE TABLE after (id INTEGER PRIMARY KEY, m MEMO)
+query SELECT Name, Table_Primary_Key FROM system.tables
+query SELECT Name, Parent, Index_Expression FROM system.indexes
+query SELECT Name FROM system.tables ORDER BY Name
+query SELECT Name, Parent FROM system.indexes ORDER BY Name
+#
+# The same folder on a free connection: a plain NOT NULL and a lone MINIMUM
+# pass, the other rules are refused for the first column with one (5160),
+# primary keys are made; IN DATABASE is refused; DROP TABLE of a table of
+# the dictionary.
+connect ct
+stmt
+direct CREATE TABLE fr1 (a INTEGER NOT NULL, b CHAR(4) NULL, c INTEGER CONSTRAINT MINIMUM '1', PRIMARY KEY (a, b))
+direct CREATE TABLE fr2 (x INTEGER CONSTRAINT MINIMUM '1', y INTEGER DEFAULT '2', z INTEGER CONSTRAINT NOT NULL)
+direct CREATE TABLE fr3 (a INTEGER CONSTRAINT k PRIMARY KEY, b CHAR(2))
+direct CREATE TABLE fr4 (a INTEGER) IN DATABASE
+direct CREATE TABLE fr5 (a INTEGER) AS FREE TABLE
+direct CREATE TABLE fr6 (m MEMO DEFAULT 'x', PRIMARY KEY (zz))
+direct CREATE TABLE fr7 (m MEMO, PRIMARY KEY (m))
+direct DROP TABLE fr5
+direct DROP TABLE pk2

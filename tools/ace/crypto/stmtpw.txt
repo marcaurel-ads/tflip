@@ -1,0 +1,99 @@
+# An RC4 free table opened, written and dropped through a statement given its password (AdsStmtSetTablePassword), and what AdsStmtEnableEncryption does.
+connect Data Source=%D;ServerType=LOCAL;
+sql CREATE TABLE r (id INTEGER, name CHAR(10))
+sql INSERT INTO r VALUES (1, 'one')
+sql CREATE TABLE p (id INTEGER, name CHAR(10))
+sql INSERT INTO p VALUES (1, 'plain')
+topen %D\r.adt
+t.enable pw
+tencrypt
+tclose
+# Without the password, and with a wrong one.
+sql SELECT * FROM r
+sql INSERT INTO r VALUES (9, 'nine')
+stmt
+s.exec SELECT * FROM r
+s.setpw r wrong
+s.exec SELECT * FROM r
+# With it: reads, writes and DROP; another statement has none.
+s.setpw r pw
+s.exec SELECT * FROM r
+s.exec INSERT INTO r VALUES (2, 'two')
+s.exec UPDATE r SET name = 'x' WHERE id = 1
+s.exec SELECT * FROM r
+s.exec SELECT * FROM r r1, r r2
+s.exec CREATE TABLE r9 (id INTEGER, name CHAR(10))
+s.exec INSERT INTO r9 SELECT * FROM r
+s.exec SELECT * FROM r9
+sql SELECT * FROM r
+s.clear
+s.exec SELECT * FROM r
+# The table's name: in any case, but not with its extension or a path; the last password for it counts; an empty one is none.
+s.setpw R pw
+s.exec SELECT * FROM r
+s.clear
+s.setpw r.adt pw
+s.exec SELECT * FROM r
+s.clear
+s.setpw %D\r.adt pw
+s.exec SELECT * FROM r
+s.clear
+s.setpw r PW
+s.exec SELECT * FROM r
+s.clear
+s.setpw r
+s.exec SELECT * FROM r
+s.clear
+s.setpw r NULL
+s.exec SELECT * FROM r
+s.clear
+s.setpw r pw
+s.setpw r pw2
+s.exec SELECT * FROM r
+# A table that is not encrypted opens with any password; a join needs each one's.
+s.setpw p wrong
+s.exec SELECT * FROM p
+s.setpw r pw
+s.exec SELECT * FROM r, p
+s.exec SELECT * FROM r, p
+s.setpw r pw2
+s.exec SELECT * FROM r, p
+s.clear
+s.setpw r pw
+s.prepare SELECT * FROM r
+s.run
+s.clear
+s.run
+s.setpw r pw
+s.exec DROP TABLE r
+sql SELECT * FROM r
+# AdsStmtEnableEncryption does not encrypt what the statement creates or writes, nor open an encrypted table.
+s.enable pw
+s.exec CREATE TABLE r2 (id INTEGER, name CHAR(10))
+s.exec INSERT INTO r2 VALUES (1, 'uno')
+s.exec SELECT * FROM r2
+s.disable
+s.exec CREATE TABLE r3 (id INTEGER, name CHAR(10))
+s.exec INSERT INTO r3 VALUES (1, 'tres')
+# Their arguments.
+stmt0
+s.setpw r pw
+s.clear
+s.enable pw
+s.disable
+stmt0 conn
+s.setpw r pw
+s.clear
+s.enable pw
+s.disable
+stmt
+s.setpw NULL pw
+s.setpw NULL NULL
+s.enable NULL
+s.enable
+s.setpw r 123456789012345678901234567890123456789012345678901234567890
+s.disable
+s.disable
+s.clear
+s.clear
+disconnect

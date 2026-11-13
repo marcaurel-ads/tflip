@@ -1,0 +1,290 @@
+tabletype adt
+open t.adt
+order o1
+order o37
+order o50
+order o64
+order o99
+order o100
+order o101
+append
+set a string mid
+set b long 1
+write
+order o64
+top
+get a
+order o100
+top
+get a
+deleteindex o1
+deleteindex o4
+deleteindex o7
+deleteindex o10
+deleteindex o13
+deleteindex o16
+deleteindex o19
+deleteindex o22
+deleteindex o25
+deleteindex o28
+deleteindex o31
+deleteindex o34
+deleteindex o37
+deleteindex o40
+deleteindex o43
+deleteindex o46
+deleteindex o49
+deleteindex o52
+deleteindex o55
+deleteindex o58
+deleteindex o61
+deleteindex o64
+deleteindex o67
+deleteindex o70
+deleteindex o73
+deleteindex o76
+deleteindex o79
+deleteindex o82
+deleteindex o85
+deleteindex o88
+deleteindex o91
+deleteindex o94
+deleteindex o97
+deleteindex o100
+createindex - n1 2 512 a
+createindex - o4 2 512 a
+deleteindex o2
+deleteindex o3
+deleteindex o5
+deleteindex o6
+deleteindex o8
+deleteindex o9
+deleteindex o11
+deleteindex o12
+deleteindex o14
+deleteindex o15
+deleteindex o17
+deleteindex o18
+deleteindex o20
+deleteindex o21
+deleteindex o23
+deleteindex o24
+deleteindex o26
+deleteindex o27
+deleteindex o29
+deleteindex o30
+deleteindex o32
+deleteindex o33
+deleteindex o35
+deleteindex o36
+deleteindex o38
+deleteindex o39
+deleteindex o41
+deleteindex o42
+deleteindex o44
+deleteindex o45
+deleteindex o47
+deleteindex o48
+deleteindex o50
+deleteindex o51
+deleteindex o53
+deleteindex o54
+deleteindex o56
+deleteindex o57
+deleteindex o59
+deleteindex o60
+deleteindex o62
+deleteindex o63
+deleteindex o65
+deleteindex o66
+deleteindex o68
+deleteindex o69
+deleteindex o71
+deleteindex o72
+deleteindex o74
+deleteindex o75
+deleteindex o77
+deleteindex o78
+deleteindex o80
+deleteindex o81
+deleteindex o83
+deleteindex o84
+deleteindex o86
+deleteindex o87
+deleteindex o89
+deleteindex o90
+deleteindex o92
+deleteindex o93
+deleteindex o95
+deleteindex o96
+deleteindex o98
+deleteindex o99
+createindex - n2 2 512 a
+createindex - o1 2 512 a
+close
+open t.adt
+append
+set a string abc
+set b long 5
+write
+append
+set a string abd
+set b long 6
+write
+order o4
+top
+get a
+seek 2 abd
+get a
+bottom
+get a
+order n2
+top
+get a
+order o9
+close
+tabletype cdx
+open t.dbf
+order o1
+order o37
+order o50
+order o64
+order o99
+order o100
+order o101
+append
+set a string mid
+set b long 1
+write
+order o64
+top
+get a
+order o100
+top
+get a
+deleteindex o1
+deleteindex o4
+deleteindex o7
+deleteindex o10
+deleteindex o13
+deleteindex o16
+deleteindex o19
+deleteindex o22
+deleteindex o25
+deleteindex o28
+deleteindex o31
+deleteindex o34
+deleteindex o37
+deleteindex o40
+deleteindex o43
+deleteindex o46
+deleteindex o49
+deleteindex o52
+deleteindex o55
+deleteindex o58
+deleteindex o61
+deleteindex o64
+deleteindex o67
+deleteindex o70
+deleteindex o73
+deleteindex o76
+deleteindex o79
+deleteindex o82
+deleteindex o85
+deleteindex o88
+deleteindex o91
+deleteindex o94
+deleteindex o97
+deleteindex o100
+createindex - n1 2 512 a
+createindex - o4 2 512 a
+deleteindex o2
+deleteindex o3
+deleteindex o5
+deleteindex o6
+deleteindex o8
+deleteindex o9
+deleteindex o11
+deleteindex o12
+deleteindex o14
+deleteindex o15
+deleteindex o17
+deleteindex o18
+deleteindex o20
+deleteindex o21
+deleteindex o23
+deleteindex o24
+deleteindex o26
+deleteindex o27
+deleteindex o29
+deleteindex o30
+deleteindex o32
+deleteindex o33
+deleteindex o35
+deleteindex o36
+deleteindex o38
+deleteindex o39
+deleteindex o41
+deleteindex o42
+deleteindex o44
+deleteindex o45
+deleteindex o47
+deleteindex o48
+deleteindex o50
+deleteindex o51
+deleteindex o53
+deleteindex o54
+deleteindex o56
+deleteindex o57
+deleteindex o59
+deleteindex o60
+deleteindex o62
+deleteindex o63
+deleteindex o65
+deleteindex o66
+deleteindex o68
+deleteindex o69
+deleteindex o71
+deleteindex o72
+deleteindex o74
+deleteindex o75
+deleteindex o77
+deleteindex o78
+deleteindex o80
+deleteindex o81
+deleteindex o83
+deleteindex o84
+deleteindex o86
+deleteindex o87
+deleteindex o89
+deleteindex o90
+deleteindex o92
+deleteindex o93
+deleteindex o95
+deleteindex o96
+deleteindex o98
+deleteindex o99
+createindex - n2 2 512 a
+createindex - o1 2 512 a
+close
+open t.dbf
+append
+set a string abc
+set b long 5
+write
+append
+set a string abd
+set b long 6
+write
+order o4
+top
+get a
+seek 2 abd
+get a
+bottom
+get a
+order n2
+top
+get a
+order o9
+close

@@ -1,0 +1,5 @@
+#include free_all.txt
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\ar1', 'ArchiveFile=x.tar', NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\ar2', 'ArchiveFileCompressed=x.tar.gz', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\ar1', '@ROOT@\dst1', 'ArchiveFile=x.tar', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\ar2', '@ROOT@\dst2', 'ArchiveFileCompressed=x.tar.gz', NULL)

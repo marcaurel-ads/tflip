@@ -1,0 +1,25 @@
+# An encrypted table with an enciphered index gets a second index. On each dictionary of 00_create.txt that has the table of 11_indexes.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (4, 'four')
+sql CREATE INDEX ti_id ON ti (id)
+sql INSERT INTO ti VALUES (5, 'five')
+sql DELETE FROM ti WHERE id = 2
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (4, 'four')
+sql CREATE INDEX ti_id ON ti (id)
+sql INSERT INTO ti VALUES (5, 'five')
+sql DELETE FROM ti WHERE id = 2
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql EXECUTE PROCEDURE sp_EncryptTable('ti')
+sql INSERT INTO ti VALUES (4, 'four')
+sql CREATE INDEX ti_id ON ti (id)
+sql INSERT INTO ti VALUES (5, 'five')
+sql DELETE FROM ti WHERE id = 2
+disconnect

@@ -1,0 +1,20 @@
+[package]
+name = "tflip-engine"
+description = "The TableflipDB engine behind the client library and the server: connections, handles, table listings"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+tflip-storage = { path = "../tflip-storage" }
+tflip-expr = { path = "../tflip-expr" }
+tflip-sql = { path = "../tflip-sql" }
+serde.workspace = true
+chrono = { version = "0.4.45", default-features = false, features = ["clock"] }
+
+[dev-dependencies]
+serde_json = "1.0.151"
+
+[features]
+# Hooks that let a test hold a backup under way.
+test-hooks = []

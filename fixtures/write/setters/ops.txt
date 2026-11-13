@@ -1,0 +1,4307 @@
+open s.adt
+append
+# c_char
+set c_char string abc
+get c_char
+raw c_char
+set c_char string ""
+get c_char
+raw c_char
+set c_char string abcdefghijklmnopqrstuvwxyz
+get c_char
+raw c_char
+set c_char string   12.5
+get c_char
+raw c_char
+set c_char string T
+get c_char
+raw c_char
+set c_char string 11/08/2017
+get c_char
+raw c_char
+set c_char string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_char
+raw c_char
+set c_char string \xe4\x80
+get c_char
+raw c_char
+set c_char stringw caf\xe9
+get c_char
+raw c_char
+set c_char stringw abcdefghijkl
+get c_char
+raw c_char
+set c_char field abc
+get c_char
+raw c_char
+set c_char field ""
+get c_char
+raw c_char
+set c_char field  42
+get c_char
+raw c_char
+set c_char field -1.005
+get c_char
+raw c_char
+set c_char field 123456789.125
+get c_char
+raw c_char
+set c_char field 1e3
+get c_char
+raw c_char
+set c_char field x1
+get c_char
+raw c_char
+set c_char field T
+get c_char
+raw c_char
+set c_char field n
+get c_char
+raw c_char
+set c_char field 11/08/2017
+get c_char
+raw c_char
+set c_char field 2/30/2017
+get c_char
+raw c_char
+set c_char field 13:45
+get c_char
+raw c_char
+set c_char field 12/31/1999 23:59:59.999
+get c_char
+raw c_char
+set c_char field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_char
+raw c_char
+set c_char field \xde\xad\xbe\xef\x01
+get c_char
+raw c_char
+set c_char long 0
+get c_char
+raw c_char
+set c_char long -5
+get c_char
+raw c_char
+set c_char long 40000
+get c_char
+raw c_char
+set c_char long 2147483647
+get c_char
+raw c_char
+set c_char long -2147483648
+get c_char
+raw c_char
+set c_char short -32768
+get c_char
+raw c_char
+set c_char short 7
+get c_char
+raw c_char
+set c_char longlong 9223372036854775807
+get c_char
+raw c_char
+set c_char longlong -3
+get c_char
+raw c_char
+set c_char double 2.5
+get c_char
+raw c_char
+set c_char double -0.125
+get c_char
+raw c_char
+set c_char double 12345.678
+get c_char
+raw c_char
+set c_char double 1e20
+get c_char
+raw c_char
+set c_char double 0.005
+get c_char
+raw c_char
+set c_char logical 0
+get c_char
+raw c_char
+set c_char logical 1
+get c_char
+raw c_char
+set c_char logical 2
+get c_char
+raw c_char
+set c_char date 11/08/2017
+get c_char
+raw c_char
+set c_char date 13/45/2017
+get c_char
+raw c_char
+set c_char date ""
+get c_char
+raw c_char
+set c_char date 1/2/3
+get c_char
+raw c_char
+set c_char julian 2458066
+get c_char
+raw c_char
+set c_char julian 0
+get c_char
+raw c_char
+set c_char time 13:45:30.250
+get c_char
+raw c_char
+set c_char time 25:00
+get c_char
+raw c_char
+set c_char time ""
+get c_char
+raw c_char
+set c_char ms 0
+get c_char
+raw c_char
+set c_char ms 86399999
+get c_char
+raw c_char
+set c_char ms -1
+get c_char
+raw c_char
+set c_char timestamp 11/08/2017 13:45:30.250
+get c_char
+raw c_char
+set c_char timestamp 11/08/2017
+get c_char
+raw c_char
+set c_char money 123456
+get c_char
+raw c_char
+set c_char money -1
+get c_char
+raw c_char
+set c_char binary 0102
+get c_char
+raw c_char
+set c_char binary 0102030405060708090a
+get c_char
+raw c_char
+set c_char null
+get c_char
+raw c_char
+set c_char empty
+get c_char
+raw c_char
+# c_cichar
+set c_cichar string abc
+get c_cichar
+raw c_cichar
+set c_cichar string ""
+get c_cichar
+raw c_cichar
+set c_cichar string abcdefghijklmnopqrstuvwxyz
+get c_cichar
+raw c_cichar
+set c_cichar string   12.5
+get c_cichar
+raw c_cichar
+set c_cichar string T
+get c_cichar
+raw c_cichar
+set c_cichar string 11/08/2017
+get c_cichar
+raw c_cichar
+set c_cichar string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_cichar
+raw c_cichar
+set c_cichar string \xe4\x80
+get c_cichar
+raw c_cichar
+set c_cichar stringw caf\xe9
+get c_cichar
+raw c_cichar
+set c_cichar stringw abcdefghijkl
+get c_cichar
+raw c_cichar
+set c_cichar field abc
+get c_cichar
+raw c_cichar
+set c_cichar field ""
+get c_cichar
+raw c_cichar
+set c_cichar field  42
+get c_cichar
+raw c_cichar
+set c_cichar field -1.005
+get c_cichar
+raw c_cichar
+set c_cichar field 123456789.125
+get c_cichar
+raw c_cichar
+set c_cichar field 1e3
+get c_cichar
+raw c_cichar
+set c_cichar field x1
+get c_cichar
+raw c_cichar
+set c_cichar field T
+get c_cichar
+raw c_cichar
+set c_cichar field n
+get c_cichar
+raw c_cichar
+set c_cichar field 11/08/2017
+get c_cichar
+raw c_cichar
+set c_cichar field 2/30/2017
+get c_cichar
+raw c_cichar
+set c_cichar field 13:45
+get c_cichar
+raw c_cichar
+set c_cichar field 12/31/1999 23:59:59.999
+get c_cichar
+raw c_cichar
+set c_cichar field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_cichar
+raw c_cichar
+set c_cichar field \xde\xad\xbe\xef\x01
+get c_cichar
+raw c_cichar
+set c_cichar long 0
+get c_cichar
+raw c_cichar
+set c_cichar long -5
+get c_cichar
+raw c_cichar
+set c_cichar long 40000
+get c_cichar
+raw c_cichar
+set c_cichar long 2147483647
+get c_cichar
+raw c_cichar
+set c_cichar long -2147483648
+get c_cichar
+raw c_cichar
+set c_cichar short -32768
+get c_cichar
+raw c_cichar
+set c_cichar short 7
+get c_cichar
+raw c_cichar
+set c_cichar longlong 9223372036854775807
+get c_cichar
+raw c_cichar
+set c_cichar longlong -3
+get c_cichar
+raw c_cichar
+set c_cichar double 2.5
+get c_cichar
+raw c_cichar
+set c_cichar double -0.125
+get c_cichar
+raw c_cichar
+set c_cichar double 12345.678
+get c_cichar
+raw c_cichar
+set c_cichar double 1e20
+get c_cichar
+raw c_cichar
+set c_cichar double 0.005
+get c_cichar
+raw c_cichar
+set c_cichar logical 0
+get c_cichar
+raw c_cichar
+set c_cichar logical 1
+get c_cichar
+raw c_cichar
+set c_cichar logical 2
+get c_cichar
+raw c_cichar
+set c_cichar date 11/08/2017
+get c_cichar
+raw c_cichar
+set c_cichar date 13/45/2017
+get c_cichar
+raw c_cichar
+set c_cichar date ""
+get c_cichar
+raw c_cichar
+set c_cichar date 1/2/3
+get c_cichar
+raw c_cichar
+set c_cichar julian 2458066
+get c_cichar
+raw c_cichar
+set c_cichar julian 0
+get c_cichar
+raw c_cichar
+set c_cichar time 13:45:30.250
+get c_cichar
+raw c_cichar
+set c_cichar time 25:00
+get c_cichar
+raw c_cichar
+set c_cichar time ""
+get c_cichar
+raw c_cichar
+set c_cichar ms 0
+get c_cichar
+raw c_cichar
+set c_cichar ms 86399999
+get c_cichar
+raw c_cichar
+set c_cichar ms -1
+get c_cichar
+raw c_cichar
+set c_cichar timestamp 11/08/2017 13:45:30.250
+get c_cichar
+raw c_cichar
+set c_cichar timestamp 11/08/2017
+get c_cichar
+raw c_cichar
+set c_cichar money 123456
+get c_cichar
+raw c_cichar
+set c_cichar money -1
+get c_cichar
+raw c_cichar
+set c_cichar binary 0102
+get c_cichar
+raw c_cichar
+set c_cichar binary 0102030405060708090a
+get c_cichar
+raw c_cichar
+set c_cichar null
+get c_cichar
+raw c_cichar
+set c_cichar empty
+get c_cichar
+raw c_cichar
+# c_varchar
+set c_varchar string abc
+get c_varchar
+raw c_varchar
+set c_varchar string ""
+get c_varchar
+raw c_varchar
+set c_varchar string abcdefghijklmnopqrstuvwxyz
+get c_varchar
+raw c_varchar
+set c_varchar string   12.5
+get c_varchar
+raw c_varchar
+set c_varchar string T
+get c_varchar
+raw c_varchar
+set c_varchar string 11/08/2017
+get c_varchar
+raw c_varchar
+set c_varchar string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_varchar
+raw c_varchar
+set c_varchar string \xe4\x80
+get c_varchar
+raw c_varchar
+set c_varchar stringw caf\xe9
+get c_varchar
+raw c_varchar
+set c_varchar stringw abcdefghijkl
+get c_varchar
+raw c_varchar
+set c_varchar field abc
+get c_varchar
+raw c_varchar
+set c_varchar field ""
+get c_varchar
+raw c_varchar
+set c_varchar field  42
+get c_varchar
+raw c_varchar
+set c_varchar field -1.005
+get c_varchar
+raw c_varchar
+set c_varchar field 123456789.125
+get c_varchar
+raw c_varchar
+set c_varchar field 1e3
+get c_varchar
+raw c_varchar
+set c_varchar field x1
+get c_varchar
+raw c_varchar
+set c_varchar field T
+get c_varchar
+raw c_varchar
+set c_varchar field n
+get c_varchar
+raw c_varchar
+set c_varchar field 11/08/2017
+get c_varchar
+raw c_varchar
+set c_varchar field 2/30/2017
+get c_varchar
+raw c_varchar
+set c_varchar field 13:45
+get c_varchar
+raw c_varchar
+set c_varchar field 12/31/1999 23:59:59.999
+get c_varchar
+raw c_varchar
+set c_varchar field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_varchar
+raw c_varchar
+set c_varchar field \xde\xad\xbe\xef\x01
+get c_varchar
+raw c_varchar
+set c_varchar long 0
+get c_varchar
+raw c_varchar
+set c_varchar long -5
+get c_varchar
+raw c_varchar
+set c_varchar long 40000
+get c_varchar
+raw c_varchar
+set c_varchar long 2147483647
+get c_varchar
+raw c_varchar
+set c_varchar long -2147483648
+get c_varchar
+raw c_varchar
+set c_varchar short -32768
+get c_varchar
+raw c_varchar
+set c_varchar short 7
+get c_varchar
+raw c_varchar
+set c_varchar longlong 9223372036854775807
+get c_varchar
+raw c_varchar
+set c_varchar longlong -3
+get c_varchar
+raw c_varchar
+set c_varchar double 2.5
+get c_varchar
+raw c_varchar
+set c_varchar double -0.125
+get c_varchar
+raw c_varchar
+set c_varchar double 12345.678
+get c_varchar
+raw c_varchar
+set c_varchar double 1e20
+get c_varchar
+raw c_varchar
+set c_varchar double 0.005
+get c_varchar
+raw c_varchar
+set c_varchar logical 0
+get c_varchar
+raw c_varchar
+set c_varchar logical 1
+get c_varchar
+raw c_varchar
+set c_varchar logical 2
+get c_varchar
+raw c_varchar
+set c_varchar date 11/08/2017
+get c_varchar
+raw c_varchar
+set c_varchar date 13/45/2017
+get c_varchar
+raw c_varchar
+set c_varchar date ""
+get c_varchar
+raw c_varchar
+set c_varchar date 1/2/3
+get c_varchar
+raw c_varchar
+set c_varchar julian 2458066
+get c_varchar
+raw c_varchar
+set c_varchar julian 0
+get c_varchar
+raw c_varchar
+set c_varchar time 13:45:30.250
+get c_varchar
+raw c_varchar
+set c_varchar time 25:00
+get c_varchar
+raw c_varchar
+set c_varchar time ""
+get c_varchar
+raw c_varchar
+set c_varchar ms 0
+get c_varchar
+raw c_varchar
+set c_varchar ms 86399999
+get c_varchar
+raw c_varchar
+set c_varchar ms -1
+get c_varchar
+raw c_varchar
+set c_varchar timestamp 11/08/2017 13:45:30.250
+get c_varchar
+raw c_varchar
+set c_varchar timestamp 11/08/2017
+get c_varchar
+raw c_varchar
+set c_varchar money 123456
+get c_varchar
+raw c_varchar
+set c_varchar money -1
+get c_varchar
+raw c_varchar
+set c_varchar binary 0102
+get c_varchar
+raw c_varchar
+set c_varchar binary 0102030405060708090a
+get c_varchar
+raw c_varchar
+set c_varchar null
+get c_varchar
+raw c_varchar
+set c_varchar empty
+get c_varchar
+raw c_varchar
+# c_nchar
+set c_nchar string abc
+get c_nchar
+raw c_nchar
+set c_nchar string ""
+get c_nchar
+raw c_nchar
+set c_nchar string abcdefghijklmnopqrstuvwxyz
+get c_nchar
+raw c_nchar
+set c_nchar string   12.5
+get c_nchar
+raw c_nchar
+set c_nchar string T
+get c_nchar
+raw c_nchar
+set c_nchar string 11/08/2017
+get c_nchar
+raw c_nchar
+set c_nchar string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_nchar
+raw c_nchar
+set c_nchar string \xe4\x80
+get c_nchar
+raw c_nchar
+set c_nchar stringw caf\xe9
+get c_nchar
+raw c_nchar
+set c_nchar stringw abcdefghijkl
+get c_nchar
+raw c_nchar
+set c_nchar field abc
+get c_nchar
+raw c_nchar
+set c_nchar field ""
+get c_nchar
+raw c_nchar
+set c_nchar field  42
+get c_nchar
+raw c_nchar
+set c_nchar field -1.005
+get c_nchar
+raw c_nchar
+set c_nchar field 123456789.125
+get c_nchar
+raw c_nchar
+set c_nchar field 1e3
+get c_nchar
+raw c_nchar
+set c_nchar field x1
+get c_nchar
+raw c_nchar
+set c_nchar field T
+get c_nchar
+raw c_nchar
+set c_nchar field n
+get c_nchar
+raw c_nchar
+set c_nchar field 11/08/2017
+get c_nchar
+raw c_nchar
+set c_nchar field 2/30/2017
+get c_nchar
+raw c_nchar
+set c_nchar field 13:45
+get c_nchar
+raw c_nchar
+set c_nchar field 12/31/1999 23:59:59.999
+get c_nchar
+raw c_nchar
+set c_nchar field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_nchar
+raw c_nchar
+set c_nchar field \xde\xad\xbe\xef\x01
+get c_nchar
+raw c_nchar
+set c_nchar long 0
+get c_nchar
+raw c_nchar
+set c_nchar long -5
+get c_nchar
+raw c_nchar
+set c_nchar long 40000
+get c_nchar
+raw c_nchar
+set c_nchar long 2147483647
+get c_nchar
+raw c_nchar
+set c_nchar long -2147483648
+get c_nchar
+raw c_nchar
+set c_nchar short -32768
+get c_nchar
+raw c_nchar
+set c_nchar short 7
+get c_nchar
+raw c_nchar
+set c_nchar longlong 9223372036854775807
+get c_nchar
+raw c_nchar
+set c_nchar longlong -3
+get c_nchar
+raw c_nchar
+set c_nchar double 2.5
+get c_nchar
+raw c_nchar
+set c_nchar double -0.125
+get c_nchar
+raw c_nchar
+set c_nchar double 12345.678
+get c_nchar
+raw c_nchar
+set c_nchar double 1e20
+get c_nchar
+raw c_nchar
+set c_nchar double 0.005
+get c_nchar
+raw c_nchar
+set c_nchar logical 0
+get c_nchar
+raw c_nchar
+set c_nchar logical 1
+get c_nchar
+raw c_nchar
+set c_nchar logical 2
+get c_nchar
+raw c_nchar
+set c_nchar date 11/08/2017
+get c_nchar
+raw c_nchar
+set c_nchar date 13/45/2017
+get c_nchar
+raw c_nchar
+set c_nchar date ""
+get c_nchar
+raw c_nchar
+set c_nchar date 1/2/3
+get c_nchar
+raw c_nchar
+set c_nchar julian 2458066
+get c_nchar
+raw c_nchar
+set c_nchar julian 0
+get c_nchar
+raw c_nchar
+set c_nchar time 13:45:30.250
+get c_nchar
+raw c_nchar
+set c_nchar time 25:00
+get c_nchar
+raw c_nchar
+set c_nchar time ""
+get c_nchar
+raw c_nchar
+set c_nchar ms 0
+get c_nchar
+raw c_nchar
+set c_nchar ms 86399999
+get c_nchar
+raw c_nchar
+set c_nchar ms -1
+get c_nchar
+raw c_nchar
+set c_nchar timestamp 11/08/2017 13:45:30.250
+get c_nchar
+raw c_nchar
+set c_nchar timestamp 11/08/2017
+get c_nchar
+raw c_nchar
+set c_nchar money 123456
+get c_nchar
+raw c_nchar
+set c_nchar money -1
+get c_nchar
+raw c_nchar
+set c_nchar binary 0102
+get c_nchar
+raw c_nchar
+set c_nchar binary 0102030405060708090a
+get c_nchar
+raw c_nchar
+set c_nchar null
+get c_nchar
+raw c_nchar
+set c_nchar empty
+get c_nchar
+raw c_nchar
+# c_nvarchar
+set c_nvarchar string abc
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string ""
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string abcdefghijklmnopqrstuvwxyz
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string   12.5
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string T
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string 11/08/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar string \xe4\x80
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar stringw caf\xe9
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar stringw abcdefghijkl
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field abc
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field ""
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field  42
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field -1.005
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 123456789.125
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 1e3
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field x1
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field T
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field n
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 11/08/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 2/30/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 13:45
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field 12/31/1999 23:59:59.999
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar field \xde\xad\xbe\xef\x01
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar long 0
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar long -5
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar long 40000
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar long 2147483647
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar long -2147483648
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar short -32768
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar short 7
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar longlong 9223372036854775807
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar longlong -3
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar double 2.5
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar double -0.125
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar double 12345.678
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar double 1e20
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar double 0.005
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar logical 0
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar logical 1
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar logical 2
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar date 11/08/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar date 13/45/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar date ""
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar date 1/2/3
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar julian 2458066
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar julian 0
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar time 13:45:30.250
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar time 25:00
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar time ""
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar ms 0
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar ms 86399999
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar ms -1
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar timestamp 11/08/2017 13:45:30.250
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar timestamp 11/08/2017
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar money 123456
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar money -1
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar binary 0102
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar binary 0102030405060708090a
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar null
+get c_nvarchar
+raw c_nvarchar
+set c_nvarchar empty
+get c_nvarchar
+raw c_nvarchar
+# c_raw
+set c_raw string abc
+get c_raw
+raw c_raw
+set c_raw string ""
+get c_raw
+raw c_raw
+set c_raw string abcdefghijklmnopqrstuvwxyz
+get c_raw
+raw c_raw
+set c_raw string   12.5
+get c_raw
+raw c_raw
+set c_raw string T
+get c_raw
+raw c_raw
+set c_raw string 11/08/2017
+get c_raw
+raw c_raw
+set c_raw string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_raw
+raw c_raw
+set c_raw string \xe4\x80
+get c_raw
+raw c_raw
+set c_raw stringw caf\xe9
+get c_raw
+raw c_raw
+set c_raw stringw abcdefghijkl
+get c_raw
+raw c_raw
+set c_raw field abc
+get c_raw
+raw c_raw
+set c_raw field ""
+get c_raw
+raw c_raw
+set c_raw field  42
+get c_raw
+raw c_raw
+set c_raw field -1.005
+get c_raw
+raw c_raw
+set c_raw field 123456789.125
+get c_raw
+raw c_raw
+set c_raw field 1e3
+get c_raw
+raw c_raw
+set c_raw field x1
+get c_raw
+raw c_raw
+set c_raw field T
+get c_raw
+raw c_raw
+set c_raw field n
+get c_raw
+raw c_raw
+set c_raw field 11/08/2017
+get c_raw
+raw c_raw
+set c_raw field 2/30/2017
+get c_raw
+raw c_raw
+set c_raw field 13:45
+get c_raw
+raw c_raw
+set c_raw field 12/31/1999 23:59:59.999
+get c_raw
+raw c_raw
+set c_raw field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_raw
+raw c_raw
+set c_raw field \xde\xad\xbe\xef\x01
+get c_raw
+raw c_raw
+set c_raw long 0
+get c_raw
+raw c_raw
+set c_raw long -5
+get c_raw
+raw c_raw
+set c_raw long 40000
+get c_raw
+raw c_raw
+set c_raw long 2147483647
+get c_raw
+raw c_raw
+set c_raw long -2147483648
+get c_raw
+raw c_raw
+set c_raw short -32768
+get c_raw
+raw c_raw
+set c_raw short 7
+get c_raw
+raw c_raw
+set c_raw longlong 9223372036854775807
+get c_raw
+raw c_raw
+set c_raw longlong -3
+get c_raw
+raw c_raw
+set c_raw double 2.5
+get c_raw
+raw c_raw
+set c_raw double -0.125
+get c_raw
+raw c_raw
+set c_raw double 12345.678
+get c_raw
+raw c_raw
+set c_raw double 1e20
+get c_raw
+raw c_raw
+set c_raw double 0.005
+get c_raw
+raw c_raw
+set c_raw logical 0
+get c_raw
+raw c_raw
+set c_raw logical 1
+get c_raw
+raw c_raw
+set c_raw logical 2
+get c_raw
+raw c_raw
+set c_raw date 11/08/2017
+get c_raw
+raw c_raw
+set c_raw date 13/45/2017
+get c_raw
+raw c_raw
+set c_raw date ""
+get c_raw
+raw c_raw
+set c_raw date 1/2/3
+get c_raw
+raw c_raw
+set c_raw julian 2458066
+get c_raw
+raw c_raw
+set c_raw julian 0
+get c_raw
+raw c_raw
+set c_raw time 13:45:30.250
+get c_raw
+raw c_raw
+set c_raw time 25:00
+get c_raw
+raw c_raw
+set c_raw time ""
+get c_raw
+raw c_raw
+set c_raw ms 0
+get c_raw
+raw c_raw
+set c_raw ms 86399999
+get c_raw
+raw c_raw
+set c_raw ms -1
+get c_raw
+raw c_raw
+set c_raw timestamp 11/08/2017 13:45:30.250
+get c_raw
+raw c_raw
+set c_raw timestamp 11/08/2017
+get c_raw
+raw c_raw
+set c_raw money 123456
+get c_raw
+raw c_raw
+set c_raw money -1
+get c_raw
+raw c_raw
+set c_raw binary 0102
+get c_raw
+raw c_raw
+set c_raw binary 0102030405060708090a
+get c_raw
+raw c_raw
+set c_raw null
+get c_raw
+raw c_raw
+set c_raw empty
+get c_raw
+raw c_raw
+# c_varbinary
+set c_varbinary string abc
+get c_varbinary
+raw c_varbinary
+set c_varbinary string ""
+get c_varbinary
+raw c_varbinary
+set c_varbinary string abcdefghijklmnopqrstuvwxyz
+get c_varbinary
+raw c_varbinary
+set c_varbinary string   12.5
+get c_varbinary
+raw c_varbinary
+set c_varbinary string T
+get c_varbinary
+raw c_varbinary
+set c_varbinary string 11/08/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_varbinary
+raw c_varbinary
+set c_varbinary string \xe4\x80
+get c_varbinary
+raw c_varbinary
+set c_varbinary stringw caf\xe9
+get c_varbinary
+raw c_varbinary
+set c_varbinary stringw abcdefghijkl
+get c_varbinary
+raw c_varbinary
+set c_varbinary field abc
+get c_varbinary
+raw c_varbinary
+set c_varbinary field ""
+get c_varbinary
+raw c_varbinary
+set c_varbinary field  42
+get c_varbinary
+raw c_varbinary
+set c_varbinary field -1.005
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 123456789.125
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 1e3
+get c_varbinary
+raw c_varbinary
+set c_varbinary field x1
+get c_varbinary
+raw c_varbinary
+set c_varbinary field T
+get c_varbinary
+raw c_varbinary
+set c_varbinary field n
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 11/08/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 2/30/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 13:45
+get c_varbinary
+raw c_varbinary
+set c_varbinary field 12/31/1999 23:59:59.999
+get c_varbinary
+raw c_varbinary
+set c_varbinary field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_varbinary
+raw c_varbinary
+set c_varbinary field \xde\xad\xbe\xef\x01
+get c_varbinary
+raw c_varbinary
+set c_varbinary long 0
+get c_varbinary
+raw c_varbinary
+set c_varbinary long -5
+get c_varbinary
+raw c_varbinary
+set c_varbinary long 40000
+get c_varbinary
+raw c_varbinary
+set c_varbinary long 2147483647
+get c_varbinary
+raw c_varbinary
+set c_varbinary long -2147483648
+get c_varbinary
+raw c_varbinary
+set c_varbinary short -32768
+get c_varbinary
+raw c_varbinary
+set c_varbinary short 7
+get c_varbinary
+raw c_varbinary
+set c_varbinary longlong 9223372036854775807
+get c_varbinary
+raw c_varbinary
+set c_varbinary longlong -3
+get c_varbinary
+raw c_varbinary
+set c_varbinary double 2.5
+get c_varbinary
+raw c_varbinary
+set c_varbinary double -0.125
+get c_varbinary
+raw c_varbinary
+set c_varbinary double 12345.678
+get c_varbinary
+raw c_varbinary
+set c_varbinary double 1e20
+get c_varbinary
+raw c_varbinary
+set c_varbinary double 0.005
+get c_varbinary
+raw c_varbinary
+set c_varbinary logical 0
+get c_varbinary
+raw c_varbinary
+set c_varbinary logical 1
+get c_varbinary
+raw c_varbinary
+set c_varbinary logical 2
+get c_varbinary
+raw c_varbinary
+set c_varbinary date 11/08/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary date 13/45/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary date ""
+get c_varbinary
+raw c_varbinary
+set c_varbinary date 1/2/3
+get c_varbinary
+raw c_varbinary
+set c_varbinary julian 2458066
+get c_varbinary
+raw c_varbinary
+set c_varbinary julian 0
+get c_varbinary
+raw c_varbinary
+set c_varbinary time 13:45:30.250
+get c_varbinary
+raw c_varbinary
+set c_varbinary time 25:00
+get c_varbinary
+raw c_varbinary
+set c_varbinary time ""
+get c_varbinary
+raw c_varbinary
+set c_varbinary ms 0
+get c_varbinary
+raw c_varbinary
+set c_varbinary ms 86399999
+get c_varbinary
+raw c_varbinary
+set c_varbinary ms -1
+get c_varbinary
+raw c_varbinary
+set c_varbinary timestamp 11/08/2017 13:45:30.250
+get c_varbinary
+raw c_varbinary
+set c_varbinary timestamp 11/08/2017
+get c_varbinary
+raw c_varbinary
+set c_varbinary money 123456
+get c_varbinary
+raw c_varbinary
+set c_varbinary money -1
+get c_varbinary
+raw c_varbinary
+set c_varbinary binary 0102
+get c_varbinary
+raw c_varbinary
+set c_varbinary binary 0102030405060708090a
+get c_varbinary
+raw c_varbinary
+set c_varbinary null
+get c_varbinary
+raw c_varbinary
+set c_varbinary empty
+get c_varbinary
+raw c_varbinary
+# c_guid
+set c_guid string abc
+get c_guid
+raw c_guid
+set c_guid string ""
+get c_guid
+raw c_guid
+set c_guid string abcdefghijklmnopqrstuvwxyz
+get c_guid
+raw c_guid
+set c_guid string   12.5
+get c_guid
+raw c_guid
+set c_guid string T
+get c_guid
+raw c_guid
+set c_guid string 11/08/2017
+get c_guid
+raw c_guid
+set c_guid string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_guid
+raw c_guid
+set c_guid string \xe4\x80
+get c_guid
+raw c_guid
+set c_guid stringw caf\xe9
+get c_guid
+raw c_guid
+set c_guid stringw abcdefghijkl
+get c_guid
+raw c_guid
+set c_guid field abc
+get c_guid
+raw c_guid
+set c_guid field ""
+get c_guid
+raw c_guid
+set c_guid field  42
+get c_guid
+raw c_guid
+set c_guid field -1.005
+get c_guid
+raw c_guid
+set c_guid field 123456789.125
+get c_guid
+raw c_guid
+set c_guid field 1e3
+get c_guid
+raw c_guid
+set c_guid field x1
+get c_guid
+raw c_guid
+set c_guid field T
+get c_guid
+raw c_guid
+set c_guid field n
+get c_guid
+raw c_guid
+set c_guid field 11/08/2017
+get c_guid
+raw c_guid
+set c_guid field 2/30/2017
+get c_guid
+raw c_guid
+set c_guid field 13:45
+get c_guid
+raw c_guid
+set c_guid field 12/31/1999 23:59:59.999
+get c_guid
+raw c_guid
+set c_guid field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_guid
+raw c_guid
+set c_guid field \xde\xad\xbe\xef\x01
+get c_guid
+raw c_guid
+set c_guid long 0
+get c_guid
+raw c_guid
+set c_guid long -5
+get c_guid
+raw c_guid
+set c_guid long 40000
+get c_guid
+raw c_guid
+set c_guid long 2147483647
+get c_guid
+raw c_guid
+set c_guid long -2147483648
+get c_guid
+raw c_guid
+set c_guid short -32768
+get c_guid
+raw c_guid
+set c_guid short 7
+get c_guid
+raw c_guid
+set c_guid longlong 9223372036854775807
+get c_guid
+raw c_guid
+set c_guid longlong -3
+get c_guid
+raw c_guid
+set c_guid double 2.5
+get c_guid
+raw c_guid
+set c_guid double -0.125
+get c_guid
+raw c_guid
+set c_guid double 12345.678
+get c_guid
+raw c_guid
+set c_guid double 1e20
+get c_guid
+raw c_guid
+set c_guid double 0.005
+get c_guid
+raw c_guid
+set c_guid logical 0
+get c_guid
+raw c_guid
+set c_guid logical 1
+get c_guid
+raw c_guid
+set c_guid logical 2
+get c_guid
+raw c_guid
+set c_guid date 11/08/2017
+get c_guid
+raw c_guid
+set c_guid date 13/45/2017
+get c_guid
+raw c_guid
+set c_guid date ""
+get c_guid
+raw c_guid
+set c_guid date 1/2/3
+get c_guid
+raw c_guid
+set c_guid julian 2458066
+get c_guid
+raw c_guid
+set c_guid julian 0
+get c_guid
+raw c_guid
+set c_guid time 13:45:30.250
+get c_guid
+raw c_guid
+set c_guid time 25:00
+get c_guid
+raw c_guid
+set c_guid time ""
+get c_guid
+raw c_guid
+set c_guid ms 0
+get c_guid
+raw c_guid
+set c_guid ms 86399999
+get c_guid
+raw c_guid
+set c_guid ms -1
+get c_guid
+raw c_guid
+set c_guid timestamp 11/08/2017 13:45:30.250
+get c_guid
+raw c_guid
+set c_guid timestamp 11/08/2017
+get c_guid
+raw c_guid
+set c_guid money 123456
+get c_guid
+raw c_guid
+set c_guid money -1
+get c_guid
+raw c_guid
+set c_guid binary 0102
+get c_guid
+raw c_guid
+set c_guid binary 0102030405060708090a
+get c_guid
+raw c_guid
+set c_guid null
+get c_guid
+raw c_guid
+set c_guid empty
+get c_guid
+raw c_guid
+# c_logical
+set c_logical string abc
+get c_logical
+raw c_logical
+set c_logical string ""
+get c_logical
+raw c_logical
+set c_logical string abcdefghijklmnopqrstuvwxyz
+get c_logical
+raw c_logical
+set c_logical string   12.5
+get c_logical
+raw c_logical
+set c_logical string T
+get c_logical
+raw c_logical
+set c_logical string 11/08/2017
+get c_logical
+raw c_logical
+set c_logical string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_logical
+raw c_logical
+set c_logical string \xe4\x80
+get c_logical
+raw c_logical
+set c_logical stringw caf\xe9
+get c_logical
+raw c_logical
+set c_logical stringw abcdefghijkl
+get c_logical
+raw c_logical
+set c_logical field abc
+get c_logical
+raw c_logical
+set c_logical field ""
+get c_logical
+raw c_logical
+set c_logical field  42
+get c_logical
+raw c_logical
+set c_logical field -1.005
+get c_logical
+raw c_logical
+set c_logical field 123456789.125
+get c_logical
+raw c_logical
+set c_logical field 1e3
+get c_logical
+raw c_logical
+set c_logical field x1
+get c_logical
+raw c_logical
+set c_logical field T
+get c_logical
+raw c_logical
+set c_logical field n
+get c_logical
+raw c_logical
+set c_logical field 11/08/2017
+get c_logical
+raw c_logical
+set c_logical field 2/30/2017
+get c_logical
+raw c_logical
+set c_logical field 13:45
+get c_logical
+raw c_logical
+set c_logical field 12/31/1999 23:59:59.999
+get c_logical
+raw c_logical
+set c_logical field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_logical
+raw c_logical
+set c_logical field \xde\xad\xbe\xef\x01
+get c_logical
+raw c_logical
+set c_logical long 0
+get c_logical
+raw c_logical
+set c_logical long -5
+get c_logical
+raw c_logical
+set c_logical long 40000
+get c_logical
+raw c_logical
+set c_logical long 2147483647
+get c_logical
+raw c_logical
+set c_logical long -2147483648
+get c_logical
+raw c_logical
+set c_logical short -32768
+get c_logical
+raw c_logical
+set c_logical short 7
+get c_logical
+raw c_logical
+set c_logical longlong 9223372036854775807
+get c_logical
+raw c_logical
+set c_logical longlong -3
+get c_logical
+raw c_logical
+set c_logical double 2.5
+get c_logical
+raw c_logical
+set c_logical double -0.125
+get c_logical
+raw c_logical
+set c_logical double 12345.678
+get c_logical
+raw c_logical
+set c_logical double 1e20
+get c_logical
+raw c_logical
+set c_logical double 0.005
+get c_logical
+raw c_logical
+set c_logical logical 0
+get c_logical
+raw c_logical
+set c_logical logical 1
+get c_logical
+raw c_logical
+set c_logical logical 2
+get c_logical
+raw c_logical
+set c_logical date 11/08/2017
+get c_logical
+raw c_logical
+set c_logical date 13/45/2017
+get c_logical
+raw c_logical
+set c_logical date ""
+get c_logical
+raw c_logical
+set c_logical date 1/2/3
+get c_logical
+raw c_logical
+set c_logical julian 2458066
+get c_logical
+raw c_logical
+set c_logical julian 0
+get c_logical
+raw c_logical
+set c_logical time 13:45:30.250
+get c_logical
+raw c_logical
+set c_logical time 25:00
+get c_logical
+raw c_logical
+set c_logical time ""
+get c_logical
+raw c_logical
+set c_logical ms 0
+get c_logical
+raw c_logical
+set c_logical ms 86399999
+get c_logical
+raw c_logical
+set c_logical ms -1
+get c_logical
+raw c_logical
+set c_logical timestamp 11/08/2017 13:45:30.250
+get c_logical
+raw c_logical
+set c_logical timestamp 11/08/2017
+get c_logical
+raw c_logical
+set c_logical money 123456
+get c_logical
+raw c_logical
+set c_logical money -1
+get c_logical
+raw c_logical
+set c_logical binary 0102
+get c_logical
+raw c_logical
+set c_logical binary 0102030405060708090a
+get c_logical
+raw c_logical
+set c_logical null
+get c_logical
+raw c_logical
+set c_logical empty
+get c_logical
+raw c_logical
+# c_numeric
+set c_numeric string abc
+get c_numeric
+raw c_numeric
+set c_numeric string ""
+get c_numeric
+raw c_numeric
+set c_numeric string abcdefghijklmnopqrstuvwxyz
+get c_numeric
+raw c_numeric
+set c_numeric string   12.5
+get c_numeric
+raw c_numeric
+set c_numeric string T
+get c_numeric
+raw c_numeric
+set c_numeric string 11/08/2017
+get c_numeric
+raw c_numeric
+set c_numeric string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_numeric
+raw c_numeric
+set c_numeric string \xe4\x80
+get c_numeric
+raw c_numeric
+set c_numeric stringw caf\xe9
+get c_numeric
+raw c_numeric
+set c_numeric stringw abcdefghijkl
+get c_numeric
+raw c_numeric
+set c_numeric field abc
+get c_numeric
+raw c_numeric
+set c_numeric field ""
+get c_numeric
+raw c_numeric
+set c_numeric field  42
+get c_numeric
+raw c_numeric
+set c_numeric field -1.005
+get c_numeric
+raw c_numeric
+set c_numeric field 123456789.125
+get c_numeric
+raw c_numeric
+set c_numeric field 1e3
+get c_numeric
+raw c_numeric
+set c_numeric field x1
+get c_numeric
+raw c_numeric
+set c_numeric field T
+get c_numeric
+raw c_numeric
+set c_numeric field n
+get c_numeric
+raw c_numeric
+set c_numeric field 11/08/2017
+get c_numeric
+raw c_numeric
+set c_numeric field 2/30/2017
+get c_numeric
+raw c_numeric
+set c_numeric field 13:45
+get c_numeric
+raw c_numeric
+set c_numeric field 12/31/1999 23:59:59.999
+get c_numeric
+raw c_numeric
+set c_numeric field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_numeric
+raw c_numeric
+set c_numeric field \xde\xad\xbe\xef\x01
+get c_numeric
+raw c_numeric
+set c_numeric long 0
+get c_numeric
+raw c_numeric
+set c_numeric long -5
+get c_numeric
+raw c_numeric
+set c_numeric long 40000
+get c_numeric
+raw c_numeric
+set c_numeric long 2147483647
+get c_numeric
+raw c_numeric
+set c_numeric long -2147483648
+get c_numeric
+raw c_numeric
+set c_numeric short -32768
+get c_numeric
+raw c_numeric
+set c_numeric short 7
+get c_numeric
+raw c_numeric
+set c_numeric longlong 9223372036854775807
+get c_numeric
+raw c_numeric
+set c_numeric longlong -3
+get c_numeric
+raw c_numeric
+set c_numeric double 2.5
+get c_numeric
+raw c_numeric
+set c_numeric double -0.125
+get c_numeric
+raw c_numeric
+set c_numeric double 12345.678
+get c_numeric
+raw c_numeric
+set c_numeric double 1e20
+get c_numeric
+raw c_numeric
+set c_numeric double 0.005
+get c_numeric
+raw c_numeric
+set c_numeric logical 0
+get c_numeric
+raw c_numeric
+set c_numeric logical 1
+get c_numeric
+raw c_numeric
+set c_numeric logical 2
+get c_numeric
+raw c_numeric
+set c_numeric date 11/08/2017
+get c_numeric
+raw c_numeric
+set c_numeric date 13/45/2017
+get c_numeric
+raw c_numeric
+set c_numeric date ""
+get c_numeric
+raw c_numeric
+set c_numeric date 1/2/3
+get c_numeric
+raw c_numeric
+set c_numeric julian 2458066
+get c_numeric
+raw c_numeric
+set c_numeric julian 0
+get c_numeric
+raw c_numeric
+set c_numeric time 13:45:30.250
+get c_numeric
+raw c_numeric
+set c_numeric time 25:00
+get c_numeric
+raw c_numeric
+set c_numeric time ""
+get c_numeric
+raw c_numeric
+set c_numeric ms 0
+get c_numeric
+raw c_numeric
+set c_numeric ms 86399999
+get c_numeric
+raw c_numeric
+set c_numeric ms -1
+get c_numeric
+raw c_numeric
+set c_numeric timestamp 11/08/2017 13:45:30.250
+get c_numeric
+raw c_numeric
+set c_numeric timestamp 11/08/2017
+get c_numeric
+raw c_numeric
+set c_numeric money 123456
+get c_numeric
+raw c_numeric
+set c_numeric money -1
+get c_numeric
+raw c_numeric
+set c_numeric binary 0102
+get c_numeric
+raw c_numeric
+set c_numeric binary 0102030405060708090a
+get c_numeric
+raw c_numeric
+set c_numeric null
+get c_numeric
+raw c_numeric
+set c_numeric empty
+get c_numeric
+raw c_numeric
+# c_numeric0
+set c_numeric0 string abc
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string ""
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string abcdefghijklmnopqrstuvwxyz
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string   12.5
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string T
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string 11/08/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_numeric0
+raw c_numeric0
+set c_numeric0 string \xe4\x80
+get c_numeric0
+raw c_numeric0
+set c_numeric0 stringw caf\xe9
+get c_numeric0
+raw c_numeric0
+set c_numeric0 stringw abcdefghijkl
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field abc
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field ""
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field  42
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field -1.005
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 123456789.125
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 1e3
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field x1
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field T
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field n
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 11/08/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 2/30/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 13:45
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field 12/31/1999 23:59:59.999
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_numeric0
+raw c_numeric0
+set c_numeric0 field \xde\xad\xbe\xef\x01
+get c_numeric0
+raw c_numeric0
+set c_numeric0 long 0
+get c_numeric0
+raw c_numeric0
+set c_numeric0 long -5
+get c_numeric0
+raw c_numeric0
+set c_numeric0 long 40000
+get c_numeric0
+raw c_numeric0
+set c_numeric0 long 2147483647
+get c_numeric0
+raw c_numeric0
+set c_numeric0 long -2147483648
+get c_numeric0
+raw c_numeric0
+set c_numeric0 short -32768
+get c_numeric0
+raw c_numeric0
+set c_numeric0 short 7
+get c_numeric0
+raw c_numeric0
+set c_numeric0 longlong 9223372036854775807
+get c_numeric0
+raw c_numeric0
+set c_numeric0 longlong -3
+get c_numeric0
+raw c_numeric0
+set c_numeric0 double 2.5
+get c_numeric0
+raw c_numeric0
+set c_numeric0 double -0.125
+get c_numeric0
+raw c_numeric0
+set c_numeric0 double 12345.678
+get c_numeric0
+raw c_numeric0
+set c_numeric0 double 1e20
+get c_numeric0
+raw c_numeric0
+set c_numeric0 double 0.005
+get c_numeric0
+raw c_numeric0
+set c_numeric0 logical 0
+get c_numeric0
+raw c_numeric0
+set c_numeric0 logical 1
+get c_numeric0
+raw c_numeric0
+set c_numeric0 logical 2
+get c_numeric0
+raw c_numeric0
+set c_numeric0 date 11/08/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 date 13/45/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 date ""
+get c_numeric0
+raw c_numeric0
+set c_numeric0 date 1/2/3
+get c_numeric0
+raw c_numeric0
+set c_numeric0 julian 2458066
+get c_numeric0
+raw c_numeric0
+set c_numeric0 julian 0
+get c_numeric0
+raw c_numeric0
+set c_numeric0 time 13:45:30.250
+get c_numeric0
+raw c_numeric0
+set c_numeric0 time 25:00
+get c_numeric0
+raw c_numeric0
+set c_numeric0 time ""
+get c_numeric0
+raw c_numeric0
+set c_numeric0 ms 0
+get c_numeric0
+raw c_numeric0
+set c_numeric0 ms 86399999
+get c_numeric0
+raw c_numeric0
+set c_numeric0 ms -1
+get c_numeric0
+raw c_numeric0
+set c_numeric0 timestamp 11/08/2017 13:45:30.250
+get c_numeric0
+raw c_numeric0
+set c_numeric0 timestamp 11/08/2017
+get c_numeric0
+raw c_numeric0
+set c_numeric0 money 123456
+get c_numeric0
+raw c_numeric0
+set c_numeric0 money -1
+get c_numeric0
+raw c_numeric0
+set c_numeric0 binary 0102
+get c_numeric0
+raw c_numeric0
+set c_numeric0 binary 0102030405060708090a
+get c_numeric0
+raw c_numeric0
+set c_numeric0 null
+get c_numeric0
+raw c_numeric0
+set c_numeric0 empty
+get c_numeric0
+raw c_numeric0
+# c_short
+set c_short string abc
+get c_short
+raw c_short
+set c_short string ""
+get c_short
+raw c_short
+set c_short string abcdefghijklmnopqrstuvwxyz
+get c_short
+raw c_short
+set c_short string   12.5
+get c_short
+raw c_short
+set c_short string T
+get c_short
+raw c_short
+set c_short string 11/08/2017
+get c_short
+raw c_short
+set c_short string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_short
+raw c_short
+set c_short string \xe4\x80
+get c_short
+raw c_short
+set c_short stringw caf\xe9
+get c_short
+raw c_short
+set c_short stringw abcdefghijkl
+get c_short
+raw c_short
+set c_short field abc
+get c_short
+raw c_short
+set c_short field ""
+get c_short
+raw c_short
+set c_short field  42
+get c_short
+raw c_short
+set c_short field -1.005
+get c_short
+raw c_short
+set c_short field 123456789.125
+get c_short
+raw c_short
+set c_short field 1e3
+get c_short
+raw c_short
+set c_short field x1
+get c_short
+raw c_short
+set c_short field T
+get c_short
+raw c_short
+set c_short field n
+get c_short
+raw c_short
+set c_short field 11/08/2017
+get c_short
+raw c_short
+set c_short field 2/30/2017
+get c_short
+raw c_short
+set c_short field 13:45
+get c_short
+raw c_short
+set c_short field 12/31/1999 23:59:59.999
+get c_short
+raw c_short
+set c_short field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_short
+raw c_short
+set c_short field \xde\xad\xbe\xef\x01
+get c_short
+raw c_short
+set c_short long 0
+get c_short
+raw c_short
+set c_short long -5
+get c_short
+raw c_short
+set c_short long 40000
+get c_short
+raw c_short
+set c_short long 2147483647
+get c_short
+raw c_short
+set c_short long -2147483648
+get c_short
+raw c_short
+set c_short short -32768
+get c_short
+raw c_short
+set c_short short 7
+get c_short
+raw c_short
+set c_short longlong 9223372036854775807
+get c_short
+raw c_short
+set c_short longlong -3
+get c_short
+raw c_short
+set c_short double 2.5
+get c_short
+raw c_short
+set c_short double -0.125
+get c_short
+raw c_short
+set c_short double 12345.678
+get c_short
+raw c_short
+set c_short double 1e20
+get c_short
+raw c_short
+set c_short double 0.005
+get c_short
+raw c_short
+set c_short logical 0
+get c_short
+raw c_short
+set c_short logical 1
+get c_short
+raw c_short
+set c_short logical 2
+get c_short
+raw c_short
+set c_short date 11/08/2017
+get c_short
+raw c_short
+set c_short date 13/45/2017
+get c_short
+raw c_short
+set c_short date ""
+get c_short
+raw c_short
+set c_short date 1/2/3
+get c_short
+raw c_short
+set c_short julian 2458066
+get c_short
+raw c_short
+set c_short julian 0
+get c_short
+raw c_short
+set c_short time 13:45:30.250
+get c_short
+raw c_short
+set c_short time 25:00
+get c_short
+raw c_short
+set c_short time ""
+get c_short
+raw c_short
+set c_short ms 0
+get c_short
+raw c_short
+set c_short ms 86399999
+get c_short
+raw c_short
+set c_short ms -1
+get c_short
+raw c_short
+set c_short timestamp 11/08/2017 13:45:30.250
+get c_short
+raw c_short
+set c_short timestamp 11/08/2017
+get c_short
+raw c_short
+set c_short money 123456
+get c_short
+raw c_short
+set c_short money -1
+get c_short
+raw c_short
+set c_short binary 0102
+get c_short
+raw c_short
+set c_short binary 0102030405060708090a
+get c_short
+raw c_short
+set c_short null
+get c_short
+raw c_short
+set c_short empty
+get c_short
+raw c_short
+# c_integer
+set c_integer string abc
+get c_integer
+raw c_integer
+set c_integer string ""
+get c_integer
+raw c_integer
+set c_integer string abcdefghijklmnopqrstuvwxyz
+get c_integer
+raw c_integer
+set c_integer string   12.5
+get c_integer
+raw c_integer
+set c_integer string T
+get c_integer
+raw c_integer
+set c_integer string 11/08/2017
+get c_integer
+raw c_integer
+set c_integer string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_integer
+raw c_integer
+set c_integer string \xe4\x80
+get c_integer
+raw c_integer
+set c_integer stringw caf\xe9
+get c_integer
+raw c_integer
+set c_integer stringw abcdefghijkl
+get c_integer
+raw c_integer
+set c_integer field abc
+get c_integer
+raw c_integer
+set c_integer field ""
+get c_integer
+raw c_integer
+set c_integer field  42
+get c_integer
+raw c_integer
+set c_integer field -1.005
+get c_integer
+raw c_integer
+set c_integer field 123456789.125
+get c_integer
+raw c_integer
+set c_integer field 1e3
+get c_integer
+raw c_integer
+set c_integer field x1
+get c_integer
+raw c_integer
+set c_integer field T
+get c_integer
+raw c_integer
+set c_integer field n
+get c_integer
+raw c_integer
+set c_integer field 11/08/2017
+get c_integer
+raw c_integer
+set c_integer field 2/30/2017
+get c_integer
+raw c_integer
+set c_integer field 13:45
+get c_integer
+raw c_integer
+set c_integer field 12/31/1999 23:59:59.999
+get c_integer
+raw c_integer
+set c_integer field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_integer
+raw c_integer
+set c_integer field \xde\xad\xbe\xef\x01
+get c_integer
+raw c_integer
+set c_integer long 0
+get c_integer
+raw c_integer
+set c_integer long -5
+get c_integer
+raw c_integer
+set c_integer long 40000
+get c_integer
+raw c_integer
+set c_integer long 2147483647
+get c_integer
+raw c_integer
+set c_integer long -2147483648
+get c_integer
+raw c_integer
+set c_integer short -32768
+get c_integer
+raw c_integer
+set c_integer short 7
+get c_integer
+raw c_integer
+set c_integer longlong 9223372036854775807
+get c_integer
+raw c_integer
+set c_integer longlong -3
+get c_integer
+raw c_integer
+set c_integer double 2.5
+get c_integer
+raw c_integer
+set c_integer double -0.125
+get c_integer
+raw c_integer
+set c_integer double 12345.678
+get c_integer
+raw c_integer
+set c_integer double 1e20
+get c_integer
+raw c_integer
+set c_integer double 0.005
+get c_integer
+raw c_integer
+set c_integer logical 0
+get c_integer
+raw c_integer
+set c_integer logical 1
+get c_integer
+raw c_integer
+set c_integer logical 2
+get c_integer
+raw c_integer
+set c_integer date 11/08/2017
+get c_integer
+raw c_integer
+set c_integer date 13/45/2017
+get c_integer
+raw c_integer
+set c_integer date ""
+get c_integer
+raw c_integer
+set c_integer date 1/2/3
+get c_integer
+raw c_integer
+set c_integer julian 2458066
+get c_integer
+raw c_integer
+set c_integer julian 0
+get c_integer
+raw c_integer
+set c_integer time 13:45:30.250
+get c_integer
+raw c_integer
+set c_integer time 25:00
+get c_integer
+raw c_integer
+set c_integer time ""
+get c_integer
+raw c_integer
+set c_integer ms 0
+get c_integer
+raw c_integer
+set c_integer ms 86399999
+get c_integer
+raw c_integer
+set c_integer ms -1
+get c_integer
+raw c_integer
+set c_integer timestamp 11/08/2017 13:45:30.250
+get c_integer
+raw c_integer
+set c_integer timestamp 11/08/2017
+get c_integer
+raw c_integer
+set c_integer money 123456
+get c_integer
+raw c_integer
+set c_integer money -1
+get c_integer
+raw c_integer
+set c_integer binary 0102
+get c_integer
+raw c_integer
+set c_integer binary 0102030405060708090a
+get c_integer
+raw c_integer
+set c_integer null
+get c_integer
+raw c_integer
+set c_integer empty
+get c_integer
+raw c_integer
+# c_longint
+set c_longint string abc
+get c_longint
+raw c_longint
+set c_longint string ""
+get c_longint
+raw c_longint
+set c_longint string abcdefghijklmnopqrstuvwxyz
+get c_longint
+raw c_longint
+set c_longint string   12.5
+get c_longint
+raw c_longint
+set c_longint string T
+get c_longint
+raw c_longint
+set c_longint string 11/08/2017
+get c_longint
+raw c_longint
+set c_longint string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_longint
+raw c_longint
+set c_longint string \xe4\x80
+get c_longint
+raw c_longint
+set c_longint stringw caf\xe9
+get c_longint
+raw c_longint
+set c_longint stringw abcdefghijkl
+get c_longint
+raw c_longint
+set c_longint field abc
+get c_longint
+raw c_longint
+set c_longint field ""
+get c_longint
+raw c_longint
+set c_longint field  42
+get c_longint
+raw c_longint
+set c_longint field -1.005
+get c_longint
+raw c_longint
+set c_longint field 123456789.125
+get c_longint
+raw c_longint
+set c_longint field 1e3
+get c_longint
+raw c_longint
+set c_longint field x1
+get c_longint
+raw c_longint
+set c_longint field T
+get c_longint
+raw c_longint
+set c_longint field n
+get c_longint
+raw c_longint
+set c_longint field 11/08/2017
+get c_longint
+raw c_longint
+set c_longint field 2/30/2017
+get c_longint
+raw c_longint
+set c_longint field 13:45
+get c_longint
+raw c_longint
+set c_longint field 12/31/1999 23:59:59.999
+get c_longint
+raw c_longint
+set c_longint field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_longint
+raw c_longint
+set c_longint field \xde\xad\xbe\xef\x01
+get c_longint
+raw c_longint
+set c_longint long 0
+get c_longint
+raw c_longint
+set c_longint long -5
+get c_longint
+raw c_longint
+set c_longint long 40000
+get c_longint
+raw c_longint
+set c_longint long 2147483647
+get c_longint
+raw c_longint
+set c_longint long -2147483648
+get c_longint
+raw c_longint
+set c_longint short -32768
+get c_longint
+raw c_longint
+set c_longint short 7
+get c_longint
+raw c_longint
+set c_longint longlong 9223372036854775807
+get c_longint
+raw c_longint
+set c_longint longlong -3
+get c_longint
+raw c_longint
+set c_longint double 2.5
+get c_longint
+raw c_longint
+set c_longint double -0.125
+get c_longint
+raw c_longint
+set c_longint double 12345.678
+get c_longint
+raw c_longint
+set c_longint double 1e20
+get c_longint
+raw c_longint
+set c_longint double 0.005
+get c_longint
+raw c_longint
+set c_longint logical 0
+get c_longint
+raw c_longint
+set c_longint logical 1
+get c_longint
+raw c_longint
+set c_longint logical 2
+get c_longint
+raw c_longint
+set c_longint date 11/08/2017
+get c_longint
+raw c_longint
+set c_longint date 13/45/2017
+get c_longint
+raw c_longint
+set c_longint date ""
+get c_longint
+raw c_longint
+set c_longint date 1/2/3
+get c_longint
+raw c_longint
+set c_longint julian 2458066
+get c_longint
+raw c_longint
+set c_longint julian 0
+get c_longint
+raw c_longint
+set c_longint time 13:45:30.250
+get c_longint
+raw c_longint
+set c_longint time 25:00
+get c_longint
+raw c_longint
+set c_longint time ""
+get c_longint
+raw c_longint
+set c_longint ms 0
+get c_longint
+raw c_longint
+set c_longint ms 86399999
+get c_longint
+raw c_longint
+set c_longint ms -1
+get c_longint
+raw c_longint
+set c_longint timestamp 11/08/2017 13:45:30.250
+get c_longint
+raw c_longint
+set c_longint timestamp 11/08/2017
+get c_longint
+raw c_longint
+set c_longint money 123456
+get c_longint
+raw c_longint
+set c_longint money -1
+get c_longint
+raw c_longint
+set c_longint binary 0102
+get c_longint
+raw c_longint
+set c_longint binary 0102030405060708090a
+get c_longint
+raw c_longint
+set c_longint null
+get c_longint
+raw c_longint
+set c_longint empty
+get c_longint
+raw c_longint
+# c_double
+set c_double string abc
+get c_double
+raw c_double
+set c_double string ""
+get c_double
+raw c_double
+set c_double string abcdefghijklmnopqrstuvwxyz
+get c_double
+raw c_double
+set c_double string   12.5
+get c_double
+raw c_double
+set c_double string T
+get c_double
+raw c_double
+set c_double string 11/08/2017
+get c_double
+raw c_double
+set c_double string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_double
+raw c_double
+set c_double string \xe4\x80
+get c_double
+raw c_double
+set c_double stringw caf\xe9
+get c_double
+raw c_double
+set c_double stringw abcdefghijkl
+get c_double
+raw c_double
+set c_double field abc
+get c_double
+raw c_double
+set c_double field ""
+get c_double
+raw c_double
+set c_double field  42
+get c_double
+raw c_double
+set c_double field -1.005
+get c_double
+raw c_double
+set c_double field 123456789.125
+get c_double
+raw c_double
+set c_double field 1e3
+get c_double
+raw c_double
+set c_double field x1
+get c_double
+raw c_double
+set c_double field T
+get c_double
+raw c_double
+set c_double field n
+get c_double
+raw c_double
+set c_double field 11/08/2017
+get c_double
+raw c_double
+set c_double field 2/30/2017
+get c_double
+raw c_double
+set c_double field 13:45
+get c_double
+raw c_double
+set c_double field 12/31/1999 23:59:59.999
+get c_double
+raw c_double
+set c_double field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_double
+raw c_double
+set c_double field \xde\xad\xbe\xef\x01
+get c_double
+raw c_double
+set c_double long 0
+get c_double
+raw c_double
+set c_double long -5
+get c_double
+raw c_double
+set c_double long 40000
+get c_double
+raw c_double
+set c_double long 2147483647
+get c_double
+raw c_double
+set c_double long -2147483648
+get c_double
+raw c_double
+set c_double short -32768
+get c_double
+raw c_double
+set c_double short 7
+get c_double
+raw c_double
+set c_double longlong 9223372036854775807
+get c_double
+raw c_double
+set c_double longlong -3
+get c_double
+raw c_double
+set c_double double 2.5
+get c_double
+raw c_double
+set c_double double -0.125
+get c_double
+raw c_double
+set c_double double 12345.678
+get c_double
+raw c_double
+set c_double double 1e20
+get c_double
+raw c_double
+set c_double double 0.005
+get c_double
+raw c_double
+set c_double logical 0
+get c_double
+raw c_double
+set c_double logical 1
+get c_double
+raw c_double
+set c_double logical 2
+get c_double
+raw c_double
+set c_double date 11/08/2017
+get c_double
+raw c_double
+set c_double date 13/45/2017
+get c_double
+raw c_double
+set c_double date ""
+get c_double
+raw c_double
+set c_double date 1/2/3
+get c_double
+raw c_double
+set c_double julian 2458066
+get c_double
+raw c_double
+set c_double julian 0
+get c_double
+raw c_double
+set c_double time 13:45:30.250
+get c_double
+raw c_double
+set c_double time 25:00
+get c_double
+raw c_double
+set c_double time ""
+get c_double
+raw c_double
+set c_double ms 0
+get c_double
+raw c_double
+set c_double ms 86399999
+get c_double
+raw c_double
+set c_double ms -1
+get c_double
+raw c_double
+set c_double timestamp 11/08/2017 13:45:30.250
+get c_double
+raw c_double
+set c_double timestamp 11/08/2017
+get c_double
+raw c_double
+set c_double money 123456
+get c_double
+raw c_double
+set c_double money -1
+get c_double
+raw c_double
+set c_double binary 0102
+get c_double
+raw c_double
+set c_double binary 0102030405060708090a
+get c_double
+raw c_double
+set c_double null
+get c_double
+raw c_double
+set c_double empty
+get c_double
+raw c_double
+# c_curdouble
+set c_curdouble string abc
+get c_curdouble
+raw c_curdouble
+set c_curdouble string ""
+get c_curdouble
+raw c_curdouble
+set c_curdouble string abcdefghijklmnopqrstuvwxyz
+get c_curdouble
+raw c_curdouble
+set c_curdouble string   12.5
+get c_curdouble
+raw c_curdouble
+set c_curdouble string T
+get c_curdouble
+raw c_curdouble
+set c_curdouble string 11/08/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_curdouble
+raw c_curdouble
+set c_curdouble string \xe4\x80
+get c_curdouble
+raw c_curdouble
+set c_curdouble stringw caf\xe9
+get c_curdouble
+raw c_curdouble
+set c_curdouble stringw abcdefghijkl
+get c_curdouble
+raw c_curdouble
+set c_curdouble field abc
+get c_curdouble
+raw c_curdouble
+set c_curdouble field ""
+get c_curdouble
+raw c_curdouble
+set c_curdouble field  42
+get c_curdouble
+raw c_curdouble
+set c_curdouble field -1.005
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 123456789.125
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 1e3
+get c_curdouble
+raw c_curdouble
+set c_curdouble field x1
+get c_curdouble
+raw c_curdouble
+set c_curdouble field T
+get c_curdouble
+raw c_curdouble
+set c_curdouble field n
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 11/08/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 2/30/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 13:45
+get c_curdouble
+raw c_curdouble
+set c_curdouble field 12/31/1999 23:59:59.999
+get c_curdouble
+raw c_curdouble
+set c_curdouble field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_curdouble
+raw c_curdouble
+set c_curdouble field \xde\xad\xbe\xef\x01
+get c_curdouble
+raw c_curdouble
+set c_curdouble long 0
+get c_curdouble
+raw c_curdouble
+set c_curdouble long -5
+get c_curdouble
+raw c_curdouble
+set c_curdouble long 40000
+get c_curdouble
+raw c_curdouble
+set c_curdouble long 2147483647
+get c_curdouble
+raw c_curdouble
+set c_curdouble long -2147483648
+get c_curdouble
+raw c_curdouble
+set c_curdouble short -32768
+get c_curdouble
+raw c_curdouble
+set c_curdouble short 7
+get c_curdouble
+raw c_curdouble
+set c_curdouble longlong 9223372036854775807
+get c_curdouble
+raw c_curdouble
+set c_curdouble longlong -3
+get c_curdouble
+raw c_curdouble
+set c_curdouble double 2.5
+get c_curdouble
+raw c_curdouble
+set c_curdouble double -0.125
+get c_curdouble
+raw c_curdouble
+set c_curdouble double 12345.678
+get c_curdouble
+raw c_curdouble
+set c_curdouble double 1e20
+get c_curdouble
+raw c_curdouble
+set c_curdouble double 0.005
+get c_curdouble
+raw c_curdouble
+set c_curdouble logical 0
+get c_curdouble
+raw c_curdouble
+set c_curdouble logical 1
+get c_curdouble
+raw c_curdouble
+set c_curdouble logical 2
+get c_curdouble
+raw c_curdouble
+set c_curdouble date 11/08/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble date 13/45/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble date ""
+get c_curdouble
+raw c_curdouble
+set c_curdouble date 1/2/3
+get c_curdouble
+raw c_curdouble
+set c_curdouble julian 2458066
+get c_curdouble
+raw c_curdouble
+set c_curdouble julian 0
+get c_curdouble
+raw c_curdouble
+set c_curdouble time 13:45:30.250
+get c_curdouble
+raw c_curdouble
+set c_curdouble time 25:00
+get c_curdouble
+raw c_curdouble
+set c_curdouble time ""
+get c_curdouble
+raw c_curdouble
+set c_curdouble ms 0
+get c_curdouble
+raw c_curdouble
+set c_curdouble ms 86399999
+get c_curdouble
+raw c_curdouble
+set c_curdouble ms -1
+get c_curdouble
+raw c_curdouble
+set c_curdouble timestamp 11/08/2017 13:45:30.250
+get c_curdouble
+raw c_curdouble
+set c_curdouble timestamp 11/08/2017
+get c_curdouble
+raw c_curdouble
+set c_curdouble money 123456
+get c_curdouble
+raw c_curdouble
+set c_curdouble money -1
+get c_curdouble
+raw c_curdouble
+set c_curdouble binary 0102
+get c_curdouble
+raw c_curdouble
+set c_curdouble binary 0102030405060708090a
+get c_curdouble
+raw c_curdouble
+set c_curdouble null
+get c_curdouble
+raw c_curdouble
+set c_curdouble empty
+get c_curdouble
+raw c_curdouble
+# c_money
+set c_money string abc
+get c_money
+raw c_money
+set c_money string ""
+get c_money
+raw c_money
+set c_money string abcdefghijklmnopqrstuvwxyz
+get c_money
+raw c_money
+set c_money string   12.5
+get c_money
+raw c_money
+set c_money string T
+get c_money
+raw c_money
+set c_money string 11/08/2017
+get c_money
+raw c_money
+set c_money string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_money
+raw c_money
+set c_money string \xe4\x80
+get c_money
+raw c_money
+set c_money stringw caf\xe9
+get c_money
+raw c_money
+set c_money stringw abcdefghijkl
+get c_money
+raw c_money
+set c_money field abc
+get c_money
+raw c_money
+set c_money field ""
+get c_money
+raw c_money
+set c_money field  42
+get c_money
+raw c_money
+set c_money field -1.005
+get c_money
+raw c_money
+set c_money field 123456789.125
+get c_money
+raw c_money
+set c_money field 1e3
+get c_money
+raw c_money
+set c_money field x1
+get c_money
+raw c_money
+set c_money field T
+get c_money
+raw c_money
+set c_money field n
+get c_money
+raw c_money
+set c_money field 11/08/2017
+get c_money
+raw c_money
+set c_money field 2/30/2017
+get c_money
+raw c_money
+set c_money field 13:45
+get c_money
+raw c_money
+set c_money field 12/31/1999 23:59:59.999
+get c_money
+raw c_money
+set c_money field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_money
+raw c_money
+set c_money field \xde\xad\xbe\xef\x01
+get c_money
+raw c_money
+set c_money long 0
+get c_money
+raw c_money
+set c_money long -5
+get c_money
+raw c_money
+set c_money long 40000
+get c_money
+raw c_money
+set c_money long 2147483647
+get c_money
+raw c_money
+set c_money long -2147483648
+get c_money
+raw c_money
+set c_money short -32768
+get c_money
+raw c_money
+set c_money short 7
+get c_money
+raw c_money
+set c_money longlong 9223372036854775807
+get c_money
+raw c_money
+set c_money longlong -3
+get c_money
+raw c_money
+set c_money double 2.5
+get c_money
+raw c_money
+set c_money double -0.125
+get c_money
+raw c_money
+set c_money double 12345.678
+get c_money
+raw c_money
+set c_money double 1e20
+get c_money
+raw c_money
+set c_money double 0.005
+get c_money
+raw c_money
+set c_money logical 0
+get c_money
+raw c_money
+set c_money logical 1
+get c_money
+raw c_money
+set c_money logical 2
+get c_money
+raw c_money
+set c_money date 11/08/2017
+get c_money
+raw c_money
+set c_money date 13/45/2017
+get c_money
+raw c_money
+set c_money date ""
+get c_money
+raw c_money
+set c_money date 1/2/3
+get c_money
+raw c_money
+set c_money julian 2458066
+get c_money
+raw c_money
+set c_money julian 0
+get c_money
+raw c_money
+set c_money time 13:45:30.250
+get c_money
+raw c_money
+set c_money time 25:00
+get c_money
+raw c_money
+set c_money time ""
+get c_money
+raw c_money
+set c_money ms 0
+get c_money
+raw c_money
+set c_money ms 86399999
+get c_money
+raw c_money
+set c_money ms -1
+get c_money
+raw c_money
+set c_money timestamp 11/08/2017 13:45:30.250
+get c_money
+raw c_money
+set c_money timestamp 11/08/2017
+get c_money
+raw c_money
+set c_money money 123456
+get c_money
+raw c_money
+set c_money money -1
+get c_money
+raw c_money
+set c_money binary 0102
+get c_money
+raw c_money
+set c_money binary 0102030405060708090a
+get c_money
+raw c_money
+set c_money null
+get c_money
+raw c_money
+set c_money empty
+get c_money
+raw c_money
+# c_date
+set c_date string abc
+get c_date
+raw c_date
+set c_date string ""
+get c_date
+raw c_date
+set c_date string abcdefghijklmnopqrstuvwxyz
+get c_date
+raw c_date
+set c_date string   12.5
+get c_date
+raw c_date
+set c_date string T
+get c_date
+raw c_date
+set c_date string 11/08/2017
+get c_date
+raw c_date
+set c_date string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_date
+raw c_date
+set c_date string \xe4\x80
+get c_date
+raw c_date
+set c_date stringw caf\xe9
+get c_date
+raw c_date
+set c_date stringw abcdefghijkl
+get c_date
+raw c_date
+set c_date field abc
+get c_date
+raw c_date
+set c_date field ""
+get c_date
+raw c_date
+set c_date field  42
+get c_date
+raw c_date
+set c_date field -1.005
+get c_date
+raw c_date
+set c_date field 123456789.125
+get c_date
+raw c_date
+set c_date field 1e3
+get c_date
+raw c_date
+set c_date field x1
+get c_date
+raw c_date
+set c_date field T
+get c_date
+raw c_date
+set c_date field n
+get c_date
+raw c_date
+set c_date field 11/08/2017
+get c_date
+raw c_date
+set c_date field 2/30/2017
+get c_date
+raw c_date
+set c_date field 13:45
+get c_date
+raw c_date
+set c_date field 12/31/1999 23:59:59.999
+get c_date
+raw c_date
+set c_date field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_date
+raw c_date
+set c_date field \xde\xad\xbe\xef\x01
+get c_date
+raw c_date
+set c_date long 0
+get c_date
+raw c_date
+set c_date long -5
+get c_date
+raw c_date
+set c_date long 40000
+get c_date
+raw c_date
+set c_date long 2147483647
+get c_date
+raw c_date
+set c_date long -2147483648
+get c_date
+raw c_date
+set c_date short -32768
+get c_date
+raw c_date
+set c_date short 7
+get c_date
+raw c_date
+set c_date longlong 9223372036854775807
+get c_date
+raw c_date
+set c_date longlong -3
+get c_date
+raw c_date
+set c_date double 2.5
+get c_date
+raw c_date
+set c_date double -0.125
+get c_date
+raw c_date
+set c_date double 12345.678
+get c_date
+raw c_date
+set c_date double 1e20
+get c_date
+raw c_date
+set c_date double 0.005
+get c_date
+raw c_date
+set c_date logical 0
+get c_date
+raw c_date
+set c_date logical 1
+get c_date
+raw c_date
+set c_date logical 2
+get c_date
+raw c_date
+set c_date date 11/08/2017
+get c_date
+raw c_date
+set c_date date 13/45/2017
+get c_date
+raw c_date
+set c_date date ""
+get c_date
+raw c_date
+set c_date date 1/2/3
+get c_date
+raw c_date
+set c_date julian 2458066
+get c_date
+raw c_date
+set c_date julian 0
+get c_date
+raw c_date
+set c_date time 13:45:30.250
+get c_date
+raw c_date
+set c_date time 25:00
+get c_date
+raw c_date
+set c_date time ""
+get c_date
+raw c_date
+set c_date ms 0
+get c_date
+raw c_date
+set c_date ms 86399999
+get c_date
+raw c_date
+set c_date ms -1
+get c_date
+raw c_date
+set c_date timestamp 11/08/2017 13:45:30.250
+get c_date
+raw c_date
+set c_date timestamp 11/08/2017
+get c_date
+raw c_date
+set c_date money 123456
+get c_date
+raw c_date
+set c_date money -1
+get c_date
+raw c_date
+set c_date binary 0102
+get c_date
+raw c_date
+set c_date binary 0102030405060708090a
+get c_date
+raw c_date
+set c_date null
+get c_date
+raw c_date
+set c_date empty
+get c_date
+raw c_date
+# c_time
+set c_time string abc
+get c_time
+raw c_time
+set c_time string ""
+get c_time
+raw c_time
+set c_time string abcdefghijklmnopqrstuvwxyz
+get c_time
+raw c_time
+set c_time string   12.5
+get c_time
+raw c_time
+set c_time string T
+get c_time
+raw c_time
+set c_time string 11/08/2017
+get c_time
+raw c_time
+set c_time string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_time
+raw c_time
+set c_time string \xe4\x80
+get c_time
+raw c_time
+set c_time stringw caf\xe9
+get c_time
+raw c_time
+set c_time stringw abcdefghijkl
+get c_time
+raw c_time
+set c_time field abc
+get c_time
+raw c_time
+set c_time field ""
+get c_time
+raw c_time
+set c_time field  42
+get c_time
+raw c_time
+set c_time field -1.005
+get c_time
+raw c_time
+set c_time field 123456789.125
+get c_time
+raw c_time
+set c_time field 1e3
+get c_time
+raw c_time
+set c_time field x1
+get c_time
+raw c_time
+set c_time field T
+get c_time
+raw c_time
+set c_time field n
+get c_time
+raw c_time
+set c_time field 11/08/2017
+get c_time
+raw c_time
+set c_time field 2/30/2017
+get c_time
+raw c_time
+set c_time field 13:45
+get c_time
+raw c_time
+set c_time field 12/31/1999 23:59:59.999
+get c_time
+raw c_time
+set c_time field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_time
+raw c_time
+set c_time field \xde\xad\xbe\xef\x01
+get c_time
+raw c_time
+set c_time long 0
+get c_time
+raw c_time
+set c_time long -5
+get c_time
+raw c_time
+set c_time long 40000
+get c_time
+raw c_time
+set c_time long 2147483647
+get c_time
+raw c_time
+set c_time long -2147483648
+get c_time
+raw c_time
+set c_time short -32768
+get c_time
+raw c_time
+set c_time short 7
+get c_time
+raw c_time
+set c_time longlong 9223372036854775807
+get c_time
+raw c_time
+set c_time longlong -3
+get c_time
+raw c_time
+set c_time double 2.5
+get c_time
+raw c_time
+set c_time double -0.125
+get c_time
+raw c_time
+set c_time double 12345.678
+get c_time
+raw c_time
+set c_time double 1e20
+get c_time
+raw c_time
+set c_time double 0.005
+get c_time
+raw c_time
+set c_time logical 0
+get c_time
+raw c_time
+set c_time logical 1
+get c_time
+raw c_time
+set c_time logical 2
+get c_time
+raw c_time
+set c_time date 11/08/2017
+get c_time
+raw c_time
+set c_time date 13/45/2017
+get c_time
+raw c_time
+set c_time date ""
+get c_time
+raw c_time
+set c_time date 1/2/3
+get c_time
+raw c_time
+set c_time julian 2458066
+get c_time
+raw c_time
+set c_time julian 0
+get c_time
+raw c_time
+set c_time time 13:45:30.250
+get c_time
+raw c_time
+set c_time time 25:00
+get c_time
+raw c_time
+set c_time time ""
+get c_time
+raw c_time
+set c_time ms 0
+get c_time
+raw c_time
+set c_time ms 86399999
+get c_time
+raw c_time
+set c_time ms -1
+get c_time
+raw c_time
+set c_time timestamp 11/08/2017 13:45:30.250
+get c_time
+raw c_time
+set c_time timestamp 11/08/2017
+get c_time
+raw c_time
+set c_time money 123456
+get c_time
+raw c_time
+set c_time money -1
+get c_time
+raw c_time
+set c_time binary 0102
+get c_time
+raw c_time
+set c_time binary 0102030405060708090a
+get c_time
+raw c_time
+set c_time null
+get c_time
+raw c_time
+set c_time empty
+get c_time
+raw c_time
+# c_timestamp
+set c_timestamp string abc
+get c_timestamp
+raw c_timestamp
+set c_timestamp string ""
+get c_timestamp
+raw c_timestamp
+set c_timestamp string abcdefghijklmnopqrstuvwxyz
+get c_timestamp
+raw c_timestamp
+set c_timestamp string   12.5
+get c_timestamp
+raw c_timestamp
+set c_timestamp string T
+get c_timestamp
+raw c_timestamp
+set c_timestamp string 11/08/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_timestamp
+raw c_timestamp
+set c_timestamp string \xe4\x80
+get c_timestamp
+raw c_timestamp
+set c_timestamp stringw caf\xe9
+get c_timestamp
+raw c_timestamp
+set c_timestamp stringw abcdefghijkl
+get c_timestamp
+raw c_timestamp
+set c_timestamp field abc
+get c_timestamp
+raw c_timestamp
+set c_timestamp field ""
+get c_timestamp
+raw c_timestamp
+set c_timestamp field  42
+get c_timestamp
+raw c_timestamp
+set c_timestamp field -1.005
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 123456789.125
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 1e3
+get c_timestamp
+raw c_timestamp
+set c_timestamp field x1
+get c_timestamp
+raw c_timestamp
+set c_timestamp field T
+get c_timestamp
+raw c_timestamp
+set c_timestamp field n
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 11/08/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 2/30/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 13:45
+get c_timestamp
+raw c_timestamp
+set c_timestamp field 12/31/1999 23:59:59.999
+get c_timestamp
+raw c_timestamp
+set c_timestamp field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_timestamp
+raw c_timestamp
+set c_timestamp field \xde\xad\xbe\xef\x01
+get c_timestamp
+raw c_timestamp
+set c_timestamp long 0
+get c_timestamp
+raw c_timestamp
+set c_timestamp long -5
+get c_timestamp
+raw c_timestamp
+set c_timestamp long 40000
+get c_timestamp
+raw c_timestamp
+set c_timestamp long 2147483647
+get c_timestamp
+raw c_timestamp
+set c_timestamp long -2147483648
+get c_timestamp
+raw c_timestamp
+set c_timestamp short -32768
+get c_timestamp
+raw c_timestamp
+set c_timestamp short 7
+get c_timestamp
+raw c_timestamp
+set c_timestamp longlong 9223372036854775807
+get c_timestamp
+raw c_timestamp
+set c_timestamp longlong -3
+get c_timestamp
+raw c_timestamp
+set c_timestamp double 2.5
+get c_timestamp
+raw c_timestamp
+set c_timestamp double -0.125
+get c_timestamp
+raw c_timestamp
+set c_timestamp double 12345.678
+get c_timestamp
+raw c_timestamp
+set c_timestamp double 1e20
+get c_timestamp
+raw c_timestamp
+set c_timestamp double 0.005
+get c_timestamp
+raw c_timestamp
+set c_timestamp logical 0
+get c_timestamp
+raw c_timestamp
+set c_timestamp logical 1
+get c_timestamp
+raw c_timestamp
+set c_timestamp logical 2
+get c_timestamp
+raw c_timestamp
+set c_timestamp date 11/08/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp date 13/45/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp date ""
+get c_timestamp
+raw c_timestamp
+set c_timestamp date 1/2/3
+get c_timestamp
+raw c_timestamp
+set c_timestamp julian 2458066
+get c_timestamp
+raw c_timestamp
+set c_timestamp julian 0
+get c_timestamp
+raw c_timestamp
+set c_timestamp time 13:45:30.250
+get c_timestamp
+raw c_timestamp
+set c_timestamp time 25:00
+get c_timestamp
+raw c_timestamp
+set c_timestamp time ""
+get c_timestamp
+raw c_timestamp
+set c_timestamp ms 0
+get c_timestamp
+raw c_timestamp
+set c_timestamp ms 86399999
+get c_timestamp
+raw c_timestamp
+set c_timestamp ms -1
+get c_timestamp
+raw c_timestamp
+set c_timestamp timestamp 11/08/2017 13:45:30.250
+get c_timestamp
+raw c_timestamp
+set c_timestamp timestamp 11/08/2017
+get c_timestamp
+raw c_timestamp
+set c_timestamp money 123456
+get c_timestamp
+raw c_timestamp
+set c_timestamp money -1
+get c_timestamp
+raw c_timestamp
+set c_timestamp binary 0102
+get c_timestamp
+raw c_timestamp
+set c_timestamp binary 0102030405060708090a
+get c_timestamp
+raw c_timestamp
+set c_timestamp null
+get c_timestamp
+raw c_timestamp
+set c_timestamp empty
+get c_timestamp
+raw c_timestamp
+# c_autoinc
+set c_autoinc string abc
+get c_autoinc
+raw c_autoinc
+set c_autoinc string ""
+get c_autoinc
+raw c_autoinc
+set c_autoinc string abcdefghijklmnopqrstuvwxyz
+get c_autoinc
+raw c_autoinc
+set c_autoinc string   12.5
+get c_autoinc
+raw c_autoinc
+set c_autoinc string T
+get c_autoinc
+raw c_autoinc
+set c_autoinc string 11/08/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_autoinc
+raw c_autoinc
+set c_autoinc string \xe4\x80
+get c_autoinc
+raw c_autoinc
+set c_autoinc stringw caf\xe9
+get c_autoinc
+raw c_autoinc
+set c_autoinc stringw abcdefghijkl
+get c_autoinc
+raw c_autoinc
+set c_autoinc field abc
+get c_autoinc
+raw c_autoinc
+set c_autoinc field ""
+get c_autoinc
+raw c_autoinc
+set c_autoinc field  42
+get c_autoinc
+raw c_autoinc
+set c_autoinc field -1.005
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 123456789.125
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 1e3
+get c_autoinc
+raw c_autoinc
+set c_autoinc field x1
+get c_autoinc
+raw c_autoinc
+set c_autoinc field T
+get c_autoinc
+raw c_autoinc
+set c_autoinc field n
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 11/08/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 2/30/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 13:45
+get c_autoinc
+raw c_autoinc
+set c_autoinc field 12/31/1999 23:59:59.999
+get c_autoinc
+raw c_autoinc
+set c_autoinc field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_autoinc
+raw c_autoinc
+set c_autoinc field \xde\xad\xbe\xef\x01
+get c_autoinc
+raw c_autoinc
+set c_autoinc long 0
+get c_autoinc
+raw c_autoinc
+set c_autoinc long -5
+get c_autoinc
+raw c_autoinc
+set c_autoinc long 40000
+get c_autoinc
+raw c_autoinc
+set c_autoinc long 2147483647
+get c_autoinc
+raw c_autoinc
+set c_autoinc long -2147483648
+get c_autoinc
+raw c_autoinc
+set c_autoinc short -32768
+get c_autoinc
+raw c_autoinc
+set c_autoinc short 7
+get c_autoinc
+raw c_autoinc
+set c_autoinc longlong 9223372036854775807
+get c_autoinc
+raw c_autoinc
+set c_autoinc longlong -3
+get c_autoinc
+raw c_autoinc
+set c_autoinc double 2.5
+get c_autoinc
+raw c_autoinc
+set c_autoinc double -0.125
+get c_autoinc
+raw c_autoinc
+set c_autoinc double 12345.678
+get c_autoinc
+raw c_autoinc
+set c_autoinc double 1e20
+get c_autoinc
+raw c_autoinc
+set c_autoinc double 0.005
+get c_autoinc
+raw c_autoinc
+set c_autoinc logical 0
+get c_autoinc
+raw c_autoinc
+set c_autoinc logical 1
+get c_autoinc
+raw c_autoinc
+set c_autoinc logical 2
+get c_autoinc
+raw c_autoinc
+set c_autoinc date 11/08/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc date 13/45/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc date ""
+get c_autoinc
+raw c_autoinc
+set c_autoinc date 1/2/3
+get c_autoinc
+raw c_autoinc
+set c_autoinc julian 2458066
+get c_autoinc
+raw c_autoinc
+set c_autoinc julian 0
+get c_autoinc
+raw c_autoinc
+set c_autoinc time 13:45:30.250
+get c_autoinc
+raw c_autoinc
+set c_autoinc time 25:00
+get c_autoinc
+raw c_autoinc
+set c_autoinc time ""
+get c_autoinc
+raw c_autoinc
+set c_autoinc ms 0
+get c_autoinc
+raw c_autoinc
+set c_autoinc ms 86399999
+get c_autoinc
+raw c_autoinc
+set c_autoinc ms -1
+get c_autoinc
+raw c_autoinc
+set c_autoinc timestamp 11/08/2017 13:45:30.250
+get c_autoinc
+raw c_autoinc
+set c_autoinc timestamp 11/08/2017
+get c_autoinc
+raw c_autoinc
+set c_autoinc money 123456
+get c_autoinc
+raw c_autoinc
+set c_autoinc money -1
+get c_autoinc
+raw c_autoinc
+set c_autoinc binary 0102
+get c_autoinc
+raw c_autoinc
+set c_autoinc binary 0102030405060708090a
+get c_autoinc
+raw c_autoinc
+set c_autoinc null
+get c_autoinc
+raw c_autoinc
+set c_autoinc empty
+get c_autoinc
+raw c_autoinc
+# c_rowversion
+set c_rowversion string abc
+get c_rowversion
+raw c_rowversion
+set c_rowversion string ""
+get c_rowversion
+raw c_rowversion
+set c_rowversion string abcdefghijklmnopqrstuvwxyz
+get c_rowversion
+raw c_rowversion
+set c_rowversion string   12.5
+get c_rowversion
+raw c_rowversion
+set c_rowversion string T
+get c_rowversion
+raw c_rowversion
+set c_rowversion string 11/08/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_rowversion
+raw c_rowversion
+set c_rowversion string \xe4\x80
+get c_rowversion
+raw c_rowversion
+set c_rowversion stringw caf\xe9
+get c_rowversion
+raw c_rowversion
+set c_rowversion stringw abcdefghijkl
+get c_rowversion
+raw c_rowversion
+set c_rowversion field abc
+get c_rowversion
+raw c_rowversion
+set c_rowversion field ""
+get c_rowversion
+raw c_rowversion
+set c_rowversion field  42
+get c_rowversion
+raw c_rowversion
+set c_rowversion field -1.005
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 123456789.125
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 1e3
+get c_rowversion
+raw c_rowversion
+set c_rowversion field x1
+get c_rowversion
+raw c_rowversion
+set c_rowversion field T
+get c_rowversion
+raw c_rowversion
+set c_rowversion field n
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 11/08/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 2/30/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 13:45
+get c_rowversion
+raw c_rowversion
+set c_rowversion field 12/31/1999 23:59:59.999
+get c_rowversion
+raw c_rowversion
+set c_rowversion field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_rowversion
+raw c_rowversion
+set c_rowversion field \xde\xad\xbe\xef\x01
+get c_rowversion
+raw c_rowversion
+set c_rowversion long 0
+get c_rowversion
+raw c_rowversion
+set c_rowversion long -5
+get c_rowversion
+raw c_rowversion
+set c_rowversion long 40000
+get c_rowversion
+raw c_rowversion
+set c_rowversion long 2147483647
+get c_rowversion
+raw c_rowversion
+set c_rowversion long -2147483648
+get c_rowversion
+raw c_rowversion
+set c_rowversion short -32768
+get c_rowversion
+raw c_rowversion
+set c_rowversion short 7
+get c_rowversion
+raw c_rowversion
+set c_rowversion longlong 9223372036854775807
+get c_rowversion
+raw c_rowversion
+set c_rowversion longlong -3
+get c_rowversion
+raw c_rowversion
+set c_rowversion double 2.5
+get c_rowversion
+raw c_rowversion
+set c_rowversion double -0.125
+get c_rowversion
+raw c_rowversion
+set c_rowversion double 12345.678
+get c_rowversion
+raw c_rowversion
+set c_rowversion double 1e20
+get c_rowversion
+raw c_rowversion
+set c_rowversion double 0.005
+get c_rowversion
+raw c_rowversion
+set c_rowversion logical 0
+get c_rowversion
+raw c_rowversion
+set c_rowversion logical 1
+get c_rowversion
+raw c_rowversion
+set c_rowversion logical 2
+get c_rowversion
+raw c_rowversion
+set c_rowversion date 11/08/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion date 13/45/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion date ""
+get c_rowversion
+raw c_rowversion
+set c_rowversion date 1/2/3
+get c_rowversion
+raw c_rowversion
+set c_rowversion julian 2458066
+get c_rowversion
+raw c_rowversion
+set c_rowversion julian 0
+get c_rowversion
+raw c_rowversion
+set c_rowversion time 13:45:30.250
+get c_rowversion
+raw c_rowversion
+set c_rowversion time 25:00
+get c_rowversion
+raw c_rowversion
+set c_rowversion time ""
+get c_rowversion
+raw c_rowversion
+set c_rowversion ms 0
+get c_rowversion
+raw c_rowversion
+set c_rowversion ms 86399999
+get c_rowversion
+raw c_rowversion
+set c_rowversion ms -1
+get c_rowversion
+raw c_rowversion
+set c_rowversion timestamp 11/08/2017 13:45:30.250
+get c_rowversion
+raw c_rowversion
+set c_rowversion timestamp 11/08/2017
+get c_rowversion
+raw c_rowversion
+set c_rowversion money 123456
+get c_rowversion
+raw c_rowversion
+set c_rowversion money -1
+get c_rowversion
+raw c_rowversion
+set c_rowversion binary 0102
+get c_rowversion
+raw c_rowversion
+set c_rowversion binary 0102030405060708090a
+get c_rowversion
+raw c_rowversion
+set c_rowversion null
+get c_rowversion
+raw c_rowversion
+set c_rowversion empty
+get c_rowversion
+raw c_rowversion
+# c_modtime
+set c_modtime string abc
+get c_modtime
+raw c_modtime
+set c_modtime string ""
+get c_modtime
+raw c_modtime
+set c_modtime string abcdefghijklmnopqrstuvwxyz
+get c_modtime
+raw c_modtime
+set c_modtime string   12.5
+get c_modtime
+raw c_modtime
+set c_modtime string T
+get c_modtime
+raw c_modtime
+set c_modtime string 11/08/2017
+get c_modtime
+raw c_modtime
+set c_modtime string {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_modtime
+raw c_modtime
+set c_modtime string \xe4\x80
+get c_modtime
+raw c_modtime
+set c_modtime stringw caf\xe9
+get c_modtime
+raw c_modtime
+set c_modtime stringw abcdefghijkl
+get c_modtime
+raw c_modtime
+set c_modtime field abc
+get c_modtime
+raw c_modtime
+set c_modtime field ""
+get c_modtime
+raw c_modtime
+set c_modtime field  42
+get c_modtime
+raw c_modtime
+set c_modtime field -1.005
+get c_modtime
+raw c_modtime
+set c_modtime field 123456789.125
+get c_modtime
+raw c_modtime
+set c_modtime field 1e3
+get c_modtime
+raw c_modtime
+set c_modtime field x1
+get c_modtime
+raw c_modtime
+set c_modtime field T
+get c_modtime
+raw c_modtime
+set c_modtime field n
+get c_modtime
+raw c_modtime
+set c_modtime field 11/08/2017
+get c_modtime
+raw c_modtime
+set c_modtime field 2/30/2017
+get c_modtime
+raw c_modtime
+set c_modtime field 13:45
+get c_modtime
+raw c_modtime
+set c_modtime field 12/31/1999 23:59:59.999
+get c_modtime
+raw c_modtime
+set c_modtime field {01234567-89AB-CDEF-0123-456789ABCDEF}
+get c_modtime
+raw c_modtime
+set c_modtime field \xde\xad\xbe\xef\x01
+get c_modtime
+raw c_modtime
+set c_modtime long 0
+get c_modtime
+raw c_modtime
+set c_modtime long -5
+get c_modtime
+raw c_modtime
+set c_modtime long 40000
+get c_modtime
+raw c_modtime
+set c_modtime long 2147483647
+get c_modtime
+raw c_modtime
+set c_modtime long -2147483648
+get c_modtime
+raw c_modtime
+set c_modtime short -32768
+get c_modtime
+raw c_modtime
+set c_modtime short 7
+get c_modtime
+raw c_modtime
+set c_modtime longlong 9223372036854775807
+get c_modtime
+raw c_modtime
+set c_modtime longlong -3
+get c_modtime
+raw c_modtime
+set c_modtime double 2.5
+get c_modtime
+raw c_modtime
+set c_modtime double -0.125
+get c_modtime
+raw c_modtime
+set c_modtime double 12345.678
+get c_modtime
+raw c_modtime
+set c_modtime double 1e20
+get c_modtime
+raw c_modtime
+set c_modtime double 0.005
+get c_modtime
+raw c_modtime
+set c_modtime logical 0
+get c_modtime
+raw c_modtime
+set c_modtime logical 1
+get c_modtime
+raw c_modtime
+set c_modtime logical 2
+get c_modtime
+raw c_modtime
+set c_modtime date 11/08/2017
+get c_modtime
+raw c_modtime
+set c_modtime date 13/45/2017
+get c_modtime
+raw c_modtime
+set c_modtime date ""
+get c_modtime
+raw c_modtime
+set c_modtime date 1/2/3
+get c_modtime
+raw c_modtime
+set c_modtime julian 2458066
+get c_modtime
+raw c_modtime
+set c_modtime julian 0
+get c_modtime
+raw c_modtime
+set c_modtime time 13:45:30.250
+get c_modtime
+raw c_modtime
+set c_modtime time 25:00
+get c_modtime
+raw c_modtime
+set c_modtime time ""
+get c_modtime
+raw c_modtime
+set c_modtime ms 0
+get c_modtime
+raw c_modtime
+set c_modtime ms 86399999
+get c_modtime
+raw c_modtime
+set c_modtime ms -1
+get c_modtime
+raw c_modtime
+set c_modtime timestamp 11/08/2017 13:45:30.250
+get c_modtime
+raw c_modtime
+set c_modtime timestamp 11/08/2017
+get c_modtime
+raw c_modtime
+set c_modtime money 123456
+get c_modtime
+raw c_modtime
+set c_modtime money -1
+get c_modtime
+raw c_modtime
+set c_modtime binary 0102
+get c_modtime
+raw c_modtime
+set c_modtime binary 0102030405060708090a
+get c_modtime
+raw c_modtime
+set c_modtime null
+get c_modtime
+raw c_modtime
+set c_modtime empty
+get c_modtime
+raw c_modtime
+set c_char string kept
+write
+state
+close

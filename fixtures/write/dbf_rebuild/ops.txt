@@ -1,0 +1,32 @@
+# Two orders built, records deleted, the orders rebuilt as a reindex writes the file anew, then
+# packed.
+tabletype cdx
+open big.dbf exclusive
+createindex - c 2 512 c
+createindex - n 2 512 n
+goto 1
+delete
+write
+goto 2
+delete
+write
+goto 500
+delete
+write
+goto 1234
+delete
+write
+goto 1235
+delete
+write
+goto 2999
+delete
+write
+goto 3000
+delete
+write
+reindex
+pack
+order c
+count
+close

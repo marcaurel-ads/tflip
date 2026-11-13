@@ -1,0 +1,5 @@
+# AES-128 and then RC4 again.
+connect Data Source=%D\m_P_type5to3\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '3')
+disconnect

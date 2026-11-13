@@ -1,0 +1,4 @@
+# The dictionary of a_R.txt (an RC4 dictionary (AdsDDCreate with the flag 1), which encrypts its records) taken to RC4 with its records in the clear, made in a process of its own (a dictionary that encrypts its records is first opened with its password, which the original asks of a process that did not make it).
+connect Data Source=%D\c_R_RC4_0;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'RC4', 0)
+disconnect

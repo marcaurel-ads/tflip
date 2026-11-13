@@ -1,0 +1,23 @@
+# Clipper tables: one empty, one of three records, one of 3,000.
+tabletype ntx
+createtable ne.dbf 0 c,Character,10;n,Numeric,8,2;d,Date
+close
+createtable nr.dbf 0 c,Character,10;n,Numeric,8,2;d,Date
+append
+set c string bravo
+set n double 2
+write
+append
+set c string alpha
+set n double 1
+write
+append
+set c string charlie
+set n double 3
+set d date 01/02/2020
+write
+close
+sql CREATE TABLE d (n INTEGER)
+sql INSERT INTO d VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+sql CREATE TABLE big (c CHAR(10), n NUMERIC(6, 0))
+sql INSERT INTO big SELECT 'k' + CAST(a.n * 1000 + b.n * 100 + c.n * 10 + e.n AS SQL_CHAR), a.n * 1000 + b.n * 100 + c.n * 10 + e.n FROM d a, d b, d c , d e WHERE a.n < 3

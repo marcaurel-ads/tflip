@@ -1,0 +1,4 @@
+# The dictionary of a_X.txt (a plain dictionary with a referential integrity rule, a link and rights of every kind) taken to AES-256 with its records in the clear, made in a process of its own (a dictionary that encrypts its records is first opened with its password, which the original asks of a process that did not make it).
+connect Data Source=%D\c_X_AES256_0;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'AES256', 0)
+disconnect

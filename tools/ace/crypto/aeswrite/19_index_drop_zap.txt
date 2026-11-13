@@ -1,0 +1,19 @@
+# An index of an encrypted table dropped, a unique one created, the table zapped. On each dictionary of 00_create.txt that has the table of 11_indexes.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql DROP INDEX ti.ti_id
+sql CREATE UNIQUE INDEX ti_u ON ti (name)
+sql EXECUTE PROCEDURE sp_ZapTable('ti')
+sql INSERT INTO ti VALUES (8, 'eight')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql DROP INDEX ti.ti_id
+sql CREATE UNIQUE INDEX ti_u ON ti (name)
+sql EXECUTE PROCEDURE sp_ZapTable('ti')
+sql INSERT INTO ti VALUES (8, 'eight')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql DROP INDEX ti.ti_id
+sql CREATE UNIQUE INDEX ti_u ON ti (name)
+sql EXECUTE PROCEDURE sp_ZapTable('ti')
+sql INSERT INTO ti VALUES (8, 'eight')
+disconnect

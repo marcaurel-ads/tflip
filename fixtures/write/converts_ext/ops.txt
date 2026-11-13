@@ -1,0 +1,11 @@
+# The extended ADT types converted to the DBF flavours, and a ShortDate back.
+open x.adt
+convert 2 cdx xc.dbf
+convert 2 ntx xn.dbf
+convert 2 vfp xv.dbf
+close
+tabletype cdx
+open y.dbf
+convert 2 adt ya.adt
+convert 2 vfp yv.dbf
+close

@@ -1,0 +1,153 @@
+# SQL comparisons of tables opened with a dynamic collation
+# (AdsStmtSetTableCollation), under the default static collation
+# (run_collation_dynamic.sh): the charset_german `ca` table (c is each byte
+# 32..255, w holds accented words; no index) and the collation_dynamic `ger`
+# and `gen` tables (the same bytes and more words, with an order under
+# GERMAN_VFP_CI_AS_1252 and GENERAL_VFP_CI_AS_1252).
+#
+# A table whose orders have a collation opens only with that one, so the
+# tables of one statement cannot differ.
+stmt
+query SELECT code FROM ger ORDER BY code
+collation GENERAL_VFP_CI_AS_1252
+query SELECT code FROM ger ORDER BY code
+query SELECT a.code FROM ca a, gen b WHERE a.code = b.code ORDER BY a.code
+query SELECT a.code FROM ca a, ger b WHERE a.code = b.code ORDER BY a.code
+#
+# GERMAN_VFP_CI_AS_1252: case-insensitive, accents count, ß as ss.
+stmt
+collation GERMAN_VFP_CI_AS_1252
+query SELECT code FROM ca ORDER BY c, code
+query SELECT code FROM ca ORDER BY c DESC, code
+query SELECT code FROM ca ORDER BY w, code
+query SELECT code FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC
+query SELECT code, c FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC, code
+query SELECT code FROM ca WHERE c < 'a' ORDER BY code
+query SELECT code FROM ca WHERE c > 'a' ORDER BY code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca WHERE c = 'A' ORDER BY code
+query SELECT code FROM ca WHERE c <> 'a' AND code < 128 ORDER BY code
+query SELECT code FROM ca WHERE c < 'A' ORDER BY code
+query SELECT code FROM ca WHERE c <= 'b' ORDER BY code
+query SELECT code FROM ca WHERE c > 'z' ORDER BY code
+query SELECT code FROM ca WHERE c >= 'ä' ORDER BY code
+query SELECT code FROM ca WHERE c < 'ß' ORDER BY code
+query SELECT code FROM ca WHERE c > 's' ORDER BY code
+query SELECT code FROM ca WHERE c = 'ss' ORDER BY code
+query SELECT code FROM ca WHERE c = 'a ' ORDER BY code
+query SELECT code FROM ca WHERE c = '' ORDER BY code
+query SELECT code FROM ca WHERE c BETWEEN 'a' AND 'b' ORDER BY code
+query SELECT code FROM ca WHERE c IN ('a', 'ß') ORDER BY code
+query SELECT code FROM ca WHERE w < 'b' ORDER BY code
+query SELECT code FROM ca WHERE w > 'ö' ORDER BY code
+query SELECT code FROM ca WHERE w = 'STRASSE' ORDER BY code
+query SELECT code FROM ca WHERE w = 'resume' ORDER BY code
+query SELECT code FROM ca WHERE w = 'resum' ORDER BY code
+query SELECT code FROM ca WHERE w LIKE 'RES%' ORDER BY code
+query SELECT a.code, b.code FROM ca a, ca b WHERE a.w = b.w AND a.code <> b.code ORDER BY a.code, b.code
+query SELECT a.code, b.code FROM ca a, ca b WHERE a.c = b.w ORDER BY a.code, b.code
+query SELECT code FROM ca WHERE c = UPPER(c) AND code < 128 ORDER BY code
+query SELECT DISTINCT c FROM ca g ORDER BY c
+query SELECT DISTINCT w FROM ca g ORDER BY w
+query SELECT c, COUNT(*) AS n FROM ca g GROUP BY c ORDER BY c
+query SELECT w, COUNT(*) AS n FROM ca g GROUP BY w ORDER BY w
+query SELECT COUNT(DISTINCT c) AS n, COUNT(DISTINCT w) AS m FROM ca
+query SELECT MIN(c) AS lo, MAX(c) AS hi, MIN(w) AS wlo, MAX(w) AS whi FROM ca
+# Which of equal values counts: apfel and Apfel, Zebra and zebra, ss and ß.
+query SELECT code, w FROM ca WHERE code >= 1000 ORDER BY code
+query SELECT MIN(w) AS lo, MAX(w) AS hi FROM ca WHERE code IN (1004, 1005)
+query SELECT MIN(w) AS lo, MAX(w) AS hi FROM ca WHERE code IN (1006, 1007)
+query SELECT MIN(w) AS lo, MAX(w) AS hi FROM ca WHERE code IN (1008, 1009)
+query SELECT MIN(c) AS lo, MAX(c) AS hi FROM ca WHERE code IN (65, 97)
+query SELECT MIN(c) AS lo, MAX(c) AS hi FROM ca WHERE code IN (97, 65, 192)
+query SELECT DISTINCT w FROM ca WHERE code BETWEEN 1004 AND 1007
+query SELECT w, COUNT(*) AS n FROM ca WHERE code BETWEEN 1004 AND 1007 GROUP BY w
+query SELECT w FROM ca WHERE code = 1005 UNION SELECT w FROM ca WHERE code = 1004
+query SELECT w FROM ca WHERE code = 1004 UNION SELECT w FROM ca WHERE code = 1005
+query SELECT c FROM ca g WHERE code < 120 UNION SELECT c FROM ca WHERE code >= 100 ORDER BY 1
+query SELECT w FROM ca g UNION SELECT UPPER(w) FROM ca ORDER BY 1
+query SELECT code FROM ca WHERE c = (SELECT MAX(c) FROM ca) ORDER BY code
+query SELECT code FROM ca WHERE c IN (SELECT c FROM ca WHERE code = 97) ORDER BY code
+query SELECT code, IIF(c = 'a', 1, 0) AS a, IIF(c < 'b', 1, 0) AS b FROM ca WHERE code BETWEEN 64 AND 98 ORDER BY code
+# Text that is not a column's: does it compare under the collation too?
+query SELECT IIF('a' = 'A', 1, 0) AS ci, IIF('ä' > 'b', 1, 0) AS accent, IIF('ss' = 'ß', 1, 0) AS ss FROM system.iota
+# Two literals compare otherwise than columns: character by character
+# (primary then accent weight), unexpanded, so 'äa' > 'aeb' and
+# 'resumé' > 'resumes'; columns (and MIN, MAX) as the keys, then by which
+# characters expand.
+query SELECT IIF('resumé' > 'resumes', 1, 0) AS a, IIF('äa' > 'aeb', 1, 0) AS b, IIF('ä' > 'az', 1, 0) AS c, IIF('aé' > 'áe', 1, 0) AS d FROM system.iota
+query SELECT a.code, b.code FROM ca a, ca b WHERE a.w < b.w AND a.code IN (1000, 1001, 1002) AND b.code IN (1000, 1001, 1002) ORDER BY 1, 2
+query SELECT MIN(x) AS lo, MAX(x) AS hi FROM (SELECT 'äa' AS x FROM system.iota UNION ALL SELECT 'aeb' FROM system.iota) t
+query SELECT MIN(x) AS lo, MAX(x) AS hi FROM (SELECT 'ae' AS x FROM system.iota UNION ALL SELECT 'ä' FROM system.iota) t
+query SELECT MIN(x) AS lo, MAX(x) AS hi FROM (SELECT 'áe' AS x FROM system.iota UNION ALL SELECT 'ä' FROM system.iota) t
+query SELECT x, COUNT(*) AS n FROM (SELECT 'ß' AS x FROM system.iota UNION ALL SELECT 'ss' FROM system.iota) t GROUP BY x
+query SELECT code FROM ca WHERE UPPER(c) = 'A' ORDER BY code
+query SELECT code FROM ca WHERE TRIM(w) = 'resume' ORDER BY code
+query SELECT code FROM ca WHERE c + 'x' = 'ax' ORDER BY code
+query SELECT x FROM (SELECT c AS x FROM ca WHERE code BETWEEN 64 AND 100 UNION ALL SELECT 'B' FROM system.iota) t ORDER BY x
+direct CREATE TABLE cit (code Integer, c CIChar(1), w CIChar(10))
+direct INSERT INTO cit SELECT code, c, w FROM ca
+query SELECT code FROM cit ORDER BY c, code
+query SELECT code FROM cit WHERE c = 'a' ORDER BY code
+query SELECT code FROM cit WHERE c = 'ä' ORDER BY code
+query SELECT code FROM cit WHERE c < 'b' ORDER BY code
+query SELECT code FROM cit ORDER BY w, code
+query SELECT DISTINCT c FROM cit ORDER BY c
+query SELECT c, COUNT(*) AS n FROM cit GROUP BY c ORDER BY c
+#
+# The table with an order under the collation.
+query SELECT code FROM ger ORDER BY c, code
+query SELECT code FROM ger ORDER BY w, code
+query SELECT code FROM ger WHERE c = 'a' ORDER BY code
+query SELECT code FROM ger WHERE c < 'b' ORDER BY code
+query SELECT code FROM ger WHERE w = 'strasse' ORDER BY code
+query SELECT DISTINCT c FROM ger ORDER BY c
+query SELECT a.code, b.code FROM ger a, ca b WHERE a.c = b.c AND a.code < 100 ORDER BY a.code, b.code
+#
+# A case-sensitive collation.
+stmt
+collation UNIQWT_VFP_CS_AS_1252
+query SELECT code FROM ca ORDER BY c, code
+query SELECT code FROM ca ORDER BY w, code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca WHERE c < 'b' ORDER BY code
+query SELECT code FROM ca WHERE w = 'zebra' ORDER BY code
+query SELECT DISTINCT c FROM ca ORDER BY c
+query SELECT c, COUNT(*) AS n FROM ca GROUP BY c ORDER BY c
+query SELECT MIN(c) AS lo, MAX(c) AS hi, MIN(w) AS wlo, MAX(w) AS whi FROM ca
+query SELECT w FROM ca UNION SELECT UPPER(w) FROM ca ORDER BY 1
+query SELECT IIF('a' = 'A', 1, 0) AS ci, IIF('ä' > 'b', 1, 0) AS accent, IIF('a' < 'B', 1, 0) AS lt FROM system.iota
+#
+# The binary collation.
+stmt
+collation MACHINE_VFP_BIN_1252
+query SELECT code FROM ca ORDER BY c, code
+query SELECT code FROM ca ORDER BY w, code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca WHERE c = 'a ' ORDER BY code
+query SELECT code FROM ca WHERE w = 'zebra' ORDER BY code
+query SELECT code FROM ca WHERE c < 'b' ORDER BY code
+query SELECT DISTINCT c FROM ca ORDER BY c
+#
+# A code page 1250 collation on Windows-1252 text.
+stmt
+collation CZECH_VFP_CI_AS_1250
+query SELECT code FROM ca ORDER BY c, code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca ORDER BY w, code
+query SELECT IIF('a' = 'A', 1, 0) AS ci, IIF('ä' > 'b', 1, 0) AS accent, IIF('a' < 'B', 1, 0) AS lt FROM system.iota
+#
+# The connection's collation (AdsSetCollation), for the statements that set
+# none.
+setcollation GERMAN_VFP_CI_AS_1252
+stmt
+query SELECT code FROM ger WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT IIF('a' = 'A', 1, 0) AS ci, IIF('ä' > 'b', 1, 0) AS accent, IIF('a' < 'B', 1, 0) AS lt FROM system.iota
+collation GENERAL_VFP_CI_AS_1252
+query SELECT code FROM gen WHERE c = 'a' ORDER BY code
+query SELECT code FROM ger WHERE c = 'a' ORDER BY code
+setcollation
+stmt
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT IIF('a' = 'A', 1, 0) AS ci, IIF('ä' > 'b', 1, 0) AS accent, IIF('a' < 'B', 1, 0) AS lt FROM system.iota

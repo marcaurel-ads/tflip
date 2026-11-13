@@ -1,0 +1,297 @@
+# Cursors in scripts sent as a statement (DECLARE c CURSOR [AS SELECT | EXECUTE
+# PROCEDURE], OPEN [AS], FETCH, CLOSE, WHILE [NOT] FETCH, c.column), in an empty
+# folder: the loop's end, a cursor left closed, opened twice or read past its
+# end, what is checked when (declared names and the definition's syntax before
+# the script runs, its tables and columns at OPEN), the columns a cursor has,
+# parameters in a definition. What a cursor sees of the table changing is in
+# cursorlive.txt.
+#
+#     run.sh <work> <ace32.dll> cursors.txt > ../../../fixtures/sql/cursors.json
+stmt
+query CREATE TABLE t (n integer, s char(4), d date, f double)
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; WHILE FETCH c DO i = i + 1; END WHILE;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; IF FETCH c THEN i = c.n; END IF; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; i = FETCH c; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; WHILE NOT FETCH c DO i = i + 1; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH FIRST c; SELECT c.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH NEXT c; SELECT c.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH c; SELECT c.n AS a FROM system.iota; CLOSE c;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; FETCH c; FETCH c; FETCH c; SELECT 1 AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; WHILE FETCH c DO i = c.n; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; WHILE FETCH c DO i = c.n; END WHILE; i = c.n;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; WHILE FETCH c DO i = c.n; END WHILE; FETCH c; SELECT 1 AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s, d, f FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; FETCH c; SELECT c.n AS n, c.s AS s, c.d AS d, c.f AS f FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s, d, f FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT c.n AS n, c.s AS s, c.d AS d, c.f AS f FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s, d, f FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; FETCH c; i = c.n; i = c.f;
+query DECLARE c CURSOR AS SELECT n, s, d, f FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; FETCH c; i = c.f; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n * 2 AS dbl, n + 1, UPPER(s) AS u FROM t ORDER BY n; OPEN c; FETCH c; SELECT c.dbl AS a, c.u AS b FROM system.iota
+query DECLARE c CURSOR AS SELECT t.n, t.s FROM t ORDER BY n; OPEN c; FETCH c; SELECT c.n AS a, c.t.n AS b FROM system.iota
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; OPEN c; FETCH c; SELECT c.s AS a FROM t
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; OPEN c; FETCH c; SELECT c.s AS a, n FROM t ORDER BY n
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; OPEN c; FETCH c; SELECT s FROM t WHERE n = c.n
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; DECLARE s STRING; OPEN c; FETCH c; s = c.s; SELECT s AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; DECLARE s STRING; OPEN c; FETCH c; c.s = 'x';
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; OPEN c; FETCH c; UPDATE t SET s = 'q' WHERE CURRENT OF c
+query DECLARE c CURSOR AS INSERT INTO t VALUES (7, 'g', NULL, NULL); OPEN c;
+query DECLARE c CURSOR AS SELEC n FROM t; SELECT 1 AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; SELECT 1 AS a FROM system.iota; SELEC
+query DECLARE c CURSOR AS SELECT n FROM t; OPEN C; FETCH c; SELECT C.N AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE c2 CURSOR AS SELECT s FROM t; OPEN c; OPEN c2; FETCH c; FETCH c2; SELECT c.n AS a, c2.s AS b FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE d CURSOR AS SELECT n FROM t; OPEN c; OPEN d; FETCH c; SELECT d.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; WHILE FETCH c DO IF c.n = 2 THEN i = 99; END IF; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; WHILE FETCH c DO OPEN c; END WHILE;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; WHILE FETCH c DO SELECT c.n AS a FROM system.iota; END WHILE;
+query OPEN c;
+query FETCH c;
+query CLOSE c;
+query DECLARE c CURSOR AS SELECT n FROM t; OPEN c; BEGIN FETCH c; END
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE x INTEGER; OPEN x;
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE x INTEGER; FETCH x;
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE x INTEGER; CLOSE x;
+query DECLARE x INTEGER; x = 1; SELECT x.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; c = 1;
+query DECLARE c CURSOR AS SELECT n FROM t; SELECT c AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; OPEN c; FETCH c; SELECT c AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; OPEN c; FETCH c; RETURN c.n;
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; DECLARE s STRING; s = ''; OPEN c AS SELECT n FROM t ORDER BY n; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; DECLARE s STRING; s = ''; OPEN c AS SELECT n FROM t ORDER BY n; CLOSE c; OPEN c AS SELECT n FROM t WHERE n > 1; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR AS SELECT n FROM t WHERE n = 1; DECLARE s STRING; s = ''; OPEN c AS SELECT n FROM t WHERE n > 1; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR AS SELECT n FROM t WHERE n = 1; DECLARE s STRING; s = ''; OPEN c; CLOSE c; OPEN c AS SELECT n FROM t WHERE n > 1; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR AS SELECT n FROM t WHERE n = 1; DECLARE s STRING; s = ''; OPEN c; OPEN c AS SELECT n FROM t WHERE n > 1; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; DECLARE s STRING; s = ''; OPEN c AS SELECT n FROM t ORDER BY n; OPEN c AS SELECT n FROM t;
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; FETCH c;
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; CLOSE c;
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; OPEN c AS SELECT nosuch FROM t;
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query DECLARE c CURSOR; OPEN c AS INSERT INTO t VALUES (1, 'a', NULL, NULL);
+query CREATE TABLE u (k integer, g integer)
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 1)
+directnull INSERT INTO u VALUES (40, 2)
+directnull INSERT INTO u VALUES (50, 1)
+directnull INSERT INTO u VALUES (60, 2)
+query DECLARE c CURSOR AS SELECT k FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u WHERE g = 1; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT TOP 2 k FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT a.k FROM u a, u b WHERE a.k = b.k; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT a.k FROM u a INNER JOIN u b ON a.k = b.k; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u WHERE k IN (SELECT k FROM u WHERE g = 1); DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT DISTINCT g FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.g AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT g, COUNT(*) AS n FROM u GROUP BY g; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.g AS SQL_CHAR)))) + '/' + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT COUNT(*) AS n FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k * 2 AS k FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u ORDER BY g, k DESC; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u UNION ALL SELECT k FROM u WHERE k > 50; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM (SELECT k FROM u) x; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT {static} k FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ','; END WHILE; CLOSE c; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.k AS SQL_CHAR)))) + ';'; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT k FROM u; DECLARE s STRING; s = ''; OPEN c; FETCH c; FETCH c; CLOSE c; OPEN c; FETCH c; SELECT c.k AS k FROM system.iota
+query SELECT * FROM u
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = c.n;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; SELECT c.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH c; CLOSE c; SELECT c.n AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; CLOSE c; i = c.n;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; CLOSE c; OPEN c; i = c.n;
+query DECLARE c CURSOR AS SELECT n FROM t WHERE n > 100; DECLARE i INTEGER; OPEN c; IF FETCH c THEN i = 1; ELSE i = 2; END IF; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; IF c.n = 1 THEN i = 1; END IF;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; INSERT INTO t VALUES (c.n + 100, 'x', NULL, NULL); SELECT COUNT(*) AS c FROM t WHERE n > 100
+query DECLARE c CURSOR AS SELECT n, n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; i = c.n; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n AS x, s AS x FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT c.x AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE d CURSOR AS SELECT c.n FROM t; OPEN d;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE d CURSOR AS SELECT n FROM t WHERE n > 1 ORDER BY n; DECLARE s STRING; s = ''; OPEN c; FETCH c; OPEN d; WHILE FETCH d DO s = s + TRIM(TRIM(TRIM(CAST(d.n + c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE s STRING; s = ''; OPEN c; FETCH c; DELETE FROM t WHERE n = c.n; s = TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))); SELECT s AS s FROM system.iota
+query SELECT n FROM t ORDER BY n
+prepare DECLARE c CURSOR AS SELECT n FROM t WHERE s = :v ORDER BY n; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+param v string b
+exec
+prepare DECLARE c CURSOR AS SELECT n FROM t WHERE n > ? ORDER BY n; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT s AS s FROM system.iota
+param 1 long 1
+exec
+prepare DECLARE c CURSOR AS SELECT n FROM t WHERE n > 1 ORDER BY n; DECLARE s STRING; s = ''; OPEN c; WHILE FETCH c DO s = s + TRIM(TRIM(TRIM(CAST(c.n AS SQL_CHAR)))) + ','; END WHILE; SELECT ? AS p FROM system.iota
+param 1 long 5
+exec
+query DECLARE c CURSOR AS EXECUTE PROCEDURE nosuch(); OPEN c;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; IF NOT FETCH c THEN i = 1; END IF; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; WHILE FETCH c DO i = i + 1; END WHILE; WHILE FETCH c DO i = i + 100; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; i = FETCH c;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; IF FETCH THEN i = 1; END IF;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; IF FETCH nosuch THEN i = 1; END IF;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; IF FETCH c THEN i = 1; END IF;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; FETCH c INTO i;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; i = 0; OPEN c; FETCH c; FETCH c;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c; FETCH c; FETCH c; CLOSE c; CLOSE c;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; OPEN c AS SELECT s FROM t ORDER BY n; FETCH c; SELECT c.s AS s FROM system.iota
+query DECLARE c CURSOR; OPEN c AS SELECT n FROM t ORDER BY n; CLOSE c; OPEN c; FETCH c; SELECT c.n AS n FROM system.iota
+query DECLARE c CURSOR; OPEN c AS SELECT n FROM t ORDER BY n; CLOSE c; OPEN c AS SELECT s FROM t ORDER BY n; FETCH c; SELECT c.s AS s FROM system.iota
+query DECLARE c CURSOR; OPEN c AS SELECT n FROM t ORDER BY n; CLOSE c; OPEN c AS SELECT s FROM t ORDER BY n; FETCH c; SELECT c.n AS n FROM system.iota
+query DECLARE c CURSOR; OPEN c AS ;
+query DECLARE c CURSOR; OPEN c AS SELECT;
+query DECLARE c CURSOR AS ;
+query DECLARE c CURSOR AS SELECT n FROM t WHERE; SELECT 1 AS a FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n
+query DECLARE c CURSOR AS SELECT n FROM t, d INTEGER;
+query DECLARE c CURSOR FOR SELECT n FROM t; OPEN c;
+query DECLARE c CURSOR IS SELECT n FROM t; OPEN c;
+query DECLARE c CURSOR SELECT n FROM t; OPEN c;
+query DECLARE c CURSOR AS SELECT n FROM t; INSERT INTO t VALUES (90, 'a', NULL, NULL); OPEN c;
+query DECLARE c CURSOR AS EXECUTE PROCEDURE nosuch(); DECLARE d CURSOR AS SELECT n FROM nosuch; OPEN d; OPEN c;
+query DECLARE c CURSOR AS EXEC PROCEDURE nosuch(); OPEN c;
+query DECLARE c CURSOR AS SELECT n FROM t INTO u; OPEN c;
+query DECLARE c CURSOR AS SELECT 1 AS a; OPEN c;
+query DECLARE c CURSOR AS SELECT 1 AS a FROM system.iota; DECLARE i INTEGER; OPEN c; FETCH c; i = c.a; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT COUNT(*) AS cnt FROM t; DECLARE i INTEGER; OPEN c; FETCH c; i = c.cnt; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT * FROM system.iota; DECLARE i INTEGER; OPEN c; FETCH c; i = c.cnt; SELECT i AS i FROM system.iota
+query INSERT INTO t VALUES (80, 'a', NULL, NULL); RAISE;
+query INSERT INTO t VALUES (81, 'a', NULL, NULL); TRY RAISE; FINALLY RAISE; END TRY;
+query SELECT COUNT(*) AS c FROM t WHERE n >= 80
+query TRY RAISE; CATCH ALL RAISE; END TRY;
+query INSERT INTO t VALUES (91, 'a', NULL, NULL); OPEN c;
+query INSERT INTO t VALUES (92, 'a', NULL, NULL); FETCH c;
+query INSERT INTO t VALUES (93, 'a', NULL, NULL); CLOSE c;
+query DECLARE c CURSOR AS SELECT n FROM t; INSERT INTO t VALUES (94, 'a', NULL, NULL); OPEN d;
+query DECLARE c CURSOR AS SELECT n FROM t; INSERT INTO t VALUES (95, 'a', NULL, NULL); IF FETCH d THEN INSERT INTO t VALUES (96, 'a', NULL, NULL); END IF;
+query SELECT COUNT(*) AS c FROM t WHERE n > 90
+prepare DECLARE c CURSOR AS SELECT n FROM t WHERE n > ?; INSERT INTO t VALUES (97, 'a', NULL, NULL); OPEN c;
+param 1 long 1
+exec
+prepare DECLARE c CURSOR AS SELECT n FROM t WHERE n > ?; INSERT INTO t VALUES (98, 'a', NULL, NULL);
+param 1 long 1
+exec
+prepare DECLARE c CURSOR AS SELECT n FROM t; INSERT INTO t VALUES (99, 'a', NULL, NULL); OPEN c AS SELECT n FROM t WHERE n > ?;
+param 1 long 1
+exec
+query SELECT COUNT(*) AS c FROM t WHERE n > 96
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; i = c.nosuch;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; IF c.nosuch = 1 THEN i = 1; END IF;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; i = c.nosuch;
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; INSERT INTO t VALUES (c.nosuch, 'a', NULL, NULL);
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; i = c.n + c.n; SELECT i AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT c.n + c.n AS i, n FROM t WHERE n = c.n
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT C.N AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT "c"."n" AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE i INTEGER; OPEN c; FETCH c; SELECT [c].[n] AS i FROM system.iota
+query DECLARE c CURSOR AS SELECT s, d FROM t ORDER BY n; DECLARE x DATE; DECLARE y STRING; OPEN c; FETCH c; x = c.d; y = c.s; SELECT x AS x, y AS y FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x INTEGER; x = 0; OPEN c; WHILE FETCH c DO x = x + 1; END WHILE; CLOSE c; OPEN c; WHILE FETCH c DO x = x + 1; END WHILE; SELECT x AS x FROM system.iota

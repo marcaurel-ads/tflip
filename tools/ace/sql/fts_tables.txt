@@ -1,0 +1,36 @@
+# The tables fixtures/sql/fts/ has besides docs, opts, fixed and nofts (those
+# came from the full-text probe of the original engine's documentation): fx,
+# with a FIXED full-text index the table changed after; px and qx, with a
+# full-text and an ordinary index made in either order. Run by sql.c in an
+# empty folder (sql.exe <dll> <folder> fts_tables.txt).
+stmt
+query CREATE TABLE fx (id Integer, m Memo, c Char(40))
+query INSERT INTO fx VALUES (1, 'alpha bravo charlie', 'one')
+query INSERT INTO fx VALUES (2, 'delta echo', 'two')
+query INSERT INTO fx VALUES (3, 'alpha delta alpha', 'three')
+query INSERT INTO fx VALUES (4, NULL, 'four')
+query INSERT INTO fx VALUES (5, 'bravo kilo lima', 'five')
+query INSERT INTO fx VALUES (6, 'Superextraordinarily long words', 'six')
+query CREATE INDEX fx_m ON fx (m) CONTENT NOTMAINTAINED
+query CREATE INDEX fx_id ON fx (id)
+query INSERT INTO fx VALUES (7, 'alpha echo', 'seven')
+query UPDATE fx SET m = 'foxtrot golf' WHERE id = 2
+query UPDATE fx SET m = 'charlie alpha' WHERE id = 5
+query UPDATE fx SET m = 'hotel' WHERE id = 4
+query DELETE FROM fx WHERE id = 3
+query CREATE TABLE px (id Integer, body Memo, n Integer)
+query INSERT INTO px VALUES (1, 'red green blue', 10)
+query INSERT INTO px VALUES (2, 'green yellow', 20)
+query INSERT INTO px VALUES (3, 'blue black red', 30)
+query INSERT INTO px VALUES (4, 'white', 40)
+query INSERT INTO px VALUES (5, 'red red red green', 50)
+query CREATE INDEX px_body ON px (body) CONTENT
+query CREATE INDEX px_n ON px (n)
+query CREATE TABLE qx (id Integer, body Memo)
+query INSERT INTO qx VALUES (1, 'red green')
+query INSERT INTO qx VALUES (2, 'blue')
+query INSERT INTO qx VALUES (3, 'red blue')
+query CREATE INDEX qx_id ON qx (id)
+query CREATE INDEX qx_body ON qx (body) CONTENT
+query SELECT * FROM fx
+query SELECT * FROM px

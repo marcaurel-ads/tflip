@@ -1,0 +1,31 @@
+#include dg_tx.txt
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap0\ /I /Q
+connect 2 src\d.add
+sql 2 BEGIN TRANSACTION
+sql 2 UPDATE x_commit SET name = 'txedit' WHERE id = 1
+sql 2 INSERT INTO x_commit VALUES (6, 'n6', 'memo 6', NULL)
+sql 2 DELETE FROM x_commit WHERE id = 2
+shell xcopy @CLIENT@\src\x_commit.ad? @CLIENT@\snap_commit_pending\ /I /Q
+sql 2 COMMIT
+shell xcopy @CLIENT@\src\x_commit.ad? @CLIENT@\snap_commit_done\ /I /Q
+sql 2 BEGIN TRANSACTION
+sql 2 UPDATE x_rb SET name = 'txedit', note = 'rolled back memo that is rather long to need a new block, rolled back memo that is rather long to need a new block, rolled back memo that is rather long to need a new block' WHERE id = 1
+sql 2 INSERT INTO x_rb VALUES (6, 'n6', 'memo 6', NULL)
+sql 2 DELETE FROM x_rb WHERE id = 2
+shell xcopy @CLIENT@\src\x_rb.ad? @CLIENT@\snap_rb_pending\ /I /Q
+sql 2 ROLLBACK
+shell xcopy @CLIENT@\src\x_rb.ad? @CLIENT@\snap_rb_done\ /I /Q
+sql 2 BEGIN TRANSACTION
+sql 2 UPDATE x_pend SET name = 'txedit' WHERE id = 1
+sql 2 INSERT INTO x_pend VALUES (6, 'n6', 'memo 6', NULL)
+sql 2 DELETE FROM x_pend WHERE id = 2
+shell xcopy @CLIENT@\src\x_pend.ad? @CLIENT@\snap_pend_pending\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff_during\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_during\ /E /I /Q
+sql 2 COMMIT
+shell xcopy @CLIENT@\src\x_pend.ad? @CLIENT@\snap_pend_done\ /I /Q
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')
+shell xcopy @CLIENT@\src\*.ad? @CLIENT@\snap_diff_after\ /I /Q
+shell xcopy @CLIENT@\img @CLIENT@\img_after\ /E /I /Q

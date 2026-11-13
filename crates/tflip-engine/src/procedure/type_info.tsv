@@ -1,0 +1,25 @@
+GUID	-11	32				1	F	3	\N	F	\N	GUID	\N	\N	-11	\N	\N
+LOGICAL	-7	1				1	F	3	\N	F	\N	LOGICAL	\N	\N	-7	\N	\N
+LONGINT	-5	19				1	F	3	F	F	F	LONGINTEGER	\N	\N	-5	\N	10
+BLOB	-4	2147483647	'	'		1	F	0	\N	F	\N	BINARY	\N	\N	-4	\N	\N
+VARBINARY	-3	65000			max length	1	F	3	\N	F	\N	VARBINARYFOX	\N	\N	-3	\N	\N
+RAW	-2	65535			max length	1	F	3	\N	F	\N	RAW	\N	\N	-2	\N	\N
+MEMO	-1	2147483640	'	'		1	T	3	\N	F	\N	MEMO	\N	\N	-1	\N	\N
+CHAR	1	65535	'	'	max length	1	T	3	\N	F	\N	CHAR	\N	\N	1	\N	\N
+NUMERIC	2	15			precision, scale	1	F	3	\N	F	F	NUMERIC	0	15	2	\N	10
+INTEGER	4	10				1	F	3	F	F	F	INTEGER	\N	\N	4	\N	10
+AUTOINC	4	10				0	F	3	F	F	T	AUTOINC	\N	\N	4	\N	10
+SHORT	5	5				1	F	3	F	F	F	SHORTINT	\N	\N	5	\N	10
+DOUBLE	8	15			precision	1	F	3	\N	F	\N	DOUBLE	\N	\N	8	\N	2
+CURDOUBLE	8	15			precision	1	F	3	\N	T	\N	CURDOUBLE	\N	\N	8	\N	2
+DATE	91	10				1	F	3	\N	F	\N	DATE	\N	\N	9	1	\N
+TIME	92	8				1	F	3	\N	F	\N	TIME	\N	\N	9	2	\N
+TIMESTAMP	93	23				1	F	3	\N	F	F	TIMESTAMP	3	3	9	3	\N
+VARCHAR	12	65000	'	'	max length	1	T	3	\N	F	\N	VARCHARFOX	\N	\N	12	\N	\N
+MONEY	2	22				1	F	3	\N	T	F	MONEY	4	4	2	\N	10
+CICHAR	1	65535	'	'	max length	1	F	3	\N	F	\N	CICHAR	\N	\N	1	\N	\N
+ROWVERSION	2	22				1	F	3	\N	F	T	ROWVERSION	\N	\N	2	\N	10
+MODTIME	93	23				1	F	3	\N	F	T	MODTIME	3	3	9	3	\N
+NCHAR	-8	32500	'	'	Max code units	1	T	3	\N	F	\N	NCHAR	\N	\N	-8	\N	\N
+NVARCHAR	-9	32500	'	'	Max code units	1	T	3	\N	F	\N	NVARCHAR	\N	\N	-9	\N	\N
+NMEMO	-10	1073741820	'	'		1	T	3	\N	F	\N	NMEMO	\N	\N	-10	\N	\N

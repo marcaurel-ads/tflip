@@ -1,0 +1,144 @@
+# sp_ModifyDatabase on a dictionary connection in an empty folder (the
+# dictionary, de/de.add, is kept in fixtures/sql/spdddprops/): the properties
+# the dictionary has, by name and by number, the values they take, what is
+# refused, a user who is not the administrator, and a free connection.
+#
+#     run.sh <work> <ace32.dll> spdddprops.txt > ../../../fixtures/sql/spdddprops.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spdddprops/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'new comment')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'lower')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', NULL)
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('USER_DEFINED_PROP', 'user defined')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('USER_DEFINED_PROP', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('USER_DEFINED_PROP', NULL)
+direct EXECUTE PROCEDURE sp_ModifyDatabase('USER_DEFINED_PROP', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_DELIMITERS', ' ,.;')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_NOISE', 'a the of')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_DROP_CHARS', '-_')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_CONDITIONAL_CHARS', '*')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_DELIMITERS', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_NOISE', NULL)
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', 'qlog')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', 't1')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', 'F')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'F')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENABLE_INTERNET', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENABLE_INTERNET', 'F')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOGINS_DISABLED', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOGINS_DISABLED', 'F')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_COMMUNICATION', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_COMMUNICATION', 'F')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DISABLE_DLL_CACHING', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DISABLE_DLL_CACHING', 'F')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'F')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'F')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'F')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('TRIGGERS_DISABLED', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('TRIGGERS_DISABLED', 'F')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '2')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '3')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '0')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '4')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '3')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '0')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '32767')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '65536')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION_MAJOR', '7')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION_MINOR', '1')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '0')
+query SELECT * FROM system.dictionary
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '2')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '3')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '4294967295')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '4294967296')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '3')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '0')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '2')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '4')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '9')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOGINS_DISABLED_ERRSTR', 'closed')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('107', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('113', '0')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('1', 'by number')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('3', 'defined by number')
+query SELECT * FROM system.dictionary
+#
+# What is refused.
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('TRIGGERS_DISABLED', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENABLE_INTERNET', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION_MAJOR', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION_MINOR', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOGINS_DISABLED', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_COMMUNICATION', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DISABLE_DLL_CACHING', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '-1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '1.5')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', ' 1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', ' 3 ')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('NOPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase(NULL, 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('2', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('4', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('OBJECT_NAME', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('65535', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('TABLE_TYPE', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', '')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', NULL)
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'x', 'y')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 1)
+direct EXECUTE PROCEDURE sp_ModifyDatabase(1, 'x')
+direct EXECUTE PROCEDURE sp_ModifyDatabase()
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('NOPE', 'by a user')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOG_IN_REQUIRED', 'T')
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'free')

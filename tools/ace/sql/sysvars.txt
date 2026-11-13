@@ -1,0 +1,102 @@
+# The system variables ::conn.*, ::stmt.* and ::server.* read by a statement
+# and by a script, for fixtures/sql/sysvars.json, in an empty folder (on the
+# local server):
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> sysvars.txt > fixtures/sql/sysvars.json
+#
+# What differs from one run to the next (the connection's and statement's
+# names, the user, the operation count) is asked about, not shown. The
+# trigger variables are in trigvars.txt and the ones in procedures in
+# procvars.txt.
+stmt
+# The columns, their types, and what they hold outside of a trigger.
+query SELECT ::conn.Name, ::conn.OperationCount, ::conn.ClientHostName, ::conn.NetworkAddress, ::conn.IsRoot, ::conn.Collation, ::conn.TransactionCount FROM system.iota WHERE 1 = 0
+query SELECT ::stmt.Name, ::stmt.UpdateCount, ::stmt.TrigRowid, ::stmt.TrigName, ::stmt.TrigTableName, ::stmt.TrigEventType, ::stmt.TrigType, ::stmt.TrigRecNo FROM system.iota WHERE 1 = 0
+query SELECT ::server.OldestActiveTxn FROM system.iota WHERE 1 = 0
+query SELECT ::conn.ClientHostName, ::conn.NetworkAddress, ::conn.IsRoot, ::conn.Collation, ::conn.TransactionCount, ::stmt.UpdateCount, ::stmt.TrigRowid, ::stmt.TrigName, ::stmt.TrigTableName, ::stmt.TrigEventType, ::stmt.TrigType, ::stmt.TrigRecNo, ::server.OldestActiveTxn FROM system.iota
+query SELECT LEFT(::conn.Name, 4) AS a, LENGTH(::conn.Name) AS b, LEFT(::stmt.Name, 1) AS c, LENGTH(::stmt.Name) AS d, SUBSTRING(::stmt.Name, 10, 1) AS e, LENGTH(::conn.OSUserLoginName) > 0 AS f, ::conn.OperationCount > 0 AS g FROM system.iota
+query SELECT ::conn.OSUserLoginName = ::conn.OSUserLoginName AS a, UPPER(::conn.Collation) AS b, ::conn.TransactionCount + 1 AS c, ::stmt.UpdateCount + 1 AS d FROM system.iota
+# Names in any case, one named twice.
+query SELECT ::CONN.collation, ::Stmt.updatecount, ::SERVER.oldestactivetxn FROM system.iota
+query SELECT ::conn.IsRoot, ::conn.IsRoot, ::conn.IsRoot FROM system.iota
+query SELECT ::conn.IsRoot AS r, ::stmt.UpdateCount AS u FROM system.iota
+query SELECT 1 AS a FROM system.iota WHERE NOT ::conn.IsRoot
+query SELECT 1 AS a FROM system.iota WHERE ::conn.IsRoot
+query SELECT ::conn.TransactionCount AS a FROM system.iota WHERE ::conn.TransactionCount = 0
+# Names that are no variable.
+query SELECT ::conn.Bogus FROM system.iota
+query SELECT ::stmt.Bogus FROM system.iota
+query SELECT ::server.Bogus FROM system.iota
+query SELECT ::foo.Bar FROM system.iota
+query SELECT ::foo FROM system.iota
+query SELECT ::conn FROM system.iota
+query SELECT ::conn. FROM system.iota
+query SELECT ::conn.UserName FROM system.iota
+# In a script: assigned to variables of their types, and no variable of them is set.
+query DECLARE s CHAR(50); s = ::conn.Name; SELECT LEFT(s, 4) AS v FROM system.iota
+query DECLARE s CHAR(32); s = ::stmt.Name; SELECT LEFT(s, 1) AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.OSUserLoginName; SELECT LENGTH(s) > 0 AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.Collation; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.ClientHostName; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.NetworkAddress; SELECT s AS v FROM system.iota
+query DECLARE l LOGICAL; l = ::conn.IsRoot; SELECT l AS v FROM system.iota
+query DECLARE n INTEGER; n = ::conn.OperationCount; SELECT n > 0 AS v FROM system.iota
+query DECLARE n INTEGER; n = ::conn.TransactionCount; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = ::stmt.UpdateCount; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = ::stmt.TrigRecNo; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = ::stmt.TrigEventType; SELECT n AS v FROM system.iota
+query DECLARE n INTEGER; n = ::stmt.TrigType; SELECT n AS v FROM system.iota
+query DECLARE s STRING; s = ::stmt.TrigRowid; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::stmt.TrigName; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::stmt.TrigTableName; SELECT s AS v FROM system.iota
+query DECLARE t TIMESTAMP; t = ::server.OldestActiveTxn; SELECT t AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.OperationCount; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.IsRoot; SELECT s AS v FROM system.iota
+query DECLARE n INTEGER; n = ::conn.Collation; SELECT n AS v FROM system.iota
+query DECLARE s STRING; s = ::stmt.UpdateCount; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::server.OldestActiveTxn; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::conn.Bogus; SELECT s AS v FROM system.iota
+query DECLARE s STRING; s = ::foo.Bar; SELECT s AS v FROM system.iota
+query DECLARE n INTEGER; IF ::stmt.UpdateCount = 0 THEN n = 1; ELSE n = 2; END IF; SELECT n AS v FROM system.iota
+direct SET ::conn.Name = 'x'
+direct SET ::conn.OperationCount = 1
+direct SET ::conn.IsRoot = 1
+direct SET ::conn.OSUserLoginName = 'x'
+direct SET ::conn.ClientHostName = 'x'
+direct SET ::conn.NetworkAddress = 'x'
+direct SET ::conn.TransactionCount = 1
+direct SET ::stmt.Name = 'x'
+direct SET ::stmt.UpdateCount = 1
+direct SET ::stmt.TrigRecNo = 1
+direct SET ::stmt.TrigName = 'x'
+direct SET ::stmt.TrigRowid = 'x'
+direct SET ::server.OldestActiveTxn = 1
+direct SET ::conn.Bogus = 1
+direct SET ::foo.Bar = 1
+# UpdateCount: the rows the script's statements changed so far, from the
+# start of the script and not of the statements before it.
+query CREATE TABLE t (n integer)
+query INSERT INTO t VALUES (1); INSERT INTO t VALUES (2); INSERT INTO t VALUES (3)
+query SELECT ::stmt.UpdateCount AS u FROM system.iota
+query INSERT INTO t VALUES (4); SELECT ::stmt.UpdateCount AS u FROM system.iota
+query UPDATE t SET n = n + 1 WHERE n > 1; SELECT ::stmt.UpdateCount AS u FROM system.iota
+query DECLARE u INTEGER; UPDATE t SET n = n + 1 WHERE n > 1; u = ::stmt.UpdateCount; DELETE FROM t WHERE n = 1; SELECT u AS u1, ::stmt.UpdateCount AS u2 FROM system.iota
+query DECLARE u INTEGER; INSERT INTO t VALUES (7); SELECT * FROM t; u = ::stmt.UpdateCount; SELECT u AS u1 FROM system.iota
+query DECLARE u INTEGER; DELETE FROM t WHERE n = -1; u = ::stmt.UpdateCount; SELECT u AS u1 FROM system.iota
+query DECLARE u INTEGER; INSERT INTO t VALUES (8); INSERT INTO t VALUES (9); INSERT INTO t VALUES (10); u = ::stmt.UpdateCount; SELECT u AS u1 FROM system.iota
+query INSERT INTO t SELECT n + 100 FROM t; SELECT ::stmt.UpdateCount AS u FROM system.iota
+query DELETE FROM t WHERE n > 100; SELECT ::stmt.UpdateCount AS u FROM system.iota
+query INSERT INTO t VALUES (::stmt.UpdateCount + 50); INSERT INTO t VALUES (::stmt.UpdateCount + 60); SELECT n FROM t WHERE n >= 50 ORDER BY n
+query SELECT n FROM t WHERE n = ::stmt.UpdateCount + 1 ORDER BY n
+query DECLARE u INTEGER; u = ::stmt.UpdateCount; UPDATE t SET n = n WHERE n < 0; SELECT ::stmt.UpdateCount AS a, u AS b FROM system.iota
+query EXECUTE IMMEDIATE 'INSERT INTO t VALUES (77)'; SELECT ::stmt.UpdateCount AS u FROM system.iota
+query INSERT INTO t VALUES (78); EXECUTE IMMEDIATE 'SELECT ::stmt.UpdateCount AS u FROM system.iota'; SELECT ::stmt.UpdateCount AS u FROM system.iota
+prepare INSERT INTO t VALUES (:n); SELECT ::stmt.UpdateCount AS u FROM system.iota
+param n long 79
+exec
+closecursor
+exec
+closecursor
+query SELECT ::stmt.UpdateCount AS u FROM system.iota
+direct INSERT INTO t VALUES (80)
+query SELECT ::stmt.UpdateCount AS u FROM system.iota

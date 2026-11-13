@@ -1,0 +1,30 @@
+# Deleting and recalling by a handle without the password on an AES table, and what other handles see.
+include setup.inc
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+goto h2 2
+delete h2
+dump h2
+goto h1 2
+dump h1
+close h2
+open h3 c2 %D\t.adt 4
+goto h3 2
+dump h3
+recall h3
+dump h3
+cancel h3
+goto h1 2
+dump h1
+goto h3 2
+delete h3
+cancel h3
+count h3
+close h1
+close h3
+open h4 c1 %D\t.adt 4
+enable h4 secret
+count h4
+goto h4 2
+dump h4

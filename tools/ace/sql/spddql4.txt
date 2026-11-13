@@ -1,0 +1,82 @@
+# Query logging inside a dictionary, the statements of procedures, triggers
+# and scripts as the log has them: their text as written (case, spaces,
+# comments), variables, control flow, cursors, nested calls, errors, and the
+# filters (errors only, no errors, unoptimized only, a minimum time).
+#
+#     run.sh <work> <ace32.dll> spddql4.txt > ../../../fixtures/sql/spddql4.json
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE audit (msg CHAR(20))
+direct CREATE PROCEDURE p1(n INTEGER) BEGIN DECLARE v INTEGER; v = _n + 1; insert   into t1   select v, 'p1' from system.iota; /* c */ UPDATE t1 SET name = 'u' WHERE id = v; DELETE FROM t1 WHERE id = v; Select * From t1 Where id = v; END
+direct CREATE PROCEDURE p2() BEGIN DECLARE c CURSOR AS SELECT * FROM t1; DECLARE i INTEGER; OPEN c; WHILE FETCH c DO i = 1; END WHILE; CLOSE c; IF 1 = 1 THEN INSERT INTO audit VALUES ('then'); ELSE INSERT INTO audit VALUES ('else'); END IF; EXECUTE PROCEDURE p1(10); END
+direct CREATE PROCEDURE p3() BEGIN INSERT INTO t1 VALUES (1, 'a'); INSERT INTO t1 (nocol) VALUES (1); INSERT INTO audit VALUES ('after'); END
+direct CREATE PROCEDURE p6() BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO INSERT INTO audit VALUES ('loop'); i = i + 1; END WHILE; EXECUTE PROCEDURE p3(); END
+direct CREATE PROCEDURE p5() BEGIN INSERT INTO audit VALUES ('multi'); /* x */ EXECUTE IMMEDIATE 'INSERT INTO audit VALUES (''imm'')'; SELECT COUNT(*) FROM t1; END
+direct CREATE TRIGGER tg1 ON t1 BEFORE INSERT BEGIN INSERT INTO audit VALUES ('before'); END
+direct CREATE TRIGGER tg2 ON t1 AFTER UPDATE BEGIN INSERT INTO audit SELECT name FROM __new; UPDATE audit SET msg = 'x' WHERE msg = 'zzz'; END
+direct CREATE TRIGGER tg3 ON t1 AFTER DELETE BEGIN INSERT INTO audit VALUES ('del'); END
+direct EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query EXECUTE PROCEDURE p1(5)
+query EXECUTE PROCEDURE p2()
+query EXECUTE PROCEDURE p3()
+query EXECUTE PROCEDURE p5()
+query EXECUTE PROCEDURE p6()
+query UPDATE t1 SET name = 'zz'
+query DELETE FROM t1
+query DECLARE @x INTEGER; @x = 3; INSERT INTO audit VALUES ('s1'); SELECT * FROM audit WHERE msg = 's1'; SELECT * FROM audit;
+query INSERT INTO audit VALUES ('only');
+query INSERT INTO audit VALUES ('e1'); INSERT INTO t1 (nocol) VALUES (1); INSERT INTO audit VALUES ('e2');
+prepare INSERT INTO audit VALUES (?); INSERT INTO audit VALUES (?)
+param 1 string pa
+param 2 string pb
+exec
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetQueryLoggingResults('')) r
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '', 1)
+query EXECUTE PROCEDURE p3()
+query EXECUTE PROCEDURE p1(8)
+query INSERT INTO audit VALUES ('f1'); INSERT INTO t1 (nocol) VALUES (1);
+query SELECT ID, Optimized, "Return Code", "Rows Affected", "End Time", Description, Query FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '', 2)
+query EXECUTE PROCEDURE p3()
+query EXECUTE PROCEDURE p1(9)
+query SELECT ID, Optimized, "Return Code", "Rows Affected", "End Time", Description, Query FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 1, 0, '')
+query EXECUTE PROCEDURE p1(11)
+query INSERT INTO audit VALUES ('g1'); INSERT INTO audit VALUES ('g2');
+query INSERT INTO audit VALUES ('g3');
+query SELECT ID, Optimized, "Return Code", "Rows Affected", "End Time", Description, Query FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 100, '')
+query EXECUTE PROCEDURE p1(12)
+query SELECT ID, Optimized, "Return Code", "Rows Affected", "End Time", Description, Query FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+direct CREATE PROCEDURE q1() BEGIN INSERT INTO audit VALUES ('q1'); END
+direct CREATE PROCEDURE q2() BEGIN INSERT INTO t1 VALUES (50, 'q2'); END
+direct CREATE PROCEDURE q3() BEGIN DECLARE i INTEGER; INSERT INTO audit VALUES ('q3'); i = 1; END
+direct CREATE PROCEDURE q5() BEGIN DECLARE i INTEGER; INSERT INTO audit VALUES ('q5'); SELECT * FROM audit WHERE msg = 'q5'; INSERT INTO audit VALUES ('q5b'); END
+direct CREATE PROCEDURE q6() BEGIN DECLARE c CURSOR AS SELECT * FROM audit; DECLARE i INTEGER; OPEN c; FETCH c; CLOSE c; OPEN c AS SELECT * FROM t1 WHERE id = 50; CLOSE c; END
+direct CREATE PROCEDURE q7() BEGIN EXECUTE PROCEDURE q2(); END
+direct CREATE PROCEDURE q8() BEGIN IF 1 = 2 THEN INSERT INTO audit VALUES ('never'); END IF; END
+direct CREATE PROCEDURE q9() BEGIN INSERT INTO audit VALUES ('x'); /* a */ INSERT /* in */ INTO audit  VALUES ( 'y' ) /* tail */ ; DELETE FROM audit WHERE msg = 'x'; END
+direct CREATE PROCEDURE qa(o CHAR(10) OUTPUT) BEGIN INSERT INTO __output SELECT 'out' FROM system.iota; INSERT INTO audit VALUES ('qa'); END
+direct EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query EXECUTE PROCEDURE q1()
+query EXECUTE PROCEDURE q2()
+query EXECUTE PROCEDURE q3()
+query EXECUTE PROCEDURE q5()
+query EXECUTE PROCEDURE q6()
+query EXECUTE PROCEDURE q7()
+query EXECUTE PROCEDURE q8()
+query EXECUTE PROCEDURE q9()
+query EXECUTE PROCEDURE qa()
+query SELECT * FROM (EXECUTE PROCEDURE qa()) r
+query INSERT INTO t1 VALUES (60, 'a'); UPDATE t1 SET name = 'm' WHERE id = 60;
+query UPDATE t1 SET name = 'n' WHERE id = 0; INSERT INTO t1 VALUES (61, 'a');
+query INSERT INTO t1 VALUES (62, 'a');   INSERT INTO t1 VALUES (63, 'a')  ;   UPDATE t1 SET name = 'k' WHERE id > 100 ;
+query INSERT INTO audit SELECT msg FROM audit WHERE 1 = 2; INSERT INTO audit VALUES ('z');
+query SELECT ID, Optimized, "Return Code", "Rows Affected", "End Time", Description, Query FROM qlog
+disconnect

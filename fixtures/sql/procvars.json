@@ -1,0 +1,163 @@
+[
+{"cmd": "ddcreate pv\\pv.add", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t1 (id INTEGER, name CHAR(10))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t1 VALUES (1, 'one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct INSERT INTO t1 VALUES (2, 'two')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct INSERT INTO t1 VALUES (3, 'three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct CREATE PROCEDURE i1(a INTEGER, b CHAR(10), c DATE, o1 INTEGER OUTPUT, o2 CHAR(10) OUTPUT) BEGIN INSERT INTO __output SELECT a, b FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1(5, 'hello', '2020-01-02')", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o1", 11, 4, 0], ["o2", 4, 10, 0]], "rows": [
+  [1, ["5", "hello     "]]]}},
+{"cmd": "direct CREATE PROCEDURE i3(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT COUNT(*) FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i3(1)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct CREATE PROCEDURE i4(a INTEGER, b CHAR(10), o CHAR(30) OUTPUT) BEGIN INSERT INTO __output SELECT 'a=' + TRIM(CAST(a AS SQL_CHAR)) + ' b=' + b FROM __input WHERE a > 3; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i4(5, 'x')", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 4, 30, 0]], "rows": [
+  [1, ["a=5 b=x                       "]]]}},
+{"cmd": "query EXECUTE PROCEDURE i4(2, 'x')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["o", 4, 30, 0]], "rows": []}},
+{"cmd": "direct CREATE PROCEDURE i5(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT i.a + t.id FROM __input i, t1 t; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i5(10)", "rc": 0, "has_cursor": true, "affected": 3, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["11"]],
+  [2, ["12"]],
+  [3, ["13"]]]}},
+{"cmd": "direct CREATE PROCEDURE i6(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT __input.a FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i6(4)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "direct CREATE PROCEDURE i7(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO t1 SELECT a, 'inp' FROM __input; INSERT INTO __output SELECT COUNT(*) FROM t1; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i7(8)", "rc": 0, "has_cursor": true, "affected": 2, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "direct CREATE PROCEDURE i8(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT id FROM t1 WHERE id IN (SELECT a FROM __input); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i8(2)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct CREATE PROCEDURE i12(CURSOR VARYING OUTPUT) BEGIN SELECT * FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i12()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: i12. Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pv\\__input.adt Table name: __input Error executing stored procedure: i12", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE i13(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT _a FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i13(2)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct CREATE PROCEDURE i14(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT a + _a FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i14(2)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "direct CREATE PROCEDURE i16(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT ::stmt.UpdateCount FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i16(2)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct CREATE PROCEDURE i18(a INTEGER, CURSOR VARYING OUTPUT) BEGIN SELECT RECNO() AS r FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i18(2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE i1(5, 'hello', '2020-01-02')) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o1", 11, 4, 0], ["o2", 4, 10, 0]], "rows": [
+  [1, ["5", "hello     "]]]}},
+{"cmd": "query SELECT * FROM __input", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pv\\__input.adt Table name: __input", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM __output", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pv\\__output.adt Table name: __output", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM __new", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pv\\__new.adt Table name: __new", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE i19(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT t.id FROM t1 t, __input i WHERE t.id = i.a; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i19(3)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "direct CREATE PROCEDURE i20(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT a FROM __input UNION SELECT 9 FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i20(3)", "rc": 0, "has_cursor": true, "affected": 2, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["o", 11, 4, 0]], "rows": [
+  [1, ["3"]],
+  [2, ["9"]]]}},
+{"cmd": "direct CREATE PROCEDURE v1(r CHAR(80) OUTPUT) BEGIN DECLARE u INTEGER; INSERT INTO t1 VALUES (31, 'x'); INSERT INTO t1 VALUES (32, 'y'); u = ::stmt.UpdateCount; INSERT INTO __output SELECT 'uc ' + TRIM(CAST(u AS SQL_CHAR)) FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE v1()", "rc": 0, "has_cursor": true, "affected": 3, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["uc 2                                                                            "]]]}},
+{"cmd": "direct CREATE PROCEDURE v2(r CHAR(80) OUTPUT) BEGIN DECLARE u INTEGER; UPDATE t1 SET name = 'q' WHERE id > 30; DELETE FROM t1 WHERE id = 32; u = ::stmt.UpdateCount; INSERT INTO __output SELECT 'uc ' + TRIM(CAST(u AS SQL_CHAR)) FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE v2()", "rc": 0, "has_cursor": true, "affected": 4, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["uc 3                                                                            "]]]}},
+{"cmd": "direct CREATE PROCEDURE v3(r CHAR(80) OUTPUT) BEGIN INSERT INTO __output SELECT IFNULL(::stmt.TrigName, 'null') + '|' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR)) + '|' + TRIM(CAST(::conn.TransactionCount AS SQL_CHAR)) + '|' + ::conn.Collation FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE v3()", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["null|0|0|default_ansi                                                           "]]]}},
+{"cmd": "direct CREATE PROCEDURE v4(r CHAR(80) OUTPUT) BEGIN INSERT INTO __output SELECT LEFT(::stmt.Name, 1) + '|' + LEFT(::conn.Name, 4) + '|' + TRIM(CAST(LENGTH(::stmt.Name) AS SQL_CHAR)) FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE v4()", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["Q|CONN|32                                                                       "]]]}},
+{"cmd": "direct CREATE PROCEDURE v6(r CHAR(80) OUTPUT) BEGIN INSERT INTO t1 VALUES (41, 'a'); INSERT INTO __output SELECT TRIM(CAST(::stmt.UpdateCount AS SQL_CHAR)) FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT ::stmt.UpdateCount AS u FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["u", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE v6()", "rc": 0, "has_cursor": true, "affected": 2, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["1                                                                               "]]]}},
+{"cmd": "query SELECT ::stmt.UpdateCount AS u FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["u", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT * FROM t1 ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 6, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "two       "]],
+  [3, ["3", "three     "]],
+  [4, ["8", "inp       "]],
+  [5, ["31", "q         "]],
+  [6, ["41", "a         "]]]}},
+{"cmd": "direct CREATE PROCEDURE v7(r CHAR(80) OUTPUT) BEGIN DECLARE u INTEGER; INSERT INTO t1 VALUES (51, 'a'); EXECUTE PROCEDURE v6(); u = ::stmt.UpdateCount; INSERT INTO __output SELECT TRIM(CAST(u AS SQL_CHAR)) FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE v7()", "rc": 0, "has_cursor": true, "affected": 4, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 4, 80, 0]], "rows": [
+  [1, ["3                                                                               "]]]}},
+{"cmd": "direct CREATE PROCEDURE r1(CURSOR VARYING OUTPUT) BEGIN SELECT * FROM t1 WHERE id < 3; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE r1()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t1.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "two       "]]]}},
+{"cmd": "direct CREATE PROCEDURE r2(n INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT COUNT(*) FROM t1; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE r2()", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "direct CREATE PROCEDURE r3(n INTEGER OUTPUT) BEGIN DECLARE c INTEGER; c = (SELECT COUNT(*) FROM t1); INSERT INTO __output SELECT c FROM system.iota; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE r3()", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["8"]]]}},
+{"cmd": "direct CREATE PROCEDURE e1(a INTEGER, o INTEGER OUTPUT) BEGIN RAISE boom(7, 'bang'); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e1(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e1. Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[boom] 7 : bang} ** Script error information:  -- Location of error in the SQL statement is: 8 Error in stored procedure: e1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e2(a INTEGER, o INTEGER OUTPUT) BEGIN DECLARE n INTEGER; n = 1 / 0; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e2(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e2. Error 7200:  AQE Error:  State = 22012;   NativeError = 2153;  [SAP][Advantage SQL Engine]Division by zero  -- Location of error in the SQL statement is: 25 Error in stored procedure: e2", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e3(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO nosuch VALUES (1); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e3(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e3. Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\pv\\nosuch.adt Table name: nosuch ** Script error information:  -- Location of error in the SQL statement is: 2 Error in stored procedure: e3", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e4(a INTEGER, o INTEGER OUTPUT) BEGIN DECLARE n INTEGER; n = 'x'; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e4(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e4. Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Target Data Type: <Integer> Source Data Type: <Character> Target Name: n -- Location of error in the SQL statement is: 25 Error in stored procedure: e4", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e7(a INTEGER, o INTEGER OUTPUT) BEGIN SELECT nosuch FROM t1; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e7(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e7. Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: nosuch -- Location of error in the SQL statement is: 9 Error in stored procedure: e7", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e8(a INTEGER, o INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT nosuch FROM t1; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e8(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e8. Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: nosuch -- Location of error in the SQL statement is: 30 Error in stored procedure: e8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e9(a INTEGER, o INTEGER OUTPUT) BEGIN EXECUTE PROCEDURE e1(1); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e9(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e9. Error 7200:  AQE Error:  State = 42000;   NativeError = 2224;  [SAP][Advantage SQL Engine]An exception is raised in the SQL script. {[boom] 7 : bang} ** Script error information:  -- Location of error in the SQL statement is: 2 Error in stored procedure: e9", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE e10(a INTEGER, o INTEGER OUTPUT) BEGIN EXECUTE PROCEDURE nosuch(1); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE e10(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: e10. Error 7200:  AQE Error:  State = HY000;   NativeError = 2198;  [SAP][Advantage SQL Engine]The stored procedure name is invalid: nosuch -- Location of error in the SQL statement is: 20 Error in stored procedure: e10", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE r2(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: r2 -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1('x', 1, 2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Target Data Type: <Integer> Source Data Type: <Character> Target Name: a -- Location of error in the SQL statement is: 22", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE r2(1, 2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: r2 -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1(1, 'a', '2020-01-02', 4)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2129;  [SAP][Advantage SQL Engine]Unequal number of insert columns and insert values or the incorrect number of stored procedure input parameters", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1(1, 'a', 'zzz')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> [Invalid DATE] Target Data Type: <Date> Source Data Type: <Character> Target Name: c -- Location of error in the SQL statement is: 30", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE i1(1, 'abcdefghijklmnop', '2020-01-02')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2208;  [SAP][Advantage SQL Engine]An input value was larger than the input parameter.  Check the stored procedure's input parameter definition.", "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE i1(1.5, 'a', '2020-01-02')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.   Procedure Name: i1. Error 7200:  AQE Error:  State = HY000;   NativeError = 5179;  [SAP][Advantage SQL Engine][ASA] The result value exceeded the given buffer size.  Error executing stored procedure: i1", "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE i1(NULL, NULL, NULL)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o1", 11, 4, 0], ["o2", 4, 10, 0]], "rows": [
+  [1, [null, null]]]}},
+{"cmd": "prepare EXECUTE PROCEDURE i1(?, ?, ?)", "rc": 0},
+{"cmd": "param 1 long 7", "rc": 0},
+{"cmd": "param 2 string pp", "rc": 0},
+{"cmd": "param 3 string 2021-03-04", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o1", 11, 4, 0], ["o2", 4, 10, 0]], "rows": [
+  [1, ["7", "pp        "]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "direct CREATE PROCEDURE ot0(a INTEGER, o1 INTEGER OUTPUT, o2 SHORT OUTPUT, o3 LONGINT OUTPUT, o4 DOUBLE OUTPUT, o5 NUMERIC(8,2) OUTPUT, o6 MONEY OUTPUT) BEGIN INSERT INTO __output VALUES (1, 2, 3, 4.5, 6.25, 7.5); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE ot0(1)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o1", 11, 4, 0], ["o2", 12, 2, 0], ["o3", 19, 8, 0], ["o4", 10, 8, 15], ["o5", 2, 8, 2], ["o6", 18, 8, 4]], "rows": [
+  [1, ["1", "2", "3", "4.500000000000000", "    6.25", "7.5000"]]]}},
+{"cmd": "direct CREATE PROCEDURE ot1(a INTEGER, o7 LOGICAL OUTPUT, o8 DATE OUTPUT, o9 TIME OUTPUT, o10 TIMESTAMP OUTPUT, o11 CHAR(4) OUTPUT, o12 VARCHAR(7) OUTPUT) BEGIN INSERT INTO __output VALUES (TRUE, '2020-01-02', '03:04:05', '2020-01-02 03:04:05', 'abc', 'defg'); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE ot1(1)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_39.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o7", 1, 1, 0], ["o8", 3, 4, 0], ["o9", 13, 4, 0], ["o10", 14, 8, 0], ["o11", 4, 4, 0], ["o12", 23, 9, 0]], "rows": [
+  [1, ["T", "01/02/2020", "03:04:05 AM", "01/02/2020 03:04:05 AM", "abc ", "defg"]]]}},
+{"cmd": "direct CREATE PROCEDURE ot2(a INTEGER, o13 CICHAR(5) OUTPUT, o14 MEMO OUTPUT, o15 RAW(3) OUTPUT, o16 GUID OUTPUT, o17 NCHAR(3) OUTPUT, o18 NVARCHAR(5) OUTPUT) BEGIN INSERT INTO __output VALUES ('hij', 'klm', NULL, NULL, 'no', 'pqr'); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE ot2(1)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_3a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o13", 20, 5, 0], ["o14", 5, 9, 0], ["o15", 16, 3, 0], ["o16", 29, 16, 0], ["o17", 26, 3, 0], ["o18", 27, 6, 0]], "rows": [
+  [1, ["hij  ", "klm", null, null, "no ", "pqr"]]]}},
+{"cmd": "direct CREATE PROCEDURE ot3(a INTEGER, o19 NMEMO OUTPUT, o20 BLOB OUTPUT, o21 VARBINARY(6) OUTPUT, o22 CURDOUBLE OUTPUT) BEGIN INSERT INTO __output VALUES ('stu', NULL, NULL, 8.5); END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE ot3(1)", "rc": 0, "has_cursor": true, "affected": 1, "cursor": {"file": "tim_3b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["o19", 28, 9, 0], ["o20", 6, 9, 0], ["o21", 24, 8, 0], ["o22", 17, 8, 2]], "rows": [
+  [1, ["stu", null, null, "8.50"]]]}},
+{"cmd": "direct CREATE PROCEDURE it0(a INTEGER, b SHORT, c LONGINT, d DOUBLE, e NUMERIC(8,2), f MONEY, CURSOR VARYING OUTPUT) BEGIN SELECT a, b, c, d, e, f, 1 AS one FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE it0(1, 2, 3, 4.5, 6.25, 7.5)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 12, 2, 0], ["c", 19, 8, 0], ["d", 10, 8, 15], ["e", 2, 8, 2], ["f", 18, 8, 4], ["one", 11, 4, 0]], "rows": [
+  [1, ["1", "2", "3", "4.500000000000000", "    6.25", "7.5000", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE it0(NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 12, 2, 0], ["c", 19, 8, 0], ["d", 10, 8, 15], ["e", 2, 8, 2], ["f", 18, 8, 4], ["one", 11, 4, 0]], "rows": [
+  [1, [null, null, null, null, null, null, "1"]]]}},
+{"cmd": "direct CREATE PROCEDURE it1(g LOGICAL, h DATE, i TIME, j TIMESTAMP, k CHAR(4), l VARCHAR(7), CURSOR VARYING OUTPUT) BEGIN SELECT g, h, i, j, k, l, 1 AS one FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE it1(TRUE, '2020-01-02', '03:04:05', '2020-01-02 03:04:05', 'abc', 'defg')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["g", 1, 1, 0], ["h", 3, 4, 0], ["i", 13, 4, 0], ["j", 14, 8, 0], ["k", 4, 4, 0], ["l", 23, 7, 0], ["one", 11, 4, 0]], "rows": [
+  [1, ["T", "01/02/2020", "03:04:05 AM", "01/02/2020 03:04:05 AM", "abc ", "defg", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE it1(NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["g", 1, 1, 0], ["h", 3, 4, 0], ["i", 13, 4, 0], ["j", 14, 8, 0], ["k", 4, 4, 0], ["l", 23, 7, 0], ["one", 11, 4, 0]], "rows": [
+  [1, [null, null, null, null, null, null, "1"]]]}},
+{"cmd": "direct CREATE PROCEDURE it2(m CICHAR(5), n MEMO, oo RAW(3), p GUID, q NCHAR(3), r NVARCHAR(5), CURSOR VARYING OUTPUT) BEGIN SELECT m, n, oo, p, q, r, 1 AS one FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE it2('hij', 'klm', NULL, NULL, 'no', 'pqr')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_40.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["m", 20, 5, 0], ["n", 5, 9, 0], ["oo", 16, 3, 0], ["p", 29, 16, 0], ["q", 26, 3, 0], ["r", 27, 5, 0], ["one", 11, 4, 0]], "rows": [
+  [1, ["hij  ", "klm", null, null, "no ", "pqr", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE it2(NULL, NULL, NULL, NULL, NULL, NULL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_41.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["m", 20, 5, 0], ["n", 5, 9, 0], ["oo", 16, 3, 0], ["p", 29, 16, 0], ["q", 26, 3, 0], ["r", 27, 5, 0], ["one", 11, 4, 0]], "rows": [
+  [1, [null, null, null, null, null, null, "1"]]]}},
+{"cmd": "direct CREATE PROCEDURE it3(s NMEMO, t BLOB, u VARBINARY(6), v CURDOUBLE, w MODTIME, CURSOR VARYING OUTPUT) BEGIN SELECT s, t, u, v, w, 1 AS one FROM __input; END", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE it3('stu', NULL, NULL, 8.5, '2020-01-02 03:04:05')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["s", 28, 9, 0], ["t", 6, 9, 0], ["u", 24, 6, 0], ["v", 17, 8, 2], ["w", 14, 8, 0], ["one", 11, 4, 0]], "rows": [
+  [1, ["stu", null, null, "8.50", "01/02/2020 03:04:05 AM", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE it3(NULL, NULL, NULL, NULL, NULL)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_43.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["s", 28, 9, 0], ["t", 6, 9, 0], ["u", 24, 6, 0], ["v", 17, 8, 2], ["w", 14, 8, 0], ["one", 11, 4, 0]], "rows": [
+  [1, [null, null, null, null, null, "1"]]]}}
+]

@@ -1,0 +1,48 @@
+# What a table (a3, with two columns) whose rights slot for DB:Public does not
+# check (a byte of its 32 flipped by crates/tflip-storage/examples/pubslot.rs,
+# as: pubslot pb.add table a3 0, in the dictionary of
+# fixtures/dictionary/ops/publicgrants.* with VERIFY_ACCESS_RIGHTS set) does to
+# system.permissions and system.effectivepermissions, whole and under
+# filters: the rows of the table, its columns and the user's are lost, the
+# ones that follow are repeated, a statement that reads the slot first fails,
+# and the filters on the rights columns fail. Run in a fresh process, as the
+# engine keeps a dictionary's key open across connections. The dictionary,
+# pb.add and t.adt ..., is kept in fixtures/sql/ddpublicbad5/:
+#
+#     run.sh <work> <ace32.dll> ddpublicbad5.txt > ../../../fixtures/sql/ddpublicbad5.json
+#
+# (the work folder's data/ copy of fixtures/sql/ddpublicbad5/ is made by run.sh;
+# the original's results are of that dictionary).
+connect pb.add adssys
+stmt
+cap 1000
+query SELECT * FROM system.permissions
+query SELECT * FROM system.effectivepermissions
+query SELECT * FROM system.permissions WHERE Name = 'a1'
+query SELECT * FROM system.permissions WHERE Name = 'a3'
+query SELECT * FROM system.permissions WHERE Grantee = 'bob'
+query SELECT * FROM system.permissions WHERE Grantee = 'DB:Public'
+query SELECT * FROM system.permissions WHERE Object_Type = 1
+query SELECT * FROM system.permissions WHERE "Select" = 1
+query SELECT * FROM system.permissions WHERE "Execute" = 1
+query SELECT * FROM system.permissions ORDER BY "Select"
+query SELECT COUNT(*) FROM system.permissions
+query SELECT * FROM system.effectivepermissions WHERE Name = 'a1'
+query SELECT * FROM system.effectivepermissions WHERE Name = 'a3'
+query SELECT * FROM system.effectivepermissions WHERE Grantee = 'bob'
+query SELECT * FROM system.effectivepermissions WHERE Grantee = 'DB:Public'
+query SELECT * FROM system.effectivepermissions WHERE "Execute" = 1
+query SELECT * FROM system.effectivepermissions ORDER BY Name
+query SELECT * FROM system.tables
+query SELECT * FROM system.columns
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.triggers
+disconnect
+connect pb.add bob pw
+stmt
+cap 1000
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.triggers
+query SELECT * FROM system.views
+query SELECT * FROM t
+disconnect

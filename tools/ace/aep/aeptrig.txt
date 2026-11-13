@@ -1,0 +1,332 @@
+# Trigger libraries (aeptrig.c as aeptrig.aep), on the remote server
+# (SQL_SERVER_TYPE=2): run.sh builds the library into the folder ae/ of the
+# data folder, in which this script makes its dictionary. The arguments the
+# library gets for each event and timing, __new and __old read through the
+# handle, a write to __new, what the change shows to the library, the
+# library's writes with the change's transaction, the failures (__error with
+# and without a number, a non-zero return, a statement that fails, a function
+# and a library that are not there), Startup and Shutdown, NO VALUES and
+# NO MEMOS, and what a library does as a database trigger.
+#
+#     tools/ace/aep/run.sh aeptrig.txt aeptrig.c aeptrig.aep > fixtures/sql/aeptrig.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE log (what VARCHAR(20), a VARCHAR(80), b INTEGER, c INTEGER, d INTEGER, seq AUTOINC)
+#
+# The arguments, by event and timing
+direct CREATE TABLE t1 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t1_ib ON t1 BEFORE INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+direct CREATE TRIGGER t1_ia ON t1 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+direct CREATE TRIGGER t1_ub ON t1 BEFORE UPDATE FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+direct CREATE TRIGGER t1_ua ON t1 AFTER UPDATE FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+direct CREATE TRIGGER t1_db ON t1 BEFORE DELETE FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+direct CREATE TRIGGER t1_da ON t1 AFTER DELETE FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+query SELECT Name, Trig_Event_Type, Trig_Trigger_Type, Trig_Container_Type, Trig_Container, Trig_Function_Name, Trig_Priority, Trig_Options FROM system.triggers
+query INSERT INTO t1 (n) VALUES (1)
+query INSERT INTO t1 (n) VALUES (2), (3)
+query INSERT INTO t1 (n) SELECT n + 10 FROM t1
+query UPDATE t1 SET n = n + 1 WHERE n < 4
+query DELETE FROM t1 WHERE n > 10
+query SELECT n FROM t1
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# INSTEAD OF
+direct CREATE TABLE t2 (n INTEGER, memo MEMO)
+direct INSERT INTO t2 (n) VALUES (1), (2)
+direct CREATE TRIGGER t2_i ON t2 INSTEAD OF INSERT FUNCTION Args IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t2_u ON t2 INSTEAD OF UPDATE FUNCTION Args IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t2_d ON t2 INSTEAD OF DELETE FUNCTION Args IN LIBRARY "aeptrig.aep"
+query INSERT INTO t2 (n) VALUES (1)
+query UPDATE t2 SET n = 2
+query DELETE FROM t2
+query SELECT COUNT(*) AS c FROM t2
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# __new and __old read through the handle
+direct CREATE TABLE t3 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t3_ib ON t3 BEFORE INSERT FUNCTION Rows IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t3_ia ON t3 AFTER INSERT FUNCTION Rows IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t3_ub ON t3 BEFORE UPDATE FUNCTION Rows IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t3_ua ON t3 AFTER UPDATE FUNCTION Rows IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t3_db ON t3 BEFORE DELETE FUNCTION Rows IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t3_da ON t3 AFTER DELETE FUNCTION Rows IN LIBRARY "aeptrig.aep"
+query INSERT INTO t3 (n) VALUES (7)
+query UPDATE t3 SET n = 8
+query DELETE FROM t3
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# A write to __new, and what the change shows the library
+direct CREATE TABLE t4 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t4_ib ON t4 BEFORE INSERT FUNCTION ChangeNew IN LIBRARY "aeptrig.aep"
+direct CREATE TRIGGER t4_ub ON t4 BEFORE UPDATE FUNCTION ChangeNew IN LIBRARY "aeptrig.aep"
+query INSERT INTO t4 (n) VALUES (1)
+query UPDATE t4 SET n = 2
+query SELECT n FROM t4
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t5 (n INTEGER, memo MEMO)
+direct INSERT INTO t5 (n) VALUES (1)
+direct CREATE TABLE t6 (n INTEGER, memo MEMO)
+direct INSERT INTO t6 (n) VALUES (1)
+direct CREATE TABLE t7 (n INTEGER, memo MEMO)
+direct INSERT INTO t7 (n) VALUES (1)
+direct CREATE TABLE t8 (n INTEGER, memo MEMO)
+direct INSERT INTO t8 (n) VALUES (1)
+direct CREATE TABLE t9 (n INTEGER, memo MEMO)
+direct INSERT INTO t9 (n) VALUES (1)
+direct CREATE TABLE t10 (n INTEGER, memo MEMO)
+direct INSERT INTO t10 (n) VALUES (1)
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TRIGGER t5_ib ON t5 BEFORE INSERT FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query INSERT INTO t5 (n) VALUES (2)
+query SELECT COUNT(*) AS c FROM t5
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TRIGGER t6_ia ON t6 AFTER INSERT FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query INSERT INTO t6 (n) VALUES (2)
+query SELECT COUNT(*) AS c FROM t6
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TRIGGER t7_ub ON t7 BEFORE UPDATE FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query UPDATE t7 SET n = 2
+query SELECT COUNT(*) AS c FROM t7
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TRIGGER t8_ua ON t8 AFTER UPDATE FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query UPDATE t8 SET n = 2
+query SELECT COUNT(*) AS c FROM t8
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TRIGGER t9_db ON t9 BEFORE DELETE FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query DELETE FROM t9
+query SELECT COUNT(*) AS c FROM t9
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TRIGGER t10_da ON t10 AFTER DELETE FUNCTION Tally IN LIBRARY "aeptrig.aep"
+query DELETE FROM t10
+query SELECT COUNT(*) AS c FROM t10
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t11 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t11_i ON t11 BEFORE INSERT FUNCTION ChangeNew IN LIBRARY "aeptrig.aep"
+query INSERT INTO t11 (n) VALUES (1)
+query SELECT n FROM t11
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Failures
+direct CREATE TABLE t12 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t12_i ON t12 BEFORE INSERT FUNCTION Refuse IN LIBRARY "aeptrig.aep"
+query INSERT INTO t12 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t12
+direct CREATE TABLE t13 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t13_i ON t13 AFTER INSERT FUNCTION Refuse IN LIBRARY "aeptrig.aep"
+query INSERT INTO t13 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t13
+direct CREATE TABLE t14 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t14_i ON t14 BEFORE INSERT FUNCTION RefuseText IN LIBRARY "aeptrig.aep"
+query INSERT INTO t14 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t14
+direct CREATE TABLE t15 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t15_i ON t15 AFTER INSERT FUNCTION RefuseText IN LIBRARY "aeptrig.aep"
+query INSERT INTO t15 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t15
+direct CREATE TABLE t16 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t16_i ON t16 BEFORE INSERT FUNCTION RefuseZero IN LIBRARY "aeptrig.aep"
+query INSERT INTO t16 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t16
+direct CREATE TABLE t17 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t17_i ON t17 AFTER INSERT FUNCTION RefuseZero IN LIBRARY "aeptrig.aep"
+query INSERT INTO t17 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t17
+direct CREATE TABLE t18 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t18_i ON t18 BEFORE INSERT FUNCTION RefuseNull IN LIBRARY "aeptrig.aep"
+query INSERT INTO t18 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t18
+direct CREATE TABLE t19 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t19_i ON t19 AFTER INSERT FUNCTION RefuseNull IN LIBRARY "aeptrig.aep"
+query INSERT INTO t19 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t19
+direct CREATE TABLE t20 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t20_i ON t20 BEFORE INSERT FUNCTION ReturnCode IN LIBRARY "aeptrig.aep"
+query INSERT INTO t20 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t20
+direct CREATE TABLE t21 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t21_i ON t21 AFTER INSERT FUNCTION ReturnCode IN LIBRARY "aeptrig.aep"
+query INSERT INTO t21 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t21
+direct CREATE TABLE t22 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t22_i ON t22 BEFORE INSERT FUNCTION BadSql IN LIBRARY "aeptrig.aep"
+query INSERT INTO t22 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t22
+direct CREATE TABLE t23 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t23_i ON t23 AFTER INSERT FUNCTION BadSql IN LIBRARY "aeptrig.aep"
+query INSERT INTO t23 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t23
+direct CREATE TABLE t24 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t24_i ON t24 BEFORE INSERT FUNCTION Missing IN LIBRARY "aeptrig.aep"
+query INSERT INTO t24 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t24
+direct CREATE TABLE t25 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t25_i ON t25 AFTER INSERT FUNCTION Missing IN LIBRARY "aeptrig.aep"
+query INSERT INTO t25 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t25
+direct CREATE TABLE t26 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t26_i ON t26 BEFORE INSERT FUNCTION Args IN LIBRARY "nowhere.aep"
+query INSERT INTO t26 (n) VALUES (1)
+direct CREATE TABLE t27 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t27_i ON t27 BEFORE INSERT FUNCTION Refuse IN LIBRARY "aeptrig.aep"
+query UPDATE t27 SET n = 1
+query INSERT INTO t27 (n) VALUES (1)
+#
+# A failing trigger and the library's writes
+direct CREATE TABLE t28 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t28_i ON t28 AFTER INSERT FUNCTION WritesRefuses IN LIBRARY "aeptrig.aep"
+query INSERT INTO t28 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t28
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t29 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t29_i ON t29 AFTER INSERT FUNCTION WritesRefuses IN LIBRARY "aeptrig.aep" NO TRANSACTION
+query INSERT INTO t29 (n) VALUES (1)
+query SELECT COUNT(*) AS c FROM t29
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t30 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t30_i ON t30 AFTER INSERT FUNCTION Writes IN LIBRARY "aeptrig.aep"
+direct BEGIN TRANSACTION
+query INSERT INTO t30 (n) VALUES (1)
+direct ROLLBACK
+query SELECT COUNT(*) AS c FROM t30
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# NO VALUES and NO MEMOS
+direct CREATE TABLE t31 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t31_i ON t31 AFTER INSERT FUNCTION Rows IN LIBRARY "aeptrig.aep" NO VALUES
+query SELECT Name, Trig_Options FROM system.triggers WHERE Name = 't31_i'
+query INSERT INTO t31 (n) VALUES (3)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t32 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t32_i ON t32 AFTER INSERT FUNCTION MemoNull IN LIBRARY "aeptrig.aep" NO MEMOS
+query INSERT INTO t32 (n, memo) VALUES (3, 'm')
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t33 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t33_i ON t33 AFTER INSERT FUNCTION MemoNull IN LIBRARY "aeptrig.aep"
+query INSERT INTO t33 (n, memo) VALUES (3, 'm')
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# The connection id and handle
+direct CREATE TABLE t34 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t34_i ON t34 AFTER INSERT FUNCTION Ids IN LIBRARY "aeptrig.aep"
+query INSERT INTO t34 (n) VALUES (1)
+query INSERT INTO t34 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Startup and Shutdown
+direct CREATE TABLE t35 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t35_i ON t35 AFTER INSERT FUNCTION Counts IN LIBRARY "aeptrig.aep"
+query INSERT INTO t35 (n) VALUES (1)
+query INSERT INTO t35 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query INSERT INTO t35 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Dropped, and altered
+direct DROP TRIGGER t35.t35_i
+query INSERT INTO t35 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t36 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t36_i ON t36 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END
+direct ALTER TRIGGER t36_i ON t36 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep"
+query INSERT INTO t36 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct ALTER TRIGGER t36_i ON t36 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END
+query INSERT INTO t36 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Two triggers of a timing, a script and a library, by priority
+direct CREATE TABLE t37 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t37_a ON t37 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+direct CREATE TRIGGER t37_b ON t37 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 1
+query INSERT INTO t37 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Priorities across containers
+direct CREATE TABLE t38 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t38_a ON t38 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+direct CREATE TRIGGER t38_b ON t38 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 2
+query INSERT INTO t38 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t39 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t39_b ON t39 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 2
+direct CREATE TRIGGER t39_a ON t39 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+query INSERT INTO t39 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t40 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t40_a ON t40 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+direct CREATE TRIGGER t40_b ON t40 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 1
+query INSERT INTO t40 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t41 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t41_b ON t41 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 1
+direct CREATE TRIGGER t41_a ON t41 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 2
+query INSERT INTO t41 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t42 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t42_a ON t42 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+direct CREATE TRIGGER t42_b ON t42 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 1
+query INSERT INTO t42 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+direct CREATE TABLE t43 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t43_b ON t43 AFTER INSERT BEGIN INSERT INTO log (what, a, b, c, d) VALUES ('script', '', 0, 0, 0); END PRIORITY 1
+direct CREATE TRIGGER t43_a ON t43 AFTER INSERT FUNCTION Args IN LIBRARY "aeptrig.aep" PRIORITY 1
+query INSERT INTO t43 (n) VALUES (1)
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# A library with no version, Startup and Shutdown
+direct CREATE TABLE t44 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t44_i ON t44 AFTER INSERT FUNCTION Args IN LIBRARY "plain_aeptrig.aep"
+direct CREATE TRIGGER t44_u ON t44 AFTER UPDATE FUNCTION Counts IN LIBRARY "plain_aeptrig.aep"
+query INSERT INTO t44 (n) VALUES (1)
+query UPDATE t44 SET n = 2
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log
+#
+# Other invocations of the library: ASSEMBLY, a database trigger
+direct CREATE TABLE t45 (n INTEGER, memo MEMO)
+direct CREATE TRIGGER t45_c ON t45 AFTER INSERT FUNCTION Args IN ASSEMBLY "aeptrig.aep"
+query INSERT INTO t45 (n) VALUES (1)
+direct CREATE TRIGGER dbt ON DATABASE AFTER CONNECT FUNCTION Args IN LIBRARY "aeptrig.aep"
+query SELECT Name, Trig_TableName, Trig_Event_Type, Trig_Trigger_Type, Trig_Container_Type, Trig_Container, Trig_Function_Name FROM system.triggers WHERE Name IN ('dbt', 't45_c')
+disconnect
+connect ae\ae.add ADSSYS
+stmt
+query SELECT what, a, b, c, d FROM log ORDER BY seq
+direct DELETE FROM log

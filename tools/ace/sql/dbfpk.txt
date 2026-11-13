@@ -1,0 +1,76 @@
+# PRIMARY KEY, field constraints and NULL columns in CREATE TABLE of DBF
+# tables on a free connection, in an empty folder: what each table type takes
+# and refuses, and the files a Visual FoxPro table with a primary key leaves,
+# kept in fixtures/sql/dbfpk/:
+#
+#     run.sh <work> <ace32.dll> dbfpk.txt > ../../../fixtures/sql/dbfpk.json
+#     cp <work>/data/pk*.* ../../../fixtures/sql/dbfpk/
+stmt
+tabletype 4
+direct CREATE TABLE pkv (id INTEGER PRIMARY KEY, s CHAR(10))
+direct CREATE TABLE pkv2 (a INTEGER, b CHAR(4), c MEMO, CONSTRAINT mykey PRIMARY KEY (a, b))
+direct CREATE TABLE pkv4 (a INTEGER, b CHAR(4) NOT NULL, PRIMARY KEY (b DESC))
+direct CREATE TABLE pkv5 (a INTEGER PRIMARY KEY, b INTEGER PRIMARY KEY)
+direct CREATE TABLE pkv6 (m MEMO PRIMARY KEY)
+direct CREATE TABLE pkv7 (n INTEGER, PRIMARY KEY (zz))
+direct CREATE TABLE pkv8 (d DATE PRIMARY KEY, t TIMESTAMP, dbl DOUBLE)
+direct CREATE TABLE pkv9 (n INTEGER NULL PRIMARY KEY)
+direct CREATE TABLE pkv (id INTEGER PRIMARY KEY)
+query SELECT * FROM pkv
+direct INSERT INTO pkv VALUES (1, 'a')
+direct INSERT INTO pkv VALUES (1, 'b')
+query SELECT * FROM pkv
+#
+# Rows in the other keys: segments, NULL (a candidate order leaves it out),
+# a descending key, dates and numbers.
+direct CREATE TABLE pkv10 (n NUMERIC(6,2) PRIMARY KEY, s CHAR(3))
+direct INSERT INTO pkv2 (a, b) VALUES (2, 'y')
+direct INSERT INTO pkv2 (a, b) VALUES (1, 'x')
+direct INSERT INTO pkv2 (a, b) VALUES (-5, 'zz')
+direct INSERT INTO pkv2 (a, b) VALUES (1, 'x')
+direct INSERT INTO pkv9 (n) VALUES (NULL)
+direct INSERT INTO pkv9 (n) VALUES (NULL)
+direct INSERT INTO pkv9 (n) VALUES (7)
+direct INSERT INTO pkv9 (n) VALUES (7)
+direct INSERT INTO pkv4 VALUES (1, 'b')
+direct INSERT INTO pkv4 VALUES (2, 'a')
+direct INSERT INTO pkv4 VALUES (3, 'c')
+direct INSERT INTO pkv4 VALUES (4, 'a')
+direct INSERT INTO pkv8 VALUES ('2020-01-02', '2020-01-02 03:04:05', 1.5)
+direct INSERT INTO pkv8 VALUES ('2019-12-31', '2020-01-02 03:04:05', 2.5)
+direct INSERT INTO pkv10 VALUES (3.14, 'pi')
+direct INSERT INTO pkv10 VALUES (-2.5, 'neg')
+direct INSERT INTO pkv10 VALUES (3.14, 'dup')
+query SELECT * FROM pkv2
+query SELECT * FROM pkv9
+query SELECT * FROM pkv4
+query SELECT * FROM pkv8
+query SELECT * FROM pkv10
+tabletype 2
+direct CREATE TABLE pkc (id INTEGER PRIMARY KEY, s CHAR(10))
+tabletype 1
+direct CREATE TABLE pkn (id INTEGER PRIMARY KEY, s CHAR(10))
+tabletype 4
+direct CREATE TABLE vnn (id INTEGER CONSTRAINT NOT NULL, s CHAR(10))
+direct CREATE TABLE vdf (id INTEGER, s CHAR(10) DEFAULT 'abc')
+direct CREATE TABLE vmn (id INTEGER CONSTRAINT MINIMUM '1', s CHAR(10))
+direct CREATE TABLE vmx (id INTEGER CONSTRAINT MAXIMUM '9', s CHAR(10))
+direct CREATE TABLE vem (id INTEGER CONSTRAINT ERROR MESSAGE 'bad', s CHAR(10))
+direct CREATE TABLE vnl (id INTEGER NULL, s CHAR(10) NOT NULL)
+direct CREATE TABLE vnl2 (id INTEGER NULL NOT NULL)
+direct CREATE TABLE vnl3 (id INTEGER NOT NULL NULL)
+tabletype 2
+direct CREATE TABLE cnn (id INTEGER CONSTRAINT NOT NULL)
+direct CREATE TABLE cdf (id INTEGER, s CHAR(10) DEFAULT 'abc')
+direct CREATE TABLE cmn (id INTEGER CONSTRAINT MINIMUM '1')
+direct CREATE TABLE cnl (id INTEGER NULL)
+direct CREATE TABLE cnl2 (id INTEGER NOT NULL)
+tabletype 1
+direct CREATE TABLE ndf (id INTEGER DEFAULT '3')
+direct CREATE TABLE nnn (id INTEGER CONSTRAINT NOT NULL)
+direct CREATE TABLE nnl (id INTEGER NULL)
+tabletype 3
+direct CREATE TABLE adf (id INTEGER DEFAULT '3')
+tabletype 4
+direct CREATE TABLE vnull (id INTEGER NULL, s CHAR(10) NULL, n NUMERIC(8,2), d DATE NULL, m MEMO NULL, v VARCHAR(5) NULL)
+query SELECT * FROM vnull

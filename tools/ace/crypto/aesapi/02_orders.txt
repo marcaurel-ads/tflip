@@ -1,0 +1,70 @@
+# The orders of an AES table, used by a handle that has the password and one that has not.
+include setup.inc
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+order x1 h1 ICH
+order x1n h1 IN1
+top x1
+recno x1
+extract x1
+keycount x1
+keynum x1
+keylen x1
+bottom x1
+recno x1
+extract x1
+seek x1 bravo 0
+seek x1 bra 1
+seek x1 zzz 0
+seek x1 zzz 1
+seekd x1n 200 0
+order y h2 ICH
+order yn h2 IN1
+order yd h2 IDESC
+order yu h2 IUP
+order yc h2 ICMP
+top y
+recno y
+extract y
+keycount y
+keynum y
+keylen y
+dump h2
+bottom y
+recno y
+extract y
+skip y -1
+recno y
+skip y 1
+recno y
+skip y 1
+recno y
+top yn
+recno yn
+extract yn
+keycount yn
+bottom yn
+recno yn
+extract yn
+top yd
+recno yd
+extract yd
+keycount yd
+top yu
+recno yu
+extract yu
+top yc
+recno yc
+extract yc
+keylen yc
+seek y bravo 0
+seek y bra 1
+seek y alpha 0
+seek y zzz 0
+seek y zzz 1
+seekd yn 200 0
+seekd yn 150 1
+seekd yd 200 0
+seek yu BRAVO 0
+dump h2

@@ -1,0 +1,733 @@
+# Expressions for probe.c; see there for the format.
+
+@table adi_keys/keys.adt
+
+# Literals
+1
+1.5
+-2
++3
+.5
+1.
+1e3
+0x10
+'abc'
+"abc"
+[abc]
+''
+'it''s'
+"a'b"
+.T.
+.F.
+.t.
+.Y.
+.N.
+TRUE
+FALSE
+NULL
+{01/02/2003}
+{^2003-01-02}
+
+# Fields, as they are and by alias
+k_char
+K_CHAR
+k_cichar
+k_varchar
+k_nchar
+k_nvarchar
+k_raw
+k_guid
+k_logical
+k_numeric
+k_short
+k_integer
+k_longint
+k_double
+k_curdouble
+k_money
+k_date
+k_time
+k_timestamp
+k_autoinc
+k_rowversion
+keys->k_char
+keys.k_char
+KEYS->K_INTEGER
+other->k_char
+[k_char]
+"k_char"
+
+# Arithmetic
+1+2
+1-2
+2*3
+10/3
+1/0
+0/0
+-1/0
+7%3
+-7%3
+7.5%2
+2^10
+2**10
+2^0.5
+-2^2
+(-2)^2
+2+3*4
+(2+3)*4
+2-3-4
+2^3^2
+100/10/2
+k_integer + 1
+k_integer * 2
+k_double / 2
+k_numeric + k_integer
+k_money * 2
+k_short - 1
+k_longint + 1
+-k_integer
+--k_integer
+k_integer + .T.
+k_integer + 'a'
+
+# Strings
+'a' + 'b'
+k_char + 'x'
+k_char + k_varchar
+k_varchar + k_char
+k_char - 'x'
+'ab  ' - 'cd  '
+'ab  ' - 'cd'
+'a' - 'b'
+k_char - k_varchar
+'a' + 1
+'a' * 2
+k_char;k_integer
+k_integer;k_char;k_date
+k_logical;k_char
+'a';'b'
+
+# Dates
+k_date + 1
+k_date - 1
+1 + k_date
+k_date - k_date
+k_date + 1.5
+k_date + k_date
+k_date * 2
+k_date + 'a'
+k_date > k_date - 1
+k_timestamp + 1
+k_time + 1
+k_timestamp - k_timestamp
+
+# Comparisons
+1=1
+1=2
+1==1
+1!=2
+1<>2
+1#2
+1<2
+2<1
+1<=1
+1>=2
+2>1
+k_integer = 1
+k_integer > 0
+k_integer < 0
+k_integer >= 0
+k_integer <= 0
+k_integer <> 0
+k_double = 1.5
+k_numeric = 1.5
+k_money = 1.5
+k_date = k_date
+k_date > CTOD('01/01/2000')
+k_logical = .T.
+k_logical == .T.
+k_logical != .F.
+k_logical < .T.
+.F. < .T.
+k_time = k_time
+k_timestamp = k_timestamp
+k_timestamp > k_timestamp
+k_raw = k_raw
+k_guid = k_guid
+1 = 'a'
+k_date = 1
+k_date = 2458066
+k_logical = 1
+
+# Strings compared, without and with exact
+'abc' = 'ab'
+'ab' = 'abc'
+'abc' = 'abc'
+'abc ' = 'abc'
+'abc' = 'abc '
+'' = 'abc'
+'abc' = ''
+'abc' == 'ab'
+'ab' == 'abc'
+'abc ' == 'abc'
+'abc' != 'ab'
+'abc' <> 'ab'
+'abc' # 'ab'
+'abc' > 'ab'
+'ab' < 'abc'
+'abc' >= 'ab'
+'ab' <= 'abc'
+'b' > 'abc'
+'a' < 'B'
+'A' < 'a'
+'Z' < 'a'
+'ä' > 'z'
+'b' $ 'abc'
+'abc' $ 'abc'
+'d' $ 'abc'
+'' $ 'abc'
+'abc' $ 'b'
+'B' $ 'abc'
+k_char = 'abc'
+k_char = 'ab'
+k_char = 'abc   '
+k_char == 'abc'
+k_char = 'abc   x'
+k_varchar = 'abc'
+k_varchar = 'ab'
+k_char = k_varchar
+k_cichar = 'abc'
+k_cichar = 'ABC'
+k_cichar = 'aBC'
+k_cichar == 'ABC'
+k_cichar > 'Z'
+'ABC' = k_cichar
+k_char $ 'xyz abc'
+'b' $ k_char
+!exact 1
+'abc' = 'ab'
+'ab' = 'abc'
+'abc' = 'abc'
+'abc ' = 'abc'
+'abc' = 'abc '
+'' = 'abc'
+'abc' = ''
+'abc' == 'ab'
+'abc ' == 'abc'
+'abc' != 'ab'
+'abc' > 'ab'
+'abc' >= 'ab'
+'ab' <= 'abc'
+k_char = 'abc'
+k_char = 'ab'
+k_varchar = 'ab'
+k_cichar = 'ABC'
+!exact 0
+
+# Logical operators
+.T. .AND. .F.
+.T. .OR. .F.
+.NOT. .T.
+.T. AND .F.
+.T. OR .F.
+NOT .T.
+!.T.
+.T..AND..T.
+.F. .AND. .F. .OR. .T.
+.T. .OR. .F. .AND. .F.
+.NOT. .F. .AND. .F.
+NOT 1=2
+k_integer > 0 .AND. k_logical
+k_integer > 0 .OR. k_logical
+k_logical .AND. 1
+1 .AND. 2
+k_integer > 3 .AND. UPPER(k_char) = 'A'
+
+# NULL
+k_integer + 1 = 1
+k_integer = 0
+k_integer <> 0
+k_char + 'x' = 'x'
+k_logical .OR. .T.
+k_logical .AND. .F.
+.NOT. k_logical
+EMPTY(k_char)
+EMPTY(k_integer)
+EMPTY(k_date)
+EMPTY(k_logical)
+EMPTY(k_varchar)
+EMPTY(k_double)
+EMPTY(k_time)
+EMPTY(k_timestamp)
+EMPTY('')
+EMPTY('  ')
+EMPTY(0)
+EMPTY(.F.)
+ISNULL(k_char)
+ISNULL(k_integer)
+ISNULL(k_date)
+ISNULL(k_logical)
+ISNULL(k_varchar)
+ISNULL('')
+ISNULL(1)
+COALESCE(k_integer, 99)
+COALESCE(k_char, 'none')
+COALESCE(k_date, CTOD('01/01/2000'))
+COALESCE(k_integer, k_double, 0)
+IIF(k_logical, 'yes', 'no')
+IIF(k_integer > 0, 1, 2)
+IIF(.T., 1, 'a')
+IIF(.T., 'ab', 'abcd')
+IIF(.F., 'ab', 'abcd')
+IF(k_logical, 1, 0)
+IIF(1, 2, 3)
+
+# Syntax and other errors
+nosuchfield
+nosuchfunc(1)
+FOO(1)
+1 +
++
+1 2
+UPPER(
+UPPER(k_char))
+(1
+1)
+UPPER()
+UPPER(k_char, 1)
+SUBSTR(k_char)
+'abc
+"abc
+[abc
+k_char =
+= 1
+1 .AND.
+1 + * 2
+,
+UPPER(1)
+LEN(1)
+ABS('a')
+DTOS(1)
+DTOS('a')
+STR('a')
+MONTH(1)
+k_integer k_char
+
+# String functions
+UPPER(k_char)
+UPPER('aäb€x')
+LOWER(k_char)
+LOWER('AÄB')
+UPPER(k_varchar)
+LEN(k_char)
+LEN(k_varchar)
+LEN('')
+LEN('abc  ')
+LENGTH(k_char)
+LENGTH('abc  ')
+TRIM(k_char)
+RTRIM(k_char)
+LTRIM('  abc  ')
+ALLTRIM('  abc  ')
+TRIM('  abc  ')
+TRIM(k_char) + 'x'
+LTRIM(k_char)
+LEN(TRIM(k_char))
+LEN(ALLTRIM(k_char))
+SUBSTR('abcdef', 2, 3)
+SUBSTR('abcdef', 2)
+SUBSTR('abcdef', 0, 2)
+SUBSTR('abcdef', -1, 2)
+SUBSTR('abcdef', 5, 10)
+SUBSTR('abcdef', 7, 1)
+SUBSTR('abcdef', 2, 0)
+SUBSTR('abcdef', 2, -1)
+SUBSTR(k_char, 2, 2)
+SUBSTR(k_varchar, 2, 2)
+SUBSTR(k_char, k_integer, 2)
+SUBSTR('abcdef', 1.6, 2.6)
+LEFT('abcdef', 2)
+LEFT('abcdef', 0)
+LEFT('abcdef', 10)
+LEFT('abcdef', -1)
+LEFT(k_char, 2)
+RIGHT('abcdef', 2)
+RIGHT('abcdef', 10)
+RIGHT(k_char, 2)
+RIGHT(k_varchar, 2)
+AT('b', 'abcb')
+AT('x', 'abc')
+AT('', 'abc')
+AT('bc', k_char)
+RAT('b', 'abcb')
+RAT('x', 'abc')
+CHR(65)
+CHR(0)
+CHR(255)
+CHR(256)
+CHR(-1)
+CHR(65.7)
+SPACE(3)
+SPACE(0)
+SPACE(-1)
+LEN(SPACE(10))
+REPEAT('ab', 3)
+REPEAT('ab', 0)
+REVERSE('abc')
+REVERSE(k_char)
+PADL('ab', 5)
+PADR('ab', 5)
+PADC('ab', 5)
+PAD('ab', 5)
+PADL('ab', 5, '*')
+PADR('ab', 5, '*')
+PADC('ab', 5, '*')
+PADC('ab', 6, '*')
+PADL('abcdef', 3)
+PADR('abcdef', 3)
+PADL(k_char, 8, '.')
+STR(1)
+STR(1.5)
+STR(-1.5)
+STR(123)
+STR(1234567890123)
+STR(12345678901)
+STR(1, 5)
+STR(1.5, 5)
+STR(1.5, 5, 2)
+STR(1.555, 6, 2)
+STR(1.565, 6, 2)
+STR(2.5, 3, 0)
+STR(3.5, 3, 0)
+STR(-2.5, 3, 0)
+STR(123456, 3)
+STR(1.5, 2, 1)
+STR(1.5, 3, 5)
+STR(1, 0)
+STR(1, -1)
+?STR(1, 300)
+STR(k_integer)
+STR(k_integer, 11)
+STR(k_numeric)
+STR(k_numeric, 10, 3)
+STR(k_double)
+STR(k_double, 10, 2)
+STR(k_money)
+STR(k_short)
+STR(k_longint)
+STR(k_autoinc)
+STR(k_curdouble)
+STR(1e20)
+STR(1e20, 25)
+STR(-0.0)
+STRZERO(5)
+STRZERO(5, 3)
+STRZERO(-5, 4)
+STRZERO(1.5, 6, 2)
+STRZERO(-1.5, 6, 2)
+STRZERO(k_integer, 11)
+STRZERO(12345, 3)
+VAL('12')
+VAL('  12.5abc')
+VAL('-3')
+VAL('abc')
+VAL('')
+VAL('1e3')
+VAL('1,5')
+VAL(k_char)
+SOUNDEX('Robert')
+SOUNDEX('Rupert')
+SOUNDEX('Tymczak')
+SOUNDEX('Pfister')
+SOUNDEX('')
+SOUNDEX('a')
+SOUNDEX(k_char)
+DIFFERENCE('Robert', 'Rupert')
+DIFFERENCE('abc', 'xyz')
+CHAR2HEX('AB')
+CHAR2HEX(k_char)
+HEX2CHAR('4142')
+HEX2CHAR('41 42')
+HEX2CHAR('4')
+HEX2CHAR('zz')
+BASE64ENCODE('abc')
+BASE64ENCODE('ab')
+BASE64DECODE('YWJj')
+BASE64DECODE('YWI=')
+I2BIN(1)
+I2BIN(-1)
+I2BIN(65536)
+L2BIN(1)
+L2BIN(-1)
+DESCEND('abc')
+DESCEND(1)
+DESCEND(k_date)
+DESCEND(.T.)
+DESCEND(k_char)
+
+# Math functions
+ABS(-5)
+ABS(5.5)
+ABS(k_integer)
+ABS(k_double)
+CEILING(2.1)
+CEILING(-2.1)
+FLOOR(2.9)
+FLOOR(-2.1)
+ROUND(2.5, 0)
+ROUND(3.5, 0)
+ROUND(-2.5, 0)
+ROUND(1.255, 2)
+ROUND(1234.5, -2)
+ROUND(k_double, 0)
+ROUND(1.5)
+SIGN(-3)
+SIGN(0)
+SIGN(2.5)
+MAX(1, 2)
+MAX(2, 1)
+MAX('a', 'b')
+MAX(k_date, CTOD('01/01/2000'))
+MIN(1, 2)
+MIN('ab', 'abc')
+MIN(k_integer, 0)
+MOD(7, 3)
+SQRT(4)
+POWER(2, 3)
+PI()
+
+# Dates and times
+DTOS(k_date)
+DTOC(k_date)
+CTOD('01/02/2003')
+CTOD('1/2/2003')
+CTOD('01/02/03')
+CTOD('13/02/2003')
+CTOD('02/30/2003')
+CTOD('')
+CTOD('  /  /    ')
+CTOD('abc')
+CTOD('2003-01-02')
+DTOS(CTOD('01/02/2003'))
+DTOC(CTOD('01/02/2003'))
+STOD('20030102')
+STOD('2003010')
+STOD('')
+STOD('20031302')
+DTOS(STOD('20030102'))
+YEAR(k_date)
+MONTH(k_date)
+DAY(k_date)
+DAYOFWEEK(k_date)
+DAYOFYEAR(k_date)
+DAYNAME(k_date)
+MONTHNAME(k_date)
+QUARTER(k_date)
+WEEK(k_date)
+ISOWEEK(k_date)
+YEAR(k_timestamp)
+MONTH(k_timestamp)
+DAY(k_timestamp)
+HOUR(k_timestamp)
+MINUTE(k_timestamp)
+SECOND(k_timestamp)
+FRAC_SECOND(k_timestamp)
+HOUR(k_time)
+MINUTE(k_time)
+SECOND(k_time)
+FRAC_SECOND(k_time)
+TSTOD(k_timestamp)
+TTOC(k_timestamp)
+TTOC(k_time)
+DTOS(TSTOD(k_timestamp))
+STOTS('20030102123456')
+STOTS('20030102')
+STOTS('20030102 12:34:56.789')
+STOTS('20030102 12:34:56')
+STOTS('20030102 12:34')
+STOTS('20030102 12')
+STOTS('20030102 12:34:56.7')
+STOTS('20030102 12:34:56.78')
+STOTS('20030102 12:34:56.7891')
+STOTS('20030102  12:34:56.789')
+STOTS('20030102T12:34:56.789')
+STOTS('20030102123456')
+STOTS('2003-01-02 12:34:56.789')
+STOTS('20030102 25:61:61.999')
+STOTS('20030102 1234')
+STOTS('20030102 12:34:56.789 PM')
+STOTS('20030102 12:34:56 789')
+TSTOD(STOTS('20030102 12:34:56.789'))
+HOUR(STOTS('20030102 12:34:56.789'))
+MINUTE(STOTS('20030102 12:34:56.789'))
+SECOND(STOTS('20030102 12:34:56.789'))
+FRAC_SECOND(STOTS('20030102 12:34:56.789'))
+HOUR(STOTS('20030102 12:34'))
+STOTS('20030102 12:34:56,789')
+STOTS('20030102 12:34:56-789')
+STOTS('20030102 12.34.56')
+STOTS('20030102 12 34 56')
+STOTS('20030102 12 34 56 789')
+STOTS('20030102 12:34:56.')
+STOTS('20030102 12:34:5a')
+STOTS('20030102 12:34:56.789.5')
+STOTS('20030102 12:34:56:789')
+STOTS('20030102 12:34:56:7:8')
+STOTS('20030102  :30')
+STOTS('20030102 ab 12')
+STOTS('20030102 ab')
+STOTS('20030102 -5')
+STOTS('20030102 12:-5')
+STOTS('20030102 ')
+STOTS('2003010 12:34:56')
+STOTS('200301021 12:34:56')
+STOTS('')
+STOTS(' 12:34:56')
+STOTS('20030102\t12:34:56')
+STOTS('20030102 12:34:56.789012345678')
+STOTS('20030102 0012:0034:0056.0789')
+STOTS('20030102 12:34:56.99999999999')
+STOTS('20030102 12:34 PM')
+STOTS('20030102 1:2:3.4')
+STOTS('20030102 24:00:00.000')
+STOTS('20030102 65535:0')
+STOTS('20030102 70000:0')
+STOTS('20030102 12:99999:0')
+CTOT('12:34:56')
+CTOT('12:34')
+CTOT('25:00:00')
+CTOTS('01/02/2003 12:34:56')
+CTOTS('01/02/2003')
+CREATETIMESTAMP(2003, 1, 2, 12, 34, 56, 789)
+TTOC(CREATETIMESTAMP(2003, 1, 2, 12, 34, 56, 789))
+YEAR(CTOD('01/02/2003'))
+DAYOFWEEK(CTOD('01/05/2003'))
+DAYNAME(CTOD('01/05/2003'))
+MONTHNAME(CTOD('12/05/2003'))
+WEEK(CTOD('01/01/2003'))
+WEEK(CTOD('12/31/2003'))
+ISOWEEK(CTOD('01/01/2003'))
+ISOWEEK(CTOD('12/29/2003'))
+ISOWEEK(CTOD('01/01/2010'))
+?DATE()
+?TODAY()
+?CURDATE()
+?NOW()
+?NOW_UTC()
+?TIME()
+DATE() > CTOD('01/01/2020')
+!date DD.MM.YYYY
+DTOC(k_date)
+CTOD('02.01.2003')
+DTOS(CTOD('02.01.2003'))
+CTOD('01/02/2003')
+TTOC(k_timestamp)
+CTOTS('02.01.2003 12:34:56')
+!date YYYY-MM-DD
+DTOC(k_date)
+CTOD('2003-01-02')
+!date MM/DD/YY
+DTOC(k_date)
+CTOD('01/02/03')
+CTOD('01/02/53')
+CTOD('01/02/2003')
+!date MM/DD/CCYY
+
+# Miscellaneous
+RECNO()
+DELETED()
+.NOT. DELETED()
+INLIST(k_integer, 1, 2, 3)
+INLIST(k_char, 'abc', 'Zz')
+INLIST('a', 'a')
+INLIST(1)
+INLIST(3, 1, NULL, 3)
+INLIST(5, 1, NULL, 3)
+INLIST(NULL, 1, 2)
+INLIST(k_integer, 1, NULL)
+INLIST(5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+INLIST(25, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+INLIST(25, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25)
+INLIST(26, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26)
+INLIST(30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)
+INLIST(64, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64)
+INLIST('b', 'a', 'b')
+INLIST('B', 'a', 'b')
+INLIST(1, 'a')
+INLIST('1', 1)
+INLIST(1.5, 1, 1.5)
+INLIST(.T., .T., .F.)
+INLIST(k_integer, k_integer, 2)
+?NEWID()
+?NEWIDSTRING()
+TRANSFORM(k_integer, '999')
+CONTAINS(k_char, 'abc')
+COLLATE(k_char, 'GERMAN_VFP_CI_AS_1252')
+?SYS(2015)
+
+@table all_types/all_types.adt
+
+c_char
+c_cichar
+c_varchar
+c_nchar
+c_nvarchar
+c_memo
+c_nmemo
+c_blob
+c_raw
+c_varbinary
+c_guid
+c_logical
+c_numeric
+c_short
+c_integer
+c_longint
+c_double
+c_curdouble
+c_money
+c_date
+c_time
+c_timestamp
+c_autoinc
+c_rowversion
+UPPER(c_char)
+c_char = 'abc'
+c_char > 'b'
+c_cichar = 'mixed'
+LEN(c_varchar)
+c_varchar = 'var'
+c_varchar + '|'
+c_numeric > 0
+c_numeric + 1
+STR(c_numeric)
+STR(c_numeric, 12, 3)
+STR(c_double)
+STR(c_curdouble)
+STR(c_money)
+STR(c_longint)
+c_longint + 1
+c_money * 1
+c_double * 1
+c_short + c_integer
+c_date + 1
+DTOS(c_date)
+YEAR(c_date)
+TTOC(c_timestamp)
+HOUR(c_time)
+EMPTY(c_char)
+EMPTY(c_memo)
+ISNULL(c_memo)
+LEN(c_memo)
+c_memo = 'a'
+UPPER(c_memo)
+c_blob = 'a'
+c_nchar = 'a'
+UPPER(c_nchar)
+LEN(c_nchar)
+c_nvarchar + 'x'
+c_guid = c_guid
+CHAR2HEX(c_guid)
+c_rowversion + 1
+RECNO()
+DELETED()

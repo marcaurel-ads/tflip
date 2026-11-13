@@ -1,0 +1,378 @@
+# d_set_ex
+open d_set_ex.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+state
+set name string zz
+state
+write
+state
+get name
+goto 1
+goto 2
+get name
+count
+close
+# d_set_sh
+open d_set_sh.adt shared
+goto 2
+delete
+goto 3
+goto 2
+state
+set name string zz
+state
+write
+state
+goto 1
+goto 2
+get name
+close
+# d_set_cancel
+open d_set_cancel.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+set name string zz
+cancel
+state
+get name
+close
+# d_set_id
+open d_set_id.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+set id long 9
+write
+state
+goto 1
+goto 2
+get id
+order by_id
+rows
+order del
+rows
+close
+# d_del
+open d_del.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+delete
+state
+write
+state
+count
+order by_id
+rows
+order del
+rows
+close
+# d_del_sh
+open d_del_sh.adt shared
+goto 2
+delete
+goto 3
+goto 2
+delete
+state
+write
+state
+count
+close
+# d_rec_del
+open d_rec_del.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+state
+delete
+state
+write
+state
+count
+order by_id
+rows
+order del
+rows
+close
+# d_rec
+open d_rec.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+write
+state
+count
+order by_id
+rows
+close
+# d_count
+open d_count.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+count
+state
+top
+skip 1
+state
+close
+# p1
+open p1.adt exclusive
+goto 2
+delete
+goto 3
+close
+# p2
+open p2.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+close
+# p2w
+open p2w.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+write
+close
+# p3
+open p3.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+delete
+write
+close
+# p4
+open p4.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+delete
+write
+close
+# p5
+open p5.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+set name string zz
+write
+close
+# p6
+open p6.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+recall
+close
+# p7
+open p7.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+recall
+delete
+recall
+write
+close
+# q1
+open q1.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 2
+recall
+delete
+write
+close
+# q2
+open q2.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 3
+recall
+delete
+write
+close
+# q3
+open q3.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 2
+recall
+goto 4
+delete
+write
+close
+# q4
+open q4.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 3
+recall
+goto 1
+goto 3
+delete
+write
+close
+# r1
+open r1.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+delete
+write
+count
+goto 1
+delete
+write
+count
+goto 4
+delete
+write
+count
+close
+open r1.adt exclusive
+count
+top
+skip 1
+state
+close
+# r2
+open r2.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+set name string zz
+write
+count
+goto 1
+recall
+write
+count
+close
+open r2.adt exclusive
+count
+close
+# r3
+open r3.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+delete
+write
+count
+goto 3
+delete
+write
+count
+append
+set id long 7
+write
+count
+state
+close
+# r4
+open r4.adt exclusive
+goto 2
+delete
+goto 3
+goto 2
+delete
+write
+count
+append
+set id long 7
+write
+count
+state
+reindex
+count
+close
+# q5
+open q5.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 2
+delete
+write
+count
+close
+# q6
+open q6.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 2
+set name string zz
+write
+count
+close
+# q7
+open q7.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 3
+delete
+write
+count
+close
+# q8
+open q8.adt exclusive
+goto 2
+delete
+goto 3
+delete
+goto 4
+goto 3
+set name string zz
+write
+count
+close

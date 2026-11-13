@@ -1,0 +1,9 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+sql 0 EXECUTE PROCEDURE sp_SetDDEncryptionType('src\d.add', '', 'ddpassword1', 'AES128', true)
+connopt DDPassword=ddpassword1;
+connect 1 src\d.add
+#table 1 t_adt 3 20
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', 'DDPassword=ddpassword1')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst2\d.add', NULL)

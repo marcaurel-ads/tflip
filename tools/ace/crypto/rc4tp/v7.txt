@@ -1,0 +1,27 @@
+# VFP tables of an AES-128 dictionary with ENCRYPT_NEW_TABLE on: a zap, an ALTER TABLE, a pack, deleted records, records of memo values that outgrow their blocks. (The local engine rolls back no change to a VFP table: a transaction around inserts, updates and deletes left them all.)
+connect Data Source=%D\v7\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v7\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+stmttype 4
+sql CREATE TABLE tzap (id INTEGER, note MEMO)
+sql INSERT INTO tzap VALUES (1, 'one')
+sql INSERT INTO tzap VALUES (2, 'two')
+zap tzap
+sql INSERT INTO tzap VALUES (3, 'three')
+sql CREATE TABLE talt (id INTEGER, note MEMO)
+sql INSERT INTO talt VALUES (1, 'one')
+sql INSERT INTO talt VALUES (2, 'two')
+sql ALTER TABLE talt ADD COLUMN extra CHAR(5)
+sql UPDATE talt SET extra = 'xyz'
+sql INSERT INTO talt VALUES (3, 'three', 'last')
+sql CREATE TABLE tgrow (id INTEGER, note MEMO)
+sql INSERT INTO tgrow VALUES (1, 'a')
+sql INSERT INTO tgrow VALUES (2, 'b')
+sql UPDATE tgrow SET note = 'grown past a block of sixty-four bytes, so that it moves to blocks at the end of the file' WHERE id = 1
+sql DELETE FROM tgrow WHERE id = 2
+sql INSERT INTO tgrow VALUES (4, 'after the delete')
+pack tgrow
+sql INSERT INTO tgrow VALUES (5, 'after the pack')
+disconnect

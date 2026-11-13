@@ -1,0 +1,15 @@
+# AOFs on an ADT table under a dynamic collation (German, case-insensitive,
+# accent-sensitive), with an order on the text and without one.
+collation GERMAN_VFP_CI_AS_1252
+sql CREATE TABLE g (id INTEGER, name CHAR(10))
+sql CREATE INDEX name ON g (name)
+sql INSERT INTO g VALUES (1, 'apfel')
+sql INSERT INTO g VALUES (2, 'Apfel')
+sql INSERT INTO g VALUES (3, 'Äpfel')
+sql INSERT INTO g VALUES (4, 'Birne')
+sql INSERT INTO g VALUES (5, 'ss')
+sql INSERT INTO g VALUES (6, 'ß')
+sql INSERT INTO g VALUES (7, 'apfelbaum')
+sql INSERT INTO g VALUES (8, NULL)
+sql CREATE TABLE h (id INTEGER, name CHAR(10))
+sql INSERT INTO h SELECT * FROM g

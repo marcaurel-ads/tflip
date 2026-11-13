@@ -1,0 +1,2241 @@
+chartype oem
+tabletype ntx
+open oem_ntx.dbf
+append
+set c string \x01
+raw c
+set c stringw \x01
+raw c
+set c string \x02
+raw c
+set c stringw \x02
+raw c
+set c string \x03
+raw c
+set c stringw \x03
+raw c
+set c string \x04
+raw c
+set c stringw \x04
+raw c
+set c string \x05
+raw c
+set c stringw \x05
+raw c
+set c string \x06
+raw c
+set c stringw \x06
+raw c
+set c string \x07
+raw c
+set c stringw \x07
+raw c
+set c string \x08
+raw c
+set c stringw \x08
+raw c
+set c string \x09
+raw c
+set c stringw \x09
+raw c
+set c string \x0a
+raw c
+set c stringw \x0a
+raw c
+set c string \x0b
+raw c
+set c stringw \x0b
+raw c
+set c string \x0c
+raw c
+set c stringw \x0c
+raw c
+set c string \x0d
+raw c
+set c stringw \x0d
+raw c
+set c string \x0e
+raw c
+set c stringw \x0e
+raw c
+set c string \x0f
+raw c
+set c stringw \x0f
+raw c
+set c string \x10
+raw c
+set c stringw \x10
+raw c
+set c string \x11
+raw c
+set c stringw \x11
+raw c
+set c string \x12
+raw c
+set c stringw \x12
+raw c
+set c string \x13
+raw c
+set c stringw \x13
+raw c
+set c string \x14
+raw c
+set c stringw \x14
+raw c
+set c string \x15
+raw c
+set c stringw \x15
+raw c
+set c string \x16
+raw c
+set c stringw \x16
+raw c
+set c string \x17
+raw c
+set c stringw \x17
+raw c
+set c string \x18
+raw c
+set c stringw \x18
+raw c
+set c string \x19
+raw c
+set c stringw \x19
+raw c
+set c string \x1a
+raw c
+set c stringw \x1a
+raw c
+set c string \x1b
+raw c
+set c stringw \x1b
+raw c
+set c string \x1c
+raw c
+set c stringw \x1c
+raw c
+set c string \x1d
+raw c
+set c stringw \x1d
+raw c
+set c string \x1e
+raw c
+set c stringw \x1e
+raw c
+set c string \x1f
+raw c
+set c stringw \x1f
+raw c
+set c string \x20
+raw c
+set c stringw \x20
+raw c
+set c string \x21
+raw c
+set c stringw \x21
+raw c
+set c string \x22
+raw c
+set c stringw \x22
+raw c
+set c string \x23
+raw c
+set c stringw \x23
+raw c
+set c string \x24
+raw c
+set c stringw \x24
+raw c
+set c string \x25
+raw c
+set c stringw \x25
+raw c
+set c string \x26
+raw c
+set c stringw \x26
+raw c
+set c string \x27
+raw c
+set c stringw \x27
+raw c
+set c string \x28
+raw c
+set c stringw \x28
+raw c
+set c string \x29
+raw c
+set c stringw \x29
+raw c
+set c string \x2a
+raw c
+set c stringw \x2a
+raw c
+set c string \x2b
+raw c
+set c stringw \x2b
+raw c
+set c string \x2c
+raw c
+set c stringw \x2c
+raw c
+set c string \x2d
+raw c
+set c stringw \x2d
+raw c
+set c string \x2e
+raw c
+set c stringw \x2e
+raw c
+set c string \x2f
+raw c
+set c stringw \x2f
+raw c
+set c string \x30
+raw c
+set c stringw \x30
+raw c
+set c string \x31
+raw c
+set c stringw \x31
+raw c
+set c string \x32
+raw c
+set c stringw \x32
+raw c
+set c string \x33
+raw c
+set c stringw \x33
+raw c
+set c string \x34
+raw c
+set c stringw \x34
+raw c
+set c string \x35
+raw c
+set c stringw \x35
+raw c
+set c string \x36
+raw c
+set c stringw \x36
+raw c
+set c string \x37
+raw c
+set c stringw \x37
+raw c
+set c string \x38
+raw c
+set c stringw \x38
+raw c
+set c string \x39
+raw c
+set c stringw \x39
+raw c
+set c string \x3a
+raw c
+set c stringw \x3a
+raw c
+set c string \x3b
+raw c
+set c stringw \x3b
+raw c
+set c string \x3c
+raw c
+set c stringw \x3c
+raw c
+set c string \x3d
+raw c
+set c stringw \x3d
+raw c
+set c string \x3e
+raw c
+set c stringw \x3e
+raw c
+set c string \x3f
+raw c
+set c stringw \x3f
+raw c
+set c string \x40
+raw c
+set c stringw \x40
+raw c
+set c string \x41
+raw c
+set c stringw \x41
+raw c
+set c string \x42
+raw c
+set c stringw \x42
+raw c
+set c string \x43
+raw c
+set c stringw \x43
+raw c
+set c string \x44
+raw c
+set c stringw \x44
+raw c
+set c string \x45
+raw c
+set c stringw \x45
+raw c
+set c string \x46
+raw c
+set c stringw \x46
+raw c
+set c string \x47
+raw c
+set c stringw \x47
+raw c
+set c string \x48
+raw c
+set c stringw \x48
+raw c
+set c string \x49
+raw c
+set c stringw \x49
+raw c
+set c string \x4a
+raw c
+set c stringw \x4a
+raw c
+set c string \x4b
+raw c
+set c stringw \x4b
+raw c
+set c string \x4c
+raw c
+set c stringw \x4c
+raw c
+set c string \x4d
+raw c
+set c stringw \x4d
+raw c
+set c string \x4e
+raw c
+set c stringw \x4e
+raw c
+set c string \x4f
+raw c
+set c stringw \x4f
+raw c
+set c string \x50
+raw c
+set c stringw \x50
+raw c
+set c string \x51
+raw c
+set c stringw \x51
+raw c
+set c string \x52
+raw c
+set c stringw \x52
+raw c
+set c string \x53
+raw c
+set c stringw \x53
+raw c
+set c string \x54
+raw c
+set c stringw \x54
+raw c
+set c string \x55
+raw c
+set c stringw \x55
+raw c
+set c string \x56
+raw c
+set c stringw \x56
+raw c
+set c string \x57
+raw c
+set c stringw \x57
+raw c
+set c string \x58
+raw c
+set c stringw \x58
+raw c
+set c string \x59
+raw c
+set c stringw \x59
+raw c
+set c string \x5a
+raw c
+set c stringw \x5a
+raw c
+set c string \x5b
+raw c
+set c stringw \x5b
+raw c
+set c string \x5c
+raw c
+set c stringw \x5c
+raw c
+set c string \x5d
+raw c
+set c stringw \x5d
+raw c
+set c string \x5e
+raw c
+set c stringw \x5e
+raw c
+set c string \x5f
+raw c
+set c stringw \x5f
+raw c
+set c string \x60
+raw c
+set c stringw \x60
+raw c
+set c string \x61
+raw c
+set c stringw \x61
+raw c
+set c string \x62
+raw c
+set c stringw \x62
+raw c
+set c string \x63
+raw c
+set c stringw \x63
+raw c
+set c string \x64
+raw c
+set c stringw \x64
+raw c
+set c string \x65
+raw c
+set c stringw \x65
+raw c
+set c string \x66
+raw c
+set c stringw \x66
+raw c
+set c string \x67
+raw c
+set c stringw \x67
+raw c
+set c string \x68
+raw c
+set c stringw \x68
+raw c
+set c string \x69
+raw c
+set c stringw \x69
+raw c
+set c string \x6a
+raw c
+set c stringw \x6a
+raw c
+set c string \x6b
+raw c
+set c stringw \x6b
+raw c
+set c string \x6c
+raw c
+set c stringw \x6c
+raw c
+set c string \x6d
+raw c
+set c stringw \x6d
+raw c
+set c string \x6e
+raw c
+set c stringw \x6e
+raw c
+set c string \x6f
+raw c
+set c stringw \x6f
+raw c
+set c string \x70
+raw c
+set c stringw \x70
+raw c
+set c string \x71
+raw c
+set c stringw \x71
+raw c
+set c string \x72
+raw c
+set c stringw \x72
+raw c
+set c string \x73
+raw c
+set c stringw \x73
+raw c
+set c string \x74
+raw c
+set c stringw \x74
+raw c
+set c string \x75
+raw c
+set c stringw \x75
+raw c
+set c string \x76
+raw c
+set c stringw \x76
+raw c
+set c string \x77
+raw c
+set c stringw \x77
+raw c
+set c string \x78
+raw c
+set c stringw \x78
+raw c
+set c string \x79
+raw c
+set c stringw \x79
+raw c
+set c string \x7a
+raw c
+set c stringw \x7a
+raw c
+set c string \x7b
+raw c
+set c stringw \x7b
+raw c
+set c string \x7c
+raw c
+set c stringw \x7c
+raw c
+set c string \x7d
+raw c
+set c stringw \x7d
+raw c
+set c string \x7e
+raw c
+set c stringw \x7e
+raw c
+set c string \x7f
+raw c
+set c stringw \x7f
+raw c
+set c string \x80
+raw c
+set c stringw \x80
+raw c
+set c string \x81
+raw c
+set c stringw \x81
+raw c
+set c string \x82
+raw c
+set c stringw \x82
+raw c
+set c string \x83
+raw c
+set c stringw \x83
+raw c
+set c string \x84
+raw c
+set c stringw \x84
+raw c
+set c string \x85
+raw c
+set c stringw \x85
+raw c
+set c string \x86
+raw c
+set c stringw \x86
+raw c
+set c string \x87
+raw c
+set c stringw \x87
+raw c
+set c string \x88
+raw c
+set c stringw \x88
+raw c
+set c string \x89
+raw c
+set c stringw \x89
+raw c
+set c string \x8a
+raw c
+set c stringw \x8a
+raw c
+set c string \x8b
+raw c
+set c stringw \x8b
+raw c
+set c string \x8c
+raw c
+set c stringw \x8c
+raw c
+set c string \x8d
+raw c
+set c stringw \x8d
+raw c
+set c string \x8e
+raw c
+set c stringw \x8e
+raw c
+set c string \x8f
+raw c
+set c stringw \x8f
+raw c
+set c string \x90
+raw c
+set c stringw \x90
+raw c
+set c string \x91
+raw c
+set c stringw \x91
+raw c
+set c string \x92
+raw c
+set c stringw \x92
+raw c
+set c string \x93
+raw c
+set c stringw \x93
+raw c
+set c string \x94
+raw c
+set c stringw \x94
+raw c
+set c string \x95
+raw c
+set c stringw \x95
+raw c
+set c string \x96
+raw c
+set c stringw \x96
+raw c
+set c string \x97
+raw c
+set c stringw \x97
+raw c
+set c string \x98
+raw c
+set c stringw \x98
+raw c
+set c string \x99
+raw c
+set c stringw \x99
+raw c
+set c string \x9a
+raw c
+set c stringw \x9a
+raw c
+set c string \x9b
+raw c
+set c stringw \x9b
+raw c
+set c string \x9c
+raw c
+set c stringw \x9c
+raw c
+set c string \x9d
+raw c
+set c stringw \x9d
+raw c
+set c string \x9e
+raw c
+set c stringw \x9e
+raw c
+set c string \x9f
+raw c
+set c stringw \x9f
+raw c
+set c string \xa0
+raw c
+set c stringw \xa0
+raw c
+set c string \xa1
+raw c
+set c stringw \xa1
+raw c
+set c string \xa2
+raw c
+set c stringw \xa2
+raw c
+set c string \xa3
+raw c
+set c stringw \xa3
+raw c
+set c string \xa4
+raw c
+set c stringw \xa4
+raw c
+set c string \xa5
+raw c
+set c stringw \xa5
+raw c
+set c string \xa6
+raw c
+set c stringw \xa6
+raw c
+set c string \xa7
+raw c
+set c stringw \xa7
+raw c
+set c string \xa8
+raw c
+set c stringw \xa8
+raw c
+set c string \xa9
+raw c
+set c stringw \xa9
+raw c
+set c string \xaa
+raw c
+set c stringw \xaa
+raw c
+set c string \xab
+raw c
+set c stringw \xab
+raw c
+set c string \xac
+raw c
+set c stringw \xac
+raw c
+set c string \xad
+raw c
+set c stringw \xad
+raw c
+set c string \xae
+raw c
+set c stringw \xae
+raw c
+set c string \xaf
+raw c
+set c stringw \xaf
+raw c
+set c string \xb0
+raw c
+set c stringw \xb0
+raw c
+set c string \xb1
+raw c
+set c stringw \xb1
+raw c
+set c string \xb2
+raw c
+set c stringw \xb2
+raw c
+set c string \xb3
+raw c
+set c stringw \xb3
+raw c
+set c string \xb4
+raw c
+set c stringw \xb4
+raw c
+set c string \xb5
+raw c
+set c stringw \xb5
+raw c
+set c string \xb6
+raw c
+set c stringw \xb6
+raw c
+set c string \xb7
+raw c
+set c stringw \xb7
+raw c
+set c string \xb8
+raw c
+set c stringw \xb8
+raw c
+set c string \xb9
+raw c
+set c stringw \xb9
+raw c
+set c string \xba
+raw c
+set c stringw \xba
+raw c
+set c string \xbb
+raw c
+set c stringw \xbb
+raw c
+set c string \xbc
+raw c
+set c stringw \xbc
+raw c
+set c string \xbd
+raw c
+set c stringw \xbd
+raw c
+set c string \xbe
+raw c
+set c stringw \xbe
+raw c
+set c string \xbf
+raw c
+set c stringw \xbf
+raw c
+set c string \xc0
+raw c
+set c stringw \xc0
+raw c
+set c string \xc1
+raw c
+set c stringw \xc1
+raw c
+set c string \xc2
+raw c
+set c stringw \xc2
+raw c
+set c string \xc3
+raw c
+set c stringw \xc3
+raw c
+set c string \xc4
+raw c
+set c stringw \xc4
+raw c
+set c string \xc5
+raw c
+set c stringw \xc5
+raw c
+set c string \xc6
+raw c
+set c stringw \xc6
+raw c
+set c string \xc7
+raw c
+set c stringw \xc7
+raw c
+set c string \xc8
+raw c
+set c stringw \xc8
+raw c
+set c string \xc9
+raw c
+set c stringw \xc9
+raw c
+set c string \xca
+raw c
+set c stringw \xca
+raw c
+set c string \xcb
+raw c
+set c stringw \xcb
+raw c
+set c string \xcc
+raw c
+set c stringw \xcc
+raw c
+set c string \xcd
+raw c
+set c stringw \xcd
+raw c
+set c string \xce
+raw c
+set c stringw \xce
+raw c
+set c string \xcf
+raw c
+set c stringw \xcf
+raw c
+set c string \xd0
+raw c
+set c stringw \xd0
+raw c
+set c string \xd1
+raw c
+set c stringw \xd1
+raw c
+set c string \xd2
+raw c
+set c stringw \xd2
+raw c
+set c string \xd3
+raw c
+set c stringw \xd3
+raw c
+set c string \xd4
+raw c
+set c stringw \xd4
+raw c
+set c string \xd5
+raw c
+set c stringw \xd5
+raw c
+set c string \xd6
+raw c
+set c stringw \xd6
+raw c
+set c string \xd7
+raw c
+set c stringw \xd7
+raw c
+set c string \xd8
+raw c
+set c stringw \xd8
+raw c
+set c string \xd9
+raw c
+set c stringw \xd9
+raw c
+set c string \xda
+raw c
+set c stringw \xda
+raw c
+set c string \xdb
+raw c
+set c stringw \xdb
+raw c
+set c string \xdc
+raw c
+set c stringw \xdc
+raw c
+set c string \xdd
+raw c
+set c stringw \xdd
+raw c
+set c string \xde
+raw c
+set c stringw \xde
+raw c
+set c string \xdf
+raw c
+set c stringw \xdf
+raw c
+set c string \xe0
+raw c
+set c stringw \xe0
+raw c
+set c string \xe1
+raw c
+set c stringw \xe1
+raw c
+set c string \xe2
+raw c
+set c stringw \xe2
+raw c
+set c string \xe3
+raw c
+set c stringw \xe3
+raw c
+set c string \xe4
+raw c
+set c stringw \xe4
+raw c
+set c string \xe5
+raw c
+set c stringw \xe5
+raw c
+set c string \xe6
+raw c
+set c stringw \xe6
+raw c
+set c string \xe7
+raw c
+set c stringw \xe7
+raw c
+set c string \xe8
+raw c
+set c stringw \xe8
+raw c
+set c string \xe9
+raw c
+set c stringw \xe9
+raw c
+set c string \xea
+raw c
+set c stringw \xea
+raw c
+set c string \xeb
+raw c
+set c stringw \xeb
+raw c
+set c string \xec
+raw c
+set c stringw \xec
+raw c
+set c string \xed
+raw c
+set c stringw \xed
+raw c
+set c string \xee
+raw c
+set c stringw \xee
+raw c
+set c string \xef
+raw c
+set c stringw \xef
+raw c
+set c string \xf0
+raw c
+set c stringw \xf0
+raw c
+set c string \xf1
+raw c
+set c stringw \xf1
+raw c
+set c string \xf2
+raw c
+set c stringw \xf2
+raw c
+set c string \xf3
+raw c
+set c stringw \xf3
+raw c
+set c string \xf4
+raw c
+set c stringw \xf4
+raw c
+set c string \xf5
+raw c
+set c stringw \xf5
+raw c
+set c string \xf6
+raw c
+set c stringw \xf6
+raw c
+set c string \xf7
+raw c
+set c stringw \xf7
+raw c
+set c string \xf8
+raw c
+set c stringw \xf8
+raw c
+set c string \xf9
+raw c
+set c stringw \xf9
+raw c
+set c string \xfa
+raw c
+set c stringw \xfa
+raw c
+set c string \xfb
+raw c
+set c stringw \xfb
+raw c
+set c string \xfc
+raw c
+set c stringw \xfc
+raw c
+set c string \xfd
+raw c
+set c stringw \xfd
+raw c
+set c string \xfe
+raw c
+set c stringw \xfe
+raw c
+set c string \xff
+raw c
+set c stringw \xff
+raw c
+set m string \x80\x81\x82\x83\x84\x85\x86\x87
+write
+get m
+set m stringw \x80\x81\x82\x83\x84\x85\x86\x87
+write
+get m
+set m string \x88\x89\x8a\x8b\x8c\x8d\x8e\x8f
+write
+get m
+set m stringw \x88\x89\x8a\x8b\x8c\x8d\x8e\x8f
+write
+get m
+set m string \x90\x91\x92\x93\x94\x95\x96\x97
+write
+get m
+set m stringw \x90\x91\x92\x93\x94\x95\x96\x97
+write
+get m
+set m string \x98\x99\x9a\x9b\x9c\x9d\x9e\x9f
+write
+get m
+set m stringw \x98\x99\x9a\x9b\x9c\x9d\x9e\x9f
+write
+get m
+set m string \xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7
+write
+get m
+set m stringw \xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7
+write
+get m
+set m string \xa8\xa9\xaa\xab\xac\xad\xae\xaf
+write
+get m
+set m stringw \xa8\xa9\xaa\xab\xac\xad\xae\xaf
+write
+get m
+set m string \xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7
+write
+get m
+set m stringw \xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7
+write
+get m
+set m string \xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf
+write
+get m
+set m stringw \xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf
+write
+get m
+set m string \xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7
+write
+get m
+set m stringw \xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7
+write
+get m
+set m string \xc8\xc9\xca\xcb\xcc\xcd\xce\xcf
+write
+get m
+set m stringw \xc8\xc9\xca\xcb\xcc\xcd\xce\xcf
+write
+get m
+set m string \xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7
+write
+get m
+set m stringw \xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7
+write
+get m
+set m string \xd8\xd9\xda\xdb\xdc\xdd\xde\xdf
+write
+get m
+set m stringw \xd8\xd9\xda\xdb\xdc\xdd\xde\xdf
+write
+get m
+set m string \xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7
+write
+get m
+set m stringw \xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7
+write
+get m
+set m string \xe8\xe9\xea\xeb\xec\xed\xee\xef
+write
+get m
+set m stringw \xe8\xe9\xea\xeb\xec\xed\xee\xef
+write
+get m
+set m string \xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7
+write
+get m
+set m stringw \xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7
+write
+get m
+set m string \xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff
+write
+get m
+set m stringw \xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff
+write
+get m
+close
+tabletype cdx
+open oem_cdx.dbf
+append
+set c string \x01
+raw c
+set c stringw \x01
+raw c
+set c string \x02
+raw c
+set c stringw \x02
+raw c
+set c string \x03
+raw c
+set c stringw \x03
+raw c
+set c string \x04
+raw c
+set c stringw \x04
+raw c
+set c string \x05
+raw c
+set c stringw \x05
+raw c
+set c string \x06
+raw c
+set c stringw \x06
+raw c
+set c string \x07
+raw c
+set c stringw \x07
+raw c
+set c string \x08
+raw c
+set c stringw \x08
+raw c
+set c string \x09
+raw c
+set c stringw \x09
+raw c
+set c string \x0a
+raw c
+set c stringw \x0a
+raw c
+set c string \x0b
+raw c
+set c stringw \x0b
+raw c
+set c string \x0c
+raw c
+set c stringw \x0c
+raw c
+set c string \x0d
+raw c
+set c stringw \x0d
+raw c
+set c string \x0e
+raw c
+set c stringw \x0e
+raw c
+set c string \x0f
+raw c
+set c stringw \x0f
+raw c
+set c string \x10
+raw c
+set c stringw \x10
+raw c
+set c string \x11
+raw c
+set c stringw \x11
+raw c
+set c string \x12
+raw c
+set c stringw \x12
+raw c
+set c string \x13
+raw c
+set c stringw \x13
+raw c
+set c string \x14
+raw c
+set c stringw \x14
+raw c
+set c string \x15
+raw c
+set c stringw \x15
+raw c
+set c string \x16
+raw c
+set c stringw \x16
+raw c
+set c string \x17
+raw c
+set c stringw \x17
+raw c
+set c string \x18
+raw c
+set c stringw \x18
+raw c
+set c string \x19
+raw c
+set c stringw \x19
+raw c
+set c string \x1a
+raw c
+set c stringw \x1a
+raw c
+set c string \x1b
+raw c
+set c stringw \x1b
+raw c
+set c string \x1c
+raw c
+set c stringw \x1c
+raw c
+set c string \x1d
+raw c
+set c stringw \x1d
+raw c
+set c string \x1e
+raw c
+set c stringw \x1e
+raw c
+set c string \x1f
+raw c
+set c stringw \x1f
+raw c
+set c string \x20
+raw c
+set c stringw \x20
+raw c
+set c string \x21
+raw c
+set c stringw \x21
+raw c
+set c string \x22
+raw c
+set c stringw \x22
+raw c
+set c string \x23
+raw c
+set c stringw \x23
+raw c
+set c string \x24
+raw c
+set c stringw \x24
+raw c
+set c string \x25
+raw c
+set c stringw \x25
+raw c
+set c string \x26
+raw c
+set c stringw \x26
+raw c
+set c string \x27
+raw c
+set c stringw \x27
+raw c
+set c string \x28
+raw c
+set c stringw \x28
+raw c
+set c string \x29
+raw c
+set c stringw \x29
+raw c
+set c string \x2a
+raw c
+set c stringw \x2a
+raw c
+set c string \x2b
+raw c
+set c stringw \x2b
+raw c
+set c string \x2c
+raw c
+set c stringw \x2c
+raw c
+set c string \x2d
+raw c
+set c stringw \x2d
+raw c
+set c string \x2e
+raw c
+set c stringw \x2e
+raw c
+set c string \x2f
+raw c
+set c stringw \x2f
+raw c
+set c string \x30
+raw c
+set c stringw \x30
+raw c
+set c string \x31
+raw c
+set c stringw \x31
+raw c
+set c string \x32
+raw c
+set c stringw \x32
+raw c
+set c string \x33
+raw c
+set c stringw \x33
+raw c
+set c string \x34
+raw c
+set c stringw \x34
+raw c
+set c string \x35
+raw c
+set c stringw \x35
+raw c
+set c string \x36
+raw c
+set c stringw \x36
+raw c
+set c string \x37
+raw c
+set c stringw \x37
+raw c
+set c string \x38
+raw c
+set c stringw \x38
+raw c
+set c string \x39
+raw c
+set c stringw \x39
+raw c
+set c string \x3a
+raw c
+set c stringw \x3a
+raw c
+set c string \x3b
+raw c
+set c stringw \x3b
+raw c
+set c string \x3c
+raw c
+set c stringw \x3c
+raw c
+set c string \x3d
+raw c
+set c stringw \x3d
+raw c
+set c string \x3e
+raw c
+set c stringw \x3e
+raw c
+set c string \x3f
+raw c
+set c stringw \x3f
+raw c
+set c string \x40
+raw c
+set c stringw \x40
+raw c
+set c string \x41
+raw c
+set c stringw \x41
+raw c
+set c string \x42
+raw c
+set c stringw \x42
+raw c
+set c string \x43
+raw c
+set c stringw \x43
+raw c
+set c string \x44
+raw c
+set c stringw \x44
+raw c
+set c string \x45
+raw c
+set c stringw \x45
+raw c
+set c string \x46
+raw c
+set c stringw \x46
+raw c
+set c string \x47
+raw c
+set c stringw \x47
+raw c
+set c string \x48
+raw c
+set c stringw \x48
+raw c
+set c string \x49
+raw c
+set c stringw \x49
+raw c
+set c string \x4a
+raw c
+set c stringw \x4a
+raw c
+set c string \x4b
+raw c
+set c stringw \x4b
+raw c
+set c string \x4c
+raw c
+set c stringw \x4c
+raw c
+set c string \x4d
+raw c
+set c stringw \x4d
+raw c
+set c string \x4e
+raw c
+set c stringw \x4e
+raw c
+set c string \x4f
+raw c
+set c stringw \x4f
+raw c
+set c string \x50
+raw c
+set c stringw \x50
+raw c
+set c string \x51
+raw c
+set c stringw \x51
+raw c
+set c string \x52
+raw c
+set c stringw \x52
+raw c
+set c string \x53
+raw c
+set c stringw \x53
+raw c
+set c string \x54
+raw c
+set c stringw \x54
+raw c
+set c string \x55
+raw c
+set c stringw \x55
+raw c
+set c string \x56
+raw c
+set c stringw \x56
+raw c
+set c string \x57
+raw c
+set c stringw \x57
+raw c
+set c string \x58
+raw c
+set c stringw \x58
+raw c
+set c string \x59
+raw c
+set c stringw \x59
+raw c
+set c string \x5a
+raw c
+set c stringw \x5a
+raw c
+set c string \x5b
+raw c
+set c stringw \x5b
+raw c
+set c string \x5c
+raw c
+set c stringw \x5c
+raw c
+set c string \x5d
+raw c
+set c stringw \x5d
+raw c
+set c string \x5e
+raw c
+set c stringw \x5e
+raw c
+set c string \x5f
+raw c
+set c stringw \x5f
+raw c
+set c string \x60
+raw c
+set c stringw \x60
+raw c
+set c string \x61
+raw c
+set c stringw \x61
+raw c
+set c string \x62
+raw c
+set c stringw \x62
+raw c
+set c string \x63
+raw c
+set c stringw \x63
+raw c
+set c string \x64
+raw c
+set c stringw \x64
+raw c
+set c string \x65
+raw c
+set c stringw \x65
+raw c
+set c string \x66
+raw c
+set c stringw \x66
+raw c
+set c string \x67
+raw c
+set c stringw \x67
+raw c
+set c string \x68
+raw c
+set c stringw \x68
+raw c
+set c string \x69
+raw c
+set c stringw \x69
+raw c
+set c string \x6a
+raw c
+set c stringw \x6a
+raw c
+set c string \x6b
+raw c
+set c stringw \x6b
+raw c
+set c string \x6c
+raw c
+set c stringw \x6c
+raw c
+set c string \x6d
+raw c
+set c stringw \x6d
+raw c
+set c string \x6e
+raw c
+set c stringw \x6e
+raw c
+set c string \x6f
+raw c
+set c stringw \x6f
+raw c
+set c string \x70
+raw c
+set c stringw \x70
+raw c
+set c string \x71
+raw c
+set c stringw \x71
+raw c
+set c string \x72
+raw c
+set c stringw \x72
+raw c
+set c string \x73
+raw c
+set c stringw \x73
+raw c
+set c string \x74
+raw c
+set c stringw \x74
+raw c
+set c string \x75
+raw c
+set c stringw \x75
+raw c
+set c string \x76
+raw c
+set c stringw \x76
+raw c
+set c string \x77
+raw c
+set c stringw \x77
+raw c
+set c string \x78
+raw c
+set c stringw \x78
+raw c
+set c string \x79
+raw c
+set c stringw \x79
+raw c
+set c string \x7a
+raw c
+set c stringw \x7a
+raw c
+set c string \x7b
+raw c
+set c stringw \x7b
+raw c
+set c string \x7c
+raw c
+set c stringw \x7c
+raw c
+set c string \x7d
+raw c
+set c stringw \x7d
+raw c
+set c string \x7e
+raw c
+set c stringw \x7e
+raw c
+set c string \x7f
+raw c
+set c stringw \x7f
+raw c
+set c string \x80
+raw c
+set c stringw \x80
+raw c
+set c string \x81
+raw c
+set c stringw \x81
+raw c
+set c string \x82
+raw c
+set c stringw \x82
+raw c
+set c string \x83
+raw c
+set c stringw \x83
+raw c
+set c string \x84
+raw c
+set c stringw \x84
+raw c
+set c string \x85
+raw c
+set c stringw \x85
+raw c
+set c string \x86
+raw c
+set c stringw \x86
+raw c
+set c string \x87
+raw c
+set c stringw \x87
+raw c
+set c string \x88
+raw c
+set c stringw \x88
+raw c
+set c string \x89
+raw c
+set c stringw \x89
+raw c
+set c string \x8a
+raw c
+set c stringw \x8a
+raw c
+set c string \x8b
+raw c
+set c stringw \x8b
+raw c
+set c string \x8c
+raw c
+set c stringw \x8c
+raw c
+set c string \x8d
+raw c
+set c stringw \x8d
+raw c
+set c string \x8e
+raw c
+set c stringw \x8e
+raw c
+set c string \x8f
+raw c
+set c stringw \x8f
+raw c
+set c string \x90
+raw c
+set c stringw \x90
+raw c
+set c string \x91
+raw c
+set c stringw \x91
+raw c
+set c string \x92
+raw c
+set c stringw \x92
+raw c
+set c string \x93
+raw c
+set c stringw \x93
+raw c
+set c string \x94
+raw c
+set c stringw \x94
+raw c
+set c string \x95
+raw c
+set c stringw \x95
+raw c
+set c string \x96
+raw c
+set c stringw \x96
+raw c
+set c string \x97
+raw c
+set c stringw \x97
+raw c
+set c string \x98
+raw c
+set c stringw \x98
+raw c
+set c string \x99
+raw c
+set c stringw \x99
+raw c
+set c string \x9a
+raw c
+set c stringw \x9a
+raw c
+set c string \x9b
+raw c
+set c stringw \x9b
+raw c
+set c string \x9c
+raw c
+set c stringw \x9c
+raw c
+set c string \x9d
+raw c
+set c stringw \x9d
+raw c
+set c string \x9e
+raw c
+set c stringw \x9e
+raw c
+set c string \x9f
+raw c
+set c stringw \x9f
+raw c
+set c string \xa0
+raw c
+set c stringw \xa0
+raw c
+set c string \xa1
+raw c
+set c stringw \xa1
+raw c
+set c string \xa2
+raw c
+set c stringw \xa2
+raw c
+set c string \xa3
+raw c
+set c stringw \xa3
+raw c
+set c string \xa4
+raw c
+set c stringw \xa4
+raw c
+set c string \xa5
+raw c
+set c stringw \xa5
+raw c
+set c string \xa6
+raw c
+set c stringw \xa6
+raw c
+set c string \xa7
+raw c
+set c stringw \xa7
+raw c
+set c string \xa8
+raw c
+set c stringw \xa8
+raw c
+set c string \xa9
+raw c
+set c stringw \xa9
+raw c
+set c string \xaa
+raw c
+set c stringw \xaa
+raw c
+set c string \xab
+raw c
+set c stringw \xab
+raw c
+set c string \xac
+raw c
+set c stringw \xac
+raw c
+set c string \xad
+raw c
+set c stringw \xad
+raw c
+set c string \xae
+raw c
+set c stringw \xae
+raw c
+set c string \xaf
+raw c
+set c stringw \xaf
+raw c
+set c string \xb0
+raw c
+set c stringw \xb0
+raw c
+set c string \xb1
+raw c
+set c stringw \xb1
+raw c
+set c string \xb2
+raw c
+set c stringw \xb2
+raw c
+set c string \xb3
+raw c
+set c stringw \xb3
+raw c
+set c string \xb4
+raw c
+set c stringw \xb4
+raw c
+set c string \xb5
+raw c
+set c stringw \xb5
+raw c
+set c string \xb6
+raw c
+set c stringw \xb6
+raw c
+set c string \xb7
+raw c
+set c stringw \xb7
+raw c
+set c string \xb8
+raw c
+set c stringw \xb8
+raw c
+set c string \xb9
+raw c
+set c stringw \xb9
+raw c
+set c string \xba
+raw c
+set c stringw \xba
+raw c
+set c string \xbb
+raw c
+set c stringw \xbb
+raw c
+set c string \xbc
+raw c
+set c stringw \xbc
+raw c
+set c string \xbd
+raw c
+set c stringw \xbd
+raw c
+set c string \xbe
+raw c
+set c stringw \xbe
+raw c
+set c string \xbf
+raw c
+set c stringw \xbf
+raw c
+set c string \xc0
+raw c
+set c stringw \xc0
+raw c
+set c string \xc1
+raw c
+set c stringw \xc1
+raw c
+set c string \xc2
+raw c
+set c stringw \xc2
+raw c
+set c string \xc3
+raw c
+set c stringw \xc3
+raw c
+set c string \xc4
+raw c
+set c stringw \xc4
+raw c
+set c string \xc5
+raw c
+set c stringw \xc5
+raw c
+set c string \xc6
+raw c
+set c stringw \xc6
+raw c
+set c string \xc7
+raw c
+set c stringw \xc7
+raw c
+set c string \xc8
+raw c
+set c stringw \xc8
+raw c
+set c string \xc9
+raw c
+set c stringw \xc9
+raw c
+set c string \xca
+raw c
+set c stringw \xca
+raw c
+set c string \xcb
+raw c
+set c stringw \xcb
+raw c
+set c string \xcc
+raw c
+set c stringw \xcc
+raw c
+set c string \xcd
+raw c
+set c stringw \xcd
+raw c
+set c string \xce
+raw c
+set c stringw \xce
+raw c
+set c string \xcf
+raw c
+set c stringw \xcf
+raw c
+set c string \xd0
+raw c
+set c stringw \xd0
+raw c
+set c string \xd1
+raw c
+set c stringw \xd1
+raw c
+set c string \xd2
+raw c
+set c stringw \xd2
+raw c
+set c string \xd3
+raw c
+set c stringw \xd3
+raw c
+set c string \xd4
+raw c
+set c stringw \xd4
+raw c
+set c string \xd5
+raw c
+set c stringw \xd5
+raw c
+set c string \xd6
+raw c
+set c stringw \xd6
+raw c
+set c string \xd7
+raw c
+set c stringw \xd7
+raw c
+set c string \xd8
+raw c
+set c stringw \xd8
+raw c
+set c string \xd9
+raw c
+set c stringw \xd9
+raw c
+set c string \xda
+raw c
+set c stringw \xda
+raw c
+set c string \xdb
+raw c
+set c stringw \xdb
+raw c
+set c string \xdc
+raw c
+set c stringw \xdc
+raw c
+set c string \xdd
+raw c
+set c stringw \xdd
+raw c
+set c string \xde
+raw c
+set c stringw \xde
+raw c
+set c string \xdf
+raw c
+set c stringw \xdf
+raw c
+set c string \xe0
+raw c
+set c stringw \xe0
+raw c
+set c string \xe1
+raw c
+set c stringw \xe1
+raw c
+set c string \xe2
+raw c
+set c stringw \xe2
+raw c
+set c string \xe3
+raw c
+set c stringw \xe3
+raw c
+set c string \xe4
+raw c
+set c stringw \xe4
+raw c
+set c string \xe5
+raw c
+set c stringw \xe5
+raw c
+set c string \xe6
+raw c
+set c stringw \xe6
+raw c
+set c string \xe7
+raw c
+set c stringw \xe7
+raw c
+set c string \xe8
+raw c
+set c stringw \xe8
+raw c
+set c string \xe9
+raw c
+set c stringw \xe9
+raw c
+set c string \xea
+raw c
+set c stringw \xea
+raw c
+set c string \xeb
+raw c
+set c stringw \xeb
+raw c
+set c string \xec
+raw c
+set c stringw \xec
+raw c
+set c string \xed
+raw c
+set c stringw \xed
+raw c
+set c string \xee
+raw c
+set c stringw \xee
+raw c
+set c string \xef
+raw c
+set c stringw \xef
+raw c
+set c string \xf0
+raw c
+set c stringw \xf0
+raw c
+set c string \xf1
+raw c
+set c stringw \xf1
+raw c
+set c string \xf2
+raw c
+set c stringw \xf2
+raw c
+set c string \xf3
+raw c
+set c stringw \xf3
+raw c
+set c string \xf4
+raw c
+set c stringw \xf4
+raw c
+set c string \xf5
+raw c
+set c stringw \xf5
+raw c
+set c string \xf6
+raw c
+set c stringw \xf6
+raw c
+set c string \xf7
+raw c
+set c stringw \xf7
+raw c
+set c string \xf8
+raw c
+set c stringw \xf8
+raw c
+set c string \xf9
+raw c
+set c stringw \xf9
+raw c
+set c string \xfa
+raw c
+set c stringw \xfa
+raw c
+set c string \xfb
+raw c
+set c stringw \xfb
+raw c
+set c string \xfc
+raw c
+set c stringw \xfc
+raw c
+set c string \xfd
+raw c
+set c stringw \xfd
+raw c
+set c string \xfe
+raw c
+set c stringw \xfe
+raw c
+set c string \xff
+raw c
+set c stringw \xff
+raw c
+set m string \x80\x81\x82\x83\x84\x85\x86\x87
+write
+get m
+set m stringw \x80\x81\x82\x83\x84\x85\x86\x87
+write
+get m
+set m string \x88\x89\x8a\x8b\x8c\x8d\x8e\x8f
+write
+get m
+set m stringw \x88\x89\x8a\x8b\x8c\x8d\x8e\x8f
+write
+get m
+set m string \x90\x91\x92\x93\x94\x95\x96\x97
+write
+get m
+set m stringw \x90\x91\x92\x93\x94\x95\x96\x97
+write
+get m
+set m string \x98\x99\x9a\x9b\x9c\x9d\x9e\x9f
+write
+get m
+set m stringw \x98\x99\x9a\x9b\x9c\x9d\x9e\x9f
+write
+get m
+set m string \xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7
+write
+get m
+set m stringw \xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7
+write
+get m
+set m string \xa8\xa9\xaa\xab\xac\xad\xae\xaf
+write
+get m
+set m stringw \xa8\xa9\xaa\xab\xac\xad\xae\xaf
+write
+get m
+set m string \xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7
+write
+get m
+set m stringw \xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7
+write
+get m
+set m string \xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf
+write
+get m
+set m stringw \xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf
+write
+get m
+set m string \xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7
+write
+get m
+set m stringw \xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7
+write
+get m
+set m string \xc8\xc9\xca\xcb\xcc\xcd\xce\xcf
+write
+get m
+set m stringw \xc8\xc9\xca\xcb\xcc\xcd\xce\xcf
+write
+get m
+set m string \xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7
+write
+get m
+set m stringw \xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7
+write
+get m
+set m string \xd8\xd9\xda\xdb\xdc\xdd\xde\xdf
+write
+get m
+set m stringw \xd8\xd9\xda\xdb\xdc\xdd\xde\xdf
+write
+get m
+set m string \xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7
+write
+get m
+set m stringw \xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7
+write
+get m
+set m string \xe8\xe9\xea\xeb\xec\xed\xee\xef
+write
+get m
+set m stringw \xe8\xe9\xea\xeb\xec\xed\xee\xef
+write
+get m
+set m string \xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7
+write
+get m
+set m stringw \xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7
+write
+get m
+set m string \xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff
+write
+get m
+set m stringw \xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff
+write
+get m
+close

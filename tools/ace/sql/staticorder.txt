@@ -1,0 +1,48 @@
+# A static cursor whose ORDER BY an order of its table serves (id has an index): what it
+# reads in what order and with what temporary index, for fixtures/sql/staticorder.json
+# (an empty data folder).
+stmt
+query CREATE TABLE so (id integer, name char(12), other char(12), n integer)
+query INSERT INTO so VALUES (5, 'resume', 'emuser', 50)
+query INSERT INTO so VALUES (3, 'resum_z', 'z_muser', 30)
+query INSERT INTO so VALUES (9, 'abc', 'cba', 90)
+query INSERT INTO so VALUES (1, 'resum_a', 'a_muser', 10)
+query INSERT INTO so VALUES (8, 'xyz', 'zyx', 80)
+query INSERT INTO so VALUES (2, 'resumx', 'xmuser', 20)
+query INSERT INTO so VALUES (7, 'res', 'ser', 70)
+query INSERT INTO so VALUES (4, 'zres', 'serz', 40)
+query INSERT INTO so VALUES (6, 'resum_b', 'b_muser', 60)
+query CREATE INDEX idi ON so (id)
+query CREATE INDEX nmi ON so (name)
+query CREATE INDEX idd ON so (n DESC)
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM so WHERE name LIKE 'res%' AND id > 3 ORDER BY id
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY id DESC
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY name
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY other
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY id, name
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY n
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY n DESC
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY id + 0
+query SELECT id + 0 AS x FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT id AS x FROM so WHERE name LIKE 'res%' ORDER BY x
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY 1
+query SELECT DISTINCT id FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT DISTINCT id FROM so ORDER BY id
+query SELECT TOP 3 id, name FROM so ORDER BY id
+query SELECT TOP 3 id, name FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM so WHERE CASE WHEN id > 3 THEN 1 ELSE 0 END = 1 ORDER BY id
+query SELECT id, name FROM so WHERE TRIM(name) = 'res' OR id = 1 ORDER BY id
+query SELECT id, name FROM so WHERE MOD(id, 2) = 1 ORDER BY id
+query SELECT id, name FROM so WHERE MOD(id, 2) = 1 ORDER BY n DESC
+query SELECT id, name FROM so WHERE id > 3 ORDER BY id
+query SELECT id, name FROM so ORDER BY id
+query SELECT id, name, id * 2 AS d FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY name DESC
+query SELECT UPPER(name) AS u, id FROM so WHERE name LIKE 'res%' ORDER BY id
+query SELECT id, name FROM so WHERE name LIKE 'res%' ORDER BY id, other
+query SELECT id, name FROM so a WHERE a.name LIKE 'res%' ORDER BY a.id
+query SELECT a.id, b.name FROM so a JOIN so b ON a.id = b.id WHERE a.name LIKE 'res%' ORDER BY a.id
+query SELECT id, COUNT(*) FROM so GROUP BY id ORDER BY id
+query SELECT id, name FROM so UNION SELECT id, name FROM so ORDER BY id
+query SELECT id, name FROM so WHERE RAND() < 2 ORDER BY id

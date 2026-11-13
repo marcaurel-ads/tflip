@@ -1,0 +1,30 @@
+00:00:00  :  Starting Deployment...
+00:00:00  :  Creating fail table directory {D}\fail.
+00:00:00  :  Turning verify rights on.
+00:00:00  :  Turning logins required on.
+00:00:00  :  Setting table encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting index encryption to FALSE
+00:00:00  :  Setting query via root option to FALSE
+00:00:00  :  Analyzing {D}.\t.adt
+00:00:00  :  Restructuring {D}.\t.adt
+  Adding: extra,integer,4;
+  Deleting: 
+  Changing: 
+00:00:00  :  Starting to add tables to dictionary.
+00:00:00  :  Adding table t to the dictionary.
+00:00:00  :  Setting dictionary password back.
+00:00:00  :  Setting access rights to : OFF
+00:00:00  :  Setting logins required to : ON
+00:00:00  :  Turning OFF internet access.
+00:00:00  :  Setting security level to 1.
+00:00:00  :  Turning OFF adssys internet access.
+00:00:00  :  Setting max failed login attempts to 5.
+00:00:00  :  Turning OFF enforce max failed logins.
+00:00:00  :  Enabling database logins.
+00:00:00  :  Setting 'logins disabled' custom error string.
+00:00:00  :  Setting FTS defaults.
+00:00:00  :  Enabling DLL Caching.
+00:00:00  :  Enabling Triggers.
+00:00:00  :  Closed connection.
+00:00:00  :  Deployment done.

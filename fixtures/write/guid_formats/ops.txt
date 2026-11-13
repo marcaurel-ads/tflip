@@ -1,0 +1,85 @@
+open t.adt
+top
+getopt g 0
+getopt g 0x100
+getopt g 0x200
+getopt g 0x400
+getopt g 0x800
+getopt g 0x300
+getopt g 0xF00
+getopt g 0x500
+getopt g 0x900
+getopt g 0x1
+getopt g 0x2
+getopt g 0x3
+getopt g 0x4
+getopt g 0x8
+getopt g 0x10
+getopt g 0x30
+getopt g 0x1000
+getopt g 0x2000
+getopt g 0x8000
+getopt g 0 0
+getopt g 0x400 0
+getopt g 0x100 0
+getopt g 0x200 0
+getopt g 0 1
+getopt g 0x400 1
+getopt g 0x100 1
+getopt g 0x200 1
+getopt g 0 10
+getopt g 0x400 10
+getopt g 0x100 10
+getopt g 0x200 10
+getopt g 0 20
+getopt g 0x400 20
+getopt g 0x100 20
+getopt g 0x200 20
+getopt g 0 31
+getopt g 0x400 31
+getopt g 0x100 31
+getopt g 0x200 31
+getopt g 0 32
+getopt g 0x400 32
+getopt g 0x100 32
+getopt g 0x200 32
+getopt g 0 35
+getopt g 0x400 35
+getopt g 0x100 35
+getopt g 0x200 35
+getopt g 0 36
+getopt g 0x400 36
+getopt g 0x100 36
+getopt g 0x200 36
+getopt g 0 37
+getopt g 0x400 37
+getopt g 0x100 37
+getopt g 0x200 37
+getopt g 0 38
+getopt g 0x400 38
+getopt g 0x100 38
+getopt g 0x200 38
+getopt g 0 39
+getopt g 0x400 39
+getopt g 0x100 39
+getopt g 0x200 39
+getopt id 0x400
+getopt c 0x400
+getopt m 0x400
+skip 1
+getopt g 0
+getopt g 0x100
+getopt g 0x200
+getopt g 0x400
+getopt g 0x800
+set g string {89ABCDEF-0123-4567-89AB-CDEF01234567}
+getopt g 0
+set g string 89ABCDEF012345678
+set g string 89ABCDEF-0123-4567-89AB-CDEF01234567
+getopt g 0
+set g string 0123456789ABCDEF0123456789ABCDEF
+getopt g 0
+top
+set id long 9
+write
+close

@@ -1,0 +1,18 @@
+# DBF tables made in an AES dictionary with ENCRYPT_NEW_TABLE on (AES-128, records enciphered): what the original makes of them.
+connect Data Source=%D\y4\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\y4\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+createt 2 ccdx
+createt 1 cntx
+createt 4 cvfp
+createt 3 cadt
+stmttype 2
+sql CREATE TABLE scdx (id INTEGER, note MEMO)
+sql INSERT INTO scdx VALUES (1, 'sql memo')
+sql INSERT INTO ccdx VALUES (1, 'created memo')
+tget ccdx 214
+tget scdx 214
+tget cadt 214
+disconnect

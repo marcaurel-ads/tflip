@@ -1,0 +1,139 @@
+# A dictionary's links outside SQL: the tables of linked dictionaries in the
+# table listings (AdsFindFirstTable62, AdsDDFindFirstObject of
+# ADS_DD_TABLE_VIEW_OR_LINK_OBJECT), tables opened through a link by name,
+# and the links a connection has active (AdsGetNumActiveLinks,
+# AdsGetActiveLinkInfo). Run by sql.c on an empty data folder with copies of
+# the props dictionary in props/ and of the dict one in dict/ (which the
+# script changes: it adds links).
+#
+#     run.sh <work> <ace32.dll> linklist.txt > ../../../fixtures/sql/linklist.json
+#
+# The props dictionary has one link, selflink, to itself.
+connect props\props.add ADSSYS adssyspw
+stmt
+numlinks
+linkinfo 1 200
+linkinfo 0 200
+find62
+find
+objects 13
+objects 7
+objects 12
+numlinks
+# Making a link that logs in makes it active, newest first. A global link is
+# made without its password checked, but is then not active; a link of the
+# connection's own with a wrong password is not made.
+ddlink dlink ..\dict\dict.add alice secret 1
+numlinks
+linkinfo 1 200
+ddlink dactive ..\dict\dict.add - - 3
+ddlink dstatic ..\dict\dict.add alice secret 5
+ddlink dlocal ..\dict\dict.add alice secret 0
+ddlink dbadpw ..\dict\dict.add alice wrong 1
+ddlink dlocalbad ..\dict\dict.add alice wrong 0
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+linkinfo 3 200
+linkinfo 4 200
+linkinfo 5 200
+linkinfo 1 5
+linkinfo 1 0
+# A listing that follows the links lists the tables (not the views) of each
+# global link the user may use and that logs in, where the link is among the
+# dictionary's objects; it leaves the global links it followed inactive.
+find62
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+find
+objects 7
+objects 12
+numlinks
+# A statement makes a link it uses active again; a dictionary's path is a
+# link without a name.
+stmt
+query SELECT * FROM dactive.customers
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+query SELECT * FROM dstatic.orders
+query SELECT * FROM "..\dict\dict.add".customers
+query SELECT * FROM selflink.parent
+query SELECT * FROM dlocal.customers
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+linkinfo 3 200
+linkinfo 4 200
+linkinfo 5 200
+linkinfo 6 200
+objects 13
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+linkinfo 3 200
+# A table is not opened through a link by name.
+open dlink.customers
+open dlink.orders
+open dlink.nosuch
+open selflink.parent
+open "dlink".customers
+open DLINK.CUSTOMERS
+open dlink.customers.adt
+open nolink.customers
+open dlocal.customers
+open ..\dict\dict.add.customers
+numlinks
+# Dropping a link makes it inactive.
+stmt
+query SELECT * FROM dlink.customers
+numlinks
+linkinfo 1 200
+droplink dlink 1
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+linkinfo 3 200
+droplink dlocal 0
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+find62
+# A new connection has none active.
+connect props\props.add ADSSYS adssyspw
+numlinks
+find62
+numlinks
+# A user lists what they have rights on, and no link they may not use.
+connect props\props.add bob bobpw
+numlinks
+find62
+find
+objects 13
+objects 7
+objects 1
+objects 6
+objects 12
+open selflink.parent
+numlinks
+# A link lists what its user has rights on.
+connect dict\dict.add alice secret
+stmt
+ddlink pl ..\props\props.add bob bobpw 1
+ddlink pl ..\props\props.add bob bobpw 0
+numlinks
+linkinfo 1 200
+find62
+objects 13
+numlinks
+connect dict\dict.add ADSSYS adssyspw
+stmt
+ddlink pl ..\props\props.add bob bobpw 1
+ddlink pact ..\props\props.add - - 3
+numlinks
+linkinfo 1 200
+linkinfo 2 200
+find62
+objects 13
+numlinks

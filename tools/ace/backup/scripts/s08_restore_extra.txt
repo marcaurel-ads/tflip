@@ -1,0 +1,18 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+sql 1 CREATE TABLE t_extra (a INTEGER, b CHAR(10))
+sql 1 INSERT INTO t_extra VALUES (1, 'x')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img2\d.add', '', '@ROOT@\dst\d.add', NULL)
+connect 2 dst\d.add
+sql 2 SELECT * FROM t_extra
+sql 2 SELECT name FROM system.tables ORDER BY name
+sql 2 CREATE TABLE t_only (a INTEGER)
+sql 2 INSERT INTO t_only VALUES (7)
+disconnect 2
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+connect 2 dst\d.add
+sql 2 SELECT name FROM system.tables ORDER BY name
+sql 2 SELECT * FROM t_only
+sql 2 SELECT * FROM t_extra

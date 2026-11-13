@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tflip-storage",
+    "crates/tflip-expr",
+    "crates/tflip-sql",
+    "crates/tflip-engine",
+    "crates/tflip-protocol",
+    "crates/tflip-aep",
+    "crates/tflip-ace",
+    "crates/tflipd",
+    "crates/tflip-studio",
+    "xtask",
+]
+
+# Tests and debug builds run optimized a little: the test suite takes a
+# quarter of the time (tflip-ace's fixture replays, the crypto), while an
+# incremental build takes no longer.
+[profile.dev]
+opt-level = 1
+
+[workspace.package]
+version = "0.26.0"
+edition = "2024"
+license = "MIT"
+
+[workspace.dependencies]
+anyhow = "1.0.104"
+serde = { version = "1.0.229", features = ["derive"] }

@@ -1,0 +1,185 @@
+# A re-prepared statement: which parameter values it keeps, by name and by
+# number, for fixtures/sql/params4.json (replayed with params.json's steps).
+# Parameters are typed by `+ <n>` beside them.
+stmt
+# A name set, then the same name again, a new name beside it, an intervening
+# text without it
+prepare SELECT :a + 1 FROM system.iota
+param a long 5
+exec
+closecursor
+prepare SELECT 1 + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :a + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :a + 1, :b + 2 FROM system.iota
+param b long 7
+exec
+closecursor
+prepare SELECT :b + 1, :a + 2 FROM system.iota
+exec
+closecursor
+prepare SELECT :a + 1, :b + 2, :c + 3 FROM system.iota
+param c long 100
+exec
+closecursor
+prepare SELECT :c + 1, :a + 2 FROM system.iota
+exec
+closecursor
+clearparams
+prepare SELECT :a + 1, :b + 2, :c + 3 FROM system.iota
+exec
+closecursor
+# A number set, then names (the first name is parameter 1)
+prepare SELECT ? + 1 FROM system.iota
+param 1 long 5
+exec
+closecursor
+prepare SELECT :x + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :y + 1, :x + 2 FROM system.iota
+exec
+closecursor
+prepare SELECT :x + 1, :y + 2 FROM system.iota
+exec
+closecursor
+clearparams
+# A name set, then numbers
+prepare SELECT :a + 1, :b + 2 FROM system.iota
+param a long 10
+param b long 20
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2 FROM system.iota
+exec
+closecursor
+prepare SELECT :b + 1, :a + 2 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2 FROM system.iota
+param 2 long 50
+exec
+closecursor
+prepare SELECT :b + 1, :a + 2 FROM system.iota
+exec
+closecursor
+clearparams
+# A name used twice, and numbers set beyond the text's own parameters
+prepare SELECT :p + 1, :p + 2 FROM system.iota
+param p long 4
+exec
+closecursor
+prepare SELECT :p + 1, :q + 2 FROM system.iota
+exec
+closecursor
+param 3 long 9
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+exec
+closecursor
+param 4 long 1
+param 5 long 1
+exec
+closecursor
+clearparams
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+exec
+closecursor
+# Types, nulls and empty values survive
+prepare SELECT ? + 1 FROM system.iota
+param 1 null
+exec
+closecursor
+prepare SELECT ? + 1 FROM system.iota
+exec
+closecursor
+param 1 string 12
+prepare SELECT ? + 1 FROM system.iota
+exec
+closecursor
+param 1 double 1.5
+prepare SELECT :z + 1 FROM system.iota
+exec
+closecursor
+param 1 empty
+prepare SELECT ? + 1 FROM system.iota
+exec
+closecursor
+clearparams
+# A text that fails: to prepare, to run
+prepare SELECT :a + 1 FROM system.iota
+param a long 2
+prepare SELEC :a
+exec
+prepare SELECT :a + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :a + 1 FROM nosuchtable
+exec
+prepare SELECT :a + 1 FROM system.iota
+exec
+closecursor
+prepare
+exec
+closecursor
+prepare SELECT :a + 1 FROM system.iota
+exec
+closecursor
+# Names are compared without regard to case; a name in another place
+clearparams
+prepare SELECT :Abc + 1 FROM system.iota
+param abc long 3
+exec
+closecursor
+prepare SELECT :ABC + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :abc + 1, :Abd + 2 FROM system.iota
+param Abd long 40
+exec
+closecursor
+prepare SELECT :abd + 1, :ABC + 2 FROM system.iota
+exec
+closecursor
+# A statement that is not a query; shrinking and growing
+clearparams
+prepare INSERT INTO nosuch VALUES (:a)
+param a long 3
+prepare SELECT :a + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+param 1 long 1
+param 2 string 2
+param 3 double 3.5
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2 FROM system.iota
+exec
+closecursor
+prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota
+exec
+closecursor
+prepare SELECT :m + 1, :n + 2, :o + 3 FROM system.iota
+exec
+closecursor
+prepare SELECT :o + 1 FROM system.iota
+exec
+closecursor
+prepare SELECT :n + 1, :o + 2 FROM system.iota
+exec
+closecursor

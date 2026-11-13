@@ -1,0 +1,60 @@
+{
+ "table_type": "adt",
+ "record_count": 20,
+ "record_length": 14,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "lbl", "type": 4, "type_name": "Character", "length": 5, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "P_PK", "file": "p.adi", "expression": "id", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": true, "nullable": false, "fts": false, "key_count": 20, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"},
+   {"recno": 3, "key": "c008000000000000"},
+   {"recno": 4, "key": "c010000000000000"},
+   {"recno": 5, "key": "c014000000000000"},
+   {"recno": 6, "key": "c018000000000000"},
+   {"recno": 7, "key": "c01c000000000000"},
+   {"recno": 8, "key": "c020000000000000"},
+   {"recno": 9, "key": "c022000000000000"},
+   {"recno": 10, "key": "c024000000000000"},
+   {"recno": 11, "key": "c026000000000000"},
+   {"recno": 12, "key": "c028000000000000"},
+   {"recno": 13, "key": "c02a000000000000"},
+   {"recno": 14, "key": "c02c000000000000"},
+   {"recno": 15, "key": "c02e000000000000"},
+   {"recno": 16, "key": "c030000000000000"},
+   {"recno": 17, "key": "c031000000000000"},
+   {"recno": 18, "key": "c032000000000000"},
+   {"recno": 19, "key": "c033000000000000"},
+   {"recno": 20, "key": "c034000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000010000007231202020", "values": {"id": {"text": "1"}, "lbl": {"text": "r1   "}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000020000007232202020", "values": {"id": {"text": "2"}, "lbl": {"text": "r2   "}}},
+  {"recno": 3, "deleted": false, "raw": "0400000000030000007233202020", "values": {"id": {"text": "3"}, "lbl": {"text": "r3   "}}},
+  {"recno": 4, "deleted": false, "raw": "0400000000040000007234202020", "values": {"id": {"text": "4"}, "lbl": {"text": "r4   "}}},
+  {"recno": 5, "deleted": false, "raw": "0400000000050000007235202020", "values": {"id": {"text": "5"}, "lbl": {"text": "r5   "}}},
+  {"recno": 6, "deleted": false, "raw": "0400000000060000007236202020", "values": {"id": {"text": "6"}, "lbl": {"text": "r6   "}}},
+  {"recno": 7, "deleted": false, "raw": "0400000000070000007237202020", "values": {"id": {"text": "7"}, "lbl": {"text": "r7   "}}},
+  {"recno": 8, "deleted": false, "raw": "0400000000080000007238202020", "values": {"id": {"text": "8"}, "lbl": {"text": "r8   "}}},
+  {"recno": 9, "deleted": false, "raw": "0400000000090000007239202020", "values": {"id": {"text": "9"}, "lbl": {"text": "r9   "}}},
+  {"recno": 10, "deleted": false, "raw": "04000000000a0000007231302020", "values": {"id": {"text": "10"}, "lbl": {"text": "r10  "}}},
+  {"recno": 11, "deleted": false, "raw": "04000000000b0000007231312020", "values": {"id": {"text": "11"}, "lbl": {"text": "r11  "}}},
+  {"recno": 12, "deleted": false, "raw": "04000000000c0000007231322020", "values": {"id": {"text": "12"}, "lbl": {"text": "r12  "}}},
+  {"recno": 13, "deleted": false, "raw": "04000000000d0000007231332020", "values": {"id": {"text": "13"}, "lbl": {"text": "r13  "}}},
+  {"recno": 14, "deleted": false, "raw": "04000000000e0000007231342020", "values": {"id": {"text": "14"}, "lbl": {"text": "r14  "}}},
+  {"recno": 15, "deleted": false, "raw": "04000000000f0000007231352020", "values": {"id": {"text": "15"}, "lbl": {"text": "r15  "}}},
+  {"recno": 16, "deleted": false, "raw": "0400000000100000007231362020", "values": {"id": {"text": "16"}, "lbl": {"text": "r16  "}}},
+  {"recno": 17, "deleted": false, "raw": "0400000000110000007231372020", "values": {"id": {"text": "17"}, "lbl": {"text": "r17  "}}},
+  {"recno": 18, "deleted": false, "raw": "0400000000120000007231382020", "values": {"id": {"text": "18"}, "lbl": {"text": "r18  "}}},
+  {"recno": 19, "deleted": false, "raw": "0400000000130000007231392020", "values": {"id": {"text": "19"}, "lbl": {"text": "r19  "}}},
+  {"recno": 20, "deleted": false, "raw": "0400000000140000007232302020", "values": {"id": {"text": "20"}, "lbl": {"text": "r20  "}}}
+ ]
+}

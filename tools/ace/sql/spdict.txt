@@ -1,0 +1,11 @@
+# sp_GetTables and sp_GetColumns on a dictionary connection: the dictionary's
+# own tables and views (then the system tables) rather than the folder's free
+# tables, and columns with their dictionary default/comment/nullability. Run by
+# sql.c on the SQL data folder, connecting to the dict/ dictionary (no links).
+#
+#     sql.exe <ace32.dll> <sql data folder> spdict.txt > ../../../fixtures/sql/spdict.json
+connect dict\dict.add alice secret
+stmt
+query EXECUTE PROCEDURE sp_GetTables(null, null, null, null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'customers', null)
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'orders', null)

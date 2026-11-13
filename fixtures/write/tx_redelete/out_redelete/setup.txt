@@ -1,0 +1,15 @@
+tabletype adt
+sql CREATE TABLE ra (id INTEGER, name CHAR(10))
+sql INSERT INTO ra VALUES (1,'one'),(2,'two'),(3,'three')
+tabletype adt
+sql CREATE TABLE rb (id INTEGER, name CHAR(10))
+sql INSERT INTO rb VALUES (1,'one'),(2,'two'),(3,'three')
+tabletype vfp
+sql CREATE TABLE rv (id INTEGER, name CHAR(10))
+sql INSERT INTO rv VALUES (1,'one'),(2,'two'),(3,'three')
+tabletype cdx
+sql CREATE TABLE rd (id INTEGER, name CHAR(10))
+sql INSERT INTO rd VALUES (1,'one'),(2,'two'),(3,'three')
+tabletype adt
+sql CREATE TABLE rx (id INTEGER, name CHAR(10))
+sql INSERT INTO rx VALUES (1,'one'),(2,'two'),(3,'three')

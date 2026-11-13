@@ -1,0 +1,114 @@
+# Transactions on DBF tables on the remote server: changes, appends and
+# deletes rolled back, then committed.
+tabletype cdx
+open cdx_t shared
+begin
+goto 1
+set name string uno
+set m string changed memo
+write
+append
+set id long 4
+set name string four
+set m string appended memo
+write
+goto 2
+delete
+write
+flush
+snapshot cdx_during
+rollback
+flush
+snapshot cdx_rolledback
+state
+begin
+goto 1
+set name string eins
+write
+append
+set id long 5
+set name string five
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot cdx_committed
+state
+close
+tabletype vfp
+open vfp_t shared
+begin
+goto 1
+set name string uno
+set m string changed memo
+write
+append
+set id long 4
+set name string four
+set m string appended memo
+write
+goto 2
+delete
+write
+flush
+snapshot vfp_during
+rollback
+flush
+snapshot vfp_rolledback
+state
+begin
+goto 1
+set name string eins
+write
+append
+set id long 5
+set name string five
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot vfp_committed
+state
+close
+tabletype ntx
+open ntx_t shared
+openindex ntx_name.ntx
+begin
+goto 1
+set name string uno
+set m string changed memo
+write
+append
+set id long 4
+set name string four
+set m string appended memo
+write
+goto 2
+delete
+write
+flush
+snapshot ntx_during
+rollback
+flush
+snapshot ntx_rolledback
+state
+begin
+goto 1
+set name string eins
+write
+append
+set id long 5
+set name string five
+write
+goto 3
+delete
+write
+commit
+flush
+snapshot ntx_committed
+state
+close

@@ -1,0 +1,9 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+#table 1 t_cdx 2 20
+#table 1 t_vfp 4 20
+#table 1 t_ntx 1 20
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'PrepareDiff')
+sql 1 UPDATE t_cdx SET qty = 99.5 WHERE id = 1
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', 'Diff')

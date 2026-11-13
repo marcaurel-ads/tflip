@@ -1,0 +1,14 @@
+# A FoxPro table of 11,900 records, some deleted, for binary orders whose
+# bitmaps take three nodes.
+tabletype cdx
+sql CREATE TABLE d (n INTEGER)
+sql INSERT INTO d VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+sql CREATE TABLE big (x INTEGER)
+sql INSERT INTO big SELECT a.n * 1000 + b.n * 100 + c.n * 10 + e.n FROM d a, d b, d c, d e
+sql INSERT INTO big SELECT 10000 + a.n * 1000 + b.n * 100 + c.n * 10 + e.n FROM d a, d b, d c, d e WHERE a.n * 1000 + b.n * 100 + c.n * 10 + e.n < 1900
+sql DELETE FROM big WHERE x % 7 = 0
+# A table of 3,960 records, whose bitmap fills its root node but for a few
+# bits.
+sql CREATE TABLE mid (x INTEGER)
+sql INSERT INTO mid SELECT a.n * 1000 + b.n * 100 + c.n * 10 + e.n FROM d a, d b, d c, d e WHERE a.n * 1000 + b.n * 100 + c.n * 10 + e.n < 3960
+sql DELETE FROM mid WHERE x % 5 = 0

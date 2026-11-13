@@ -1,0 +1,12 @@
+restructure t.adt 0 ||name,nm,Char,10
+open t.adt
+top
+record
+order nm
+rows
+close
+restructure u.adt 0 ||a,a,Integer
+restructure v.adt 0 ||a,A,Integer
+restructure w.adt 0 ||a,a2,Integer;b,b2,Char,5
+restructure x.adt 0 ||a,a2,Integer;b,b,Char,5
+restructure y.adt 0 ||a,a2,Integer,(2)

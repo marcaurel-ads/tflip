@@ -1,0 +1,21 @@
+[package]
+name = "tflip-ace"
+description = "Drop-in replacement for the Advantage Client Engine (ace32.dll / ace64.dll)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+tflip-engine = { path = "../tflip-engine" }
+tflip-aep = { path = "../tflip-aep" }
+tflip-protocol = { path = "../tflip-protocol" }
+tflip-storage = { path = "../tflip-storage" }
+
+[dev-dependencies]
+tflip-protocol = { path = "../tflip-protocol", features = ["server"] }
+tflip-engine = { path = "../tflip-engine", features = ["test-hooks"] }
+tflip-storage = { path = "../tflip-storage", features = ["undefined"] }
+serde_json = "1.0.151"

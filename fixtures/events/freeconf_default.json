@@ -1,0 +1,22 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "connect 1 d.add", "rc": 0},
+{"cmd": "connect 2 d.add u2 pw2", "rc": 0},
+{"cmd": "sql 1 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 39},
+{"cmd": "sql 1 SELECT * FROM \"free2.dbf\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["2", "two       "]], "ms": 7},
+{"cmd": "sql 2 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 2},
+{"cmd": "sql 1 SELECT * FROM t1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["3", "three     "]], "ms": 7},
+{"cmd": "sql 1 SELECT * FROM v1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 15},
+{"cmd": "sql 2 SELECT * FROM v1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 9},
+{"cmd": "sql 1 EXECUTE PROCEDURE p1()", "rc": 0, "fields": [["id", 11, 4]], "rows": [["1"]], "ms": 14},
+{"cmd": "sql 2 EXECUTE PROCEDURE p1()", "rc": 0, "fields": [["id", 11, 4]], "rows": [["1"]], "ms": 12},
+{"cmd": "sql 1 INSERT INTO \"free1.adt\" VALUES (9, 'nine')", "rc": 0, "ms": 4},
+{"cmd": "sql 1 DELETE FROM \"free1.adt\" WHERE id = 9", "rc": 0, "ms": 10},
+{"cmd": "sql 1 CREATE TABLE \"free3.adt\" (id INTEGER)", "rc": 0, "ms": 628},
+{"cmd": "sql 1 DROP TABLE \"free3.adt\"", "rc": 0, "ms": 15},
+{"cmd": "sql 0 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 7},
+{"cmd": "sql 0 SELECT * FROM \"free2.dbf\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["2", "two       "]], "ms": 10},
+{"cmd": "sql 0 SELECT * FROM t1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5159;  [SAP][Advantage SQL Engine][ASA] Error 5159:  Error encountered when trying to open a database table.  The table is a database table. It cannot be opened as a free table. Table name: t1", "ms": 1},
+{"cmd": "disconnect 2", "rc": 0},
+{"cmd": "disconnect 1", "rc": 0}
+]

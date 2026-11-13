@@ -1,0 +1,5 @@
+{
+ "36": {"fields": ["recno", "deleted"], "why": "on a record that is no longer there (an append rolled back) the original's handle is at EOF (KNOWN_ISSUES.md, A rolled-back append)"},
+ "71": {"fields": ["recno", "deleted"], "why": "on a record that is no longer there (an append rolled back) the original's handle is at EOF (KNOWN_ISSUES.md, A rolled-back append)"},
+ "99": {"fields": ["recno", "deleted"], "why": "on a record that is no longer there (an append rolled back) the original's handle is at EOF (KNOWN_ISSUES.md, A rolled-back append)"}
+}

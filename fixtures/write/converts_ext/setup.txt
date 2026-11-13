@@ -1,0 +1,10 @@
+# An ADT table of the extended field types, and a FoxPro table with a ShortDate.
+sql CREATE TABLE x (li LONGINT, g GUID, rw RAW(4), vb VARBINARY(6), vc VARCHAR(10), nc NCHAR(3), nv NVARCHAR(5), nm NMEMO, rv ROWVERSION, mt MODTIME)
+sql INSERT INTO x (li, g, rw, vb, vc, nc, nv, nm) VALUES (123, '{00112233-4455-6677-8899-AABBCCDDEEFF}', X'01020304', X'050607', 'hello', 'abc', 'xyz', 'nmemo text')
+tabletype cdx
+createtable y.dbf 0 c,Character,5;sd,ShortDate
+append
+set c string row1
+set sd string 2020-01-02
+write
+close

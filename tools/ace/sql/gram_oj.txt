@@ -1,0 +1,67 @@
+# The ODBC escape {OJ ...} in FROM.
+# For fixtures/sql/gram_oj.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_oj.txt > ../../../fixtures/sql/gram_oj.json
+stmt
+## the ODBC escape {OJ ...}
+direct CREATE TABLE o1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE o2 (id INTEGER, o1id INTEGER, v CHAR(10))
+directnull INSERT INTO o1 VALUES (1, 'one')
+directnull INSERT INTO o1 VALUES (2, 'two')
+directnull INSERT INTO o1 VALUES (3, 'three')
+directnull INSERT INTO o2 VALUES (10, 1, 'a')
+directnull INSERT INTO o2 VALUES (11, 1, 'b')
+directnull INSERT INTO o2 VALUES (12, 3, 'c')
+directnull INSERT INTO o2 VALUES (13, 9, 'd')
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {oj o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {Oj o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM { OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id } ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 LEFT JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 RIGHT OUTER JOIN o2 ON o1.id = o2.o1id} ORDER BY o2.id
+query SELECT * FROM {OJ o1 FULL OUTER JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 INNER JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 JOIN o2 ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 CROSS JOIN o2} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1} ORDER BY o1.id
+query SELECT * FROM {OJ o1, o2} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id LEFT OUTER JOIN o1 b ON b.id = o2.id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} LEFT OUTER JOIN o1 b ON b.id = o2.id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN {OJ o2 LEFT OUTER JOIN o1 b ON b.id = o2.id} ON o1.id = o2.o1id} ORDER BY o1.id, o2.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}, o1 b WHERE b.id = 1 ORDER BY o1.id, o2.id
+query SELECT * FROM o1 b, {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} WHERE b.id = 1 ORDER BY o1.id, o2.id
+query SELECT * FROM o1 LEFT OUTER JOIN {OJ o2 LEFT OUTER JOIN o1 b ON b.id = o2.id} ON o1.id = o2.o1id ORDER BY o1.id, o2.id
+query SELECT o1.id, o2.v FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} WHERE o2.v IS NULL ORDER BY o1.id
+query SELECT x.id FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} x ORDER BY x.id
+query SELECT x.id FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} AS x ORDER BY x.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}
+query SELECT COUNT(*) AS c FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id ORDER BY o1.id}
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id)
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}}
+query SELECT * FROM {OJ}
+query SELECT * FROM {OJ }
+query SELECT * FROM {}
+query SELECT * FROM {OJo1}
+query SELECT * FROM {OJ(o1)}
+query SELECT * FROM {OJ nosuch LEFT OUTER JOIN o2 ON nosuch.id = o2.o1id}
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN nosuch ON o1.id = nosuch.o1id}
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.nosuch = o2.o1id}
+query SELECT * FROM {XX o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}
+query SELECT * FROM {fn o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id}
+query SELECT * FROM {OJ (SELECT * FROM o1) a LEFT OUTER JOIN o2 ON a.id = o2.o1id} ORDER BY a.id, o2.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN (SELECT * FROM o2) a ON o1.id = a.o1id} ORDER BY o1.id, a.id
+query SELECT o1.id FROM o1 WHERE o1.id IN (SELECT o1id FROM {OJ o2 LEFT OUTER JOIN o1 b ON b.id = o2.o1id})
+query SELECT o1.id, (SELECT COUNT(*) FROM {OJ o2 LEFT OUTER JOIN o1 b ON b.id = o2.o1id} WHERE b.id = o1.id) AS c FROM o1 ORDER BY o1.id
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} UNION SELECT * FROM o2 WHERE 1 = 0
+query SELECT 1 AS a FROM {OJ system.iota}
+query SELECT * FROM {OJ system.iota LEFT OUTER JOIN o1 ON 1 = 1}
+query SELECT * FROM {OJ o1 LEFT OUTER JOIN o2 USING (id)}
+query SELECT * FROM {OJ o1 NATURAL JOIN o2}
+directnull DELETE FROM {OJ o1}
+directnull UPDATE {OJ o1} SET id = id
+directnull INSERT INTO {OJ o1} VALUES (4, 'four')
+query SELECT {OJ o1} FROM o1
+query SELECT {d '2020-01-02'} AS a, {t '10:11:12'} AS b, {ts '2020-01-02 10:11:12'} AS c FROM system.iota
+query SELECT {OJ o1 LEFT OUTER JOIN o2 ON o1.id = o2.o1id} FROM o1

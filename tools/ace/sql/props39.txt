@@ -1,0 +1,76 @@
+# AdsSetProperty id 39, the "parse only" switch ARC sets before AdsVerifySQL
+# (its value does not matter: 0, 1, 2 and 0xffffffff all arm it), and what it
+# changes in AdsVerifySQL, AdsPrepareSQL and AdsExecuteSQL.
+# The default: tables and columns are checked, as well as the syntax.
+stmt
+verify SELECT nocol FROM nosuch
+verify INSERT INTO __output SELECT n FROM __input;
+verify SELEC 1
+closestmt
+# Armed: the next verify checks the syntax alone, for SELECT, DML and scripts,
+# and __input and __output may be named.
+stmt
+setprop stmt 39 0
+verify INSERT INTO __output SELECT n FROM __input;
+closestmt
+stmt
+setprop stmt 39 0
+verify SELECT nocol FROM nosuch
+verify UPDATE nosuch SET a = 1
+verify SELECT nocol FROM nosuch2
+closestmt
+stmt
+setprop stmt 39 0
+verify SELEC 1
+verify SELECT nocol FROM nosuch
+closestmt
+# What is left of it is the last text: it passes again at once, not after
+# another text was verified.
+stmt
+setprop stmt 39 0
+verify SELECT nocol FROM nosuch
+verify SELECT nocol FROM nosuch
+verify SELECT nocol FROM nosuch2
+verify SELECT nocol FROM nosuch
+closestmt
+stmt
+setprop stmt 39 0
+verify SELECT nocol FROM nosuch
+setprop stmt 39 0
+verify SELECT nocol FROM nosuch2
+verify SELECT nocol FROM nosuch2
+closestmt
+# Other values arm it as well.
+stmt
+setprop stmt 39 1
+verify SELECT nocol FROM nosuch
+closestmt
+stmt
+setprop stmt 39 2
+verify SELECT nocol FROM nosuch
+closestmt
+stmt
+setprop stmt 39 0xffffffff
+verify SELECT nocol FROM nosuch
+closestmt
+# Preparing and running are not changed and do not use it up.
+stmt
+setprop stmt 39 0
+prepare SELECT nocol FROM nosuch
+exec
+direct SELECT nocol FROM nosuch
+verify SELECT nocol FROM nosuch2
+verify SELECT nocol FROM nosuch
+closestmt
+# Set after a verify that failed.
+stmt
+verify SELECT nocol FROM nosuch
+setprop stmt 39 0
+verify SELECT nocol FROM nosuch
+closestmt
+# Only a statement has it.
+stmt
+setprop conn 39 0
+setprop 0 39 0
+verify SELECT nocol FROM nosuch
+closestmt

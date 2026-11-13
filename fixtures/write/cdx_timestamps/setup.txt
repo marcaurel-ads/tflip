@@ -1,0 +1,26 @@
+# A Visual FoxPro table with orders on timestamp expressions, some of fields
+# that take NULL (whose keys then start with a NULL byte), and a FoxPro one.
+tabletype vfp
+createtable v.dbf 0 id,Integer;y,Integer;mo,Integer;dd,Integer;h,Integer;mi,Integer;s,Integer;ms,Integer;yn,Integer,NULL;d,Date;dn,Date,NULL;c,Character,30;cn,Character,30,NULL
+createindex - cts 2 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+createindex - dcts 10 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+createindex - fcts 2 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms) FOR id > 100
+createindex - ucts 3 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, 0)
+createindex - ncts 2 0 CREATETIMESTAMP(yn, mo, dd, h, mi, s, ms)
+createindex - stots 2 0 STOTS(DTOS(d))
+createindex - nstots 2 0 STOTS(DTOS(dn))
+createindex - ctots 2 0 CTOTS(c)
+createindex - nctots 2 0 CTOTS(cn)
+createindex - ucn 2 0 UPPER(cn)
+close
+tabletype cdx
+createtable f.dbf 0 id,Numeric,6;y,Numeric,6;mo,Numeric,4;dd,Numeric,4;h,Numeric,4;mi,Numeric,4;s,Numeric,4;ms,Numeric,6;d,Date;c,Character,30
+createindex - cts 2 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+createindex - dcts 10 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+createindex - stots 2 0 STOTS(DTOS(d))
+createindex - ctots 2 0 CTOTS(c)
+close
+tabletype cdx
+createtable g.dbf 0 id,Numeric,6;c,Character,30
+createindex - m 2 0 CTOTS(c)
+close

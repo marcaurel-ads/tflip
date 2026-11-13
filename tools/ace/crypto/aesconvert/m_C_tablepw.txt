@@ -1,0 +1,6 @@
+# The same in an AES-128 dictionary that keeps its records in the clear.
+connect Data Source=%D\m_C_tablepw\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'second')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', '')
+disconnect

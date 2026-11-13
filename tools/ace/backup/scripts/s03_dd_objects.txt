@@ -1,0 +1,15 @@
+#include dd_all.txt
+sql 1 CREATE VIEW v_drop AS SELECT id FROM t_adt
+sql 1 DROP VIEW v_drop
+sql 1 CREATE UNIQUE INDEX t_adt_pk ON t_adt (id)
+sql 1 CREATE TABLE t_child (cid INTEGER, pid INTEGER)
+sql 1 INSERT INTO t_child VALUES (1, 1)
+sql 1 INSERT INTO t_child VALUES (2, 2)
+sql 1 EXECUTE PROCEDURE sp_CreateGroup('grp1', 'a group')
+sql 1 EXECUTE PROCEDURE sp_AddUserToGroup('bkuser', 'grp1')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+connect 2 dst\d.add
+sql 2 SELECT * FROM v_adt
+sql 2 SELECT * FROM t_child
+sql 2 EXECUTE PROCEDURE sp_GetUserGroupMembership('bkuser')

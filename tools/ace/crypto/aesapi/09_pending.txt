@@ -1,0 +1,53 @@
+# The record buffer of a handle without the password on an AES table: changes, deletes, recalls and what flushes them.
+include setup.inc
+open h2 c2 %D\t.adt 4
+top h2
+recno h2
+set h2 CH zulu
+write h2
+write h2
+cancel h2
+cancel h2
+recno h2
+set h2 CH zulu
+goto h2 2
+goto h2 2
+recno h2
+cancel h2
+goto h2 2
+recno h2
+delete h2
+recno h2
+write h2
+write h2
+cancel h2
+recno h2
+delete h2
+recall h2
+recno h2
+cancel h2
+delete h2
+delete h2
+skip h2 1
+recno h2
+cancel h2
+recno h2
+goto h2 3
+recall h2
+recno h2
+write h2
+cancel h2
+append h2
+recno h2
+set h2 N1 5
+recno h2
+write h2
+cancel h2
+recno h2
+top h2
+set h2 CH again
+skip h2 1
+recno h2
+goto h2 1
+recno h2
+count h2

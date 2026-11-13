@@ -1,0 +1,51 @@
+# Whether a member of DB:Admin (not ADSSYS) is the administrator for the
+# system-table listings that fail for an ordinary user when a procedure's
+# rights slot for DB:Public does not check (the dictionary of ddpublicbad3), and
+# what sp_GetColumns, sp_GetTables and sp_GetProcedures do then. Run in a fresh
+# process; the dictionary is kept in fixtures/sql/ddpublicbad6/ (a copy of
+# ddpublicbad3's):
+#
+#     run.sh <work> <ace32.dll> ddpublicbad6.txt > ../../../fixtures/sql/ddpublicbad6.json
+connect pb.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('adm1', 'pw', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('adm1', 'DB:Admin')
+disconnect
+connect pb.add adm1 pw
+stmt
+cap 200
+stmt
+query SELECT * FROM system.storedprocedures
+stmt
+query SELECT * FROM system.users
+stmt
+query SELECT * FROM system.tables
+stmt
+query SELECT * FROM system.columns
+stmt
+query SELECT * FROM system.functions
+stmt
+query SELECT * FROM system.usergroups
+stmt
+query SELECT * FROM system.permissions WHERE Name = 'a1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'a1'
+stmt
+direct EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+stmt
+direct EXECUTE PROCEDURE p(1)
+stmt
+query SELECT f1(1) FROM system.iota
+disconnect
+connect pb.add bob pw
+stmt
+cap 200
+stmt
+direct EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+stmt
+direct EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+disconnect

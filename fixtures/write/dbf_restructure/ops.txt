@@ -1,0 +1,43 @@
+# A field added, one deleted, one renamed and resized, one changed to
+# text; in a FoxPro table its orders follow.
+tabletype cdx
+restructure f.dbf 0 extra,Character,4|d|n,nn,Numeric,10,3;c,c,Character,6
+open f.dbf
+state
+top
+record
+get m
+order c
+rows
+close
+tabletype ntx
+restructure n.dbf 0 z,Logical||c,cc,Character,4
+open n.dbf
+top
+record
+close
+tabletype vfp
+restructure v.dbf 0 ||i,i,Character,5
+open v.dbf
+top
+record
+close
+# A field an order names renamed; one an order needs deleted (refused).
+tabletype cdx
+restructure g.dbf 0 ||name,fruit,Character,10
+open g.dbf
+order byname
+rows
+order byqty
+rows
+close
+restructure g.dbf 0 |qty|
+# VFP fields that take NULL kept, one added.
+tabletype vfp
+restructure w.dbf 0 n,Numeric,4,1,NULL|t|
+open w.dbf
+top
+record
+skip 1
+record
+close

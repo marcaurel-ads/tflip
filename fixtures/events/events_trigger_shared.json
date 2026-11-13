@@ -1,0 +1,19 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "sql 0 CREATE DATABASE \"d\\d.add\"", "rc": 0, "ms": 16},
+{"cmd": "connect 1 d\\d.add", "rc": 0},
+{"cmd": "connect 2 d\\d.add", "rc": 0},
+{"cmd": "sql 1 CREATE TABLE t (id INTEGER, name CHAR(10))", "rc": 0, "ms": 18},
+{"cmd": "sql 1 CREATE TABLE log (msg CHAR(20))", "rc": 0, "ms": 9},
+{"cmd": "sql 1 CREATE TRIGGER tr0 ON t AFTER INSERT BEGIN INSERT INTO log VALUES ('tr0'); END", "rc": 0, "ms": 4},
+{"cmd": "sql 1 INSERT INTO t VALUES (0, 'z')", "rc": 0, "ms": 5},
+{"cmd": "sql 2 INSERT INTO t VALUES (1, 'z')", "rc": 0, "ms": 2},
+{"cmd": "sql 2 DROP TRIGGER t.tr0", "rc": 0, "ms": 20},
+{"cmd": "sql 1 INSERT INTO t VALUES (2, 'z')", "rc": 0, "ms": 3},
+{"cmd": "sql 2 INSERT INTO t VALUES (3, 'z')", "rc": 0, "ms": 2},
+{"cmd": "sql 2 CREATE TRIGGER tr1 ON t AFTER INSERT BEGIN INSERT INTO log VALUES ('tr1'); END", "rc": 0, "ms": 13},
+{"cmd": "sql 1 INSERT INTO t VALUES (4, 'z')", "rc": 0, "ms": 2},
+{"cmd": "sql 2 INSERT INTO t VALUES (5, 'z')", "rc": 0, "ms": 2},
+{"cmd": "sql 1 SELECT msg FROM log", "rc": 0, "fields": [["msg", 4, 20]], "rows": [["tr0                 "], ["tr0                 "], ["tr1                 "], ["tr1                 "]], "ms": 2},
+{"cmd": "sql 2 DROP TRIGGER t.tr1", "rc": 0, "ms": 15}
+]

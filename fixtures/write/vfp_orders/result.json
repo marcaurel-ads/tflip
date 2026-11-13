@@ -1,0 +1,13 @@
+[
+{"cmd": "tabletype vfp", "rc": 0},
+{"cmd": "open v.dbf exclusive", "rc": 0, "table": 1},
+{"cmd": "createindex - c 2 512 c", "rc": 0},
+{"cmd": "createindex - i 2 512 i", "rc": 0},
+{"cmd": "createindex - cand 2050 512 k", "rc": 0},
+{"cmd": "createindex - cand2 2050 512 c", "rc": 0},
+{"cmd": "order c", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [2, 3, 1], "count": [0, 3], "keys": [0, 3]},
+{"cmd": "order cand", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [1, 2, 3], "count": [0, 3], "keys": [0, 3]},
+{"cmd": "close", "rc": 0}
+]

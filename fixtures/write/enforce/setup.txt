@@ -1,0 +1,7 @@
+# An ADT table with an AutoInc field, and one with a CANDIDATE (true unique)
+# ADI index, for the AdsDisable/Enable Unique/AutoInc enforcement toggles.
+sql CREATE TABLE ai (k AUTOINC, v CHAR(10))
+sql CREATE TABLE uq (k CHAR(4), v CHAR(10))
+open uq.adt
+createindex uq.adi UK 2048 0 k
+close

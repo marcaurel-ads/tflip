@@ -1,0 +1,4 @@
+# The dictionary of a_Y.txt given AES-128 by sp_ModifyDatabase: the links' and subscriptions' passwords are enciphered again.
+connect Data Source=%D\m_Y_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

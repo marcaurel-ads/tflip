@@ -1,0 +1,53 @@
+# Arithmetic of a TIMESTAMP, DATE and TIME with a number, for
+# fixtures/sql/tsarith.json (a table of its own in an empty data folder).
+stmt
+direct CREATE TABLE ta (ts timestamp, dt date, tm time, n integer, d double)
+directnull INSERT INTO ta (ts, dt, tm, n, d) VALUES ('2020-01-02 03:04:05', '2020-01-02', '03:04:05', 1, 1.5)
+query SELECT ts + 1 FROM ta
+query SELECT 1 + ts FROM ta
+query SELECT ts - 1 FROM ta
+query SELECT 1 - ts FROM ta
+query SELECT ts + 1.5 FROM ta
+query SELECT ts + n FROM ta
+query SELECT ts + d FROM ta
+query SELECT ts - ts FROM ta
+query SELECT ts + ts FROM ta
+query SELECT ts - dt FROM ta
+query SELECT dt - ts FROM ta
+query SELECT ts + dt FROM ta
+query SELECT ts * 2 FROM ta
+query SELECT ts / 2 FROM ta
+query SELECT -ts FROM ta
+query SELECT dt + 1 FROM ta
+query SELECT 1 + dt FROM ta
+query SELECT dt - 1 FROM ta
+query SELECT dt + 1.5 FROM ta
+query SELECT dt + n FROM ta
+query SELECT dt - dt FROM ta
+query SELECT dt + dt FROM ta
+query SELECT tm + 1 FROM ta
+query SELECT 1 + tm FROM ta
+query SELECT tm - 1 FROM ta
+query SELECT tm - tm FROM ta
+query SELECT tm + tm FROM ta
+query SELECT tm + ts FROM ta
+query SELECT tm + dt FROM ta
+query SELECT ts + 1 FROM ta WHERE ts + 1 > ts
+query SELECT n FROM ta WHERE ts + 1 > ts
+query SELECT n FROM ta WHERE dt + 1 > dt
+query SELECT n FROM ta WHERE ts - ts = 0
+query SELECT n FROM ta WHERE ts > 1
+query SELECT n FROM ta WHERE ts = dt
+query SELECT n FROM ta WHERE tm > ts
+query SELECT ts + 1 AS x FROM ta ORDER BY 1
+query SELECT CAST(ts AS SQL_DATE) + 1 FROM ta
+query SELECT CAST('2020-01-02 03:04:05' AS SQL_TIMESTAMP) + 1 FROM system.iota
+query SELECT ts + '1' FROM ta
+query SELECT ts + CAST(1 AS SQL_INTEGER) FROM ta
+query SELECT ts + CAST(1 AS SQL_BIGINT) FROM ta
+query SELECT ts + CAST(1 AS SQL_NUMERIC(5,2)) FROM ta
+query SELECT ts + CAST(1 AS SQL_MONEY) FROM ta
+directnull UPDATE ta SET ts = ts + 1
+directnull UPDATE ta SET dt = dt + 1
+directnull UPDATE ta SET ts = dt + 1
+query SELECT * FROM ta

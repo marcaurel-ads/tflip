@@ -1,0 +1,467 @@
+# ANSI_CHAR_SET=German
+# Reads only: the level, the part not optimized and the records of each AOF.
+open g.adt shared
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'Äpfel'
+aoflevel
+rows
+aof 1 name = 'äpfel'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name = 'ä'
+aoflevel
+rows
+aof 1 name == 'apfel'
+aoflevel
+rows
+aof 1 name == 'apfel     '
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name > 'b'
+aoflevel
+rows
+aof 1 name >= 'Äpfel'
+aoflevel
+rows
+aof 1 name <= 'apfel'
+aoflevel
+rows
+aof 1 name < 'ä'
+aoflevel
+rows
+aof 1 name > 'Z'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name = 'ß'
+aoflevel
+rows
+aof 1 name > 'ss'
+aoflevel
+rows
+aof 1 name < 'ß'
+aoflevel
+rows
+aof 1 name = ''
+aoflevel
+rows
+aof 1 name <> ''
+aoflevel
+rows
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'xApfel     '
+aoflevel
+rows
+aof 1 ci = 'apfel'
+aoflevel
+rows
+aof 1 ci = 'ÄPFEL'
+aoflevel
+rows
+aof 1 ci = 'äpfel'
+aoflevel
+rows
+aof 1 ci < 'b'
+aoflevel
+rows
+aof 1 ci > 'z'
+aoflevel
+rows
+aof 1 ci <> 'apfel'
+aoflevel
+rows
+aof 1 UPPER(name) = 'ÄPFEL'
+aoflevel
+rows
+aof 1 UPPER(name) = 'APFEL'
+aoflevel
+rows
+aof 1 UPPER(name) > 'B'
+aoflevel
+rows
+aof 1 id = 3
+aoflevel
+rows
+aof 1 id > 5
+aoflevel
+rows
+aof 1 id <> 2
+aoflevel
+rows
+exact 1
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 ci = 'Apfel'
+aoflevel
+rows
+exact 0
+open h.adt shared
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'Äpfel'
+aoflevel
+rows
+aof 1 name = 'äpfel'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name = 'ä'
+aoflevel
+rows
+aof 1 name == 'apfel'
+aoflevel
+rows
+aof 1 name == 'apfel     '
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name > 'b'
+aoflevel
+rows
+aof 1 name >= 'Äpfel'
+aoflevel
+rows
+aof 1 name <= 'apfel'
+aoflevel
+rows
+aof 1 name < 'ä'
+aoflevel
+rows
+aof 1 name > 'Z'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name = 'ß'
+aoflevel
+rows
+aof 1 name > 'ss'
+aoflevel
+rows
+aof 1 name < 'ß'
+aoflevel
+rows
+aof 1 name = ''
+aoflevel
+rows
+aof 1 name <> ''
+aoflevel
+rows
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'xApfel     '
+aoflevel
+rows
+aof 1 ci = 'apfel'
+aoflevel
+rows
+aof 1 ci = 'ÄPFEL'
+aoflevel
+rows
+aof 1 ci = 'äpfel'
+aoflevel
+rows
+aof 1 ci < 'b'
+aoflevel
+rows
+aof 1 ci > 'z'
+aoflevel
+rows
+aof 1 ci <> 'apfel'
+aoflevel
+rows
+aof 1 UPPER(name) = 'ÄPFEL'
+aoflevel
+rows
+aof 1 UPPER(name) = 'APFEL'
+aoflevel
+rows
+aof 1 UPPER(name) > 'B'
+aoflevel
+rows
+tabletype cdx
+open c.dbf shared
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'Äpfel'
+aoflevel
+rows
+aof 1 name = 'äpfel'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name = 'ä'
+aoflevel
+rows
+aof 1 name == 'apfel'
+aoflevel
+rows
+aof 1 name == 'apfel     '
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name > 'b'
+aoflevel
+rows
+aof 1 name >= 'Äpfel'
+aoflevel
+rows
+aof 1 name <= 'apfel'
+aoflevel
+rows
+aof 1 name < 'ä'
+aoflevel
+rows
+aof 1 name > 'Z'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name = 'ß'
+aoflevel
+rows
+aof 1 name > 'ss'
+aoflevel
+rows
+aof 1 name < 'ß'
+aoflevel
+rows
+aof 1 name = ''
+aoflevel
+rows
+aof 1 name <> ''
+aoflevel
+rows
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'xApfel     '
+aoflevel
+rows
+aof 1 UPPER(name) = 'ÄPFEL'
+aoflevel
+rows
+aof 1 UPPER(name) = 'APFEL'
+aoflevel
+rows
+aof 1 UPPER(name) > 'B'
+aoflevel
+rows
+aof 1 id = 3
+aoflevel
+rows
+aof 1 id > 5
+aoflevel
+rows
+aof 1 id <> 2
+aoflevel
+rows
+aof 1 id < 0
+aoflevel
+rows
+aof 1 amount = 1.5
+aoflevel
+rows
+aof 1 amount > 0
+aoflevel
+rows
+aof 1 amount < 0
+aoflevel
+rows
+aof 1 amount <> 2.25
+aoflevel
+rows
+aof 1 born = STOD('19900105')
+aoflevel
+rows
+aof 1 born > STOD('19900105')
+aoflevel
+rows
+aof 1 born <> STOD('19900105')
+aoflevel
+rows
+aof 1 EMPTY(born)
+aoflevel
+rows
+aof 1 YEAR(born) = 1990
+aoflevel
+rows
+exact 1
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 id = 3
+aoflevel
+rows
+exact 0
+open d.dbf shared
+aof 1 name = 'apfel'
+aoflevel
+rows
+aof 1 name = 'APFEL'
+aoflevel
+rows
+aof 1 name = 'Äpfel'
+aoflevel
+rows
+aof 1 name = 'äpfel'
+aoflevel
+rows
+aof 1 name = 'a'
+aoflevel
+rows
+aof 1 name = 'ä'
+aoflevel
+rows
+aof 1 name == 'apfel'
+aoflevel
+rows
+aof 1 name == 'apfel     '
+aoflevel
+rows
+aof 1 name <> 'apfel'
+aoflevel
+rows
+aof 1 name < 'b'
+aoflevel
+rows
+aof 1 name > 'b'
+aoflevel
+rows
+aof 1 name >= 'Äpfel'
+aoflevel
+rows
+aof 1 name <= 'apfel'
+aoflevel
+rows
+aof 1 name < 'ä'
+aoflevel
+rows
+aof 1 name > 'Z'
+aoflevel
+rows
+aof 1 name = 'ss'
+aoflevel
+rows
+aof 1 name = 'ß'
+aoflevel
+rows
+aof 1 name > 'ss'
+aoflevel
+rows
+aof 1 name < 'ß'
+aoflevel
+rows
+aof 1 name = ''
+aoflevel
+rows
+aof 1 name <> ''
+aoflevel
+rows
+aof 1 EMPTY(name)
+aoflevel
+rows
+aof 1 name $ 'xApfel     '
+aoflevel
+rows
+aof 1 UPPER(name) = 'ÄPFEL'
+aoflevel
+rows
+aof 1 UPPER(name) = 'APFEL'
+aoflevel
+rows
+aof 1 UPPER(name) > 'B'
+aoflevel
+rows
+aof 1 id = 3
+aoflevel
+rows
+aof 1 id > 5
+aoflevel
+rows
+aof 1 id <> 2
+aoflevel
+rows
+aof 1 id < 0
+aoflevel
+rows
+aof 1 amount = 1.5
+aoflevel
+rows
+aof 1 amount > 0
+aoflevel
+rows
+aof 1 amount < 0
+aoflevel
+rows
+aof 1 amount <> 2.25
+aoflevel
+rows
+aof 1 born = STOD('19900105')
+aoflevel
+rows
+aof 1 born > STOD('19900105')
+aoflevel
+rows
+aof 1 born <> STOD('19900105')
+aoflevel
+rows
+aof 1 EMPTY(born)
+aoflevel
+rows
+aof 1 YEAR(born) = 1990
+aoflevel
+rows

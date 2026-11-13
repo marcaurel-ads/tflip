@@ -1,0 +1,7077 @@
+open ix.adt shared
+append
+set id long 1
+set name string kiwi19
+set grp short 6
+set amount double 706.38
+set d julian 2458024
+write
+state
+append
+set id long 2
+set name string cherry68
+set grp short 1
+set amount double -41.37
+set d julian 2458298
+write
+state
+append
+set id long 3
+set name string banana64
+set grp short 3
+set amount double -901.71
+set d julian 2458044
+write
+state
+append
+set id long 4
+set name string nectar53
+set grp short 1
+set amount double -369.12
+set d julian 2458046
+write
+state
+append
+set id long 5
+set name string raisin54
+set grp short 0
+set amount double 482.30
+set d julian 2458063
+write
+state
+append
+set id long 6
+set name string hazel80
+set grp short 0
+set amount double 512.84
+set d julian 2458299
+write
+state
+append
+set id long 7
+set name string mango6
+set grp short 3
+set amount double -877.89
+set d julian 2458285
+write
+state
+append
+set id long 8
+set name string elder37
+set grp short 6
+set amount double -621.85
+set d julian 2458276
+write
+state
+append
+set id long 9
+set name string damson73
+set grp short 4
+set amount double 468.68
+set d julian 2458349
+write
+state
+append
+set id long 10
+set name string fig13
+set grp short 3
+set amount double -23.79
+set d julian 2458049
+write
+state
+append
+set id long 11
+set name string raisin91
+set grp short 1
+set amount double 479.45
+set d julian 2458030
+write
+state
+append
+set id long 12
+set name string tamarind26
+set grp short 7
+set amount double 783.62
+set d julian 2458272
+write
+state
+append
+set id long 13
+set name string nectar99
+set grp short 5
+set amount double 220.54
+set d julian 2458299
+write
+state
+append
+set id long 14
+set name string olive46
+set grp short 4
+set amount double -348.77
+set d julian 2458092
+write
+state
+append
+set id long 15
+set name string walnut99
+set grp short 3
+set amount double -785.43
+set d julian 2458294
+write
+state
+append
+set id long 16
+set name string jujube67
+set grp short 7
+set amount double -99.60
+set d julian 2458373
+write
+state
+append
+set id long 17
+set name string olive36
+set grp short 1
+set amount double -690.50
+set d julian 2458262
+write
+state
+append
+set id long 18
+set name string nectar21
+set grp short 5
+set amount double -601.59
+set d julian 2458250
+write
+state
+append
+set id long 19
+set name string nectar5
+set grp short 1
+set amount double 462.96
+set d julian 2458293
+write
+state
+append
+set id long 20
+set name string zucchini40
+set grp short 5
+set amount double 822.67
+set d julian 2458179
+write
+state
+append
+set id long 21
+set name string tamarind63
+set grp short 7
+set amount double -819.75
+set d julian 2458047
+write
+state
+append
+set id long 22
+set name string ilama60
+set grp short 1
+set amount double -840.96
+set d julian 2458374
+write
+state
+append
+set id long 23
+set name string walnut39
+set grp short 7
+set amount double -253.95
+set d julian 2458366
+write
+state
+append
+set id long 24
+set name string mango85
+set grp short 5
+set amount double -940.86
+set d julian 2458236
+write
+state
+append
+set id long 25
+set name string lemon21
+set grp short 1
+set amount double 294.18
+set d julian 2458030
+write
+state
+append
+set id long 26
+set name string grape98
+set grp short 4
+set amount double -660.95
+set d julian 2458378
+write
+state
+append
+set id long 27
+set name string hazel50
+set grp short 6
+set amount double 301.56
+set d julian 2458041
+write
+state
+append
+set id long 28
+set name string fig57
+set grp short 6
+set amount double 440.32
+set d julian 2458142
+write
+state
+append
+set id long 29
+set name string elder55
+set grp short 4
+set amount double 851.77
+set d julian 2458212
+write
+state
+append
+set id long 30
+set name string lemon87
+set grp short 6
+set amount double -395.10
+set d julian 2458077
+write
+state
+append
+set id long 31
+set name string cherry22
+set grp short 2
+set amount double -391.94
+set d julian 2458337
+write
+state
+append
+set id long 32
+set name string hazel1
+set grp short 7
+set amount double 544.35
+set d julian 2458093
+write
+state
+append
+set id long 33
+set name string ilama36
+set grp short 0
+set amount double -618.12
+set d julian 2458214
+write
+state
+append
+set id long 34
+set name string raisin47
+set grp short 5
+set amount double -671.04
+set d julian 2458353
+write
+state
+append
+set id long 35
+set name string quince79
+set grp short 0
+set amount double 197.06
+set d julian 2458399
+write
+state
+append
+set id long 36
+set name string vanilla71
+set grp short 6
+set amount double 43.51
+set d julian 2458204
+write
+state
+append
+set id long 37
+set name string mango13
+set grp short 7
+set amount double 662.75
+set d julian 2458205
+write
+state
+append
+set id long 38
+set name string banana24
+set grp short 1
+set amount double -452.74
+set d julian 2458225
+write
+state
+append
+set id long 39
+set name string fig14
+set grp short 5
+set amount double 574.77
+set d julian 2458026
+write
+state
+append
+set id long 40
+set name string damson0
+set grp short 2
+set amount double 406.71
+set d julian 2458051
+write
+state
+append
+set id long 41
+set name string lemon78
+set grp short 0
+set amount double -815.68
+set d julian 2458106
+write
+state
+append
+set id long 42
+set name string tamarind48
+set grp short 2
+set amount double 663.06
+set d julian 2458129
+write
+state
+append
+set id long 43
+set name string lemon77
+set grp short 5
+set amount double 242.95
+set d julian 2458062
+write
+state
+append
+set id long 44
+set name string damson62
+set grp short 7
+set amount double 259.32
+set d julian 2458247
+write
+state
+append
+set id long 45
+set name string jujube10
+set grp short 2
+set amount double -732.13
+set d julian 2458383
+write
+state
+append
+set id long 46
+set name string kiwi94
+set grp short 4
+set amount double 254.67
+set d julian 2458354
+write
+state
+append
+set id long 47
+set name string fig66
+set grp short 0
+set amount double -462.05
+set d julian 2458270
+write
+state
+append
+set id long 48
+set name string lemon18
+set grp short 0
+set amount double 987.42
+set d julian 2458270
+write
+state
+append
+set id long 49
+set name string jujube82
+set grp short 1
+set amount double 825.03
+set d julian 2458133
+write
+state
+append
+set id long 50
+set name string quince46
+set grp short 2
+set amount double -67.57
+set d julian 2458395
+write
+state
+append
+set id long 51
+set name string hazel68
+set grp short 5
+set amount double 668.39
+set d julian 2458114
+write
+state
+append
+set id long 52
+set name string tamarind97
+set grp short 3
+set amount double -372.46
+set d julian 2458205
+write
+state
+append
+set id long 53
+set name string xigua29
+set grp short 3
+set amount double 356.95
+set d julian 2458252
+write
+state
+append
+set id long 54
+set name string lemon93
+set grp short 0
+set amount double -926.77
+set d julian 2458143
+write
+state
+append
+set id long 55
+set name string papaya33
+set grp short 3
+set amount double 815.40
+set d julian 2458309
+write
+state
+append
+set id long 56
+set name string lemon57
+set grp short 5
+set amount double -44.13
+set d julian 2458041
+write
+state
+append
+set id long 57
+set name string hazel13
+set grp short 3
+set amount double 232.28
+set d julian 2458100
+write
+state
+append
+set id long 58
+set name string kiwi26
+set grp short 7
+set amount double 635.95
+set d julian 2458312
+write
+state
+append
+set id long 59
+set name string apple61
+set grp short 5
+set amount double 685.93
+set d julian 2458043
+write
+state
+append
+set id long 60
+set name string vanilla15
+set grp short 6
+set amount double 865.13
+set d julian 2458384
+write
+state
+append
+set id long 61
+set name string grape61
+set grp short 2
+set amount double 137.50
+set d julian 2458325
+write
+state
+append
+set id long 62
+set name string kiwi11
+set grp short 6
+set amount double 214.14
+set d julian 2458205
+write
+state
+append
+set id long 63
+set name string xigua10
+set grp short 2
+set amount double -554.35
+set d julian 2458065
+write
+state
+append
+set id long 64
+set name string apple19
+set grp short 7
+set amount double 719.29
+set d julian 2458074
+write
+state
+append
+set id long 65
+set name string tamarind76
+set grp short 7
+set amount double 722.98
+set d julian 2458179
+write
+state
+append
+set id long 66
+set name string elder70
+set grp short 2
+set amount double -943.91
+set d julian 2458007
+write
+state
+append
+set id long 67
+set name string zucchini92
+set grp short 1
+set amount double 380.40
+set d julian 2458383
+write
+state
+append
+set id long 68
+set name string elder55
+set grp short 3
+set amount double -446.77
+set d julian 2458014
+write
+state
+append
+set id long 69
+set name string ilama27
+set grp short 4
+set amount double 313.76
+set d julian 2458123
+write
+state
+append
+set id long 70
+set name string yam75
+set grp short 5
+set amount double -320.10
+set d julian 2458278
+write
+state
+append
+set id long 71
+set name string nectar16
+set grp short 0
+set amount double 939.66
+set d julian 2458181
+write
+state
+append
+set id long 72
+set name string olive84
+set grp short 6
+set amount double 315.04
+set d julian 2458066
+write
+state
+append
+set id long 73
+set name string raisin19
+set grp short 0
+set amount double 153.76
+set d julian 2458397
+write
+state
+append
+set id long 74
+set name string fig77
+set grp short 0
+set amount double -607.31
+set d julian 2458088
+write
+state
+append
+set id long 75
+set name string elder60
+set grp short 1
+set amount double 458.76
+set d julian 2458031
+write
+state
+append
+set id long 76
+set name string kiwi87
+set grp short 7
+set amount double -721.85
+set d julian 2458286
+write
+state
+append
+set id long 77
+set name string banana31
+set grp short 3
+set amount double -274.08
+set d julian 2458021
+write
+state
+append
+set id long 78
+set name string yam12
+set grp short 7
+set amount double 472.53
+set d julian 2458014
+write
+state
+append
+set id long 79
+set name string yam8
+set grp short 7
+set amount double -146.43
+set d julian 2458313
+write
+state
+append
+set id long 80
+set name string quince77
+set grp short 3
+set amount double 815.95
+set d julian 2458141
+write
+state
+append
+set id long 81
+set name string olive65
+set grp short 7
+set amount double 331.04
+set d julian 2458126
+write
+state
+append
+set id long 82
+set name string walnut66
+set grp short 4
+set amount double 466.73
+set d julian 2458103
+write
+state
+append
+set id long 83
+set name string olive17
+set grp short 6
+set amount double -681.18
+set d julian 2458200
+write
+state
+append
+set id long 84
+set name string olive40
+set grp short 1
+set amount double 759.39
+set d julian 2458123
+write
+state
+append
+set id long 85
+set name string nectar9
+set grp short 3
+set amount double 754.98
+set d julian 2458155
+write
+state
+append
+set id long 86
+set name string zucchini15
+set grp short 2
+set amount double 877.26
+set d julian 2458329
+write
+state
+append
+set id long 87
+set name string vanilla46
+set grp short 2
+set amount double -336.50
+set d julian 2458070
+write
+state
+append
+set id long 88
+set name string olive28
+set grp short 1
+set amount double 44.00
+set d julian 2458249
+write
+state
+append
+set id long 89
+set name string fig85
+set grp short 3
+set amount double -576.73
+set d julian 2458361
+write
+state
+append
+set id long 90
+set name string nectar65
+set grp short 6
+set amount double -111.03
+set d julian 2458215
+write
+state
+append
+set id long 91
+set name string grape45
+set grp short 5
+set amount double -758.32
+set d julian 2458369
+write
+state
+append
+set id long 92
+set name string lemon2
+set grp short 5
+set amount double 452.40
+set d julian 2458234
+write
+state
+append
+set id long 93
+set name string olive90
+set grp short 0
+set amount double 7.53
+set d julian 2458169
+write
+state
+append
+set id long 94
+set name string quince79
+set grp short 4
+set amount double 342.86
+set d julian 2458032
+write
+state
+append
+set id long 95
+set name string damson29
+set grp short 1
+set amount double -779.64
+set d julian 2458135
+write
+state
+append
+set id long 96
+set name string ilama5
+set grp short 2
+set amount double -291.05
+set d julian 2458386
+write
+state
+append
+set id long 97
+set name string elder54
+set grp short 4
+set amount double 64.16
+set d julian 2458076
+write
+state
+append
+set id long 98
+set name string raisin65
+set grp short 7
+set amount double 836.10
+set d julian 2458167
+write
+state
+append
+set id long 99
+set name string cherry35
+set grp short 0
+set amount double 804.08
+set d julian 2458093
+write
+state
+append
+set id long 100
+set name string nectar9
+set grp short 4
+set amount double -955.88
+set d julian 2458324
+write
+state
+append
+set id long 101
+set name string cherry33
+set grp short 1
+set amount double 594.30
+set d julian 2458113
+write
+state
+append
+set id long 102
+set name string cherry33
+set grp short 1
+set amount double 189.54
+set d julian 2458005
+write
+state
+append
+set id long 103
+set name string kiwi70
+set grp short 6
+set amount double -297.83
+set d julian 2458318
+write
+state
+append
+set id long 104
+set name string elder5
+set grp short 3
+set amount double -713.08
+set d julian 2458082
+write
+state
+append
+set id long 105
+set name string ilama6
+set grp short 2
+set amount double -471.08
+set d julian 2458159
+write
+state
+append
+set id long 106
+set name string ugli39
+set grp short 3
+set amount double -239.89
+set d julian 2458228
+write
+state
+append
+set id long 107
+set name string quince86
+set grp short 2
+set amount double -290.85
+set d julian 2458177
+write
+state
+append
+set id long 108
+set name string zucchini2
+set grp short 4
+set amount double -903.14
+set d julian 2458007
+write
+state
+append
+set id long 109
+set name string apple93
+set grp short 3
+set amount double 348.03
+set d julian 2458243
+write
+state
+append
+set id long 110
+set name string hazel57
+set grp short 1
+set amount double 725.74
+set d julian 2458332
+write
+state
+append
+set id long 111
+set name string nectar84
+set grp short 7
+set amount double 431.06
+set d julian 2458201
+write
+state
+append
+set id long 112
+set name string quince39
+set grp short 3
+set amount double -398.21
+set d julian 2458175
+write
+state
+append
+set id long 113
+set name string grape90
+set grp short 2
+set amount double 60.89
+set d julian 2458177
+write
+state
+append
+set id long 114
+set name string banana16
+set grp short 0
+set amount double -814.61
+set d julian 2458320
+write
+state
+append
+set id long 115
+set name string xigua32
+set grp short 6
+set amount double -572.06
+set d julian 2458028
+write
+state
+append
+set id long 116
+set name string cherry85
+set grp short 6
+set amount double 326.29
+set d julian 2458343
+write
+state
+append
+set id long 117
+set name string jujube76
+set grp short 3
+set amount double 815.83
+set d julian 2458150
+write
+state
+append
+set id long 118
+set name string banana58
+set grp short 2
+set amount double -587.04
+set d julian 2458137
+write
+state
+append
+set id long 119
+set name string olive0
+set grp short 4
+set amount double -45.43
+set d julian 2458168
+write
+state
+append
+set id long 120
+set name string raisin41
+set grp short 3
+set amount double -909.70
+set d julian 2458158
+write
+state
+append
+set id long 121
+set name string grape45
+set grp short 2
+set amount double -997.20
+set d julian 2458171
+write
+state
+append
+set id long 122
+set name string mango10
+set grp short 7
+set amount double -268.81
+set d julian 2458257
+write
+state
+append
+set id long 123
+set name string ugli25
+set grp short 3
+set amount double 323.13
+set d julian 2458397
+write
+state
+append
+set id long 124
+set name string apple11
+set grp short 4
+set amount double -764.72
+set d julian 2458073
+write
+state
+append
+set id long 125
+set name string mango75
+set grp short 0
+set amount double 32.79
+set d julian 2458011
+write
+state
+append
+set id long 126
+set name string jujube38
+set grp short 3
+set amount double -778.54
+set d julian 2458299
+write
+state
+append
+set id long 127
+set name string quince96
+set grp short 2
+set amount double 723.71
+set d julian 2458366
+write
+state
+append
+set id long 128
+set name string zucchini76
+set grp short 6
+set amount double -145.06
+set d julian 2458368
+write
+state
+append
+set id long 129
+set name string papaya19
+set grp short 4
+set amount double 898.33
+set d julian 2458316
+write
+state
+append
+set id long 130
+set name string ugli18
+set grp short 0
+set amount double 874.35
+set d julian 2458262
+write
+state
+append
+set id long 131
+set name string ugli54
+set grp short 2
+set amount double 372.99
+set d julian 2458385
+write
+state
+append
+set id long 132
+set name string quince72
+set grp short 0
+set amount double 799.54
+set d julian 2458299
+write
+state
+append
+set id long 133
+set name string zucchini91
+set grp short 3
+set amount double -776.94
+set d julian 2458015
+write
+state
+append
+set id long 134
+set name string banana17
+set grp short 5
+set amount double -724.97
+set d julian 2458192
+write
+state
+append
+set id long 135
+set name string olive71
+set grp short 0
+set amount double 645.65
+set d julian 2458009
+write
+state
+append
+set id long 136
+set name string ugli68
+set grp short 3
+set amount double 282.65
+set d julian 2458135
+write
+state
+append
+set id long 137
+set name string apple58
+set grp short 1
+set amount double 961.53
+set d julian 2458257
+write
+state
+append
+set id long 138
+set name string raisin11
+set grp short 1
+set amount double 954.88
+set d julian 2458377
+write
+state
+append
+set id long 139
+set name string papaya32
+set grp short 1
+set amount double -303.86
+set d julian 2458120
+write
+state
+append
+set id long 140
+set name string xigua96
+set grp short 3
+set amount double -395.14
+set d julian 2458378
+write
+state
+append
+set id long 141
+set name string ugli58
+set grp short 7
+set amount double 2.85
+set d julian 2458039
+write
+state
+append
+set id long 142
+set name string papaya87
+set grp short 4
+set amount double -877.46
+set d julian 2458315
+write
+state
+append
+set id long 143
+set name string ugli82
+set grp short 3
+set amount double -796.92
+set d julian 2458307
+write
+state
+append
+set id long 144
+set name string elder42
+set grp short 4
+set amount double 707.95
+set d julian 2458380
+write
+state
+append
+set id long 145
+set name string walnut38
+set grp short 2
+set amount double -967.32
+set d julian 2458246
+write
+state
+append
+set id long 146
+set name string banana62
+set grp short 4
+set amount double 761.61
+set d julian 2458050
+write
+state
+append
+set id long 147
+set name string walnut27
+set grp short 7
+set amount double -237.54
+set d julian 2458362
+write
+state
+append
+set id long 148
+set name string quince36
+set grp short 7
+set amount double 221.32
+set d julian 2458238
+write
+state
+append
+set id long 149
+set name string yam15
+set grp short 3
+set amount double -182.97
+set d julian 2458043
+write
+state
+append
+set id long 150
+set name string papaya2
+set grp short 4
+set amount double 203.16
+set d julian 2458039
+write
+state
+append
+set id long 151
+set name string quince57
+set grp short 4
+set amount double 14.09
+set d julian 2458107
+write
+state
+append
+set id long 152
+set name string grape9
+set grp short 1
+set amount double -628.44
+set d julian 2458382
+write
+state
+append
+set id long 153
+set name string quince33
+set grp short 5
+set amount double -652.39
+set d julian 2458308
+write
+state
+append
+set id long 154
+set name string ugli65
+set grp short 4
+set amount double -704.63
+set d julian 2458360
+write
+state
+append
+set id long 155
+set name string lemon29
+set grp short 7
+set amount double 274.38
+set d julian 2458201
+write
+state
+append
+set id long 156
+set name string apple20
+set grp short 0
+set amount double 288.95
+set d julian 2458348
+write
+state
+append
+set id long 157
+set name string olive51
+set grp short 4
+set amount double 906.26
+set d julian 2458072
+write
+state
+append
+set id long 158
+set name string nectar44
+set grp short 6
+set amount double -171.43
+set d julian 2458061
+write
+state
+append
+set id long 159
+set name string kiwi0
+set grp short 5
+set amount double 968.00
+set d julian 2458173
+write
+state
+append
+set id long 160
+set name string mango15
+set grp short 3
+set amount double 869.14
+set d julian 2458006
+write
+state
+append
+set id long 161
+set name string xigua37
+set grp short 4
+set amount double -24.25
+set d julian 2458033
+write
+state
+append
+set id long 162
+set name string mango49
+set grp short 1
+set amount double -54.43
+set d julian 2458219
+write
+state
+append
+set id long 163
+set name string yam35
+set grp short 0
+set amount double -264.33
+set d julian 2458052
+write
+state
+append
+set id long 164
+set name string banana84
+set grp short 4
+set amount double 664.51
+set d julian 2458076
+write
+state
+append
+set id long 165
+set name string hazel34
+set grp short 6
+set amount double 339.45
+set d julian 2458161
+write
+state
+append
+set id long 166
+set name string grape98
+set grp short 5
+set amount double 121.31
+set d julian 2458014
+write
+state
+append
+set id long 167
+set name string zucchini97
+set grp short 6
+set amount double 452.67
+set d julian 2458281
+write
+state
+append
+set id long 168
+set name string grape92
+set grp short 1
+set amount double -870.31
+set d julian 2458374
+write
+state
+append
+set id long 169
+set name string nectar57
+set grp short 2
+set amount double 689.49
+set d julian 2458146
+write
+state
+append
+set id long 170
+set name string papaya6
+set grp short 2
+set amount double -552.36
+set d julian 2458241
+write
+state
+append
+set id long 171
+set name string nectar43
+set grp short 4
+set amount double -219.41
+set d julian 2458130
+write
+state
+append
+set id long 172
+set name string xigua94
+set grp short 4
+set amount double 64.85
+set d julian 2458335
+write
+state
+append
+set id long 173
+set name string hazel38
+set grp short 7
+set amount double 460.98
+set d julian 2458342
+write
+state
+append
+set id long 174
+set name string mango15
+set grp short 2
+set amount double 686.12
+set d julian 2458082
+write
+state
+append
+set id long 175
+set name string cherry26
+set grp short 7
+set amount double 442.80
+set d julian 2458112
+write
+state
+append
+set id long 176
+set name string olive42
+set grp short 7
+set amount double 120.46
+set d julian 2458071
+write
+state
+append
+set id long 177
+set name string raisin24
+set grp short 3
+set amount double -762.20
+set d julian 2458089
+write
+state
+append
+set id long 178
+set name string kiwi71
+set grp short 1
+set amount double -163.01
+set d julian 2458122
+write
+state
+append
+set id long 179
+set name string lemon33
+set grp short 3
+set amount double -947.36
+set d julian 2458383
+write
+state
+append
+set id long 180
+set name string nectar49
+set grp short 6
+set amount double 955.17
+set d julian 2458268
+write
+state
+append
+set id long 181
+set name string grape48
+set grp short 4
+set amount double -113.43
+set d julian 2458385
+write
+state
+append
+set id long 182
+set name string banana63
+set grp short 4
+set amount double 505.44
+set d julian 2458184
+write
+state
+append
+set id long 183
+set name string elder87
+set grp short 3
+set amount double -757.26
+set d julian 2458138
+write
+state
+append
+set id long 184
+set name string hazel49
+set grp short 6
+set amount double 692.90
+set d julian 2458228
+write
+state
+append
+set id long 185
+set name string nectar39
+set grp short 0
+set amount double -666.43
+set d julian 2458016
+write
+state
+append
+set id long 186
+set name string nectar90
+set grp short 7
+set amount double 539.24
+set d julian 2458250
+write
+state
+append
+set id long 187
+set name string apple9
+set grp short 6
+set amount double 383.75
+set d julian 2458239
+write
+state
+append
+set id long 188
+set name string olive31
+set grp short 1
+set amount double -413.33
+set d julian 2458079
+write
+state
+append
+set id long 189
+set name string elder66
+set grp short 1
+set amount double 891.98
+set d julian 2458358
+write
+state
+append
+set id long 190
+set name string ugli97
+set grp short 7
+set amount double -777.17
+set d julian 2458282
+write
+state
+append
+set id long 191
+set name string yam5
+set grp short 0
+set amount double -670.62
+set d julian 2458119
+write
+state
+append
+set id long 192
+set name string satsuma4
+set grp short 4
+set amount double -664.55
+set d julian 2458320
+write
+state
+append
+set id long 193
+set name string ilama67
+set grp short 6
+set amount double 831.29
+set d julian 2458391
+write
+state
+append
+set id long 194
+set name string damson12
+set grp short 1
+set amount double -212.66
+set d julian 2458268
+write
+state
+append
+set id long 195
+set name string satsuma24
+set grp short 6
+set amount double -316.12
+set d julian 2458114
+write
+state
+append
+set id long 196
+set name string zucchini76
+set grp short 0
+set amount double -972.58
+set d julian 2458275
+write
+state
+append
+set id long 197
+set name string jujube58
+set grp short 4
+set amount double -170.69
+set d julian 2458330
+write
+state
+append
+set id long 198
+set name string hazel60
+set grp short 3
+set amount double 433.93
+set d julian 2458126
+write
+state
+append
+set id long 199
+set name string apple52
+set grp short 4
+set amount double -855.02
+set d julian 2458011
+write
+state
+append
+set id long 200
+set name string grape63
+set grp short 6
+set amount double -787.43
+set d julian 2458131
+write
+state
+append
+set id long 201
+set name string hazel85
+set grp short 6
+set amount double -29.50
+set d julian 2458116
+write
+state
+append
+set id long 202
+set name string papaya4
+set grp short 5
+set amount double 883.06
+set d julian 2458215
+write
+state
+append
+set id long 203
+set name string lemon87
+set grp short 6
+set amount double -480.75
+set d julian 2458003
+write
+state
+append
+set id long 204
+set name string zucchini37
+set grp short 1
+set amount double -462.04
+set d julian 2458253
+write
+state
+append
+set id long 205
+set name string grape39
+set grp short 3
+set amount double -394.95
+set d julian 2458238
+write
+state
+append
+set id long 206
+set name string hazel33
+set grp short 4
+set amount double -714.25
+set d julian 2458319
+write
+state
+append
+set id long 207
+set name string papaya78
+set grp short 2
+set amount double -414.57
+set d julian 2458248
+write
+state
+append
+set id long 208
+set name string nectar85
+set grp short 0
+set amount double 559.23
+set d julian 2458074
+write
+state
+append
+set id long 209
+set name string mango6
+set grp short 3
+set amount double -938.06
+set d julian 2458305
+write
+state
+append
+set id long 210
+set name string elder53
+set grp short 0
+set amount double 860.85
+set d julian 2458030
+write
+state
+append
+set id long 211
+set name string fig50
+set grp short 7
+set amount double 866.55
+set d julian 2458160
+write
+state
+append
+set id long 212
+set name string xigua14
+set grp short 1
+set amount double -565.81
+set d julian 2458168
+write
+state
+append
+set id long 213
+set name string grape23
+set grp short 7
+set amount double -916.40
+set d julian 2458159
+write
+state
+append
+set id long 214
+set name string vanilla92
+set grp short 6
+set amount double -19.89
+set d julian 2458169
+write
+state
+append
+set id long 215
+set name string olive21
+set grp short 1
+set amount double -992.48
+set d julian 2458040
+write
+state
+append
+set id long 216
+set name string ilama10
+set grp short 5
+set amount double 101.48
+set d julian 2458063
+write
+state
+append
+set id long 217
+set name string raisin97
+set grp short 3
+set amount double -3.52
+set d julian 2458182
+write
+state
+append
+set id long 218
+set name string yam39
+set grp short 6
+set amount double -769.95
+set d julian 2458025
+write
+state
+append
+set id long 219
+set name string walnut60
+set grp short 3
+set amount double -22.96
+set d julian 2458277
+write
+state
+append
+set id long 220
+set name string olive24
+set grp short 5
+set amount double -45.15
+set d julian 2458377
+write
+state
+append
+set id long 221
+set name string papaya3
+set grp short 6
+set amount double -349.85
+set d julian 2458320
+write
+state
+append
+set id long 222
+set name string yam51
+set grp short 0
+set amount double -15.48
+set d julian 2458017
+write
+state
+append
+set id long 223
+set name string olive8
+set grp short 0
+set amount double -326.25
+set d julian 2458099
+write
+state
+append
+set id long 224
+set name string xigua8
+set grp short 5
+set amount double -48.49
+set d julian 2458139
+write
+state
+append
+set id long 225
+set name string kiwi78
+set grp short 0
+set amount double -312.74
+set d julian 2458382
+write
+state
+append
+set id long 226
+set name string walnut88
+set grp short 5
+set amount double -277.46
+set d julian 2458152
+write
+state
+append
+set id long 227
+set name string apple92
+set grp short 1
+set amount double -936.42
+set d julian 2458119
+write
+state
+append
+set id long 228
+set name string damson60
+set grp short 7
+set amount double 13.22
+set d julian 2458128
+write
+state
+append
+set id long 229
+set name string nectar63
+set grp short 2
+set amount double 301.65
+set d julian 2458093
+write
+state
+append
+set id long 230
+set name string apple94
+set grp short 4
+set amount double 814.32
+set d julian 2458395
+write
+state
+append
+set id long 231
+set name string elder77
+set grp short 3
+set amount double -140.70
+set d julian 2458163
+write
+state
+append
+set id long 232
+set name string olive46
+set grp short 1
+set amount double 341.87
+set d julian 2458101
+write
+state
+append
+set id long 233
+set name string mango96
+set grp short 2
+set amount double -351.70
+set d julian 2458208
+write
+state
+append
+set id long 234
+set name string cherry83
+set grp short 0
+set amount double 262.72
+set d julian 2458282
+write
+state
+append
+set id long 235
+set name string raisin41
+set grp short 2
+set amount double 118.18
+set d julian 2458053
+write
+state
+append
+set id long 236
+set name string cherry33
+set grp short 1
+set amount double -453.85
+set d julian 2458049
+write
+state
+append
+set id long 237
+set name string nectar63
+set grp short 7
+set amount double -545.99
+set d julian 2458119
+write
+state
+append
+set id long 238
+set name string elder53
+set grp short 7
+set amount double 626.09
+set d julian 2458345
+write
+state
+append
+set id long 239
+set name string hazel95
+set grp short 1
+set amount double -229.50
+set d julian 2458150
+write
+state
+append
+set id long 240
+set name string ilama72
+set grp short 4
+set amount double -22.28
+set d julian 2458130
+write
+state
+append
+set id long 241
+set name string xigua33
+set grp short 3
+set amount double 151.85
+set d julian 2458126
+write
+state
+append
+set id long 242
+set name string fig31
+set grp short 3
+set amount double -598.08
+set d julian 2458144
+write
+state
+append
+set id long 243
+set name string satsuma24
+set grp short 5
+set amount double -830.12
+set d julian 2458202
+write
+state
+append
+set id long 244
+set name string ilama31
+set grp short 3
+set amount double 702.99
+set d julian 2458051
+write
+state
+append
+set id long 245
+set name string ugli59
+set grp short 0
+set amount double -731.75
+set d julian 2458002
+write
+state
+append
+set id long 246
+set name string papaya29
+set grp short 7
+set amount double -19.91
+set d julian 2458020
+write
+state
+append
+set id long 247
+set name string jujube29
+set grp short 1
+set amount double -867.91
+set d julian 2458097
+write
+state
+append
+set id long 248
+set name string tamarind74
+set grp short 3
+set amount double -803.09
+set d julian 2458190
+write
+state
+append
+set id long 249
+set name string quince22
+set grp short 7
+set amount double 580.83
+set d julian 2458133
+write
+state
+append
+set id long 250
+set name string yam99
+set grp short 0
+set amount double -722.71
+set d julian 2458326
+write
+state
+append
+set id long 251
+set name string tamarind90
+set grp short 5
+set amount double -429.46
+set d julian 2458019
+write
+state
+append
+set id long 252
+set name string lemon43
+set grp short 2
+set amount double -884.23
+set d julian 2458104
+write
+state
+append
+set id long 253
+set name string ilama4
+set grp short 3
+set amount double -970.17
+set d julian 2458167
+write
+state
+append
+set id long 254
+set name string nectar86
+set grp short 5
+set amount double -514.66
+set d julian 2458317
+write
+state
+append
+set id long 255
+set name string jujube9
+set grp short 3
+set amount double -917.52
+set d julian 2458253
+write
+state
+append
+set id long 256
+set name string raisin61
+set grp short 1
+set amount double 69.99
+set d julian 2458051
+write
+state
+append
+set id long 257
+set name string zucchini50
+set grp short 2
+set amount double 675.57
+set d julian 2458273
+write
+state
+append
+set id long 258
+set name string cherry83
+set grp short 2
+set amount double 42.73
+set d julian 2458356
+write
+state
+append
+set id long 259
+set name string ilama52
+set grp short 4
+set amount double 750.62
+set d julian 2458157
+write
+state
+append
+set id long 260
+set name string nectar6
+set grp short 4
+set amount double 953.85
+set d julian 2458290
+write
+state
+append
+set id long 261
+set name string lemon53
+set grp short 6
+set amount double -952.26
+set d julian 2458392
+write
+state
+append
+set id long 262
+set name string zucchini46
+set grp short 3
+set amount double 24.27
+set d julian 2458372
+write
+state
+append
+set id long 263
+set name string mango26
+set grp short 0
+set amount double 138.13
+set d julian 2458080
+write
+state
+append
+set id long 264
+set name string nectar14
+set grp short 1
+set amount double 64.87
+set d julian 2458295
+write
+state
+append
+set id long 265
+set name string lemon58
+set grp short 2
+set amount double -659.28
+set d julian 2458007
+write
+state
+append
+set id long 266
+set name string banana70
+set grp short 2
+set amount double 679.46
+set d julian 2458203
+write
+state
+append
+set id long 267
+set name string cherry73
+set grp short 5
+set amount double 932.65
+set d julian 2458258
+write
+state
+append
+set id long 268
+set name string fig18
+set grp short 5
+set amount double -257.36
+set d julian 2458082
+write
+state
+append
+set id long 269
+set name string quince21
+set grp short 1
+set amount double -714.81
+set d julian 2458196
+write
+state
+append
+set id long 270
+set name string papaya96
+set grp short 3
+set amount double -209.34
+set d julian 2458064
+write
+state
+append
+set id long 271
+set name string banana61
+set grp short 5
+set amount double -860.09
+set d julian 2458311
+write
+state
+append
+set id long 272
+set name string ugli49
+set grp short 1
+set amount double 867.27
+set d julian 2458317
+write
+state
+append
+set id long 273
+set name string walnut20
+set grp short 3
+set amount double 628.05
+set d julian 2458207
+write
+state
+append
+set id long 274
+set name string tamarind25
+set grp short 7
+set amount double -520.37
+set d julian 2458289
+write
+state
+append
+set id long 275
+set name string grape5
+set grp short 6
+set amount double 357.62
+set d julian 2458080
+write
+state
+append
+set id long 276
+set name string mango45
+set grp short 1
+set amount double -608.19
+set d julian 2458126
+write
+state
+append
+set id long 277
+set name string xigua24
+set grp short 0
+set amount double 474.14
+set d julian 2458387
+write
+state
+append
+set id long 278
+set name string vanilla4
+set grp short 5
+set amount double -691.38
+set d julian 2458199
+write
+state
+append
+set id long 279
+set name string tamarind58
+set grp short 4
+set amount double 701.38
+set d julian 2458215
+write
+state
+append
+set id long 280
+set name string jujube74
+set grp short 3
+set amount double 116.05
+set d julian 2458199
+write
+state
+append
+set id long 281
+set name string vanilla47
+set grp short 7
+set amount double 320.10
+set d julian 2458224
+write
+state
+append
+set id long 282
+set name string fig2
+set grp short 0
+set amount double 622.38
+set d julian 2458250
+write
+state
+append
+set id long 283
+set name string olive30
+set grp short 7
+set amount double 621.55
+set d julian 2458399
+write
+state
+append
+set id long 284
+set name string olive22
+set grp short 7
+set amount double 49.47
+set d julian 2458054
+write
+state
+append
+set id long 285
+set name string cherry16
+set grp short 5
+set amount double 128.78
+set d julian 2458187
+write
+state
+append
+set id long 286
+set name string cherry56
+set grp short 0
+set amount double -893.44
+set d julian 2458325
+write
+state
+append
+set id long 287
+set name string elder10
+set grp short 5
+set amount double 888.46
+set d julian 2458261
+write
+state
+append
+set id long 288
+set name string cherry6
+set grp short 6
+set amount double 711.13
+set d julian 2458069
+write
+state
+append
+set id long 289
+set name string apple8
+set grp short 1
+set amount double -492.21
+set d julian 2458067
+write
+state
+append
+set id long 290
+set name string papaya36
+set grp short 2
+set amount double 798.65
+set d julian 2458369
+write
+state
+append
+set id long 291
+set name string hazel8
+set grp short 5
+set amount double 600.24
+set d julian 2458387
+write
+state
+append
+set id long 292
+set name string ilama20
+set grp short 5
+set amount double 608.33
+set d julian 2458140
+write
+state
+append
+set id long 293
+set name string olive18
+set grp short 4
+set amount double 316.53
+set d julian 2458245
+write
+state
+append
+set id long 294
+set name string grape75
+set grp short 4
+set amount double 614.45
+set d julian 2458259
+write
+state
+append
+set id long 295
+set name string hazel40
+set grp short 5
+set amount double -903.45
+set d julian 2458101
+write
+state
+append
+set id long 296
+set name string fig51
+set grp short 2
+set amount double 668.73
+set d julian 2458142
+write
+state
+append
+set id long 297
+set name string vanilla41
+set grp short 6
+set amount double -557.66
+set d julian 2458135
+write
+state
+append
+set id long 298
+set name string damson98
+set grp short 0
+set amount double 668.07
+set d julian 2458184
+write
+state
+append
+set id long 299
+set name string olive71
+set grp short 1
+set amount double -339.32
+set d julian 2458274
+write
+state
+append
+set id long 300
+set name string ugli50
+set grp short 5
+set amount double -305.97
+set d julian 2458192
+write
+state
+append
+set id long 301
+set name string lemon73
+set grp short 2
+set amount double -55.63
+set d julian 2458169
+write
+state
+append
+set id long 302
+set name string yam10
+set grp short 7
+set amount double -396.95
+set d julian 2458090
+write
+state
+append
+set id long 303
+set name string tamarind95
+set grp short 0
+set amount double -223.05
+set d julian 2458264
+write
+state
+append
+set id long 304
+set name string ilama39
+set grp short 5
+set amount double 921.61
+set d julian 2458000
+write
+state
+append
+set id long 305
+set name string xigua4
+set grp short 3
+set amount double -608.45
+set d julian 2458148
+write
+state
+append
+set id long 306
+set name string tamarind80
+set grp short 6
+set amount double 94.94
+set d julian 2458262
+write
+state
+append
+set id long 307
+set name string lemon6
+set grp short 2
+set amount double 280.29
+set d julian 2458116
+write
+state
+append
+set id long 308
+set name string tamarind83
+set grp short 0
+set amount double -941.57
+set d julian 2458027
+write
+state
+append
+set id long 309
+set name string apple72
+set grp short 5
+set amount double -203.77
+set d julian 2458054
+write
+state
+append
+set id long 310
+set name string quince45
+set grp short 3
+set amount double 83.27
+set d julian 2458298
+write
+state
+append
+set id long 311
+set name string jujube75
+set grp short 2
+set amount double -464.75
+set d julian 2458187
+write
+state
+append
+set id long 312
+set name string tamarind60
+set grp short 2
+set amount double -646.77
+set d julian 2458007
+write
+state
+append
+set id long 313
+set name string zucchini31
+set grp short 2
+set amount double 181.88
+set d julian 2458049
+write
+state
+append
+set id long 314
+set name string cherry81
+set grp short 2
+set amount double 744.49
+set d julian 2458138
+write
+state
+append
+set id long 315
+set name string mango33
+set grp short 0
+set amount double -852.86
+set d julian 2458330
+write
+state
+append
+set id long 316
+set name string raisin44
+set grp short 7
+set amount double 577.79
+set d julian 2458265
+write
+state
+append
+set id long 317
+set name string xigua63
+set grp short 3
+set amount double -567.21
+set d julian 2458000
+write
+state
+append
+set id long 318
+set name string banana7
+set grp short 0
+set amount double 64.27
+set d julian 2458095
+write
+state
+append
+set id long 319
+set name string hazel20
+set grp short 0
+set amount double -724.97
+set d julian 2458006
+write
+state
+append
+set id long 320
+set name string tamarind70
+set grp short 3
+set amount double -627.06
+set d julian 2458211
+write
+state
+append
+set id long 321
+set name string grape66
+set grp short 6
+set amount double 607.42
+set d julian 2458089
+write
+state
+append
+set id long 322
+set name string quince39
+set grp short 1
+set amount double -212.88
+set d julian 2458320
+write
+state
+append
+set id long 323
+set name string banana92
+set grp short 7
+set amount double 875.37
+set d julian 2458275
+write
+state
+append
+set id long 324
+set name string apple48
+set grp short 6
+set amount double 953.46
+set d julian 2458238
+write
+state
+append
+set id long 325
+set name string cherry94
+set grp short 7
+set amount double -540.23
+set d julian 2458115
+write
+state
+append
+set id long 326
+set name string damson33
+set grp short 3
+set amount double 688.25
+set d julian 2458019
+write
+state
+append
+set id long 327
+set name string damson42
+set grp short 4
+set amount double 865.63
+set d julian 2458026
+write
+state
+append
+set id long 328
+set name string ilama81
+set grp short 6
+set amount double 797.60
+set d julian 2458267
+write
+state
+append
+set id long 329
+set name string ilama37
+set grp short 3
+set amount double -776.08
+set d julian 2458259
+write
+state
+append
+set id long 330
+set name string apple21
+set grp short 4
+set amount double -381.06
+set d julian 2458380
+write
+state
+append
+set id long 331
+set name string grape20
+set grp short 5
+set amount double -496.85
+set d julian 2458199
+write
+state
+append
+set id long 332
+set name string kiwi76
+set grp short 3
+set amount double -5.30
+set d julian 2458322
+write
+state
+append
+set id long 333
+set name string walnut85
+set grp short 7
+set amount double 237.68
+set d julian 2458271
+write
+state
+append
+set id long 334
+set name string walnut0
+set grp short 0
+set amount double 146.13
+set d julian 2458371
+write
+state
+append
+set id long 335
+set name string hazel73
+set grp short 4
+set amount double -444.35
+set d julian 2458200
+write
+state
+append
+set id long 336
+set name string tamarind74
+set grp short 1
+set amount double 481.64
+set d julian 2458087
+write
+state
+append
+set id long 337
+set name string elder4
+set grp short 0
+set amount double -706.68
+set d julian 2458054
+write
+state
+append
+set id long 338
+set name string tamarind20
+set grp short 5
+set amount double -628.18
+set d julian 2458358
+write
+state
+append
+set id long 339
+set name string apple3
+set grp short 0
+set amount double -637.19
+set d julian 2458354
+write
+state
+append
+set id long 340
+set name string ugli81
+set grp short 0
+set amount double 827.16
+set d julian 2458034
+write
+state
+append
+set id long 341
+set name string xigua5
+set grp short 1
+set amount double 547.88
+set d julian 2458390
+write
+state
+append
+set id long 342
+set name string lemon25
+set grp short 1
+set amount double 981.21
+set d julian 2458364
+write
+state
+append
+set id long 343
+set name string mango13
+set grp short 3
+set amount double -460.71
+set d julian 2458104
+write
+state
+append
+set id long 344
+set name string damson4
+set grp short 0
+set amount double 975.92
+set d julian 2458324
+write
+state
+append
+set id long 345
+set name string cherry96
+set grp short 4
+set amount double 250.72
+set d julian 2458051
+write
+state
+append
+set id long 346
+set name string elder12
+set grp short 3
+set amount double -228.10
+set d julian 2458163
+write
+state
+append
+set id long 347
+set name string kiwi54
+set grp short 4
+set amount double -945.17
+set d julian 2458179
+write
+state
+append
+set id long 348
+set name string ilama36
+set grp short 0
+set amount double 876.32
+set d julian 2458389
+write
+state
+append
+set id long 349
+set name string lemon41
+set grp short 7
+set amount double -245.95
+set d julian 2458316
+write
+state
+append
+set id long 350
+set name string xigua3
+set grp short 6
+set amount double -918.09
+set d julian 2458223
+write
+state
+append
+set id long 351
+set name string quince98
+set grp short 1
+set amount double -90.94
+set d julian 2458240
+write
+state
+append
+set id long 352
+set name string walnut6
+set grp short 3
+set amount double 872.73
+set d julian 2458046
+write
+state
+append
+set id long 353
+set name string satsuma36
+set grp short 2
+set amount double 143.09
+set d julian 2458000
+write
+state
+append
+set id long 354
+set name string quince25
+set grp short 4
+set amount double 998.01
+set d julian 2458384
+write
+state
+append
+set id long 355
+set name string banana0
+set grp short 5
+set amount double 286.66
+set d julian 2458048
+write
+state
+append
+set id long 356
+set name string papaya88
+set grp short 2
+set amount double 296.51
+set d julian 2458303
+write
+state
+append
+set id long 357
+set name string lemon65
+set grp short 4
+set amount double 515.21
+set d julian 2458081
+write
+state
+append
+set id long 358
+set name string jujube27
+set grp short 3
+set amount double 306.30
+set d julian 2458084
+write
+state
+append
+set id long 359
+set name string damson81
+set grp short 1
+set amount double 285.27
+set d julian 2458356
+write
+state
+append
+set id long 360
+set name string raisin13
+set grp short 5
+set amount double -67.78
+set d julian 2458048
+write
+state
+append
+set id long 361
+set name string mango50
+set grp short 1
+set amount double 106.58
+set d julian 2458330
+write
+state
+append
+set id long 362
+set name string apple47
+set grp short 3
+set amount double -205.34
+set d julian 2458134
+write
+state
+append
+set id long 363
+set name string nectar69
+set grp short 2
+set amount double -5.68
+set d julian 2458322
+write
+state
+append
+set id long 364
+set name string hazel58
+set grp short 2
+set amount double 393.41
+set d julian 2458304
+write
+state
+append
+set id long 365
+set name string yam88
+set grp short 0
+set amount double -86.47
+set d julian 2458297
+write
+state
+append
+set id long 366
+set name string kiwi66
+set grp short 2
+set amount double 180.45
+set d julian 2458338
+write
+state
+append
+set id long 367
+set name string raisin94
+set grp short 5
+set amount double -555.54
+set d julian 2458237
+write
+state
+append
+set id long 368
+set name string olive88
+set grp short 4
+set amount double 518.25
+set d julian 2458118
+write
+state
+append
+set id long 369
+set name string elder42
+set grp short 7
+set amount double 684.80
+set d julian 2458356
+write
+state
+append
+set id long 370
+set name string hazel64
+set grp short 3
+set amount double -298.81
+set d julian 2458154
+write
+state
+append
+set id long 371
+set name string yam90
+set grp short 2
+set amount double 896.18
+set d julian 2458079
+write
+state
+append
+set id long 372
+set name string hazel92
+set grp short 5
+set amount double 580.45
+set d julian 2458267
+write
+state
+append
+set id long 373
+set name string lemon20
+set grp short 3
+set amount double -139.98
+set d julian 2458096
+write
+state
+append
+set id long 374
+set name string ilama93
+set grp short 1
+set amount double -568.51
+set d julian 2458336
+write
+state
+append
+set id long 375
+set name string damson25
+set grp short 6
+set amount double -604.27
+set d julian 2458075
+write
+state
+append
+set id long 376
+set name string zucchini38
+set grp short 4
+set amount double 140.12
+set d julian 2458140
+write
+state
+append
+set id long 377
+set name string grape13
+set grp short 1
+set amount double -263.89
+set d julian 2458105
+write
+state
+append
+set id long 378
+set name string mango59
+set grp short 0
+set amount double -966.93
+set d julian 2458204
+write
+state
+append
+set id long 379
+set name string zucchini55
+set grp short 3
+set amount double 311.99
+set d julian 2458323
+write
+state
+append
+set id long 380
+set name string jujube59
+set grp short 0
+set amount double -628.25
+set d julian 2458131
+write
+state
+append
+set id long 381
+set name string tamarind94
+set grp short 6
+set amount double -985.54
+set d julian 2458379
+write
+state
+append
+set id long 382
+set name string hazel55
+set grp short 6
+set amount double -400.84
+set d julian 2458341
+write
+state
+append
+set id long 383
+set name string xigua83
+set grp short 3
+set amount double 781.52
+set d julian 2458092
+write
+state
+append
+set id long 384
+set name string ugli15
+set grp short 7
+set amount double 133.84
+set d julian 2458160
+write
+state
+append
+set id long 385
+set name string ilama80
+set grp short 1
+set amount double 99.90
+set d julian 2458124
+write
+state
+append
+set id long 386
+set name string zucchini51
+set grp short 2
+set amount double -344.49
+set d julian 2458216
+write
+state
+append
+set id long 387
+set name string papaya58
+set grp short 0
+set amount double 629.40
+set d julian 2458209
+write
+state
+append
+set id long 388
+set name string quince86
+set grp short 2
+set amount double 715.70
+set d julian 2458167
+write
+state
+append
+set id long 389
+set name string yam1
+set grp short 6
+set amount double 284.08
+set d julian 2458054
+write
+state
+append
+set id long 390
+set name string banana32
+set grp short 3
+set amount double -578.37
+set d julian 2458366
+write
+state
+append
+set id long 391
+set name string zucchini25
+set grp short 5
+set amount double -735.01
+set d julian 2458294
+write
+state
+append
+set id long 392
+set name string olive69
+set grp short 3
+set amount double 880.34
+set d julian 2458243
+write
+state
+append
+set id long 393
+set name string quince2
+set grp short 5
+set amount double 367.57
+set d julian 2458175
+write
+state
+append
+set id long 394
+set name string nectar94
+set grp short 7
+set amount double -449.27
+set d julian 2458350
+write
+state
+append
+set id long 395
+set name string fig50
+set grp short 1
+set amount double 911.30
+set d julian 2458314
+write
+state
+append
+set id long 396
+set name string lemon81
+set grp short 0
+set amount double -338.20
+set d julian 2458140
+write
+state
+append
+set id long 397
+set name string mango51
+set grp short 0
+set amount double -965.12
+set d julian 2458038
+write
+state
+append
+set id long 398
+set name string nectar53
+set grp short 5
+set amount double 520.89
+set d julian 2458135
+write
+state
+append
+set id long 399
+set name string damson28
+set grp short 4
+set amount double 943.72
+set d julian 2458205
+write
+state
+append
+set id long 400
+set name string quince28
+set grp short 6
+set amount double 211.41
+set d julian 2458108
+write
+state
+append
+set id long 401
+set name string fig16
+set grp short 1
+set amount double 662.77
+set d julian 2458098
+write
+state
+append
+set id long 402
+set name string papaya82
+set grp short 3
+set amount double -616.58
+set d julian 2458180
+write
+state
+append
+set id long 403
+set name string vanilla81
+set grp short 6
+set amount double 227.09
+set d julian 2458150
+write
+state
+append
+set id long 404
+set name string yam70
+set grp short 2
+set amount double 230.50
+set d julian 2458181
+write
+state
+append
+set id long 405
+set name string zucchini29
+set grp short 4
+set amount double 846.01
+set d julian 2458192
+write
+state
+append
+set id long 406
+set name string vanilla32
+set grp short 6
+set amount double 779.48
+set d julian 2458095
+write
+state
+append
+set id long 407
+set name string papaya0
+set grp short 4
+set amount double -61.59
+set d julian 2458125
+write
+state
+append
+set id long 408
+set name string ugli38
+set grp short 5
+set amount double 257.11
+set d julian 2458248
+write
+state
+append
+set id long 409
+set name string nectar79
+set grp short 1
+set amount double 728.22
+set d julian 2458185
+write
+state
+append
+set id long 410
+set name string elder38
+set grp short 6
+set amount double -850.42
+set d julian 2458043
+write
+state
+append
+set id long 411
+set name string satsuma41
+set grp short 2
+set amount double 391.06
+set d julian 2458176
+write
+state
+append
+set id long 412
+set name string ugli74
+set grp short 0
+set amount double 723.08
+set d julian 2458005
+write
+state
+append
+set id long 413
+set name string grape9
+set grp short 4
+set amount double -344.58
+set d julian 2458311
+write
+state
+append
+set id long 414
+set name string damson74
+set grp short 2
+set amount double -387.53
+set d julian 2458095
+write
+state
+append
+set id long 415
+set name string yam57
+set grp short 5
+set amount double -599.78
+set d julian 2458106
+write
+state
+append
+set id long 416
+set name string mango68
+set grp short 2
+set amount double 597.80
+set d julian 2458352
+write
+state
+append
+set id long 417
+set name string tamarind11
+set grp short 4
+set amount double -482.61
+set d julian 2458253
+write
+state
+append
+set id long 418
+set name string walnut27
+set grp short 1
+set amount double 944.87
+set d julian 2458224
+write
+state
+append
+set id long 419
+set name string vanilla14
+set grp short 1
+set amount double -306.65
+set d julian 2458214
+write
+state
+append
+set id long 420
+set name string hazel17
+set grp short 7
+set amount double 292.57
+set d julian 2458285
+write
+state
+append
+set id long 421
+set name string banana61
+set grp short 7
+set amount double -621.41
+set d julian 2458358
+write
+state
+append
+set id long 422
+set name string papaya31
+set grp short 7
+set amount double -568.47
+set d julian 2458276
+write
+state
+append
+set id long 423
+set name string tamarind94
+set grp short 0
+set amount double -579.64
+set d julian 2458164
+write
+state
+append
+set id long 424
+set name string olive89
+set grp short 7
+set amount double 744.04
+set d julian 2458151
+write
+state
+append
+set id long 425
+set name string olive47
+set grp short 6
+set amount double 97.90
+set d julian 2458346
+write
+state
+append
+set id long 426
+set name string cherry23
+set grp short 5
+set amount double 667.56
+set d julian 2458331
+write
+state
+append
+set id long 427
+set name string apple2
+set grp short 0
+set amount double 789.36
+set d julian 2458377
+write
+state
+append
+set id long 428
+set name string kiwi12
+set grp short 7
+set amount double 270.54
+set d julian 2458387
+write
+state
+append
+set id long 429
+set name string elder4
+set grp short 3
+set amount double 882.67
+set d julian 2458212
+write
+state
+append
+set id long 430
+set name string ugli16
+set grp short 5
+set amount double -752.37
+set d julian 2458337
+write
+state
+append
+set id long 431
+set name string lemon43
+set grp short 7
+set amount double 377.66
+set d julian 2458283
+write
+state
+append
+set id long 432
+set name string yam26
+set grp short 4
+set amount double 140.82
+set d julian 2458175
+write
+state
+append
+set id long 433
+set name string nectar32
+set grp short 0
+set amount double -242.02
+set d julian 2458149
+write
+state
+append
+set id long 434
+set name string lemon63
+set grp short 6
+set amount double -125.17
+set d julian 2458257
+write
+state
+append
+set id long 435
+set name string ilama64
+set grp short 5
+set amount double -466.46
+set d julian 2458335
+write
+state
+append
+set id long 436
+set name string papaya15
+set grp short 5
+set amount double -495.88
+set d julian 2458162
+write
+state
+append
+set id long 437
+set name string walnut38
+set grp short 2
+set amount double 537.34
+set d julian 2458325
+write
+state
+append
+set id long 438
+set name string cherry5
+set grp short 6
+set amount double 894.45
+set d julian 2458283
+write
+state
+append
+set id long 439
+set name string mango69
+set grp short 0
+set amount double 44.59
+set d julian 2458153
+write
+state
+append
+set id long 440
+set name string damson0
+set grp short 0
+set amount double -502.09
+set d julian 2458243
+write
+state
+append
+set id long 441
+set name string tamarind98
+set grp short 0
+set amount double 312.92
+set d julian 2458278
+write
+state
+append
+set id long 442
+set name string tamarind48
+set grp short 2
+set amount double 643.15
+set d julian 2458344
+write
+state
+append
+set id long 443
+set name string walnut88
+set grp short 1
+set amount double -442.95
+set d julian 2458020
+write
+state
+append
+set id long 444
+set name string vanilla81
+set grp short 7
+set amount double 639.12
+set d julian 2458390
+write
+state
+append
+set id long 445
+set name string fig12
+set grp short 2
+set amount double -903.07
+set d julian 2458215
+write
+state
+append
+set id long 446
+set name string yam12
+set grp short 0
+set amount double -33.04
+set d julian 2458071
+write
+state
+append
+set id long 447
+set name string zucchini39
+set grp short 4
+set amount double -208.22
+set d julian 2458094
+write
+state
+append
+set id long 448
+set name string nectar4
+set grp short 5
+set amount double -946.55
+set d julian 2458220
+write
+state
+append
+set id long 449
+set name string satsuma82
+set grp short 0
+set amount double 304.86
+set d julian 2458290
+write
+state
+append
+set id long 450
+set name string quince5
+set grp short 1
+set amount double 103.81
+set d julian 2458294
+write
+state
+append
+set id long 451
+set name string walnut51
+set grp short 7
+set amount double -823.79
+set d julian 2458007
+write
+state
+append
+set id long 452
+set name string vanilla49
+set grp short 2
+set amount double 246.35
+set d julian 2458394
+write
+state
+append
+set id long 453
+set name string nectar70
+set grp short 1
+set amount double -782.62
+set d julian 2458329
+write
+state
+append
+set id long 454
+set name string papaya27
+set grp short 2
+set amount double 643.36
+set d julian 2458007
+write
+state
+append
+set id long 455
+set name string nectar0
+set grp short 0
+set amount double 792.43
+set d julian 2458342
+write
+state
+append
+set id long 456
+set name string damson11
+set grp short 3
+set amount double -681.90
+set d julian 2458066
+write
+state
+append
+set id long 457
+set name string papaya2
+set grp short 4
+set amount double 885.73
+set d julian 2458291
+write
+state
+append
+set id long 458
+set name string hazel57
+set grp short 2
+set amount double -868.57
+set d julian 2458187
+write
+state
+append
+set id long 459
+set name string yam95
+set grp short 2
+set amount double 912.92
+set d julian 2458388
+write
+state
+append
+set id long 460
+set name string cherry37
+set grp short 7
+set amount double 207.38
+set d julian 2458342
+write
+state
+append
+set id long 461
+set name string ilama6
+set grp short 0
+set amount double -970.12
+set d julian 2458031
+write
+state
+append
+set id long 462
+set name string apple83
+set grp short 1
+set amount double 19.60
+set d julian 2458159
+write
+state
+append
+set id long 463
+set name string jujube93
+set grp short 2
+set amount double 274.88
+set d julian 2458311
+write
+state
+append
+set id long 464
+set name string banana40
+set grp short 5
+set amount double 507.23
+set d julian 2458372
+write
+state
+append
+set id long 465
+set name string olive60
+set grp short 2
+set amount double -620.14
+set d julian 2458059
+write
+state
+append
+set id long 466
+set name string lemon82
+set grp short 2
+set amount double 650.73
+set d julian 2458213
+write
+state
+append
+set id long 467
+set name string papaya49
+set grp short 7
+set amount double -287.02
+set d julian 2458386
+write
+state
+append
+set id long 468
+set name string satsuma42
+set grp short 4
+set amount double -266.25
+set d julian 2458031
+write
+state
+append
+set id long 469
+set name string tamarind83
+set grp short 5
+set amount double 588.12
+set d julian 2458371
+write
+state
+append
+set id long 470
+set name string apple19
+set grp short 4
+set amount double 532.67
+set d julian 2458219
+write
+state
+append
+set id long 471
+set name string hazel48
+set grp short 6
+set amount double 795.21
+set d julian 2458192
+write
+state
+append
+set id long 472
+set name string tamarind98
+set grp short 3
+set amount double 182.97
+set d julian 2458145
+write
+state
+append
+set id long 473
+set name string walnut0
+set grp short 5
+set amount double -310.45
+set d julian 2458137
+write
+state
+append
+set id long 474
+set name string nectar20
+set grp short 0
+set amount double -243.66
+set d julian 2458072
+write
+state
+append
+set id long 475
+set name string zucchini73
+set grp short 2
+set amount double -282.13
+set d julian 2458280
+write
+state
+append
+set id long 476
+set name string vanilla99
+set grp short 7
+set amount double -90.75
+set d julian 2458273
+write
+state
+append
+set id long 477
+set name string cherry69
+set grp short 7
+set amount double 0.70
+set d julian 2458102
+write
+state
+append
+set id long 478
+set name string zucchini96
+set grp short 3
+set amount double -188.75
+set d julian 2458310
+write
+state
+append
+set id long 479
+set name string banana86
+set grp short 6
+set amount double 219.81
+set d julian 2458362
+write
+state
+append
+set id long 480
+set name string grape32
+set grp short 0
+set amount double 9.18
+set d julian 2458235
+write
+state
+append
+set id long 481
+set name string raisin11
+set grp short 5
+set amount double -835.82
+set d julian 2458119
+write
+state
+append
+set id long 482
+set name string mango74
+set grp short 4
+set amount double 368.02
+set d julian 2458164
+write
+state
+append
+set id long 483
+set name string papaya64
+set grp short 3
+set amount double -504.16
+set d julian 2458108
+write
+state
+append
+set id long 484
+set name string grape11
+set grp short 2
+set amount double 837.79
+set d julian 2458148
+write
+state
+append
+set id long 485
+set name string lemon73
+set grp short 5
+set amount double 55.10
+set d julian 2458399
+write
+state
+append
+set id long 486
+set name string quince19
+set grp short 3
+set amount double -883.10
+set d julian 2458252
+write
+state
+append
+set id long 487
+set name string lemon13
+set grp short 5
+set amount double 658.69
+set d julian 2458237
+write
+state
+append
+set id long 488
+set name string zucchini10
+set grp short 2
+set amount double -172.18
+set d julian 2458305
+write
+state
+append
+set id long 489
+set name string apple44
+set grp short 4
+set amount double 361.72
+set d julian 2458310
+write
+state
+append
+set id long 490
+set name string apple12
+set grp short 0
+set amount double -463.54
+set d julian 2458289
+write
+state
+append
+set id long 491
+set name string papaya75
+set grp short 3
+set amount double -314.24
+set d julian 2458398
+write
+state
+append
+set id long 492
+set name string ilama54
+set grp short 1
+set amount double 171.42
+set d julian 2458392
+write
+state
+append
+set id long 493
+set name string satsuma77
+set grp short 2
+set amount double -334.17
+set d julian 2458019
+write
+state
+append
+set id long 494
+set name string kiwi25
+set grp short 2
+set amount double -8.57
+set d julian 2458042
+write
+state
+append
+set id long 495
+set name string apple6
+set grp short 0
+set amount double 461.13
+set d julian 2458189
+write
+state
+append
+set id long 496
+set name string walnut58
+set grp short 7
+set amount double -831.75
+set d julian 2458306
+write
+state
+append
+set id long 497
+set name string ugli50
+set grp short 1
+set amount double 851.72
+set d julian 2458046
+write
+state
+append
+set id long 498
+set name string ilama40
+set grp short 3
+set amount double 679.38
+set d julian 2458045
+write
+state
+append
+set id long 499
+set name string vanilla64
+set grp short 6
+set amount double -521.15
+set d julian 2458229
+write
+state
+append
+set id long 500
+set name string fig47
+set grp short 3
+set amount double 889.30
+set d julian 2458113
+write
+state
+# Changes, deletes and appends that reuse the slots.
+goto 20
+set grp short 4
+set amount double -77.23
+write
+goto 463
+set name string raisin3
+write
+goto 133
+set name string zucchini65
+write
+append
+set id long 501
+set name string xigua82
+set grp short 7
+set amount double -853.81
+set d julian 2458051
+write
+state
+goto 163
+set grp short 0
+set amount double -478.47
+write
+append
+set id long 502
+set name string xigua38
+set grp short 7
+set amount double 986.78
+set d julian 2458334
+write
+state
+goto 242
+set name string kiwi47
+write
+goto 200
+set name string damson47
+set grp short 7
+set amount double -4.79
+write
+goto 226
+set grp short 3
+set amount double -624.75
+write
+append
+set id long 503
+set name string apple59
+set grp short 3
+set amount double -905.60
+set d julian 2458080
+write
+state
+goto 40
+set grp short 5
+set amount double 963.68
+write
+goto 399
+set grp short 7
+set amount double -745.76
+write
+goto 432
+delete
+write
+goto 322
+set name string cherry57
+write
+goto 166
+set name string hazel61
+set grp short 1
+set amount double 646.74
+write
+goto 74
+set name string kiwi28
+set grp short 0
+set amount double -527.52
+write
+append
+set id long 504
+set name string olive70
+set grp short 2
+set amount double 150.73
+set d julian 2458076
+write
+state
+goto 215
+set name string nectar31
+set grp short 2
+set amount double -933.37
+write
+goto 293
+set name string jujube42
+set grp short 2
+set amount double -316.67
+write
+goto 56
+delete
+write
+goto 235
+set name string papaya14
+set grp short 2
+set amount double 345.99
+write
+goto 325
+set name string zucchini85
+write
+goto 288
+set grp short 7
+set amount double -249.66
+write
+goto 133
+set name string yam25
+write
+goto 223
+set name string ilama30
+set grp short 3
+set amount double -744.24
+write
+goto 150
+delete
+write
+goto 462
+delete
+write
+goto 30
+set grp short 4
+set amount double -621.60
+write
+append
+set id long 505
+set name string apple56
+set grp short 5
+set amount double 338.99
+set d julian 2458071
+write
+state
+goto 1
+delete
+write
+goto 149
+delete
+write
+goto 189
+set grp short 6
+set amount double -893.71
+write
+goto 114
+delete
+write
+goto 298
+set name string fig17
+set grp short 2
+set amount double 367.48
+write
+goto 370
+set grp short 2
+set amount double -484.34
+write
+goto 42
+delete
+write
+goto 464
+set name string tamarind93
+write
+goto 396
+delete
+write
+goto 93
+set name string grape17
+set grp short 3
+set amount double 528.12
+write
+goto 107
+set name string apple8
+set grp short 6
+set amount double 891.77
+write
+goto 272
+set name string zucchini44
+write
+goto 151
+set name string ugli63
+set grp short 1
+set amount double -959.52
+write
+goto 476
+delete
+write
+goto 72
+delete
+write
+append
+set id long 506
+set name string ilama31
+set grp short 2
+set amount double 476.20
+set d julian 2458187
+write
+state
+goto 88
+set name string walnut47
+write
+goto 312
+delete
+write
+goto 190
+set name string quince57
+write
+goto 38
+delete
+write
+goto 191
+set name string walnut31
+write
+goto 409
+set name string walnut48
+set grp short 0
+set amount double -235.75
+write
+goto 384
+set name string papaya57
+write
+goto 15
+delete
+write
+goto 423
+delete
+write
+goto 75
+delete
+write
+goto 133
+set name string cherry28
+write
+goto 101
+delete
+write
+goto 58
+set grp short 4
+set amount double -343.44
+write
+goto 434
+delete
+write
+goto 11
+set name string damson89
+write
+append
+set id long 507
+set name string grape33
+set grp short 0
+set amount double 571.28
+set d julian 2458326
+write
+state
+goto 249
+delete
+write
+goto 132
+delete
+write
+append
+set id long 508
+set name string olive13
+set grp short 5
+set amount double -753.84
+set d julian 2458367
+write
+state
+goto 26
+set grp short 4
+set amount double -677.44
+write
+goto 266
+delete
+write
+goto 271
+delete
+write
+goto 62
+set name string damson15
+set grp short 6
+set amount double -640.99
+write
+goto 320
+delete
+write
+goto 463
+set grp short 3
+set amount double -614.08
+write
+append
+set id long 509
+set name string satsuma59
+set grp short 6
+set amount double -569.24
+set d julian 2458009
+write
+state
+append
+set id long 510
+set name string mango88
+set grp short 6
+set amount double 565.10
+set d julian 2458308
+write
+state
+goto 21
+delete
+write
+goto 30
+delete
+write
+goto 188
+set name string mango30
+set grp short 5
+set amount double 875.71
+write
+goto 455
+delete
+write
+goto 435
+delete
+write
+goto 442
+set name string mango71
+set grp short 0
+set amount double -148.35
+write
+goto 85
+delete
+write
+append
+set id long 511
+set name string lemon31
+set grp short 6
+set amount double 738.32
+set d julian 2458323
+write
+state
+goto 202
+set name string damson67
+write
+goto 41
+set grp short 5
+set amount double 135.18
+write
+goto 277
+set grp short 0
+set amount double -408.93
+write
+goto 231
+set grp short 6
+set amount double 189.42
+write
+append
+set id long 512
+set name string banana5
+set grp short 0
+set amount double 681.84
+set d julian 2458317
+write
+state
+goto 498
+set name string vanilla79
+set grp short 4
+set amount double 646.91
+write
+goto 438
+delete
+write
+goto 339
+set name string damson32
+write
+goto 285
+set name string apple55
+write
+goto 24
+set grp short 4
+set amount double -703.67
+write
+goto 193
+set name string ugli21
+set grp short 1
+set amount double -841.83
+write
+goto 282
+delete
+write
+goto 50
+set name string olive75
+set grp short 2
+set amount double 153.37
+write
+goto 280
+set name string elder37
+write
+goto 316
+delete
+write
+goto 156
+set name string hazel94
+set grp short 1
+set amount double 940.92
+write
+goto 163
+delete
+write
+goto 336
+delete
+write
+append
+set id long 513
+set name string satsuma28
+set grp short 6
+set amount double -472.59
+set d julian 2458280
+write
+state
+append
+set id long 514
+set name string lemon58
+set grp short 4
+set amount double 606.41
+set d julian 2458244
+write
+state
+goto 450
+delete
+write
+goto 18
+set name string hazel42
+set grp short 3
+set amount double -505.07
+write
+goto 300
+delete
+write
+goto 324
+delete
+write
+goto 8
+delete
+write
+goto 95
+set name string hazel41
+set grp short 5
+set amount double 288.19
+write
+goto 162
+set name string grape37
+set grp short 0
+set amount double -942.89
+write
+goto 305
+set grp short 1
+set amount double 588.39
+write
+goto 243
+set name string vanilla7
+set grp short 6
+set amount double 153.16
+write
+goto 405
+set name string yam13
+set grp short 3
+set amount double 776.44
+write
+append
+set id long 515
+set name string elder53
+set grp short 5
+set amount double 751.75
+set d julian 2458180
+write
+state
+goto 373
+set grp short 3
+set amount double 615.58
+write
+goto 472
+delete
+write
+goto 456
+set name string quince12
+set grp short 7
+set amount double -295.67
+write
+append
+set id long 516
+set name string walnut80
+set grp short 2
+set amount double 82.74
+set d julian 2458052
+write
+state
+goto 228
+set name string yam70
+write
+goto 69
+delete
+write
+goto 222
+delete
+write
+goto 89
+delete
+write
+goto 477
+delete
+write
+goto 489
+set name string tamarind77
+set grp short 1
+set amount double -5.01
+write
+goto 385
+delete
+write
+goto 167
+delete
+write
+append
+set id long 517
+set name string lemon37
+set grp short 5
+set amount double 24.15
+set d julian 2458269
+write
+state
+goto 335
+delete
+write
+goto 364
+delete
+write
+goto 5
+set name string zucchini95
+set grp short 7
+set amount double -2.09
+write
+goto 174
+delete
+write
+goto 302
+set grp short 4
+set amount double -619.92
+write
+goto 326
+delete
+write
+goto 330
+delete
+write
+goto 53
+set grp short 5
+set amount double -151.01
+write
+goto 479
+delete
+write
+goto 188
+set grp short 3
+set amount double 117.90
+write
+goto 17
+set name string banana32
+write
+goto 280
+delete
+write
+goto 303
+set name string yam39
+set grp short 6
+set amount double 356.45
+write
+goto 412
+delete
+write
+append
+set id long 518
+set name string nectar49
+set grp short 7
+set amount double -62.28
+set d julian 2458020
+write
+state
+goto 384
+delete
+write
+goto 255
+set name string apple86
+set grp short 1
+set amount double 376.90
+write
+goto 59
+set grp short 6
+set amount double -18.50
+write
+goto 228
+delete
+write
+append
+set id long 519
+set name string raisin73
+set grp short 2
+set amount double -506.61
+set d julian 2458215
+write
+state
+goto 229
+delete
+write
+goto 441
+delete
+write
+goto 339
+delete
+write
+goto 398
+set name string quince95
+set grp short 1
+set amount double -552.47
+write
+goto 184
+set name string lemon9
+set grp short 4
+set amount double 343.73
+write
+goto 65
+set grp short 4
+set amount double 808.49
+write
+goto 475
+set name string quince53
+set grp short 2
+set amount double 373.78
+write
+goto 471
+set name string quince26
+set grp short 3
+set amount double 80.71
+write
+goto 36
+set grp short 1
+set amount double -74.15
+write
+goto 363
+delete
+write
+append
+set id long 520
+set name string xigua5
+set grp short 6
+set amount double -971.87
+set d julian 2458001
+write
+state
+goto 408
+set name string walnut70
+set grp short 0
+set amount double -201.89
+write
+goto 490
+delete
+write
+goto 340
+set name string apple85
+write
+goto 116
+set name string fig63
+write
+goto 325
+delete
+write
+goto 374
+set name string raisin65
+set grp short 2
+set amount double 505.93
+write
+goto 235
+set grp short 1
+set amount double -618.97
+write
+goto 295
+set grp short 1
+set amount double -923.89
+write
+goto 46
+set name string fig66
+write
+goto 481
+delete
+write
+goto 354
+delete
+write
+goto 469
+delete
+write
+goto 376
+set name string apple87
+write
+goto 187
+delete
+write
+goto 415
+set grp short 3
+set amount double -72.42
+write
+goto 100
+set name string banana34
+set grp short 1
+set amount double 526.35
+write
+goto 201
+set name string grape57
+write
+goto 220
+delete
+write
+goto 33
+set name string hazel50
+write
+goto 447
+delete
+write
+goto 253
+set name string banana79
+write
+goto 144
+set grp short 3
+set amount double -884.72
+write
+goto 343
+set grp short 2
+set amount double -174.79
+write
+goto 483
+set name string olive38
+write
+goto 351
+delete
+write
+goto 285
+set name string cherry31
+set grp short 6
+set amount double 769.23
+write
+append
+set id long 521
+set name string satsuma28
+set grp short 6
+set amount double -189.57
+set d julian 2458204
+write
+state
+append
+set id long 522
+set name string papaya2
+set grp short 3
+set amount double -770.72
+set d julian 2458088
+write
+state
+goto 206
+set grp short 6
+set amount double -510.97
+write
+goto 169
+set name string mango71
+write
+goto 67
+set name string kiwi68
+set grp short 6
+set amount double -119.51
+write
+goto 380
+delete
+write
+goto 74
+set name string nectar44
+write
+goto 142
+delete
+write
+goto 112
+delete
+write
+goto 168
+delete
+write
+goto 139
+set name string nectar4
+set grp short 4
+set amount double 741.35
+write
+goto 200
+set name string zucchini19
+write
+goto 416
+set grp short 2
+set amount double -757.18
+write
+goto 159
+set grp short 2
+set amount double 454.83
+write
+goto 272
+delete
+write
+goto 95
+set grp short 5
+set amount double -74.85
+write
+goto 426
+set grp short 6
+set amount double -12.00
+write
+append
+set id long 523
+set name string satsuma26
+set grp short 4
+set amount double 247.68
+set d julian 2458258
+write
+state
+goto 134
+set grp short 7
+set amount double 770.26
+write
+goto 417
+set grp short 4
+set amount double 562.25
+write
+goto 347
+delete
+write
+goto 310
+set name string hazel51
+set grp short 3
+set amount double -670.97
+write
+goto 403
+set name string quince11
+write
+goto 159
+delete
+write
+append
+set id long 524
+set name string yam97
+set grp short 6
+set amount double -924.73
+set d julian 2458336
+write
+state
+append
+set id long 525
+set name string satsuma18
+set grp short 4
+set amount double -960.68
+set d julian 2458199
+write
+state
+append
+set id long 526
+set name string cherry88
+set grp short 2
+set amount double -392.97
+set d julian 2458164
+write
+state
+goto 395
+set grp short 1
+set amount double -821.54
+write
+goto 212
+delete
+write
+goto 456
+delete
+write
+goto 115
+set name string cherry91
+set grp short 4
+set amount double -769.48
+write
+goto 172
+set grp short 2
+set amount double 878.76
+write
+goto 169
+delete
+write
+goto 239
+set name string olive99
+set grp short 2
+set amount double -275.12
+write
+goto 19
+set grp short 5
+set amount double 781.59
+write
+append
+set id long 527
+set name string walnut44
+set grp short 6
+set amount double -933.78
+set d julian 2458337
+write
+state
+append
+set id long 528
+set name string walnut59
+set grp short 3
+set amount double 49.95
+set d julian 2458180
+write
+state
+append
+set id long 529
+set name string damson23
+set grp short 4
+set amount double -697.93
+set d julian 2458138
+write
+state
+goto 440
+delete
+write
+goto 425
+set grp short 0
+set amount double 60.79
+write
+goto 366
+set name string fig55
+write
+goto 458
+set grp short 4
+set amount double -590.56
+write
+goto 445
+delete
+write
+goto 328
+set name string jujube80
+write
+append
+set id long 530
+set name string fig72
+set grp short 3
+set amount double 494.65
+set d julian 2458254
+write
+state
+append
+set id long 531
+set name string quince32
+set grp short 6
+set amount double 756.71
+set d julian 2458350
+write
+state
+goto 206
+delete
+write
+goto 66
+set name string yam99
+write
+append
+set id long 532
+set name string jujube5
+set grp short 0
+set amount double -359.18
+set d julian 2458348
+write
+state
+goto 24
+set name string zucchini40
+write
+goto 473
+set grp short 5
+set amount double 964.83
+write
+goto 247
+set name string walnut95
+write
+goto 453
+delete
+write
+goto 130
+delete
+write
+goto 311
+set name string cherry44
+set grp short 6
+set amount double 160.13
+write
+goto 416
+set name string quince94
+set grp short 7
+set amount double 333.41
+write
+goto 407
+set name string walnut26
+write
+goto 405
+delete
+write
+goto 480
+delete
+write
+goto 291
+set grp short 3
+set amount double -885.47
+write
+append
+set id long 533
+set name string zucchini71
+set grp short 4
+set amount double -542.48
+set d julian 2458279
+write
+state
+goto 483
+set grp short 3
+set amount double 425.88
+write
+goto 147
+set name string banana21
+set grp short 5
+set amount double -89.76
+write
+goto 55
+delete
+write
+goto 386
+set grp short 4
+set amount double -640.37
+write
+goto 415
+set grp short 7
+set amount double 757.24
+write
+goto 141
+delete
+write
+append
+set id long 534
+set name string hazel0
+set grp short 7
+set amount double -651.09
+set d julian 2458328
+write
+state
+goto 422
+set name string jujube17
+set grp short 2
+set amount double 540.23
+write
+goto 145
+delete
+write
+goto 383
+set name string damson70
+set grp short 6
+set amount double 993.64
+write
+goto 411
+set grp short 2
+set amount double 569.41
+write
+goto 474
+delete
+write
+goto 123
+delete
+write
+goto 420
+set name string jujube1
+write
+goto 294
+set name string grape5
+set grp short 0
+set amount double -263.69
+write
+goto 118
+set name string damson89
+set grp short 4
+set amount double 174.45
+write
+goto 97
+set name string kiwi56
+write
+goto 348
+delete
+write
+goto 180
+set name string fig71
+set grp short 1
+set amount double -880.52
+write
+goto 284
+set name string yam62
+write
+goto 464
+set name string walnut42
+write
+append
+set id long 535
+set name string satsuma33
+set grp short 1
+set amount double 691.11
+set d julian 2458250
+write
+state
+goto 295
+delete
+write
+goto 493
+set grp short 5
+set amount double -978.24
+write
+goto 54
+set name string ugli36
+set grp short 4
+set amount double 711.99
+write
+goto 48
+set grp short 2
+set amount double 959.39
+write
+goto 16
+set name string yam50
+write
+goto 183
+set grp short 5
+set amount double -513.11
+write
+append
+set id long 536
+set name string quince87
+set grp short 2
+set amount double -732.15
+set d julian 2458368
+write
+state
+goto 463
+set name string tamarind41
+set grp short 6
+set amount double -516.24
+write
+append
+set id long 537
+set name string lemon40
+set grp short 3
+set amount double -33.94
+set d julian 2458069
+write
+state
+goto 226
+delete
+write
+goto 146
+set name string banana5
+set grp short 1
+set amount double 486.01
+write
+append
+set id long 538
+set name string walnut51
+set grp short 0
+set amount double -432.62
+set d julian 2458253
+write
+state
+goto 303
+delete
+write
+append
+set id long 539
+set name string fig38
+set grp short 1
+set amount double -628.05
+set d julian 2458352
+write
+state
+goto 98
+set grp short 2
+set amount double 161.79
+write
+append
+set id long 540
+set name string mango11
+set grp short 0
+set amount double 152.12
+set d julian 2458245
+write
+state
+goto 131
+set grp short 5
+set amount double -992.66
+write
+goto 377
+set name string zucchini65
+write
+goto 87
+delete
+write
+goto 44
+set name string vanilla7
+set grp short 6
+set amount double -112.21
+write
+goto 267
+set name string apple85
+write
+goto 454
+set grp short 2
+set amount double -6.94
+write
+goto 4
+set name string olive72
+set grp short 5
+set amount double 487.70
+write
+goto 287
+set grp short 1
+set amount double 422.71
+write
+goto 315
+set name string olive54
+set grp short 2
+set amount double 52.15
+write
+goto 386
+delete
+write
+goto 36
+set name string xigua86
+write
+goto 377
+set name string vanilla38
+set grp short 6
+set amount double -33.64
+write
+goto 408
+delete
+write
+append
+set id long 541
+set name string elder38
+set grp short 5
+set amount double 390.42
+set d julian 2458324
+write
+state
+goto 115
+set name string hazel86
+write
+append
+set id long 542
+set name string olive88
+set grp short 1
+set amount double -614.87
+set d julian 2458338
+write
+state
+goto 231
+delete
+write
+goto 362
+delete
+write
+goto 221
+delete
+write
+goto 148
+delete
+write
+goto 273
+delete
+write
+goto 162
+delete
+write
+goto 138
+set name string fig25
+write
+goto 485
+delete
+write
+goto 135
+set name string ilama83
+write
+goto 115
+set name string quince85
+write
+goto 454
+set name string papaya29
+set grp short 7
+set amount double -406.11
+write
+goto 365
+delete
+write
+append
+set id long 543
+set name string damson94
+set grp short 1
+set amount double 69.61
+set d julian 2458347
+write
+state
+goto 275
+set name string elder64
+write
+goto 315
+delete
+write
+append
+set id long 544
+set name string yam14
+set grp short 1
+set amount double 205.82
+set d julian 2458351
+write
+state
+goto 344
+delete
+write
+goto 117
+set grp short 7
+set amount double -755.91
+write
+goto 236
+set grp short 0
+set amount double 59.99
+write
+goto 29
+set grp short 5
+set amount double -890.59
+write
+goto 452
+set name string tamarind27
+write
+goto 189
+delete
+write
+goto 459
+set name string elder54
+write
+goto 399
+set name string grape72
+write
+goto 471
+set name string lemon21
+write
+goto 488
+set name string kiwi97
+set grp short 0
+set amount double -329.92
+write
+goto 147
+set name string lemon65
+write
+append
+set id long 545
+set name string quince45
+set grp short 7
+set amount double -885.96
+set d julian 2458309
+write
+state
+goto 61
+set name string lemon70
+set grp short 5
+set amount double 580.86
+write
+goto 22
+set name string vanilla31
+write
+goto 223
+set name string grape88
+set grp short 7
+set amount double -944.21
+write
+goto 276
+delete
+write
+goto 13
+set name string papaya14
+write
+goto 161
+set name string fig19
+write
+goto 183
+delete
+write
+append
+set id long 546
+set name string vanilla48
+set grp short 2
+set amount double 542.23
+set d julian 2458128
+write
+state
+goto 448
+delete
+write
+goto 281
+set name string apple3
+set grp short 5
+set amount double -604.34
+write
+goto 317
+delete
+write
+goto 20
+delete
+write
+goto 47
+set name string fig79
+write
+append
+set id long 547
+set name string vanilla76
+set grp short 6
+set amount double 247.16
+set d julian 2458081
+write
+state
+append
+set id long 548
+set name string olive50
+set grp short 3
+set amount double 601.29
+set d julian 2458264
+write
+state
+goto 232
+set name string kiwi67
+write
+goto 198
+set grp short 2
+set amount double 544.61
+write
+goto 28
+delete
+write
+goto 105
+set grp short 5
+set amount double 906.43
+write
+goto 210
+delete
+write
+goto 298
+delete
+write
+goto 230
+delete
+write
+goto 5
+set name string kiwi74
+set grp short 7
+set amount double -125.02
+write
+goto 13
+set grp short 3
+set amount double 204.30
+write
+goto 31
+delete
+write
+append
+set id long 549
+set name string elder93
+set grp short 2
+set amount double -285.23
+set d julian 2458196
+write
+state
+goto 43
+set name string quince33
+set grp short 5
+set amount double 491.49
+write
+goto 349
+delete
+write
+goto 90
+delete
+write
+append
+set id long 550
+set name string banana71
+set grp short 1
+set amount double -477.70
+set d julian 2458396
+write
+state
+goto 419
+delete
+write
+goto 420
+delete
+write
+goto 238
+set name string zucchini36
+write
+goto 92
+set grp short 1
+set amount double -203.10
+write
+goto 500
+set name string lemon65
+set grp short 3
+set amount double -81.37
+write
+goto 487
+delete
+write
+goto 216
+delete
+write
+goto 478
+set name string kiwi85
+write
+goto 313
+set name string quince47
+set grp short 3
+set amount double -384.45
+write
+goto 97
+set name string elder26
+set grp short 0
+set amount double 760.02
+write
+goto 262
+delete
+write
+goto 257
+delete
+write
+goto 196
+delete
+write
+goto 395
+set grp short 1
+set amount double -623.00
+write
+goto 495
+set name string jujube32
+set grp short 5
+set amount double -807.33
+write
+goto 393
+set grp short 1
+set amount double 533.34
+write
+goto 198
+set grp short 5
+set amount double 226.49
+write
+goto 470
+set name string nectar92
+set grp short 1
+set amount double 270.12
+write
+goto 110
+set name string ilama32
+set grp short 0
+set amount double 988.34
+write
+goto 421
+set grp short 4
+set amount double -378.98
+write
+append
+set id long 551
+set name string apple27
+set grp short 0
+set amount double 47.45
+set d julian 2458229
+write
+state
+goto 404
+set grp short 4
+set amount double 315.74
+write
+append
+set id long 552
+set name string damson25
+set grp short 3
+set amount double 923.84
+set d julian 2458029
+write
+state
+goto 403
+set grp short 0
+set amount double -792.10
+write
+goto 389
+set name string kiwi92
+write
+goto 4
+set grp short 3
+set amount double -290.56
+write
+goto 430
+delete
+write
+goto 429
+set name string kiwi3
+write
+goto 208
+set grp short 5
+set amount double 964.30
+write
+goto 439
+set name string papaya51
+write
+goto 464
+delete
+write
+goto 110
+set name string banana53
+set grp short 0
+set amount double -771.42
+write
+append
+set id long 553
+set name string tamarind42
+set grp short 7
+set amount double 567.21
+set d julian 2458204
+write
+state
+goto 306
+set name string apple3
+set grp short 5
+set amount double 478.85
+write
+append
+set id long 554
+set name string kiwi7
+set grp short 6
+set amount double 609.47
+set d julian 2458363
+write
+state
+append
+set id long 555
+set name string kiwi20
+set grp short 1
+set amount double -951.24
+set d julian 2458079
+write
+state
+goto 93
+set grp short 1
+set amount double -61.94
+write
+goto 279
+set name string lemon68
+set grp short 2
+set amount double 723.22
+write
+goto 389
+delete
+write
+goto 146
+set name string xigua79
+set grp short 4
+set amount double 864.96
+write
+goto 22
+delete
+write
+append
+set id long 556
+set name string jujube83
+set grp short 7
+set amount double 466.17
+set d julian 2458142
+write
+state
+goto 355
+set name string quince35
+set grp short 2
+set amount double -337.00
+write
+goto 377
+set name string papaya12
+write
+append
+set id long 557
+set name string zucchini99
+set grp short 5
+set amount double -605.23
+set d julian 2458321
+write
+state
+goto 264
+set grp short 1
+set amount double -926.73
+write
+goto 86
+delete
+write
+goto 41
+set name string raisin64
+write
+goto 377
+set grp short 2
+set amount double -320.76
+write
+goto 244
+delete
+write
+append
+set id long 558
+set name string elder22
+set grp short 2
+set amount double 385.42
+set d julian 2458014
+write
+state
+goto 496
+set name string hazel56
+set grp short 7
+set amount double -441.28
+write
+append
+set id long 559
+set name string lemon49
+set grp short 7
+set amount double -444.02
+set d julian 2458165
+write
+state
+goto 70
+set name string vanilla93
+write
+goto 45
+set name string zucchini82
+write
+goto 467
+delete
+write
+goto 41
+set name string hazel72
+set grp short 6
+set amount double 74.60
+write
+goto 454
+delete
+write
+append
+set id long 560
+set name string hazel3
+set grp short 4
+set amount double -945.57
+set d julian 2458134
+write
+state
+append
+set id long 561
+set name string nectar30
+set grp short 3
+set amount double -71.22
+set d julian 2458104
+write
+state
+goto 285
+set name string ugli35
+set grp short 4
+set amount double 307.05
+write
+goto 390
+set grp short 2
+set amount double 251.39
+write
+goto 91
+set name string jujube36
+set grp short 1
+set amount double -130.92
+write
+goto 328
+set name string hazel20
+write
+goto 478
+set name string tamarind76
+set grp short 7
+set amount double -444.08
+write
+goto 36
+delete
+write
+goto 242
+set grp short 0
+set amount double 151.01
+write
+goto 291
+set grp short 2
+set amount double -219.86
+write
+append
+set id long 562
+set name string apple14
+set grp short 2
+set amount double -975.30
+set d julian 2458068
+write
+state
+goto 100
+set name string quince94
+set grp short 5
+set amount double -744.29
+write
+goto 310
+set grp short 6
+set amount double -763.47
+write
+goto 227
+delete
+write
+append
+set id long 563
+set name string vanilla91
+set grp short 6
+set amount double -120.07
+set d julian 2458016
+write
+state
+goto 155
+delete
+write
+goto 431
+set grp short 0
+set amount double -900.72
+write
+goto 346
+set grp short 3
+set amount double 506.93
+write
+goto 495
+delete
+write
+goto 13
+set name string banana40
+write
+goto 73
+set name string damson62
+write
+goto 366
+set grp short 6
+set amount double -993.27
+write
+goto 146
+set grp short 2
+set amount double 659.89
+write
+append
+set id long 564
+set name string raisin64
+set grp short 1
+set amount double 389.18
+set d julian 2458181
+write
+state
+goto 52
+delete
+write
+goto 140
+set name string hazel93
+set grp short 1
+set amount double -284.42
+write
+append
+set id long 565
+set name string fig1
+set grp short 4
+set amount double -294.83
+set d julian 2458035
+write
+state
+goto 128
+set name string quince6
+write
+goto 383
+delete
+write
+goto 180
+set name string apple41
+set grp short 0
+set amount double 712.10
+write
+goto 376
+delete
+write
+goto 379
+set name string kiwi88
+set grp short 6
+set amount double 953.67
+write
+append
+set id long 566
+set name string ilama51
+set grp short 6
+set amount double -165.69
+set d julian 2458276
+write
+state
+goto 260
+delete
+write
+goto 264
+set grp short 6
+set amount double 74.71
+write
+goto 446
+set grp short 0
+set amount double -373.24
+write
+goto 346
+delete
+write
+goto 499
+set name string tamarind93
+set grp short 6
+set amount double -368.86
+write
+goto 473
+set grp short 1
+set amount double -772.43
+write
+goto 24
+delete
+write
+append
+set id long 567
+set name string banana51
+set grp short 5
+set amount double 795.29
+set d julian 2458330
+write
+state
+goto 388
+delete
+write
+append
+set id long 568
+set name string kiwi58
+set grp short 0
+set amount double 241.17
+set d julian 2458382
+write
+state
+append
+set id long 569
+set name string papaya65
+set grp short 5
+set amount double 552.66
+set d julian 2458279
+write
+state
+goto 158
+delete
+write
+append
+set id long 570
+set name string zucchini95
+set grp short 6
+set amount double -68.86
+set d julian 2458364
+write
+state
+goto 270
+set name string quince34
+write
+goto 475
+delete
+write
+append
+set id long 571
+set name string kiwi9
+set grp short 3
+set amount double 605.67
+set d julian 2458391
+write
+state
+goto 180
+set name string papaya92
+set grp short 5
+set amount double 368.50
+write
+goto 332
+delete
+write
+goto 147
+delete
+write
+goto 47
+set grp short 5
+set amount double 373.45
+write
+goto 374
+set grp short 2
+set amount double -41.10
+write
+goto 493
+set grp short 2
+set amount double -600.35
+write
+append
+set id long 572
+set name string olive22
+set grp short 0
+set amount double -156.00
+set d julian 2458195
+write
+state
+goto 296
+set name string damson52
+set grp short 2
+set amount double 841.88
+write
+goto 259
+set name string damson46
+set grp short 5
+set amount double 738.02
+write
+goto 370
+delete
+write
+goto 311
+set name string vanilla11
+set grp short 4
+set amount double 36.90
+write
+goto 308
+set name string walnut14
+set grp short 7
+set amount double 663.65
+write
+goto 117
+delete
+write
+goto 102
+delete
+write
+goto 91
+set name string lemon62
+write
+goto 489
+delete
+write
+goto 451
+set grp short 5
+set amount double 372.02
+write
+goto 267
+set name string ilama2
+set grp short 3
+set amount double -997.89
+write
+goto 181
+delete
+write
+goto 425
+set name string fig39
+write
+append
+set id long 573
+set name string raisin35
+set grp short 5
+set amount double -329.91
+set d julian 2458123
+write
+state
+goto 307
+set name string cherry67
+set grp short 7
+set amount double -767.13
+write
+goto 88
+set grp short 6
+set amount double -238.60
+write
+goto 261
+delete
+write
+goto 310
+set name string mango46
+write
+goto 205
+set name string nectar55
+write
+append
+set id long 574
+set name string tamarind32
+set grp short 5
+set amount double -374.46
+set d julian 2458197
+write
+state
+goto 91
+delete
+write
+goto 131
+delete
+write
+append
+set id long 575
+set name string satsuma47
+set grp short 1
+set amount double 744.83
+set d julian 2458104
+write
+state
+goto 50
+set name string cherry96
+set grp short 7
+set amount double -5.42
+write
+goto 382
+delete
+write
+goto 360
+delete
+write
+append
+set id long 576
+set name string yam3
+set grp short 1
+set amount double 553.92
+set d julian 2458288
+write
+state
+goto 331
+delete
+write
+append
+set id long 577
+set name string nectar53
+set grp short 7
+set amount double -538.03
+set d julian 2458033
+write
+state
+goto 285
+delete
+write
+goto 95
+delete
+write
+goto 6
+delete
+write
+append
+set id long 578
+set name string hazel94
+set grp short 3
+set amount double 52.97
+set d julian 2458277
+write
+state
+goto 209
+set name string raisin42
+write
+goto 337
+delete
+write
+goto 64
+set name string hazel9
+write
+goto 11
+delete
+write
+goto 372
+set name string cherry96
+write
+goto 421
+set grp short 7
+set amount double -855.81
+write
+append
+set id long 579
+set name string grape91
+set grp short 5
+set amount double 265.60
+set d julian 2458028
+write
+state
+goto 302
+delete
+write
+goto 100
+delete
+write
+goto 40
+delete
+write
+append
+set id long 580
+set name string elder41
+set grp short 5
+set amount double -501.27
+set d julian 2458265
+write
+state
+goto 135
+set name string raisin35
+write
+goto 194
+delete
+write
+goto 235
+set name string mango32
+write
+append
+set id long 581
+set name string jujube71
+set grp short 6
+set amount double 339.50
+set d julian 2458215
+write
+state
+append
+set id long 582
+set name string banana39
+set grp short 4
+set amount double -348.52
+set d julian 2458194
+write
+state
+goto 410
+delete
+write
+goto 225
+set name string grape16
+set grp short 0
+set amount double -456.04
+write
+goto 277
+delete
+write
+goto 373
+delete
+write
+append
+set id long 583
+set name string satsuma18
+set grp short 5
+set amount double -104.11
+set d julian 2458102
+write
+state
+goto 425
+delete
+write
+append
+set id long 584
+set name string banana93
+set grp short 5
+set amount double -977.70
+set d julian 2458272
+write
+state
+goto 304
+set name string satsuma41
+write
+goto 202
+set name string hazel56
+write
+goto 144
+set name string walnut26
+set grp short 7
+set amount double 64.31
+write
+append
+set id long 585
+set name string olive26
+set grp short 3
+set amount double -848.70
+set d julian 2458092
+write
+state
+goto 92
+delete
+write
+goto 104
+set name string cherry76
+write
+goto 133
+delete
+write
+goto 433
+set name string xigua21
+write
+goto 170
+delete
+write
+append
+set id long 586
+set name string xigua86
+set grp short 4
+set amount double -446.81
+set d julian 2458273
+write
+state
+goto 108
+set grp short 3
+set amount double 353.27
+write
+goto 358
+set name string damson25
+write
+goto 41
+set name string nectar28
+write
+append
+set id long 587
+set name string ilama90
+set grp short 7
+set amount double 798.07
+set d julian 2458217
+write
+state
+goto 46
+set grp short 2
+set amount double -890.54
+write
+goto 341
+set grp short 4
+set amount double 987.49
+write
+goto 458
+set grp short 5
+set amount double 853.20
+write
+goto 113
+delete
+write
+goto 198
+set name string kiwi70
+set grp short 3
+set amount double -601.81
+write
+append
+set id long 588
+set name string hazel50
+set grp short 0
+set amount double -141.18
+set d julian 2458194
+write
+state
+goto 219
+set grp short 3
+set amount double 716.59
+write
+goto 67
+delete
+write
+goto 359
+set grp short 2
+set amount double 909.03
+write
+goto 328
+set grp short 5
+set amount double 779.71
+write
+goto 82
+delete
+write
+goto 268
+set name string damson84
+write
+goto 411
+set grp short 1
+set amount double -237.80
+write
+goto 265
+delete
+write
+goto 394
+set name string cherry25
+write
+goto 214
+delete
+write
+goto 483
+set name string satsuma69
+set grp short 1
+set amount double -472.24
+write
+goto 371
+set grp short 4
+set amount double -404.47
+write
+goto 235
+delete
+write
+goto 465
+set name string tamarind12
+write
+goto 267
+set name string grape19
+write
+append
+set id long 589
+set name string jujube6
+set grp short 2
+set amount double -126.71
+set d julian 2458179
+write
+state
+goto 381
+delete
+write
+goto 253
+set grp short 5
+set amount double -531.14
+write
+goto 234
+set name string zucchini8
+write
+append
+set id long 590
+set name string raisin58
+set grp short 1
+set amount double 958.10
+set d julian 2458282
+write
+state
+goto 122
+set name string tamarind50
+write
+goto 29
+delete
+write
+goto 34
+set name string quince74
+write
+goto 321
+set name string ugli89
+write
+goto 322
+set grp short 5
+set amount double -800.16
+write
+goto 125
+set name string lemon21
+set grp short 1
+set amount double -130.65
+write
+goto 387
+set name string jujube19
+write
+goto 71
+set name string damson30
+set grp short 1
+set amount double -598.73
+write
+goto 208
+delete
+write
+goto 433
+delete
+write
+goto 253
+set name string olive31
+write
+goto 461
+set grp short 0
+set amount double 328.50
+write
+goto 288
+set name string grape36
+set grp short 6
+set amount double 455.66
+write
+goto 99
+set grp short 3
+set amount double 904.68
+write
+goto 402
+delete
+write
+goto 71
+set grp short 0
+set amount double -722.78
+write
+goto 395
+set name string zucchini89
+write
+goto 165
+delete
+write
+append
+set id long 591
+set name string xigua29
+set grp short 1
+set amount double 966.19
+set d julian 2458087
+write
+state
+goto 205
+set grp short 0
+set amount double 111.49
+write
+goto 417
+delete
+write
+goto 234
+set name string satsuma15
+write
+goto 478
+set name string grape29
+write
+goto 493
+set grp short 0
+set amount double -355.79
+write
+goto 496
+set name string kiwi12
+write
+goto 173
+set name string tamarind98
+write
+append
+set id long 592
+set name string fig38
+set grp short 5
+set amount double -779.80
+set d julian 2458388
+write
+state
+goto 492
+delete
+write
+goto 9
+set grp short 5
+set amount double 79.95
+write
+goto 26
+delete
+write
+goto 195
+set name string elder93
+write
+goto 128
+delete
+write
+goto 275
+set grp short 2
+set amount double -465.92
+write
+goto 178
+set grp short 5
+set amount double 857.54
+write
+goto 3
+set name string zucchini61
+write
+goto 404
+set name string quince99
+write
+goto 57
+set name string yam77
+set grp short 1
+set amount double -478.24
+write
+append
+set id long 593
+set name string banana46
+set grp short 6
+set amount double -757.82
+set d julian 2458333
+write
+state
+append
+set id long 594
+set name string lemon74
+set grp short 2
+set amount double 291.21
+set d julian 2458344
+write
+state
+append
+set id long 595
+set name string papaya17
+set grp short 4
+set amount double 818.43
+set d julian 2458155
+write
+state
+goto 377
+set name string zucchini87
+write
+goto 127
+delete
+write
+goto 307
+delete
+write
+append
+set id long 596
+set name string zucchini65
+set grp short 4
+set amount double 960.90
+set d julian 2458303
+write
+state
+goto 93
+delete
+write
+goto 203
+set name string yam29
+write
+goto 161
+set grp short 7
+set amount double 472.21
+write
+goto 406
+set grp short 0
+set amount double 27.63
+write
+append
+set id long 597
+set name string zucchini50
+set grp short 5
+set amount double -6.43
+set d julian 2458207
+write
+state
+goto 186
+set name string ugli86
+write
+goto 500
+set name string nectar39
+set grp short 0
+set amount double -212.34
+write
+goto 13
+delete
+write
+goto 395
+set name string nectar52
+write
+goto 245
+delete
+write
+goto 118
+delete
+write
+goto 460
+set name string grape10
+set grp short 5
+set amount double 32.50
+write
+goto 32
+delete
+write
+goto 278
+set name string cherry34
+set grp short 2
+set amount double 838.09
+write
+goto 338
+delete
+write
+append
+set id long 598
+set name string raisin30
+set grp short 1
+set amount double -432.93
+set d julian 2458349
+write
+state
+append
+set id long 599
+set name string banana48
+set grp short 2
+set amount double 21.49
+set d julian 2458138
+write
+state
+goto 124
+set name string lemon21
+set grp short 3
+set amount double -78.44
+write
+goto 322
+delete
+write
+goto 421
+set name string kiwi64
+set grp short 3
+set amount double -574.77
+write
+goto 446
+delete
+write
+goto 2
+set name string fig13
+write
+goto 387
+set grp short 4
+set amount double 930.91
+write
+goto 79
+set name string raisin94
+set grp short 6
+set amount double -646.02
+write
+goto 352
+set name string cherry65
+set grp short 5
+set amount double 164.17
+write
+goto 246
+set name string lemon39
+set grp short 6
+set amount double 368.86
+write
+append
+set id long 600
+set name string banana83
+set grp short 7
+set amount double 293.26
+set d julian 2458186
+write
+state
+append
+set id long 601
+set name string apple7
+set grp short 1
+set amount double 461.22
+set d julian 2458193
+write
+state
+goto 255
+delete
+write
+goto 124
+delete
+write
+append
+set id long 602
+set name string tamarind95
+set grp short 7
+set amount double -907.97
+set d julian 2458166
+write
+state
+goto 111
+delete
+write
+goto 232
+set name string elder24
+write
+goto 436
+delete
+write
+goto 328
+set name string fig95
+write
+goto 238
+delete
+write
+append
+set id long 603
+set name string yam30
+set grp short 4
+set amount double 426.81
+set d julian 2458013
+write
+state
+goto 482
+delete
+write
+goto 68
+delete
+write
+append
+set id long 604
+set name string ugli48
+set grp short 7
+set amount double 860.43
+set d julian 2458184
+write
+state
+append
+set id long 605
+set name string ilama41
+set grp short 2
+set amount double 507.75
+set d julian 2458253
+write
+state
+goto 465
+set name string lemon17
+write
+goto 451
+set grp short 0
+set amount double -574.94
+write
+goto 457
+set name string fig87
+set grp short 4
+set amount double -859.77
+write
+goto 252
+delete
+write
+goto 305
+delete
+write
+append
+set id long 606
+set name string fig34
+set grp short 4
+set amount double 244.48
+set d julian 2458101
+write
+state
+goto 275
+delete
+write
+goto 353
+delete
+write
+goto 219
+set name string lemon50
+write
+goto 333
+set name string zucchini60
+set grp short 4
+set amount double -705.18
+write
+goto 397
+set grp short 6
+set amount double 670.15
+write
+goto 269
+set grp short 0
+set amount double -601.36
+write
+goto 478
+set name string papaya84
+set grp short 6
+set amount double 972.97
+write
+goto 236
+set name string mango46
+write
+append
+set id long 607
+set name string mango67
+set grp short 4
+set amount double 652.01
+set d julian 2458062
+write
+state
+goto 397
+set name string yam1
+set grp short 0
+set amount double 395.12
+write
+append
+set id long 608
+set name string satsuma39
+set grp short 5
+set amount double 578.48
+set d julian 2458184
+write
+state
+goto 204
+set name string cherry70
+set grp short 1
+set amount double 975.87
+write
+goto 361
+delete
+write
+append
+set id long 609
+set name string damson39
+set grp short 2
+set amount double 690.23
+set d julian 2458090
+write
+state
+append
+set id long 610
+set name string ugli95
+set grp short 1
+set amount double 58.62
+set d julian 2458201
+write
+state
+append
+set id long 611
+set name string kiwi51
+set grp short 6
+set amount double 310.22
+set d julian 2458172
+write
+state
+goto 161
+set name string walnut18
+set grp short 6
+set amount double 754.81
+write
+goto 110
+set name string grape43
+set grp short 1
+set amount double 83.19
+write
+goto 444
+set name string apple73
+write
+append
+set id long 612
+set name string hazel73
+set grp short 6
+set amount double 58.22
+set d julian 2458109
+write
+state
+goto 236
+delete
+write
+append
+set id long 613
+set name string zucchini16
+set grp short 2
+set amount double -417.57
+set d julian 2458343
+write
+state
+goto 444
+set grp short 1
+set amount double -259.17
+write
+goto 329
+set name string jujube16
+write
+append
+set id long 614
+set name string walnut90
+set grp short 6
+set amount double 605.24
+set d julian 2458140
+write
+state
+append
+set id long 615
+set name string cherry98
+set grp short 4
+set amount double 592.99
+set d julian 2458109
+write
+state
+goto 267
+set grp short 1
+set amount double -56.96
+write
+append
+set id long 616
+set name string satsuma10
+set grp short 5
+set amount double -938.88
+set d julian 2458358
+write
+state
+goto 60
+delete
+write
+goto 284
+set name string grape0
+write
+goto 120
+delete
+write
+goto 240
+delete
+write
+goto 51
+delete
+write
+goto 33
+delete
+write
+goto 496
+set name string olive14
+write
+goto 198
+delete
+write
+goto 301
+set name string kiwi67
+set grp short 3
+set amount double -428.90
+write
+goto 186
+delete
+write
+goto 497
+set name string walnut3
+set grp short 3
+set amount double -546.40
+write
+goto 463
+set name string ilama54
+write
+goto 58
+set name string ugli35
+set grp short 1
+set amount double 533.33
+write
+goto 367
+set name string mango65
+write
+goto 374
+delete
+write
+goto 50
+set grp short 5
+set amount double 393.39
+write
+goto 223
+set name string cherry82
+set grp short 7
+set amount double 508.90
+write
+# A change cancelled, and one written by moving away.
+top
+set name string zzzcancelled
+cancel
+top
+set name string aaafirst
+skip 1
+append
+set id long 99999
+cancel
+close
+# Duplicate keys in a unique order.
+open u.adt shared
+append
+set id long 1
+set code string A1
+write
+append
+set id long 2
+set code string B2
+write
+append
+set id long 3
+set code string A1
+write
+state
+cancel
+top
+set code string B2
+write
+state
+goto 2
+set code string C3
+write
+top
+set code string B2
+write
+close

@@ -1,0 +1,67 @@
+# Temporary tables (#name), for fixtures/sql/temptables.json: made and read by
+# SQL on a free connection, in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables.txt > fixtures/sql/temptables.json
+#
+# Not recorded: that they go when the connection closes (the help says so),
+# and what AdsOpenTable does with them (a default table type is refused on a
+# free connection, so the probe cannot open one).
+stmt
+query CREATE TABLE t (n integer, s char(4))
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+query CREATE TABLE #a (x integer, y char(5))
+directnull INSERT INTO #a VALUES (1, 'one')
+directnull INSERT INTO #a SELECT n, s FROM t
+query CREATE TABLE #a (x integer)
+query CREATE TABLE #A (x integer)
+query SELECT * FROM #a ORDER BY x
+query SELECT * FROM #A
+query SELECT x FROM #a WHERE x = 1
+query SELECT * FROM "#a"
+query SELECT * FROM [#a]
+query SELECT #a.x FROM #a
+query SELECT a.x FROM #a
+query SELECT a.x, t.s FROM #a a JOIN t ON a.x = t.n
+query CREATE INDEX ix ON #a (x)
+query SELECT * FROM #a WHERE x = 2
+query ALTER TABLE #a ADD z integer
+query SELECT * FROM #a
+directnull UPDATE #a SET z = x * 10
+directnull DELETE FROM #a WHERE x = 1
+query SELECT * FROM #a
+query SELECT COUNT(*) AS c FROM #a
+# A script makes and fills one, and a later statement reads it.
+query CREATE TABLE #tmp (x integer); INSERT INTO #tmp VALUES (1); SELECT * FROM #tmp
+query SELECT * FROM #tmp
+stmt
+query SELECT * FROM #tmp
+query DECLARE q STRING; q = 'CREATE TABLE #ei (x integer)'; EXECUTE IMMEDIATE q; INSERT INTO #ei VALUES (1); SELECT * FROM #ei
+# Dropped, and never made.
+query DROP TABLE #a
+query SELECT * FROM #a
+query DROP TABLE #a
+query SELECT * FROM #nosuch
+query INSERT INTO #nosuch VALUES (1)
+query UPDATE #nosuch SET x = 1
+query CREATE INDEX ix ON #nosuch (x)
+query ALTER TABLE #nosuch ADD z integer
+query DROP TABLE #nosuch
+query CREATE TABLE # (x integer)
+query CREATE TABLE ##g (x integer)
+query SELECT * FROM ##g
+query CREATE TABLE #1x (x integer)
+query CREATE TABLE #b (x integer);  INSERT INTO #b VALUES (3); DROP TABLE #b; SELECT 1 AS a FROM system.iota
+query SELECT * FROM #b
+# The type of the statement it was made in stays its.
+tabletype 1
+query CREATE TABLE #dbf (x integer, y char(3))
+directnull INSERT INTO #dbf VALUES (7, 'abc')
+query SELECT * FROM #dbf
+tabletype 3
+query SELECT * FROM #dbf
+query CREATE TABLE #adt (x integer)
+tabletype 4
+query CREATE TABLE #vfp (x integer, y char(3))
+directnull INSERT INTO #vfp VALUES (7, 'abc')
+query SELECT * FROM #vfp

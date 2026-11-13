@@ -1,0 +1,5 @@
+# A Visual FoxPro table with a TimeStamp field and an order on it.
+tabletype vfp
+createtable ts.dbf 0 id,Integer;t,TimeStamp
+createindex - t 2 0 t
+close

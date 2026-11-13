@@ -1,0 +1,224 @@
+protocol 88
+fn handle_kind (handle : Handle) -> Option<HandleKind>
+fn connect (connect_string : String) -> Handle
+fn connect_path (path : String, server_types : u16, user : Option<String>, password : Option<String>, dd_password : Option<String>) -> Handle
+fn disconnect (connection : Handle) -> ()
+fn connection_info (connection : Handle) -> ConnectionInfo
+fn collation (connection : Handle) -> String
+fn set_collation (connection : Handle, collation : String) -> ()
+fn set_unique_enforcement (connection : Handle, on : bool) -> ()
+fn set_check_free_tables (connection : Handle, on : bool) -> ()
+fn set_autoinc_enforcement (connection : Handle, on : bool) -> ()
+fn set_handle_long (handle : Handle, value : u32) -> ()
+fn handle_long (handle : Handle) -> u32
+fn tables (connection : Handle) -> Vec<Handle>
+fn find_first_table (connection : Handle, mask : String, links : bool) -> Option<(String, Handle, bool)>
+fn active_links (connection : Handle) -> Vec<(String, String, String)>
+fn find_next_table (find : Handle) -> Option<(String, bool)>
+fn find_close (find : Handle) -> ()
+fn find_first_object (connection : Handle, kind : ObjectType, parent : Option<String>) -> (String, Handle)
+fn dd_property (connection : Handle, object : ObjectRef, id : u16) -> Property
+fn activity () -> Activity
+fn users (file : Option<String>) -> u32
+fn open_tables (every_handle : bool) -> Vec<OpenTable>
+fn open_indexes (table : Option<String>, every_handle : bool) -> Vec<String>
+fn date_format (connection : Handle) -> String
+fn set_date_format (connection : Handle, format : String) -> ()
+fn epoch () -> u16
+fn set_epoch (epoch : u16) -> ()
+fn set_show_deleted (show : bool) -> ()
+fn exact (handle : Handle) -> bool
+fn set_exact (handle : Handle, exact : bool) -> ()
+fn open_table (connection : Handle, name : String, settings : TableSettings) -> Handle
+fn close_table (table : Handle) -> ()
+fn table_info (table : Handle) -> TableInfo
+fn record_count (table : Handle, scopes : bool, filters : bool) -> u32
+fn indexes (table : Handle) -> Vec<Handle>
+fn full_text_indexes (table : Handle) -> Vec<Handle>
+fn last_update (table : Handle) -> String
+fn record_crc (table : Handle, ignore_pages : bool) -> u32
+fn numbered_indexes (table : Handle) -> Vec<Handle>
+fn index_by_expression (table : Handle, expression : String) -> Option<Handle>
+fn open_index (table : Handle, name : String) -> (Vec<Handle>, bool)
+fn close_index (order : Handle) -> ()
+fn create_table (connection : Handle, name : String, fields : String, memo_size : u16, settings : TableSettings) -> Handle
+fn create_dictionary (path : String, encrypt : u16) -> Handle
+fn create_dictionary_connect (connect_string : String) -> Handle
+fn add_table (connection : Handle, name : String, path : String, table_type : TableType, char_type : u16, index_files : String, comments : String) -> ()
+fn add_view (connection : Handle, name : String, sql : String, comment : String) -> ()
+fn add_procedure (connection : Handle, name : String, container : String, proc_name : String, invoke_option : u32, in_params : String, out_params : String, comment : String) -> ()
+fn remove_procedure (connection : Handle, name : String) -> ()
+fn add_trigger (connection : Handle, name : String, table : String, trigger_type : u32, event_types : u32, container_type : u32, container : String, function_name : String, priority : u32, comment : String, options : u32) -> ()
+fn remove_trigger (connection : Handle, name : String) -> ()
+fn add_refintegrity (connection : Handle, name : String, parent_table : String, parent_tag : String, child_table : String, child_tag : String, update_rule : u32, delete_rule : u32, no_primary_error : String, cascade_error : String) -> ()
+fn remove_refintegrity (connection : Handle, name : String) -> ()
+fn add_link (connection : Handle, alias : String, path : String, user : String, password : String, options : u32) -> ()
+fn drop_link (connection : Handle, alias : String) -> ()
+fn modify_link (connection : Handle, alias : String, path : String, user : String, password : String, options : u32) -> ()
+fn move_object_file (connection : Handle, object_type : u32, object_name : String, new_path : String, index_files : String, parent : String, options : u32) -> ()
+fn create_publication (connection : Handle, name : String, comment : String, options : u32) -> ()
+fn delete_publication (connection : Handle, name : String) -> ()
+fn set_publication_property (connection : Handle, name : String, property_id : u16, value : Vec<u8>) -> ()
+fn create_article (connection : Handle, publication : String, table : String, row_ident : String, filter : String, options : u32, wide : bool) -> ()
+fn delete_article (connection : Handle, publication : String, table : String) -> ()
+fn set_article_property (connection : Handle, publication : String, table : String, property_id : u16, value : Vec<u8>) -> ()
+fn create_subscription (connection : Handle, name : String, publication : String, target : String, user : String, password : String, queue : String, forward : u16, comment : String, options : u32) -> ()
+fn delete_subscription (connection : Handle, name : String) -> ()
+fn set_subscription_property (connection : Handle, name : String, property_id : u16, value : Vec<u8>) -> ()
+fn add_index_file (connection : Handle, table : String, path : String, comment : String) -> ()
+fn free_table (path : String, password : String) -> ()
+fn remove_view (connection : Handle, name : String) -> ()
+fn remove_table (connection : Handle, name : String, delete_files : u16) -> ()
+fn remove_index_file (connection : Handle, table : String, index_file : String, delete_file : u16) -> ()
+fn dd_delete_index (connection : Handle, table : String, index : String) -> ()
+fn rename_object (connection : Handle, name : String, new_name : String, object_type : u16, options : u32) -> ()
+fn create_group (connection : Handle, name : String, description : String) -> ()
+fn delete_group (connection : Handle, name : String) -> ()
+fn create_user (connection : Handle, group : String, name : String, password : String, description : String) -> ()
+fn delete_user (connection : Handle, name : String) -> ()
+fn add_user_to_group (connection : Handle, group : String, user : String) -> ()
+fn remove_user_from_group (connection : Handle, group : String, user : String) -> ()
+fn grant_permission (connection : Handle, object_type : u16, object_name : String, parent_name : String, grantee : String, rights : u32) -> ()
+fn revoke_permission (connection : Handle, object_type : u16, object_name : String, parent_name : String, grantee : String, rights : u32) -> ()
+fn set_object_access_rights (connection : Handle, object_name : String, accessor_name : String, allowed_access : String) -> ()
+fn get_permissions (connection : Handle, grantee : String, object_type : u16, object_name : String, parent_name : String, inherited : bool) -> u32
+fn set_table_property (connection : Handle, table : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_view_property (connection : Handle, view : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_field_property (connection : Handle, table : String, field : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_index_property (connection : Handle, table : String, index : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_database_property (connection : Handle, property_id : u16, value : Vec<u8>) -> ()
+fn set_user_property (connection : Handle, user_name : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_user_group_property (connection : Handle, group_name : String, property_id : u16, value : Vec<u8>) -> ()
+fn set_procedure_property (connection : Handle, procedure_name : String, property_id : u16, value : Vec<u8>) -> ()
+fn restructure_table (connection : Handle, name : String, settings : TableSettings, add : String, delete : String, change : String, memo_block_size : u32) -> ()
+fn create_index (table : Handle, file : Option<String>, tag : String, expression : String, condition : String, options : u32, page_size : u32) -> Handle
+fn delete_index (order : Handle) -> ()
+fn reindex (handle : Handle) -> ()
+fn reindex_pages (handle : Handle, page_size : u32) -> ()
+fn create_fts_index (table : Handle, file : Option<String>, tag : String, field : String, page_size : u32, min_word : u32, max_word : u32, lists : Vec<(bool, Option<String>)>, options : u32) -> ()
+fn reindex_fts (table : Handle, page_size : u32) -> ()
+fn pack_table (table : Handle, zap : bool, memo_block_size : u32) -> ()
+fn copy_table (handle : Handle, filter : u16, name : String, structure_only : bool) -> ()
+fn convert_table (handle : Handle, filter : u16, name : String, table_type : tflip_engine::table::TableType) -> ()
+fn copy_contents (from : Handle, to : Handle, filter : u16) -> ()
+fn clone_table (table : Handle) -> Handle
+fn recall_all (table : Handle) -> ()
+fn delete_table (table : Handle) -> ()
+fn set_transaction_free (table : Handle, free : bool) -> ()
+fn enable_encryption (table : Handle, password : String) -> ()
+fn disable_encryption (table : Handle) -> ()
+fn encrypt_table (table : Handle) -> ()
+fn decrypt_table (table : Handle) -> ()
+fn encrypt_record (table : Handle) -> ()
+fn decrypt_record (table : Handle) -> ()
+fn encryption_enabled (table : Handle) -> bool
+fn record_encrypted (table : Handle) -> bool
+fn close_all_indexes (table : Handle) -> ()
+fn index_by_name (table : Handle, name : String) -> Handle
+fn expression_to_short (table : Handle, expression : String) -> String
+fn expression_to_long (table : Handle, expression : String) -> String
+fn key_filter (table : Handle, values_table : String, options : u32) -> String
+fn goto_top (table : Handle) -> ()
+fn goto_bottom (table : Handle) -> ()
+fn goto_bof (table : Handle) -> ()
+fn goto_eof (table : Handle) -> ()
+fn skip (table : Handle, records : i64) -> ()
+fn goto_record (table : Handle, record : u32) -> ()
+fn position (table : Handle) -> Position
+fn record_number (table : Handle, visible : bool) -> u32
+fn found (table : Handle) -> bool
+fn is_visible (table : Handle) -> bool
+fn is_deleted (table : Handle) -> bool
+fn field_as (table : Handle, field : FieldId, want : Want) -> Scalar
+fn null (table : Handle, field : FieldId, empty : bool) -> Null
+fn read_record (table : Handle) -> Vec<u8>
+fn value (table : Handle, field : usize) -> Value
+fn is_null (table : Handle, field : usize) -> bool
+fn is_empty (table : Handle, field : usize) -> bool
+fn memo_length (table : Handle, field : usize) -> u32
+fn read_memo (table : Handle, field : usize) -> Vec<u8>
+fn data_length (table : Handle, field : usize, unit : LengthUnit) -> u32
+fn set_field (table : Handle, field : FieldId, value : SetValue) -> ()
+fn append_record (table : Handle) -> ()
+fn write_record (table : Handle) -> ()
+fn flush_table (table : Handle) -> ()
+fn set_record (handle : Handle, record : Vec<u8>) -> ()
+fn write_all_records () -> ()
+fn cancel_update (table : Handle) -> ()
+fn delete_record (table : Handle) -> ()
+fn recall_record (table : Handle) -> ()
+fn lock_record (table : Handle, record : u32) -> ()
+fn unlock_record (table : Handle, record : u32) -> ()
+fn lock_table (table : Handle) -> ()
+fn unlock_table (table : Handle) -> ()
+fn is_record_locked (table : Handle, record : u32) -> bool
+fn is_table_locked (table : Handle) -> bool
+fn locks (table : Handle) -> Vec<u32>
+fn last_autoinc (table : Handle) -> u32
+fn index_info (order : Handle) -> IndexInfo
+fn key_number (order : Handle, scoped : bool) -> u32
+fn key_count (order : Handle, scoped : bool) -> u32
+fn relative_position (order : Handle) -> f64
+fn set_relative_position (order : Handle, position : f64) -> ()
+fn seek (order : Handle, key : Key, how : SeekType) -> bool
+fn seek_last (order : Handle, key : Key) -> bool
+fn skip_unique (order : Handle, records : i64) -> ()
+fn set_index_direction (order : Handle, reversed : bool) -> ()
+fn extract_key (order : Handle) -> Vec<u8>
+fn bookmark_key (order : Handle) -> Vec<u8>
+fn lookup_key (order : Handle, key : Key) -> bool
+fn key_from_record (order : Handle, record : Vec<u8>) -> Vec<u8>
+fn init_raw_key (order : Handle) -> ()
+fn set_key_field (order : Handle, field : FieldId, value : SetValue) -> ()
+fn build_raw_key (order : Handle, options : u32) -> Vec<u8>
+fn add_custom_key (order : Handle) -> ()
+fn delete_custom_key (order : Handle) -> ()
+fn set_scope (order : Handle, bottom : bool, key : Key) -> ()
+fn scope_key (order : Handle, bottom : bool) -> Vec<u8>
+fn clear_scope (order : Handle, bottom : bool) -> ()
+fn clear_all_scopes (table : Handle) -> ()
+fn set_aof (table : Handle, expression : String, options : AofOptions) -> ()
+fn aof (table : Handle) -> String
+fn aof_level (table : Handle) -> (u16, String)
+fn eval_aof (table : Handle, expression : String) -> u16
+fn clear_aof (table : Handle) -> ()
+fn set_aof_active (table : Handle, active : bool) -> ()
+fn refresh_aof (table : Handle) -> ()
+fn customize_aof (table : Handle, records : Vec<u32>, how : Customize) -> ()
+fn is_in_aof (table : Handle, record : u32) -> bool
+fn set_filter (table : Handle, expression : String) -> ()
+fn filter (table : Handle) -> String
+fn clear_filter (table : Handle) -> ()
+fn check_expression (table : Handle, expression : String) -> ()
+fn eval (table : Handle, expression : String) -> Evaluation
+fn locate (table : Handle, expression : String, forward : bool) -> bool
+fn continue_locate (table : Handle) -> bool
+fn set_relation (parent : Handle, order : Handle, expression : String, scoped : bool) -> ()
+fn clear_relation (parent : Handle) -> ()
+fn begin_transaction (connection : Handle) -> ()
+fn commit_transaction (connection : Handle) -> ()
+fn rollback_transaction (connection : Handle, savepoint : Option<String>) -> ()
+fn create_savepoint (connection : Handle, name : String) -> ()
+fn transaction_count (connection : Handle) -> u32
+fn in_transaction (connection : Handle) -> bool
+fn recover_transactions () -> u32
+fn create_statement (connection : Handle) -> Handle
+fn close_statement (statement : Handle) -> ()
+fn prepare (statement : Handle, sql : String) -> ()
+fn verify (statement : Handle, sql : String) -> ()
+fn execute (statement : Handle, want_cursor : bool) -> Option<Handle>
+fn execute_direct (statement : Handle, sql : String, want_cursor : bool) -> Option<Handle>
+fn set_param (statement : Handle, param : ParamRef, value : ParamValue) -> ()
+fn clear_params (statement : Handle) -> ()
+fn set_statement (statement : Handle, setting : StatementSetting) -> ()
+fn statement_text (statement : Handle) -> String
+fn statement_params (statement : Handle) -> u32
+fn affected (statement : Handle) -> u32
+fn cursor_statement (cursor : Handle) -> Handle
+fn open_cursor (statement : Handle) -> Option<Handle>
+fn cursor_is_live (cursor : Handle) -> bool
+fn read_fields (table : Handle, want : Want) -> Vec<Option<Result<Scalar, Error>>>
+fn set_cache_size (connection : Handle, cursors : bool, size : u16) -> ()
+fn close_cached_tables (connection : Handle) -> ()
+fn set_encryption_type (connection : Handle, encryption_type : u8) -> ()
+fn set_table_type (connection : Handle, table_type : TableType) -> ()

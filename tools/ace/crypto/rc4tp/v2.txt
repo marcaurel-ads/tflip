@@ -1,0 +1,28 @@
+# VFP tables of an AES-128 dictionary with ENCRYPT_NEW_TABLE on: field types, NULLs and varying text, deletes, updates, memo values of several sizes.
+connect Data Source=%D\v2\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v2\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+stmttype 4
+sql CREATE TABLE tv (c CHAR(8) NULL, v VARCHAR(10) NULL, n INTEGER NULL, d DOUBLE NULL, dt DATE NULL, ts TIMESTAMP NULL, l LOGICAL NULL, nu NUMERIC(8,2) NULL, m MEMO NULL, b BLOB NULL)
+sql INSERT INTO tv VALUES ('abc', 'varchar1', 7, 1.5, '2020-01-02', '2020-01-02 03:04:05', true, 12.34, 'memo text', NULL)
+sql INSERT INTO tv VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+sql INSERT INTO tv VALUES ('x', 'a', 1, 2.5, '2021-02-03', '2021-02-03 04:05:06', false, 1.00, 'second', NULL)
+sql DELETE FROM tv WHERE n = 1
+sql UPDATE tv SET c = 'changed', m = 'a longer memo value than the first one, certainly past a block of sixty-four bytes' WHERE n = 7
+sql CREATE TABLE tm (id INTEGER, note MEMO NULL)
+sql INSERT INTO tm VALUES (1, 'a')
+sql INSERT INTO tm VALUES (2, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+sql INSERT INTO tm VALUES (3, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+sql INSERT INTO tm VALUES (4, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+sql INSERT INTO tm VALUES (5, NULL)
+sql INSERT INTO tm VALUES (6, '')
+sql UPDATE tm SET note = 'cc' WHERE id = 4
+sql DELETE FROM tm WHERE id = 2
+sql CREATE TABLE tz (a CHAR(5))
+sql INSERT INTO tz VALUES ('AAAAA')
+sql INSERT INTO tz VALUES ('BBBBB')
+sql INSERT INTO tz VALUES ('CCCCC')
+sql DELETE FROM tz WHERE a = 'BBBBB'
+disconnect

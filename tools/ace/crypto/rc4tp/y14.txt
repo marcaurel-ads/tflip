@@ -1,0 +1,26 @@
+# VarChar, Binary and Image fields of encrypted DBF tables (the same in a clear dictionary): where their memo remainders and values are enciphered.
+ddcreate 0 %D\y14\d.add
+stmttype 2
+createf 2 vc id, Integer; v, VarChar, 10; b, Binary; i, Image;
+sql INSERT INTO vc VALUES (1, 'short', CAST('binary_one' AS SQL_BINARY), CAST('image_one' AS SQL_BINARY))
+sql INSERT INTO vc VALUES (2, 'a varchar much longer than ten', CAST('binary_two_longer' AS SQL_BINARY), CAST('image_two_longer' AS SQL_BINARY))
+sql INSERT INTO vc VALUES (3, 'exactly10!', CAST('b3' AS SQL_BINARY), CAST('i3' AS SQL_BINARY))
+sql INSERT INTO vc VALUES (4, 'another long varchar value here', CAST('b4' AS SQL_BINARY), CAST('i4' AS SQL_BINARY))
+sql UPDATE vc SET v = 'now an even longer varchar than before' WHERE id = 1
+sql UPDATE vc SET v = 'tiny' WHERE id = 2
+query SELECT id, v, b, i FROM vc ORDER BY id
+stmttype 1
+createf 1 vn id, Integer; v, VarChar, 10; b, Binary; i, Image;
+sql INSERT INTO vn VALUES (1, 'short', CAST('binary_one' AS SQL_BINARY), CAST('image_one' AS SQL_BINARY))
+sql INSERT INTO vn VALUES (2, 'a varchar much longer than ten', CAST('binary_two_longer' AS SQL_BINARY), CAST('image_two_longer' AS SQL_BINARY))
+sql INSERT INTO vn VALUES (3, 'exactly10!', CAST('b3' AS SQL_BINARY), CAST('i3' AS SQL_BINARY))
+sql UPDATE vn SET v = 'now an even longer varchar than before' WHERE id = 1
+query SELECT id, v, b, i FROM vn ORDER BY id
+stmttype 4
+createf 4 vv id, Integer; v, VarChar, 10; b, Binary; i, Image;
+sql INSERT INTO vv VALUES (1, 'short', CAST('binary_one' AS SQL_BINARY), CAST('image_one' AS SQL_BINARY))
+sql INSERT INTO vv VALUES (2, 'a varchar much longer than ten', CAST('binary_two_longer' AS SQL_BINARY), CAST('image_two_longer' AS SQL_BINARY))
+sql INSERT INTO vv VALUES (3, 'exactly10!', CAST('b3' AS SQL_BINARY), CAST('i3' AS SQL_BINARY))
+sql UPDATE vv SET v = 'now an even longer varchar than before' WHERE id = 1
+query SELECT id, v, b, i FROM vv ORDER BY id
+disconnect

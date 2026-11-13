@@ -1,0 +1,81 @@
+# Binary orders whose bitmaps fill the 62 leaves of their root, then start a
+# 63rd, as in a binary ADI order (see bitmap_split); a changed record flips
+# the bit of an order on a value.
+tabletype cdx
+open a.dbf exclusive
+createindex - del 4098 512 DELETED()
+createindex - high 4098 512 x > 'a'
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 210000
+pos
+oskip 1
+pos
+order high
+count
+obottom
+pos
+otop
+pos
+oskip 20000
+pos
+append
+set x string b
+write
+append
+set x string a
+write
+goto 100
+set x string b
+write
+goto 246015
+set x string b
+write
+goto 246016
+set x string a
+write
+goto 14
+set x string a
+write
+goto 245000
+set x string b
+write
+goto 5
+delete
+write
+goto 245000
+delete
+write
+goto 246016
+delete
+write
+goto 8
+recall
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 211000
+pos
+oskip 1
+pos
+order high
+count
+obottom
+pos
+otop
+pos
+oskip 20000
+pos
+close

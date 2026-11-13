@@ -1,0 +1,11 @@
+tabletype cdx
+sql CREATE TABLE c1 (id INTEGER, body CHAR(40))
+sql INSERT INTO c1 VALUES (1, 'alpha beta gamma'), (2, 'beta delta')
+sql CREATE TABLE c2 (id INTEGER, body CHAR(40))
+sql INSERT INTO c2 VALUES (1, 'alpha beta gamma'), (2, 'beta delta')
+sql CREATE TABLE c3 (id INTEGER, body CHAR(40))
+sql CREATE TABLE c4 (id INTEGER, body CHAR(40))
+sql INSERT INTO c4 VALUES (1, 'alpha beta gamma'), (2, 'beta delta')
+sql CREATE INDEX c4_id ON c4 (id)
+sql CREATE TABLE c5 (id INTEGER, body CHAR(40))
+sql INSERT INTO c5 VALUES (1, 'alpha beta gamma'), (2, 'beta delta')

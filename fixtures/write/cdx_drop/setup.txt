@@ -1,0 +1,18 @@
+tabletype cdx
+sql CREATE TABLE cdx_t (id integer, name char(10), d date)
+sql INSERT INTO cdx_t VALUES (1, 'one', '2020-01-02')
+sql INSERT INTO cdx_t VALUES (2, 'two', '2021-03-04')
+sql INSERT INTO cdx_t VALUES (3, 'three', NULL)
+sql CREATE INDEX ta ON cdx_t (name)
+sql CREATE INDEX tb ON cdx_t (id)
+sql CREATE INDEX tc ON cdx_t (d)
+sql CREATE INDEX td ON cdx_t (name DESC)
+tabletype vfp
+sql CREATE TABLE vfp_t (id integer, name char(10), d date)
+sql INSERT INTO vfp_t VALUES (1, 'one', '2020-01-02')
+sql INSERT INTO vfp_t VALUES (2, 'two', '2021-03-04')
+sql INSERT INTO vfp_t VALUES (3, 'three', NULL)
+sql CREATE INDEX ta ON vfp_t (name)
+sql CREATE INDEX tb ON vfp_t (id)
+sql CREATE INDEX tc ON vfp_t (d)
+sql CREATE INDEX td ON vfp_t (name DESC)

@@ -1,0 +1,68 @@
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\img\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\dwrong\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\img\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\dempty\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\img\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05_restore_pw\dnull\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adt | 
+5168 dbf.c:6387 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adt | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adi | 
+7041 index.c:5484 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adi | 
+7041 index.c:9568 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adi | 
+5168 dbf.c:6951 C:\ads\data\bk\s05_restore_pw\dgood\t_adt.adi | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.cdx | 
+7041 index.c:5199 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.cdx | 
+7041 index.c:9568 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.cdx | 
+5168 dbf.c:6951 C:\ads\data\bk\s05_restore_pw\dgood\t_cdx.cdx | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_name.ntx | 
+7041 index.c:5117 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_name.ntx | 
+7041 index.c:9568 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_name.ntx | 
+5168 dbf.c:6951 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_name.ntx | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_d.ntx | 
+7041 index.c:5117 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_d.ntx | 
+7041 index.c:9568 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_d.ntx | 
+5168 dbf.c:6951 C:\ads\data\bk\s05_restore_pw\dgood\t_ntx_d.ntx | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.cdx | 
+7041 index.c:5199 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.cdx | 
+7041 index.c:9568 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.cdx | 
+5168 dbf.c:6951 C:\ads\data\bk\s05_restore_pw\dgood\t_vfp.cdx | 

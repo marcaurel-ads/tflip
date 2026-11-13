@@ -1,0 +1,20 @@
+# sp_CreateIndex90, DROP INDEX and DROP TABLE of a dictionary's table whose
+# orders have a key expression and condition that together run past the
+# dictionary record's property field (275 bytes): where the original puts the
+# continuation in the memo file, and what it frees. The dictionary,
+# de/de.add, is kept in fixtures/sql/spddlongidx/:
+#
+#     run.sh <work> <ace32.dll> spddlongidx.txt > ../../../fixtures/sql/spddlongidx.json
+#     cp <work>/data/de/de.a* ../../../fixtures/sql/spddlongidx/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, long_column_name_for_expressions_00 CHAR(3), long_column_name_for_expressions_01 CHAR(3), long_column_name_for_expressions_02 CHAR(3), long_column_name_for_expressions_03 CHAR(3), long_column_name_for_expressions_04 CHAR(3), long_column_name_for_expressions_05 CHAR(3), long_column_name_for_expressions_06 CHAR(3), long_column_name_for_expressions_07 CHAR(3), long_column_name_for_expressions_08 CHAR(3), long_column_name_for_expressions_09 CHAR(3), long_column_name_for_expressions_10 CHAR(3), long_column_name_for_expressions_11 CHAR(3), long_column_name_for_expressions_12 CHAR(3), long_column_name_for_expressions_13 CHAR(3), long_column_name_for_expressions_14 CHAR(3), long_column_name_for_expressions_15 CHAR(3), long_column_name_for_expressions_16 CHAR(3), long_column_name_for_expressions_17 CHAR(3), long_column_name_for_expressions_18 CHAR(3), long_column_name_for_expressions_19 CHAR(3), long_column_name_for_expressions_20 CHAR(3), long_column_name_for_expressions_21 CHAR(3), long_column_name_for_expressions_22 CHAR(3), long_column_name_for_expressions_23 CHAR(3), long_column_name_for_expressions_24 CHAR(3), long_column_name_for_expressions_25 CHAR(3), long_column_name_for_expressions_26 CHAR(3), long_column_name_for_expressions_27 CHAR(3), long_column_name_for_expressions_28 CHAR(3), long_column_name_for_expressions_29 CHAR(3))
+direct EXECUTE PROCEDURE sp_CreateIndex90('t1', 't1.adi', 'i1', 'long_column_name_for_expressions_00 + long_column_name_for_expressions_01 + long_column_name_for_expressions_02 + long_column_name_for_expressions_03 + long_column_name_for_expressions_04 + long_column_name_for_expressions_05', '', 2, 512, '')
+direct EXECUTE PROCEDURE sp_CreateIndex90('t1', 't1.adi', 'i2', 'long_column_name_for_expressions_06 + long_column_name_for_expressions_07 + long_column_name_for_expressions_08 + long_column_name_for_expressions_09 + long_column_name_for_expressions_10 + long_column_name_for_expressions_11', 'long_column_name_for_expressions_00 <> ''x'' AND long_column_name_for_expressions_01 <> ''x'' AND long_column_name_for_expressions_02 <> ''x'' AND long_column_name_for_expressions_03 <> ''x''', 2, 512, '')
+direct CREATE INDEX i3 ON t1 (id)
+direct DROP INDEX t1.i1
+direct DROP INDEX t1.i2
+direct EXECUTE PROCEDURE sp_CreateIndex90('t1', 't1.adi', 'i4', 'long_column_name_for_expressions_00 + long_column_name_for_expressions_01 + long_column_name_for_expressions_02 + long_column_name_for_expressions_03 + long_column_name_for_expressions_04 + long_column_name_for_expressions_05', '', 2, 512, '')
+direct EXECUTE PROCEDURE sp_CreateIndex90('t1', 't1.adi', 'i5', 'long_column_name_for_expressions_06 + long_column_name_for_expressions_07 + long_column_name_for_expressions_08 + long_column_name_for_expressions_09 + long_column_name_for_expressions_10 + long_column_name_for_expressions_11', 'long_column_name_for_expressions_00 <> ''x'' AND long_column_name_for_expressions_01 <> ''x'' AND long_column_name_for_expressions_02 <> ''x'' AND long_column_name_for_expressions_03 <> ''x''', 2, 512, '')
+direct DROP TABLE t1
+query SELECT * FROM system.tables

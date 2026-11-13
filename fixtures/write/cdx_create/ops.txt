@@ -1,0 +1,41 @@
+# Tags of the structural index on no records.
+tabletype cdx
+open ce.dbf
+createindex - c 2 512 c
+createindex - n 2 512 n
+close
+# On records: unique, descending, a condition, an expression; another
+# compound index file.
+open cr.dbf
+createindex - c 2 512 c
+createindex - u 3 512 c
+createindex - nd 10 512 n
+createindex - f 2 512 UPPER(c) FOR n > 1
+createindex - dt 2 512 d
+createindex - lg 2 512 l
+createindex other.cdx o 2 512 n
+order u
+rows
+order nd
+rows
+append
+set c string delta
+set n double 5
+write
+order f
+rows
+close
+# On 3,000 records: leaves packed full, the root above them.
+open big.dbf
+createindex - c 2 512 c
+createindex - n 2 512 n
+order c
+count
+close
+tabletype vfp
+open v.dbf
+createindex - c 2 512 c
+createindex - i 2 512 i
+order i
+rows
+close

@@ -1,0 +1,18 @@
+# VFP tables of an AES-256 dictionary with ENCRYPT_NEW_TABLE on and ENCRYPT_INDEXES on: the type byte and the key of AES-256, and what an index (CREATE INDEX makes a .cdx) is.
+connect Data Source=%D\v3\;ServerType=LOCAL;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v3\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+stmttype 4
+sql CREATE TABLE ta (id INTEGER, name CHAR(10), note MEMO NULL)
+sql INSERT INTO ta VALUES (3, 'cccccccccc', 'three')
+sql INSERT INTO ta VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO ta VALUES (2, 'bbbbbbbbbb', NULL)
+sql CREATE INDEX ta_name ON ta (name)
+sql CREATE INDEX ta_id ON ta (id)
+sql INSERT INTO ta VALUES (4, 'dddddddddd', 'four')
+sql CREATE TABLE tb (id INTEGER)
+sql INSERT INTO tb VALUES (1)
+disconnect

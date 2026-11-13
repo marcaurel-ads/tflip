@@ -1,0 +1,5 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_EnableQueryLogging('slow', 1, 0, 100000, '')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_DisableQueryLogging()", "rc": 0, "has_cursor": false, "affected": 0}
+]

@@ -1,0 +1,11 @@
+{
+ "001_cmd": "ddcreate 0 %D\\x3\\d.add",
+ "001_rc": 0,
+ "002_cmd": "create ct",
+ "002_rc": 0,
+ "003_cmd": "tget ct 214",
+ "003_rc": 0,
+ "003_val": 0,
+ "004_cmd": "disconnect",
+ "004_rc": 0
+}

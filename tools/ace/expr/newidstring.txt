@@ -1,0 +1,24 @@
+# NEWIDSTRING(format) in the expression engine (record filters, index
+# expressions), probed on the native VM. Run with probe.c:
+#   probe.exe <ace32.dll> <data folder> newidstring.txt
+# The value is a random GUID; what matters is the layout per format and the
+# errors. Findings (ADS 12.0): D/DELIMITED=36-char hyphenated, B/BRACKETED=the
+# same in [square brackets] (38), P/PARENTHESIS=(...) (38), N/NUMBERS=32 hex,
+# M=MIME base64 (24, +/ and = padding), F/FILE=URL-safe base64 (22, -_ , no
+# padding); all case-insensitive. The documented "MIME"/"REGISTRY" long names
+# are rejected (4407), as is any other format; a non-string argument is 3409
+# and no argument 3402. (See docs/ADS_BUGS.md for the MIME mismatch.)
+@table all_types.adt
+NEWIDSTRING("D")
+NEWIDSTRING("B")
+NEWIDSTRING("P")
+NEWIDSTRING("N")
+NEWIDSTRING("M")
+NEWIDSTRING("F")
+NEWIDSTRING("DELIMITED")
+NEWIDSTRING("BRACKETED")
+NEWIDSTRING("PARENTHESIS")
+NEWIDSTRING("NUMBERS")
+NEWIDSTRING("FILE")
+NEWIDSTRING("MIME")
+NEWIDSTRING("X")

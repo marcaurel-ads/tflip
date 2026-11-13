@@ -1,0 +1,79 @@
+# Reads only
+cursor SELECT {static} * FROM tr
+top
+append
+state
+delete
+state
+recall
+write
+cancel
+writeall
+lock 1
+islocked 1
+locks
+unlock 1
+refresh
+locktable
+unlocktable
+recallall
+pack
+zap
+reindex
+rows
+closecursor
+cursorreadonly 1
+cursor SELECT * FROM tr
+top
+append
+state
+delete
+state
+recall
+write
+cancel
+writeall
+lock 1
+islocked 1
+locks
+unlock 1
+refresh
+locktable
+unlocktable
+recallall
+pack
+zap
+reindex
+rows
+closecursor
+cursorreadonly 2
+cursor SELECT a.id, a.name FROM tl a JOIN tl b ON a.id = b.id
+top
+append
+delete
+recall
+write
+lock 1
+islocked 1
+unlock 1
+refresh
+locktable
+recallall
+rows
+closecursor
+cursor SELECT * FROM tl WHERE n > 25
+top
+lock 3
+islocked 3
+locks
+unlock 3
+locktable
+state
+unlocktable
+recallall
+refresh
+rows
+closecursor
+open tl.adt exclusive
+rows
+close

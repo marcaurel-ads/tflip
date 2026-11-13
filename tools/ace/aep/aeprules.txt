@@ -1,0 +1,106 @@
+# What an external procedure (aeprules.c as aeprules.aep) may do with the
+# connection handle it is given and with connections of its own, on the
+# original's local server (a 32-bit DLL linking the ace32.dll the client
+# loaded; run `aeprules.sh`): transaction calls and statements on the passed
+# handle, the rights of a user without any on the table the procedure writes,
+# handles kept by a procedure of one connection and used by a procedure of
+# another (5202), a connection the library opens itself, and what the
+# handle is.
+#
+#     tools/ace/aep/aeprules.sh > fixtures/sql/aeprules.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE t (n INTEGER)
+direct INSERT INTO t VALUES (100)
+direct CREATE PROCEDURE api_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiBegin IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE api_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE api_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlBegin IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlCommit IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE sql_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlRollback IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE write_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION WriteT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE read_t(n INTEGER OUTPUT) FUNCTION ReadT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE open_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION OpenT IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE kind(a INTEGER OUTPUT, handle INTEGER OUTPUT, b INTEGER OUTPUT, conn INTEGER OUTPUT) FUNCTION Kind IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE keep(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION Keep IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_statement(a INTEGER OUTPUT) FUNCTION UseStatement IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_table(a INTEGER OUTPUT) FUNCTION UseTable IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE use_cursor(a INTEGER OUTPUT, b INTEGER OUTPUT) FUNCTION UseCursor IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE drop_kept(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION DropKept IN LIBRARY "aeprules.aep"
+direct CREATE PROCEDURE own(code INTEGER OUTPUT, begin_ INTEGER OUTPUT, ins INTEGER OUTPUT, mine INTEGER OUTPUT, theirs INTEGER OUTPUT, rollback_ INTEGER OUTPUT, after_ INTEGER OUTPUT, ct INTEGER OUTPUT, ctype INTEGER OUTPUT) FUNCTION Own IN LIBRARY "aeprules.aep"
+#
+# The passed handle.
+query EXECUTE PROCEDURE kind()
+#
+# Transaction calls on the handle given, outside and inside a transaction of
+# the caller.
+query EXECUTE PROCEDURE api_begin()
+query EXECUTE PROCEDURE api_commit()
+query EXECUTE PROCEDURE api_rollback()
+query EXECUTE PROCEDURE sql_begin()
+query EXECUTE PROCEDURE sql_commit()
+query EXECUTE PROCEDURE sql_rollback()
+txcount
+direct BEGIN TRANSACTION
+txcount
+query EXECUTE PROCEDURE api_begin()
+query EXECUTE PROCEDURE sql_begin()
+txcount
+query EXECUTE PROCEDURE api_commit()
+query EXECUTE PROCEDURE sql_commit()
+txcount
+query EXECUTE PROCEDURE api_rollback()
+query EXECUTE PROCEDURE sql_rollback()
+txcount
+direct ROLLBACK
+query SELECT COUNT(*) AS c FROM t
+#
+# A connection of its own: its writes and its transaction (a rollback undoes
+# nothing on the local server).
+query EXECUTE PROCEDURE own()
+query SELECT n FROM t ORDER BY n
+txcount
+#
+# Rights: a user with none on t, allowed to run the procedures.
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')
+direct GRANT EXECUTE ON write_t TO u1
+direct GRANT EXECUTE ON read_t TO u1
+direct GRANT EXECUTE ON open_t TO u1
+direct GRANT EXECUTE ON kind TO u1
+direct GRANT EXECUTE ON own TO u1
+direct GRANT EXECUTE ON keep TO u1
+direct GRANT EXECUTE ON use_statement TO u1
+direct GRANT EXECUTE ON use_table TO u1
+direct GRANT EXECUTE ON use_cursor TO u1
+direct GRANT EXECUTE ON drop_kept TO u1
+disconnect
+connect ae\ae.add u1 pw1
+stmt
+query SELECT * FROM t
+direct INSERT INTO t VALUES (3)
+query EXECUTE PROCEDURE read_t()
+query EXECUTE PROCEDURE write_t()
+query EXECUTE PROCEDURE open_t()
+query EXECUTE PROCEDURE kind()
+query EXECUTE PROCEDURE own()
+query SELECT n FROM t ORDER BY n
+#
+# Handles kept on one connection, used on another.
+query EXECUTE PROCEDURE keep()
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+switch
+connect ae\ae.add adssys
+stmt
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+query EXECUTE PROCEDURE drop_kept()
+switch
+query EXECUTE PROCEDURE use_statement()
+query EXECUTE PROCEDURE use_table()
+query EXECUTE PROCEDURE use_cursor()
+query EXECUTE PROCEDURE drop_kept()

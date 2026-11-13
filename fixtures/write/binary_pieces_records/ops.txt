@@ -1,0 +1,42 @@
+open t.adt
+top
+# a piece in a value that is there, a cut value, then another record
+setbin b 6 10 0 ff
+get b
+skip 1
+get b
+setbin b 6 6 0 cc
+get b
+skip 1
+setbin b 6 6 0 dd
+get b
+goto 2
+setbin v 6 4 0 ee
+get v
+goto 2
+setbin b 6 8 4 99
+get b
+# the value set another way, then pieces
+goto 3
+set b string BAUG
+get b
+setbin b 6 6 3 010203
+get b
+# a new record
+append
+setbin b 6 8 4 01020304
+write
+get b
+append
+setbin b 6 8 0 aa
+get b
+cancel
+get b
+# a deleted record
+goto 1
+delete
+setbin b 6 10 9 bb
+get b
+recall
+setbin b 6 10 0 cc
+get b

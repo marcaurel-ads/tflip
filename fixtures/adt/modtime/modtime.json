@@ -1,0 +1,21 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 25,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "changed", "type": 22, "type_name": "ModTime", "length": 8, "decimals": 0},
+  {"name": "rv", "type": 21, "type_name": "RowVersion", "length": 8, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000001000000818e2500e17c89020100000000000000", "values": {"id": {"text": "1"}, "changed": {"text": "2026-09-29 11:49:24.833", "julian": 2461313, "ms": 42564833}, "rv": {"text": "1"}}},
+  {"recno": 2, "deleted": false, "raw": "040000000003000000818e2500e27c89020300000000000000", "values": {"id": {"text": "3"}, "changed": {"text": "2026-09-29 11:49:24.834", "julian": 2461313, "ms": 42564834}, "rv": {"text": "3"}}}
+ ]
+}

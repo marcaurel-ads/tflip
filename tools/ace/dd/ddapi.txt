@@ -1,0 +1,48 @@
+# What the AdsDD* calls that add objects do for a user who is not the
+# administrator, run by grants.exe (see grants.c; grants.sh does not keep these):
+# one in no group, one with the right to create views, one in DB:Admin.
+@ apirights
+user none
+user maker
+user boss
+table t
+group g1
+sql GRANT CREATE VIEW TO maker
+sql EXECUTE PROCEDURE sp_AddUserToGroup('boss', 'DB:Admin')
+member DB:Admin boss
+dump SELECT * FROM system.usergroupmembers
+as none
+view v1 SELECT id FROM t
+proc p1
+user n1
+group n1g
+member g1 none
+table t2
+link l1
+pub pb1
+as maker
+view v2 SELECT id FROM t
+view v2 SELECT id FROM t
+proc p2
+user m1
+as boss
+view v3 SELECT id FROM t
+proc p3
+user b1
+group b1g
+member g1 none
+table t3
+link l3
+pub pb3
+grant 0|t||none|1
+get none|0|t||0
+as maker
+grant 0|t||none|1
+asadmin
+dump SELECT Name FROM system.views
+dump SELECT Name FROM system.storedprocedures
+dump SELECT Name FROM system.users
+dump SELECT Name FROM system.usergroups
+dump SELECT * FROM system.usergroupmembers
+dump SELECT Name FROM system.tables
+dump SELECT * FROM system.permissions WHERE Grantee = 'boss' AND Name IN ('v3', 'p3', 'b1', 'b1g', 't3', 'l3', 'pb3')

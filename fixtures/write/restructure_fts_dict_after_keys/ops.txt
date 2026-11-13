@@ -1,0 +1,69 @@
+ddconnect dd.add ADSSYS -
+tabletype database
+restructure :k1 0 ||body,body,Integer,4
+restructure :k2 0 ||body,body,Integer,4
+restructure :k3 0 ||body,body,Integer,4
+restructure :k4 0 ||body,body,Integer,4
+restructure :m1 0 ||body,body,Integer,4
+restructure :m2 0 ||body,body,Integer,4
+restructure :q1 0 ||body,body,Integer,4
+restructure :n1 0 ||body,body,Integer,4
+restructure :k1 0 |pre|
+open :k1
+top
+record
+order k1_id
+rows
+order k1_body
+order k1_title
+order k1_m
+close
+restructure :k2 0 ||pre,pre,Char,8
+open :k2
+top
+record
+order k2_id
+rows
+order k2_body
+order k2_title
+order k2_m
+close
+restructure :k3 0 ||title,title2,Char,40
+open :k3
+top
+record
+order k3_id
+rows
+order k3_body
+order k3_title
+order k3_m
+close
+restructure :k4 0 |z|title,title,Char,40
+open :k4
+top
+record
+order k4_id
+rows
+order k4_body
+order k4_title
+order k4_m
+close
+restructure :n1 0 |z|
+open :n1
+top
+record
+order n1_id
+rows
+order n1_body
+order n1_title
+order n1_m
+close
+restructure :m1 0 extra,Char,4||
+open :m1
+restructure :m2 0 ||body,body,Memo,10
+open :m2
+sql CREATE INDEX q1_x ON q1 (z)
+sql EXECUTE PROCEDURE sp_Reindex('q1', 0)
+sql INSERT INTO q1 (id) VALUES (9)
+sql UPDATE q1 SET id = 8 WHERE id = 9
+sql DELETE FROM q1 WHERE id = 8

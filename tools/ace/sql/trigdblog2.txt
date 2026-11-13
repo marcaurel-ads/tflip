@@ -1,0 +1,172 @@
+# Database triggers on OPEN_TABLE and CLOSE_TABLE: failures and nesting.
+#
+# What a trigger's failure does to an open or a close, and the tables that
+# procedures and table triggers open: a trigger that fails in BEFORE or AFTER
+# OPEN_TABLE (the open is cancelled), in BEFORE CLOSE_TABLE (the AFTER ones are
+# skipped), the tables a procedure's statements open (closed as each ends), and
+# those the triggers of a table open (closed when they fire again or a handle
+# of their table closes).
+#
+# Database triggers ON DATABASE BEFORE | AFTER OPEN_TABLE and CLOSE_TABLE that
+# log what __info tells them (the table's name, the number of times it is open,
+# whether it is shared, free, which type, and whether a client opened it) to a
+# table logt, in an empty folder with a dictionary dbt/dbt.add the script
+# creates (kept in fixtures/sql/trigdblog2/, which the replay compares but for logt
+# and its memo file). Recorded on the local server with no statements' tables
+# kept open (AdsCacheOpenCursors 0), and replayed: what the triggers write is
+# read back at the end, by the statements' own results:
+#
+#     run.sh <work> <ace32.dll> trigdblog2.txt > ../../../fixtures/sql/trigdblog2.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigdblog2/
+#
+# A marker statement in logt says where each case ends. The triggers leave the
+# opens of logt alone (their own writes open it too, which fire none of the
+# kind they run in).
+cachecursors 0
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE logt (n AUTOINC, msg VARCHAR(200))
+direct CREATE TABLE t1 (id INTEGER)
+direct CREATE TABLE t2 (id INTEGER)
+direct INSERT INTO t1 VALUES (1)
+direct INSERT INTO t2 VALUES (1)
+direct CREATE TRIGGER a1 ON DATABASE BEFORE OPEN_TABLE BEGIN INSERT INTO logt (msg) SELECT 'B-OP ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a2 ON DATABASE AFTER OPEN_TABLE BEGIN INSERT INTO logt (msg) SELECT 'A-OP ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a3 ON DATABASE BEFORE CLOSE_TABLE BEGIN INSERT INTO logt (msg) SELECT 'B-CL ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct CREATE TRIGGER a4 ON DATABASE AFTER CLOSE_TABLE BEGIN INSERT INTO logt (msg) SELECT 'A-CL ' + IFNULL(TRIM(TableName),'N') + ' ' + IFNULL(CAST(UserID AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(OpenCount AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsShared AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsFree AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(LockType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(TableType AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsDirect AS SQL_CHAR(10)),'N') + ' ' + IFNULL(CAST(IsTemp AS SQL_CHAR(10)),'N') FROM __info WHERE IFNULL(TRIM(TableName),'') <> 'logt'; END
+direct DELETE FROM logt
+stmt
+#
+# Triggers that fail.
+direct CREATE TRIGGER f1 ON DATABASE AFTER OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no t2 after'); END IF; END
+direct SELECT * FROM t2
+direct INSERT INTO logt (msg) VALUES ('--- 1 select t2 with failing AFTER open')
+closecursor
+direct INSERT INTO logt (msg) VALUES ('--- 1b closecursor')
+stmt
+direct SELECT * FROM t1
+direct INSERT INTO logt (msg) VALUES ('--- 1c select t1 on new stmt (previous t2 failed)')
+closecursor
+open t2
+direct INSERT INTO logt (msg) VALUES ('--- 2 api open t2 with failing AFTER')
+direct DROP TRIGGER f1
+direct CREATE TRIGGER f2 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no t2 before'); END IF; END
+stmt
+direct SELECT * FROM t2
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 select t2 with failing BEFORE open')
+direct DROP TRIGGER f2
+direct CREATE TRIGGER f3 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' AND __info.IsDirect = 1 THEN RAISE bad(1, 'no client t2'); END IF; END
+stmt
+direct SELECT * FROM t2
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 4 select t2 with failing client BEFORE open: stmt level was opened')
+direct DROP TRIGGER f3
+direct CREATE TRIGGER f4 ON DATABASE BEFORE CLOSE_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no close t2'); END IF; END
+stmt
+direct SELECT * FROM t2
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 failing BEFORE CLOSE, then marker')
+direct DROP TRIGGER f4
+#
+# The order a statement closes its tables in, with a table trigger and a procedure.
+direct CREATE TABLE t3 (id INTEGER)
+direct CREATE TABLE t4 (id INTEGER)
+direct CREATE TRIGGER tr1 ON t3 AFTER INSERT BEGIN INSERT INTO t4 (id) SELECT id FROM __new; END
+direct CREATE PROCEDURE p1 () BEGIN INSERT INTO t2 SELECT id FROM t1; END
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 0 setup')
+direct SELECT * FROM t1 a, t2 b, t3 c
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 join3 closed')
+direct UPDATE t1 SET id = (SELECT MAX(id) FROM t2)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 update subq closed')
+direct INSERT INTO t1 SELECT id FROM t2
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 insert select closed')
+direct SELECT * FROM t1 WHERE id IN (SELECT id FROM t2)
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 4 select in subq closed')
+direct INSERT INTO t3 VALUES (1)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 insert t3 with trigger closed')
+direct EXECUTE PROCEDURE p1()
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 procedure closed')
+direct SELECT * FROM t1 UNION SELECT * FROM t2
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 7 union closed')
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t2)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 8 delete subq closed')
+direct SELECT * FROM t1 a JOIN t2 b ON a.id = b.id
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 9 join on closed')
+direct SELECT (SELECT COUNT(*) FROM t2), id FROM t1
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 10 scalar subq closed')
+#
+# Procedures with several statements.
+direct CREATE PROCEDURE p3 () BEGIN INSERT INTO t1 VALUES (1); INSERT INTO t2 VALUES (1); INSERT INTO t1 VALUES (2); END
+direct CREATE PROCEDURE p4 () BEGIN INSERT INTO t1 VALUES (1); INSERT INTO t1 VALUES (2); UPDATE t1 SET id = 3; END
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 0 setup')
+direct EXECUTE PROCEDURE p3()
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 p3')
+direct EXECUTE PROCEDURE p4()
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 p4')
+stmt
+#
+# A table trigger that opens another table.
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 0 setup')
+direct INSERT INTO t3 VALUES (1)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 1 insert t3 (trigger t4), closestmt')
+direct INSERT INTO t3 VALUES (1)
+direct SELECT * FROM t2
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 2 insert t3, then select t2 on same stmt')
+direct INSERT INTO t3 VALUES (1)
+direct INSERT INTO t3 VALUES (2)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 3 insert t3 twice (different text), closestmt')
+direct INSERT INTO t3 VALUES (2)
+direct INSERT INTO t3 VALUES (2)
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 4 insert t3 same text twice, closestmt')
+direct INSERT INTO t3 VALUES (1)
+stmt
+direct SELECT * FROM t3
+closecursor
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 5 X insert t3 held; Y select t3 closecursor')
+direct SELECT * FROM t3
+closecursor
+closestmt
+stmt
+direct INSERT INTO logt (msg) VALUES ('--- 6 select t3 closed, closestmt')
+query SELECT n, msg FROM logt ORDER BY n

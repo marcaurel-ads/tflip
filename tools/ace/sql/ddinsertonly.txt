@@ -1,0 +1,151 @@
+# What a user who may INSERT (or UPDATE, or DELETE) but not SELECT gets from
+# a statement and from a table opened through the API, at each
+# TABLE_PERMISSION_LEVEL. The dictionary, io/io.add, is kept in
+# fixtures/sql/ddinsertonly/:
+#
+#     run.sh <work> <ace32.dll> ddinsertonly.txt > ../../../fixtures/sql/ddinsertonly.json
+#     cp <work>/data/io/* ../../../fixtures/sql/ddinsertonly/
+ddcreate io\io.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id INTEGER, name CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES (1, 'one')
+direct INSERT INTO t1 VALUES (2, 'two')
+direct INSERT INTO t2 VALUES (1, 'uno')
+direct EXECUTE PROCEDURE sp_CreateUser('ins', 'inspw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('upd', 'updpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('del', 'delpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('all', 'allpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('col', 'colpw', '')
+direct GRANT INSERT ON t1 TO ins
+direct GRANT SELECT ON t2 TO ins
+direct GRANT UPDATE ON t1 TO upd
+direct GRANT DELETE ON t1 TO del
+direct GRANT INSERT, UPDATE, DELETE ON t1 TO "all"
+direct GRANT INSERT, UPDATE (name) ON t1 TO col
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect
+#
+# Level 3, the default.
+connect io\io.add ins inspw
+stmt
+direct INSERT INTO t1 VALUES (3, 'three')
+direct INSERT INTO t1 (id) VALUES (4)
+direct INSERT INTO t1 SELECT id, name FROM t2
+direct INSERT INTO t2 VALUES (9, 'nine')
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct UPDATE t1 SET name = 'x'
+direct DELETE FROM t1 WHERE id = 1
+direct DELETE FROM t1
+query SELECT * FROM t1
+query SELECT COUNT(*) FROM t1
+open t1
+disconnect
+connect io\io.add upd updpw
+stmt
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct UPDATE t1 SET name = 'y'
+direct UPDATE t1 SET id = 5 WHERE name = 'x'
+direct INSERT INTO t1 VALUES (6, 'six')
+query SELECT * FROM t1
+open t1
+disconnect
+connect io\io.add del delpw
+stmt
+direct DELETE FROM t1 WHERE id = 6
+direct DELETE FROM t1 WHERE name = 'y'
+direct DELETE FROM t1 WHERE id = 99
+direct DELETE FROM t1
+query SELECT * FROM t1
+open t1
+disconnect
+connect io\io.add all allpw
+stmt
+direct INSERT INTO t1 VALUES (7, 'seven')
+direct UPDATE t1 SET name = 'a' WHERE id = 7
+direct DELETE FROM t1 WHERE id = 7
+direct INSERT INTO t1 VALUES (8, 'eight')
+direct UPDATE t1 SET name = 'a'
+direct DELETE FROM t1
+query SELECT * FROM t1
+open t1
+disconnect
+connect io\io.add col colpw
+stmt
+direct INSERT INTO t1 VALUES (10, 'ten')
+direct UPDATE t1 SET name = 'b' WHERE id = 10
+direct UPDATE t1 SET name = 'b'
+disconnect
+connect io\io.add adssys
+stmt
+query SELECT * FROM t1
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '1', '', '')
+disconnect
+#
+# Level 1.
+connect io\io.add ins inspw
+stmt
+direct INSERT INTO t1 VALUES (3, 'three')
+direct INSERT INTO t1 (id) VALUES (4)
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct DELETE FROM t1 WHERE id = 1
+query SELECT * FROM t1
+open t1
+disconnect
+connect io\io.add upd updpw
+stmt
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct UPDATE t1 SET name = 'y'
+direct INSERT INTO t1 VALUES (6, 'six')
+open t1
+disconnect
+connect io\io.add del delpw
+stmt
+direct DELETE FROM t1 WHERE id = 3
+direct DELETE FROM t1
+open t1
+disconnect
+connect io\io.add all allpw
+stmt
+direct INSERT INTO t1 VALUES (7, 'seven')
+direct UPDATE t1 SET name = 'a' WHERE id = 7
+direct DELETE FROM t1 WHERE id = 7
+open t1
+disconnect
+connect io\io.add adssys
+stmt
+query SELECT * FROM t1
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '2', '', '')
+disconnect
+#
+# Level 2.
+connect io\io.add ins inspw
+stmt
+direct INSERT INTO t1 VALUES (13, 'three')
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct DELETE FROM t1 WHERE id = 1
+open t1
+disconnect
+connect io\io.add upd updpw
+stmt
+direct UPDATE t1 SET name = 'x' WHERE id = 1
+direct UPDATE t1 SET name = 'y'
+open t1
+disconnect
+connect io\io.add del delpw
+stmt
+direct DELETE FROM t1 WHERE id = 13
+direct DELETE FROM t1
+open t1
+disconnect
+connect io\io.add all allpw
+stmt
+direct INSERT INTO t1 VALUES (17, 'seven')
+direct UPDATE t1 SET name = 'a' WHERE id = 17
+direct DELETE FROM t1 WHERE id = 17
+open t1
+disconnect
+connect io\io.add adssys
+stmt
+query SELECT * FROM t1
+disconnect

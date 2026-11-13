@@ -1,0 +1,20 @@
+shell mkdir @CLIENT@\fsrc
+free 0
+free 1 fsrc
+#table 1 f_e1 3 20
+#table 1 f_e2 3 20
+#table 1 f_plain 3 20
+sql 1 EXECUTE PROCEDURE sp_EncryptTable('f_e1', 'pass1')
+sql 1 EXECUTE PROCEDURE sp_EncryptTable('f_e2', 'pass2')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_none', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_empty', NULL, '')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_wrong', NULL, 'bad')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_single1', NULL, 'pass1')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_pairs', NULL, 'f_e1.adt=pass1;f_e2.adt=pass2')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_pairs_one', NULL, 'f_e1.adt=pass1')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_pairs_bad', NULL, 'f_e1.adt=pass1;f_e2.adt=bad')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_pairs_case', NULL, 'F_E1.ADT=pass1;F_E2.ADT=pass2')
+sql 0 EXECUTE PROCEDURE sp_BackupFreeTables('@ROOT@\fsrc', '*.adt', '@ROOT@\b_pairs_noext', NULL, 'f_e1=pass1;f_e2=pass2')
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\b_pairs', '@ROOT@\dst_none', NULL, NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\b_pairs', '@ROOT@\dst_pairs', NULL, 'f_e1.adt=pass1;f_e2.adt=pass2')
+sql 0 EXECUTE PROCEDURE sp_RestoreFreeTables('@ROOT@\b_pairs', '@ROOT@\dst_bad', NULL, 'bad')

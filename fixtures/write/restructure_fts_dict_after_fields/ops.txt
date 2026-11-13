@@ -1,0 +1,107 @@
+ddconnect dd.add ADSSYS -
+tabletype database
+restructure :fa 0 ||body,body,Integer,4
+restructure :fb 0 ||body,body,Integer,4
+restructure :fc 0 ||body,body,Integer,4
+restructure :fd 0 ||body,body,Integer,4
+restructure :fe 0 ||body,body,Integer,4
+restructure :ca 0 extra,Char,4||
+open :ca
+top
+record
+order ca_id
+rows
+order ca_body
+order ca_title
+order ca_m
+close
+restructure :cb 0 ||z,z,Char,8
+open :cb
+top
+record
+order cb_id
+rows
+order cb_body
+order cb_title
+order cb_m
+close
+restructure :cc 0 ||id,id,Double,8
+open :cc
+top
+record
+order cc_id
+rows
+order cc_body
+order cc_title
+order cc_m
+close
+restructure :cd 0 |z|
+open :cd
+top
+record
+order cd_id
+rows
+order cd_body
+order cd_title
+order cd_m
+close
+restructure :ce 0 ||title,title2,Char,30
+open :ce
+top
+record
+order ce_id
+rows
+order ce_body
+order ce_title
+order ce_m
+close
+restructure :fa 0 extra,Char,4||
+open :fa
+top
+record
+order fa_id
+rows
+order fa_body
+order fa_title
+order fa_m
+close
+restructure :fb 0 ||z,z,Char,8
+open :fb
+top
+record
+order fb_id
+rows
+order fb_body
+order fb_title
+order fb_m
+close
+restructure :fc 0 ||id,id,Double,8
+open :fc
+top
+record
+order fc_id
+rows
+order fc_body
+order fc_title
+order fc_m
+close
+restructure :fd 0 |z|
+open :fd
+top
+record
+order fd_id
+rows
+order fd_body
+order fd_title
+order fd_m
+close
+restructure :fe 0 ||title,title2,Char,30
+open :fe
+top
+record
+order fe_id
+rows
+order fe_body
+order fe_title
+order fe_m
+close

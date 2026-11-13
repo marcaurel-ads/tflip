@@ -1,0 +1,12 @@
+[
+{"cmd": "open p 65536", "rc": 0, "table": 1},
+{"cmd": "state", "rc": 0, "recno": [5023, 0], "count": [5018, 0], "deleted": [5023, 0], "autoinc": [5018, 0]},
+{"cmd": "open p 65537", "rc": 0, "table": 2},
+{"cmd": "state", "rc": 0, "recno": [5023, 0], "count": [5018, 0], "deleted": [5023, 0], "autoinc": [5018, 0]},
+{"cmd": "open p 65538", "rc": 0, "table": 3},
+{"cmd": "state", "rc": 0, "recno": [5023, 0], "count": [5018, 0], "deleted": [5023, 0], "autoinc": [5018, 0]},
+{"cmd": "open p exclusive", "rc": 0, "table": 4},
+{"cmd": "state", "rc": 0, "recno": [0, 1], "count": [0, 1], "deleted": [0, 0], "autoinc": [0, 0]},
+{"cmd": "close", "rc": 0},
+{"cmd": "open p 65539", "rc": 0, "table": 5}
+]

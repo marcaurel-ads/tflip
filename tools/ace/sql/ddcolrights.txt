@@ -1,0 +1,208 @@
+# Column rights and the table's permission level (TABLE_PERMISSION_LEVEL 1, 2
+# and 3): what a user who may read only some columns of a table gets from a
+# query, a WHERE, an ORDER BY, an update and a table opened through the API,
+# at each level. The dictionary, cq/cq.add, is kept in fixtures/sql/ddcolrights/:
+#
+#     run.sh <work> <ace32.dll> ddcolrights.txt > ../../../fixtures/sql/ddcolrights.json
+#     cp <work>/data/cq/* ../../../fixtures/sql/ddcolrights/
+ddcreate cq\cq.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10), secret CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES (1, 'one', 's1')
+direct INSERT INTO t1 VALUES (2, 'two', 's2')
+direct INSERT INTO t1 VALUES (3, 'three', 's3')
+direct EXECUTE PROCEDURE sp_CreateUser('bob', 'bobpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('cara', 'carapw', '')
+direct GRANT SELECT (id), UPDATE (name) ON t1 TO bob
+direct GRANT SELECT ON t1 TO cara
+direct EXECUTE PROCEDURE sp_CreateUser('dan', 'danpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('fay', 'faypw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('gus', 'guspw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('readers', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('fay', 'readers')
+direct GRANT SELECT ON t1 TO dan
+direct GRANT UPDATE (name) ON t1 TO dan
+direct GRANT SELECT, INSERT ON t1 TO readers
+direct GRANT UPDATE (name) ON t1 TO fay
+direct GRANT SELECT, UPDATE ON t1 TO gus
+direct EXECUTE PROCEDURE sp_CreateUser('hank', 'hankpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('ian', 'ianpw', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('writers', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('colreaders', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('hank', 'writers')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('ian', 'colreaders')
+direct GRANT INSERT ON t1 TO writers
+direct GRANT SELECT (id) ON t1 TO hank
+direct GRANT SELECT (id), UPDATE (name) ON t1 TO colreaders
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect
+connect cq\cq.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '2', '', '')
+query SELECT Name, Table_Permission_Level FROM system.tables
+disconnect
+#
+# Level 2.
+connect cq\cq.add bob bobpw
+stmt
+query SELECT * FROM t1
+query SELECT id FROM t1
+query SELECT name FROM t1
+query SELECT secret FROM t1
+query SELECT id, secret FROM t1
+query SELECT id FROM t1 WHERE secret = 's2'
+query SELECT id FROM t1 WHERE id = 2
+query SELECT id FROM t1 WHERE name = 'two'
+query SELECT id FROM t1 ORDER BY secret
+query SELECT id FROM t1 ORDER BY id DESC
+query SELECT COUNT(*) FROM t1 WHERE secret = 's2'
+query SELECT secret, COUNT(*) FROM t1 GROUP BY secret
+query SELECT a.id FROM t1 a JOIN t1 b ON a.secret = b.secret
+query SELECT UPPER(secret) FROM t1
+query SELECT id FROM t1 WHERE EXISTS (SELECT 1 FROM t1 x WHERE x.secret = 's2')
+query SELECT t1.* FROM t1
+direct UPDATE t1 SET name = 'uno' WHERE id = 1
+direct UPDATE t1 SET name = 'dos' WHERE secret = 's2'
+direct UPDATE t1 SET secret = 'zz' WHERE id = 3
+direct UPDATE t1 SET id = 7 WHERE id = 3
+direct INSERT INTO t1 (id) VALUES (9)
+direct DELETE FROM t1 WHERE id = 9
+open t1
+disconnect
+connect cq\cq.add cara carapw
+stmt
+query SELECT * FROM t1 WHERE secret = 's2'
+direct UPDATE t1 SET name = 'q' WHERE id = 1
+disconnect
+disconnect
+connect cq\cq.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '1', '', '')
+query SELECT Name, Table_Permission_Level FROM system.tables
+disconnect
+#
+# Level 1.
+connect cq\cq.add bob bobpw
+stmt
+query SELECT * FROM t1
+query SELECT id FROM t1
+query SELECT name FROM t1
+query SELECT secret FROM t1
+query SELECT id, secret FROM t1
+query SELECT id FROM t1 WHERE secret = 's2'
+query SELECT id FROM t1 WHERE id = 2
+query SELECT id FROM t1 WHERE name = 'two'
+query SELECT id FROM t1 ORDER BY secret
+query SELECT id FROM t1 ORDER BY id DESC
+query SELECT COUNT(*) FROM t1 WHERE secret = 's2'
+query SELECT secret, COUNT(*) FROM t1 GROUP BY secret
+query SELECT a.id FROM t1 a JOIN t1 b ON a.secret = b.secret
+query SELECT UPPER(secret) FROM t1
+query SELECT id FROM t1 WHERE EXISTS (SELECT 1 FROM t1 x WHERE x.secret = 's2')
+query SELECT t1.* FROM t1
+direct UPDATE t1 SET name = 'uno' WHERE id = 1
+direct UPDATE t1 SET name = 'dos' WHERE secret = 's2'
+direct UPDATE t1 SET secret = 'zz' WHERE id = 3
+direct UPDATE t1 SET id = 7 WHERE id = 3
+direct INSERT INTO t1 (id) VALUES (9)
+direct DELETE FROM t1 WHERE id = 9
+open t1
+disconnect
+connect cq\cq.add cara carapw
+stmt
+query SELECT * FROM t1 WHERE secret = 's2'
+direct UPDATE t1 SET name = 'q' WHERE id = 1
+disconnect
+disconnect
+connect cq\cq.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '3', '', '')
+query SELECT Name, Table_Permission_Level FROM system.tables
+disconnect
+#
+# Level 3.
+connect cq\cq.add bob bobpw
+stmt
+query SELECT * FROM t1
+query SELECT id FROM t1
+query SELECT name FROM t1
+query SELECT secret FROM t1
+query SELECT id, secret FROM t1
+query SELECT id FROM t1 WHERE secret = 's2'
+query SELECT id FROM t1 WHERE id = 2
+query SELECT id FROM t1 WHERE name = 'two'
+query SELECT id FROM t1 ORDER BY secret
+query SELECT id FROM t1 ORDER BY id DESC
+query SELECT COUNT(*) FROM t1 WHERE secret = 's2'
+query SELECT secret, COUNT(*) FROM t1 GROUP BY secret
+query SELECT a.id FROM t1 a JOIN t1 b ON a.secret = b.secret
+query SELECT UPPER(secret) FROM t1
+query SELECT id FROM t1 WHERE EXISTS (SELECT 1 FROM t1 x WHERE x.secret = 's2')
+query SELECT t1.* FROM t1
+direct UPDATE t1 SET name = 'uno' WHERE id = 1
+direct UPDATE t1 SET name = 'dos' WHERE secret = 's2'
+direct UPDATE t1 SET secret = 'zz' WHERE id = 3
+direct UPDATE t1 SET id = 7 WHERE id = 3
+direct INSERT INTO t1 (id) VALUES (9)
+direct DELETE FROM t1 WHERE id = 9
+open t1
+disconnect
+connect cq\cq.add cara carapw
+stmt
+query SELECT * FROM t1 WHERE secret = 's2'
+direct UPDATE t1 SET name = 'q' WHERE id = 1
+disconnect
+#
+# Column rights next to rights on the table: which columns an UPDATE may set,
+# at the default level.
+disconnect
+connect cq\cq.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('t1', 'TABLE_PERMISSION_LEVEL', '2', '', '')
+disconnect
+connect cq\cq.add dan danpw
+stmt
+query SELECT * FROM t1
+direct UPDATE t1 SET name = 'm1' WHERE id = 1
+direct UPDATE t1 SET secret = 'm2' WHERE id = 1
+direct UPDATE t1 SET id = 1 WHERE id = 1
+direct INSERT INTO t1 VALUES (11, 'a', 'b')
+direct DELETE FROM t1 WHERE id = 11
+open t1
+disconnect
+connect cq\cq.add fay faypw
+stmt
+query SELECT * FROM t1
+direct UPDATE t1 SET name = 'm1' WHERE id = 1
+direct UPDATE t1 SET secret = 'm2' WHERE id = 1
+direct UPDATE t1 SET id = 1 WHERE id = 1
+direct INSERT INTO t1 VALUES (11, 'a', 'b')
+direct DELETE FROM t1 WHERE id = 11
+open t1
+disconnect
+connect cq\cq.add gus guspw
+stmt
+query SELECT * FROM t1
+direct UPDATE t1 SET name = 'm1' WHERE id = 1
+direct UPDATE t1 SET secret = 'm2' WHERE id = 1
+direct UPDATE t1 SET id = 1 WHERE id = 1
+direct INSERT INTO t1 VALUES (11, 'a', 'b')
+direct DELETE FROM t1 WHERE id = 11
+open t1
+disconnect
+connect cq\cq.add hank hankpw
+stmt
+query SELECT * FROM t1
+query SELECT id FROM t1 WHERE secret = 's2'
+direct UPDATE t1 SET name = 'm3' WHERE id = 1
+direct UPDATE t1 SET secret = 'm4' WHERE id = 1
+open t1
+disconnect
+connect cq\cq.add ian ianpw
+stmt
+query SELECT * FROM t1
+query SELECT id FROM t1 WHERE secret = 's2'
+direct UPDATE t1 SET name = 'm3' WHERE id = 1
+direct UPDATE t1 SET secret = 'm4' WHERE id = 1
+open t1
+disconnect

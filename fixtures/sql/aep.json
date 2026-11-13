@@ -1,0 +1,68 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE DATABASE \"ae\\ae.add\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t (n INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE double_it(n INTEGER, result INTEGER OUTPUT) FUNCTION DoubleIt IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE counts(starts INTEGER OUTPUT, shutdowns INTEGER OUTPUT) FUNCTION Counts IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE ids(same_id INTEGER OUTPUT, same_handle INTEGER OUTPUT) FUNCTION Ids IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE add_row() FUNCTION AddRow IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE refuse() FUNCTION Refuse IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE refuse_text() FUNCTION RefuseText IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE ret_code(r INTEGER OUTPUT) FUNCTION ReturnCode IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE refuse_null() FUNCTION RefuseNull IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE refuse_zero() FUNCTION RefuseZero IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE bad_sql_code(code INTEGER OUTPUT) FUNCTION BadSqlCode IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE bad_sql() FUNCTION BadSql IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE missing() FUNCTION Missing IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE nowhere() FUNCTION Nowhere IN LIBRARY \"nowhere.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE add_row_in(n INTEGER) FUNCTION AddRow IN LIBRARY \"aeptest.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE double_it(21)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0016.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["result", 11, 4, 0]], "rows": [
+  [1, ["42"]]]}},
+{"cmd": "query EXECUTE PROCEDURE double_it(NULL)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0018.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["result", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT result + 1 AS r FROM (EXECUTE PROCEDURE double_it(5)) p", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_001C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 11, 4, 0]], "rows": [
+  [1, ["11"]]]}},
+{"cmd": "query EXECUTE PROCEDURE counts()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_001D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["starts", 11, 4, 0], ["shutdowns", 11, 4, 0]], "rows": [
+  [1, ["1", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE ids()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_001E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["same_id", 11, 4, 0], ["same_handle", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE add_row()", "rc": 0, "has_cursor": false, "affected": 5},
+{"cmd": "query EXECUTE PROCEDURE add_row()", "rc": 0, "has_cursor": false, "affected": 5},
+{"cmd": "query SELECT * FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["7"]],
+  [2, ["7"]]]}},
+{"cmd": "query EXECUTE PROCEDURE add_row_in(1)", "rc": 0, "has_cursor": false, "affected": 5},
+{"cmd": "query EXECUTE PROCEDURE refuse()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.  ProcError 42:   no thanks Error executing stored procedure: refuse", "has_cursor": false, "affected": 5},
+{"cmd": "query EXECUTE PROCEDURE refuse_text()", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE refuse_null()", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE refuse_zero()", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE ret_code()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.  The stored procedure named \"ret_code\" called a function named \"ReturnCode\" in the AEP named \"C:\\ads\\data\\aep\\data\\ae\\aeptest.aep\".  The function returned with the error code: 5154 Error executing stored procedure: ret_code", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE bad_sql_code()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0020.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0]], "rows": [
+  [1, ["7200"]]]}},
+{"cmd": "query EXECUTE PROCEDURE bad_sql()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.  The stored procedure named \"bad_sql\" called a function named \"BadSql\" in the AEP named \"C:\\ads\\data\\aep\\data\\ae\\aeptest.aep\".  The function returned with the error code: 5154 Error executing stored procedure: bad_sql", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE missing()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.  The stored procedure named \"missing\" called a function named \"Missing\".  The function could not be found within the AEP named \"C:\\ads\\data\\aep\\data\\ae\\aeptest.aep\".  The error code is 127 Procedure not found.\u000d\u000a Error executing stored procedure: missing", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE nowhere()", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5154;  [SAP][Advantage SQL Engine][ASA] Error 5154:  Execution of the stored procedure failed.  The stored procedure named \"nowhere\" requires the AEP named \"C:\\ads\\data\\aep\\data\\ae\\nowhere.aep\".  The AEP failed to load with an error code 126. Module not found.\u000d\u000a Error executing stored procedure: nowhere", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE double_it(1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0021.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["result", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE counts()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0022.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["starts", 11, 4, 0], ["shutdowns", 11, 4, 0]], "rows": [
+  [1, ["1", "0"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE add_row()", "rc": 0, "has_cursor": false, "affected": 5},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COUNT(*) AS c FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0024.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE add_row()", "rc": 0, "has_cursor": false, "affected": 5},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COUNT(*) AS c FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0026.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE counts()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0027.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["starts", 11, 4, 0], ["shutdowns", 11, 4, 0]], "rows": [
+  [1, ["2", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE ids()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0028.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["same_id", 11, 4, 0], ["same_handle", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]]]}}
+]

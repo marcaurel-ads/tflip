@@ -1,0 +1,194 @@
+# Steps for freetables.c (see there), on a copy of fixtures/adt/dictionary_props
+# with the free tables indexed.adt (ADT) and dbf_types.dbf (CDX) beside it. The
+# dictionary has ADSSYS (adssyspw) and bob (bobpw, in group readers, with
+# SELECT and INSERT on parent and UPDATE(label), nothing on child), and parent
+# has TABLE_AUTO_CREATE on.
+#
+# 1. Free tables on a dictionary connection, with and without the connection
+#    option ADS_CHECK_FREE_TABLE_ACCESS (0x2000, an AdsConnect60 option).
+conn admin dict ADSSYS adssyspw 0
+conn adminchk dict ADSSYS adssyspw 0x2000
+conn bob dict bob bobpw 0
+conn bobchk dict bob bobpw 0x2000
+conn free free - - 0
+open admin indexed.adt 3 0
+close indexed.adt
+open bob indexed.adt 3 0
+close indexed.adt
+open adminchk indexed.adt 3 0
+close indexed.adt
+open bobchk indexed.adt 3 0
+open bobchk indexed.adt 3 2
+open bob dbf_types.dbf 2 0
+close dbf_types.dbf
+open bobchk dbf_types.dbf 2 0
+open adminchk dbf_types.dbf 2 0
+close dbf_types.dbf
+open free indexed.adt 3 0
+close indexed.adt
+open bob indexed.adt 3 0x1000
+sql bob SELECT * FROM indexed
+sql bobchk SELECT * FROM indexed
+sql adminchk SELECT * FROM indexed
+sql bobchk SELECT * FROM "indexed.adt"
+sql bobchk SELECT * FROM parent
+sql bob CREATE TABLE f1 (id integer) AS FREE TABLE
+exists f1.adt
+sql bob INSERT INTO f1 VALUES (1)
+sql bob UPDATE f1 SET id = 2
+sql bob DELETE FROM f1
+sql bobchk CREATE TABLE f2 (id integer) AS FREE TABLE
+exists f2.adt
+sql bobchk INSERT INTO f1 VALUES (3)
+sql bobchk UPDATE f1 SET id = 4
+sql bobchk DELETE FROM f1
+sql bobchk SELECT * FROM f1
+sql bobchk ALTER TABLE f1 ADD COLUMN x integer
+sql bobchk DROP TABLE f1
+exists f1.adt
+sql bob ALTER TABLE f1 ADD COLUMN x integer
+sql bob DROP TABLE f1
+exists f1.adt
+sql adminchk CREATE TABLE f3 (id integer) AS FREE TABLE
+exists f3.adt
+sql adminchk INSERT INTO f3 VALUES (1)
+sql adminchk DROP TABLE f3
+exists f3.adt
+disc bobchk
+disc adminchk
+disc free
+# 2. The same through the connect string of AdsConnect101.
+conn101 b1 Data Source=%D;User ID=bob;Password=bobpw;CheckFreeTableAccess=TRUE
+conn101 b2 Data Source=%D;User ID=bob;Password=bobpw;CheckFreeTableAccess=FALSE
+conn101 a1 Data Source=%D;User ID=ADSSYS;Password=adssyspw;CheckFreeTableAccess=TRUE
+open b1 indexed.adt 3 0
+open b2 indexed.adt 3 0
+close indexed.adt
+open a1 indexed.adt 3 0
+close indexed.adt
+sql b1 SELECT * FROM indexed
+sql b2 SELECT * FROM indexed
+disc b1
+disc b2
+disc a1
+# 3. The user and group property ADS_DD_FREE_TABLES_RIGHTS (1005), and the
+#    other rights properties (1001 to 1004), that the API does not set.
+getuser admin bob 1005
+getuser admin ADSSYS 1005
+getgroup admin readers 1005
+setuser admin bob 1005 1
+setuser admin bob 1005 1 0
+setuser admin bob 1005 1 8
+setuser admin bob 1005 0xffffffff
+setuser admin bob 1001 1
+setuser admin bob 1004 1
+setuser admin nosuch 1005 1
+setuser bob bob 1005 1
+setgroup admin readers 1005 1
+setgroup admin readers 1001 1
+setgroup admin readers 1005 1 0
+getuser admin bob 1005
+getgroup admin readers 1005
+# 4. The index of a user without ALTER on an open table.
+open bob parent 0 0
+index parent tmp1.adi tg1 id 0
+exists tmp1.adi
+index parent tmp2.adi tg2 id 2
+exists tmp2.adi
+index parent - tg3 id 0
+index parent - tg3 id 2
+index parent tmp5.adi tg5 nosuch 0
+index parent tmp6.adi tg6 id 1
+index parent tmp7.adi tg7 label 8
+index parent tmp1.adi tg1 id 0
+close parent
+exists tmp1.adi
+exists tmp2.adi
+open bob parent 0 2
+index parent tmp8.adi tg8 id 0
+close parent
+exists tmp8.adi
+open admin parent 0 0
+index parent tmpa.adi tga id 0
+exists tmpa.adi
+index parent - tgc id 0
+close parent
+exists tmpa.adi
+rows admin SELECT * FROM system.indexes WHERE parent = 'parent'
+# ... and with ALTER.
+sql admin GRANT ALTER ON parent TO bob
+disc bob
+conn bob dict bob bobpw 0
+open bob parent 0 0
+index parent tmpg1.adi tgg1 id 0
+exists tmpg1.adi
+index parent - tgg2 id 0
+close parent
+exists tmpg1.adi
+rows admin SELECT * FROM system.indexes WHERE parent = 'parent'
+# 5. Who the option does not bind: a member of DB:Admin, and a dictionary that does not verify access rights.
+sql admin EXECUTE PROCEDURE sp_AddUserToGroup('bob','DB:Admin')
+disc bob
+conn bobadm dict bob bobpw 0x2000
+open bobadm indexed.adt 3 0
+close indexed.adt
+sql bobadm SELECT * FROM indexed
+conn alice dict:dict.add alice secret 0x2000
+open alice indexed.adt 3 0
+sql alice SELECT * FROM indexed
+conn alice2 dict:dict.add alice secret 0
+open alice2 indexed.adt 3 0
+close indexed.adt
+conn adm2 dict:dict.add ADSSYS adssyspw 0x2000
+open adm2 indexed.adt 3 0
+close indexed.adt
+disc bobadm
+sql admin EXECUTE PROCEDURE sp_RemoveUserFromGroup('bob','DB:Admin')
+# 6. Table_Auto_Create: parent has it on, child has not.
+disc admin
+disc alice
+disc alice2
+disc adm2
+remove parent.adi
+conn admin dict ADSSYS adssyspw 0
+rows admin SELECT * FROM parent
+exists parent.adi
+disc admin
+remove parent.adt
+remove parent.adi
+conn bob dict bob bobpw 0
+open bob parent 0 0
+exists parent.adt
+exists parent.adi
+close parent
+rows bob SELECT * FROM parent
+disc bob
+copy parent.adt saved_parent.adt
+copy parent.adi saved_parent.adi
+remove child.adi
+conn admin dict ADSSYS adssyspw 0
+open admin child 0 0
+exists child.adi
+rows admin SELECT * FROM child
+sql admin EXECUTE PROCEDURE sp_ModifyTableProperty('child','TABLE_AUTO_CREATE','TRUE','NO_VALIDATE',NULL)
+disc admin
+remove child.adt
+remove child.adi
+remove child.adm
+conn admin dict ADSSYS adssyspw 0
+open admin child 0 0
+exists child.adt
+exists child.adi
+exists child.adm
+rows admin SELECT * FROM child
+disc admin
+copy child.adt saved_child.adt
+copy child.adi saved_child.adi
+copy child.adm saved_child.adm
+conn admin dict ADSSYS adssyspw 0
+sql admin EXECUTE PROCEDURE sp_ModifyTableProperty('child','TABLE_AUTO_CREATE','FALSE','NO_VALIDATE',NULL)
+disc admin
+remove child.adt
+conn admin dict ADSSYS adssyspw 0
+open admin child 0 0
+rows admin SELECT * FROM child

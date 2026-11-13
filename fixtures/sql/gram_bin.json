@@ -1,0 +1,118 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "expr x'2A2B'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["*+"]]]}},
+{"cmd": "expr X'2a2b'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["*+"]]]}},
+{"cmd": "expr x'2A 2B'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["*+"]]]}},
+{"cmd": "expr x'2A2'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x''", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, [""]]]}},
+{"cmd": "expr x' '", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, [""]]]}},
+{"cmd": "expr x'ZZ'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'2A 2'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'2 A'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, ["*"]]]}},
+{"cmd": "expr x'2A  2B'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["*+"]]]}},
+{"cmd": "expr x'2A-2B'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 0x2A2B", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x2A2B", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "expr x'2A' + x'2B'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: + -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'2A' = x'2a'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr LENGTH(x'2A2B2C')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'0'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'00'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 1, 0]], "rows": [
+  [1, ["\u0000"]]]}},
+{"cmd": "expr x'2A", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2113;  [SAP][Advantage SQL Engine]Unexpected end of SQL statement", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'2A' || x'2B'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 15 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CAST(x'4142' AS SQL_CHAR(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 4, 5, 0]], "rows": [
+  [1, ["AB   "]]]}},
+{"cmd": "expr CAST(x'4142' AS SQL_VARBINARY(5))", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 5, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "expr x'FF80'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["\u00ff\u0080"]]]}},
+{"cmd": "expr x'4142' = 'AB'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'4142' < x'4143'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr x'41' IN (x'41', x'42')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "expr x'41' IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "expr UPPER(x'4142')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: UPPER -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'4142' + 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: + -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr CASE WHEN 1 = 1 THEN x'41' ELSE x'4243' END", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr IIF(1 = 1, x'41', x'4243')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr NULLIF(x'4142', x'4142')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: NULLIF -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'41'x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["x", 24, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr x'41' AS b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["b", 24, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr X '41'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Unexpected token while parsing for Boolean expression. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 10", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'41\u000942'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'4g'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'4142''43'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07006;   NativeError = 2109;  [SAP][Advantage SQL Engine]Conversion error", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr -x'41'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: - -- Location of error in the SQL statement is: 9", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'4142434445464748494A4B4C4D4E4F505152535455565758595A5B5C5D5E5F606162636465666768696A6B6C6D6E6F707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3B4B5B6B7B8B9BABBBCBDBEBFC0C1C2C3C4C5C6C7C8C9CACBCCCDCECFD0D1D2D3D4D5D6D7D8D9DADBDCDDDEDFE0E1E2E3E4E5E6E7E8E9EAEBECEDEEEFF0F1F2F3F4F5F6F7F8F9FAFBFCFDFEFF'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 191, 0]], "rows": [
+  [1, ["ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007f\u0080\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088\u0089\u008a\u008b\u008c\u008d\u008e\u008f\u0090\u0091\u0092\u0093\u0094\u0095\u0096\u0097\u0098\u0099\u009a\u009b\u009c\u009d\u009e\u009f\u00a0\u00a1\u00a2\u00a3\u00a4\u00a5\u00a6\u00a7\u00a8\u00a9\u00aa\u00ab\u00ac\u00ad\u00ae\u00af\u00b0\u00b1\u00b2\u00b3\u00b4\u00b5\u00b6\u00b7\u00b8\u00b9\u00ba\u00bb\u00bc\u00bd\u00be\u00bf\u00c0\u00c1\u00c2\u00c3\u00c4\u00c5\u00c6\u00c7\u00c8\u00c9\u00ca\u00cb\u00cc\u00cd\u00ce\u00cf\u00d0\u00d1\u00d2\u00d3\u00d4\u00d5\u00d6\u00d7\u00d8\u00d9\u00da\u00db\u00dc\u00dd\u00de\u00df\u00e0\u00e1\u00e2\u00e3\u00e4\u00e5\u00e6\u00e7\u00e8\u00e9\u00ea\u00eb\u00ec\u00ed\u00ee\u00ef\u00f0\u00f1\u00f2\u00f3\u00f4\u00f5\u00f6\u00f7\u00f8\u00f9\u00fa\u00fb\u00fc\u00fd\u00fe\u00ff"]]]}},
+{"cmd": "direct CREATE TABLE b (r RAW(8), v RAW(10), bn BINARY, c CHAR(8), i INTEGER, m MEMO, bl BLOB)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO b (r, v, bn, c) VALUES (x'4142', x'4344', x'454647', 'H')", "rc": 0},
+{"cmd": "directnull INSERT INTO b (r, v, bn, c) VALUES (x'0041', x'0000', x'', NULL)", "rc": 0},
+{"cmd": "directnull INSERT INTO b (bl, m) VALUES (x'FF00FF', x'4142')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: <assignment> Target Data Type: <Character> Source Data Type: <Binary> Target Name: m -- Location of error in the SQL statement is: 42"},
+{"cmd": "query SELECT r, v, bn, c, bl, m FROM b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "b.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["bl", 6, 9, 0], ["m", 5, 9, 0]], "rows": [
+  [1, ["AB\u0000\u0000\u0000\u0000\u0000\u0000", "CD\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", "EFG", "H       ", null, null]],
+  [2, ["\u0000A\u0000\u0000\u0000\u0000\u0000\u0000", null, null, null, null, null]]]}},
+{"cmd": "query SELECT * FROM b WHERE r = x'4142'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["i", 11, 4, 0], ["m", 5, 9, 0], ["bl", 6, 9, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM b WHERE r = x'41 42'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["i", 11, 4, 0], ["m", 5, 9, 0], ["bl", 6, 9, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM b WHERE v > x'4300'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["i", 11, 4, 0], ["m", 5, 9, 0], ["bl", 6, 9, 0]], "rows": [
+  [1, ["AB\u0000\u0000\u0000\u0000\u0000\u0000", "CD\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", "EFG", "H       ", null, null, null]]]}},
+{"cmd": "query SELECT * FROM b WHERE bn = x'45464700'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["i", 11, 4, 0], ["m", 5, 9, 0], ["bl", 6, 9, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM b WHERE c = x'48'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: = -- Location of error in the SQL statement is: 23", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT * FROM b WHERE r = x'4142' OR v = x'4344'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0], ["c", 4, 8, 0], ["i", 11, 4, 0], ["m", 5, 9, 0], ["bl", 6, 9, 0]], "rows": []}},
+{"cmd": "directnull UPDATE b SET r = x'5A5B' WHERE r = x'4142'", "rc": 0},
+{"cmd": "query SELECT r, x'4142' AS k FROM b ORDER BY r", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["r", 16, 8, 0], ["k", 24, 2, 0]], "rows": [
+  [2, ["\u0000A\u0000\u0000\u0000\u0000\u0000\u0000", "AB"]],
+  [1, ["AB\u0000\u0000\u0000\u0000\u0000\u0000", "AB"]]]}},
+{"cmd": "query SELECT COUNT(*) AS n FROM b WHERE r IN (x'5A5B', x'0041')", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query SELECT x'4142' AS a, x'4142' AS b FROM b", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["a", 24, 2, 0], ["b", 24, 2, 0]], "rows": [
+  [1, ["AB", "AB"]],
+  [2, ["AB", "AB"]]]}},
+{"cmd": "query SELECT x'4142' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 24, 2, 0]], "rows": [
+  [1, ["AB"]]]}},
+{"cmd": "query SELECT r || x'41' AS a FROM b", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 11 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CHAR_LENGTH(x'4142') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: CHAR_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT OCTET_LENGTH(x'4142') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: OCTET_LENGTH -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LEN(x'4142') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: LEN -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LEFT(x'414243', 2), SUBSTRING(x'414243', 2, 1), CONVERT(x'4142', SQL_CHAR) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: LEFT -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'4142' + x'43' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: + -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'31' * 2 FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: * -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'31' - 1 FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: - -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(x'31' AS SQL_CHAR(3)) + 'a' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 4, 0]], "rows": [
+  [1, ["1  a"]]]}},
+{"cmd": "query SELECT 'a' + x'31' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: + -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 'a' || x'31' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 13 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT x'31' || 'a' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: identifier or expression -- Location of error in the SQL statement is: 15 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT HEX(x'31') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: HEX -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT CAST(x'41' AS SQL_CHAR(1)) AS a FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 4, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "expr x'01' << 1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << The bitwise operator does not support binary operands. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr 1 << x'01'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: << The bitwise operator does not support binary operands. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr x'01' | x'02'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: | Only one operand of a bitwise operator can be binary. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "expr ~x'01'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2124;  [SAP][Advantage SQL Engine]Invalid operand for operator: ~ -- Location of error in the SQL statement is: 9", "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO b (r) VALUES (x'414243444546474849')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5071;  [SAP][Advantage SQL Engine][ASA] Error 5071:  The data was too long for the destination and was truncated.  Field: \"r\""},
+{"cmd": "directnull INSERT INTO b (r) VALUES (x'4142434445464748')", "rc": 0},
+{"cmd": "directnull INSERT INTO b (v) VALUES (x'41424344454647484950515253')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5071;  [SAP][Advantage SQL Engine][ASA] Error 5071:  The data was too long for the destination and was truncated.  Field: \"v\""},
+{"cmd": "directnull UPDATE b SET r = x'5A5B' WHERE v = x'4344'", "rc": 0},
+{"cmd": "directnull UPDATE b SET r = x'5A5B' WHERE v = x'43440000000000000000'", "rc": 0},
+{"cmd": "directnull UPDATE b SET r = x'5A5B5C5D5E5F60616263' WHERE r = x'5A5B000000000000'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5071;  [SAP][Advantage SQL Engine][ASA] Error 5071:  The data was too long for the destination and was truncated.  Field: \"r\""},
+{"cmd": "query SELECT r, v, bn FROM b ORDER BY r", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "b.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["r", 16, 8, 0], ["v", 16, 10, 0], ["bn", 6, 9, 0]], "rows": [
+  [2, ["\u0000A\u0000\u0000\u0000\u0000\u0000\u0000", null, null]],
+  [3, ["ABCDEFGH", null, null]],
+  [1, ["Z[\u0000\u0000\u0000\u0000\u0000\u0000", "CD\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", "EFG"]]]}}
+]

@@ -1,0 +1,75 @@
+{
+ "table_type": "ntx",
+ "record_count": 4,
+ "record_length": 50,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "A", "type": 2, "type_name": "Numeric", "length": 6, "decimals": 0},
+  {"name": "B", "type": 2, "type_name": "Numeric", "length": 8, "decimals": 2},
+  {"name": "I", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "D", "type": 3, "type_name": "Date", "length": 8, "decimals": 0},
+  {"name": "L", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "C", "type": 4, "type_name": "Character", "length": 8, "decimals": 0},
+  {"name": "W", "type": 4, "type_name": "Character", "length": 14, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "e_add", "file": "e_add.ntx", "expression": "a+b", "condition": "", "collation": "", "key_length": 13, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c262e272c"},
+   {"recno": 3, "key": "303030303030303030302e3030"},
+   {"recno": 1, "key": "303030303030303031352e3235"},
+   {"recno": 4, "key": "303030313030393939382e3939"}
+  ]},
+  {"name": "e_add0", "file": "e_add0.ntx", "expression": "a+a", "condition": "", "collation": "", "key_length": 10, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2b2c"},
+   {"recno": 3, "key": "30303030303030303030"},
+   {"recno": 1, "key": "30303030303030303234"},
+   {"recno": 4, "key": "30303031393939393938"}
+  ]},
+  {"name": "e_sub1", "file": "e_sub1.ntx", "expression": "a-1", "condition": "", "collation": "", "key_length": 10, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c26"},
+   {"recno": 3, "key": "2c2c2c2c2c2c2c2c2c2b"},
+   {"recno": 1, "key": "30303030303030303131"},
+   {"recno": 4, "key": "30303030393939393938"}
+  ]},
+  {"name": "e_addlit", "file": "e_addlit.ntx", "expression": "a+1.5", "condition": "", "collation": "", "key_length": 12, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c292e27"},
+   {"recno": 3, "key": "303030303030303030312e35"},
+   {"recno": 1, "key": "303030303030303031332e35"},
+   {"recno": 4, "key": "303030313030303030302e35"}
+  ]},
+  {"name": "e_mulbb", "file": "e_mulbb.ntx", "expression": "b*b", "condition": "", "collation": "", "key_length": 15, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 3, "key": "303030303030303030302e30303030"},
+   {"recno": 2, "key": "303030303030303030322e32353030"},
+   {"recno": 1, "key": "303030303030303031302e35363235"},
+   {"recno": 4, "key": "303039393939393830302e30303031"}
+  ]},
+  {"name": "e_div", "file": "e_div.ntx", "expression": "a/4", "condition": "", "collation": "", "key_length": 10, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c2b"},
+   {"recno": 3, "key": "30303030303030303030"},
+   {"recno": 1, "key": "30303030303030303033"},
+   {"recno": 4, "key": "30303030323530303030"}
+  ]},
+  {"name": "e_int", "file": "e_int.ntx", "expression": "i+1", "condition": "", "collation": "", "key_length": 11, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c2c2a"},
+   {"recno": 3, "key": "3030303030303030303031"},
+   {"recno": 1, "key": "3030303030303030303038"},
+   {"recno": 4, "key": "3032313437343833363438"}
+  ]},
+  {"name": "e_imul", "file": "e_imul.ntx", "expression": "i*2", "condition": "", "collation": "", "key_length": 11, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": false, "primary_key": false, "nullable": false, "fts": false, "key_count": 4, "keys": [
+   {"recno": 2, "key": "2c2c2c2c2c2c2c2c2c2c26"},
+   {"recno": 3, "key": "3030303030303030303030"},
+   {"recno": 1, "key": "3030303030303030303134"},
+   {"recno": 4, "key": "3034323934393637323934"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "2020202020313220202020332e32350700000032303137313130385434322020202020203132333435362e35202020202020", "values": {"A": {"text": "    12"}, "B": {"text": "    3.25"}, "I": {"text": "7"}, "D": {"text": "2017-11-08", "julian": 2458066}, "L": {"text": "T"}, "C": {"text": "42      "}, "W": {"text": "123456.5      "}}},
+  {"recno": 2, "deleted": false, "raw": "20202020202d352020202d312e3530fdffffff3139303030313031462d372e35202020202d31202020202020202020202020", "values": {"A": {"text": "    -5"}, "B": {"text": "   -1.50"}, "I": {"text": "-3"}, "D": {"text": "1900-01-01", "julian": 2415021}, "L": {"text": "F"}, "C": {"text": "-7.5    "}, "W": {"text": "-1            "}}},
+  {"recno": 3, "deleted": false, "raw": "2020202020203020202020302e30300000000032303030303232394620202020202020202020202020202020202020202020", "values": {"A": {"text": "     0"}, "B": {"text": "    0.00"}, "I": {"null": true}, "D": {"text": "2000-02-29", "julian": 2451604}, "L": {"text": "F"}, "C": {"null": true}, "W": {"null": true}}},
+  {"recno": 4, "deleted": false, "raw": "2039393939393920393939392e3939ffffff7f39393939313233315431653320202020203939393939393939393939202020", "values": {"A": {"text": "999999"}, "B": {"text": " 9999.99"}, "I": {"text": "2147483647"}, "D": {"text": "9999-12-31", "julian": 5373484}, "L": {"text": "T"}, "C": {"text": "1e3     "}, "W": {"text": "99999999999   "}}}
+ ]
+}

@@ -1,0 +1,140 @@
+# The operations constraints.exe runs on a fresh copy of the dictionary_rules
+# fixture (see constraints.c for the syntax; rules.sh).
+#
+# A child's constraints come before its referential integrity, its BEFORE
+# trigger between them (the log keeps what the trigger wrote: the local
+# server has no transactions).
+append c cid=2 pid=99 n=7 r=a
+append c cid=3 pid=99
+append c cid=4 pid=99 r=a
+append c cid=5 pid=1 n=7 r=a
+update c 1 pid=99 n=7
+update c 1 pid=99
+sql INSERT INTO c (cid, pid, n, r) VALUES (12, 99, 7, 'a')
+sql INSERT INTO c (cid, pid) VALUES (13, 99)
+sql INSERT INTO c (cid, pid, r) VALUES (14, 99, 'a')
+sql UPDATE c SET pid = 99, n = 7 WHERE cid = 1
+sql UPDATE c SET pid = 99 WHERE cid = 1
+sql SELECT ev, id, n FROM log ORDER BY seq
+sql DELETE FROM log
+# So do a parent's: its constraints, its BEFORE trigger, then RESTRICT.
+update p 1 id=5 lbl=bad
+update p 1 id=5
+sql UPDATE p SET id = 5, lbl = 'bad' WHERE id = 1
+sql UPDATE p SET id = 5 WHERE id = 1
+delete p 1
+sql DELETE FROM p WHERE id = 1
+sql SELECT id, lbl FROM p ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+sql DELETE FROM log
+# A child's own refused set: SQL fires no trigger, the table API writes the
+# record unchanged.
+sql UPDATE qc SET pid = 60 WHERE cid = 1
+sql INSERT INTO qc (cid, pid) VALUES (5, 60)
+sql SELECT ev, id, n FROM log ORDER BY seq
+update qc 1 pid=60
+sql SELECT ev, id, n FROM log ORDER BY seq
+sql DELETE FROM log
+# A parent key its own index refuses touches no child.
+sql UPDATE q SET id = 3 WHERE id = 1
+update q 2 id=3
+sql SELECT cid, pid FROM qc
+sql SELECT id FROM q ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+# A child's constraint refuses a cascade, SET NULL or SET DEFAULT: the parent
+# stays as it was (a table-API delete returns success), the child as well
+# (its BEFORE UPDATE trigger firing on it unchanged).
+sql UPDATE q SET id = 60 WHERE id = 1
+update q 2 id=60
+sql SELECT cid, pid FROM qc
+sql SELECT id FROM q ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+sql DELETE FROM log
+sql DELETE FROM q WHERE id = 2
+delete q 3
+sql DELETE FROM q WHERE id = 3
+delete q 4
+sql SELECT id FROM q ORDER BY id
+sql SELECT cid, pid FROM qn
+sql SELECT cid, pid FROM qd
+sql SELECT ev, id, n FROM log ORDER BY seq
+# Cascades that go through fire the child's triggers.
+sql DELETE FROM log
+sql UPDATE q SET id = 20 WHERE id = 1
+sql SELECT cid, pid FROM qc
+update q 2 id=30
+sql SELECT cid, pid FROM qc
+sql SELECT id FROM q ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+sql DELETE FROM log
+sql DELETE FROM q WHERE id = 30
+sql SELECT cid, pid FROM qc
+sql INSERT INTO qc (cid, pid) VALUES (2, 0)
+delete q 1
+sql SELECT cid, pid FROM qc
+sql SELECT id FROM q ORDER BY id
+sql SELECT ev, id, n FROM log ORDER BY seq
+# Defaults are expressions on the record being appended.
+peek d id,a,i1,i2,i3,i4,i5,i6,i7,s1,n1,n2,f1,f2,mo
+peek d c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,k1,v1
+peek d l1,l2,l3,l4,l5,d1,d2,d3,d4,d5,t1,t2,h1,h2
+append d id=1
+sql INSERT INTO d (id, a) VALUES (2, 1)
+sql SELECT id, a, i1, i2, i3, i4, i5, i6, i7, s1, n1, n2, f1, f2, mo FROM d ORDER BY id
+sql SELECT id, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, k1, v1 FROM d ORDER BY id
+sql SELECT id, l1, l2, l3, l4, l5, d1, d2, d3, d4, d5, t1, t2, h1, h2 FROM d ORDER BY id
+sql SELECT id FROM d WHERE d6 = CURDATE() AND t3 IS NOT NULL ORDER BY id
+# So are minimums and maximums.
+append b id=1 i=4
+append b id=2 i=5
+append b id=3 d=06/01/2019
+append b id=4 d=06/01/2020
+append b id=5 c=a
+append b id=6 c=bb
+# Which defaults, minimums and maximums a field takes.
+fprop f m 302 c
+fprop f m 303 x
+fprop f b 302 c
+fprop f l 302 T
+fprop f l 303 F
+fprop f n 302 c
+fprop f r 302 c
+fprop f vb 303 c
+fprop f ai 302 1
+fprop f rv 302 1
+fprop f mt 302 01/01/2020
+fprop f g 302 c
+fprop f c 302 c
+fprop f c 302 abcdefg
+fprop f nu 302 abc
+fprop f nu 303 1234567
+fprop f d 302 2020-01-02
+fprop f tm 303 25:00:00
+fprop f m 300 memo
+fprop f b 300 blob
+fprop f n 300 nmemo
+fprop f ai 300 1
+fprop f rv 300 1
+fprop f mt 300 NOW()
+fprop f g 300 x
+fprop f r 300 ab
+fprop f vb 300 ab
+fprop f l 300 1
+fprop f l 300 x
+fprop f l 300 .T.
+fprop f c 300 toolongvalue
+fprop f nu 300 123456
+fprop f nu 300 abc
+fprop f d 300 2020-01-02
+fprop f d 300 CURDATE()
+fprop f tm 300 25:00:00
+fprop f i 300 .T.
+fprop f i 300 STOD('20200105')
+fprop f ts 300 1+1
+fprop f mo 300 'abc'
+fprop f sh 300 70000
+fprop f ci 300 'abcdef'
+fprop f c 300 nosuchfn(1)
+fprop f c 300 1+1
+fprop f m 304 msg
+sql SELECT name, field_default_value, field_min_value, field_max_value FROM system.columns WHERE parent = 'f'

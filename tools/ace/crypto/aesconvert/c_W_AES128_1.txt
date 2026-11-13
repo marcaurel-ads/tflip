@@ -1,0 +1,4 @@
+# The dictionary of a_W.txt (a plain dictionary with subscriptions without a password and with one of a character) taken to AES128 enciphering its records, made in a process of its own.
+connect Data Source=%D\c_W_AES128_1;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'AES128', 1)
+disconnect

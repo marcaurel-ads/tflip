@@ -1,0 +1,36 @@
+# Not compared: dd.ai
+ddconnect dd.add ADSSYS -
+tabletype database
+restructure :g6 0 ||body,body,Integer,4
+restructure :h6 0 ||body,body,Integer,4
+restructure :h7 0 ||body,body,Integer,4
+sql ALTER TABLE g6 DROP COLUMN body
+open :g6
+top
+record
+order g6_id
+rows
+order g6_body
+order g6_title
+order g6_m
+close
+restructure :h6 0 |title|
+open :h6
+top
+record
+order h6_id
+rows
+order h6_body
+order h6_title
+order h6_m
+close
+sql ALTER TABLE h7 DROP COLUMN title
+open :h7
+top
+record
+order h7_id
+rows
+order h7_body
+order h7_title
+order h7_m
+close

@@ -1,0 +1,585 @@
+# A trigger's __error table (errno INTEGER, message MEMO), on a copy of the psm
+# dictionary (fixtures/adt/psm) alone, whose own triggers it drops first. What
+# a trigger writes there makes the statement fail with 5177 and the number and
+# text after it, once the trigger is through; recorded on the local server:
+#
+#     run.sh <work> <ace32.dll> trigerr.txt > ../../../fixtures/sql/trigerr.json
+#
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (12345, 'named columns'); 
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'named columns');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error VALUES (12345, 'positional');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error VALUES (12345, 'positional'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (message) VALUES ('no errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (message) VALUES ('no errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (NULL, 'null errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (NULL, 'null errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (0, 'zero errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (0, 'zero errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno) VALUES (4242);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno) VALUES (4242); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (4242, '');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (4242, ''); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (-5, 'negative');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (-5, 'negative'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (5177, 'five one seven seven');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (5177, 'five one seven seven'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (7200, 'seven two hundred');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (7200, 'seven two hundred'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (2147483647, 'big');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (2147483647, 'big'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO __error (errno, message) VALUES (2, 'second');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO __error (errno, message) VALUES (2, 'second'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO audit (msg) VALUES ('after error row');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO audit (msg) VALUES ('after error row'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'first'); DELETE FROM __error; INSERT INTO audit (msg) VALUES ('after delete');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); DELETE FROM __error; INSERT INTO audit (msg) VALUES ('after delete'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'first'); UPDATE __error SET errno = 9, message = 'updated';
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); UPDATE __error SET errno = 9, message = 'updated'; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO audit (msg) SELECT 'rows ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); INSERT INTO audit (msg) SELECT 'rows ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO audit (msg) SELECT 'rows ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) SELECT 'rows ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (7, 'select into'); 
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (7, 'select into');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: DECLARE c CURSOR AS SELECT * FROM __error; INSERT INTO audit (msg) VALUES ('cur');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN DECLARE c CURSOR AS SELECT * FROM __error; INSERT INTO audit (msg) VALUES ('cur'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER INSERT: INSERT INTO __error (errno, message) VALUES (12345, 'after'); 
+direct CREATE TRIGGER ex ON items AFTER INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'after');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- INSTEAD OF INSERT: INSERT INTO __error (errno, message) VALUES (12345, 'instead'); 
+direct CREATE TRIGGER ex ON items INSTEAD OF INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'instead');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE UPDATE: INSERT INTO __error (errno, message) VALUES (12345, 'upd before'); 
+direct CREATE TRIGGER ex ON items BEFORE UPDATE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'upd before');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct UPDATE items SET name = 'b'
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER UPDATE: INSERT INTO __error (errno, message) VALUES (12345, 'upd after'); 
+direct CREATE TRIGGER ex ON items AFTER UPDATE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'upd after');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct UPDATE items SET name = 'b'
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- INSTEAD OF UPDATE: INSERT INTO __error (errno, message) VALUES (12345, 'upd instead'); 
+direct CREATE TRIGGER ex ON items INSTEAD OF UPDATE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'upd instead');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct UPDATE items SET name = 'b'
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE DELETE: INSERT INTO __error (errno, message) VALUES (12345, 'del before'); 
+direct CREATE TRIGGER ex ON items BEFORE DELETE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'del before');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct DELETE FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER DELETE: INSERT INTO __error (errno, message) VALUES (12345, 'del after'); 
+direct CREATE TRIGGER ex ON items AFTER DELETE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'del after');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct DELETE FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- INSTEAD OF DELETE: INSERT INTO __error (errno, message) VALUES (12345, 'del instead'); 
+direct CREATE TRIGGER ex ON items INSTEAD OF DELETE BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'del instead');  END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct DELETE FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: IF __new.id = 2 THEN INSERT INTO __error (errno, message) VALUES (12345, 'row two'); END IF;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN IF __new.id = 2 THEN INSERT INTO __error (errno, message) VALUES (12345, 'row two'); END IF; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm')
+direct INSERT INTO items SELECT id + 10, name, qty, note FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE UPDATE: IF __new.id = 2 THEN INSERT INTO __error (errno, message) VALUES (12345, 'row two'); END IF;
+direct CREATE TRIGGER ex ON items BEFORE UPDATE BEGIN IF __new.id = 2 THEN INSERT INTO __error (errno, message) VALUES (12345, 'row two'); END IF; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm')
+direct UPDATE items SET qty = 5
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (12345, 'a message with an apostrophe and some text that goes on and on to be somewhat longer than usual, in fact more than a hundred characters wide to see.');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'a message with an apostrophe and some text that goes on and on to be somewhat longer than usual, in fact more than a hundred characters wide to see.'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (12345, 'line' + CHAR(13) + CHAR(10) + 'two');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12345, 'line' + CHAR(13) + CHAR(10) + 'two'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+
+
+# --- two triggers: second reads __error
+direct CREATE TRIGGER ex1 ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); END PRIORITY 1
+direct CREATE TRIGGER ex2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) SELECT 'rows ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; END PRIORITY 2
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex1
+direct DROP TRIGGER items.ex2
+direct DELETE FROM audit
+direct DELETE FROM items
+# --- before sets, after other trigger would add audit
+direct CREATE TRIGGER ex1 ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'first'); END PRIORITY 1
+direct CREATE TRIGGER ex2 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('second ran'); END PRIORITY 2
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex1
+direct DROP TRIGGER items.ex2
+direct DELETE FROM audit
+direct DELETE FROM items
+# --- nested: audit trigger writes __error
+direct CREATE TRIGGER ex1 ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('from items'); END
+direct CREATE TRIGGER ex2 ON audit BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (77, 'inner'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id FROM items
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex1
+direct DROP TRIGGER audit.ex2
+direct DELETE FROM audit
+direct DELETE FROM items
+# --- BEFORE INSERT: DELETE FROM __error; INSERT INTO audit (msg) VALUES ('empty delete');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN DELETE FROM __error; INSERT INTO audit (msg) VALUES ('empty delete'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: UPDATE __error SET errno = 9; INSERT INTO audit (msg) VALUES ('empty update');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN UPDATE __error SET errno = 9; INSERT INTO audit (msg) VALUES ('empty update'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES ('abc', 'text errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES ('abc', 'text errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (3000000000, 'huge errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (3000000000, 'huge errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (12.7, 'decimal errno');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (12.7, 'decimal errno'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (5, 99);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (5, 99); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (message, errno) VALUES ('swapped', 55);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (message, errno) VALUES ('swapped', 55); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (nosuch) VALUES (1);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (nosuch) VALUES (1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error VALUES (1);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error VALUES (1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error VALUES (1, 'a', 3);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error VALUES (1, 'a', 3); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error SELECT 8, 'selected' FROM system.iota;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error SELECT 8, 'selected' FROM system.iota; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, __new.name);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, __new.name); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, (SELECT 'sub' FROM system.iota));
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, (SELECT 'sub' FROM system.iota)); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO __error (errno, message) VALUES (2, 'two'); DELETE FROM __error WHERE errno = 1;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO __error (errno, message) VALUES (2, 'two'); DELETE FROM __error WHERE errno = 1; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO __error (errno, message) VALUES (2, 'two'); INSERT INTO audit (msg) SELECT message FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO __error (errno, message) VALUES (2, 'two'); INSERT INTO audit (msg) SELECT message FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'one'); SELECT * FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'one'); SELECT * FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO audit (msg) SELECT 'n=' + CAST(errno AS SQL_CHAR) + ' m=' + message FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'one'); INSERT INTO audit (msg) SELECT 'n=' + CAST(errno AS SQL_CHAR) + ' m=' + message FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER INSERT: INSERT INTO nosuch VALUES (1);
+direct CREATE TRIGGER ex ON items AFTER INSERT BEGIN INSERT INTO nosuch VALUES (1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER UPDATE: INSERT INTO nosuch VALUES (1);
+direct CREATE TRIGGER ex ON items AFTER UPDATE BEGIN INSERT INTO nosuch VALUES (1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct UPDATE items SET name = 'b'
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER DELETE: INSERT INTO nosuch VALUES (1);
+direct CREATE TRIGGER ex ON items AFTER DELETE BEGIN INSERT INTO nosuch VALUES (1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct DELETE FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); COMMIT WORK;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); COMMIT WORK; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO __error (errno, message) VALUES (2, 'y'); DELETE FROM __error; INSERT INTO __error (errno, message) VALUES (3, 'z');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO __error (errno, message) VALUES (2, 'y'); DELETE FROM __error; INSERT INTO __error (errno, message) VALUES (3, 'z'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+
+
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (NULL, NULL);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (NULL, NULL); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno) VALUES (NULL);
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno) VALUES (NULL); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error DEFAULT VALUES;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error DEFAULT VALUES; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO audit (msg) SELECT 'c ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; DELETE FROM __error WHERE errno = 1; INSERT INTO audit (msg) SELECT 'd ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO audit (msg) SELECT 'c ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; DELETE FROM __error WHERE errno = 1; INSERT INTO audit (msg) SELECT 'd ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); UPDATE __error SET message = 'changed' WHERE errno = 1;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); UPDATE __error SET message = 'changed' WHERE errno = 1; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); UPDATE __error SET errno = errno + 5;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); UPDATE __error SET errno = errno + 5; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); DELETE FROM __error; INSERT INTO __error (errno, message) VALUES (2, 'y'); DELETE FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); DELETE FROM __error; INSERT INTO __error (errno, message) VALUES (2, 'y'); DELETE FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO audit (msg) SELECT 'n ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; INSERT INTO __error (errno, message) VALUES (2, 'y'); INSERT INTO audit (msg) SELECT 'n ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error;
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); INSERT INTO audit (msg) SELECT 'n ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; INSERT INTO __error (errno, message) VALUES (2, 'y'); INSERT INTO audit (msg) SELECT 'n ' + CAST(COUNT(*) AS SQL_CHAR) FROM __error; END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- BEFORE INSERT: INSERT INTO __error (errno, message) VALUES (1, 'x');
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- AFTER DELETE: INSERT INTO __error (errno, message) VALUES (31, 'from the trigger of the second statement');
+direct CREATE TRIGGER ex ON items AFTER DELETE BEGIN INSERT INTO __error (errno, message) VALUES (31, 'from the trigger of the second statement'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct INSERT INTO items VALUES (2, 'b', 0, 'm')
+direct DELETE FROM items
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+# --- CONFLICT UPDATE: INSERT INTO __error (errno, message) VALUES (31, 'conflict');
+direct CREATE TRIGGER ex ON items CONFLICT UPDATE BEGIN INSERT INTO __error (errno, message) VALUES (31, 'conflict'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+direct UPDATE items SET name = 'q'
+query SELECT id, name FROM items ORDER BY id
+query SELECT msg FROM audit
+direct DROP TRIGGER items.ex
+direct DELETE FROM items
+direct DELETE FROM audit
+
+# --- zero errno and no text: no error
+direct CREATE TRIGGER ex ON items BEFORE INSERT BEGIN INSERT INTO __error (errno, message) VALUES (0, ''); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT id, name FROM items ORDER BY id
+direct DROP TRIGGER items.ex
+direct DELETE FROM items

@@ -1,0 +1,120 @@
+# More of what a user who may not SELECT gets (see ddinsertonly.txt and
+# ddinsertonly2.txt): a DELETE whose WHERE or subquery reads the table it
+# deletes from, or another table, for users holding DELETE alone, with SELECT,
+# with SELECT on some columns, and with SELECT on the other table only. The
+# dictionary, i3/i3.add, is kept in fixtures/sql/ddinsertonly3/:
+#
+#     run.sh <work> <ace32.dll> ddinsertonly3.txt > ../../../fixtures/sql/ddinsertonly3.json
+#     cp <work>/data/i3/* ../../../fixtures/sql/ddinsertonly3/
+ddcreate i3\i3.add
+stmt
+direct CREATE TABLE t1 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES ('1', 'one')
+direct INSERT INTO t1 VALUES ('2', 'two')
+direct INSERT INTO t1 VALUES ('3', 'three')
+direct INSERT INTO t2 VALUES ('1', 'uno')
+direct EXECUTE PROCEDURE sp_CreateUser('dl', 'dlpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('ds', 'dspw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('dc', 'dcpw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('d2', 'd2pw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('no', 'nopw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('so', 'sopw', '')
+direct GRANT DELETE ON t1 TO dl
+direct GRANT DELETE, SELECT ON t1 TO ds
+direct GRANT DELETE, SELECT (id) ON t1 TO dc
+direct GRANT DELETE ON t1 TO d2
+direct GRANT SELECT ON t2 TO d2
+direct GRANT SELECT ON t1 TO so
+direct EXECUTE PROCEDURE sp_CreateUser('uo', 'uopw', '')
+direct EXECUTE PROCEDURE sp_CreateUser('uc', 'ucpw', '')
+direct GRANT UPDATE ON t1 TO uo
+direct GRANT UPDATE, SELECT (id) ON t1 TO uc
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect
+#
+# DELETE alone.
+connect i3\i3.add dl dlpw
+stmt
+direct DELETE FROM t1 WHERE id = 'zz'
+direct DELETE FROM t1 WHERE name = 'zz'
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t2 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id = (SELECT MAX(id) FROM t1)
+direct DELETE FROM t1 WHERE EXISTS (SELECT 1 FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE EXISTS (SELECT 1 FROM system.iota WHERE 1 = 0)
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t2)
+direct DELETE FROM t1 WHERE 1 = 0
+disconnect
+#
+# DELETE with SELECT on the whole table.
+connect i3\i3.add ds dspw
+stmt
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t2 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id = (SELECT MAX(id) FROM t1)
+disconnect
+#
+# DELETE with SELECT on the id column only.
+connect i3\i3.add dc dcpw
+stmt
+direct DELETE FROM t1 WHERE id = 'zz'
+direct DELETE FROM t1 WHERE name = 'zz'
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE id = 'zz')
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id = (SELECT MAX(id) FROM t1)
+direct DELETE FROM t1 WHERE id = (SELECT MAX(name) FROM t1)
+disconnect
+#
+# DELETE, with SELECT on the other table.
+connect i3\i3.add d2 d2pw
+stmt
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t2 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1 WHERE name = (SELECT MAX(name) FROM t2)
+direct DELETE FROM t1 WHERE EXISTS (SELECT 1 FROM t2 WHERE t2.id = t1.id)
+direct DELETE FROM t1 WHERE EXISTS (SELECT 1 FROM t2 WHERE t2.name = 'zz')
+disconnect
+#
+# SELECT without DELETE, and no rights at all.
+connect i3\i3.add so sopw
+stmt
+direct DELETE FROM t1 WHERE id = 'zz'
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+disconnect
+connect i3\i3.add no nopw
+stmt
+direct DELETE FROM t1 WHERE id = 'zz'
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1 WHERE name = 'zz')
+direct DELETE FROM t1
+disconnect
+#
+# What the same conditions do in an UPDATE and a SELECT.
+connect i3\i3.add uo uopw
+stmt
+direct UPDATE t1 SET name = 'x' WHERE 1 = 0
+direct UPDATE t1 SET name = 'x' WHERE EXISTS (SELECT 1 FROM system.iota WHERE 1 = 0)
+direct UPDATE t1 SET name = 'x' WHERE EXISTS (SELECT 1 FROM t1 WHERE name = 'zz')
+direct UPDATE t1 SET name = 'x' WHERE id = 'zz'
+disconnect
+connect i3\i3.add uc ucpw
+stmt
+direct UPDATE t1 SET name = 'x' WHERE id = (SELECT MAX(id) FROM t1)
+direct UPDATE t1 SET name = 'x' WHERE id = (SELECT MAX(name) FROM t1)
+query SELECT id FROM t1 WHERE id = (SELECT MAX(name) FROM t1)
+query SELECT id FROM t1 WHERE id IN (SELECT name FROM t1)
+query SELECT (SELECT MAX(name) FROM t1) FROM system.iota
+disconnect
+#
+# Rows the statements deleted, and the ones that do delete, seen by SELECT.
+connect i3\i3.add dl dlpw
+stmt
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1)
+direct DELETE FROM t1
+disconnect
+connect i3\i3.add ds dspw
+stmt
+query SELECT id FROM t1
+direct DELETE FROM t1 WHERE id IN (SELECT id FROM t1)
+query SELECT id FROM t1
+disconnect

@@ -1,0 +1,239 @@
+# AdsDDRenameObject (the API; spddrename.txt is its SQL procedure) on a
+# dictionary connection in an empty folder (the dictionary, de/de.add, is kept in
+# fixtures/sql/spddrenameapi/): what each type of object is renamed by, what the
+# options do, and what is refused.
+#
+#     run.sh <work> <ace32.dll> spddrenameapi.txt > ../../../fixtures/sql/spddrenameapi.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddrenameapi/
+ddcreate de\de.add
+stmt
+direct CREATE DATABASE "other.add"
+direct CREATE TABLE parent (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE child (cid INTEGER, pid INTEGER)
+direct CREATE INDEX pid ON child (pid)
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10))
+direct CREATE INDEX ix1 ON ft1 (id)
+direct CREATE INDEX ix2 ON ft1 (name)
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10))
+direct CREATE TABLE ft3 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE mm (id INTEGER, note MEMO)
+direct CREATE INDEX mm1 ON mm (id)
+direct CREATE INDEX mm2 ON mm (id)
+direct CREATE FUNCTION fn1(a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+direct CREATE FUNCTION fn2(a INTEGER) RETURNS INTEGER BEGIN RETURN a + 2; END
+direct CREATE PACKAGE pk1
+direct CREATE TRIGGER ta ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER tb ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER tc ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER td ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER te ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER tf ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER tg ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER th ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE TRIGGER ti ON ft3 AFTER INSERT BEGIN INSERT INTO ft3 VALUES (3, 'three'); END
+direct CREATE VIEW v1 AS SELECT id FROM ft1
+direct CREATE VIEW v2 AS SELECT id FROM ft2
+direct CREATE PROCEDURE p1() BEGIN INSERT INTO ft1 VALUES (3, 'three'); END
+direct CREATE TRIGGER tr1 ON ft1 AFTER INSERT BEGIN INSERT INTO ft1 VALUES (3, 'three'); END
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 2, 2, '', 'no parent', 'cascade')
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT * FROM system.columns
+#
+# The types of object.
+ddrename v1 zz 0 0
+ddrename v1 zz 3 0
+ddrename v1 zz 4 0
+ddrename v1 zz 5 0
+ddrename v1 zz 7 0
+ddrename v1 zz 11 0
+ddrename v1 zz 13 0
+ddrename v1 zz 16 0
+ddrename v1 zz 17 0
+ddrename v1 zz 18 0
+ddrename v1 zz 19 0
+ddrename v1 zz 20 0
+ddrename v1 zz 21 0
+ddrename v1 zz 22 0
+ddrename v1 zz 65535 0
+ddrename v1 zz 100 0
+ddrename nope zz 1 0
+ddrename nope zz 2 0
+ddrename nope zz 3 0
+ddrename nope zz 4 0
+ddrename nope zz 5 0
+ddrename nope zz 6 0
+ddrename nope zz 8 0
+ddrename nope zz 9 0
+ddrename nope zz 10 0
+ddrename nope zz 12 0
+ddrename nope zz 14 0
+ddrename nope zz 15 0
+ddrename v1 zz 1 0
+ddrename ft1 zz 6 0
+# An index file, a column and an index tag, by the names the SQL gives them.
+ddrename ft1.adi zz 3 0
+ddrename ft1 zz 3 0
+# Functions and packages.
+ddrename fn1 fn1x 18 0
+ddrename fn1x fn2 18 0
+ddrename fn1x fn1y 18 0
+ddrename fn1x fn1y 10 0
+ddrename pk1 pk1x 19 0
+ddrename ft1.id zz 4 0
+ddrename ft1.name zz 4 0
+ddrename ix1 zz 5 0
+ddrename ft1.ix1 zz 5 0
+ddrename ft1::ix1 zz 5 0
+ddrename id zz 4 0
+query SELECT * FROM system.columns
+query SELECT * FROM system.indexes
+#
+# Each type renamed.
+ddrename v1 vv1 6 0
+ddrename ft2 ftt2 1 0
+ddrename ri1 rii1 2 0
+ddrename u1 uu1 8 0
+ddrename g1 gg1 9 0
+ddrename p1 pp1 10 0
+ddrename lk1 lkk1 12 0
+ddrename ft1::tr1 trr1 14 0
+ddrename ft1 ftt1 1 1
+ddrename ft3 ftt3 1 0
+ddrename mm mmm 1 0
+ddrename parent par 1 0
+ddrename child chi 1 0
+query SELECT * FROM system.tables
+query SELECT * FROM system.views
+query SELECT * FROM system.indexes
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.relations
+query SELECT * FROM system.links
+query SELECT * FROM system.functions
+query SELECT * FROM system.packages
+#
+# The options, and the names.
+ddrename v2 vv2 6 1
+ddrename v2 vv2 6 2
+ddrename vv2 v3 6 65535
+ddrename vv2 vv2 6 0
+ddrename vv2 VV2 6 0
+ddrename vv2 ftt2 6 0
+ddrename vv2 - 6 0
+ddrename - zz 6 0
+ddrename vv2 a;b 6 0
+ddrename ftt2 ftt2 1 0
+ddrename ftt2 FTT2 1 0
+ddrename ftt2 ftt2x 1 4
+# Which check comes first.
+ddrename - zz 0 0
+ddrename v1 - 0 0
+ddrename - - 6 0
+ddrename - - 0 7
+ddrename v2 = 6 0
+ddrename = zz 6 0
+ddrename = = 6 0
+ddrename nope = 6 0
+ddrename nope zz 0 7
+ddrename nope zz 6 7
+ddrename v1 zz 0 7
+ddrename v2 v2 6 7
+ddrename nope a;b 6 0
+ddrename v2 ~v3~ 6 0
+ddrename ~v3 v3b 6 0
+ddrename v3~ v3b 6 0
+ddrename V3 v3b 6 0
+ddrename v3b ~~v3c~~ 6 0
+ddrename v3c v3b 6 0
+ddrename v3b v3 6 0
+ddrename v2 ADSSYS 8 0
+ddrename u2 ADSSYS 8 0
+ddrename u2 adssys 8 0
+ddrename DB:Admin zz 9 0
+ddrename DB:Public zz 9 0
+ddrename ADSSYS zz 8 0
+direct EXECUTE PROCEDURE sp_RenameDDObject('ADSSYS', 'zz', 8, 0)
+ddrename adssys zz 8 0
+ddrename ADSSYS u2 8 0
+ddrename ftt1::trr1 trr1 14 0
+ddrename trr1 trr9 14 0
+ddrename ftt1::trr1 ftt1::trr9 14 0
+ddrename ftt1::trr1 ftt1 14 0
+ddrename ft1::trr1 trr9 14 0
+query SELECT Name, Trig_TableName FROM system.triggers
+ddrename ftt1::trr9 ftt1::trr9 14 0
+ddrename ftt1::trr9 trr1 14 0
+query SELECT Name, Trig_TableName FROM system.triggers
+direct EXECUTE PROCEDURE sp_RenameDDObject('ftt1::trr1', 'ftt1::trr9', 14, 0)
+query SELECT Name, Trig_TableName FROM system.triggers
+# The new name of a trigger may be qualified.
+ddrename ftt3::ta ftt3::ta1 14 0
+ddrename ftt3::tb zz::tb1 14 0
+ddrename ftt3::tc ::tc1 14 0
+ddrename ftt3::td ftt3:: 14 0
+ddrename ftt3::te :: 14 0
+ddrename ftt3::tf a:b 14 0
+ddrename ftt3::tf ftt3::a:b 14 0
+ddrename ftt3::tf x::y::z 14 0
+ddrename ftt3::tf ftt3::a;b 14 0
+ddrename ftt3::tg ftt3::~tg1~ 14 0
+ddrename ftt3::th ftt3::tb1 14 0
+ddrename ftt3::th ftt3::TA1 14 0
+ddrename ftt3::ti ftt3::ti 14 0
+ddrename ftt3::ti ftt3::TI 14 0
+direct EXECUTE PROCEDURE sp_RenameDDObject('ftt3::ti', 'ftt3::tj', 14, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('ftt3::th', 'ftt3::', 14, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('ftt3::th', 'a:b', 14, 0)
+ddrename ftt3::th zz::ta1 14 0
+ddrename ftt3::th zz::th 14 0
+ddrename ftt3::th th 14 0
+ddrename ftt3::th TH 14 0
+ddrename ftt3::th ftt3::th 14 0
+ddrename th ftt3::th 14 0
+query SELECT Name, Trig_TableName FROM system.triggers
+# Whose names a new name may not be.
+ddrename v2 fn1y 6 0
+ddrename v2 pk1x 6 0
+ddrename fn1y v2 18 0
+ddrename fn1y ftt2 18 0
+ddrename fn1y uu1 18 0
+ddrename fn1y lkk1 18 0
+ddrename fn1y pp1 18 0
+ddrename pk1x fn1y 19 0
+ddrename pk1x v2 19 0
+ddrename pk1x pk1x 19 0
+ddrename pk1x pk1 19 0
+ddrename ftt2 pk1x 1 0
+ddrename ftt2 fn1y 1 0
+ddrename uu1 fn1y 8 0
+ddrename gg1 pk1x 9 0
+ddrename ri1 pk1x 2 0
+# The same by the SQL procedure.
+direct EXECUTE PROCEDURE sp_RenameDDObject('fn2', 'fn2x', 18, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pk1x', 'pk1z', 19, 0)
+direct EXECUTE PROCEDURE sp_RenameDDObject('pk1z', 'pk1x', 17, 0)
+ddrename fn2x fn2 18 0
+ddrename pk1z pk1 19 0
+query SELECT * FROM system.views
+query SELECT * FROM system.tables
+#
+# A free connection, and a user who is not the administrator.
+disconnect
+connect de\de.add u2 pw2
+ddrename ftt2x zz 1 0
+ddrename v2 zz 6 0
+ddrename nope zz 6 0
+ddrename ftt3 zz 1 0
+ddrename ADSSYS zz 8 0
+ddrename u2 zz 8 0
+ddrename uu1 zz 8 0
+disconnect
+connect de
+ddrename v2 zz 6 0

@@ -1,0 +1,77 @@
+[
+{"cmd": "ddcreate dt\\dt.add", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query CREATE TABLE dpt (id INTEGER, name CHAR(10), m MEMO)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query CREATE INDEX did ON dpt (id)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO dpt VALUES (1, 'one', 'memo one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO dpt VALUES (2, 'two', 'memo two')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query INSERT INTO dpt VALUES (3, 'three', 'memo three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query DELETE FROM dpt WHERE id = 2", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE TABLE dpe (id INTEGER, name CHAR(10))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO dpe VALUES (1, 'one')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE TABLE dpz (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO dpz VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE TABLE dpx (id INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query INSERT INTO dpx VALUES (1)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query CREATE TABLE dpf (id INTEGER) AS FREE TABLE", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "closestmt", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["1000", "28", "3", "1", "4096", "256", "240"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt.adt')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["1000", "28", "3", "1", "4096", "256", "240"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('DPT')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["1000", "28", "3", "1", "4096", "256", "240"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpf')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"dpf\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('nosuch')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo(NULL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5020;  [SAP][Advantage SQL Engine][ASA] Error 5020:  The path given was not valid.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5020;  [SAP][Advantage SQL Engine][ASA] Error 5020:  The path given was not valid.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableEncryptionType('dpt')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EncryptionType", 4, 10, 0]], "rows": [
+  [1, ["NONE      "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableEncryptionType('nosuch')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["533015711", "533015711 "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 2)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5022;  [SAP][Advantage SQL Engine][ASA] Error 5022:  The record number given was not valid.  You cannot go to deleted records in ADT tables.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 3)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["-1811946550", "2483020746"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('dpt', 9)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5068;  [SAP][Advantage SQL Engine][ASA] Error 5068:  There is no current record.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('<data>\\dt\\dpt.adt', 1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"<data>\\dt\\dpt.adt\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('nosuch', 1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('dpt')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["1000", "28", "2", "0", "4096", "256", "240"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('dpt', 64)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpt')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["1000", "28", "2", "0", "4096", "64", "192"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('nosuch')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('dpf')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"dpf\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('dpt', 0)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('dpt', 1024)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('nosuch', 0)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_EncryptTable('dpe')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5162;  [SAP][Advantage SQL Engine][ASA] Error 5162:  The database's table encryption password has not been set.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableEncryptionType('dpe')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EncryptionType", 4, 10, 0]], "rows": [
+  [1, ["NONE      "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_EncryptTable('dpe', 'pw')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5019;  [SAP][Advantage SQL Engine][ASA] Error 5019:  An invalid option was specified.  Table encryption is enabled through a dictionary property for database tables.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_DecryptTable('dpe')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_DecryptTable('dpe', 'pw')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5097;  [SAP][Advantage SQL Engine][ASA] Error 5097:  The password given is not valid.  A password should not be given when decrypting dictionary-bound tables.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('dpz')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpz')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["600", "9", "0", "0", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('nosuch')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5132;  [SAP][Advantage SQL Engine][ASA] Error 5132:  The specified database object name is not valid.  \"nosuch\" is not a table or view in the data dictionary.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTableOnline('dpt')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5042;  [SAP][Advantage SQL Engine][ASA] Error 5042:  The requested feature has not yet been implemented.  sp_PackTableOnline cannot be called with Advantage Local Server connections.  Use sp_PackTable instead.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ReindexOnline('dpt')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5042;  [SAP][Advantage SQL Engine][ASA] Error 5042:  The requested feature has not yet been implemented.  sp_ReindexOnline cannot be called with Advantage Local Server connections.  Use sp_Reindex instead.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('dpx')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_ZapTable('dpx')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_Reindex('dpx', 0)", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_EncryptTable('dpx')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5162;  [SAP][Advantage SQL Engine][ASA] Error 5162:  The database's table encryption password has not been set.", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetTableSizeInfo('dpx')", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["TableHeaderSize", 11, 4, 0], ["RecordLength", 11, 4, 0], ["RawRecordCount", 11, 4, 0], ["DeletedRecordCount", 11, 4, 0], ["MemoHeaderSize", 11, 4, 0], ["MemoBlockSize", 11, 4, 0], ["MemoBlockCount", 11, 4, 0]], "rows": [
+  [1, ["600", "9", "0", "0", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetRecordCRC('dpx', 1)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["CRCInteger", 11, 4, 0], ["CRCString", 4, 10, 0]], "rows": [
+  [1, ["855876547", "855876547 "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_PackTable('dpx')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT * FROM dpt ORDER BY id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "dpt.adt", "options": 82160, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0], ["m", 5, 9, 0]], "rows": [
+  [1, ["1", "one       ", "memo one"]],
+  [2, ["3", "three     ", "memo three"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM dpz", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}}
+]

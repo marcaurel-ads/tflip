@@ -1,0 +1,53 @@
+# ROWID on tables of the other kinds, for fixtures/sql/rowid_paths.json, after
+# the ones rowid.txt makes (an empty data folder): DBF tables of each type, a
+# table in a dictionary, a record number beyond one digit of the encoding.
+stmt
+tabletype 1
+directnull CREATE TABLE nt (n integer)
+directnull INSERT INTO nt (n) VALUES (1)
+query SELECT ROWID FROM nt
+tabletype 2
+directnull CREATE TABLE ct (n integer)
+directnull INSERT INTO ct (n) VALUES (1)
+query SELECT ROWID FROM ct
+tabletype 4
+directnull CREATE TABLE vt (n integer)
+directnull INSERT INTO vt (n) VALUES (1)
+query SELECT ROWID FROM vt
+tabletype 3
+directnull CREATE TABLE att (n integer)
+directnull INSERT INTO att (n) VALUES (1)
+query SELECT ROWID FROM att
+# Record numbers.
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+directnull INSERT INTO att SELECT n FROM att
+query SELECT ROWID, RECNO() FROM att WHERE RECNO() IN (1, 2, 3, 4, 31, 32, 33, 63, 64, 65, 100, 128)
+# A table with its alias, a view-like derived table, a table in a subfolder.
+query SELECT x.ROWID FROM att x WHERE RECNO() = 3
+query SELECT ROWID FROM (SELECT n FROM att) y
+query SELECT * FROM (SELECT ROWID r, n FROM att WHERE RECNO() < 3) y
+# A dictionary connection: the tables' object ids.
+ddcreate dd.add
+stmt
+direct CREATE TABLE d1 (n integer)
+direct CREATE TABLE d2 (n integer)
+directnull INSERT INTO d1 (n) VALUES (1)
+directnull INSERT INTO d2 (n) VALUES (1)
+query SELECT ROWID FROM d1
+query SELECT ROWID FROM d2
+query SELECT LASTROWID() FROM system.iota
+query SELECT ROWID FROM system.tables
+query SELECT ROWID FROM system.columns
+query SELECT ROWID FROM system.iota
+# A dictionary in a subfolder: the database part is the dictionary's folder or
+# file, and the tables' paths are the folder's.
+ddcreate props\sub.add
+stmt
+direct CREATE TABLE s1 (n integer)
+directnull INSERT INTO s1 (n) VALUES (1)
+query SELECT ROWID FROM s1

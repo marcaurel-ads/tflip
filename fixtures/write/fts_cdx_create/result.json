@@ -1,0 +1,10 @@
+[
+{"cmd": "tabletype cdx", "rc": 0},
+{"cmd": "sql CREATE INDEX f1 ON c1 (body) CONTENT", "rc": 0},
+{"cmd": "sql CREATE INDEX f2 ON c2 (body) CONTENT KEEPSCORE", "rc": 0},
+{"cmd": "sql CREATE INDEX f3 ON c3 (body) CONTENT", "rc": 0},
+{"cmd": "sql CREATE INDEX f4 ON c4 (body) CONTENT", "rc": 0},
+{"cmd": "open c5.dbf", "rc": 0, "table": 1},
+{"cmd": "createfts - g1 body 0 3 30 0 1 - 1 - 1 - 1 -", "rc": 0},
+{"cmd": "createfts own.cdx g2 body 0 3 30 0 1 - 1 - 1 - 1 -", "rc": 0}
+]

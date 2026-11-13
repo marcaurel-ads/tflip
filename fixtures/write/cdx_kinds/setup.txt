@@ -1,0 +1,24 @@
+# A FoxPro table of four records, one deleted.
+tabletype cdx
+createtable f.dbf 0 c,Character,10;n,Numeric,6,0;l,Logical
+append
+set c string bravo
+set n double 2
+write
+append
+set c string alpha
+set n double 1
+set l logical 1
+write
+append
+set c string charlie
+set n double 3
+write
+append
+set c string alpha
+set n double 4
+write
+goto 3
+delete
+write
+close

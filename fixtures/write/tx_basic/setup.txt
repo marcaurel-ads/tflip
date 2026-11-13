@@ -1,0 +1,5 @@
+sql CREATE TABLE t (id integer, name char(10), m memo)
+sql CREATE INDEX name ON t (name)
+sql INSERT INTO t VALUES (1, 'one', 'memo one')
+sql INSERT INTO t VALUES (2, 'two', NULL)
+sql INSERT INTO t VALUES (3, 'three', 'memo three')

@@ -1,0 +1,8 @@
+#include dd_all.txt
+sql 1 EXECUTE PROCEDURE sp_CreateUser('plain', 'pp', 'not a backup user')
+sql 1 EXECUTE PROCEDURE sp_AddUserToGroup('bkuser', 'DB:Backup')
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'pw', '@ROOT@\dgood\d.add', 'User=bkuser')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'pp', '@ROOT@\dplain\d.add', 'User=plain')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'pw', '@ROOT@\dnouser\d.add', 'User=nosuch')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'wrong', '@ROOT@\dwrongpw\d.add', 'User=bkuser')

@@ -1,0 +1,26 @@
+# A trigger one connection creates or drops applies to another's next
+# statement, on the remote server: the dictionary is the server's, not a
+# connection's own copy, and nothing holds the table open.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_trigger_shared.txt
+#             > ../../../fixtures/events/events_trigger_shared.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+connect 2 d\d.add
+sql 1 CREATE TABLE t (id INTEGER, name CHAR(10))
+sql 1 CREATE TABLE log (msg CHAR(20))
+# Nothing holds the table: a trigger one connection creates or drops applies
+# to both at once.
+sql 1 CREATE TRIGGER tr0 ON t AFTER INSERT BEGIN INSERT INTO log VALUES ('tr0'); END
+sql 1 INSERT INTO t VALUES (0, 'z')
+sql 2 INSERT INTO t VALUES (1, 'z')
+sql 2 DROP TRIGGER t.tr0
+sql 1 INSERT INTO t VALUES (2, 'z')
+sql 2 INSERT INTO t VALUES (3, 'z')
+sql 2 CREATE TRIGGER tr1 ON t AFTER INSERT BEGIN INSERT INTO log VALUES ('tr1'); END
+sql 1 INSERT INTO t VALUES (4, 'z')
+sql 2 INSERT INTO t VALUES (5, 'z')
+sql 1 SELECT msg FROM log
+sql 2 DROP TRIGGER t.tr1

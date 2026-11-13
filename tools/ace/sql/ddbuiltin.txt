@@ -1,0 +1,100 @@
+# Membership in the built-in groups (DB:Admin, DB:Backup, DB:Debug,
+# SERVER:Admin, SERVER:Monitor), which sp_AddUserToGroup gives and
+# sp_RemoveUserFromGroup takes, and what a member of DB:Admin may do. The
+# dictionary, bg/bg.add, is kept in fixtures/sql/ddbuiltin/:
+#
+#     run.sh <work> <ace32.dll> ddbuiltin.txt > ../../../fixtures/sql/ddbuiltin.json
+#     cp <work>/data/bg/* ../../../fixtures/sql/ddbuiltin/
+ddcreate bg\bg.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t2 (id INTEGER)
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw6', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+query SELECT * FROM system.usergroupmembers
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'DB:Admin')
+query SELECT * FROM system.usergroupmembers
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'DB:Backup')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'DB:Debug')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u4', 'SERVER:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'SERVER:Monitor')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'db:admin')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'db:ADMIN')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'db:admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u6', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u6', 'DB:Debug')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u6', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u6', 'DB:Backup')
+query SELECT * FROM system.usergroupmembers
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u6', 'DB:Debug')
+query SELECT * FROM system.usergroupmembers
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u6', 'DB:Debug')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u5', 'DB:Admin')
+query SELECT * FROM system.usergroupmembers
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'DB:Admin')
+disconnect
+#
+# A member of DB:Admin holds every right; one of DB:Backup, DB:Debug and the
+# SERVER groups none.
+connect bg\bg.add u1 pw1
+stmt
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr1() BEGIN SELECT 1 FROM system.iota; END
+direct GRANT SELECT ON t1 TO u2 WITH GRANT
+direct EXECUTE PROCEDURE sp_CreateUser('u7', 'pw7', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u7', 'DB:Admin')
+direct DROP TABLE t2
+query SELECT * FROM t1
+disconnect
+connect bg\bg.add u2 pw2
+stmt
+direct CREATE VIEW vw2 AS SELECT id FROM t1
+direct GRANT SELECT ON t1 TO u3
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_CreateUser('u8', 'pw8', '')
+query SELECT * FROM t1
+disconnect
+connect bg\bg.add u3 pw3
+stmt
+direct CREATE VIEW vw3 AS SELECT id FROM t1
+query SELECT * FROM t1
+disconnect
+connect bg\bg.add u5 pw5
+stmt
+direct CREATE VIEW vw4 AS SELECT id FROM t1
+query SELECT * FROM t1
+disconnect
+#
+# The calls that add objects to a dictionary hold a user to the same rights.
+connect bg\bg.add u2 pw2
+ddview av1 SELECT id FROM t1
+dduser an1 pw
+ddlink al1 bg.add u1 pw1 1
+disconnect
+connect bg\bg.add adssys
+stmt
+direct GRANT CREATE VIEW TO u3
+disconnect
+connect bg\bg.add u3 pw3
+ddview av2 SELECT id FROM t1
+dduser an2 pw
+ddlink al2 bg.add u1 pw1 1
+disconnect
+connect bg\bg.add u1 pw1
+ddview av3 SELECT id FROM t1
+dduser an3 pw
+ddlink al3 bg.add u1 pw1 1
+disconnect
+connect bg\bg.add adssys
+stmt
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.permissions

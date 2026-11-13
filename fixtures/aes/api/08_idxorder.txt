@@ -1,0 +1,26 @@
+# Index files of a free AES table: made before it is encrypted, after, and a table encrypted with an index.
+connect c1 Data Source=%D;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+create a c1 %D\t.adt CH,Character,10;N1,Integer
+append a
+set a CH alpha
+set a N1 1
+write a
+append a
+set a CH bravo
+set a N1 2
+write a
+index ia a %D\t.adi IA 0 CH
+enable a secret
+encrypt a
+index ib a %D\t.adi IB 0 N1
+index ic a %D\u.adi IC 0 CH
+close a
+open h c1 %D\t.adt 4
+enable h secret
+order x1 h IA
+order x2 h IB
+top x1
+dump h
+seek x1 bravo 0
+order x3 h IC
+close h

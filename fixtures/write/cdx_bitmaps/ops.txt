@@ -1,0 +1,158 @@
+# Binary orders built on the records, kept current as records are added
+# past the third node, deleted, recalled and changed, then rebuilt.
+# Snapshots of closed files: the index files in them are compared too.
+tabletype cdx
+open big.dbf exclusive
+createindex - del 4098 512 DELETED()
+createindex - high 4098 512 x > 6000
+createindex - x 2 512 x
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 3967
+pos
+oskip 1
+pos
+order high
+count
+close
+snapshot built
+open big.dbf exclusive
+append
+set x long 20000
+write
+append
+set x long 20001
+write
+append
+set x long 20002
+write
+append
+set x long 20003
+write
+append
+set x long 20004
+write
+append
+set x long 20005
+write
+append
+set x long 20006
+write
+append
+set x long 20007
+write
+append
+set x long 20008
+write
+append
+set x long 20009
+write
+goto 11905
+delete
+write
+goto 6
+delete
+write
+goto 8
+recall
+write
+goto 11
+set x long 7001
+write
+goto 11001
+set x long 1
+write
+goto 11908
+set x long 1
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 3967
+pos
+oskip 1
+pos
+order high
+count
+close
+snapshot kept
+open big.dbf exclusive
+reindex
+order del
+count
+order high
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 3967
+pos
+oskip 1
+pos
+close
+# A bitmap that outgrows its root node.
+open mid.dbf exclusive
+createindex - del 4098 512 DELETED()
+close
+snapshot mid
+open mid.dbf exclusive
+append
+set x long 5000
+write
+append
+set x long 5001
+write
+append
+set x long 5002
+write
+append
+set x long 5003
+write
+append
+set x long 5004
+write
+append
+set x long 5005
+write
+append
+set x long 5006
+write
+append
+set x long 5007
+write
+append
+set x long 5008
+write
+append
+set x long 5009
+write
+goto 3966
+delete
+write
+order del
+count
+obottom
+pos
+oskip -1
+pos
+otop
+pos
+oskip 3967
+pos
+oskip 1
+pos
+close

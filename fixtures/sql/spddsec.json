@@ -1,0 +1,25 @@
+[
+{"cmd": "ddcreate de\\de.add", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0], ["DictionaryEncrypted", 1, 1, 0], ["CommType", 4, 10, 0], ["TLSCipher", 4, 20, 0], ["TLSVersion", 4, 20, 0]], "rows": [
+  [1, ["F", "RC4       ", "F", "LOCAL     ", null, null]]]}},
+{"cmd": "query SELECT * FROM (EXECUTE PROCEDURE sp_GetSecurityInfo()) a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0], ["DictionaryEncrypted", 1, 1, 0], ["CommType", 4, 10, 0], ["TLSCipher", 4, 20, 0], ["TLSVersion", 4, 20, 0]], "rows": [
+  [1, ["F", "RC4       ", "F", "LOCAL     ", null, null]]]}},
+{"cmd": "query SELECT FIPSMode, EncryptionType FROM (EXECUTE PROCEDURE sp_GetSecurityInfo()) a", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0]], "rows": [
+  [1, ["F", "RC4       "]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo('x')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: sp_GetSecurityInfo -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo(1)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: sp_GetSecurityInfo -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo(NULL)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: sp_GetSecurityInfo -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect de\\de.add u1 pw1", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0], ["DictionaryEncrypted", 1, 1, 0], ["CommType", 4, 10, 0], ["TLSCipher", 4, 20, 0], ["TLSVersion", 4, 20, 0]], "rows": [
+  [1, ["F", "RC4       ", null, "LOCAL     ", null, null]]]}},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect de", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["FIPSMode", 1, 1, 0], ["EncryptionType", 4, 10, 0], ["DictionaryEncrypted", 1, 1, 0], ["CommType", 4, 10, 0], ["TLSCipher", 4, 20, 0], ["TLSVersion", 4, 20, 0]], "rows": [
+  [1, ["F", "RC4       ", null, "LOCAL     ", null, null]]]}},
+{"cmd": "query EXECUTE PROCEDURE sp_GetSecurityInfo('x')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2136;  [SAP][Advantage SQL Engine]Invalid number of parameters for: sp_GetSecurityInfo -- Location of error in the SQL statement is: 19", "has_cursor": false, "affected": 0}
+]

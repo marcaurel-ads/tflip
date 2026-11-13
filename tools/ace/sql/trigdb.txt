@@ -1,0 +1,84 @@
+# CREATE and DROP TRIGGER ... ON DATABASE (v12), on a dictionary connection in
+# an empty folder: the database events, the timings each takes, the refusals,
+# names, priorities and options, and the objects in the dictionary
+# dbt/dbt.add, which is kept in fixtures/sql/trigdb/ (recorded on the local
+# server):
+#
+#     run.sh <work> <ace32.dll> trigdb.txt > ../../../fixtures/sql/trigdb.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigdb/
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE audit (msg CHAR(120))
+direct CREATE TABLE t1 (id INTEGER)
+query SELECT * FROM system.triggers
+direct CREATE TRIGGER dbt1 ON DATABASE AFTER CONNECT BEGIN SELECT 'connect' FROM system.iota; END
+query SELECT * FROM system.triggers
+direct CREATE TRIGGER dbt2 ON DATABASE BEFORE OPEN_TABLE BEGIN SELECT 'bopen' FROM system.iota; END
+direct CREATE TRIGGER dbt3 ON DATABASE AFTER OPEN_TABLE BEGIN SELECT 'aopen' FROM system.iota; END
+direct CREATE TRIGGER dbt4 ON DATABASE BEFORE CLOSE_TABLE BEGIN SELECT 'bclose' FROM system.iota; END
+direct CREATE TRIGGER dbt5 ON DATABASE AFTER CLOSE_TABLE BEGIN SELECT 'aclose' FROM system.iota; END
+direct CREATE TRIGGER dbt6 ON DATABASE BEFORE DISCONNECT BEGIN SELECT 'disc' FROM system.iota; END
+query SELECT * FROM system.triggers
+# The combinations that are refused.
+direct CREATE TRIGGER x1 ON DATABASE BEFORE CONNECT BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x2 ON DATABASE AFTER DISCONNECT BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x3 ON DATABASE INSTEAD OF OPEN_TABLE BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x4 ON DATABASE INSTEAD OF CONNECT BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x5 ON DATABASE CONFLICT UPDATE BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x6 ON DATABASE BEFORE INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x7 ON t1 BEFORE CONNECT BEGIN INSERT INTO audit (msg) VALUES ('x'); END
+direct CREATE TRIGGER x8 ON t1 AFTER OPEN_TABLE BEGIN INSERT INTO audit (msg) VALUES ('x'); END
+direct CREATE TRIGGER x9 ON DATABASE AFTER BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x10 ON DATABASE BEFORE OPEN BEGIN SELECT 'x' FROM system.iota; END
+direct CREATE TRIGGER x11 ON DATABASE AFTER CONNECT BEGIN END
+# A second trigger of an event and timing, options, priority.
+direct CREATE TRIGGER dbt1 ON DATABASE AFTER CONNECT BEGIN SELECT 'dup' FROM system.iota; END
+direct CREATE TRIGGER dbt7 ON DATABASE AFTER CONNECT BEGIN SELECT 'connect 2' FROM system.iota; END PRIORITY 5
+direct CREATE TRIGGER dbt8 ON DATABASE BEFORE OPEN_TABLE BEGIN SELECT 'open 2' FROM system.iota; END NO MEMOS NO TRANSACTION PRIORITY 2
+direct CREATE TRIGGER dbt9 ON DATABASE BEFORE OPEN_TABLE BEGIN SELECT 'open 3' FROM system.iota; END NO MEMOS
+# A table trigger of the same name as a database trigger, and the table named DATABASE.
+direct CREATE TRIGGER dbt1 ON t1 AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('t1'); END
+direct CREATE TRIGGER dbt10 ON t1 AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('t1'); END
+direct CREATE TRIGGER dbt10 ON DATABASE AFTER CONNECT BEGIN SELECT 'same name as a table trigger' FROM system.iota; END
+# The same name on two tables, and on a table and the database.
+direct CREATE TRIGGER same1 ON t1 AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('s1'); END
+direct CREATE TRIGGER same1 ON audit AFTER INSERT BEGIN INSERT INTO audit (msg) VALUES ('s2'); END
+direct CREATE TRIGGER same1 ON DATABASE AFTER CONNECT BEGIN SELECT 's3' FROM system.iota; END
+direct CREATE TRIGGER lastone ON DATABASE AFTER CONNECT BEGIN SELECT 'last' FROM system.iota; END
+# ALTER TRIGGER takes CREATE TRIGGER's grammar and rewrites the record in place: a
+# database trigger's script, priority, options, timing and event; a table
+# trigger's, with its table's aggregates.
+direct ALTER TRIGGER dbt2 ON DATABASE BEFORE OPEN_TABLE BEGIN SELECT 'altered' FROM system.iota; END PRIORITY 7 NO MEMOS
+direct ALTER TRIGGER dbt1 ON DATABASE AFTER CONNECT BEGIN SELECT 'altered too' FROM system.iota; END
+direct ALTER TRIGGER dbt3 ON DATABASE BEFORE CLOSE_TABLE BEGIN SELECT 'moved' FROM system.iota; END NO TRANSACTION
+direct ALTER TRIGGER dbt4 ON DATABASE AFTER CONNECT BEGIN SELECT 'refused' FROM system.iota; END
+direct ALTER TRIGGER dbt5 ON DATABASE BEFORE CONNECT BEGIN SELECT 'refused' FROM system.iota; END
+direct ALTER TRIGGER nosuch ON DATABASE AFTER CONNECT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER nosuch ON t1 AFTER INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt1 ON nosuchtable AFTER INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER same1 ON t1 BEFORE UPDATE BEGIN INSERT INTO nosuchtable VALUES (1); END PRIORITY 3 NO TRANSACTION
+direct ALTER TRIGGER same1 ON audit AFTER DELETE BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt2 ON t1 AFTER INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt1 ON DATABASE AFTER INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt1 t1 AFTER INSERT BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt1 ON t1 AFTER BEGIN SELECT 'x' FROM system.iota; END
+direct ALTER TRIGGER dbt1 ON t1 AFTER INSERT BEGIN END
+direct ALTER TRIGGER dbt1 ON t1 AFTER INSERT SELECT 1 FROM system.iota
+direct ALTER TRIGGER
+direct ALTER TRIGGER dbt1
+query SELECT * FROM system.triggers
+query SELECT * FROM system.triggers
+# Dropping: by the bare name, which is a database trigger's.
+direct DROP TRIGGER same1
+direct DROP TRIGGER same1
+direct DROP TRIGGER t1.same1
+direct DROP TRIGGER audit.same1
+direct DROP TRIGGER dbt9
+direct DROP TRIGGER dbt9
+direct DROP TRIGGER dbt7 ON DATABASE
+direct DROP TRIGGER dbt8
+direct DROP TRIGGER DATABASE.dbt1
+direct DROP TRIGGER t1.dbt10
+direct DROP TRIGGER dbt10
+query SELECT * FROM system.triggers
+query SELECT name, trig_event_type, trig_trigger_type, trig_container_type, trig_options, trig_priority FROM system.triggers

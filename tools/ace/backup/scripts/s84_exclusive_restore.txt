@@ -1,0 +1,11 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+connect 2 dst\d.add
+open 2 t_adt x
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst2\d.add', NULL)
+closetable 2
+disconnect 2
+connect 3 dst\d.add
+open 3 t_adt s
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)

@@ -1,0 +1,28 @@
+open t.adt
+top
+getopt c 0x300
+getopt id 0x300
+getopt m 0x300
+getopt g 0x101
+getopt g 0x103
+getopt g 0x104
+getopt g 0x108
+getopt g 0x110
+getopt g 0x130
+getopt g 0x401
+getopt g 0x204
+getopt g 0x900 5
+getopt g 0x300 5
+getopt nosuch 0x300
+getopt g 0x100 24
+getopt g 0x100 25
+getopt g 0x200 22
+getopt g 0x200 23
+bottom
+skip 1
+getopt g 0x100
+getopt g 0x300
+getopt g 0x100 0
+top
+set id long 9
+write

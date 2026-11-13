@@ -1,0 +1,102 @@
+# The effective permissions and permissions of a good dictionary (the one
+# ddpublicbad_make.txt makes, with two tables that have files) filtered by
+# Object_Type, to tell what the original does with them from what a rights slot
+# that does not check does:
+#
+#     run.sh <work> <ace32.dll> ddeffperm.txt > ../../../fixtures/sql/ddeffperm.json
+ddcreate pb.add
+stmt
+direct CREATE TABLE t1 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct CREATE TABLE t3 (id CHAR(4), extra CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES ('1', 'one')
+direct INSERT INTO t2 VALUES ('1', 'uno')
+direct CREATE VIEW v1 AS SELECT id FROM t2
+direct EXECUTE PROCEDURE sp_CreateUser('bob', 'bobpw', '')
+direct GRANT SELECT ON t1 TO "DB:Public"
+direct GRANT SELECT ON v1 TO "DB:Public"
+direct CREATE FUNCTION f1 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+direct GRANT EXECUTE ON f1 TO "DB:Public"
+direct GRANT SELECT ON t2 TO bob
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect
+connect pb.add adssys
+stmt
+cap 400
+stmt
+query SELECT * FROM system.effectivepermissions 
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 1
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Parent = 't2'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 6
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 8
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Name = 'id'
+stmt
+query SELECT * FROM system.permissions 
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 1
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Parent = 't2'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 6
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 8
+stmt
+query SELECT * FROM system.permissions WHERE Name = 'id'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Name = 'id'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Grantee = 'bob'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 OR Name = 't1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type IN (4)
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type >= 4 AND Object_Type <= 4
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 ORDER BY Name
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND "Select" = 0
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Parent <> 't1'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Parent = 't3'
+stmt
+query SELECT * FROM system.effectivepermissions WHERE 4 = Object_Type
+stmt
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 4 AND Name <> 'zz'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Name = 'id'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Grantee = 'bob'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 OR Name = 't1'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type IN (4)
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type >= 4 AND Object_Type <= 4
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 ORDER BY Name
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND "Select" = 0
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Parent <> 't1'
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Parent = 't3'
+stmt
+query SELECT * FROM system.permissions WHERE 4 = Object_Type
+stmt
+query SELECT * FROM system.permissions WHERE Object_Type = 4 AND Name <> 'zz'
+stmt
+query SELECT COUNT(*) FROM system.effectivepermissions WHERE Object_Type = 4
+stmt
+query SELECT Name, Parent FROM system.effectivepermissions WHERE Object_Type = 4
+disconnect

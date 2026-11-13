@@ -1,0 +1,284 @@
+# Bookmarks through the table and through the index orders of
+# fixtures/adt/indexes/indexed.adt (see bookmarks.c). Orders: 0 PK_INDEXED (id),
+# 1 BY_NAME, 2 BY_AMOUNT_DESC (descending), 3 BY_BORN_NAME, 4 BY_CINAME.
+# Lengths
+len t
+len 0
+len 1
+len 2
+len 3
+len 4
+# Table: bookmarks at each record, BOF and EOF
+move t top
+get t t1
+move t rec 2
+get t t2
+move t rec 3
+get t t3
+move t rec 4
+get t t4
+move t rec 5
+get t t5
+move t bottom
+get t
+move t eof
+get t teof
+move t bof
+get t tbof
+move t rec 6
+get t
+move t rec 0
+get t
+# One of each through every order, BOF and EOF included (what the key is at
+# BOF and EOF of the others depends on what was read before: not recorded)
+move 0 top
+get 0 a1
+move 0 top
+get 0
+move 0 bof
+get 0 abof
+move 0 bottom
+get 0 a5
+move 0 eof
+get 0 aeof
+move 0 rec 2
+get 0 a2
+move 0 rec 3
+get 0 a3
+move 0 rec 4
+get 0 a4
+move 0 top
+move 0 rec 6
+move 0 top
+move 0 rec 0
+move 1 top
+get 1 n1
+move 1 bottom
+get 1 n2
+move 2 top
+get 2 d1
+move 2 rec 1
+get 2 d2
+move 2 rec 5
+get 2 d3
+move 2 rec 2
+get 2 d4
+move 3 top
+get 3
+move 3 bottom
+get 3
+move 4 top
+get 4
+move 4 bottom
+get 4
+# Too small a buffer, a size of exactly enough, and NULL
+get 0 s 2
+get 0 s 19
+get 0 s 20
+get 0 s 21
+get 1 s 31
+get t s 7
+get t s 8
+get t s 0
+get1 t
+get1 0
+get1 3
+# Comparing: through the table (record order)
+cmp t1 t2
+cmp t2 t1
+cmp t3 t3
+cmp t1 t5
+cmp t4 t3
+cmp teof t5
+cmp tbof t1
+# through the primary key (key order = record order here)
+cmp a1 a2
+cmp a2 a1
+cmp a5 a3
+cmp a3 a3
+cmp abof a1
+cmp aeof a5
+cmp aeof abof
+cmp a4 a3
+cmp a4 a5
+# the same record, bookmarks from the same order, other buffer
+copy x a2
+cmp x a2
+# the descending order: key order is the reverse
+cmp d1 d2
+cmp d2 d1
+cmp d1 d3
+cmp d3 d4
+cmp d4 d3
+# bookmarks of different orders, and of the table, are compared by record
+cmp a2 n1
+cmp n1 a2
+cmp a3 n2
+cmp n2 a3
+cmp t2 a2
+cmp a2 t2
+cmp t2 a3
+cmp a3 t2
+cmp d1 n1
+cmp d4 a2
+# Altered bookmarks. The same key with other records: the record breaks the tie
+copy x a3
+patch x 0 02000000
+cmp x a3
+cmp a3 x
+patch x 0 09000000
+cmp x a3
+cmp a3 x
+patch x 0 00000000
+cmp x a3
+patch x 0 ffffffff
+cmp x a3
+# the same order's key decides before the record: key of 2 with record 9 against 3
+copy x a2
+patch x 0 09000000
+cmp x a3
+cmp a3 x
+# another order's handle in it, or none: the records alone
+copy x a2
+patch x 8 00000000
+cmp x a2
+cmp x a3
+patch x 0 09000000
+cmp x a3
+cmp a3 x
+copy x a2
+patch x 0 09000000
+patch x 8 {h1}
+cmp x a3
+cmp a3 x
+# the descending order's own tie and key
+copy x d1
+patch x 0 09000000
+cmp x d1
+cmp d1 x
+copy x d1
+patch x 0 01000000
+cmp x d1
+cmp d1 x
+copy x d1
+patch x 0 09000000
+patch x 8 00000000
+cmp x d1
+cmp d1 x
+# the key's length: it must be the same in both, 0 in either means none
+copy x a2
+patch x 4 04000000
+cmp x a2
+cmp a2 x
+copy y a2
+patch y 4 04000000
+cmp x y
+patch x 12 ff
+cmp x y
+patch y 12 00
+cmp x y
+copy x a2
+patch x 4 00000000
+cmp x a2
+cmp a2 x
+copy x a3
+patch x 4 00000000
+patch x 0 09000000
+cmp x a2
+cmp a2 x
+copy x a2
+copy y a3
+patch x 4 00000000
+patch y 4 00000000
+cmp x y
+copy x a2
+patch x 4 09000000
+cmp x a2
+copy x a2
+copy y a3
+patch x 4 04000000
+patch y 4 04000000
+patch x 19 01
+cmp x y
+copy x a2
+copy y a3
+patch x 4 04000000
+patch y 4 04000000
+patch x 0 09000000
+patch x 19 01
+cmp x y
+# a key that differs in its last byte
+copy x a3
+patch x 0 01000000
+patch x 19 01
+cmp x a3
+cmp a3 x
+# Going to a bookmark: through the table, and through the index it was taken through
+move t rec 5
+goto t t2
+move t rec 5
+goto t t4
+move t rec 5
+goto t t5
+move t rec 5
+goto t tbof
+move t rec 5
+goto t teof
+move t rec 3
+goto t a2
+move t rec 3
+goto 0 a2
+move t rec 3
+goto 0 t2
+move t rec 3
+goto 1 n1
+move 0 top
+goto 0 a3
+move 0 top
+goto t a3
+move 0 top
+goto t aeof
+move 0 top
+goto t abof
+move t rec 3
+goto t x
+move t rec 3
+goto1 t 2
+goto1 t 0
+goto1 t 4
+goto1 t 6
+goto1 t 99
+goto1 0 2
+goto1 3 2
+# Errors
+get t
+cmpnull a p
+get 0 p
+cmpnull a
+cmpnull b
+cmpnull r
+# Handles that are no table or order, and NULL pointers
+len bad
+len zero
+len conn
+get bad
+get zero
+get conn
+get1 bad
+get1 conn
+goto bad p
+goto conn p
+goto zero p
+lennull t
+lennull 0
+lennull bad
+getnull t buf
+getnull t len
+getnull 0 buf
+getnull 0 len
+getnull bad buf
+getnull conn len
+gotonull t
+gotonull 0
+gotonull conn
+gotonull bad

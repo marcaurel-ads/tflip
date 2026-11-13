@@ -1,0 +1,94 @@
+# Transactions on the remote server: what the files hold during a
+# transaction and after its rollback or commit, and what another
+# connection sees meanwhile.
+open t shared
+open2 t shared
+use 1
+# A change rolled back.
+begin
+txcount
+goto 1
+set name string uno
+write
+flush
+snapshot changed
+use 2
+goto 1
+get name
+islocked 1
+lock 1
+use 1
+islocked 1
+unlock 1
+rollback
+flush
+snapshot rolledback
+goto 1
+get name
+use 2
+goto 1
+get name
+lock 1
+unlock 1
+use 1
+# An append rolled back.
+begin
+append
+set id long 4
+set name string four
+set m string a memo value
+write
+flush
+snapshot appended
+use 2
+state
+use 1
+state
+rollback
+flush
+snapshot appendrolledback
+state
+# A delete rolled back.
+begin
+goto 2
+delete
+write
+flush
+snapshot deleted
+rollback
+flush
+snapshot deleterolledback
+goto 2
+get name
+# A change committed, with a memo value.
+begin
+goto 3
+set name string drei
+set m string a longer memo value written in a transaction
+write
+commit
+flush
+snapshot committed
+use 2
+goto 3
+get name
+get m
+use 1
+# Savepoints.
+begin
+goto 1
+set name string first
+write
+savepoint s
+goto 2
+set name string second
+write
+rollbackto s
+txcount
+commit
+flush
+snapshot savepoint
+goto 1
+get name
+goto 2
+get name

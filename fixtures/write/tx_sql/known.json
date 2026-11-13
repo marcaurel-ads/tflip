@@ -1,0 +1,62 @@
+{
+ "8": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "27": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "104": {
+  "fields": [
+   "rc"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "152": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "245": {
+  "fields": [
+   "rc"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "790": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "981": {
+  "fields": [
+   "rc"
+  ],
+  "why": "AdsGotoRecord to the slot after the last fails with 5022 in the original here; tflip's succeeds (KNOWN_ISSUES.md, Going past the last record)"
+ },
+ "1000": {
+  "fields": [
+   "rc"
+  ],
+  "why": "AdsGotoRecord to the slot after the last fails with 5022 in the original here; tflip's succeeds (KNOWN_ISSUES.md, Going past the last record)"
+ },
+ "1020": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ },
+ "1101": {
+  "fields": [
+   "value"
+  ],
+  "why": "the original's handle reads again neither the record it is on nor one another handle deleted or appended (KNOWN_ISSUES.md, Other handles see changes at once)"
+ }
+}

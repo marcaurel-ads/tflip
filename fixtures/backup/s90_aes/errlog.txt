@@ -1,0 +1,4 @@
+7160 dctnry.c:4114 C:\ads\data\bk\s90_aes\src\d.add | 
+7160 dctnry.c:4454 \\127.0.0.1:6262\data\bk\s90_aes\src\d.add | 
+7160 login.c:4360 \\127.0.0.1:6262\data\bk\s90_aes\src\d.add | 
+7160 rcv.c:3009 127.0.0.1 | 

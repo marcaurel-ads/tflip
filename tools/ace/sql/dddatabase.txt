@@ -1,0 +1,79 @@
+# CREATE DATABASE on a free connection and on a dictionary connection, in an
+# empty folder with a folder dc: the dictionaries it makes (the .add, .am and
+# .ai files), where a relative path goes, the options, the refusals. The
+# files it leaves are kept in fixtures/sql/dddatabase/:
+#
+#     run.sh <work> <ace32.dll> dddatabase.txt > ../../../fixtures/sql/dddatabase.json
+#     cp <work>/data/dc/* ../../../fixtures/sql/dddatabase/
+#
+# Left out, as tflip does not write them (it refuses them with 2200): a
+# PASSWORD that is not empty (the original enciphers it into the Database
+# object), ENCRYPT TRUE (the whole file is enciphered), and ENCRYPTIONTYPE
+# AES128 or AES256 with a DDPASSWORD (5214 without the OpenSSL libraries).
+# Absolute paths fail under Wine with 7040 (File creation error), so are not
+# recorded either.
+stmt
+# The name, a path from the connection's folder: quoted or not, with and
+# without an extension.
+direct CREATE DATABASE "dc\a1.add"
+direct CREATE DATABASE "dc\a2"
+direct CREATE DATABASE "dc\a 3.add"
+direct CREATE DATABASE [dc\a4.add]
+direct CREATE DATABASE "dc\a6.add";
+direct CREATE DATABASE a35
+direct CREATE DATABASE dc
+direct CREATE DATABASE "dc\e1.txt"
+direct CREATE DATABASE "dc\e3."
+direct CREATE DATABASE "dc\e4.ad"
+direct CREATE DATABASE "dc\a8.dd"
+# Refused: a file there, the same in other case, a folder that is not
+# there, a name that is none.
+direct CREATE DATABASE "dc\a1.add"
+direct CREATE DATABASE "dc\nodir\a9.add"
+direct CREATE DATABASE
+direct CREATE DATABASE 5
+direct CREATE DATABASE 'dc\a5.add'
+# The options.
+direct CREATE DATABASE "dc\a10.add" DESCRIPTION 'ten'
+direct CREATE DATABASE "dc\a11.add" DESCRIPTION 'it''s a description of eleven'
+direct CREATE DATABASE "dc\a12.add" DESCRIPTION ''
+direct CREATE DATABASE "dc\a14.add" PASSWORD ''
+direct CREATE DATABASE "dc\a16.add" DESCRIPTION 'both' PASSWORD ''
+direct CREATE DATABASE "dc\a17.add" ENCRYPT FALSE
+direct CREATE DATABASE "dc\a20.add" ENCRYPTIONTYPE RC4
+direct CREATE DATABASE "dc\a21.add" ENCRYPT FALSE ENCRYPTIONTYPE RC4
+direct CREATE DATABASE "dc\a26.add" DDPASSWORD 'y'
+direct CREATE DATABASE "dc\a36.add" description 'lower' encrypt false
+# The options refused.
+direct CREATE DATABASE "dc\a27.add" ENCRYPTIONTYPE NOSUCH
+direct CREATE DATABASE "dc\a28.add" ENCRYPT MAYBE
+direct CREATE DATABASE "dc\a29.add" ENCRYPT
+direct CREATE DATABASE "dc\a30.add" PASSWORD
+direct CREATE DATABASE "dc\a31.add" DESCRIPTION
+direct CREATE DATABASE "dc\a32.add" ENCRYPT 1
+direct CREATE DATABASE "dc\a33.add" PASSWORD pw
+direct CREATE DATABASE "dc\a34.add" EXTRA
+direct CREATE DATABASE "dc\a39.add" DDPASSWORD
+direct CREATE DATABASE "dc\a40.add" ENCRYPTIONTYPE
+# What the new dictionaries are.
+connect dc\a1.add ADSSYS
+stmt
+query SELECT * FROM system.users
+query SELECT * FROM system.usergroups
+query SELECT * FROM system.tables
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.views
+direct CREATE TABLE t1 (id INTEGER)
+connect dc\a10.add ADSSYS
+stmt
+query SELECT * FROM system.users
+# On a dictionary connection: the path starts from the dictionary's folder (and
+# the folders on it that are not there are made, which tflip does not do).
+connect dc\a1.add ADSSYS
+stmt
+direct CREATE DATABASE "b1.add"
+direct CREATE DATABASE "b1.add"
+# An option the original refuses with a message of its own that stays: the
+# errors after it begin with it (an original's defect), so it comes last.
+direct CREATE DATABASE "dc\a37.add" ENCRYPTIONTYPE AES128
+direct CREATE DATABASE "dc\a38.add" ENCRYPTIONTYPE AES256 ENCRYPT FALSE

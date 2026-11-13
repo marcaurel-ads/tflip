@@ -1,0 +1,28 @@
+# CREATE INDEX ... CONTENT on a CDX table with a memo field in an RC4 dictionary (ENCRYPT_NEW_TABLE on, a table password), and CONTAINS on it after writes.
+ddcreate 0 %D\y11\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+stmttype 2
+sql CREATE TABLE ft (id INTEGER, note MEMO, name CHAR(20))
+sql INSERT INTO ft VALUES (1, 'the quick brown fox', 'alpha beta')
+sql INSERT INTO ft VALUES (2, 'jumps over the lazy dog', 'gamma')
+sql INSERT INTO ft VALUES (3, 'a fox and a dog', 'delta fox')
+sql CREATE INDEX ft_note ON ft (note) CONTENT
+sql CREATE INDEX ft_name ON ft (name) CONTENT
+query SELECT id FROM ft WHERE CONTAINS(note, 'fox') ORDER BY id
+query SELECT id FROM ft WHERE CONTAINS(name, 'fox') ORDER BY id
+sql INSERT INTO ft VALUES (4, 'fox hunting season', 'epsilon')
+sql UPDATE ft SET note = 'changed lazy text' WHERE id = 1
+sql DELETE FROM ft WHERE id = 3
+query SELECT id FROM ft WHERE CONTAINS(note, 'fox') ORDER BY id
+query SELECT id FROM ft WHERE CONTAINS(note, 'lazy') ORDER BY id
+query SELECT id, note FROM ft ORDER BY id
+stmttype 4
+sql CREATE TABLE fv (id INTEGER, note MEMO, name CHAR(20))
+sql INSERT INTO fv VALUES (1, 'the quick brown fox', 'alpha beta')
+sql INSERT INTO fv VALUES (2, 'jumps over the lazy dog', 'gamma')
+sql CREATE INDEX fv_note ON fv (note) CONTENT
+query SELECT id FROM fv WHERE CONTAINS(note, 'fox') ORDER BY id
+sql INSERT INTO fv VALUES (3, 'fox hunting season', 'epsilon')
+query SELECT id FROM fv WHERE CONTAINS(note, 'fox') ORDER BY id
+disconnect

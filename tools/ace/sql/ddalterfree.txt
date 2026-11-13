@@ -1,0 +1,430 @@
+# ALTER TABLE of free Clipper, FoxPro, Visual FoxPro and ADT tables with an
+# order the new types cannot build, and with MEMOBLOCKSIZE, on a free
+# connection in an empty folder (ddalterdbf.txt does them in a dictionary).
+# The files they leave are kept in fixtures/sql/ddalterfree/:
+#
+#     run.sh <work> <ace32.dll> ddalterfree.txt > ../../../fixtures/sql/ddalterfree.json
+#     cp <work>/data/*.* ../../../fixtures/sql/ddalterfree/
+stmt
+#
+# Table type 1.
+tabletype 1
+direct CREATE TABLE nk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX nkb ON nk (b)
+direct CREATE INDEX nkc ON nk (c)
+direct INSERT INTO nk VALUES (1, 'x', 'p')
+direct ALTER TABLE nk ALTER COLUMN b b MEMO
+query SELECT * FROM nk
+direct CREATE TABLE nj (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX njc ON nj (c)
+direct CREATE INDEX njb ON nj (b)
+direct CREATE INDEX nja ON nj (a)
+direct INSERT INTO nj VALUES (1, 'x', 'p')
+direct ALTER TABLE nj ALTER COLUMN b b MEMO
+query SELECT * FROM nj
+direct CREATE TABLE nm (id INTEGER, m MEMO)
+direct INSERT INTO nm VALUES (1, 'memo one')
+direct ALTER TABLE nm MEMOBLOCKSIZE 64
+query SELECT * FROM nm
+direct CREATE TABLE nd (a INTEGER, b CHAR(4))
+direct CREATE INDEX nda ON nd (a)
+direct INSERT INTO nd VALUES (1, 'x')
+direct ALTER TABLE nd ALTER COLUMN a a DOUBLE
+direct ALTER TABLE nd ALTER COLUMN b bb CHAR(4)
+direct ALTER TABLE nd ADD COLUMN c CHAR(2) POSITION 1
+direct ALTER TABLE nd ADD COLUMN a INTEGER
+direct ALTER TABLE nd ADD COLUMN x NUMERIC(8, 2) ADD COLUMN c CHAR(2)
+direct ALTER TABLE nd ALTER COLUMN c a CHAR(3)
+direct ALTER TABLE nd ALTER COLUMN c1 a2 DOUBLE
+query SELECT * FROM nd
+#
+# Table type 2.
+tabletype 2
+direct CREATE TABLE ck (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX ckb ON ck (b)
+direct CREATE INDEX ckc ON ck (c)
+direct INSERT INTO ck VALUES (1, 'x', 'p')
+direct ALTER TABLE ck ALTER COLUMN b b MEMO
+query SELECT * FROM ck
+direct CREATE TABLE cj (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX cjc ON cj (c)
+direct CREATE INDEX cjb ON cj (b)
+direct CREATE INDEX cja ON cj (a)
+direct INSERT INTO cj VALUES (1, 'x', 'p')
+direct ALTER TABLE cj ALTER COLUMN b b MEMO
+query SELECT * FROM cj
+direct CREATE TABLE cm (id INTEGER, m MEMO)
+direct INSERT INTO cm VALUES (1, 'memo one')
+direct ALTER TABLE cm MEMOBLOCKSIZE 64
+query SELECT * FROM cm
+direct CREATE TABLE cd (a INTEGER, b CHAR(4))
+direct CREATE INDEX cda ON cd (a)
+direct INSERT INTO cd VALUES (1, 'x')
+direct ALTER TABLE cd ALTER COLUMN a a DOUBLE
+direct ALTER TABLE cd ALTER COLUMN b bb CHAR(4)
+direct ALTER TABLE cd ADD COLUMN c CHAR(2) POSITION 1
+direct ALTER TABLE cd ADD COLUMN a INTEGER
+direct ALTER TABLE cd ADD COLUMN x NUMERIC(8, 2) ADD COLUMN c CHAR(2)
+direct ALTER TABLE cd ALTER COLUMN c a CHAR(3)
+direct ALTER TABLE cd ALTER COLUMN c1 a2 DOUBLE
+query SELECT * FROM cd
+#
+# Table type 4.
+tabletype 4
+direct CREATE TABLE vk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX vkb ON vk (b)
+direct CREATE INDEX vkc ON vk (c)
+direct INSERT INTO vk VALUES (1, 'x', 'p')
+direct ALTER TABLE vk ALTER COLUMN b b MEMO
+query SELECT * FROM vk
+direct CREATE TABLE vj (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX vjc ON vj (c)
+direct CREATE INDEX vjb ON vj (b)
+direct CREATE INDEX vja ON vj (a)
+direct INSERT INTO vj VALUES (1, 'x', 'p')
+direct ALTER TABLE vj ALTER COLUMN b b MEMO
+query SELECT * FROM vj
+direct CREATE TABLE vm (id INTEGER, m MEMO)
+direct INSERT INTO vm VALUES (1, 'memo one')
+direct ALTER TABLE vm MEMOBLOCKSIZE 64
+query SELECT * FROM vm
+direct CREATE TABLE vd (a INTEGER, b CHAR(4))
+direct CREATE INDEX vda ON vd (a)
+direct INSERT INTO vd VALUES (1, 'x')
+direct ALTER TABLE vd ALTER COLUMN a a DOUBLE
+direct ALTER TABLE vd ALTER COLUMN b bb CHAR(4)
+direct ALTER TABLE vd ADD COLUMN c CHAR(2) POSITION 1
+direct ALTER TABLE vd ADD COLUMN a INTEGER
+direct ALTER TABLE vd ADD COLUMN x NUMERIC(8, 2) ADD COLUMN c CHAR(2)
+direct ALTER TABLE vd ALTER COLUMN c a CHAR(3)
+direct ALTER TABLE vd ALTER COLUMN c1 a2 DOUBLE
+query SELECT * FROM vd
+#
+# Table type 3.
+tabletype 3
+direct CREATE TABLE xk (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX xkb ON xk (b)
+direct CREATE INDEX xkc ON xk (c)
+direct INSERT INTO xk VALUES (1, 'x', 'p')
+direct ALTER TABLE xk ALTER COLUMN b b MEMO
+query SELECT * FROM xk
+direct CREATE TABLE xj (a INTEGER, b CHAR(4), c CHAR(3))
+direct CREATE INDEX xjc ON xj (c)
+direct CREATE INDEX xjb ON xj (b)
+direct CREATE INDEX xja ON xj (a)
+direct INSERT INTO xj VALUES (1, 'x', 'p')
+direct ALTER TABLE xj ALTER COLUMN b b MEMO
+query SELECT * FROM xj
+direct CREATE TABLE xm (id INTEGER, m MEMO)
+direct INSERT INTO xm VALUES (1, 'memo one')
+direct ALTER TABLE xm MEMOBLOCKSIZE 64
+query SELECT * FROM xm
+direct CREATE TABLE xd (a INTEGER, b CHAR(4))
+direct CREATE INDEX xda ON xd (a)
+direct INSERT INTO xd VALUES (1, 'x')
+direct ALTER TABLE xd ALTER COLUMN a a DOUBLE
+direct ALTER TABLE xd ALTER COLUMN b bb CHAR(4)
+direct ALTER TABLE xd ADD COLUMN c CHAR(2) POSITION 1
+direct ALTER TABLE xd ADD COLUMN a INTEGER
+direct ALTER TABLE xd ADD COLUMN x NUMERIC(8, 2) ADD COLUMN c CHAR(2)
+direct ALTER TABLE xd ALTER COLUMN c a CHAR(3)
+direct ALTER TABLE xd ALTER COLUMN c1 a2 DOUBLE
+query SELECT * FROM xd
+#
+# Which changes of names restructure, table type 1.
+tabletype 1
+direct CREATE TABLE ns0i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns0ib ON ns0i (b)
+direct INSERT INTO ns0i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns0i ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE ns0p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns0p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns0p ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE ns1i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns1ib ON ns1i (b)
+direct INSERT INTO ns1i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns1i ALTER COLUMN d D INTEGER
+direct CREATE TABLE ns1p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns1p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns1p ALTER COLUMN d D INTEGER
+direct CREATE TABLE ns2i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns2ib ON ns2i (b)
+direct INSERT INTO ns2i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns2i ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE ns2p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns2p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns2p ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE ns3i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns3ib ON ns3i (b)
+direct INSERT INTO ns3i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns3i ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE ns3p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns3p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns3p ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE ns4i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns4ib ON ns4i (b)
+direct INSERT INTO ns4i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns4i ALTER COLUMN a a INTEGER
+direct CREATE TABLE ns4p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns4p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns4p ALTER COLUMN a a INTEGER
+direct CREATE TABLE ns5i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns5ib ON ns5i (b)
+direct INSERT INTO ns5i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns5i ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE ns5p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns5p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns5p ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE ns6i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns6ib ON ns6i (b)
+direct INSERT INTO ns6i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns6i ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE ns6p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns6p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns6p ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE ns7i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX ns7ib ON ns7i (b)
+direct INSERT INTO ns7i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns7i ALTER COLUMN b b CHAR(5)
+direct CREATE TABLE ns7p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO ns7p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE ns7p ALTER COLUMN b b CHAR(5)
+#
+# Which changes of names restructure, table type 2.
+tabletype 2
+direct CREATE TABLE cs0i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs0ib ON cs0i (b)
+direct INSERT INTO cs0i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs0i ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE cs0p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs0p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs0p ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE cs1i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs1ib ON cs1i (b)
+direct INSERT INTO cs1i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs1i ALTER COLUMN d D INTEGER
+direct CREATE TABLE cs1p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs1p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs1p ALTER COLUMN d D INTEGER
+direct CREATE TABLE cs2i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs2ib ON cs2i (b)
+direct INSERT INTO cs2i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs2i ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE cs2p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs2p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs2p ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE cs3i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs3ib ON cs3i (b)
+direct INSERT INTO cs3i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs3i ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE cs3p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs3p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs3p ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE cs4i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs4ib ON cs4i (b)
+direct INSERT INTO cs4i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs4i ALTER COLUMN a a INTEGER
+direct CREATE TABLE cs4p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs4p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs4p ALTER COLUMN a a INTEGER
+direct CREATE TABLE cs5i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs5ib ON cs5i (b)
+direct INSERT INTO cs5i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs5i ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE cs5p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs5p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs5p ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE cs6i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs6ib ON cs6i (b)
+direct INSERT INTO cs6i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs6i ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE cs6p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs6p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs6p ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE cs7i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cs7ib ON cs7i (b)
+direct INSERT INTO cs7i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs7i ALTER COLUMN b b CHAR(5)
+direct CREATE TABLE cs7p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO cs7p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE cs7p ALTER COLUMN b b CHAR(5)
+#
+# Which changes of names restructure, table type 4.
+tabletype 4
+direct CREATE TABLE vs0i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs0ib ON vs0i (b)
+direct INSERT INTO vs0i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs0i ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE vs0p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs0p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs0p ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE vs1i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs1ib ON vs1i (b)
+direct INSERT INTO vs1i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs1i ALTER COLUMN d D INTEGER
+direct CREATE TABLE vs1p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs1p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs1p ALTER COLUMN d D INTEGER
+direct CREATE TABLE vs2i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs2ib ON vs2i (b)
+direct INSERT INTO vs2i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs2i ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE vs2p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs2p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs2p ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE vs3i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs3ib ON vs3i (b)
+direct INSERT INTO vs3i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs3i ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE vs3p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs3p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs3p ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE vs4i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs4ib ON vs4i (b)
+direct INSERT INTO vs4i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs4i ALTER COLUMN a a INTEGER
+direct CREATE TABLE vs4p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs4p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs4p ALTER COLUMN a a INTEGER
+direct CREATE TABLE vs5i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs5ib ON vs5i (b)
+direct INSERT INTO vs5i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs5i ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE vs5p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs5p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs5p ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE vs6i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs6ib ON vs6i (b)
+direct INSERT INTO vs6i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs6i ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE vs6p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs6p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs6p ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE vs7i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vs7ib ON vs7i (b)
+direct INSERT INTO vs7i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs7i ALTER COLUMN b b CHAR(5)
+direct CREATE TABLE vs7p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO vs7p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE vs7p ALTER COLUMN b b CHAR(5)
+#
+# Which changes of names restructure, table type 3.
+tabletype 3
+direct CREATE TABLE xs0i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs0ib ON xs0i (b)
+direct INSERT INTO xs0i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs0i ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE xs0p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs0p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs0p ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE xs1i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs1ib ON xs1i (b)
+direct INSERT INTO xs1i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs1i ALTER COLUMN d D INTEGER
+direct CREATE TABLE xs1p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs1p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs1p ALTER COLUMN d D INTEGER
+direct CREATE TABLE xs2i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs2ib ON xs2i (b)
+direct INSERT INTO xs2i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs2i ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE xs2p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs2p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs2p ALTER COLUMN c cc CHAR(3) POSITION 3
+direct CREATE TABLE xs3i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs3ib ON xs3i (b)
+direct INSERT INTO xs3i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs3i ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE xs3p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs3p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs3p ALTER COLUMN a a2 INTEGER POSITION 2
+direct CREATE TABLE xs4i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs4ib ON xs4i (b)
+direct INSERT INTO xs4i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs4i ALTER COLUMN a a INTEGER
+direct CREATE TABLE xs4p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs4p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs4p ALTER COLUMN a a INTEGER
+direct CREATE TABLE xs5i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs5ib ON xs5i (b)
+direct INSERT INTO xs5i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs5i ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE xs5p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs5p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs5p ALTER COLUMN b bb CHAR(4) ALTER COLUMN c cc CHAR(3)
+direct CREATE TABLE xs6i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs6ib ON xs6i (b)
+direct INSERT INTO xs6i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs6i ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE xs6p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs6p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs6p ALTER COLUMN c C CHAR(3)
+direct CREATE TABLE xs7i (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX xs7ib ON xs7i (b)
+direct INSERT INTO xs7i VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs7i ALTER COLUMN b b CHAR(5)
+direct CREATE TABLE xs7p (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct INSERT INTO xs7p VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE xs7p ALTER COLUMN b b CHAR(5)
+#
+# Several orders, names only, table type 2.
+tabletype 2
+direct CREATE TABLE cu0 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cu0b ON cu0 (b)
+direct CREATE INDEX cu0d ON cu0 (d)
+direct CREATE INDEX cu0c ON cu0 (c DESC)
+direct INSERT INTO cu0 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO cu0 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE cu0 ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE cu1 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cu1b ON cu1 (b)
+direct CREATE INDEX cu1d ON cu1 (d)
+direct CREATE INDEX cu1c ON cu1 (c DESC)
+direct INSERT INTO cu1 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO cu1 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE cu1 ALTER COLUMN d dd INTEGER
+direct CREATE TABLE cu2 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cu2b ON cu2 (b)
+direct CREATE INDEX cu2d ON cu2 (d)
+direct CREATE INDEX cu2c ON cu2 (c DESC)
+direct INSERT INTO cu2 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO cu2 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE cu2 ALTER COLUMN b bb CHAR(4) ALTER COLUMN d dd INTEGER
+direct CREATE TABLE cu3 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX cu3b ON cu3 (b)
+direct CREATE INDEX cu3d ON cu3 (d)
+direct CREATE INDEX cu3c ON cu3 (c DESC)
+direct INSERT INTO cu3 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO cu3 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE cu3 ALTER COLUMN a aa INTEGER
+#
+# Several orders, names only, table type 4.
+tabletype 4
+direct CREATE TABLE vu0 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vu0b ON vu0 (b)
+direct CREATE INDEX vu0d ON vu0 (d)
+direct CREATE INDEX vu0c ON vu0 (c DESC)
+direct INSERT INTO vu0 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO vu0 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE vu0 ALTER COLUMN b bb CHAR(4)
+direct CREATE TABLE vu1 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vu1b ON vu1 (b)
+direct CREATE INDEX vu1d ON vu1 (d)
+direct CREATE INDEX vu1c ON vu1 (c DESC)
+direct INSERT INTO vu1 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO vu1 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE vu1 ALTER COLUMN d dd INTEGER
+direct CREATE TABLE vu2 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vu2b ON vu2 (b)
+direct CREATE INDEX vu2d ON vu2 (d)
+direct CREATE INDEX vu2c ON vu2 (c DESC)
+direct INSERT INTO vu2 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO vu2 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE vu2 ALTER COLUMN b bb CHAR(4) ALTER COLUMN d dd INTEGER
+direct CREATE TABLE vu3 (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER)
+direct CREATE INDEX vu3b ON vu3 (b)
+direct CREATE INDEX vu3d ON vu3 (d)
+direct CREATE INDEX vu3c ON vu3 (c DESC)
+direct INSERT INTO vu3 VALUES (1, 'x', 'p', 5)
+direct INSERT INTO vu3 VALUES (2, 'y', 'q', 6)
+direct ALTER TABLE vu3 ALTER COLUMN a aa INTEGER

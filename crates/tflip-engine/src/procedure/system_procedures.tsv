@@ -1,0 +1,166 @@
+sp_AddIndexFileToDatabase	TableName,CHARACTER,200;IndexFilePath,CHARACTER,515;Comment,memo;	\N	Adds an existing index to the database.	0
+sp_AddProcedureToDatabase	ObjectName,CHARACTER,200;ContainerName,MEMO;ProcName,CHARACTER,200;InvokeOption,Integer;InputParams,MEMO;OutputParams,MEMO;Comments,MEMO;	\N	Adds a stored procedure to the database.	0
+sp_AddProcedureToDatabase	ObjectName,CHARACTER,200;ContainerName,NMEMO;ProcName,CHARACTER,200;InvokeOption,Integer;InputParams,MEMO;OutputParams,MEMO;Comments,MEMO;	\N	Adds a stored procedure to the database.	0
+sp_AddTableToDatabase	TableName,CHARACTER,200;TablePath,CHARACTER,515;TableType,SHORTINT;CharType,SHORTINT;IndexFiles,MEMO;Comment,MEMO;	\N	Adds a single table to the database.	0
+sp_AddUserToGroup	UserName,CHARACTER,50;GroupName,CHARACTER,100;	\N	Adds a user to a user group.	0
+sp_AllowMultipleCollations	Pattern,CiCharacter,100;AllowMultiple,Logical;	Result,CiCharacter,100;	Specify whether multiple collations are allowed in an index.	0
+sp_BackupDatabase	DestPath,Memo;Options,Memo	Severity,Integer;Error Code,Integer;Error Message,Memo;Table Name,Memo;Additional Info,Memo;Source File,char,32;Source Line,Integer	Backup the specified database.	0
+sp_BackupFreeTables	SourcePath,Memo;SourceMask,Memo;DestPath,Memo;Options,Memo;FreetablePasswords,Memo	Severity,Integer;Error Code,Integer;Error Message,Memo;Table Name,Memo;Additional Info,Memo;Source File,char,32;Source Line,Integer	Backup the specified database.	0
+sp_CancelQuery	Query Number,INTEGER;	\N	Cancels an active query.	536870912
+sp_ChangeCurrentUserPassword	OldPassword,CHARACTER,20;NewPassword,CHARACTER,20;	\N	Change current connected user's password.	0
+sp_CreateArticle	PublicationName,CHARACTER,200;ObjectName,CHARACTER,200;IdentColumns,MEMO;Filter,MEMO;Options,Integer;	\N	Creates a new publication article object in the database.	0
+sp_CreateArticle	PublicationName,CHARACTER,200;ObjectName,CHARACTER,200;IdentColumns,MEMO;Filter,NMEMO;Options,Integer;	\N	Creates a new publication article object in the database.	0
+sp_CreateEvent	EventName,CiCharacter,200;Options,integer;	\N	Create a new event instance.	0
+sp_CreateGroup	GroupName,CHARACTER,100;Comment,MEMO;	\N	Creates a user group in the database.	0
+sp_CreateIndex	TableName,CHARACTER,515;FileName,CHARACTER,515;TagName,CHARACTER,128;Expression,CHARACTER,510;Condition,CHARACTER,510;Options,INTEGER;PageSize,INTEGER;	\N	Creates an index on the table.	0
+sp_CreateIndex90	TableName,CHARACTER,515;FileName,CHARACTER,515;TagName,CHARACTER,128;Expression,CHARACTER,510;Condition,CHARACTER,510;Options,INTEGER;PageSize,INTEGER;Collation,Character,50;	\N	Creates an index with the specified collation on the table.	0
+sp_CreateLink	Name,CHARACTER,200;Dictionary,CHARACTER,515;Global,LOGICAL;StaticPath,LOGICAL;AuthenticateActiveUser,LOGICAL;UserName,CHARACTER,50;Password,CHARACTER,20;	\N	Creates a data dictionary link in the database.	0
+sp_CreatePublication	PublicationName,CHARACTER,200;Comments,MEMO;Options,Integer;	\N	Creates a new publication object in the database.	0
+sp_CreateReferentialIntegrity	Name,CHARACTER,200;PrimaryTable,CHARACTER,200;ForeignTable,CHARACTER,200;ForeignKey,CHARACTER,200;UpdateRule,SHORTINT;DeleteRule,SHORTINT;FailTable,CHARACTER,515;PrimaryKeyError,MEMO;CascadeError,MEMO;	\N	Creates a referential integerity constraint.	0
+sp_CreateReferentialIntegrity71	Name,CHARACTER,200;PrimaryTable,CHARACTER,200;ForeignTable,CHARACTER,200;ForeignKey,CHARACTER,200;UpdateRule,SHORTINT;DeleteRule,SHORTINT;FailTable,CHARACTER,515;PrimaryKeyError,MEMO;CascadeError,MEMO;PrimaryKey,CHARACTER,200;	\N	Creates a referential integerity constraint.	0
+sp_CreateSubscription	SubscriptionName,CHARACTER,200;PublicationName,CHARACTER,200;Target,CHARACTER,260;UserName,CHARACTER,50;Password,CHARACTER,20;ReplicationQueue,CHARACTER,260;Forward,LOGICAL;Comments,MEMO;Options,Integer;	\N	Creates a new subscription object in the database.	0
+sp_CreateSubscription	SubscriptionName,CHARACTER,200;PublicationName,CHARACTER,200;Target,CHARACTER,260;UserName,CHARACTER,50;Password,CHARACTER,20;ReplicationQueue,CHARACTER,260;ConnectionString,MEMO;Forward,LOGICAL;Comments,MEMO;Options,Integer;	\N	Creates a new subscription object in the database.	0
+sp_CreateTrigger	TriggerName,CHARACTER,200;TableName,CHARACTER,200;TriggerType,Integer;EventTypes,Integer;ContainerType,Integer;ContainerName,MEMO;FunctionName,CHARACTER,200;Priority,Integer;Comments,MEMO;Options,Integer;	\N	Creates a trigger in the database.	0
+sp_CreateTrigger	TriggerName,CHARACTER,200;TableName,CHARACTER,200;TriggerType,Integer;EventTypes,Integer;ContainerType,Integer;ContainerName,NMEMO;FunctionName,CHARACTER,200;Priority,Integer;Comments,MEMO;Options,Integer;	\N	Creates a trigger in the database.	0
+sp_CreateUser	UserName,CHARACTER,50;Password,CHARACTER,20;Comment,MEMO;	\N	Creates a user in the database.	0
+sp_CreateView	ViewName,CHARACTER,200;Comment,Memo;SQL,Memo;	\N	Creates a view.	0
+sp_CreateView	ViewName,CHARACTER,200;Comment,Memo;SQL,NMemo;	\N	Creates a View.	0
+sp_DecryptTable	TableName,Character,515;Password,Character,20;	\N	Decrypt a table.	0
+sp_DecryptTable	TableName,Character,515;	\N	Decrypt a table.	0
+sp_DeleteReplicationEntry	Subscription,CiCharacter,200;EntryID,INTEGER;	\N	Provides more details about a replication entry.	536870912
+sp_DisableQueryLogging	\N	\N	Disables query logging on the current connection.	4
+sp_DisableTriggers	ObjectName,CHARACTER,200;Parent,CHARACTER,200;AllUsers,LOGICAL;Options,INTEGER;	\N	Disables triggers in a database.	0
+sp_DropAllEvents	Options,integer	\N	Delete all event instances.	0
+sp_DropArticle	PublicationName,CHARACTER,200;ObjectName,CHARACTER,200;	\N	Drops a publication article from the database.	0
+sp_DropEvent	EventName,CiCharacter,200;Options,integer;	\N	Delete an event instance.	0
+sp_DropGroup	GroupName,CHARACTER,100;	\N	Removes a user from the database.	0
+sp_DropLink	Name,CHARACTER,200;Global,LOGICAL	\N	Drops a data dictionary link from the database.	0
+sp_DropPublication	PublicationName,CHARACTER,200;	\N	Drops a publication from the database.	0
+sp_DropReferentialIntegrity	Name,CHARACTER,200;	\N	Removes an existing referential integerity constraint.	0
+sp_DropSubscription	SubscriptionName,CHARACTER,200;	\N	Drops a subscription from the database.	0
+sp_DropUser	UserName,CHARACTER,50;	\N	Removes a user from the database.	0
+sp_EnableQueryLogging	TableName,CHARACTER,255;TruncateExistingData,LOGICAL;LogOnlyUnoptimizedQueries,LOGICAL;MinimumTimeBeforeLogging,INTEGER;EncryptionPassword,CHARACTER,20;	\N	Enables query logging on the current connection.	4
+sp_EnableQueryLogging	TableName,CHARACTER,255;TruncateExistingData,LOGICAL;LogOnlyUnoptimizedQueries,LOGICAL;MinimumTimeBeforeLogging,INTEGER;EncryptionPassword,CHARACTER,20;Options,INTEGER;	\N	Enables query logging on the current connection.	4
+sp_EnableTriggers	ObjectName,CHARACTER,200;Parent,CHARACTER,200;AllUsers,LOGICAL;Options,INTEGER;	\N	Enables triggers in a database.	0
+sp_EncryptTable	TableName,Character,515;Password,Character,20;	\N	Encrypt a table with the current connection's encryption type.	0
+sp_EncryptTable	TableName,Character,515;	\N	Encrypt a table with the current connection's encryption type.	0
+sp_GetApplicationID	\N	ApplicationID,Memo;	Gets the application ID string of a connection.	0
+sp_GetBestRowIdentifier	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;scope,INTEGER;nullable,LOGICAL;	SCOPE,SHORTINT;COLUMN_NAME,CICHARACTER,200;DATA_TYPE,SHORTINT;TYPE_NAME,CICHARACTER,20;COLUMN_SIZE,INTEGER;BUFFER_LENGTH,INTEGER;DECIMAL_DIGITS,SHORTINT;PSEUDO_COLUMN,SHORTINT;	Retrieves a all columns from a table that can be used to uniquely identify a row.	0
+sp_GetCatalogs	\N	TABLE_CAT,CICHARACTER,200;	Retrieves all available catalogs.	0
+sp_GetCollations	Pattern,CiCharacter,100;	Name,CiCharacter,100;ShortName,CiCharacter,8;Description,Memo;Version,Integer;CodePage,Integer;FoxCompat,Logical;UnicodeLocale,Character,16;AllowMultiple,Logical;	Retrieve the list of available collations.	0
+sp_GetCollationTable	Name,CiCharacter,100;ShortName,CiCharacter,8;CodePage,Integer;	CollationID,Integer;Name,CiCharacter,100;ShortName,CiCharacter,8;Version,Integer;CodePage,Integer;CE,Binary;Upper,Binary;Lower,Binary;NumContractions,Integer;Contractions,Binary;AllowMultiple,Logical;UnicodeLocale,Character,16;	Retrieve a raw collation table.	0
+sp_GetColumnPrivileges	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;columnNamePattern,CHARACTER,200;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;COLUMN_NAME,CICHARACTER,200;GRANTOR,CICHARACTER,200;GRANTEE,CICHARACTER,200;PRIVILEGE,CICHARACTER,25;IS_GRANTABLE,CICHARACTER,4;	Retrieves all columns privileges for a specified table.	0
+sp_GetColumns	catalog,CHARACTER,200;schemaPattern,CHARACTER,200;tableNamePattern,CHARACTER,255;columnNamePattern,CHARACTER,200;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;COLUMN_NAME,CICHARACTER,200;DATA_TYPE,SHORTINT;TYPE_NAME,CICHARACTER,20;COLUMN_SIZE,INTEGER;BUFFER_LENGTH,INTEGER;DECIMAL_DIGITS,SHORTINT;NUM_PREC_RADIX,INTEGER;NULLABLE,SHORTINT;REMARKS,MEMO;COLUMN_DEF,MEMO;SQL_DATA_TYPE,INTEGER;SQL_DATETIME_SUB,INTEGER;CHAR_OCTET_LENGTH,INTEGER;ORDINAL_POSITION,INTEGER;IS_NULLABLE,CHAR,4;NOCPTRANS,SHORTINT;FIELD_OPTIONS,INTEGER;LOCAL_TYPE_NAME,CICHAR,25;	Retrieves a list of column in for JDBC.	0
+sp_GetCrossReference	primaryCatalog,CHARACTER,200;primarySchema,CHARACTER,200;primaryTable,CHARACTER,255;foreignCatalog,CHARACTER,200;foreignSchema,CHARACTER,200;foreignTable,CHARACTER,255;	PKTABLE_CAT,CICHARACTER,200;PKTABLE_SCHEM,CICHARACTER,200;PKTABLE_NAME,CICHARACTER,255;PKCOLUMN_NAME,CICHARACTER,255;FKTABLE_CAT,CICHARACTER,200;FKTABLE_SCHEM,CICHARACTER,200;FKTABLE_NAME,CICHARACTER,255;FKCOLUMN_NAME,CICHARACTER,255;KEY_SEQ,SHORTINT;UPDATE_RULE,SHORTINT;DELETE_RULE,SHORTINT;FK_NAME,CICHARACTER,200;PK_NAME,CICHARACTER,200;DEFERRABILITY,SHORTINT;	Retrieves all cross referenced indexes between two tables.	0
+sp_GetExportedKeys	foreignCatalog,CHARACTER,200;foreignSchema,CHARACTER,200;foreignTable,CHARACTER,255;	PKTABLE_CAT,CICHARACTER,200;PKTABLE_SCHEM,CICHARACTER,200;PKTABLE_NAME,CICHARACTER,255;PKCOLUMN_NAME,CICHARACTER,255;FKTABLE_CAT,CICHARACTER,200;FKTABLE_SCHEM,CICHARACTER,200;FKTABLE_NAME,CICHARACTER,255;FKCOLUMN_NAME,CICHARACTER,255;KEY_SEQ,SHORTINT;UPDATE_RULE,SHORTINT;DELETE_RULE,SHORTINT;FK_NAME,CICHARACTER,200;PK_NAME,CICHARACTER,200;DEFERRABILITY,SHORTINT;	Retrieves all exported keys for a table.	0
+sp_GetForeignKeyColumns	Database,CHARACTER,200;Schema,CHARACTER,200;Table,CHARACTER,255;Name,CHARACTER,200;	PKTABLE_CAT,CICHARACTER,200;PKTABLE_SCHEM,CICHARACTER,200;PKTABLE_NAME,CICHARACTER,255;PKCOLUMN_NAME,CICHARACTER,255;FKTABLE_CAT,CICHARACTER,200;FKTABLE_SCHEM,CICHARACTER,200;FKTABLE_NAME,CICHARACTER,255;FKCOLUMN_NAME,CICHARACTER,255;KEY_SEQ,SHORTINT;UPDATE_RULE,SHORTINT;DELETE_RULE,SHORTINT;FK_NAME,CICHARACTER,200;PK_NAME,CICHARACTER,200;DEFERRABILITY,SHORTINT;NAME,CICHARACTER,200;	Retrieves foreign key columns for a table.	0
+sp_GetImportedKeys	primaryCatalog,CHARACTER,200;primarySchema,CHARACTER,200;primaryTable,CHARACTER,255;	PKTABLE_CAT,CICHARACTER,200;PKTABLE_SCHEM,CICHARACTER,200;PKTABLE_NAME,CICHARACTER,255;PKCOLUMN_NAME,CICHARACTER,255;FKTABLE_CAT,CICHARACTER,200;FKTABLE_SCHEM,CICHARACTER,200;FKTABLE_NAME,CICHARACTER,255;FKCOLUMN_NAME,CICHARACTER,255;KEY_SEQ,SHORTINT;UPDATE_RULE,SHORTINT;DELETE_RULE,SHORTINT;FK_NAME,CICHARACTER,200;PK_NAME,CICHARACTER,200;DEFERRABILITY,SHORTINT;	Retrieves all the imported keys for a table.	0
+sp_GetIndexInfo	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;unique,LOGICAL;approximate,LOGICAL;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;NON_UNIQUE,LOGICAL;INDEX_QUALIFIER,CHARACTER,200;INDEX_NAME,CICHARACTER,200;TYPE,SHORTINT;ORDINAL_POSITION,SHORTINT;COLUMN_NAME,CICHARACTER,200;ASC_OR_DESC,CHARACTER,2;CARDINALITY,INTEGER;PAGES,INTEGER;FILTER_CONDITION,MEMO;	Retrieves index information for a table.	0
+sp_GetLinks	\N	LinkAlias,CiCharacter,200; Path,MEMO;	Retrieve a listing of the UNC Paths for Links defined in the dictionary.	4
+sp_GetPrimaryKeys	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;COLUMN_NAME,CICHARACTER,200;KEY_SEQ,SHORTINT;PK_NAME,CICHARACTER,200;	Retrieves the primary key for a table.	0
+sp_getProcedureColumns	catalog,CHARACTER,200;schemaPattern,CHARACTER,200;procedureNamePattern,CHARACTER,200;columnNamePattern,CHARACTER,200;	PROCEDURE_CAT,CICHARACTER,200;PROCEDURE_SCHEM,CICHARACTER,200;PROCEDURE_NAME,CICHARACTER,200;COLUMN_NAME,CICHARACTER,200;COLUMN_TYPE,SHORTINT;DATA_TYPE,SHORTINT;TYPE_NAME,CICHARACTER,20;PRECISION,INTEGER;LENGTH,INTEGER;SCALE,SHORTINT;RADIX,INTEGER;NULLABLE,SHORTINT;REMARKS,MEMO;	Retrieves a list of procedure columns for JDBC.	0
+sp_GetProcedures	catalog,CHARACTER,200;schema,CHARACTER,200;procedureNamePattern,CHARACTER,255;	PROCEDURE_CAT,CICHARACTER,200;PROCEDURE_SCHEM,CICHARACTER,200;PROCEDURE_NAME,CICHARACTER,255;RFFU1,INTEGER;RFFU2,INTEGER;RFFU3,INTEGER;REMARKS,MEMO;PROCEDURE_TYPE,SHORTINT;	Retrieves stored procedure information from the database.	0
+sp_GetQueryLoggingResults	EncryptionPassword,CHARACTER,20;	ID,autoinc;Start Time,timestamp,8;Optimized,logical,1;Return Code,integer,4;Rows Affected,integer,4;End Time,timestamp,8;Run Time,double,8,2;Database,character,255;User Name,character,100;Connection Name,character,100;Application ID,memo,9;Query,memo,9;Description,memo,9;	Returns the contents of a query log table.	4
+sp_GetRecordCRC	tablename,CHARACTER,256;recordnumber,INTEGER;	CRCInteger,integer;CRCString,character,10;	Calculates a CRC of the record (including memo and blob data).	0
+sp_GetReplicationEntryDetails	Subscription,CiCharacter,200;EntryID,INTEGER;UseParamsForIdentifiers,Logical;UseParamsForValues,Logical	EntryID,Integer;ValuesTempTableName,Character,256;IdentityTempTableName,Character,256;SourceSelectStmt,NMemo;TargetSelectStmt,NMemo;InsertStmt,NMemo;UpdateStmt,NMemo;DeleteStmt,NMemo;MergeStmt,NMemo;	Provides more details about a replication entry.	536870912
+sp_GetSchemas	\N	TABLE_SCHEM,CICHARACTER,200	Retrieves all schemas available in this database.	0
+sp_GetSecurityInfo	\N	FIPSMode,Logical;EncryptionType,Character,10;DictionaryEncrypted,Logical;CommType,Character,10;TLSCipher,Character,20;TLSVersion,Character,20;	Determine if running in FIPS mode.	0
+sp_GetSQLKeywords	\N	Keyword,CICHARACTER,100	Retrieves a table containing all SQL Keywords for a given server.	0
+sp_GetSQLStatements	\N	Query Number,INTEGER;Active,LOGICAL;Percent Complete,DOUBLE,2;Connection Name,CHARACTER,100;Database User,CHARACTER,100;Database,CHARACTER,255;Query,MEMO;Is Script,LOGICAL;Full Script,MEMO;Start Time,TIME;Seconds Until Finished,INTEGER;ApplicationID,CiCharacter,70;	Retrieves the status of all queries on the server.	536870912
+sp_GetTableEncryptionType	TableName,Character,515;	EncryptionType,Character,10;	Determine the encryption type of a table.	0
+sp_GetTablePrivileges	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;GRANTOR,CICHARACTER,200;GRANTEE,CICHARACTER,200;PRIVILEGE,CICHARACTER,25;IS_GRANTABLE,CICHARACTER,4;	Retrieves all table privileges for a specified table.	0
+sp_GetTables	catalog,CHARACTER,200;schemaPattern,CHARACTER,200;tableNamePattern,CHARACTER,255;Types,MEMO;	TABLE_CAT,CICHARACTER,200;TABLE_SCHEM,CICHARACTER,200;TABLE_NAME,CICHARACTER,255;TABLE_TYPE,CICHARACTER,17;REMARKS,MEMO;	Retrieves a list of tables in JDBC/ODBC defined manner.	0
+sp_GetTableSizeInfo	TableName,Character,515;	TableHeaderSize,Integer;RecordLength,Integer;RawRecordCount,Integer;DeletedRecordCount,Integer;MemoHeaderSize,Integer;MemoBlockSize,Integer;MemoBlockCount,Integer;	Retrieve miscellaneous information about a table.	0
+sp_GetTableTypes	\N	TABLE_TYPE,CICHARACTER,17	Retrieves the types of tables available to the user.	0
+sp_GetTombstones	TableName,VARCHARFOX,200;DeltaToken,Numeric,20,0;	KeyValues,NVARCHAR,256;LastChange,Numeric,20,0;DeleteTime,Timestamp;	Get table's tombstones since the specified delta token.	0
+sp_GetTypeInfo	\N	TYPE_NAME,CICHARACTER,25;DATA_TYPE,SHORTINT;PRECISION,INTEGER;LITERAL_PREFIX,CHARACTER,5;LITERAL_SUFFIX,CHARACTER,5;CREATE_PARAMS,CHARACTER,200;NULLABLE,SHORTINT;CASE_SENSITIVE,LOGICAL;SEARCHABLE,SHORTINT;UNSIGNED_ATTRIBUTE,LOGICAL;FIXED_PREC_SCALE,LOGICAL;AUTO_INCREMENT,LOGICAL;LOCAL_TYPE_NAME,CHARACTER,25;MINIMUM_SCALE,SHORTINT;MAXIMUM_SCALE,SHORTINT;SQL_DATA_TYPE,INTEGER;SQL_DATETIME_SUB,INTEGER;NUM_PREC_RADIX,INTEGER;	Retrieves all data types for JDBC.	0
+sp_GetUDTs	catalog,CHARACTER,200;schema,CHARACTER,200;typeNamePattern,CHARACTER,200;types,BINARY	TYPE_CAT,CICHARACTER,200;TYPE_SCHEM,CICHARACTER,200;TYPE_NAME,CICHARACTER,200;CLASS_NAME,CICHARACTER,200;DATA_TYPE,SHORTINT;REMARKS,MEMO;	Retrieves User Defined Types from the database.	0
+sp_GetUnicodeConverters	\N	ID,Integer;Name,CICHARACTER,200;DESC,MEMO;Codepage,Character,20;	Retrieves unicode to other character encoding converters.	0
+sp_GetVersionColumns	catalog,CHARACTER,200;schema,CHARACTER,200;table,CHARACTER,255;	SCOPE,SHORTINT;COLUMN_NAME,CHARACTER,200;DATA_TYPE,SHORTINT;TYPE_NAME,CHARACTER,20;COLUMN_SIZE,INTEGER;BUFFER_LENGTH,INTEGER;DECIMAL_DIGITS,SHORTINT;PSEUDO_COLUMN,SHORTINT;	Retrieves a all columns for a table that are automatically updated.	0
+sp_IgnoreTableTransactions	TableName,CHARACTER,515;	\N	Configures the table as a transaction-free table.	0
+sp_IgnoreTableTransactions	TableName,CHARACTER,515;IgnoreTrans,LOGICAL;	\N	Configures the table as a transaction-free table.	0
+sp_mgGetActivityInfo	\N	Operations,Integer;LoggedErrors,Integer;UpTime,Character,50;EQThreshold,Integer;EQActiveThreads,Integer;EQOperations,Integer;	Retrieve operation count and running time.	4
+sp_mgGetAllIndexes	\N	IndexName,CiCharacter,255;	Retrieve all index files that are open on the server.	4
+sp_mgGetAllLocks	TableName,Character,255;	LockedRecNo,Integer;	Retrieve locks on the given table.	4
+sp_mgGetAllTables	\N	TableName,CiCharacter,255; LockType,CiCharacter,5; LockTypeValue,Integer;	Retrieve all tables that are open on the server.	4
+sp_mgGetCacheInfo	\N	TotalBlocks,Integer;TotalMemory,LongInt;TotalAllocations,Integer;TotalDeallocations,Integer;TotalCacheHits,Integer;CacheLimit,LongInt;PeakAlloc,LongInt;WorkingSet,LongInt;TotalHeap,LongInt;CacheClosedTempTables,Integer;CacheClosedTempIndexes,Integer	Retrieve current information about file caching.	4
+sp_mgGetCommStats	\N	PercentCheckSums,double,2;TotalPackets,integer;RcvPktOutOfSeq,integer;NotLoggedIn,integer;RcvReqOutOfSeq,integer;CheckSumFailures,integer;DisconnectedUsers,integer;PartialConnects,integer;InvalidPackets,integer;RcvFromErrors,integer;SendToErrors,integer;	Retrieve communications statistics.	4
+sp_mgGetConfigInfo	\N	Item,CiCharacter,30; Value,CiCharacter,256;	Retrieve configuration values that do not affect memory.	4
+sp_mgGetConfigMemory	\N	Item,CiCharacter,30; Value,Integer; Memory,Integer;	Retrieve configuration values that affect memory.	4
+sp_mgGetConfigMemory90	\N	Item,CiCharacter,30; Value,Integer; Memory,NUMERIC,30;	Retrieve configuration values that affect memory, returns amounts greater than 4 GB.	4
+sp_mgGetConnectedUsers	\N	UserName,CiCharacter,50; ConnNumber,Integer; DictionaryUser,CiCharacter,50; Address,CiCharacter,30; OSUserLoginName,CiCharacter,50; TSAddress,CiCharacter,30; ApplicationID,CiCharacter,70; AverageCost,Integer;	Retrieve all users that are connected to the server.	4
+sp_mgGetCrashDumpInfo	\N	CrashDumpName,CiCharacter,260; CreationTime,Timestamp; FileSize,Numeric,20;	Retrieve a listing of all crash dump files.	2
+sp_mgGetErrorLog	\N	Error_Number, Integer; DateTime, timestamp; Thread_Num, integer; Err_Class, integer; Error_Code, integer; ADS_Source, char, 15; Src_Line, integer; Cnnct_Num, integer; Cnnct_Name, char, 15; FileName, char, 150; ADS_Ver, char, 12; Environmnt, char, 12; OS_Version, char, 12 ;HostName, char, 20; More_Info, memo; Application_ID, memo;	Retrieve the contents of the Advantage error log files.	4
+sp_mgGetErrorLog	MaxEntries,Integer;	Error_Number, Integer; DateTime, timestamp; Thread_Num, integer; Err_Class, integer; Error_Code, integer; ADS_Source, char, 15; Src_Line, integer; Cnnct_Num, integer; Cnnct_Name, char, 15; FileName, char, 150; ADS_Ver, char, 12; Environmnt, char, 12; OS_Version, char, 12 ;HostName, char, 20; More_Info, memo; Application_ID, memo;	Retrieve the contents of the Advantage error log files.	4
+sp_mgGetErrorLog	MaxAdtEntries,Integer;MaxDbfEntries,Integer;	Error_Number, Integer; DateTime, timestamp; Thread_Num, integer; Err_Class, integer; Error_Code, integer; ADS_Source, char, 15; Src_Line, integer; Cnnct_Num, integer; Cnnct_Name, char, 15; FileName, char, 150; ADS_Ver, char, 12; Environmnt, char, 12; OS_Version, char, 12 ;HostName, char, 20; More_Info, memo; Application_ID, memo;	Retrieve the contents of the Advantage error log files.	4
+sp_mgGetIndexUsers	TableName,Character,255;	UserName,CiCharacter,50; ConnNumber,Integer; DictionaryUser,CiCharacter,50; Address,CiCharacter,30; OSUserLoginName,CiCharacter,50; TSAddress,CiCharacter,30; ApplicationID,CiCharacter,70;	Retrieve all users that have the given index file open.	4
+sp_mgGetInstallInfo	\N	Owner,CiCharacter,36; SerialNumber,CiCharacter,16; UserOption,Integer; Version,CiCharacter,16;InstallDate,CiCharacter,16; EvalExpireDate,CiCharacter,16; ANSI,CiCharacter,16; OEM,CiCharacter,16;ReplicationEnabled,Logical; MaxStatefulUsers,Integer; MaxStatelessUsers,Integer;	Retrieve server installation information.	4
+sp_mgGetLockOwner	TableName,Character,255; RecordNumber,Integer;	UserName,CiCharacter,50; ConnNumber,Integer; DictionaryUser,CiCharacter,50; Address,CiCharacter,30; LockType,CiCharacter,15; OSUserLoginName,CiCharacter,50; TSAddress,CiCharacter,30; ApplicationID,CiCharacter,70;	Retrieve user that has the lock for the specified table and record number.	4
+sp_mgGetServerType	\N	ServerType,CiCharacter,20; ServerTypeValue,Integer;OSMajor,Integer;OSMinor,Integer	Retrieve type of server.	4
+sp_mgGetTableCacheInfo	TableName,Character,255	FileName,Character,255;CacheEnabled,Logical;CachedBlocks,Integer;HeaderSize,Integer;PageSize,Integer;FileLength,Numeric,20;CacheUpdates,Logical;HasPhysicalFile,Logical;	Retrieve current information about a file in the caching system.	4
+sp_mgGetTableIndexes	TableName,Character,255;	IndexName,CiCharacter,255;	Retrieve index files that are opened for the given table.	4
+sp_mgGetTableUsers	TableName,Character,255;	UserName,CiCharacter,50; ConnNumber,Integer; DictionaryUser,CiCharacter,50; Address,CiCharacter,30; OSUserLoginName,CiCharacter,50; TSAddress,CiCharacter,30; ApplicationID,CiCharacter,70;	Retrieve all users that have the given table open.	4
+sp_mgGetUsageInfo	\N	Item,CiCharacter,20; InUse,Integer; MaxUsed,Integer; Configured,Integer; Rejected,Integer;	Retrieve current configuration and activity from the server.	4
+sp_mgGetUserIndexes	UserName,Character,200;	IndexName,CiCharacter,255;	Retrieve index files that the given user has open on the server.	4
+sp_mgGetUserLocks	TableName,Character,255; UserName,Character,200;	LockedRecNo,Integer;	Retrieve locks on the given table for the given user.	4
+sp_mgGetUserTables	UserName,Character,200;	TableName,CiCharacter,255; LockType,CiCharacter,5; LockTypeValue,Integer;	Retrieve all tables that are open on the server by the given user.	4
+sp_mgGetWorkerThreadActivity	\N	ThreadNumber,Integer; OpCode,Integer; UserName,CiCharacter,50; ConnNumber,Integer; OSUserLoginName,CiCharacter,50;	Retrieve information about worker threads that are actively processing an operation.	4
+sp_mgKillUser	UserName,Character,200;	\N	Disconnect the specified user from the Advantage Database Server.	536870914
+sp_mgKillUser90	UserName,Character,200;Property,Integer;Value,Memo	\N	Disconnect the specified user from the Advantage Database Server.	536870914
+sp_mgResetCommStats	\N	\N	Reset communications statistics to zero.	4
+sp_mgSetConfigValue	Setting,CiCharacter,30; Value,CICharacter,256;	OldValue,CiCharacter,256; Result,Integer; ResultText,MEMO;	Update a server config setting	2
+sp_ModifyArticleProperty	PublicationName,CHARACTER,200;ObjectName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a publication article.	0
+sp_ModifyArticleProperty	PublicationName,CHARACTER,200;ObjectName,CHARACTER,200;Property,CHARACTER,200;Value,NMemo;	\N	Modifies a single property of a publication article.	0
+sp_ModifyBinaryProperty	Name,CHARACTER,200;Parent,CHARACTER,200;ObjectType,SHORTINT;PropertyID,SHORTINT;Value,BINARY;IsNull,Logical;	\N	Sets a binary field property.	0
+sp_ModifyDatabase	Property,CHARACTER,200;Value,MEMO;	\N	Modifies a single data dictionary property.	2
+sp_ModifyDatabase	Property,CHARACTER,200;Value,NMEMO;	\N	Modifies a single data dictionary property.	2
+sp_ModifyFieldProperty	TableName,CHARACTER,200;FieldName,CHARACTER,200;Property,CHARACTER,200;Value,MEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;	\N	Modifies a single field property of a table in the database.	0
+sp_ModifyFieldProperty	TableName,CHARACTER,200;FieldName,CHARACTER,200;Property,CHARACTER,200;Value,NMEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;	\N	Modifies a single field property of a table in the database.	0
+sp_ModifyFieldProperty71	TableName,CHARACTER,200;FieldName,CHARACTER,200;Property,CHARACTER,200;Value,MEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;PropertyLen,Integer;	\N	Modifies a single field property of a table in the database.	0
+sp_ModifyFieldProperty71	TableName,CHARACTER,200;FieldName,CHARACTER,200;Property,CHARACTER,200;Value,NMEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;PropertyLen,Integer;	\N	Modifies a single field property of a table in the database.	0
+sp_ModifyGroupProperty	GroupName,CHARACTER,100;Property,CHARACTER,200;Value,MEMO;	\N	Modifies a single user group property.	0
+sp_ModifyIndexProperty	TableName,CHARACTER,200;IndexName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of an index.	0
+sp_ModifyLink	Name,CHARACTER,200;Dictionary,CHARACTER,515;StaticPath,LOGICAL;AuthenticateActiveUser,LOGICAL;UserName,CHARACTER,50;Password,CHARACTER,20;	\N	Modifies a data dictionary link in the database.	0
+sp_ModifyObjectProperty	ObjectType,SHORT;ParentName,CHARACTER,200;ObjectName,CHARACTER,200;PropertyID,SHORT;Property,BINARY;	\N	Modifies a single property of an object.	0
+sp_ModifyPermission	ObjectType,Integer;ObjectName,CHARACTER,200;ParentName,MEMO;Grantee,CHARACTER,50;Permissions,Double,0;GrantOrRevoke,LOGICAL;	\N	Modifies the permissions of a user or group in the database.	0
+sp_ModifyProcedureProperty	ProcedureName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a procedure.	0
+sp_ModifyProcedureProperty	ProcedureName,CHARACTER,200;Property,CHARACTER,200;Value,NMemo;	\N	Modifies a single property of a procedure.	0
+sp_ModifyPublicationProperty	PublicationName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a publication.	0
+sp_ModifySubscriptionProperty	SubscriptionName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a subscription.	0
+sp_ModifyTableProperty	TableName,CHARACTER,200;Property,CHARACTER,200;Value,MEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;	\N	Modifies a single table property in the database.	0
+sp_ModifyTableProperty	TableName,CHARACTER,200;Property,CHARACTER,200;Value,NMEMO;ValidationOption,CHARACTER,25;FailTable,CHARACTER,515;	\N	Modifies a single table property in the database.	0
+sp_ModifyTriggerProperty	TriggerName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a trigger.	0
+sp_ModifyTriggerProperty	TriggerName,CHARACTER,200;Property,CHARACTER,200;Value,NMemo;	\N	Modifies a single property of a trigger.	0
+sp_ModifyUserProperty	UserName,CHARACTER,50;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a user.	2
+sp_ModifyViewProperty	ViewName,CHARACTER,200;Property,CHARACTER,200;Value,Memo;	\N	Modifies a single property of a view.	0
+sp_ModifyViewProperty	ViewName,CHARACTER,200;Property,CHARACTER,200;Value,NMemo;	\N	Modifies a single property of a view.	0
+sp_MoveDDObjectFile	ObjectType,Integer;ObjectName,Character,200;NewFilePath,Character,260;IndexFiles,MEMO;Parent,Character,260;Options,Integer;	\N	Move a Data Dictionary Object's File.	0
+sp_PackAllTablesOnline	\N	\N	Performs an online pack of all tables in the database.	0
+sp_PackAllTablesOnline	Options,memo;	\N	Performs an online pack of all tables in the database.	0
+sp_PackTable	TableName,CHARACTER,515;	\N	Removes all deleted records from a table opened exclusively.	0
+sp_PackTable	TableName,CHARACTER,515;MemoBlockSize,INTEGER;	\N	Removes all deleted records from a table opened exclusively.	0
+sp_PackTableOnline	TableName,CHARACTER,515;	\N	Removes all deleted records from a table opened shared.	0
+sp_PackTableOnline	TableName,CHARACTER,515;Options,memo;	\N	Removes all deleted records from a table opened shared.	0
+sp_ProcessReplicationQueues	ProcessOption,Integer;	\N	Causes Advantage to immediately attempt to process any pending entries in the replication queue.	0
+sp_Reindex	TableName,CHARACTER,515;PageSize,INTEGER;	\N	Rebuilds all auto-open indexes on a table.	0
+sp_ReindexOnline	TableName,CHARACTER,515;	\N	Rebuilds all auto-open indexes on a table while it is in use.	0
+sp_ReindexOnline	TableName,CHARACTER,515;Options,memo;	\N	Rebuilds all auto-open or specified indexes on a table while it is in use.	0
+sp_RemoveIndexFile	TableName,CHARACTER,200;IndexName,CHARACTER,200;DeleteFile,LOGICAL;	\N	Removes an index file from the database.	0
+sp_RemoveUserFromGroup	UserName,CHARACTER,50;GroupName,CHARACTER,100;	\N	Removes a user from a user group.	0
+sp_RenameDDObject	ObjectName,Character,200;NewObjectName,Character,200;ObjectType,Integer;Options,Integer;	\N	Rename a Data Dictionary Object.	0
+sp_RestoreDatabase	SourcePath,Memo;SourcePassword,Memo;DestPath,Memo;Options,Memo	Severity,Integer;Error Code,Integer;Error Message,Memo;Table Name,Memo;Additional Info,Memo;Source File,char,32;Source Line,Integer	Backup the specified database.	0
+sp_RestoreFreeTables	SourcePath,Memo;DestPath,Memo;Options,Memo;FreetablePasswords,Memo	Severity,Integer;Error Code,Integer;Error Message,Memo;Table Name,Memo;Additional Info,Memo;Source File,char,32;Source Line,Integer	Backup the specified database.	0
+sp_RetrieveSystemProcProperty	Name,CHARACTER,200;Property,SHORTINT	Value,MEMO	Retrieves a property for a system procedure.	0
+sp_SetApplicationID	ApplicationID,Memo;	\N	Sets the application ID string for a connection.	0
+sp_SetDDEncryptionType	DictionaryName,Character,515;AdsSysPW,Character,20;DDPassword,Character,20;EncryptionType,Character,10;Encrypt,Logical;	\N	Change a dictionary's encryption type.	0
+sp_SetRequestPriority	Priority,Memo;	\N	Sets the request queue priority for a connection.	0
+sp_SetStatementLimit	Limit,Integer;	\N	Set the SQL statement limit for the current connection.	0
+sp_SignalEvent	EventName,CiCharacter,200;WaitForCommit,logical;Options,integer;	\N	Signal an event.	0
+sp_SignalEvent	EventName,CiCharacter,200;WaitForCommit,logical;Options,integer;EventData,memo;	\N	Signal an event with character event data.	0
+sp_SupportsConvert	fromType,INTEGER;toType,INTEGER;	IsTypeSupported,LOGICAL;	Determines if the SQL convert function can be used to convert one type to another.	0
+sp_SupportsTxnIsolationLevel	level,INTEGER;	IsLevelSupported,LOGICAL;	Determines if the specified transaction isolation level is supported.	0
+sp_TestReplicationConnection	Subscription,CiCharacter,200;	ReturnCode,Integer;ErrorMessage,Memo;	Tests making a connection to the replication destination.	536870912
+sp_ViewQueryLogging	\N	Database,CHARACTER,255;Table,CHARACTER,255;	Returns all of the data dictionaries currently logging queries.	0
+sp_WaitForAnyEvent	Timeout,integer;PollInterval,integer;Options,integer;	EventName,CiCharacter,200;EventCount,integer;StringData,MEMO	Wait for any event to be signaled.	0
+sp_WaitForEvent	EventName,CiCharacter,200;Timeout,integer;PollInterval,integer;Options,integer;	EventName,CiCharacter,200;EventCount,integer;StringData,MEMO	Wait for the specified event to be signaled.	0
+sp_ZapTable	TableName,CHARACTER,515;	\N	Removes all data from a table.	0

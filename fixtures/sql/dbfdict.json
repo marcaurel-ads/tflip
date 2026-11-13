@@ -1,0 +1,44 @@
+[
+{"cmd": "connect dbftables\\db.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "find62", "names": [["c", 1, "", 0], ["n", 1, "", 0], ["v", 1, "", 0], ["c0", 2, "", 0]], "rc": 5059, "error": "Error 5137:  No object matching the search condition was found in the data dictionary."},
+{"cmd": "objects 1", "names": [["c", 2], ["n", 2], ["v", 2], ["c0", 3]], "rc": 5137, "error": "Error 5137:  No object matching the search condition was found in the data dictionary."},
+{"cmd": "open c", "rc": 0, "cursor": {"file": "c.dbf", "options": 82160, "table_type": 2, "handle_type": 2, "indexes": 1, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0], ["NOTES", 5, 10, 0]], "rows": [
+  [1, ["    1", "one       ", null]],
+  [2, ["    2", "two       ", null]]]}},
+{"cmd": "open n", "rc": 0, "cursor": {"file": "n.dbf", "options": 82160, "table_type": 1, "handle_type": 2, "indexes": 1, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["    1", "one       "]],
+  [2, ["    2", "two       "]]]}},
+{"cmd": "open v", "rc": 0, "cursor": {"file": "v.dbf", "options": 82160, "table_type": 4, "handle_type": 2, "indexes": 1, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "two       "]]]}},
+{"cmd": "open c0", "rc": 0, "cursor": {"file": "c0.dbf", "options": 82160, "table_type": 2, "handle_type": 2, "indexes": 0, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["    1", "one       "]],
+  [2, ["    2", "two       "]]]}},
+{"cmd": "open c.dbf", "rc": 0, "cursor": {"file": "c.dbf", "options": 82160, "table_type": 2, "handle_type": 2, "indexes": 1, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0], ["NOTES", 5, 10, 0]], "rows": [
+  [1, ["    1", "one       ", null]],
+  [2, ["    2", "two       ", null]]]}},
+{"cmd": "query SELECT * FROM c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "c.dbf", "options": 82160, "table_type": 2, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0], ["NOTES", 5, 10, 0]], "rows": [
+  [1, ["    1", "one       ", null]],
+  [2, ["    2", "two       ", null]]]}},
+{"cmd": "query SELECT * FROM n WHERE id > 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "n.dbf", "options": 82160, "table_type": 1, "handle_type": 5, "indexes": 1, "count": 1, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0]], "rows": [
+  [2, ["    2", "two       "]]]}},
+{"cmd": "query SELECT c.id, n.name, v.name FROM c, n, v WHERE c.id = n.id AND n.id = v.id", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 2, 6, 0], ["name", 4, 10, 0], ["name_1", 4, 10, 0]], "rows": [
+  [1, ["     1", "one       ", "one       "]],
+  [2, ["     2", "two       ", "two       "]]]}},
+{"cmd": "query SELECT COUNT(*) FROM c0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "query INSERT INTO n (id, name) VALUES (3, 'three')", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query UPDATE c SET name = 'uno', notes = 'a memo' WHERE id = 1", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query DELETE FROM v WHERE id = 2", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query SELECT * FROM n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "n.dbf", "options": 82160, "table_type": 1, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0]], "rows": [
+  [1, ["    1", "one       "]],
+  [2, ["    2", "two       "]],
+  [3, ["    3", "three     "]]]}},
+{"cmd": "query SELECT * FROM c", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "c.dbf", "options": 82160, "table_type": 2, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["ID", 2, 5, 0], ["NAME", 4, 10, 0], ["NOTES", 5, 10, 0]], "rows": [
+  [1, ["    1", "uno       ", "a memo"]],
+  [2, ["    2", "two       ", null]]]}},
+{"cmd": "query SELECT * FROM v", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "v.dbf", "options": 82160, "table_type": 4, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["id", 11, 4, 0], ["name", 4, 10, 0]], "rows": [
+  [1, ["1", "one       "]],
+  [2, ["2", "two       "]]]}}
+]

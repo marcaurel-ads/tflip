@@ -1,0 +1,17 @@
+# System procedures and system views that ARC uses and tflip was missing:
+# sp_GetSQLKeywords, system.systemgroups (a static built-in, no dictionary)
+# and system.articles (an alias of system.publicationarticles). Run by sql.c
+# on the SQL data folder, which holds the props/ dictionary.
+#
+#     sql.exe <ace32.dll> <sql data folder> system.txt > ../../../fixtures/sql/system.json
+stmt
+# The SQL keyword list, a cursor of one CICharacter(100) column.
+query EXECUTE PROCEDURE sp_GetSQLKeywords()
+# The built-in system groups: works on a free connection, like system.objects.
+query SELECT * FROM system.systemgroups
+# On a dictionary connection, system.articles and system.publicationarticles
+# are the same view.
+connect props\props.add ADSSYS adssyspw
+stmt
+query SELECT * FROM system.articles
+query SELECT * FROM system.publicationarticles

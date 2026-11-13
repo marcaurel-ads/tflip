@@ -1,0 +1,88 @@
+# Binary literals, x'2A 2B': spaces between the digits, an odd count of them,
+# the case of x and the digits, and where such a value goes (comparisons,
+# CAST, CASE, columns of RAW, BINARY and BLOB, functions that refuse it).
+# For fixtures/sql/gram_bin.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_bin.txt > ../../../fixtures/sql/gram_bin.json
+stmt
+## binary literals
+expr x'2A2B'
+expr X'2a2b'
+expr x'2A 2B'
+expr x'2A2'
+expr x''
+expr x' '
+expr x'ZZ'
+expr x'2A 2'
+expr x'2 A'
+expr x'2A  2B'
+expr x'2A-2B'
+expr 0x2A2B
+expr x'2A' + x'2B'
+expr x'2A' = x'2a'
+expr LENGTH(x'2A2B2C')
+expr x'0'
+expr x'00'
+expr x'2A
+expr x'2A' || x'2B'
+expr CAST(x'4142' AS SQL_CHAR(5))
+expr CAST(x'4142' AS SQL_VARBINARY(5))
+expr x'FF80'
+expr x'4142' = 'AB'
+expr x'4142' < x'4143'
+expr x'41' IN (x'41', x'42')
+expr x'41' IS NULL
+expr UPPER(x'4142')
+expr x'4142' + 1
+expr CASE WHEN 1 = 1 THEN x'41' ELSE x'4243' END
+expr IIF(1 = 1, x'41', x'4243')
+expr NULLIF(x'4142', x'4142')
+expr x'41'x
+expr x'41' AS b
+expr X '41'
+expr x'41	42'
+expr x'4g'
+expr x'4142''43'
+expr -x'41'
+expr x'4142434445464748494A4B4C4D4E4F505152535455565758595A5B5C5D5E5F606162636465666768696A6B6C6D6E6F707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3B4B5B6B7B8B9BABBBCBDBEBFC0C1C2C3C4C5C6C7C8C9CACBCCCDCECFD0D1D2D3D4D5D6D7D8D9DADBDCDDDEDFE0E1E2E3E4E5E6E7E8E9EAEBECEDEEEFF0F1F2F3F4F5F6F7F8F9FAFBFCFDFEFF'
+direct CREATE TABLE b (r RAW(8), v RAW(10), bn BINARY, c CHAR(8), i INTEGER, m MEMO, bl BLOB)
+directnull INSERT INTO b (r, v, bn, c) VALUES (x'4142', x'4344', x'454647', 'H')
+directnull INSERT INTO b (r, v, bn, c) VALUES (x'0041', x'0000', x'', NULL)
+directnull INSERT INTO b (bl, m) VALUES (x'FF00FF', x'4142')
+query SELECT r, v, bn, c, bl, m FROM b
+query SELECT * FROM b WHERE r = x'4142'
+query SELECT * FROM b WHERE r = x'41 42'
+query SELECT * FROM b WHERE v > x'4300'
+query SELECT * FROM b WHERE bn = x'45464700'
+query SELECT * FROM b WHERE c = x'48'
+query SELECT * FROM b WHERE r = x'4142' OR v = x'4344'
+directnull UPDATE b SET r = x'5A5B' WHERE r = x'4142'
+query SELECT r, x'4142' AS k FROM b ORDER BY r
+query SELECT COUNT(*) AS n FROM b WHERE r IN (x'5A5B', x'0041')
+query SELECT x'4142' AS a, x'4142' AS b FROM b
+query SELECT x'4142' FROM system.iota
+query SELECT r || x'41' AS a FROM b
+query SELECT CHAR_LENGTH(x'4142') FROM system.iota
+query SELECT OCTET_LENGTH(x'4142') FROM system.iota
+query SELECT LEN(x'4142') FROM system.iota
+query SELECT LEFT(x'414243', 2), SUBSTRING(x'414243', 2, 1), CONVERT(x'4142', SQL_CHAR) FROM system.iota
+query SELECT x'4142' + x'43' FROM system.iota
+query SELECT x'31' * 2 FROM system.iota
+query SELECT x'31' - 1 FROM system.iota
+query SELECT CAST(x'31' AS SQL_CHAR(3)) + 'a' FROM system.iota
+query SELECT 'a' + x'31' FROM system.iota
+query SELECT 'a' || x'31' FROM system.iota
+query SELECT x'31' || 'a' FROM system.iota
+query SELECT HEX(x'31') FROM system.iota
+query SELECT CAST(x'41' AS SQL_CHAR(1)) AS a FROM system.iota
+expr x'01' << 1
+expr 1 << x'01'
+expr x'01' | x'02'
+expr ~x'01'
+directnull INSERT INTO b (r) VALUES (x'414243444546474849')
+directnull INSERT INTO b (r) VALUES (x'4142434445464748')
+directnull INSERT INTO b (v) VALUES (x'41424344454647484950515253')
+directnull UPDATE b SET r = x'5A5B' WHERE v = x'4344'
+directnull UPDATE b SET r = x'5A5B' WHERE v = x'43440000000000000000'
+directnull UPDATE b SET r = x'5A5B5C5D5E5F60616263' WHERE r = x'5A5B000000000000'
+query SELECT r, v, bn FROM b ORDER BY r

@@ -1,0 +1,209 @@
+== defaults (nothing set)
+AdsConnect101                                      rc=0 
+AdsConnect101                                      rc=0 
+AdsConnect101                                      rc=0 
+  sql CREATE TABLE d (a INTEGER)                   rc=0 
+  open d.adt shared                                rc=0 
+  close d                                          rc=0 
+  [d closed] MgGetOpenTables rc=0 n=1: ads_err.adt
+  query SELECT * FROM d WHERE a > 0                rc=0 
+    rows=0
+  close cursor                                     rc=0 
+AdsCloseSQLStatement                               rc=0 
+  [statement closed] MgGetOpenTables rc=0 n=2: ads_err.adt d.adt
+  open d.adt excl                                  rc=0 
+  close d (excl)                                   rc=0 
+DROP via d2                                        rc=0 
+  sql DROP TABLE d                                 rc=0 
+== answers before any connection
+AdsCacheOpenTables(0)                              rc=0 
+AdsCacheOpenCursors(0)                             rc=0 
+AdsCacheOpenTables(1)                              rc=0 
+AdsCacheOpenCursors(1)                             rc=0 
+AdsCacheOpenTables(5)                              rc=0 
+AdsCacheOpenCursors(5)                             rc=0 
+AdsCacheOpenTables(250)                            rc=0 
+AdsCacheOpenCursors(250)                           rc=0 
+AdsCacheOpenTables(65535)                          rc=0 
+AdsCacheOpenCursors(65535)                         rc=0 
+AdsCloseCachedTables(0)                            rc=5024 Error 5018:  The handle given was not recognized by Advantage. Verify specified handle is 
+== setup
+AdsConnect101                                      rc=0 
+AdsConnect101                                      rc=0 
+AdsCloseCachedTables(c1)                           rc=0 
+AdsConnect101                                      rc=0 
+  sql CREATE TABLE t (a INTEGER)                   rc=0 
+  sql INSERT INTO t VALUES (1)                     rc=0 
+  sql CREATE TABLE u (a INTEGER)                   rc=0 
+  sql CREATE TABLE v (a INTEGER)                   rc=0 
+  sql CREATE TABLE w (a INTEGER)                   rc=0 
+  [after setup] MgGetOpenTables rc=0 n=0:
+== tables, cache 0
+  open t.adt shared                                rc=0 
+  [t open] MgGetOpenTables rc=0 n=1: t.adt
+  close t                                          rc=0 
+  [t closed] MgGetOpenTables rc=0 n=0:
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+== tables, cache 2
+AdsCacheOpenTables(2)                              rc=0 
+  open t.adt shared                                rc=0 
+  close t                                          rc=0 
+  [t closed, cache 2] MgGetOpenTables rc=0 n=1: t.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+  [after excl] MgGetOpenTables rc=0 n=0:
+  open t.adt shared                                rc=0 
+  close t                                          rc=0 
+  open u.adt shared                                rc=0 
+  close u                                          rc=0 
+  open v.adt shared                                rc=0 
+  close v                                          rc=0 
+  [t,u,v closed, cache 2] MgGetOpenTables rc=0 n=2: u.adt v.adt
+  open w.adt shared                                rc=0 
+  [w open] MgGetOpenTables rc=0 n=3: u.adt v.adt w.adt
+  close w                                          rc=0 
+  [w closed] MgGetOpenTables rc=0 n=2: v.adt w.adt
+  sql INSERT INTO t VALUES (2)                     rc=0 
+  open t.adt shared                                rc=0 
+    t rows=2
+  close t                                          rc=0 
+  sql DROP TABLE w                                 rc=0 
+  [after drop w] MgGetOpenTables rc=0 n=0:
+AdsCloseCachedTables(c2)                           rc=0 
+  [after close cached c2] MgGetOpenTables rc=0 n=0:
+AdsCloseCachedTables(c1)                           rc=0 
+  [after close cached c1] MgGetOpenTables rc=0 n=0:
+  sql DROP TABLE w                                 rc=7200 Error 7200:  AQE Error:  State = HY000;   NativeError = 7041;  [SAP][Advantage SQL Engine]
+  open t.adt shared                                rc=0 
+  close t                                          rc=0 
+  [t closed again] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCacheOpenTables(0)                              rc=0 
+  [after cache 0] MgGetOpenTables rc=0 n=1: ads_err.adt
+  open u.adt shared                                rc=0 
+  close u                                          rc=0 
+  [u closed, cache 0] MgGetOpenTables rc=0 n=1: ads_err.adt
+AdsDisconnect(c1)                                  rc=0 
+  [c1 disconnected] MgGetOpenTables rc=0 n=1: ads_err.adt
+AdsConnect101                                      rc=0 
+  [after close cached new c1] MgGetOpenTables rc=0 n=1: ads_err.adt
+== table cache scope, cache 2
+AdsCacheOpenTables(2)                              rc=0 
+  open t.adt shared                                rc=0 
+  close t (c1)                                     rc=0 
+  open u.adt shared                                rc=0 
+  close u (c2)                                     rc=0 
+  [t by c1, u by c2 closed] MgGetOpenTables rc=0 n=3: ads_err.adt t.adt u.adt
+  open v.adt shared                                rc=0 
+  close v (c2)                                     rc=0 
+  [then v by c2 closed] MgGetOpenTables rc=0 n=4: ads_err.adt t.adt u.adt v.adt
+AdsCloseCachedTables(c2)                           rc=0 
+  [after close cached c2] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt shared                                rc=0 
+  close t (c2)                                     rc=0 
+  [t by c2 closed] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt shared                                rc=0 
+  open t.adt shared                                rc=0 
+  [t twice open on c1] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseCachedTables(c1) while open                rc=0 
+  [after close cached c1] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseAllTables                                  rc=0 
+  [after close all tables] MgGetOpenTables rc=0 n=1: ads_err.adt
+  open t.adt shared                                rc=0 
+AdsLockTable                                       rc=0 
+  close t (locked)                                 rc=0 
+  [locked t closed] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt shared                                rc=0 
+AdsLockTable(c2)                                   rc=0 
+  close t (c2)                                     rc=0 
+AdsDisconnect(c1)                                  rc=0 
+  [c1 disconnected] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCacheOpenTables(0)                              rc=0 
+  [tables 0] MgGetOpenTables rc=0 n=1: ads_err.adt
+== cursors, cache 0
+AdsCacheOpenCursors(0)                             rc=0 
+AdsConnect101                                      rc=0 
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=2
+  [cursor open] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  close cursor                                     rc=0 
+  [cursor closed] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseSQLStatement                               rc=0 
+  [statement closed] MgGetOpenTables rc=0 n=1: ads_err.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+== cursors, cache 5
+AdsCacheOpenCursors(5)                             rc=0 
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=2
+  close cursor                                     rc=0 
+AdsCloseSQLStatement                               rc=0 
+  [statement closed, cache 5] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+  sql INSERT INTO t VALUES (3)                     rc=0 
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=3
+  close cursor                                     rc=0 
+AdsCloseSQLStatement                               rc=0 
+  [statement closed] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseCachedTables(c3)                           rc=0 
+  [after close cached c3] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCacheOpenCursors(0)                             rc=0 
+  [after cursors 0] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+AdsDisconnect(c3)                                  rc=0 
+  [c3 disconnected] MgGetOpenTables rc=0 n=1: ads_err.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+== statements hold tables
+AdsCacheOpenCursors(0)                             rc=0 
+AdsConnect101                                      rc=0 
+  sql CREATE TABLE x (a INTEGER)                   rc=0 
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=3
+  close cursor                                     rc=0 
+  [cursor closed, statement open] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt excl                                  rc=7008 Error 7008:  The specified table, memo file, or index file was unable to be opened.  \\127
+  [after excl] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseCachedTables(c4)                           rc=0 
+  [after close cached c4] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  requery SELECT * FROM u WHERE a > 0              rc=0 
+    rows=0
+  [ran again on u, cursor open] MgGetOpenTables rc=0 n=2: ads_err.adt u.adt
+  close cursor                                     rc=0 
+  [ran again on u, cursor closed] MgGetOpenTables rc=0 n=2: ads_err.adt u.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+AdsCloseSQLStatement                               rc=0 
+  [statement closed] MgGetOpenTables rc=0 n=1: ads_err.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+  query SELECT * FROM x WHERE a > 0                rc=0 
+    rows=0
+  close cursor                                     rc=0 
+  sql DROP TABLE x                                 rc=7200 Error 7200:  AQE Error:  State = HY000;   NativeError = 7008;  [SAP][Advantage SQL Engine]
+  [x dropped, statement open] MgGetOpenTables rc=0 n=2: ads_err.adt x.adt
+AdsCloseSQLStatement                               rc=0 
+  [statement closed] MgGetOpenTables rc=0 n=1: ads_err.adt
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=3
+  [cursor open] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseSQLStatement (cursor open)                 rc=0 
+  [statement closed with its cursor] MgGetOpenTables rc=0 n=1: ads_err.adt
+AdsCacheOpenCursors(5)                             rc=0 
+  query SELECT * FROM t WHERE a > 0                rc=0 
+    rows=3
+  close cursor                                     rc=0 
+  [cursor closed, cache 5] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt excl                                  rc=7008 Error 7008:  The specified table, memo file, or index file was unable to be opened.  \\127
+  [after excl, cache 5] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+AdsCloseSQLStatement                               rc=0 
+  [statement closed, cache 5] MgGetOpenTables rc=0 n=2: ads_err.adt t.adt
+  open t.adt excl                                  rc=0 
+  close t (excl)                                   rc=0 
+AdsDisconnect(c4)                                  rc=0 
+  [c4 disconnected] MgGetOpenTables rc=0 n=1: ads_err.adt

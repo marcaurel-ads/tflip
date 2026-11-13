@@ -1,0 +1,43 @@
+# SQL comparisons of the charset_german `ca` table (c is each byte 32..255,
+# w holds accented words) under the default static collation and under
+# ANSI_CHAR_SET=German (run_collation_compare.sh): whether WHERE, ORDER BY,
+# DISTINCT, GROUP BY and UNION weigh text by the static ANSI collation, and
+# how a CICHAR column folds case under it.
+stmt
+query SELECT code FROM ca ORDER BY c, code
+query SELECT code FROM ca ORDER BY c DESC, code
+query SELECT code FROM ca ORDER BY w, code
+# Where a descending text key puts NULL: by how many keys follow it (the
+# rows cut down below the probe's 200).
+query SELECT code FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC
+query SELECT code FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC, code
+query SELECT code FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC, code DESC
+query SELECT code FROM ca WHERE code < 60 OR code >= 1000 ORDER BY code, c DESC
+query SELECT code, c FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC
+query SELECT DISTINCT c FROM ca WHERE code < 60 OR code >= 1000 ORDER BY c DESC
+query SELECT code FROM ca WHERE c < 'a' ORDER BY code
+query SELECT code FROM ca WHERE c > 'a' ORDER BY code
+query SELECT code FROM ca WHERE c = 'a' ORDER BY code
+query SELECT code FROM ca WHERE c < 'A' ORDER BY code
+query SELECT code FROM ca WHERE c <= 'b' ORDER BY code
+query SELECT code FROM ca WHERE c > 'z' ORDER BY code
+query SELECT code FROM ca WHERE c >= 'ä' ORDER BY code
+query SELECT code FROM ca WHERE c < 'ß' ORDER BY code
+query SELECT code FROM ca WHERE c > 's' ORDER BY code
+query SELECT code FROM ca WHERE c BETWEEN 'a' AND 'b' ORDER BY code
+query SELECT code FROM ca WHERE w < 'b' ORDER BY code
+query SELECT code FROM ca WHERE w > 'ö' ORDER BY code
+query SELECT DISTINCT c FROM ca ORDER BY c
+query SELECT c, COUNT(*) AS n FROM ca GROUP BY c ORDER BY c
+query SELECT MIN(c) AS lo, MAX(c) AS hi, MIN(w) AS wlo, MAX(w) AS whi FROM ca
+query SELECT c FROM ca WHERE code < 120 UNION SELECT c FROM ca WHERE code >= 100 ORDER BY 1
+direct CREATE TABLE cit (code Integer, c CIChar(1), w CIChar(10))
+direct INSERT INTO cit SELECT code, c, w FROM ca
+query SELECT code FROM cit ORDER BY c, code
+query SELECT code FROM cit WHERE c = 'a' ORDER BY code
+query SELECT code FROM cit WHERE c = 'ä' ORDER BY code
+query SELECT code FROM cit WHERE c < 'b' ORDER BY code
+query SELECT code FROM cit WHERE c > 'Z' ORDER BY code
+query SELECT code FROM cit ORDER BY w, code
+query SELECT DISTINCT c FROM cit ORDER BY c
+query SELECT c, COUNT(*) AS n FROM cit GROUP BY c ORDER BY c

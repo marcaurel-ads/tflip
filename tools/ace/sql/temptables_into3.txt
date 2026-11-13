@@ -1,0 +1,136 @@
+# SELECT ... INTO #name of the types a DBF table cannot hold, and of VFP
+# fields that take NULL, on a free connection in an empty folder:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_into3.txt > fixtures/sql/temptables_into3.json
+stmt
+tabletype 1
+query CREATE TABLE sn (id INTEGER, ch CHAR(6), d DATE)
+directnull INSERT INTO sn (id, ch, d) VALUES (1, 'one', '2020-01-02')
+query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyn FROM sn
+query SELECT * FROM #moneyn
+query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharn FROM sn
+query SELECT * FROM #cicharn
+query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timen FROM sn
+query SELECT * FROM #timen
+query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortn FROM sn
+query SELECT * FROM #shortn
+query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsn FROM sn
+query SELECT * FROM #tsn
+query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawn FROM sn
+query SELECT * FROM #rawn
+query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbn FROM sn
+query SELECT * FROM #varbn
+query SELECT CAST(id AS SQL_REAL) AS x INTO #realn FROM sn
+query SELECT * FROM #realn
+query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyn FROM sn
+query SELECT * FROM #tinyn
+query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decn FROM sn
+query SELECT * FROM #decn
+query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcn FROM sn
+query SELECT * FROM #lvcn
+query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcn FROM sn
+query SELECT * FROM #wvcn
+query SELECT LASTAUTOINC(STATEMENT) AS x INTO #ain FROM sn
+query SELECT * FROM #ain
+query SELECT ROWNUM() AS x INTO #rnn FROM sn
+query SELECT * FROM #rnn
+query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bign FROM sn
+query SELECT * FROM #bign
+tabletype 2
+query CREATE TABLE sc (id INTEGER, ch CHAR(6), d DATE)
+directnull INSERT INTO sc (id, ch, d) VALUES (1, 'one', '2020-01-02')
+query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyc FROM sc
+query SELECT * FROM #moneyc
+query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharc FROM sc
+query SELECT * FROM #cicharc
+query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timec FROM sc
+query SELECT * FROM #timec
+query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortc FROM sc
+query SELECT * FROM #shortc
+query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsc FROM sc
+query SELECT * FROM #tsc
+query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawc FROM sc
+query SELECT * FROM #rawc
+query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbc FROM sc
+query SELECT * FROM #varbc
+query SELECT CAST(id AS SQL_REAL) AS x INTO #realc FROM sc
+query SELECT * FROM #realc
+query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyc FROM sc
+query SELECT * FROM #tinyc
+query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decc FROM sc
+query SELECT * FROM #decc
+query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcc FROM sc
+query SELECT * FROM #lvcc
+query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcc FROM sc
+query SELECT * FROM #wvcc
+query SELECT LASTAUTOINC(STATEMENT) AS x INTO #aic FROM sc
+query SELECT * FROM #aic
+query SELECT ROWNUM() AS x INTO #rnc FROM sc
+query SELECT * FROM #rnc
+query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bigc FROM sc
+query SELECT * FROM #bigc
+tabletype 4
+query CREATE TABLE sv (id INTEGER, ch CHAR(6), d DATE, ts TIMESTAMP, mo MONEY, ai AUTOINC, vb VARBINARY(5))
+directnull INSERT INTO sv (id, ch, d) VALUES (1, 'one', '2020-01-02')
+query SELECT CAST(id AS SQL_MONEY) AS x INTO #moneyv FROM sv
+query SELECT * FROM #moneyv
+query SELECT CAST(ch AS SQL_CICHAR(4)) AS x INTO #cicharv FROM sv
+query SELECT * FROM #cicharv
+query SELECT CAST('10:20:30' AS SQL_TIME) AS x INTO #timev FROM sv
+query SELECT * FROM #timev
+query SELECT CAST(id AS SQL_SMALLINT) AS x INTO #shortv FROM sv
+query SELECT * FROM #shortv
+query SELECT CAST(d AS SQL_TIMESTAMP) AS x INTO #tsv FROM sv
+query SELECT * FROM #tsv
+query SELECT CAST(ch AS SQL_BINARY) AS x INTO #rawv FROM sv
+query SELECT * FROM #rawv
+query SELECT CAST(ch AS SQL_VARBINARY(4)) AS x INTO #varbv FROM sv
+query SELECT * FROM #varbv
+query SELECT CAST(id AS SQL_REAL) AS x INTO #realv FROM sv
+query SELECT * FROM #realv
+query SELECT CAST(id AS SQL_TINYINT) AS x INTO #tinyv FROM sv
+query SELECT * FROM #tinyv
+query SELECT CAST(id AS SQL_DECIMAL(5,1)) AS x INTO #decv FROM sv
+query SELECT * FROM #decv
+query SELECT CAST(ch AS SQL_LONGVARCHAR) AS x INTO #lvcv FROM sv
+query SELECT * FROM #lvcv
+query SELECT CAST(ch AS SQL_WVARCHAR(4)) AS x INTO #wvcv FROM sv
+query SELECT * FROM #wvcv
+query SELECT LASTAUTOINC(STATEMENT) AS x INTO #aiv FROM sv
+query SELECT * FROM #aiv
+query SELECT ROWNUM() AS x INTO #rnv FROM sv
+query SELECT * FROM #rnv
+query SELECT CAST(id AS SQL_BIGINT) AS x INTO #bigv FROM sv
+query SELECT * FROM #bigv
+query SELECT ts INTO #ctsv FROM sv
+query SELECT * FROM #ctsv
+query SELECT mo INTO #cmov FROM sv
+query SELECT * FROM #cmov
+query SELECT ai INTO #caiv FROM sv
+query SELECT * FROM #caiv
+query SELECT vb INTO #cvbv FROM sv
+query SELECT * FROM #cvbv
+tabletype 4
+query CREATE TABLE sn2 (a INTEGER NULL, b CHAR(3) NULL, c CHAR(3) NOT NULL, m MEMO NULL, d CHAR(3) NOCPTRANS, e CHAR(3))
+directnull INSERT INTO sn2 (c) VALUES ('x')
+query SELECT * INTO #nul FROM sn2
+query SELECT * FROM #nul
+query SELECT a, a + 1 AS a1, c + 'x' AS cx, b INTO #nul2 FROM sn2
+query SELECT * FROM #nul2
+query INSERT INTO #nul VALUES (NULL, NULL, 'y', NULL, 'q', 'r')
+query SELECT * FROM #nul
+query SELECT * FROM #nul WHERE a IS NULL
+query SELECT * FROM #nul WHERE b IS NULL
+query SELECT * FROM #nul2 WHERE a IS NULL
+query SELECT * FROM #nul2 WHERE b IS NULL
+query INSERT INTO #nul2 VALUES (NULL, NULL, 'y', NULL)
+query SELECT * FROM #nul2 WHERE a IS NULL
+query INSERT INTO #nul2 VALUES (NULL, NULL, NULL, NULL)
+tabletype 4
+query CREATE TABLE sn3 (id INTEGER, ch CHAR(3))
+directnull INSERT INTO sn3 VALUES (1, 'a')
+query SELECT * INTO #nn3 FROM sn3
+query INSERT INTO #nn3 VALUES (NULL, NULL)
+query SELECT * FROM #nn3
+query SELECT * FROM #nn3 WHERE id IS NULL
+query INSERT INTO sn3 VALUES (NULL, NULL)

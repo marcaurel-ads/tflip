@@ -1,0 +1,343 @@
+# MERGE on ADT and DBF tables on a free connection, in an empty folder: the
+# rows each clause changes and counts, the order of the writes (a source row
+# sees what the rows before it wrote, even in the same table), a source row
+# that matches two target rows, MERGE without USING, WITH DELETE and WITH
+# RECALL, the errors, and SHOW PLAN. The tables it leaves are kept in
+# fixtures/sql/merge/:
+#
+#     run.sh <work> <ace32.dll> merge.txt > ../../../fixtures/sql/merge.json
+#     cp <work>/data/*.* ../../../fixtures/sql/merge/
+stmt
+directnull CREATE TABLE tgt (id Integer, name Char(10), val Integer)
+directnull CREATE UNIQUE INDEX tgtid ON tgt (id)
+directnull CREATE TABLE src (id Integer, name Char(10), val Integer)
+directnull INSERT INTO tgt VALUES (1, 'one', 10)
+directnull INSERT INTO tgt VALUES (2, 'two', 20)
+directnull INSERT INTO tgt VALUES (3, 'three', 30)
+directnull INSERT INTO src VALUES (2, 'TWO', 200)
+directnull INSERT INTO src VALUES (4, 'FOUR', 400)
+directnull INSERT INTO src VALUES (3, 'THREE', 300)
+directnull INSERT INTO src VALUES (5, 'FIVE', 500)
+#
+# Both clauses, and each alone; the spellings of the table references.
+direct MERGE tgt t USING src s ON (t.id = s.id) WHEN MATCHED THEN UPDATE SET t.val = s.val WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+count
+query SELECT * FROM tgt
+direct MERGE INTO tgt AS t USING src AS s ON t.id = s.id WHEN MATCHED THEN UPDATE SET name = s.name
+count
+query SELECT * FROM tgt
+direct MERGE tgt USING src ON tgt.id = src.id WHEN NOT MATCHED THEN INSERT (id, name) VALUES (src.id + 10, src.name)
+count
+direct MERGE tgt USING src ON tgt.id = src.id WHEN MATCHED THEN UPDATE SET val = 0
+count
+direct MERGE tgt USING src ON tgt.id = src.id + 10 WHEN NOT MATCHED THEN INSERT (id) VALUES (src.id + 10)
+count
+query SELECT * FROM tgt
+direct merge tgt t using src s on t.id = s.id when not matched then insert values (1, 'z', 1) when matched then update set val = 1;
+count
+direct MERGE tgt t USING (SELECT id + 100 AS nid, name FROM src WHERE id > 3) s ON t.id = s.nid WHEN NOT MATCHED THEN INSERT (id, name) VALUES (s.nid, s.name)
+count
+query SELECT * FROM tgt
+direct MERGE tgt t USING src s ON t.id = s.id + 100 AND UPPER(t.name) = s.name WHEN MATCHED THEN UPDATE SET val = (SELECT COUNT(*) FROM src WHERE id < t.id)
+count
+direct MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id, name, val) VALUES (s.id + 40, DEFAULT, NULL)
+count
+direct MERGE tgt t USING src s ON t.id = s.id + 70 WHEN NOT MATCHED THEN INSERT (id, val) VALUES (s.id + 70, (SELECT COUNT(*) FROM tgt))
+count
+query SELECT * FROM tgt
+#
+# INSERT's other forms
+directnull DELETE FROM tgt WHERE id > 2
+directnull CREATE TABLE two (a Integer)
+directnull INSERT INTO two VALUES (30)
+directnull INSERT INTO two VALUES (31)
+direct MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id, name) SELECT s.id, s.name FROM system.iota
+count
+query SELECT * FROM tgt
+directnull DELETE FROM tgt WHERE id > 2
+direct MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT SELECT s.id + 20, 'x', 1 FROM system.iota
+count
+directnull DELETE FROM tgt WHERE id > 2
+direct MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id, val) SELECT a, s.id FROM two
+count
+query SELECT * FROM tgt
+directnull DELETE FROM tgt WHERE id > 2
+direct MERGE tgt t USING src s ON t.id = s.id + 100 WHEN NOT MATCHED THEN INSERT (id) VALUES (s.id + 6), (s.id + 7)
+count
+query SELECT * FROM tgt
+directnull DELETE FROM tgt WHERE id > 2
+direct MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT DEFAULT VALUES
+count
+query SELECT * FROM tgt
+directnull DELETE FROM tgt WHERE id > 2
+directnull INSERT INTO tgt DEFAULT VALUES
+directnull INSERT INTO tgt (id, name) VALUES (7, DEFAULT)
+query SELECT * FROM tgt
+#
+# The order of the writes: the source is read as the statement goes
+directnull CREATE TABLE tg3 (id Integer, name Char(10), val Integer)
+directnull INSERT INTO tg3 VALUES (1, 'a', 1)
+directnull INSERT INTO tg3 VALUES (2, 'b', 2)
+direct MERGE tg3 t USING tg3 s ON t.id = s.id + 10 OR s.id > 20 WHEN NOT MATCHED THEN INSERT VALUES (s.id + 10, s.name, s.val)
+count
+query SELECT * FROM tg3
+directnull CREATE TABLE tg4 (id Integer, name Char(10), val Integer)
+directnull INSERT INTO tg4 VALUES (1, 'a', 1)
+directnull INSERT INTO tg4 VALUES (2, 'b', 2)
+direct MERGE tg4 t USING (SELECT * FROM tg4 WHERE id < 100) s ON t.id = s.id + 10 OR s.id > 20 WHEN NOT MATCHED THEN INSERT VALUES (s.id + 10, s.name, s.val)
+count
+query SELECT * FROM tg4
+directnull CREATE TABLE tg5 (id Integer, name Char(10), val Integer)
+directnull INSERT INTO tg5 VALUES (1, 'a', 1)
+directnull INSERT INTO tg5 VALUES (2, 'b', 2)
+directnull INSERT INTO tg5 VALUES (3, 'c', 3)
+direct MERGE tg5 t USING tg5 s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val + 10, id = t.id + 1
+count
+query SELECT * FROM tg5
+#
+# A source row that matches two target rows, and two source rows that match
+# one, or insert one row
+directnull CREATE TABLE tg2 (id Integer, name Char(10), val Integer)
+directnull INSERT INTO tg2 VALUES (1, 'a', 1)
+directnull INSERT INTO tg2 VALUES (1, 'b', 2)
+directnull INSERT INTO tg2 VALUES (2, 'c', 3)
+direct MERGE tg2 t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = t.val + 100 WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+count
+query SELECT * FROM tg2
+directnull CREATE TABLE sr2 (id Integer, name Char(10), val Integer)
+directnull INSERT INTO sr2 VALUES (2, 'x', 1)
+directnull INSERT INTO sr2 VALUES (2, 'y', 2)
+directnull INSERT INTO sr2 VALUES (9, 'p', 3)
+directnull INSERT INTO sr2 VALUES (9, 'q', 4)
+direct MERGE tg2 t USING sr2 s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = t.val + s.val, name = s.name WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+count
+query SELECT * FROM tg2
+direct MERGE tg2 t USING emp s ON t.id = s.id WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+directnull CREATE TABLE emp (id Integer, name Char(10), val Integer)
+direct MERGE tg2 t USING emp s ON t.id = s.id WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+count
+direct MERGE tg2 t USING src s ON 1 = 1 WHEN MATCHED THEN UPDATE SET val = 99
+count
+query SELECT * FROM tg2
+#
+# Without USING: an upsert, once
+direct MERGE tgt ON (id = 1) WHEN MATCHED THEN UPDATE SET val = 111 WHEN NOT MATCHED THEN INSERT (id, val) VALUES (1, 111)
+count
+direct MERGE tgt ON (id = 10) WHEN MATCHED THEN UPDATE SET val = 111 WHEN NOT MATCHED THEN INSERT (id, val) VALUES (10, 111)
+count
+direct MERGE tgt ON (id = 10) WHEN MATCHED THEN UPDATE SET val = 222 WHEN NOT MATCHED THEN INSERT (id, val) VALUES (10, 222)
+count
+direct MERGE tg2 ON (id > 0) WHEN MATCHED THEN UPDATE SET val = 55
+count
+direct MERGE tg2 ON (id > 0) WHEN NOT MATCHED THEN INSERT (id) VALUES (600)
+count
+direct MERGE tgt ON (id = 77) WHEN NOT MATCHED THEN INSERT (id) VALUES (id + 1)
+count
+direct MERGE tgt ON (id = 78) WHEN NOT MATCHED THEN INSERT (id) VALUES (78), (79)
+count
+query SELECT * FROM tgt
+direct MERGE tg2 ON (id = (SELECT MAX(id) FROM tg2)) WHEN MATCHED THEN UPDATE SET name = 'max'
+count
+direct MERGE tg2 ON (id IN (SELECT id FROM src WHERE id > 8)) WHEN MATCHED THEN UPDATE SET name = 'in'
+count
+query SELECT * FROM tg2
+#
+# Types, truncation and the other values a column refuses
+directnull CREATE TABLE au (a AutoInc, k Integer, m Memo, c Char(3))
+direct MERGE au USING src ON au.k = src.id WHEN MATCHED THEN UPDATE SET a = 99, m = 'memo' WHEN NOT MATCHED THEN INSERT (a, k, m) VALUES (77, src.id, src.name)
+count
+query SELECT * FROM au
+direct MERGE au USING src ON au.k = src.id WHEN MATCHED THEN UPDATE SET c = 'toolong', k = k + 10
+count
+query SELECT * FROM au
+direct MERGE au USING src ON au.k = src.id + 100 WHEN NOT MATCHED THEN INSERT (k, c) VALUES (src.id + 100, 'toolong')
+count
+query SELECT * FROM au
+directnull CREATE TABLE t4 (id Integer, c Char(3))
+directnull INSERT INTO t4 VALUES (1, 'a')
+directnull INSERT INTO t4 VALUES (2, 'b')
+direct UPDATE t4 SET c = 'toolong'
+count
+query SELECT * FROM t4
+directnull CREATE TABLE ty (d Date, b Logical, n Numeric(5,2), s Char(4))
+directnull INSERT INTO ty VALUES ('2020-01-01', TRUE, 1.5, 'a')
+direct MERGE ty ON (s = 'a') WHEN MATCHED THEN UPDATE SET d = '2021-02-03', b = 0, n = 'x'
+direct MERGE ty ON (s = 'a') WHEN MATCHED THEN UPDATE SET d = '2021-02-03', b = 0, n = 99999
+count
+direct MERGE ty ON (s = 'a') WHEN MATCHED THEN UPDATE SET d = 'notadate'
+direct MERGE ty ON (s = 'z') WHEN NOT MATCHED THEN INSERT (d, b) VALUES ('2022-01-01', 1)
+count
+direct MERGE ty ON (s = 'z') WHEN NOT MATCHED THEN INSERT (d, b) VALUES ('baddate', 1)
+count
+query SELECT * FROM ty
+#
+# WITH DELETE and WITH RECALL on an ADT table: the deleted records are not
+# read again
+directnull CREATE TABLE dl (id Integer, name Char(10), val Integer)
+directnull CREATE UNIQUE INDEX dlid ON dl (id)
+directnull INSERT INTO dl VALUES (1, 'one', 10)
+directnull INSERT INTO dl VALUES (2, 'two', 20)
+directnull INSERT INTO dl VALUES (3, 'three', 30)
+direct MERGE dl t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH DELETE SET val = -1 WHEN NOT MATCHED THEN INSERT WITH DELETE (id, name) VALUES (s.id, 'gone')
+count
+query SELECT * FROM dl
+direct MERGE dl t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH RECALL SET val = -2
+count
+direct MERGE dl ON id = 500 WHEN NOT MATCHED THEN INSERT WITH DELETE DEFAULT VALUES
+count
+#
+# Errors: a unique key the second insert repeats, a key an update changes
+directnull CREATE TABLE uq (id Integer, name Char(10), val Integer)
+directnull CREATE UNIQUE INDEX uqid ON uq (id)
+directnull INSERT INTO uq VALUES (1, 'one', 10)
+directnull INSERT INTO uq VALUES (2, 'two', 20)
+direct MERGE uq t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id, val) VALUES (s.id + 100 * (s.id - 2), s.val)
+count
+query SELECT * FROM uq
+direct MERGE uq t USING src s ON t.id = s.id + 1000 WHEN NOT MATCHED THEN INSERT (id) VALUES (3 - s.id)
+count
+direct MERGE uq t USING src s ON t.id = s.id + 1000 WHEN NOT MATCHED THEN INSERT (id) VALUES (50), (50)
+count
+query SELECT * FROM uq
+direct MERGE uq ON (id > 0) WHEN MATCHED THEN UPDATE SET id = 7
+count
+query SELECT * FROM uq
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET id = 1
+count
+query SELECT * FROM uq
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = 'abc'
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET nosuch = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET t.nosuch = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET s.val = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.nosuch
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = id
+direct MERGE uq USING src ON id = id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING src t ON t.id = t.id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING nosuch s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE nosuch t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING src s ON t.id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT VALUES (1)
+direct MERGE uq t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id) VALUES (t.id)
+direct MERGE uq t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id, id) VALUES (1, 2)
+direct MERGE uq t USING src s ON MAX(t.id) = 1 WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = MAX(s.id)
+direct MERGE uq t USING src s ON t.id = s.id
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN
+direct MERGE uq t USING src s WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = 1 WHEN MATCHED THEN UPDATE SET val = 2
+direct MERGE uq t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id) VALUES (1) WHEN NOT MATCHED THEN INSERT (id) VALUES (2)
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN DELETE
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH DELETE WITH RECALL SET val = 7
+direct MERGE uq t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = 1 WHERE id = 1
+direct MERGE uq AS USING src s ON uq.id = s.id WHEN MATCHED THEN UPDATE SET val = 1
+direct MERGE system.iota ON (1 = 1) WHEN MATCHED THEN UPDATE SET c = 'x'
+direct MERGE uq USING system.iota s ON (1 = 1) WHEN MATCHED THEN UPDATE SET val = 7
+count
+query SELECT * FROM uq
+verify MERGE uq ON (id = 1) WHEN MATCHED THEN UPDATE SET val = 7
+verify MERGE uq ON (id = 1) WHEN MATCHED THEN UPDATE SET z = 7
+stmtparams MERGE uq ON (id = ?) WHEN MATCHED THEN UPDATE SET val = ? WHEN NOT MATCHED THEN INSERT (id, val) VALUES (?, ?)
+prepare MERGE uq ON (id = ?) WHEN MATCHED THEN UPDATE SET val = ? WHEN NOT MATCHED THEN INSERT (id, val) VALUES (?, ?)
+param 1 long 123
+param 2 long 5
+param 3 long 123
+param 4 long 6
+exec
+count
+exec
+count
+param 1 long 1
+exec
+count
+query SELECT * FROM uq
+#
+# The plans
+query SHOW PLAN FOR MERGE tgt t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.name, s.val)
+query SHOW PLAN FOR MERGE tgt t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val
+query SHOW PLAN FOR MERGE tgt t USING src s ON t.id = s.id WHEN NOT MATCHED THEN INSERT (id) VALUES (s.id)
+query SHOW PLAN FOR MERGE tgt ON id = 1 WHEN MATCHED THEN UPDATE SET val = 5
+query SHOW PLAN FOR MERGE tgt ON id = 1 WHEN MATCHED THEN UPDATE SET val = 5 WHEN NOT MATCHED THEN INSERT (id, val) VALUES (1, 5)
+query SHOW PLAN FOR MERGE tgt ON val > 1 WHEN MATCHED THEN UPDATE SET val = 5
+query SHOW PLAN FOR MERGE tg2 t USING src s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val
+query SHOW PLAN FOR MERGE tg2 t USING src s ON t.id = s.id AND t.val > 1 WHEN MATCHED THEN UPDATE SET val = s.val
+query SHOW PLAN FOR MERGE tgt t USING (SELECT id, val FROM src WHERE id > 1) s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val
+query SHOW PLAN FOR MERGE tgt ON id = 1 WHEN MATCHED THEN UPDATE SET nosuch = 5
+#
+# The same on DBF tables: deleted records are read (and recalled), and a
+# deleted record can be written; each type has its own source table.
+tabletype 2
+directnull CREATE TABLE csrc (id Integer, name Char(10), val Integer)
+directnull INSERT INTO csrc VALUES (2, 'TWO', 200)
+directnull INSERT INTO csrc VALUES (4, 'FOUR', 400)
+directnull INSERT INTO csrc VALUES (3, 'THREE', 300)
+directnull CREATE TABLE ctgt (id Integer, name Char(10), val Integer, m Memo)
+directnull CREATE UNIQUE INDEX ctgtid ON ctgt (id)
+directnull INSERT INTO ctgt VALUES (1, 'one', 10, 'm1')
+directnull INSERT INTO ctgt VALUES (2, 'two', 20, 'm2')
+directnull INSERT INTO ctgt VALUES (3, 'three', 30, 'm3')
+direct MERGE ctgt t USING csrc s ON t.id = s.id WHEN MATCHED THEN UPDATE SET t.val = s.val, m = 'merged' WHEN NOT MATCHED THEN INSERT (id, name, val, m) VALUES (s.id, s.name, s.val, 'new')
+count
+query SELECT * FROM ctgt
+direct MERGE ctgt t USING csrc s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH DELETE SET val = -1
+count
+query SELECT * FROM ctgt
+direct MERGE ctgt t USING csrc s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH RECALL SET val = -2 WHEN NOT MATCHED THEN INSERT WITH DELETE (id, name) VALUES (s.id, 'gone')
+count
+query SELECT * FROM ctgt
+direct MERGE ctgt ON id = 100 WHEN NOT MATCHED THEN INSERT WITH DELETE (id, name) VALUES (100, 'del')
+count
+direct MERGE ctgt ON id = 100 WHEN NOT MATCHED THEN INSERT WITH DELETE (id, name) VALUES (100, 'del2')
+count
+direct MERGE ctgt ON id = 101 WHEN NOT MATCHED THEN INSERT WITH DELETE DEFAULT VALUES
+count
+direct MERGE ctgt ON id = 100 WHEN MATCHED THEN UPDATE WITH RECALL SET name = 'back'
+count
+direct MERGE ctgt ON id = 3 WHEN MATCHED THEN UPDATE WITH DELETE SET val = 7 WHEN NOT MATCHED THEN INSERT (id) VALUES (3)
+count
+query SELECT * FROM ctgt
+direct MERGE ctgt t USING csrc s ON t.id = s.id + 100 WHEN NOT MATCHED THEN INSERT (id) VALUES (s.id + 8)
+count
+direct MERGE ctgt t USING csrc s ON t.id = s.id + 100 WHEN NOT MATCHED THEN INSERT (id) VALUES (s.id + 8)
+count
+direct MERGE ctgt ON id = 1 WHEN MATCHED THEN UPDATE SET id = 4
+count
+query SELECT * FROM ctgt
+direct MERGE ctgt t USING csrc s ON t.id = s.id + 200 WHEN NOT MATCHED THEN INSERT (id, name) VALUES (s.id + 200, 'toolong string')
+count
+query SELECT * FROM ctgt
+query SHOW PLAN FOR MERGE ctgt t USING csrc s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val
+tabletype 1
+directnull CREATE TABLE nsrc (id Integer, name Char(10), val Integer)
+directnull INSERT INTO nsrc VALUES (2, 'TWO', 200)
+directnull INSERT INTO nsrc VALUES (4, 'FOUR', 400)
+directnull INSERT INTO nsrc VALUES (3, 'THREE', 300)
+directnull CREATE TABLE ntgt (id Integer, name Char(10), val Integer)
+directnull CREATE UNIQUE INDEX ntgtid ON ntgt (id)
+directnull INSERT INTO ntgt VALUES (1, 'one', 10)
+directnull INSERT INTO ntgt VALUES (2, 'two', 20)
+direct MERGE ntgt t USING nsrc s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = s.val WHEN NOT MATCHED THEN INSERT (id, name, val) VALUES (s.id, s.name, s.val)
+count
+query SELECT * FROM ntgt
+direct MERGE ntgt t USING nsrc s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH DELETE SET val = -1
+count
+direct MERGE ntgt t USING nsrc s ON t.id = s.id + 100 WHEN NOT MATCHED THEN INSERT WITH DELETE (id) VALUES (s.id + 50)
+count
+direct MERGE ntgt t USING nsrc s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH RECALL SET val = -2
+count
+query SELECT * FROM ntgt
+tabletype 4
+directnull CREATE TABLE vsrc (id Integer, name Char(10), val Integer)
+directnull INSERT INTO vsrc VALUES (2, 'TWO', 200)
+directnull INSERT INTO vsrc VALUES (4, 'FOUR', 400)
+directnull INSERT INTO vsrc VALUES (3, 'THREE', 300)
+directnull CREATE TABLE vtgt (id Integer, name Char(10) NULL, val Integer NULL, a AutoInc)
+directnull INSERT INTO vtgt (id, name, val) VALUES (1, 'one', 10)
+directnull INSERT INTO vtgt (id, name, val) VALUES (2, 'two', 20)
+direct MERGE vtgt t USING vsrc s ON t.id = s.id WHEN MATCHED THEN UPDATE SET val = NULL WHEN NOT MATCHED THEN INSERT (id, name, val) VALUES (s.id, s.name, NULL)
+count
+query SELECT * FROM vtgt
+direct MERGE vtgt ON id = 99 WHEN NOT MATCHED THEN INSERT DEFAULT VALUES
+count
+direct MERGE vtgt t USING vsrc s ON t.id = s.id WHEN MATCHED THEN UPDATE WITH DELETE SET val = -1
+count
+query SELECT * FROM vtgt

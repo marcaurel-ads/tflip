@@ -1,0 +1,9821 @@
+# A seeded random run on the VFP table.
+tabletype vfp
+open v.dbf
+append
+set id long 1
+set y long 2099
+set mo long 4
+set dd long 7
+set h long 3
+set mi long 2
+set s long 34
+set ms long 999
+set yn long 2099
+set d date 08/25/1947
+set dn date 02/18/0001
+set c string 08/25/1947
+set cn string 06/25/2084 15:54:57
+write
+append
+set id long 2
+set y long 2084
+set mo long 6
+set dd long 25
+set h long 15
+set mi long 54
+set s long 57
+set ms long 471
+set yn null
+set d date 12/18/9999
+set dn date 09/11/1959
+set c string 07/31/0001 09:42:42
+set cn string 05/28/2045
+write
+append
+set id long 3
+set y long 9999
+set mo long 2
+set dd long 17
+set h long 14
+set mi long 52
+set s long 17
+set ms long 152
+set yn null
+set d date 03/10/0100
+set dn date 04/07/2099
+set c empty
+set cn string 02/14/0100 14:10:42
+write
+append
+set id long 4
+set y long 1947
+set mo long 8
+set dd long 25
+set h long 13
+set mi long 1
+set s long 45
+set ms long 500
+set yn long 1947
+set d date 08/04/0001
+set dn date 08/25/1947
+set c string 04/21/2045
+set cn string 06/25/2084
+write
+append
+set id long 5
+set y long 2045
+set mo long 8
+set dd long 3
+set h long 15
+set mi long 22
+set s long 10
+set ms long 0
+set yn null
+set d date 11/25/1919
+set dn empty
+set c string 02/17/9999 14:52:17
+set cn empty
+write
+append
+set id long 6
+set y long 1
+set mo long 9
+set dd long 26
+set h long 18
+set mi long 16
+set s long 28
+set ms long 500
+set yn long 1
+set d date 04/21/2045
+set dn date 03/01/2000
+set c string 11/25/1919
+set cn string 04/08/1957 20:22:55
+write
+append
+set id long 7
+set y long 1
+set mo long 7
+set dd long 31
+set h long 9
+set mi long 42
+set s long 42
+set ms long 0
+set yn long 1
+set d date 06/05/1922
+set dn date 09/12/1992
+set c string 08/21/2089
+set cn string 12/30/2081 09:12:33.999
+write
+append
+set id long 8
+set y long 2000
+set mo long 5
+set dd long 11
+set h long 16
+set mi long 56
+set s long 6
+set ms long 999
+set yn long 2000
+set d date 09/26/1899
+set dn date 06/17/1957
+set c string 03/01/2000 21:53:09
+set cn empty
+write
+append
+set id long 9
+set y long 1
+set mo long 12
+set dd long 13
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 1
+set d empty
+set dn date 11/06/1899
+set c string 03/10/0100 00:28:18
+set cn string 10/04/0001 11:43:46.500
+write
+append
+set id long 10
+set y long 2002
+set mo long 12
+set dd long 24
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 2002
+set d date 10/04/0001
+set dn date 11/09/1914
+set c string 03/29/2060 23:59:59.500
+set cn string 12/13/0001 00:00:00.000
+write
+append
+set id long 11
+set y long 2087
+set mo long 5
+set dd long 27
+set h long 22
+set mi long 51
+set s long 6
+set ms long 500
+set yn long 2087
+set d date 08/13/0001
+set dn date 10/03/2000
+set c string 08/12/9999 18:49:35
+set cn string 01/30/1953 16:32:36.561
+write
+append
+set id long 12
+set y long 1996
+set mo long 1
+set dd long 13
+set h long 20
+set mi long 25
+set s long 36
+set ms long 500
+set yn long 1996
+set d date 02/18/0001
+set dn null
+set c string 08/29/2058
+set cn string 04/08/1957
+write
+append
+set id long 13
+set y long 2000
+set mo long 10
+set dd long 3
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 2000
+set d date 01/09/2013
+set dn date 07/02/1927
+set c string 08/21/2089
+set cn string 08/21/2089
+write
+append
+set id long 14
+set y long 1
+set mo long 9
+set dd long 15
+set h long 20
+set mi long 56
+set s long 40
+set ms long 499
+set yn long 1
+set d date 10/18/2000
+set dn date 09/26/1899
+set c string 02/17/9999
+set cn null
+write
+append
+set id long 15
+set y long 100
+set mo long 8
+set dd long 15
+set h long 23
+set mi long 7
+set s long 25
+set ms long 115
+set yn null
+set d date 08/04/0001
+set dn date 04/07/2099
+set c string 02/07/2087 15:49:41.106
+set cn string 11/09/1899 18:39:38.500
+write
+append
+set id long 16
+set y long 2000
+set mo long 3
+set dd long 1
+set h long 21
+set mi long 53
+set s long 9
+set ms long 999
+set yn long 2000
+set d date 02/17/9999
+set dn date 10/30/1752
+set c string 11/10/2099 10:35:33
+set cn string 03/18/2019 00:00:00
+write
+append
+set id long 17
+set y long 2000
+set mo long 5
+set dd long 11
+set h long 16
+set mi long 56
+set s long 6
+set ms long 303
+set yn long 2000
+set d date 12/16/2000
+set dn date 02/09/1999
+set c string 05/18/0001 23:59:59
+set cn string 03/10/0100 00:28:18
+write
+append
+set id long 18
+set y long 2080
+set mo long 1
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn null
+set d date 06/11/0100
+set dn date 02/09/1999
+set c empty
+set cn string 06/25/1986 11:40:34.999
+write
+append
+set id long 19
+set y long 2053
+set mo long 2
+set dd long 12
+set h long 1
+set mi long 12
+set s long 16
+set ms long 999
+set yn null
+set d date 02/04/1966
+set dn date 02/14/2032
+set c string 11/21/1752 06:46:30.000
+set cn string 05/23/1984 16:16:45.000
+write
+append
+set id long 20
+set y long 1951
+set mo long 11
+set dd long 22
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 1951
+set d date 02/17/2001
+set dn date 10/11/2009
+set c string 03/10/0001 04:03:04.668
+set cn null
+write
+append
+set id long 21
+set y long 1949
+set mo long 3
+set dd long 23
+set h long 7
+set mi long 29
+set s long 10
+set ms long 180
+set yn null
+set d date 05/06/2049
+set dn date 06/25/2084
+set c string 09/19/1910 21:10:54.500
+set cn string 11/30/1971
+write
+append
+set id long 22
+set y long 1
+set mo long 5
+set dd long 20
+set h long 22
+set mi long 20
+set s long 1
+set ms long 499
+set yn null
+set d date 08/15/1752
+set dn date 10/15/1935
+set c string 04/17/2033 02:00:45.752
+set cn string 04/07/2099 03:02:34
+write
+append
+set id long 23
+set y long 9999
+set mo long 12
+set dd long 19
+set h long 22
+set mi long 20
+set s long 44
+set ms long 0
+set yn long 9999
+set d date 12/19/9999
+set dn date 10/05/2000
+set c string 03/16/1956 00:00:00.000
+set cn string 02/14/2032
+write
+append
+set id long 24
+set y long 2009
+set mo long 10
+set dd long 11
+set h long 15
+set mi long 5
+set s long 22
+set ms long 18
+set yn long 2009
+set d empty
+set dn null
+set c string 03/22/0100
+set cn string 06/21/2017 00:00:00.000
+write
+append
+set id long 25
+set y long 1952
+set mo long 2
+set dd long 2
+set h long 18
+set mi long 15
+set s long 17
+set ms long 679
+set yn long 1952
+set d date 09/15/0001
+set dn date 05/24/2033
+set c string 07/01/2064 15:46:59.500
+set cn string 05/06/2049 03:38:50.499
+write
+append
+set id long 26
+set y long 1
+set mo long 1
+set dd long 10
+set h long 2
+set mi long 49
+set s long 24
+set ms long 0
+set yn long 1
+set d date 05/18/1899
+set dn date 07/07/2043
+set c string 05/10/1899 10:30:24
+set cn null
+write
+append
+set id long 27
+set y long 9999
+set mo long 2
+set dd long 9
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set yn long 9999
+set d date 05/18/0001
+set dn date 05/28/1899
+set c string 09/27/1965
+set cn string 03/18/9999 10:36:48
+write
+append
+set id long 28
+set y long 1971
+set mo long 11
+set dd long 30
+set h long 17
+set mi long 45
+set s long 45
+set ms long 149
+set yn long 1971
+set d date 06/14/2062
+set dn date 02/17/2001
+set c string 09/18/2005 00:07:31.015
+set cn string 06/14/2062
+write
+append
+set id long 29
+set y long 1987
+set mo long 9
+set dd long 29
+set h long 3
+set mi long 1
+set s long 39
+set ms long 500
+set yn long 1987
+set d date 02/14/0100
+set dn date 08/25/1947
+set c string 10/05/2000 01:43:05.888
+set cn empty
+write
+append
+set id long 30
+set y long 100
+set mo long 10
+set dd long 10
+set h long 17
+set mi long 37
+set s long 9
+set ms long 500
+set yn long 100
+set d date 02/26/1899
+set dn date 10/11/2009
+set c string 06/06/2000
+set cn string 05/17/1752 04:34:50.499
+write
+append
+set id long 31
+set y long 1899
+set mo long 1
+set dd long 15
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 1899
+set d date 12/13/0001
+set dn date 02/25/0100
+set c string 08/01/1752 21:22:23.999
+set cn empty
+write
+append
+set id long 32
+set y long 2084
+set mo long 6
+set dd long 25
+set h long 15
+set mi long 54
+set s long 57
+set ms long 450
+set yn long 2084
+set d date 12/24/2002
+set dn null
+set c string 12/16/0001 18:42:02
+set cn string 06/11/0100 07:59:51
+write
+append
+set id long 33
+set y long 2069
+set mo long 3
+set dd long 17
+set h long 8
+set mi long 7
+set s long 53
+set ms long 500
+set yn null
+set d date 05/27/2087
+set dn date 09/19/1910
+set c string 02/12/1927 22:32:58
+set cn string 06/21/1958
+write
+append
+set id long 34
+set y long 1752
+set mo long 8
+set dd long 1
+set h long 21
+set mi long 22
+set s long 23
+set ms long 999
+set yn long 1752
+set d date 05/31/1961
+set dn empty
+set c string 01/15/0100
+set cn string 01/15/1952
+write
+append
+set id long 35
+set y long 1
+set mo long 5
+set dd long 20
+set h long 22
+set mi long 20
+set s long 1
+set ms long 254
+set yn long 1
+set d empty
+set dn date 11/21/1752
+set c string 08/31/1909 07:55:36.000
+set cn string 05/19/2044 11:39:54
+write
+append
+set id long 36
+set y long 2003
+set mo long 10
+set dd long 11
+set h long 1
+set mi long 49
+set s long 52
+set ms long 0
+set yn long 2003
+set d date 07/07/2043
+set dn date 12/13/0001
+set c string 12/02/1998
+set cn string 08/06/9999
+write
+append
+set id long 37
+set y long 2099
+set mo long 12
+set dd long 19
+set h long 11
+set mi long 22
+set s long 11
+set ms long 499
+set yn long 2099
+set d date 11/06/1752
+set dn date 10/05/1904
+set c string 12/13/0001
+set cn null
+write
+append
+set id long 38
+set y long 2000
+set mo long 12
+set dd long 22
+set h long 20
+set mi long 13
+set s long 34
+set ms long 0
+set yn long 2000
+set d date 02/23/0100
+set dn date 02/05/2075
+set c string 05/06/2049 03:38:50
+set cn string 03/01/2000
+write
+append
+set id long 39
+set y long 1752
+set mo long 8
+set dd long 1
+set h long 21
+set mi long 22
+set s long 23
+set ms long 999
+set yn null
+set d date 08/31/1909
+set dn null
+set c empty
+set cn string 06/20/2050 19:34:34.999
+write
+append
+set id long 40
+set y long 9999
+set mo long 4
+set dd long 14
+set h long 10
+set mi long 7
+set s long 39
+set ms long 500
+set yn null
+set d date 02/13/2026
+set dn empty
+set c empty
+set cn null
+write
+append
+set id long 41
+set y long 2028
+set mo long 10
+set dd long 6
+set h long 3
+set mi long 43
+set s long 35
+set ms long 999
+set yn long 2028
+set d date 07/03/0001
+set dn date 05/29/0100
+set c string 04/17/2033
+set cn string 11/06/1961
+write
+append
+set id long 42
+set y long 1
+set mo long 3
+set dd long 23
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 1
+set d date 06/09/2070
+set dn date 06/01/1752
+set c string 04/13/1934 22:59:14
+set cn string 08/12/0100
+write
+append
+set id long 43
+set y long 100
+set mo long 3
+set dd long 10
+set h long 0
+set mi long 28
+set s long 18
+set ms long 0
+set yn long 100
+set d date 05/21/1906
+set dn date 02/07/2087
+set c string 01/30/1953 16:32:36
+set cn string 01/01/2069 23:59:59
+write
+append
+set id long 44
+set y long 1903
+set mo long 12
+set dd long 13
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 1903
+set d date 03/15/0100
+set dn date 07/03/0001
+set c string 06/27/9999 12:32:06
+set cn string 01/19/1975 08:57:16
+write
+append
+set id long 45
+set y long 9999
+set mo long 9
+set dd long 18
+set h long 8
+set mi long 37
+set s long 20
+set ms long 0
+set yn null
+set d date 01/29/1900
+set dn date 10/15/1935
+set c string 05/23/0001 21:41:28
+set cn string 09/29/1987 03:01:39
+write
+append
+set id long 46
+set y long 1752
+set mo long 8
+set dd long 15
+set h long 13
+set mi long 24
+set s long 34
+set ms long 729
+set yn long 1752
+set d date 07/27/1899
+set dn date 02/09/9999
+set c empty
+set cn string 12/05/2000 18:36:34.112
+write
+append
+set id long 47
+set y long 1
+set mo long 1
+set dd long 13
+set h long 22
+set mi long 26
+set s long 26
+set ms long 0
+set yn long 1
+set d date 11/15/1923
+set dn date 02/17/2001
+set c string 05/10/1993 23:59:59
+set cn string 01/19/1975 08:57:16
+write
+append
+set id long 48
+set y long 1957
+set mo long 9
+set dd long 27
+set h long 21
+set mi long 48
+set s long 53
+set ms long 499
+set yn long 1957
+set d empty
+set dn date 11/15/1923
+set c string 03/31/1958 01:52:19
+set cn string 04/17/2001 17:25:17
+write
+append
+set id long 49
+set y long 2055
+set mo long 5
+set dd long 23
+set h long 21
+set mi long 25
+set s long 53
+set ms long 500
+set yn long 2055
+set d date 03/29/2060
+set dn date 05/05/1991
+set c string 12/29/1998
+set cn string 06/21/1958 21:06:02.711
+write
+append
+set id long 50
+set y long 1899
+set mo long 10
+set dd long 12
+set h long 16
+set mi long 29
+set s long 39
+set ms long 500
+set yn long 1899
+set d date 11/06/1752
+set dn date 08/17/1911
+set c string 06/22/2001 21:13:41
+set cn string 06/30/0100 04:55:12
+write
+append
+set id long 51
+set y long 2056
+set mo long 12
+set dd long 9
+set h long 0
+set mi long 29
+set s long 38
+set ms long 499
+set yn long 2056
+set d date 04/23/2067
+set dn date 06/30/2071
+set c string 11/10/2099 10:35:33.510
+set cn string 02/08/1968
+write
+append
+set id long 52
+set y long 2000
+set mo long 4
+set dd long 17
+set h long 21
+set mi long 33
+set s long 18
+set ms long 999
+set yn long 2000
+set d date 08/17/1910
+set dn date 08/15/1989
+set c string 06/21/1958
+set cn string 05/07/0001 09:39:10.532
+write
+append
+set id long 53
+set y long 2072
+set mo long 1
+set dd long 6
+set h long 19
+set mi long 0
+set s long 38
+set ms long 0
+set yn long 2072
+set d date 12/29/1998
+set dn empty
+set c empty
+set cn string 02/07/2084
+write
+append
+set id long 54
+set y long 2091
+set mo long 2
+set dd long 28
+set h long 11
+set mi long 25
+set s long 2
+set ms long 999
+set yn long 2091
+set d date 12/30/1961
+set dn date 08/01/1752
+set c string 05/11/2000
+set cn string 07/06/1985 10:02:33.999
+write
+append
+set id long 55
+set y long 2000
+set mo long 10
+set dd long 5
+set h long 1
+set mi long 43
+set s long 5
+set ms long 0
+set yn long 2000
+set d date 04/23/2063
+set dn date 07/04/1904
+set c string 12/22/2000 20:13:34
+set cn null
+write
+append
+set id long 56
+set y long 1943
+set mo long 9
+set dd long 22
+set h long 9
+set mi long 35
+set s long 44
+set ms long 799
+set yn long 1943
+set d date 11/25/1991
+set dn date 06/29/2061
+set c string 12/18/2058 15:17:52.499
+set cn string 10/25/1752 22:42:36
+write
+append
+set id long 57
+set y long 2067
+set mo long 6
+set dd long 9
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 2067
+set d date 08/17/2001
+set dn null
+set c string 02/05/2080
+set cn string 05/18/1899
+write
+append
+set id long 58
+set y long 1947
+set mo long 12
+set dd long 26
+set h long 7
+set mi long 31
+set s long 19
+set ms long 500
+set yn long 1947
+set d date 09/16/1899
+set dn date 03/19/1752
+set c string 08/12/1977 00:00:00.000
+set cn string 11/06/1899 13:24:27.999
+write
+append
+set id long 59
+set y long 1970
+set mo long 1
+set dd long 8
+set h long 22
+set mi long 8
+set s long 47
+set ms long 999
+set yn long 1970
+set d date 05/14/2020
+set dn null
+set c string 06/27/2092 20:50:59
+set cn string 07/07/2043 08:18:14.999
+write
+append
+set id long 60
+set y long 1
+set mo long 1
+set dd long 10
+set h long 2
+set mi long 49
+set s long 24
+set ms long 0
+set yn long 1
+set d date 11/21/1752
+set dn date 08/15/0100
+set c string 09/27/1965 01:33:40.149
+set cn string 07/22/9999 08:31:28.999
+write
+append
+set id long 61
+set y long 1
+set mo long 3
+set dd long 10
+set h long 4
+set mi long 3
+set s long 4
+set ms long 274
+set yn long 1
+set d date 11/24/2089
+set dn date 05/19/2044
+set c empty
+set cn string 11/01/2022
+write
+append
+set id long 62
+set y long 100
+set mo long 2
+set dd long 10
+set h long 9
+set mi long 5
+set s long 55
+set ms long 0
+set yn long 100
+set d date 05/14/2020
+set dn null
+set c string 12/03/2016
+set cn string 11/22/1951 00:00:00
+write
+append
+set id long 63
+set y long 2033
+set mo long 5
+set dd long 24
+set h long 18
+set mi long 27
+set s long 41
+set ms long 500
+set yn long 2033
+set d date 07/19/0001
+set dn empty
+set c string 10/16/2021 02:22:56.500
+set cn string 05/03/1974 19:45:09.500
+write
+append
+set id long 64
+set y long 2009
+set mo long 8
+set dd long 19
+set h long 16
+set mi long 13
+set s long 45
+set ms long 999
+set yn long 2009
+set d date 07/15/9999
+set dn date 06/30/0100
+set c string 09/02/1908 12:18:02
+set cn string 06/03/1912
+write
+append
+set id long 65
+set y long 9999
+set mo long 12
+set dd long 21
+set h long 19
+set mi long 5
+set s long 42
+set ms long 210
+set yn long 9999
+set d date 06/09/2070
+set dn date 06/25/2084
+set c string 08/11/2078 13:55:39.500
+set cn string 05/17/1752
+write
+append
+set id long 66
+set y long 2004
+set mo long 2
+set dd long 25
+set h long 3
+set mi long 38
+set s long 5
+set ms long 0
+set yn long 2004
+set d date 12/13/2005
+set dn date 10/27/1901
+set c string 05/06/2049 03:38:50
+set cn null
+write
+append
+set id long 67
+set y long 1977
+set mo long 3
+set dd long 15
+set h long 20
+set mi long 5
+set s long 42
+set ms long 595
+set yn null
+set d date 11/21/1925
+set dn date 04/17/2033
+set c string 06/09/2070 02:23:02.950
+set cn string 01/30/1959
+write
+append
+set id long 68
+set y long 1951
+set mo long 11
+set dd long 22
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 1951
+set d date 10/16/2021
+set dn date 12/19/9999
+set c string 05/31/1961
+set cn null
+write
+append
+set id long 69
+set y long 2027
+set mo long 7
+set dd long 24
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 2027
+set d date 04/21/1899
+set dn null
+set c string 01/25/1899
+set cn string 02/23/1965 10:52:55
+write
+append
+set id long 70
+set y long 1957
+set mo long 5
+set dd long 9
+set h long 23
+set mi long 8
+set s long 48
+set ms long 499
+set yn long 1957
+set d date 12/03/2016
+set dn date 08/05/1946
+set c string 08/23/1752 23:47:49.499
+set cn string 09/06/1915 23:59:59.000
+write
+append
+set id long 71
+set y long 9999
+set mo long 11
+set dd long 28
+set h long 9
+set mi long 47
+set s long 43
+set ms long 499
+set yn long 9999
+set d date 01/15/1899
+set dn empty
+set c string 07/08/1916
+set cn string 01/15/1952 23:59:59.535
+write
+append
+set id long 72
+set y long 1975
+set mo long 11
+set dd long 9
+set h long 0
+set mi long 37
+set s long 1
+set ms long 500
+set yn null
+set d date 10/04/0001
+set dn null
+set c string 06/15/2046 13:51:06
+set cn string 09/11/1959 10:44:33
+write
+append
+set id long 73
+set y long 100
+set mo long 1
+set dd long 15
+set h long 7
+set mi long 48
+set s long 43
+set ms long 425
+set yn long 100
+set d date 12/26/1947
+set dn date 11/29/9999
+set c string 07/10/0001 21:17:05.999
+set cn string 05/03/1899
+write
+append
+set id long 74
+set y long 1959
+set mo long 1
+set dd long 30
+set h long 0
+set mi long 37
+set s long 7
+set ms long 0
+set yn long 1959
+set d date 05/18/1993
+set dn date 09/07/1963
+set c string 06/08/9999 03:09:10.500
+set cn string 05/26/0001
+write
+append
+set id long 75
+set y long 2009
+set mo long 8
+set dd long 19
+set h long 16
+set mi long 13
+set s long 45
+set ms long 999
+set yn long 2009
+set d date 04/04/1752
+set dn date 06/03/2000
+set c string 04/29/2027 06:06:31.499
+set cn string 08/23/1752 12:13:59
+write
+append
+set id long 76
+set y long 1984
+set mo long 5
+set dd long 23
+set h long 16
+set mi long 16
+set s long 45
+set ms long 0
+set yn long 1984
+set d date 03/18/9999
+set dn null
+set c string 10/11/2009
+set cn null
+write
+append
+set id long 77
+set y long 1981
+set mo long 8
+set dd long 23
+set h long 22
+set mi long 57
+set s long 23
+set ms long 999
+set yn long 1981
+set d date 01/21/1899
+set dn null
+set c string 02/01/2000
+set cn string 06/24/1752 10:45:40.000
+write
+append
+set id long 78
+set y long 2053
+set mo long 12
+set dd long 31
+set h long 7
+set mi long 46
+set s long 43
+set ms long 499
+set yn long 2053
+set d date 12/19/9999
+set dn empty
+set c string 07/03/2054 10:51:03.668
+set cn string 12/29/1998
+write
+append
+set id long 79
+set y long 2000
+set mo long 12
+set dd long 25
+set h long 11
+set mi long 6
+set s long 38
+set ms long 0
+set yn long 2000
+set d date 03/16/1972
+set dn date 12/02/1998
+set c string 05/28/2045
+set cn string 11/28/0001
+write
+append
+set id long 80
+set y long 1929
+set mo long 12
+set dd long 14
+set h long 9
+set mi long 18
+set s long 40
+set ms long 991
+set yn long 1929
+set d empty
+set dn date 03/25/0001
+set c string 08/28/0001 04:04:46
+set cn null
+write
+append
+set id long 81
+set y long 9999
+set mo long 11
+set dd long 28
+set h long 9
+set mi long 47
+set s long 43
+set ms long 499
+set yn long 9999
+set d date 05/05/2023
+set dn null
+set c string 10/14/1752 00:20:53
+set cn string 01/26/1931 23:59:59.999
+write
+append
+set id long 82
+set y long 1917
+set mo long 10
+set dd long 9
+set h long 2
+set mi long 36
+set s long 42
+set ms long 19
+set yn long 1917
+set d date 12/19/2099
+set dn date 07/07/2043
+set c string 02/15/1907 07:06:56
+set cn string 11/25/1991 00:43:32
+write
+append
+set id long 83
+set y long 1992
+set mo long 11
+set dd long 25
+set h long 8
+set mi long 59
+set s long 50
+set ms long 0
+set yn long 1992
+set d date 05/12/1752
+set dn date 07/27/2044
+set c string 03/25/1965 21:08:26
+set cn string 05/21/1752
+write
+append
+set id long 84
+set y long 1975
+set mo long 11
+set dd long 9
+set h long 0
+set mi long 37
+set s long 1
+set ms long 500
+set yn long 1975
+set d date 07/20/9999
+set dn date 08/18/1899
+set c string 06/22/1899 05:24:08.499
+set cn string 10/30/1752
+write
+append
+set id long 85
+set y long 2020
+set mo long 11
+set dd long 8
+set h long 16
+set mi long 2
+set s long 31
+set ms long 500
+set yn long 2020
+set d date 02/28/2091
+set dn date 09/07/1963
+set c string 08/17/2052 10:01:04
+set cn string 05/03/2057 23:59:59.500
+write
+append
+set id long 86
+set y long 1752
+set mo long 2
+set dd long 29
+set h long 14
+set mi long 56
+set s long 9
+set ms long 0
+set yn long 1752
+set d empty
+set dn date 01/26/1984
+set c string 01/29/1900 06:31:06.999
+set cn string 05/07/1990 03:38:41
+write
+append
+set id long 87
+set y long 2000
+set mo long 10
+set dd long 14
+set h long 18
+set mi long 8
+set s long 31
+set ms long 999
+set yn long 2000
+set d date 05/17/2049
+set dn null
+set c string 03/01/2000 21:53:09
+set cn string 11/22/1951 00:00:00
+write
+append
+set id long 88
+set y long 2008
+set mo long 11
+set dd long 27
+set h long 23
+set mi long 3
+set s long 3
+set ms long 499
+set yn long 2008
+set d date 06/24/1935
+set dn empty
+set c string 12/22/2000 20:13:34.265
+set cn string 12/17/2000 01:19:20.500
+write
+append
+set id long 89
+set y long 2049
+set mo long 5
+set dd long 17
+set h long 17
+set mi long 43
+set s long 31
+set ms long 676
+set yn long 2049
+set d date 04/04/0001
+set dn date 05/17/1899
+set c empty
+set cn string 04/29/2027 06:06:31
+write
+append
+set id long 90
+set y long 1993
+set mo long 5
+set dd long 10
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set yn long 1993
+set d empty
+set dn date 05/09/1957
+set c string 05/11/2000
+set cn string 04/24/1959
+write
+append
+set id long 91
+set y long 2089
+set mo long 8
+set dd long 21
+set h long 23
+set mi long 59
+set s long 59
+set ms long 813
+set yn long 2089
+set d date 08/15/0100
+set dn date 04/29/2064
+set c string 11/09/1899 21:37:29
+set cn string 11/03/2000
+write
+append
+set id long 92
+set y long 1927
+set mo long 2
+set dd long 12
+set h long 22
+set mi long 32
+set s long 58
+set ms long 499
+set yn long 1927
+set d date 03/03/1752
+set dn date 04/24/1959
+set c string 11/26/0100 23:59:59
+set cn string 05/10/0100
+write
+append
+set id long 93
+set y long 1950
+set mo long 7
+set dd long 28
+set h long 8
+set mi long 32
+set s long 35
+set ms long 499
+set yn long 1950
+set d date 04/16/9999
+set dn date 03/18/2019
+set c string 12/06/0100 05:50:59
+set cn string 09/16/2088 16:21:53
+write
+append
+set id long 94
+set y long 2000
+set mo long 11
+set dd long 2
+set h long 20
+set mi long 58
+set s long 55
+set ms long 999
+set yn null
+set d date 12/05/9999
+set dn null
+set c string 01/02/1903 00:43:32
+set cn null
+write
+append
+set id long 95
+set y long 9999
+set mo long 9
+set dd long 18
+set h long 8
+set mi long 37
+set s long 20
+set ms long 298
+set yn null
+set d empty
+set dn empty
+set c string 01/19/1925 23:37:50.329
+set cn string 11/25/1992 08:59:50
+write
+append
+set id long 96
+set y long 2059
+set mo long 12
+set dd long 7
+set h long 4
+set mi long 54
+set s long 7
+set ms long 0
+set yn long 2059
+set d date 10/29/2046
+set dn date 07/18/1971
+set c string 11/30/1971
+set cn string 02/17/2001 05:08:35
+write
+append
+set id long 97
+set y long 1927
+set mo long 5
+set dd long 24
+set h long 20
+set mi long 10
+set s long 9
+set ms long 500
+set yn long 1927
+set d date 12/13/1943
+set dn date 03/03/1752
+set c string 06/21/2017 00:00:00.685
+set cn string 12/13/1960 23:59:59.500
+write
+append
+set id long 98
+set y long 1
+set mo long 1
+set dd long 10
+set h long 2
+set mi long 49
+set s long 24
+set ms long 649
+set yn long 1
+set d date 04/05/9999
+set dn date 01/21/1899
+set c string 08/16/2000 23:59:59.000
+set cn string 05/11/1961 23:59:59
+write
+append
+set id long 99
+set y long 2099
+set mo long 11
+set dd long 10
+set h long 10
+set mi long 35
+set s long 33
+set ms long 0
+set yn long 2099
+set d date 09/11/1925
+set dn date 02/05/2099
+set c string 04/07/1913 08:22:52
+set cn string 01/06/1922 16:51:42
+write
+append
+set id long 100
+set y long 9999
+set mo long 12
+set dd long 2
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set yn long 9999
+set d date 01/18/1915
+set dn date 07/31/0001
+set c string 08/15/1932 07:09:11
+set cn string 02/22/1752 10:44:56.000
+write
+append
+set id long 101
+set y long 1998
+set mo long 12
+set dd long 2
+set h long 15
+set mi long 58
+set s long 15
+set ms long 999
+set yn long 1998
+set d date 05/31/2000
+set dn date 07/31/0001
+set c string 09/07/2023 00:00:00
+set cn string 01/22/2003 16:48:00.775
+write
+append
+set id long 102
+set y long 1907
+set mo long 2
+set dd long 15
+set h long 7
+set mi long 6
+set s long 56
+set ms long 999
+set yn long 1907
+set d empty
+set dn date 07/15/9999
+set c string 01/26/1931
+set cn string 06/12/2070 23:59:59
+write
+append
+set id long 103
+set y long 1957
+set mo long 4
+set dd long 8
+set h long 20
+set mi long 22
+set s long 55
+set ms long 508
+set yn long 1957
+set d date 04/17/1752
+set dn empty
+set c string 03/09/0100
+set cn string 09/07/1752 02:51:21.999
+write
+append
+set id long 104
+set y long 1995
+set mo long 9
+set dd long 24
+set h long 17
+set mi long 33
+set s long 55
+set ms long 999
+set yn null
+set d empty
+set dn date 01/26/1931
+set c string 05/29/2098 19:58:47
+set cn string 01/12/1992 03:42:29
+write
+append
+set id long 105
+set y long 1899
+set mo long 6
+set dd long 5
+set h long 18
+set mi long 36
+set s long 5
+set ms long 0
+set yn long 1899
+set d date 03/11/2010
+set dn date 01/15/9999
+set c string 10/05/1911 13:21:02
+set cn string 10/21/2013
+write
+append
+set id long 106
+set y long 2098
+set mo long 9
+set dd long 19
+set h long 11
+set mi long 20
+set s long 36
+set ms long 500
+set yn long 2098
+set d date 06/30/2000
+set dn date 10/27/1901
+set c string 10/22/1899
+set cn string 03/19/1752 00:00:00.516
+write
+append
+set id long 107
+set y long 1899
+set mo long 10
+set dd long 20
+set h long 6
+set mi long 20
+set s long 38
+set ms long 397
+set yn long 1899
+set d date 11/10/2099
+set dn date 10/30/2077
+set c empty
+set cn string 02/08/2074 16:30:42.499
+write
+append
+set id long 108
+set y long 1752
+set mo long 5
+set dd long 17
+set h long 4
+set mi long 34
+set s long 50
+set ms long 732
+set yn long 1752
+set d date 10/25/2046
+set dn date 05/24/1899
+set c string 05/29/0100 13:20:24
+set cn string 08/12/1977
+write
+append
+set id long 109
+set y long 2079
+set mo long 12
+set dd long 31
+set h long 8
+set mi long 32
+set s long 20
+set ms long 500
+set yn long 2079
+set d date 02/19/9999
+set dn date 01/27/2063
+set c string 09/18/9999
+set cn string 02/13/1952 16:32:17
+write
+append
+set id long 110
+set y long 1943
+set mo long 9
+set dd long 22
+set h long 9
+set mi long 35
+set s long 44
+set ms long 29
+set yn long 1943
+set d date 01/13/2000
+set dn empty
+set c string 08/05/1995 22:16:30.000
+set cn null
+write
+append
+set id long 111
+set y long 1899
+set mo long 2
+set dd long 25
+set h long 16
+set mi long 44
+set s long 53
+set ms long 999
+set yn long 1899
+set d date 04/04/0001
+set dn date 11/24/1905
+set c string 03/09/0100 10:51:33.500
+set cn string 01/06/1922
+write
+append
+set id long 112
+set y long 2002
+set mo long 12
+set dd long 24
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 2002
+set d date 03/19/1752
+set dn date 01/06/1926
+set c string 01/11/1752 23:13:26.000
+set cn string 07/31/9999
+write
+append
+set id long 113
+set y long 1904
+set mo long 7
+set dd long 4
+set h long 22
+set mi long 58
+set s long 37
+set ms long 785
+set yn long 1904
+set d date 02/12/2074
+set dn date 03/21/1899
+set c string 06/23/1907
+set cn null
+write
+append
+set id long 114
+set y long 100
+set mo long 9
+set dd long 22
+set h long 17
+set mi long 9
+set s long 18
+set ms long 500
+set yn long 100
+set d date 06/10/0100
+set dn empty
+set c string 01/23/2058
+set cn string 09/19/2085 01:21:16.499
+write
+append
+set id long 115
+set y long 1931
+set mo long 6
+set dd long 5
+set h long 21
+set mi long 59
+set s long 27
+set ms long 990
+set yn long 1931
+set d date 02/25/1910
+set dn date 05/17/0001
+set c empty
+set cn string 11/04/2099
+write
+append
+set id long 116
+set y long 2015
+set mo long 10
+set dd long 17
+set h long 17
+set mi long 2
+set s long 42
+set ms long 999
+set yn long 2015
+set d date 10/11/1952
+set dn empty
+set c string 05/28/1954 23:10:08.000
+set cn string 06/02/1955
+write
+append
+set id long 117
+set y long 1932
+set mo long 11
+set dd long 13
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 1932
+set d empty
+set dn date 12/28/2000
+set c string 10/31/2000 21:40:33.798
+set cn string 04/15/1899 18:58:31
+write
+append
+set id long 118
+set y long 9999
+set mo long 2
+set dd long 12
+set h long 8
+set mi long 3
+set s long 10
+set ms long 500
+set yn long 9999
+set d date 10/14/0001
+set dn date 03/06/9999
+set c string 02/22/2080 10:08:09
+set cn string 11/08/2020 16:02:31.500
+write
+append
+set id long 119
+set y long 1995
+set mo long 4
+set dd long 25
+set h long 2
+set mi long 34
+set s long 25
+set ms long 500
+set yn long 1995
+set d date 11/18/2023
+set dn date 01/04/9999
+set c string 01/06/2000 19:41:17
+set cn string 11/11/0001
+write
+append
+set id long 120
+set y long 1994
+set mo long 4
+set dd long 21
+set h long 17
+set mi long 41
+set s long 52
+set ms long 999
+set yn long 1994
+set d date 02/05/1899
+set dn date 05/27/2033
+set c empty
+set cn string 01/30/1959 00:37:07.000
+write
+append
+set id long 121
+set y long 1911
+set mo long 10
+set dd long 5
+set h long 13
+set mi long 21
+set s long 2
+set ms long 0
+set yn long 1911
+set d date 02/22/2080
+set dn date 10/22/1899
+set c string 09/23/9999 23:59:59
+set cn string 05/21/9999 23:59:59
+write
+append
+set id long 122
+set y long 9999
+set mo long 5
+set dd long 2
+set h long 10
+set mi long 9
+set s long 58
+set ms long 499
+set yn long 9999
+set d empty
+set dn date 06/07/0100
+set c string 11/04/1942 20:12:07.000
+set cn string 06/02/2017 18:00:39.000
+write
+append
+set id long 123
+set y long 1916
+set mo long 7
+set dd long 8
+set h long 13
+set mi long 13
+set s long 8
+set ms long 500
+set yn null
+set d date 04/05/0100
+set dn empty
+set c string 07/14/2001
+set cn string 08/24/1976 16:41:09.999
+write
+append
+set id long 124
+set y long 2044
+set mo long 4
+set dd long 9
+set h long 6
+set mi long 7
+set s long 39
+set ms long 195
+set yn long 2044
+set d empty
+set dn date 02/09/1991
+set c empty
+set cn string 01/25/9999 04:44:08
+write
+append
+set id long 125
+set y long 2068
+set mo long 10
+set dd long 27
+set h long 9
+set mi long 33
+set s long 1
+set ms long 499
+set yn long 2068
+set d date 07/16/1957
+set dn date 02/09/1913
+set c string 05/24/1927 20:10:09
+set cn string 10/03/2068 23:59:59
+write
+append
+set id long 126
+set y long 100
+set mo long 4
+set dd long 5
+set h long 5
+set mi long 43
+set s long 31
+set ms long 0
+set yn null
+set d date 05/28/1752
+set dn date 11/22/2077
+set c string 09/11/1925
+set cn string 12/06/0001 04:33:25.500
+write
+append
+set id long 127
+set y long 1989
+set mo long 8
+set dd long 15
+set h long 6
+set mi long 6
+set s long 36
+set ms long 499
+set yn long 1989
+set d date 06/03/1951
+set dn date 02/09/2078
+set c string 11/23/0001
+set cn string 09/23/1963 08:13:30
+write
+append
+set id long 128
+set y long 2000
+set mo long 12
+set dd long 17
+set h long 1
+set mi long 19
+set s long 20
+set ms long 500
+set yn long 2000
+set d date 06/22/1999
+set dn date 12/17/2062
+set c string 07/03/2054 10:51:03.668
+set cn null
+write
+append
+set id long 129
+set y long 1999
+set mo long 12
+set dd long 1
+set h long 14
+set mi long 35
+set s long 44
+set ms long 999
+set yn long 1999
+set d date 11/13/2000
+set dn date 10/22/9999
+set c string 05/24/1899 12:52:40
+set cn string 01/25/1899
+write
+append
+set id long 130
+set y long 1908
+set mo long 8
+set dd long 7
+set h long 6
+set mi long 26
+set s long 18
+set ms long 879
+set yn long 1908
+set d date 06/30/2071
+set dn date 06/04/1953
+set c string 02/09/1975
+set cn string 08/02/0100 22:04:02
+write
+append
+set id long 131
+set y long 1899
+set mo long 5
+set dd long 24
+set h long 12
+set mi long 52
+set s long 40
+set ms long 499
+set yn null
+set d date 11/27/2008
+set dn date 03/24/1752
+set c string 03/08/2069
+set cn string 03/02/2006 00:00:00
+write
+append
+set id long 132
+set y long 1
+set mo long 7
+set dd long 11
+set h long 20
+set mi long 21
+set s long 56
+set ms long 999
+set yn null
+set d date 12/05/0100
+set dn date 12/17/2000
+set c string 07/26/1933
+set cn empty
+write
+append
+set id long 133
+set y long 1752
+set mo long 9
+set dd long 24
+set h long 16
+set mi long 45
+set s long 7
+set ms long 628
+set yn long 1752
+set d empty
+set dn date 07/29/1899
+set c string 08/21/1989 18:17:38.999
+set cn empty
+write
+append
+set id long 134
+set y long 9999
+set mo long 9
+set dd long 23
+set h long 23
+set mi long 59
+set s long 59
+set ms long 156
+set yn long 9999
+set d date 06/27/0001
+set dn null
+set c string 08/14/0001 23:59:59.500
+set cn null
+write
+append
+set id long 135
+set y long 100
+set mo long 5
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 100
+set d date 03/13/2000
+set dn date 05/01/0001
+set c string 05/04/2022
+set cn string 04/21/2000 00:00:00.000
+write
+append
+set id long 136
+set y long 2000
+set mo long 10
+set dd long 18
+set h long 16
+set mi long 26
+set s long 9
+set ms long 940
+set yn long 2000
+set d date 09/13/1899
+set dn date 11/13/2000
+set c empty
+set cn string 10/10/9999 00:00:00.000
+write
+append
+set id long 137
+set y long 1989
+set mo long 6
+set dd long 3
+set h long 5
+set mi long 3
+set s long 22
+set ms long 0
+set yn long 1989
+set d date 06/12/0001
+set dn date 09/23/9999
+set c string 02/08/1899
+set cn string 11/12/2000
+write
+append
+set id long 138
+set y long 1
+set mo long 11
+set dd long 10
+set h long 16
+set mi long 25
+set s long 28
+set ms long 999
+set yn long 1
+set d date 09/01/2080
+set dn date 01/03/1899
+set c string 03/16/1752 07:07:28.904
+set cn string 05/26/1948
+write
+append
+set id long 139
+set y long 1951
+set mo long 10
+set dd long 3
+set h long 0
+set mi long 55
+set s long 3
+set ms long 999
+set yn long 1951
+set d date 10/09/2073
+set dn date 07/19/1916
+set c string 03/15/2004 00:00:00.000
+set cn string 11/02/1752 22:04:26
+write
+append
+set id long 140
+set y long 9999
+set mo long 3
+set dd long 7
+set h long 21
+set mi long 11
+set s long 26
+set ms long 999
+set yn long 9999
+set d empty
+set dn date 06/20/2000
+set c empty
+set cn string 01/26/1752 11:55:52.000
+write
+append
+set id long 141
+set y long 1953
+set mo long 1
+set dd long 30
+set h long 16
+set mi long 32
+set s long 36
+set ms long 561
+set yn long 1953
+set d date 12/01/2011
+set dn date 07/25/2011
+set c string 06/26/0001
+set cn null
+write
+append
+set id long 142
+set y long 1949
+set mo long 11
+set dd long 4
+set h long 0
+set mi long 2
+set s long 55
+set ms long 0
+set yn null
+set d empty
+set dn date 10/11/2013
+set c string 12/20/2078 00:00:00
+set cn empty
+write
+append
+set id long 143
+set y long 2089
+set mo long 3
+set dd long 23
+set h long 12
+set mi long 29
+set s long 41
+set ms long 0
+set yn null
+set d date 03/25/2000
+set dn null
+set c string 06/11/0001
+set cn null
+write
+append
+set id long 144
+set y long 1934
+set mo long 4
+set dd long 13
+set h long 22
+set mi long 59
+set s long 14
+set ms long 537
+set yn null
+set d empty
+set dn date 10/30/2081
+set c string 01/11/1899 18:09:03
+set cn string 02/25/1910 04:46:22
+write
+append
+set id long 145
+set y long 2001
+set mo long 4
+set dd long 17
+set h long 17
+set mi long 25
+set s long 17
+set ms long 766
+set yn long 2001
+set d date 11/26/2000
+set dn date 02/09/9999
+set c string 05/26/1948
+set cn string 08/12/9999 18:49:35.420
+write
+append
+set id long 146
+set y long 1925
+set mo long 2
+set dd long 9
+set h long 15
+set mi long 16
+set s long 34
+set ms long 0
+set yn long 1925
+set d date 02/19/2009
+set dn date 12/04/1943
+set c string 03/07/2045 14:16:21.999
+set cn string 09/16/1992 11:25:46.500
+write
+append
+set id long 147
+set y long 1752
+set mo long 2
+set dd long 4
+set h long 10
+set mi long 28
+set s long 50
+set ms long 0
+set yn long 1752
+set d date 09/06/1915
+set dn date 01/30/0001
+set c string 11/10/1919
+set cn null
+write
+append
+set id long 148
+set y long 2000
+set mo long 1
+set dd long 13
+set h long 18
+set mi long 17
+set s long 28
+set ms long 484
+set yn long 2000
+set d date 10/23/1925
+set dn empty
+set c string 09/23/9999 16:33:26.999
+set cn null
+write
+append
+set id long 149
+set y long 1955
+set mo long 1
+set dd long 4
+set h long 20
+set mi long 38
+set s long 40
+set ms long 499
+set yn null
+set d date 10/22/2033
+set dn null
+set c string 07/07/2081
+set cn string 07/12/2000 16:22:00.254
+write
+append
+set id long 150
+set y long 2046
+set mo long 9
+set dd long 26
+set h long 1
+set mi long 2
+set s long 36
+set ms long 499
+set yn long 2046
+set d date 09/22/1947
+set dn date 08/12/9999
+set c empty
+set cn string 07/31/2051 22:16:29
+write
+append
+set id long 151
+set y long 9999
+set mo long 8
+set dd long 5
+set h long 17
+set mi long 42
+set s long 8
+set ms long 499
+set yn long 9999
+set d date 08/15/1989
+set dn date 02/12/2064
+set c string 06/05/1995
+set cn string 07/27/1899 19:42:20
+write
+append
+set id long 152
+set y long 1899
+set mo long 1
+set dd long 18
+set h long 4
+set mi long 33
+set s long 43
+set ms long 757
+set yn long 1899
+set d date 10/31/0001
+set dn date 07/25/2009
+set c string 03/25/0001 10:25:17.999
+set cn string 04/02/1908 16:18:21.499
+write
+append
+set id long 153
+set y long 1752
+set mo long 7
+set dd long 17
+set h long 17
+set mi long 13
+set s long 55
+set ms long 0
+set yn long 1752
+set d date 06/21/1958
+set dn null
+set c string 11/29/2076 12:18:38.499
+set cn string 02/05/2080 23:22:22
+write
+append
+set id long 154
+set y long 2077
+set mo long 10
+set dd long 30
+set h long 9
+set mi long 36
+set s long 4
+set ms long 509
+set yn long 2077
+set d date 04/06/0100
+set dn date 06/05/1931
+set c string 05/15/1971 04:39:21.500
+set cn string 09/24/1944
+write
+append
+set id long 155
+set y long 1943
+set mo long 9
+set dd long 3
+set h long 15
+set mi long 37
+set s long 3
+set ms long 500
+set yn long 1943
+set d date 11/07/2083
+set dn date 11/16/1950
+set c string 11/11/0001 20:32:37.294
+set cn string 05/26/1909
+write
+append
+set id long 156
+set y long 1899
+set mo long 5
+set dd long 23
+set h long 18
+set mi long 8
+set s long 56
+set ms long 567
+set yn long 1899
+set d date 04/21/1899
+set dn empty
+set c empty
+set cn empty
+write
+append
+set id long 157
+set y long 1935
+set mo long 10
+set dd long 15
+set h long 5
+set mi long 0
+set s long 38
+set ms long 651
+set yn null
+set d date 12/18/1752
+set dn date 04/05/2060
+set c string 02/12/2056 13:54:33.999
+set cn string 01/29/1943 19:38:45.999
+write
+append
+set id long 158
+set y long 2060
+set mo long 7
+set dd long 2
+set h long 16
+set mi long 1
+set s long 53
+set ms long 499
+set yn long 2060
+set d date 12/07/2014
+set dn date 06/05/1995
+set c string 07/04/1904 22:58:37
+set cn string 06/08/2000 02:52:40
+write
+append
+set id long 159
+set y long 1899
+set mo long 7
+set dd long 1
+set h long 5
+set mi long 49
+set s long 7
+set ms long 999
+set yn long 1899
+set d date 12/07/1976
+set dn date 06/06/2082
+set c string 01/11/2036
+set cn string 01/15/9999
+write
+append
+set id long 160
+set y long 1
+set mo long 4
+set dd long 13
+set h long 15
+set mi long 22
+set s long 3
+set ms long 999
+set yn long 1
+set d date 03/18/0001
+set dn date 10/12/1899
+set c string 10/18/0100 19:12:38
+set cn string 09/16/1899
+write
+append
+set id long 161
+set y long 1979
+set mo long 9
+set dd long 10
+set h long 17
+set mi long 30
+set s long 20
+set ms long 923
+set yn long 1979
+set d date 02/21/0100
+set dn date 11/19/1957
+set c string 08/28/1752 16:41:47.000
+set cn empty
+write
+append
+set id long 162
+set y long 1960
+set mo long 12
+set dd long 13
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set yn long 1960
+set d date 02/18/2000
+set dn date 09/07/2000
+set c string 06/14/2062 18:41:46.112
+set cn string 01/19/9999 23:59:59
+write
+append
+set id long 163
+set y long 2002
+set mo long 11
+set dd long 21
+set h long 6
+set mi long 42
+set s long 3
+set ms long 500
+set yn long 2002
+set d date 10/25/1752
+set dn empty
+set c string 12/02/0001 00:00:00
+set cn string 03/18/1954
+write
+append
+set id long 164
+set y long 2036
+set mo long 5
+set dd long 12
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 2036
+set d date 05/05/1907
+set dn empty
+set c string 08/26/1949
+set cn string 03/01/2000
+write
+append
+set id long 165
+set y long 1951
+set mo long 10
+set dd long 8
+set h long 21
+set mi long 44
+set s long 29
+set ms long 500
+set yn long 1951
+set d date 02/10/2000
+set dn date 02/21/2004
+set c string 05/13/0001 11:33:13
+set cn string 04/25/2001 06:24:01
+write
+append
+set id long 166
+set y long 2023
+set mo long 11
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 2023
+set d date 12/16/2000
+set dn date 11/02/0100
+set c string 10/12/2000 09:39:47.000
+set cn string 04/14/9999 10:07:39
+write
+append
+set id long 167
+set y long 1944
+set mo long 7
+set dd long 26
+set h long 14
+set mi long 39
+set s long 19
+set ms long 500
+set yn null
+set d date 06/30/2071
+set dn date 06/03/1989
+set c string 02/09/1913
+set cn string 02/26/2019 00:00:00
+write
+append
+set id long 168
+set y long 1922
+set mo long 6
+set dd long 5
+set h long 0
+set mi long 56
+set s long 59
+set ms long 899
+set yn long 1922
+set d date 03/10/2025
+set dn date 03/23/1949
+set c string 12/18/9999 23:59:59.000
+set cn null
+write
+append
+set id long 169
+set y long 1912
+set mo long 3
+set dd long 23
+set h long 23
+set mi long 43
+set s long 1
+set ms long 0
+set yn long 1912
+set d empty
+set dn null
+set c string 06/05/1973 05:57:15.980
+set cn string 05/18/0001 23:59:59.500
+write
+append
+set id long 170
+set y long 2073
+set mo long 1
+set dd long 6
+set h long 9
+set mi long 29
+set s long 14
+set ms long 999
+set yn long 2073
+set d date 03/09/1899
+set dn date 07/26/1999
+set c string 02/26/2026 20:33:53
+set cn string 06/13/1973 17:42:43
+write
+append
+set id long 171
+set y long 1941
+set mo long 8
+set dd long 18
+set h long 6
+set mi long 37
+set s long 44
+set ms long 999
+set yn long 1941
+set d date 06/24/0100
+set dn date 01/28/2093
+set c string 02/21/1752
+set cn string 02/02/2000 01:53:40
+write
+append
+set id long 172
+set y long 2035
+set mo long 6
+set dd long 10
+set h long 22
+set mi long 43
+set s long 22
+set ms long 0
+set yn long 2035
+set d date 09/27/1752
+set dn date 12/16/2000
+set c string 12/24/2002
+set cn null
+write
+append
+set id long 173
+set y long 1752
+set mo long 8
+set dd long 26
+set h long 18
+set mi long 17
+set s long 34
+set ms long 999
+set yn long 1752
+set d date 01/10/1922
+set dn date 11/11/1958
+set c empty
+set cn string 08/23/1752
+write
+append
+set id long 174
+set y long 2030
+set mo long 3
+set dd long 21
+set h long 13
+set mi long 36
+set s long 13
+set ms long 0
+set yn long 2030
+set d date 12/18/0001
+set dn date 08/15/1932
+set c string 08/07/1909 15:25:34.499
+set cn string 05/12/2039 09:23:26
+write
+append
+set id long 175
+set y long 1932
+set mo long 6
+set dd long 28
+set h long 8
+set mi long 40
+set s long 59
+set ms long 0
+set yn long 1932
+set d date 06/10/0001
+set dn null
+set c string 11/30/1948 07:10:31
+set cn null
+write
+append
+set id long 176
+set y long 1
+set mo long 5
+set dd long 26
+set h long 10
+set mi long 23
+set s long 58
+set ms long 415
+set yn long 1
+set d empty
+set dn date 08/27/1982
+set c string 12/28/1946 16:19:47.000
+set cn string 07/03/2076
+write
+append
+set id long 177
+set y long 1899
+set mo long 3
+set dd long 14
+set h long 18
+set mi long 57
+set s long 53
+set ms long 500
+set yn long 1899
+set d date 09/15/2036
+set dn date 05/03/0001
+set c string 08/03/2045 15:22:10.851
+set cn null
+write
+append
+set id long 178
+set y long 1983
+set mo long 7
+set dd long 27
+set h long 9
+set mi long 9
+set s long 43
+set ms long 999
+set yn long 1983
+set d date 06/24/0100
+set dn empty
+set c string 08/01/1752
+set cn string 05/30/1899 14:40:50
+write
+append
+set id long 179
+set y long 1957
+set mo long 11
+set dd long 19
+set h long 22
+set mi long 44
+set s long 59
+set ms long 370
+set yn long 1957
+set d date 06/01/2020
+set dn date 08/15/9999
+set c string 02/10/1984
+set cn string 12/19/2000
+write
+append
+set id long 180
+set y long 1971
+set mo long 12
+set dd long 25
+set h long 0
+set mi long 3
+set s long 13
+set ms long 999
+set yn long 1971
+set d date 02/29/1752
+set dn date 06/11/2026
+set c string 04/22/2008 07:55:26.000
+set cn string 10/25/2046 23:59:59
+write
+append
+set id long 181
+set y long 1973
+set mo long 2
+set dd long 20
+set h long 22
+set mi long 23
+set s long 16
+set ms long 0
+set yn null
+set d date 01/06/1922
+set dn date 03/04/2007
+set c string 04/14/2000
+set cn null
+write
+append
+set id long 182
+set y long 1
+set mo long 6
+set dd long 6
+set h long 5
+set mi long 42
+set s long 30
+set ms long 0
+set yn long 1
+set d date 01/29/1943
+set dn date 07/04/1904
+set c string 07/03/2000 18:54:07
+set cn string 01/05/0001 22:38:18.000
+write
+append
+set id long 183
+set y long 1945
+set mo long 3
+set dd long 2
+set h long 15
+set mi long 10
+set s long 19
+set ms long 50
+set yn long 1945
+set d date 09/22/0100
+set dn empty
+set c string 09/05/1752
+set cn string 08/07/1936
+write
+append
+set id long 184
+set y long 1932
+set mo long 6
+set dd long 28
+set h long 8
+set mi long 40
+set s long 59
+set ms long 510
+set yn null
+set d date 06/20/2050
+set dn date 09/01/1959
+set c string 09/24/1928 23:59:59
+set cn null
+write
+append
+set id long 185
+set y long 1946
+set mo long 11
+set dd long 19
+set h long 8
+set mi long 13
+set s long 10
+set ms long 25
+set yn long 1946
+set d date 05/19/2097
+set dn date 06/10/0001
+set c string 07/29/1752 14:51:31.297
+set cn null
+write
+append
+set id long 186
+set y long 1899
+set mo long 7
+set dd long 23
+set h long 18
+set mi long 8
+set s long 21
+set ms long 999
+set yn null
+set d date 01/26/0001
+set dn date 01/13/2000
+set c string 08/09/2090 23:59:59.000
+set cn string 01/11/1752 11:07:15
+write
+append
+set id long 187
+set y long 2055
+set mo long 2
+set dd long 16
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set yn long 2055
+set d date 02/20/2038
+set dn null
+set c string 04/11/0100 07:23:11.999
+set cn null
+write
+append
+set id long 188
+set y long 100
+set mo long 5
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 100
+set d date 07/22/9999
+set dn date 07/16/2050
+set c string 10/12/0001 18:55:28.500
+set cn string 08/04/1752 04:40:57
+write
+append
+set id long 189
+set y long 1752
+set mo long 9
+set dd long 19
+set h long 20
+set mi long 27
+set s long 26
+set ms long 0
+set yn long 1752
+set d date 10/25/9999
+set dn date 03/07/2009
+set c empty
+set cn string 05/30/9999 05:29:02.500
+write
+append
+set id long 190
+set y long 2048
+set mo long 3
+set dd long 12
+set h long 10
+set mi long 4
+set s long 38
+set ms long 0
+set yn long 2048
+set d date 09/19/2068
+set dn date 01/13/1922
+set c string 04/09/1899
+set cn string 01/10/9999 12:57:26
+write
+append
+set id long 191
+set y long 2017
+set mo long 6
+set dd long 21
+set h long 0
+set mi long 0
+set s long 0
+set ms long 506
+set yn null
+set d date 02/04/2047
+set dn date 01/07/1959
+set c string 01/30/0001 12:27:00
+set cn string 10/03/2032 12:57:07
+write
+append
+set id long 192
+set y long 1987
+set mo long 11
+set dd long 6
+set h long 9
+set mi long 53
+set s long 42
+set ms long 999
+set yn long 1987
+set d date 01/26/2031
+set dn date 02/06/0100
+set c string 06/02/9999 18:23:16.000
+set cn string 02/01/2000 09:07:31
+write
+append
+set id long 193
+set y long 1752
+set mo long 10
+set dd long 28
+set h long 1
+set mi long 42
+set s long 18
+set ms long 999
+set yn long 1752
+set d date 04/30/1977
+set dn date 03/08/1959
+set c string 05/15/1971 04:39:21.500
+set cn string 03/08/0001 01:25:07.999
+write
+append
+set id long 194
+set y long 1752
+set mo long 3
+set dd long 15
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set yn long 1752
+set d date 05/26/0001
+set dn date 05/06/2049
+set c string 02/25/1899 16:44:53
+set cn string 11/30/2071 03:33:04
+write
+append
+set id long 195
+set y long 1752
+set mo long 9
+set dd long 17
+set h long 5
+set mi long 16
+set s long 47
+set ms long 499
+set yn long 1752
+set d date 11/21/2047
+set dn date 02/05/0100
+set c string 06/22/1974 01:57:29.054
+set cn string 02/12/2056
+write
+append
+set id long 196
+set y long 1960
+set mo long 4
+set dd long 18
+set h long 17
+set mi long 53
+set s long 19
+set ms long 532
+set yn long 1960
+set d date 03/17/2000
+set dn date 01/19/1940
+set c string 01/22/1951
+set cn string 12/06/0001 21:26:30
+write
+append
+set id long 197
+set y long 2090
+set mo long 1
+set dd long 29
+set h long 10
+set mi long 48
+set s long 32
+set ms long 0
+set yn long 2090
+set d date 09/11/1913
+set dn date 11/10/2099
+set c string 04/06/1752 12:29:02.000
+set cn null
+write
+append
+set id long 198
+set y long 2005
+set mo long 9
+set dd long 18
+set h long 0
+set mi long 7
+set s long 31
+set ms long 15
+set yn long 2005
+set d empty
+set dn date 11/30/1970
+set c string 09/24/1995
+set cn empty
+write
+append
+set id long 199
+set y long 1977
+set mo long 5
+set dd long 2
+set h long 14
+set mi long 23
+set s long 12
+set ms long 44
+set yn long 1977
+set d date 04/19/1899
+set dn empty
+set c string 03/14/1899 18:57:53.366
+set cn string 03/05/9999 00:39:43.500
+write
+append
+set id long 200
+set y long 100
+set mo long 9
+set dd long 19
+set h long 14
+set mi long 30
+set s long 42
+set ms long 0
+set yn long 100
+set d date 12/20/1924
+set dn empty
+set c string 01/22/9999
+set cn string 07/06/1936 23:59:59.500
+write
+append
+set id long 201
+set y long 2003
+set mo long 10
+set dd long 11
+set h long 1
+set mi long 49
+set s long 52
+set ms long 811
+set yn long 2003
+set d date 09/19/1752
+set dn null
+set c string 12/11/1948 14:32:13.500
+set cn string 12/02/1958
+write
+append
+set id long 202
+set y long 2000
+set mo long 1
+set dd long 19
+set h long 16
+set mi long 44
+set s long 12
+set ms long 0
+set yn long 2000
+set d date 08/24/2093
+set dn date 02/17/1948
+set c string 10/13/2002 09:07:43.000
+set cn null
+write
+append
+set id long 203
+set y long 2027
+set mo long 7
+set dd long 24
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn long 2027
+set d date 12/17/2036
+set dn null
+set c string 05/27/1752
+set cn null
+write
+append
+set id long 204
+set y long 1983
+set mo long 8
+set dd long 29
+set h long 5
+set mi long 29
+set s long 34
+set ms long 500
+set yn null
+set d date 08/23/1752
+set dn empty
+set c string 12/21/2026 03:39:55.999
+set cn string 12/14/1963 00:00:00
+write
+append
+set id long 205
+set y long 2082
+set mo long 6
+set dd long 6
+set h long 15
+set mi long 59
+set s long 34
+set ms long 499
+set yn null
+set d date 11/06/1961
+set dn date 02/04/9999
+set c string 02/28/1752 06:47:59
+set cn string 04/29/1752
+write
+append
+set id long 206
+set y long 2045
+set mo long 12
+set dd long 23
+set h long 4
+set mi long 17
+set s long 14
+set ms long 0
+set yn null
+set d date 05/23/1899
+set dn date 05/21/1906
+set c string 02/28/2096 11:34:37
+set cn string 01/16/1948
+write
+append
+set id long 207
+set y long 1912
+set mo long 2
+set dd long 21
+set h long 17
+set mi long 18
+set s long 8
+set ms long 0
+set yn long 1912
+set d date 06/26/2035
+set dn empty
+set c string 08/31/2070 09:28:19
+set cn string 02/04/1968 10:30:53.999
+write
+append
+set id long 208
+set y long 2083
+set mo long 3
+set dd long 9
+set h long 1
+set mi long 53
+set s long 17
+set ms long 999
+set yn null
+set d date 01/20/0001
+set dn date 03/01/2000
+set c string 11/24/2089
+set cn string 08/14/0100
+write
+append
+set id long 209
+set y long 1909
+set mo long 12
+set dd long 9
+set h long 19
+set mi long 12
+set s long 34
+set ms long 0
+set yn long 1909
+set d date 04/02/1752
+set dn date 07/19/2074
+set c empty
+set cn string 03/09/1993
+write
+append
+set id long 210
+set y long 2014
+set mo long 6
+set dd long 9
+set h long 11
+set mi long 4
+set s long 4
+set ms long 499
+set yn long 2014
+set d empty
+set dn empty
+set c string 10/15/2000 19:46:04
+set cn string 08/12/0100 23:15:28
+write
+append
+set id long 211
+set y long 100
+set mo long 3
+set dd long 10
+set h long 0
+set mi long 28
+set s long 18
+set ms long 32
+set yn null
+set d date 02/12/1927
+set dn empty
+set c string 07/14/1924 11:26:52
+set cn empty
+write
+append
+set id long 212
+set y long 2001
+set mo long 5
+set dd long 17
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn null
+set d date 07/08/2035
+set dn date 12/25/1971
+set c string 09/17/0001 18:37:28.729
+set cn string 12/05/2047
+write
+append
+set id long 213
+set y long 2000
+set mo long 6
+set dd long 13
+set h long 2
+set mi long 8
+set s long 9
+set ms long 0
+set yn long 2000
+set d date 05/08/2000
+set dn date 02/10/1974
+set c string 02/20/1973 22:23:16.587
+set cn string 06/20/0100 10:03:38.000
+write
+append
+set id long 214
+set y long 2036
+set mo long 1
+set dd long 11
+set h long 3
+set mi long 18
+set s long 3
+set ms long 293
+set yn long 2036
+set d date 11/24/1950
+set dn date 06/30/1899
+set c empty
+set cn string 12/15/1959 21:27:21
+write
+append
+set id long 215
+set y long 2095
+set mo long 11
+set dd long 10
+set h long 2
+set mi long 17
+set s long 0
+set ms long 0
+set yn long 2095
+set d date 07/06/1985
+set dn date 10/04/0001
+set c empty
+set cn null
+write
+append
+set id long 216
+set y long 2088
+set mo long 4
+set dd long 6
+set h long 14
+set mi long 54
+set s long 44
+set ms long 499
+set yn long 2088
+set d date 05/18/1899
+set dn null
+set c string 07/10/1899
+set cn string 10/12/1974 04:47:03.499
+write
+append
+set id long 217
+set y long 2089
+set mo long 3
+set dd long 23
+set h long 12
+set mi long 29
+set s long 41
+set ms long 859
+set yn long 2089
+set d date 06/09/2014
+set dn date 05/24/0001
+set c string 11/01/2018 20:24:53.658
+set cn string 04/17/2069
+write
+append
+set id long 218
+set y long 9999
+set mo long 9
+set dd long 21
+set h long 18
+set mi long 13
+set s long 36
+set ms long 499
+set yn long 9999
+set d date 08/14/0100
+set dn null
+set c string 05/07/0001
+set cn string 03/15/0100
+write
+append
+set id long 219
+set y long 1899
+set mo long 1
+set dd long 25
+set h long 3
+set mi long 43
+set s long 48
+set ms long 999
+set yn null
+set d date 06/14/2062
+set dn date 11/18/2023
+set c string 10/14/1752 06:45:49.611
+set cn string 04/06/1899 12:52:52.499
+write
+append
+set id long 220
+set y long 1979
+set mo long 9
+set dd long 2
+set h long 8
+set mi long 19
+set s long 44
+set ms long 500
+set yn long 1979
+set d date 03/22/0100
+set dn date 03/13/2052
+set c string 02/23/2019
+set cn string 01/12/0100 01:17:39.499
+write
+append
+set id long 221
+set y long 1998
+set mo long 9
+set dd long 25
+set h long 1
+set mi long 41
+set s long 9
+set ms long 499
+set yn null
+set d date 11/10/0001
+set dn date 05/10/1899
+set c string 09/15/2036
+set cn string 02/27/2027 02:59:49.499
+write
+append
+set id long 222
+set y long 100
+set mo long 12
+set dd long 8
+set h long 8
+set mi long 46
+set s long 9
+set ms long 999
+set yn long 100
+set d date 03/13/2000
+set dn date 01/05/1752
+set c string 06/25/2000 02:39:36.000
+set cn string 09/17/0100 00:00:00.000
+write
+append
+set id long 223
+set y long 1752
+set mo long 8
+set dd long 28
+set h long 19
+set mi long 56
+set s long 52
+set ms long 0
+set yn null
+set d date 03/27/2089
+set dn date 02/17/1974
+set c string 08/25/1903 11:17:10
+set cn string 04/18/1960 17:53:19.211
+write
+append
+set id long 224
+set y long 9999
+set mo long 4
+set dd long 7
+set h long 23
+set mi long 39
+set s long 28
+set ms long 499
+set yn long 9999
+set d date 03/13/2057
+set dn date 06/26/1981
+set c string 04/22/1752
+set cn string 08/28/2000
+write
+append
+set id long 225
+set y long 2013
+set mo long 11
+set dd long 24
+set h long 15
+set mi long 34
+set s long 34
+set ms long 500
+set yn long 2013
+set d date 10/13/0001
+set dn date 02/23/1752
+set c empty
+set cn string 04/22/2041 04:37:48.794
+write
+append
+set id long 226
+set y long 1899
+set mo long 7
+set dd long 3
+set h long 2
+set mi long 21
+set s long 16
+set ms long 789
+set yn long 1899
+set d empty
+set dn date 12/07/2059
+set c string 07/06/2030 04:04:24.499
+set cn string 09/28/0100 23:59:59.000
+write
+append
+set id long 227
+set y long 1914
+set mo long 7
+set dd long 26
+set h long 10
+set mi long 13
+set s long 56
+set ms long 500
+set yn long 1914
+set d date 05/14/2020
+set dn date 09/07/1963
+set c string 11/07/2089
+set cn string 05/10/0100 23:59:59
+write
+append
+set id long 228
+set y long 9999
+set mo long 7
+set dd long 23
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 9999
+set d date 08/26/1949
+set dn date 12/03/2000
+set c empty
+set cn string 03/20/1752 09:27:53.500
+write
+append
+set id long 229
+set y long 2063
+set mo long 1
+set dd long 27
+set h long 16
+set mi long 51
+set s long 13
+set ms long 900
+set yn long 2063
+set d date 11/20/9999
+set dn date 04/13/1961
+set c string 12/06/1919
+set cn empty
+write
+append
+set id long 230
+set y long 2089
+set mo long 3
+set dd long 27
+set h long 19
+set mi long 3
+set s long 28
+set ms long 499
+set yn long 2089
+set d date 12/05/2047
+set dn date 11/30/2071
+set c string 07/14/1901
+set cn null
+write
+append
+set id long 231
+set y long 1
+set mo long 12
+set dd long 14
+set h long 16
+set mi long 24
+set s long 41
+set ms long 500
+set yn long 1
+set d empty
+set dn date 05/28/1982
+set c string 05/03/1963 06:25:36
+set cn string 01/25/1899 23:59:59.500
+write
+append
+set id long 232
+set y long 1924
+set mo long 1
+set dd long 7
+set h long 13
+set mi long 50
+set s long 43
+set ms long 0
+set yn null
+set d date 10/30/1752
+set dn date 11/11/2002
+set c string 06/27/2067 03:11:16.500
+set cn string 07/16/1957 13:12:14.999
+write
+append
+set id long 233
+set y long 100
+set mo long 6
+set dd long 13
+set h long 19
+set mi long 11
+set s long 50
+set ms long 500
+set yn long 100
+set d date 05/30/0001
+set dn date 03/05/2032
+set c string 07/28/2060 17:51:49
+set cn string 01/29/1752 06:12:44.000
+write
+append
+set id long 234
+set y long 1
+set mo long 11
+set dd long 29
+set h long 7
+set mi long 29
+set s long 47
+set ms long 499
+set yn long 1
+set d date 06/17/1954
+set dn date 03/12/2002
+set c string 02/23/1965
+set cn null
+write
+append
+set id long 235
+set y long 1945
+set mo long 6
+set dd long 30
+set h long 14
+set mi long 21
+set s long 28
+set ms long 500
+set yn long 1945
+set d empty
+set dn null
+set c string 11/10/1752 09:29:35
+set cn string 06/02/9999 18:23:16.116
+write
+append
+set id long 236
+set y long 1995
+set mo long 10
+set dd long 10
+set h long 9
+set mi long 53
+set s long 17
+set ms long 399
+set yn long 1995
+set d empty
+set dn null
+set c string 04/27/0001 08:26:46.000
+set cn string 03/07/1973 00:00:00.000
+write
+append
+set id long 237
+set y long 1899
+set mo long 3
+set dd long 21
+set h long 1
+set mi long 32
+set s long 0
+set ms long 214
+set yn long 1899
+set d date 07/15/2038
+set dn date 06/09/2073
+set c string 06/09/2014
+set cn string 02/03/1752
+write
+append
+set id long 238
+set y long 1752
+set mo long 10
+set dd long 5
+set h long 14
+set mi long 49
+set s long 39
+set ms long 179
+set yn long 1752
+set d date 04/03/2012
+set dn date 05/20/0001
+set c string 05/27/1935 23:49:11
+set cn string 09/25/1752 03:45:38.499
+write
+append
+set id long 239
+set y long 2034
+set mo long 10
+set dd long 28
+set h long 17
+set mi long 5
+set s long 38
+set ms long 999
+set yn long 2034
+set d date 05/26/1948
+set dn date 08/27/1899
+set c string 06/20/1992 06:35:41.499
+set cn string 03/15/2004
+write
+append
+set id long 240
+set y long 1
+set mo long 11
+set dd long 12
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn null
+set d date 06/30/1910
+set dn date 10/28/1752
+set c string 01/28/9999 13:27:00.500
+set cn string 06/07/1986 17:02:37.108
+write
+append
+set id long 241
+set y long 2042
+set mo long 12
+set dd long 16
+set h long 16
+set mi long 13
+set s long 38
+set ms long 999
+set yn long 2042
+set d date 11/27/1982
+set dn date 08/02/0001
+set c string 04/11/0100 07:23:11
+set cn string 02/18/2000
+write
+append
+set id long 242
+set y long 1899
+set mo long 10
+set dd long 12
+set h long 16
+set mi long 29
+set s long 39
+set ms long 318
+set yn long 1899
+set d date 10/14/1752
+set dn date 05/24/1899
+set c string 09/08/0100 23:59:59.000
+set cn string 04/21/2005 11:33:51
+write
+append
+set id long 243
+set y long 1948
+set mo long 8
+set dd long 7
+set h long 15
+set mi long 27
+set s long 40
+set ms long 8
+set yn long 1948
+set d date 10/21/2013
+set dn date 11/27/0100
+set c string 02/28/2068 22:24:31
+set cn string 12/17/1968 12:14:24.499
+write
+append
+set id long 244
+set y long 2000
+set mo long 1
+set dd long 20
+set h long 20
+set mi long 9
+set s long 48
+set ms long 929
+set yn null
+set d date 03/22/0100
+set dn date 05/01/1938
+set c string 11/09/1953 14:32:07.499
+set cn string 05/03/0100 20:19:35.000
+write
+append
+set id long 245
+set y long 9999
+set mo long 8
+set dd long 15
+set h long 8
+set mi long 49
+set s long 20
+set ms long 999
+set yn long 9999
+set d date 07/29/1941
+set dn date 05/03/1957
+set c string 07/27/2072 14:33:48.500
+set cn string 05/06/0100
+write
+append
+set id long 246
+set y long 2005
+set mo long 8
+set dd long 9
+set h long 7
+set mi long 18
+set s long 19
+set ms long 999
+set yn long 2005
+set d date 03/19/1931
+set dn date 10/14/0001
+set c string 06/21/2017 00:00:00
+set cn string 03/26/1991 23:59:59
+write
+append
+set id long 247
+set y long 1
+set mo long 8
+set dd long 5
+set h long 16
+set mi long 8
+set s long 4
+set ms long 499
+set yn long 1
+set d date 10/27/2068
+set dn empty
+set c string 10/07/1996 11:57:48.999
+set cn string 03/27/2089 19:03:28
+write
+append
+set id long 248
+set y long 1950
+set mo long 3
+set dd long 25
+set h long 16
+set mi long 24
+set s long 15
+set ms long 999
+set yn null
+set d date 04/30/1977
+set dn null
+set c string 03/01/9999 11:27:38.292
+set cn string 09/08/2005 23:59:59.000
+write
+append
+set id long 249
+set y long 1944
+set mo long 5
+set dd long 3
+set h long 22
+set mi long 59
+set s long 18
+set ms long 499
+set yn long 1944
+set d date 08/30/9999
+set dn empty
+set c string 07/06/1985 10:02:33.342
+set cn empty
+write
+append
+set id long 250
+set y long 2000
+set mo long 9
+set dd long 17
+set h long 8
+set mi long 53
+set s long 6
+set ms long 999
+set yn null
+set d date 08/28/0001
+set dn date 09/08/1999
+set c string 12/30/1998 13:23:23.500
+set cn string 02/25/1899 07:41:52
+write
+append
+set id long 251
+set y long 1965
+set mo long 3
+set dd long 25
+set h long 21
+set mi long 8
+set s long 26
+set ms long 500
+set yn long 1965
+set d date 08/08/9999
+set dn null
+set c string 10/30/2079 02:05:02
+set cn string 12/13/1903 00:00:00.000
+write
+append
+set id long 252
+set y long 1
+set mo long 12
+set dd long 10
+set h long 10
+set mi long 36
+set s long 20
+set ms long 499
+set yn long 1
+set d date 09/14/0100
+set dn date 09/27/2016
+set c string 12/07/0100
+set cn string 06/07/1951 09:48:12.674
+write
+append
+set id long 253
+set y long 1915
+set mo long 5
+set dd long 28
+set h long 19
+set mi long 10
+set s long 42
+set ms long 500
+set yn long 1915
+set d date 06/05/9999
+set dn date 07/28/1752
+set c string 11/21/1752 06:46:30.093
+set cn string 02/17/2062 04:21:20.000
+write
+append
+set id long 254
+set y long 9999
+set mo long 2
+set dd long 24
+set h long 17
+set mi long 11
+set s long 18
+set ms long 999
+set yn long 9999
+set d date 09/12/1918
+set dn date 12/31/2053
+set c string 03/25/0001
+set cn null
+write
+append
+set id long 255
+set y long 1983
+set mo long 9
+set dd long 21
+set h long 9
+set mi long 15
+set s long 37
+set ms long 500
+set yn long 1983
+set d date 11/23/0001
+set dn date 06/13/0100
+set c string 11/26/1989 23:59:59.500
+set cn string 01/26/1752
+write
+append
+set id long 256
+set y long 2000
+set mo long 9
+set dd long 26
+set h long 6
+set mi long 53
+set s long 39
+set ms long 0
+set yn long 2000
+set d date 06/06/2082
+set dn date 03/21/1899
+set c string 09/08/1933 03:43:54
+set cn string 05/15/1971 04:39:21.500
+write
+append
+set id long 257
+set y long 1899
+set mo long 4
+set dd long 6
+set h long 6
+set mi long 19
+set s long 6
+set ms long 0
+set yn long 1899
+set d date 05/23/0001
+set dn date 07/18/1971
+set c string 10/30/1967 08:17:55.999
+set cn string 11/05/2000 14:16:09.500
+write
+append
+set id long 258
+set y long 1918
+set mo long 6
+set dd long 26
+set h long 16
+set mi long 22
+set s long 5
+set ms long 499
+set yn long 1918
+set d date 06/29/1752
+set dn date 02/06/0100
+set c string 07/12/2000 01:51:50
+set cn empty
+write
+append
+set id long 259
+set y long 2023
+set mo long 9
+set dd long 7
+set h long 0
+set mi long 0
+set s long 0
+set ms long 291
+set yn long 2023
+set d date 02/07/0100
+set dn date 08/28/1949
+set c string 01/21/1752 22:20:14.000
+set cn string 09/19/0100 14:30:42
+write
+append
+set id long 260
+set y long 1965
+set mo long 4
+set dd long 27
+set h long 6
+set mi long 41
+set s long 32
+set ms long 499
+set yn long 1965
+set d date 11/12/2010
+set dn date 09/13/2000
+set c string 07/31/2083 11:46:23
+set cn string 02/17/1752 21:15:55.499
+write
+goto 105
+set y long 2027
+set mo long 8
+set dd long 9
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set dn null
+set cn string 12/02/1752 21:46:30
+write
+goto 124
+set c string 03/26/0001
+write
+goto 39
+set cn string 12/13/1943 21:37:20.329
+write
+goto 9
+set yn long 1993
+set c string 04/02/0100 23:59:59.000
+write
+goto 38
+set y long 1947
+set mo long 12
+set dd long 26
+set h long 7
+set mi long 31
+set s long 19
+set ms long 874
+set yn null
+set d date 11/06/1899
+set cn string 08/18/1941 06:37:44
+write
+goto 183
+set y long 1
+set mo long 8
+set dd long 5
+set h long 16
+set mi long 8
+set s long 4
+set ms long 499
+set d date 09/02/1979
+set dn date 08/15/9999
+set cn string 12/18/0001
+write
+goto 138
+set y long 1982
+set mo long 8
+set dd long 27
+set h long 23
+set mi long 59
+set s long 59
+set ms long 170
+set yn null
+set c string 09/09/0001 23:59:59
+set cn string 04/11/0100 07:23:11
+write
+goto 116
+set y long 100
+set mo long 9
+set dd long 28
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d date 08/08/2098
+set c string 02/26/1979 23:59:59.500
+set cn null
+write
+goto 183
+set d date 01/23/1986
+set dn date 04/13/1752
+set c string 07/11/2064
+set cn string 06/07/1752 03:51:42
+write
+goto 5
+delete
+goto 204
+set y long 2014
+set mo long 2
+set dd long 1
+set h long 11
+set mi long 34
+set s long 4
+set ms long 0
+set d date 07/26/9999
+set cn null
+write
+goto 68
+set y long 2063
+set mo long 11
+set dd long 10
+set h long 11
+set mi long 32
+set s long 14
+set ms long 0
+set yn long 2063
+set d date 01/10/0001
+set c string 04/10/1929
+write
+goto 255
+set y long 2013
+set mo long 7
+set dd long 30
+set h long 14
+set mi long 10
+set s long 38
+set ms long 674
+set yn long 2013
+set c string 09/27/1965 01:33:40
+write
+goto 66
+set y long 1899
+set mo long 12
+set dd long 25
+set h long 15
+set mi long 41
+set s long 42
+set ms long 500
+set dn date 06/11/1899
+write
+goto 65
+write
+goto 246
+set y long 1899
+set mo long 7
+set dd long 26
+set h long 4
+set mi long 17
+set s long 41
+set ms long 500
+write
+goto 50
+set y long 2000
+set mo long 8
+set dd long 31
+set h long 0
+set mi long 35
+set s long 14
+set ms long 499
+set yn long 2000
+set d date 09/22/1982
+set c string 04/18/2000 22:11:11
+set cn string 09/27/1752
+write
+goto 47
+set y long 100
+set mo long 2
+set dd long 14
+set h long 13
+set mi long 41
+set s long 59
+set ms long 500
+write
+goto 203
+set y long 9999
+set mo long 10
+set dd long 10
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set cn string 08/29/2058 14:12:51
+write
+goto 107
+set d date 05/15/0100
+set cn string 06/06/2000
+write
+goto 144
+set d empty
+set dn null
+set c empty
+set cn string 11/15/1899 09:17:35
+write
+append
+set id long 261
+set y long 2012
+set mo long 6
+set dd long 16
+set h long 21
+set mi long 14
+set s long 18
+set ms long 999
+set yn null
+set d empty
+set dn date 04/23/2063
+set c empty
+set cn string 02/27/1899 14:13:58.999
+write
+goto 127
+set y long 2000
+set mo long 9
+set dd long 27
+set h long 16
+set mi long 34
+set s long 47
+set ms long 0
+set yn long 2000
+set d date 06/23/1907
+write
+goto 184
+set yn long 1993
+set d date 08/10/2093
+set c string 12/02/1998 15:58:15
+set cn string 09/14/1943 23:59:59.999
+write
+goto 232
+set d date 03/15/2000
+set c string 10/21/2046
+write
+goto 101
+delete
+goto 55
+set cn string 05/17/1899
+write
+goto 34
+set yn long 100
+set c string 11/20/0100 18:53:30.999
+write
+append
+set id long 262
+set y long 2000
+set mo long 9
+set dd long 13
+set h long 16
+set mi long 23
+set s long 56
+set ms long 499
+set yn long 2000
+set d date 06/07/2093
+set dn date 09/23/9999
+set c string 02/06/0100 16:06:01.999
+set cn string 11/09/1899 21:41:22.499
+write
+goto 7
+set y long 1
+set mo long 4
+set dd long 4
+set h long 4
+set mi long 5
+set s long 40
+set ms long 999
+set d date 09/23/1899
+set dn date 03/22/1899
+set c string 10/24/2025
+write
+goto 226
+delete
+goto 154
+set d date 03/08/2069
+set dn date 06/18/0100
+set cn empty
+write
+append
+set id long 263
+set y long 1
+set mo long 11
+set dd long 28
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn null
+set d date 04/02/1963
+set dn date 05/29/1950
+set c string 09/27/1965
+set cn string 04/14/2054 03:54:18.500
+write
+goto 21
+set y long 100
+set mo long 4
+set dd long 19
+set h long 14
+set mi long 32
+set s long 47
+set ms long 0
+set dn date 06/30/0100
+set c string 03/12/2002 00:00:00.036
+set cn string 09/23/2075 00:00:00.000
+write
+goto 221
+set cn string 11/02/0100 00:00:00
+write
+goto 124
+delete
+append
+set id long 264
+set y long 1965
+set mo long 2
+set dd long 23
+set h long 10
+set mi long 52
+set s long 55
+set ms long 500
+set yn null
+set d date 02/05/1899
+set dn date 12/06/1899
+set c string 12/16/1899 23:59:59
+set cn string 11/30/2026
+write
+append
+set id long 265
+set y long 1899
+set mo long 10
+set dd long 14
+set h long 23
+set mi long 59
+set s long 18
+set ms long 0
+set yn long 1899
+set d date 09/18/0001
+set dn date 02/24/2040
+set c string 07/07/2099
+set cn string 02/25/1899 07:41:52
+write
+goto 1
+set y long 1752
+set mo long 11
+set dd long 26
+set h long 2
+set mi long 32
+set s long 3
+set ms long 0
+set dn empty
+set c string 03/11/0001 21:21:35
+set cn string 05/27/2021 01:03:17.499
+write
+goto 38
+delete
+goto 233
+set d date 01/21/1899
+set c string 12/12/0100
+write
+goto 219
+delete
+goto 44
+set y long 1752
+set mo long 5
+set dd long 4
+set h long 1
+set mi long 12
+set s long 33
+set ms long 134
+write
+goto 254
+set y long 1
+set mo long 4
+set dd long 11
+set h long 13
+set mi long 48
+set s long 13
+set ms long 999
+set yn long 1
+set dn null
+write
+goto 5
+recall
+goto 215
+set y long 2023
+set mo long 3
+set dd long 10
+set h long 23
+set mi long 10
+set s long 38
+set ms long 999
+set d date 02/06/0100
+set dn empty
+write
+goto 188
+set y long 1993
+set mo long 3
+set dd long 9
+set h long 17
+set mi long 26
+set s long 25
+set ms long 797
+set d date 02/22/1752
+set dn date 11/06/2079
+set c string 11/19/1935
+write
+goto 199
+set d date 08/13/2042
+set cn string 09/05/1752 21:52:54.000
+write
+goto 178
+set y long 9999
+set mo long 2
+set dd long 12
+set h long 8
+set mi long 3
+set s long 10
+set ms long 500
+set d date 08/28/2080
+set dn date 09/12/1950
+set c string 05/11/1975 20:19:40.499
+set cn string 12/18/9999 23:59:59.658
+write
+goto 230
+set y long 2000
+set mo long 6
+set dd long 16
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d date 06/11/2088
+set dn date 12/04/1943
+set cn string 05/13/9999 01:59:42
+write
+goto 205
+write
+goto 120
+set y long 100
+set mo long 7
+set dd long 14
+set h long 13
+set mi long 18
+set s long 39
+set ms long 999
+set yn null
+set d date 03/13/2000
+set cn string 05/14/1972
+write
+goto 3
+set y long 1976
+set mo long 5
+set dd long 16
+set h long 11
+set mi long 46
+set s long 38
+set ms long 500
+set d empty
+set cn string 02/21/1912 17:18:08
+write
+goto 82
+set y long 1752
+set mo long 4
+set dd long 6
+set h long 12
+set mi long 29
+set s long 2
+set ms long 0
+set dn date 08/19/1939
+write
+append
+set id long 266
+set y long 2004
+set mo long 2
+set dd long 21
+set h long 13
+set mi long 56
+set s long 59
+set ms long 696
+set yn long 2004
+set d date 11/07/2083
+set dn null
+set c string 09/02/0001 10:56:43.499
+set cn null
+write
+goto 161
+set yn long 1907
+set dn date 03/20/0100
+write
+goto 80
+set y long 1
+set mo long 2
+set dd long 4
+set h long 11
+set mi long 52
+set s long 41
+set ms long 0
+set yn long 1
+set d date 09/23/1752
+set cn null
+write
+goto 188
+set y long 1980
+set mo long 12
+set dd long 4
+set h long 0
+set mi long 0
+set s long 46
+set ms long 499
+set yn long 1980
+set c string 09/20/2001
+set cn string 01/19/1940 00:00:00
+write
+goto 126
+set y long 2001
+set mo long 9
+set dd long 20
+set h long 11
+set mi long 26
+set s long 47
+set ms long 999
+set cn string 08/30/0100
+write
+append
+set id long 267
+set y long 2099
+set mo long 11
+set dd long 4
+set h long 18
+set mi long 2
+set s long 15
+set ms long 600
+set yn long 2099
+set d date 10/19/2074
+set dn date 09/17/1752
+set c string 02/23/1752
+set cn string 05/10/1899 16:33:00.500
+write
+append
+set id long 268
+set y long 2000
+set mo long 8
+set dd long 28
+set h long 12
+set mi long 2
+set s long 8
+set ms long 999
+set yn long 2000
+set d date 05/31/2074
+set dn empty
+set c string 04/21/2000 02:17:50.999
+set cn string 04/15/1899 08:09:47
+write
+goto 146
+delete
+goto 221
+set dn null
+set cn string 11/09/1899 21:41:22
+write
+goto 111
+set y long 2078
+set mo long 6
+set dd long 15
+set h long 6
+set mi long 4
+set s long 38
+set ms long 181
+write
+goto 243
+set y long 1752
+set mo long 3
+set dd long 14
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set yn null
+set dn date 10/13/2002
+set c string 05/01/0100
+write
+goto 224
+set yn long 1993
+set d date 09/24/1752
+set cn string 12/14/1960 00:00:00.000
+write
+goto 149
+delete
+goto 175
+set yn long 2000
+set dn date 11/28/2009
+set cn string 07/10/2086
+write
+goto 244
+delete
+append
+set id long 269
+set y long 9999
+set mo long 3
+set dd long 24
+set h long 5
+set mi long 5
+set s long 18
+set ms long 500
+set yn long 9999
+set d date 04/29/1752
+set dn empty
+set c string 06/15/1928 17:35:04.716
+set cn string 11/28/1752 00:51:49.000
+write
+goto 82
+set y long 100
+set mo long 9
+set dd long 28
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set yn long 100
+set c string 09/23/1971
+write
+goto 230
+set y long 2057
+set mo long 4
+set dd long 16
+set h long 13
+set mi long 6
+set s long 10
+set ms long 0
+set yn long 2057
+set d date 07/23/9999
+set dn date 11/21/1960
+write
+goto 21
+set y long 2060
+set mo long 9
+set dd long 4
+set h long 5
+set mi long 30
+set s long 1
+set ms long 0
+set d date 12/17/1948
+write
+goto 195
+set yn null
+set c string 06/26/1752
+write
+goto 227
+set y long 1906
+set mo long 7
+set dd long 24
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 07/23/2011
+set cn string 07/06/1899 00:33:13.000
+write
+append
+set id long 270
+set y long 2096
+set mo long 6
+set dd long 3
+set h long 15
+set mi long 2
+set s long 2
+set ms long 0
+set yn long 2096
+set d date 04/21/1752
+set dn date 05/23/0100
+set c string 09/08/2041 23:13:22.499
+set cn null
+write
+goto 233
+set y long 1899
+set mo long 4
+set dd long 23
+set h long 10
+set mi long 35
+set s long 5
+set ms long 574
+set c string 12/10/2037
+set cn string 09/13/9999
+write
+goto 237
+delete
+append
+set id long 271
+set y long 1941
+set mo long 3
+set dd long 22
+set h long 2
+set mi long 43
+set s long 4
+set ms long 499
+set yn long 1941
+set d date 06/22/0100
+set dn date 11/12/2000
+set c string 01/27/1899
+set cn null
+write
+append
+set id long 272
+set y long 1992
+set mo long 11
+set dd long 25
+set h long 8
+set mi long 59
+set s long 50
+set ms long 310
+set yn long 1992
+set d date 06/26/1918
+set dn date 06/14/2053
+set c string 01/25/2057 02:23:04
+set cn string 05/27/2033
+write
+goto 239
+set y long 1901
+set mo long 6
+set dd long 8
+set h long 17
+set mi long 45
+set s long 25
+set ms long 499
+set d date 08/05/2000
+set dn date 04/18/0100
+set c string 07/28/1950 08:32:35.499
+write
+append
+set id long 273
+set y long 1903
+set mo long 10
+set dd long 13
+set h long 23
+set mi long 30
+set s long 35
+set ms long 499
+set yn long 1903
+set d date 09/25/2009
+set dn null
+set c string 12/19/1948
+set cn string 02/09/1913 19:33:22.499
+write
+goto 222
+set cn string 07/28/0100 23:59:59.500
+write
+goto 30
+set yn long 100
+set dn null
+set c string 10/15/1935 05:00:38.633
+write
+goto 248
+set d date 08/19/2009
+set dn date 06/14/2053
+set cn string 11/10/2048 13:56:38.000
+write
+goto 260
+set y long 1980
+set mo long 12
+set dd long 4
+set h long 0
+set mi long 0
+set s long 46
+set ms long 123
+set yn long 1980
+write
+goto 53
+set y long 2059
+set mo long 4
+set dd long 21
+set h long 8
+set mi long 25
+set s long 47
+set ms long 540
+set c string 05/05/2070 23:48:08
+write
+goto 269
+set dn date 08/13/2042
+set cn string 07/16/1957 13:12:14
+write
+goto 219
+recall
+goto 244
+set yn long 1990
+set cn null
+write
+goto 102
+delete
+goto 79
+set y long 1
+set mo long 10
+set dd long 12
+set h long 18
+set mi long 55
+set s long 28
+set ms long 500
+set yn long 1
+set cn null
+write
+goto 156
+set y long 2053
+set mo long 12
+set dd long 31
+set h long 7
+set mi long 46
+set s long 43
+set ms long 24
+set yn long 2053
+set d date 12/14/9999
+set cn string 11/30/1970 04:55:54
+write
+goto 148
+set y long 2000
+set mo long 2
+set dd long 15
+set h long 2
+set mi long 41
+set s long 4
+set ms long 999
+set c string 12/05/1901 08:16:02
+set cn string 10/20/1925
+write
+goto 144
+set d date 10/21/1906
+set dn date 07/08/1996
+set c string 04/09/2044
+write
+goto 98
+set y long 2089
+set mo long 2
+set dd long 16
+set h long 22
+set mi long 26
+set s long 22
+set ms long 500
+set dn date 01/15/9999
+set c string 05/23/1752 17:28:58
+set cn string 04/10/0100
+write
+append
+set id long 274
+set y long 100
+set mo long 2
+set dd long 10
+set h long 1
+set mi long 32
+set s long 1
+set ms long 999
+set yn long 100
+set d date 07/02/2007
+set dn date 06/16/2075
+set c string 06/05/9999 22:04:47.999
+set cn string 12/25/2000 11:06:38.291
+write
+goto 256
+set y long 1
+set mo long 12
+set dd long 3
+set h long 0
+set mi long 31
+set s long 17
+set ms long 500
+set yn long 1
+set c string 05/13/0001 11:33:13.499
+write
+append
+set id long 275
+set y long 100
+set mo long 10
+set dd long 28
+set h long 23
+set mi long 31
+set s long 59
+set ms long 0
+set yn long 100
+set d date 12/09/0001
+set dn date 06/09/2070
+set c string 08/27/1899 13:08:30
+set cn null
+write
+goto 150
+delete
+goto 189
+set y long 100
+set mo long 4
+set dd long 27
+set h long 21
+set mi long 30
+set s long 20
+set ms long 500
+set yn long 100
+set d date 05/13/1907
+set dn null
+write
+goto 131
+set y long 2000
+set mo long 7
+set dd long 29
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set d date 06/30/1910
+write
+goto 102
+set y long 1926
+set mo long 1
+set dd long 10
+set h long 19
+set mi long 2
+set s long 1
+set ms long 499
+set yn null
+set dn date 09/07/2079
+write
+goto 213
+delete
+goto 50
+set y long 1949
+set mo long 11
+set dd long 4
+set h long 0
+set mi long 2
+set s long 55
+set ms long 87
+set cn string 10/04/1982
+write
+goto 249
+set y long 1935
+set mo long 6
+set dd long 24
+set h long 3
+set mi long 59
+set s long 52
+set ms long 500
+set dn empty
+set c string 02/16/2055 23:59:59.000
+write
+goto 145
+set y long 2028
+set mo long 4
+set dd long 26
+set h long 16
+set mi long 57
+set s long 1
+set ms long 500
+set yn long 2028
+set d date 02/01/9999
+set cn string 05/28/1752 23:59:59
+write
+goto 209
+set y long 9999
+set mo long 3
+set dd long 30
+set h long 16
+set mi long 10
+set s long 7
+set ms long 723
+set c string 01/27/1936
+set cn string 08/01/2063 08:50:24.378
+write
+append
+set id long 276
+set y long 9999
+set mo long 2
+set dd long 24
+set h long 6
+set mi long 2
+set s long 19
+set ms long 999
+set yn long 9999
+set d date 01/07/1924
+set dn date 04/29/2064
+set c empty
+set cn string 06/24/2037
+write
+goto 26
+set y long 9999
+set mo long 1
+set dd long 24
+set h long 8
+set mi long 28
+set s long 26
+set ms long 0
+set d date 06/22/1999
+set dn empty
+set c string 09/28/0100
+set cn string 11/21/1960
+write
+goto 33
+delete
+goto 2
+set cn string 08/31/2000
+write
+goto 198
+delete
+goto 151
+set y long 1
+set mo long 3
+set dd long 3
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 12/25/1937
+set cn string 02/13/2026
+write
+goto 159
+set y long 2048
+set mo long 5
+set dd long 11
+set h long 16
+set mi long 12
+set s long 6
+set ms long 500
+set yn long 2048
+set d date 08/24/1904
+set dn date 03/16/2030
+set c string 12/16/1971 05:15:34.499
+set cn string 06/09/2073
+write
+append
+set id long 277
+set y long 1957
+set mo long 9
+set dd long 27
+set h long 21
+set mi long 48
+set s long 53
+set ms long 881
+set yn long 1957
+set d date 09/25/1752
+set dn date 04/05/2060
+set c string 12/14/0001 16:24:41
+set cn string 04/06/1899 06:19:06.890
+write
+goto 183
+set yn null
+set d date 11/24/1752
+write
+goto 181
+set y long 1899
+set mo long 10
+set dd long 17
+set h long 15
+set mi long 24
+set s long 36
+set ms long 500
+set d date 02/21/2004
+set dn date 01/22/9999
+write
+goto 154
+set d date 03/07/2009
+set dn empty
+set cn string 08/22/2064
+write
+goto 146
+recall
+goto 254
+set yn null
+set dn date 09/05/2064
+write
+goto 82
+set y long 1950
+set mo long 8
+set dd long 20
+set h long 17
+set mi long 4
+set s long 28
+set ms long 499
+set c string 01/12/1992 03:42:29
+write
+goto 239
+set y long 2054
+set mo long 9
+set dd long 11
+set h long 14
+set mi long 14
+set s long 45
+set ms long 500
+set d date 01/21/2075
+set c string 04/07/1944 17:13:42
+set cn string 09/29/1987
+write
+append
+set id long 278
+set y long 1752
+set mo long 10
+set dd long 14
+set h long 0
+set mi long 20
+set s long 53
+set ms long 968
+set yn long 1752
+set d date 06/21/2011
+set dn date 02/09/2087
+set c string 07/08/1916
+set cn string 10/23/0100
+write
+goto 126
+set y long 1900
+set mo long 10
+set dd long 10
+set h long 13
+set mi long 3
+set s long 37
+set ms long 385
+set d date 08/29/9999
+write
+goto 65
+delete
+goto 140
+set y long 1
+set mo long 5
+set dd long 1
+set h long 21
+set mi long 44
+set s long 4
+set ms long 500
+set d date 06/19/0100
+set c string 06/16/2012 21:14:18
+set cn string 12/05/2014
+write
+goto 91
+set c string 01/03/2082
+set cn string 06/29/2000 06:57:53
+write
+goto 160
+set y long 1752
+set mo long 11
+set dd long 7
+set h long 17
+set mi long 41
+set s long 14
+set ms long 312
+set yn long 1752
+set c string 07/22/1913
+write
+goto 38
+set y long 2082
+set mo long 7
+set dd long 29
+set h long 13
+set mi long 1
+set s long 51
+set ms long 941
+set dn date 05/02/1899
+write
+goto 250
+set y long 1929
+set mo long 8
+set dd long 20
+set h long 2
+set mi long 42
+set s long 45
+set ms long 0
+set d empty
+set dn date 04/18/1938
+set c string 09/19/2012 14:47:16
+set cn string 10/07/1981
+write
+goto 188
+set d date 10/21/1906
+set cn string 04/13/0001
+write
+goto 94
+set y long 2033
+set mo long 2
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set yn long 2033
+set d date 12/10/1899
+set dn date 02/22/0100
+set c string 10/08/1979 00:17:33
+set cn string 08/12/0100 23:15:28.849
+write
+goto 50
+set dn null
+write
+append
+set id long 279
+set y long 2000
+set mo long 4
+set dd long 17
+set h long 21
+set mi long 33
+set s long 18
+set ms long 579
+set yn long 2000
+set d empty
+set dn empty
+set c string 04/02/0100
+set cn null
+write
+goto 27
+set y long 1951
+set mo long 10
+set dd long 8
+set h long 21
+set mi long 44
+set s long 29
+set ms long 394
+set dn date 02/25/0100
+set c string 01/29/1900 06:31:06.847
+write
+append
+set id long 280
+set y long 1976
+set mo long 10
+set dd long 2
+set h long 2
+set mi long 12
+set s long 54
+set ms long 999
+set yn long 1976
+set d date 12/14/1947
+set dn date 04/12/2040
+set c string 07/11/0001 20:21:56
+set cn null
+write
+append
+set id long 281
+set y long 1950
+set mo long 11
+set dd long 16
+set h long 18
+set mi long 21
+set s long 25
+set ms long 41
+set yn long 1950
+set d empty
+set dn date 09/12/2000
+set c string 12/28/1944 14:00:54
+set cn string 02/17/1936 18:51:20
+write
+append
+set id long 282
+set y long 1752
+set mo long 12
+set dd long 16
+set h long 11
+set mi long 57
+set s long 45
+set ms long 500
+set yn long 1752
+set d date 11/09/1975
+set dn date 09/17/2026
+set c string 04/08/0001
+set cn string 05/23/1984 16:16:45.000
+write
+goto 22
+set y long 2000
+set mo long 7
+set dd long 2
+set h long 17
+set mi long 56
+set s long 34
+set ms long 0
+set d date 06/13/1973
+set dn date 11/01/2031
+set c string 06/07/0100
+set cn null
+write
+goto 144
+set d date 05/14/1919
+write
+goto 106
+set dn date 07/31/2083
+set c string 05/04/2022
+write
+goto 282
+set yn null
+set d date 11/28/2030
+write
+append
+set id long 283
+set y long 1947
+set mo long 1
+set dd long 13
+set h long 1
+set mi long 18
+set s long 4
+set ms long 499
+set yn long 1947
+set d date 02/26/1899
+set dn empty
+set c string 02/03/2000
+set cn string 08/11/2063
+write
+goto 147
+set y long 2023
+set mo long 2
+set dd long 26
+set h long 3
+set mi long 49
+set s long 56
+set ms long 500
+write
+goto 223
+set dn date 03/01/2022
+set c string 09/29/2066 15:17:49.499
+write
+goto 189
+set y long 1952
+set mo long 2
+set dd long 13
+set h long 16
+set mi long 32
+set s long 17
+set ms long 245
+set yn long 1952
+write
+goto 238
+set dn date 08/31/2000
+set c string 11/06/2098 11:02:27
+write
+goto 99
+delete
+goto 96
+delete
+goto 72
+set y long 1752
+set mo long 2
+set dd long 17
+set h long 23
+set mi long 19
+set s long 22
+set ms long 499
+set yn long 1752
+set d date 05/26/2077
+set c string 06/03/1951 10:59:41
+write
+goto 198
+recall
+goto 169
+set d date 03/21/1991
+set c string 10/11/1972 23:59:59.999
+set cn string 11/22/2046 21:30:02
+write
+goto 203
+set y long 9999
+set mo long 1
+set dd long 15
+set h long 16
+set mi long 29
+set s long 1
+set ms long 25
+set yn long 9999
+set d date 05/07/1958
+set dn date 04/27/0100
+set cn string 02/06/9999 23:59:59
+write
+goto 184
+set y long 1922
+set mo long 1
+set dd long 6
+set h long 16
+set mi long 51
+set s long 42
+set ms long 0
+set yn long 1922
+set c empty
+set cn string 10/04/0001 11:43:46.500
+write
+goto 199
+set d empty
+set c string 06/13/2036 04:24:41
+set cn string 11/07/1752 17:41:14.312
+write
+goto 206
+set y long 2022
+set mo long 12
+set dd long 30
+set h long 8
+set mi long 10
+set s long 58
+set ms long 269
+set c string 07/10/2017
+set cn string 03/18/1899 05:22:23.999
+write
+goto 190
+set y long 9999
+set mo long 9
+set dd long 12
+set h long 2
+set mi long 50
+set s long 20
+set ms long 0
+set dn null
+set c string 06/26/2011 07:37:28
+write
+goto 242
+set y long 1917
+set mo long 5
+set dd long 9
+set h long 23
+set mi long 33
+set s long 6
+set ms long 999
+set yn long 1917
+set d date 05/26/1993
+set cn string 01/18/2000 15:18:12.499
+write
+goto 203
+set y long 2000
+set mo long 10
+set dd long 31
+set h long 13
+set mi long 13
+set s long 51
+set ms long 999
+set yn long 2000
+set d date 09/19/1899
+set c string 02/04/1899
+write
+goto 252
+set d date 05/05/0100
+set cn string 12/20/2008 17:23:54.693
+write
+goto 127
+set y long 2062
+set mo long 4
+set dd long 13
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 02/22/2033
+set dn date 08/26/2048
+write
+goto 216
+set yn null
+set dn date 06/07/1899
+write
+goto 206
+set y long 2083
+set mo long 12
+set dd long 16
+set h long 22
+set mi long 36
+set s long 6
+set ms long 499
+set yn long 2083
+set d date 05/15/2009
+set c string 05/02/2032
+set cn string 06/06/1971 06:26:08
+write
+goto 172
+set y long 1899
+set mo long 8
+set dd long 27
+set h long 13
+set mi long 8
+set s long 30
+set ms long 499
+set d date 03/05/9999
+set cn string 10/16/2014 18:51:36
+write
+goto 130
+set yn null
+write
+goto 9
+set y long 2005
+set mo long 12
+set dd long 13
+set h long 23
+set mi long 59
+set s long 59
+set ms long 38
+set d empty
+set dn date 11/07/2088
+set cn string 12/14/1963 00:00:00.000
+write
+goto 13
+write
+goto 170
+set yn long 2035
+set d date 05/14/2052
+set dn empty
+set cn string 01/15/1932
+write
+goto 233
+set cn string 07/19/1932
+write
+goto 224
+set y long 1752
+set mo long 3
+set dd long 31
+set h long 16
+set mi long 19
+set s long 52
+set ms long 999
+set d date 02/26/1972
+set dn date 08/07/1983
+set c string 06/13/1905 16:17:54.499
+set cn string 12/19/1936 23:59:59.500
+write
+goto 255
+set y long 2059
+set mo long 10
+set dd long 18
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set d date 07/27/2044
+set dn date 03/21/2093
+set cn string 01/26/1931
+write
+goto 25
+set y long 1943
+set mo long 3
+set dd long 12
+set h long 11
+set mi long 0
+set s long 19
+set ms long 499
+set yn long 1943
+set c string 03/25/2000 12:11:10.499
+set cn string 10/11/9999 18:17:53
+write
+goto 48
+set y long 2049
+set mo long 3
+set dd long 9
+set h long 5
+set mi long 22
+set s long 5
+set ms long 0
+set c string 11/21/2047 14:13:16.657
+write
+goto 118
+set y long 1922
+set mo long 9
+set dd long 9
+set h long 15
+set mi long 13
+set s long 11
+set ms long 999
+set dn date 01/23/1899
+set c string 05/16/9999
+set cn string 09/25/1752 11:42:41
+write
+append
+set id long 284
+set y long 2000
+set mo long 3
+set dd long 12
+set h long 4
+set mi long 55
+set s long 42
+set ms long 949
+set yn long 2000
+set d date 12/09/1992
+set dn date 06/26/1929
+set c empty
+set cn string 07/09/0001
+write
+goto 235
+set y long 1971
+set mo long 5
+set dd long 29
+set h long 11
+set mi long 40
+set s long 23
+set ms long 999
+set cn null
+write
+goto 180
+set d date 06/29/1931
+write
+goto 130
+set yn long 2066
+set c empty
+set cn string 04/03/2041 21:07:31
+write
+goto 283
+set y long 1999
+set mo long 2
+set dd long 9
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 08/18/9999
+write
+goto 244
+recall
+goto 150
+set c string 09/06/2093 18:31:39
+write
+goto 51
+delete
+goto 253
+set y long 2000
+set mo long 12
+set dd long 3
+set h long 16
+set mi long 12
+set s long 32
+set ms long 999
+set c empty
+set cn string 12/16/0100
+write
+goto 9
+set y long 1970
+set mo long 12
+set dd long 23
+set h long 12
+set mi long 49
+set s long 57
+set ms long 499
+set d empty
+set dn date 08/08/1752
+set c string 07/30/2011 11:04:43
+write
+goto 134
+set y long 1951
+set mo long 5
+set dd long 5
+set h long 14
+set mi long 0
+set s long 44
+set ms long 480
+set yn long 1951
+set d date 04/04/2000
+set c string 03/30/1752 05:48:52.999
+set cn null
+write
+goto 242
+set y long 1997
+set mo long 7
+set dd long 19
+set h long 2
+set mi long 37
+set s long 50
+set ms long 499
+set d date 08/24/1934
+write
+goto 150
+set d date 03/07/2038
+set dn empty
+set c string 09/15/1752 15:41:24.000
+set cn string 10/26/1957 14:37:25.999
+write
+goto 137
+set y long 9999
+set mo long 6
+set dd long 27
+set h long 11
+set mi long 55
+set s long 48
+set ms long 500
+set yn long 9999
+set c string 04/18/2014 20:19:36.659
+set cn null
+write
+goto 249
+set yn null
+set d date 07/15/1947
+set c string 04/06/0100 04:18:52.999
+write
+goto 204
+set y long 1979
+set mo long 2
+set dd long 26
+set h long 23
+set mi long 59
+set s long 59
+set ms long 88
+set d date 04/18/1960
+set dn empty
+set cn string 05/14/2056
+write
+goto 257
+set dn date 11/19/1957
+set c string 05/17/2079 03:14:35
+set cn string 02/12/2000 16:27:41
+write
+goto 3
+set y long 9999
+set mo long 8
+set dd long 20
+set h long 20
+set mi long 30
+set s long 30
+set ms long 999
+set yn null
+set d date 07/09/2077
+set dn empty
+set cn string 11/18/1752
+write
+goto 32
+delete
+append
+set id long 285
+set y long 2005
+set mo long 12
+set dd long 7
+set h long 14
+set mi long 49
+set s long 57
+set ms long 500
+set yn long 2005
+set d date 06/28/2062
+set dn date 06/08/2094
+set c string 06/12/2024 00:49:02.000
+set cn string 12/24/1911 02:05:51
+write
+goto 153
+delete
+goto 9
+set yn long 1908
+set c string 03/26/2067 23:11:16
+set cn string 11/28/1955 20:51:21.499
+write
+goto 248
+set yn long 2001
+set dn date 02/10/0100
+write
+goto 32
+set y long 2079
+set mo long 3
+set dd long 23
+set h long 4
+set mi long 0
+set s long 29
+set ms long 550
+set yn long 2079
+set c string 10/16/2014 18:51:36
+set cn null
+write
+goto 12
+set yn long 1899
+set d date 12/11/1964
+write
+goto 206
+set yn long 1913
+set dn date 12/29/2024
+set c empty
+write
+goto 13
+set y long 1986
+set mo long 12
+set dd long 25
+set h long 21
+set mi long 54
+set s long 58
+set ms long 500
+set yn long 1986
+set dn date 05/04/1752
+set c string 07/03/0001 07:51:26
+set cn string 06/24/0100 13:42:27
+write
+goto 207
+set y long 2066
+set mo long 7
+set dd long 29
+set h long 11
+set mi long 27
+set s long 40
+set ms long 499
+set dn date 08/27/1947
+set cn string 04/06/2031
+write
+append
+set id long 286
+set y long 1918
+set mo long 9
+set dd long 14
+set h long 22
+set mi long 15
+set s long 34
+set ms long 500
+set yn null
+set d date 12/25/2000
+set dn empty
+set c string 10/10/0100
+set cn string 06/25/2047 14:22:49
+write
+goto 100
+set d date 08/12/2027
+set c empty
+set cn string 11/27/2008 23:03:03
+write
+goto 275
+delete
+goto 84
+set y long 1752
+set mo long 11
+set dd long 2
+set h long 23
+set mi long 19
+set s long 0
+set ms long 673
+set d date 11/06/1961
+set c string 08/27/1905 08:31:28
+write
+append
+set id long 287
+set y long 2079
+set mo long 9
+set dd long 7
+set h long 14
+set mi long 22
+set s long 48
+set ms long 949
+set yn null
+set d date 02/06/1752
+set dn date 11/23/0001
+set c string 05/09/9999
+set cn string 01/22/0001
+write
+goto 22
+delete
+goto 3
+set y long 2000
+set mo long 6
+set dd long 16
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set yn long 2000
+set d date 08/17/1976
+set c string 02/07/2087 15:49:41.037
+set cn string 07/30/0100 20:23:11
+write
+goto 36
+set d date 02/18/2037
+set cn string 12/23/2045 04:17:14
+write
+goto 18
+set y long 1
+set mo long 9
+set dd long 9
+set h long 13
+set mi long 12
+set s long 0
+set ms long 990
+set dn date 05/19/1995
+write
+append
+set id long 288
+set y long 9999
+set mo long 9
+set dd long 9
+set h long 17
+set mi long 55
+set s long 42
+set ms long 999
+set yn long 9999
+set d date 04/21/2005
+set dn date 06/06/2082
+set c string 04/16/1752
+set cn null
+write
+goto 286
+set y long 100
+set mo long 9
+set dd long 24
+set h long 10
+set mi long 34
+set s long 51
+set ms long 999
+set dn null
+set c string 02/25/2094
+set cn string 08/03/2063 02:52:21.499
+write
+append
+set id long 289
+set y long 1899
+set mo long 2
+set dd long 20
+set h long 23
+set mi long 38
+set s long 32
+set ms long 89
+set yn null
+set d date 07/16/9999
+set dn date 12/31/2079
+set c string 08/01/0001 23:04:12
+set cn string 12/03/2000 16:12:32
+write
+goto 125
+set y long 1752
+set mo long 4
+set dd long 16
+set h long 11
+set mi long 40
+set s long 9
+set ms long 373
+set d date 12/26/2029
+set dn date 11/16/1950
+set c string 11/01/1957
+set cn string 04/18/1922
+write
+goto 142
+set yn long 100
+set d date 07/07/2099
+set cn string 07/01/1944 20:57:59.500
+write
+goto 284
+set c string 12/30/0001
+write
+goto 192
+delete
+goto 44
+set y long 1995
+set mo long 4
+set dd long 16
+set h long 14
+set mi long 24
+set s long 9
+set ms long 999
+set dn date 08/31/2070
+set c string 06/26/0100 02:26:26
+set cn string 03/23/0001 00:00:00.000
+write
+goto 17
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 33
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 46
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 78
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 106
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 107
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 142
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 152
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 156
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 175
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 178
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 185
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 200
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 202
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 213
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 218
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 221
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 223
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 235
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 246
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 256
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 265
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 270
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 286
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+goto 288
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord fcts
+keyfromrecord ucts
+keyfromrecord ncts
+keyfromrecord stots
+keyfromrecord nstots
+keyfromrecord ctots
+keyfromrecord nctots
+keyfromrecord ucn
+order cts
+rows
+order dcts
+rows
+order fcts
+rows
+order ucts
+rows
+order ncts
+rows
+order stots
+rows
+order nstots
+rows
+order ctots
+rows
+order nctots
+rows
+order ucn
+rows
+order cts
+seek 2 01/06/2000
+pos
+seek 2 05/28/1982 15:35
+pos
+seek 1 04/08/1957 20:22:55.000
+pos
+seek 1 02/23/0100
+pos
+seek 1 12/28/2000 08:23
+pos
+seek 1 10/03/2000 00:00:00
+pos
+seek 2 02/04/0001 11:52:41
+pos
+seek 1 12/29/2024
+pos
+seek 1 08/03/2063 02:52:21.499
+pos
+seek 2 02/22/1752
+pos
+seek 2 03/07/2009 23:59:59.999
+pos
+seek 1 09/24/0100 10:34:51
+pos
+seek 1 
+pos
+seek 2 
+pos
+order dcts
+seek 2 03/10/2023 23:10:38
+pos
+seek 1 04/16/2057
+pos
+seek 1 07/01/2064 15:46:59
+pos
+seek 2 12/16/2042 16:13:38
+pos
+seek 2 07/15/1908
+pos
+seek 2 12/06/0001
+pos
+seek 1 12/20/2078 00:00:00
+pos
+seek 2 03/01/9999 11:27:38
+pos
+seek 1 07/26/1999 04:08:45.500
+pos
+seek 2 09/05/2064 06:49
+pos
+seek 2 12/28/1944 14:00
+pos
+seek 1 06/05/1995
+pos
+seek 1 
+pos
+seek 2 
+pos
+order ctots
+seek 1 08/09/2005 07:18:19
+pos
+seek 2 11/06/1961
+pos
+seek 1 04/12/2040 01:29:38.999
+pos
+seek 1 04/06/1984 05:42
+pos
+seek 2 07/22/2084 15:48
+pos
+seek 1 09/14/1918 22:15:34
+pos
+seek 1 08/15/1752 13:24
+pos
+seek 1 06/25/2000 02:39
+pos
+seek 2 08/27/1899 13:08:30
+pos
+seek 1 05/21/9999
+pos
+seek 2 01/06/1926
+pos
+seek 1 06/11/2026 23:59:59
+pos
+seek 1 
+pos
+seek 2 
+pos
+order nctots
+seek 2 03/20/1752
+pos
+seek 2 10/20/1925
+pos
+seek 1 02/26/2026 20:33:53
+pos
+seek 1 07/14/1924 11:26:52.999
+pos
+seek 1 11/02/1752
+pos
+seek 2 07/02/2060
+pos
+seek 2 08/04/0001 19:01:15
+pos
+seek 1 08/19/0100 00:05:49
+pos
+seek 1 01/02/1903
+pos
+seek 1 03/21/2030 13:36:13
+pos
+seek 1 11/30/2071 03:33:04.000
+pos
+seek 1 03/10/2025 18:43
+pos
+seek 1 
+pos
+seek 2 
+pos
+order fcts
+seek 2 10/31/2000 13:13
+pos
+seek 2 06/02/2017 18:00:39
+pos
+seek 2 04/22/1914 00:08:03
+pos
+seek 1 04/04/1752
+pos
+seek 2 05/04/1752
+pos
+seek 1 08/02/0100 22:04:02
+pos
+seek 1 06/21/2017 00:00
+pos
+seek 1 07/20/1913 00:12:38
+pos
+seek 1 02/16/2089
+pos
+seek 1 05/27/2087 22:51:06
+pos
+seek 2 09/15/2036 18:56
+pos
+seek 2 08/27/1906
+pos
+seek 1 
+pos
+seek 2 
+pos
+lookup cts 4 2417416
+lookup cts 4 2417416
+lookup cts 2 07/24/1906 00:00:00
+lookup cts 4 2420446.5323611111
+lookup cts 4 2420446
+lookup cts 2 11/09/1914 12:46:36
+lookup cts 4 2456818.4611574076
+lookup cts 4 2456818
+lookup cts 2 06/09/2014 11:04:04
+lookup cts 4 2439794.3457754632
+lookup cts 4 2439794
+lookup cts 2 10/30/1967 08:17:55
+lookup cts 4 5373374.1182870371
+lookup cts 4 5373374
+lookup cts 2 09/12/9999 02:50:20
+lookup cts 4 2432183.6804050924
+lookup cts 4 2432183
+lookup cts 2 12/28/1946 16:19:47
+lookup stots 4 2361072.4828356481
+lookup stots 4 2361072
+lookup stots 2 04/17/1752 11:35:17
+lookup stots 4 2414811.7750578704
+lookup stots 4 2414811
+lookup stots 2 06/05/1899 18:36:05
+lookup stots 4 2451652.8981249998
+lookup stots 4 2451652
+lookup stots 2 04/17/2000 21:33:18
+lookup stots 4 2414965.5586458333
+lookup stots 4 2414965
+lookup stots 2 11/06/1899 13:24:27
+lookup stots 4 2437610.4322685185
+lookup stots 4 2437610
+lookup stots 2 11/06/1961 10:22:28
+lookup stots 4 2427978.166574074
+lookup stots 4 2427978
+lookup stots 2 06/24/1935 03:59:52
+order -
+# Orders built on the records, then kept current.
+createindex - bnct 2 0 CTOTS(cn) FOR id < 200
+createindex - bds 10 0 STOTS(DTOS(dn))
+createindex - bcts 2 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+append
+set id long 290
+set y long 1981
+set mo long 6
+set dd long 23
+set h long 2
+set mi long 3
+set s long 27
+set ms long 500
+set yn long 1981
+set d empty
+set dn date 04/05/1935
+set c string 07/23/1752 12:05:39.000
+set cn string 08/27/1928
+write
+append
+set id long 291
+set y long 1901
+set mo long 6
+set dd long 8
+set h long 17
+set mi long 45
+set s long 25
+set ms long 499
+set yn long 1901
+set d date 02/07/0100
+set dn date 10/30/2081
+set c empty
+set cn string 03/20/1752 23:59:59
+write
+append
+set id long 292
+set y long 1899
+set mo long 4
+set dd long 6
+set h long 6
+set mi long 19
+set s long 6
+set ms long 0
+set yn long 1899
+set d date 02/01/9999
+set dn date 04/02/1958
+set c string 05/19/2017
+set cn string 05/20/0001 00:00:00.000
+write
+append
+set id long 293
+set y long 1940
+set mo long 8
+set dd long 8
+set h long 7
+set mi long 10
+set s long 31
+set ms long 0
+set yn null
+set d date 03/03/1902
+set dn date 08/23/2000
+set c string 12/19/1986 08:44:11.000
+set cn string 02/26/1979
+write
+append
+set id long 294
+set y long 1752
+set mo long 3
+set dd long 30
+set h long 5
+set mi long 48
+set s long 52
+set ms long 531
+set yn null
+set d date 07/22/1926
+set dn date 07/20/2016
+set c string 07/28/1899 03:34:24.999
+set cn string 05/10/2007 10:06:21.253
+write
+append
+set id long 295
+set y long 2000
+set mo long 10
+set dd long 19
+set h long 23
+set mi long 40
+set s long 4
+set ms long 499
+set yn long 2000
+set d date 01/31/1955
+set dn date 07/23/0001
+set c string 01/25/9999 04:44:08
+set cn string 08/02/1902 04:37:15
+write
+append
+set id long 296
+set y long 1996
+set mo long 7
+set dd long 13
+set h long 8
+set mi long 49
+set s long 20
+set ms long 499
+set yn long 1996
+set d date 07/13/0001
+set dn date 02/17/9999
+set c string 01/26/2032 17:08:42.071
+set cn string 11/17/2020
+write
+append
+set id long 297
+set y long 1945
+set mo long 9
+set dd long 16
+set h long 8
+set mi long 49
+set s long 13
+set ms long 999
+set yn long 1945
+set d date 02/16/1914
+set dn null
+set c string 01/22/1952
+set cn string 11/29/9999 07:34:49
+write
+append
+set id long 298
+set y long 1951
+set mo long 6
+set dd long 3
+set h long 10
+set mi long 59
+set s long 41
+set ms long 76
+set yn long 1951
+set d date 03/20/1752
+set dn date 11/04/2099
+set c string 10/19/1899
+set cn string 11/10/2099
+write
+append
+set id long 299
+set y long 1924
+set mo long 8
+set dd long 17
+set h long 19
+set mi long 37
+set s long 31
+set ms long 500
+set yn null
+set d date 04/22/1752
+set dn null
+set c string 08/15/0100 23:07:25
+set cn string 06/05/2009 09:39:21
+write
+append
+set id long 300
+set y long 1752
+set mo long 9
+set dd long 7
+set h long 2
+set mi long 51
+set s long 21
+set ms long 16
+set yn null
+set d empty
+set dn null
+set c string 04/25/2057 07:10:57
+set cn string 04/01/0100
+write
+append
+set id long 301
+set y long 1752
+set mo long 10
+set dd long 24
+set h long 3
+set mi long 51
+set s long 8
+set ms long 500
+set yn long 1752
+set d date 01/06/1956
+set dn date 01/30/1982
+set c string 12/14/1960 00:00:00.577
+set cn string 02/27/0001
+write
+append
+set id long 302
+set y long 2014
+set mo long 8
+set dd long 14
+set h long 6
+set mi long 18
+set s long 27
+set ms long 524
+set yn null
+set d date 05/21/1906
+set dn date 11/01/2079
+set c string 10/18/2000 16:26:09.999
+set cn null
+write
+append
+set id long 303
+set y long 2000
+set mo long 1
+set dd long 6
+set h long 19
+set mi long 41
+set s long 17
+set ms long 487
+set yn long 2000
+set d date 01/22/9999
+set dn null
+set c string 04/13/9999 22:04:55
+set cn string 03/17/1968 03:02:15
+write
+append
+set id long 304
+set y long 2020
+set mo long 5
+set dd long 14
+set h long 22
+set mi long 39
+set s long 40
+set ms long 499
+set yn long 2020
+set d date 05/20/0001
+set dn null
+set c string 06/17/1957
+set cn null
+write
+order bnct
+rows
+order bds
+rows
+order bcts
+rows
+order -
+close
+# The same on the FoxPro table.
+tabletype cdx
+open f.dbf
+append
+set id long 1
+set y long 1899
+set mo long 5
+set dd long 17
+set h long 18
+set mi long 1
+set s long 39
+set ms long 468
+set d date 03/23/0001
+set c string 08/04/1899 02:46:25
+write
+append
+set id long 2
+set y long 1974
+set mo long 9
+set dd long 22
+set h long 13
+set mi long 4
+set s long 12
+set ms long 999
+set d date 12/04/1986
+set c string 07/07/2081
+write
+append
+set id long 3
+set y long 1995
+set mo long 9
+set dd long 4
+set h long 9
+set mi long 47
+set s long 42
+set ms long 16
+set d date 09/02/2040
+set c string 08/24/1981 00:00:00.000
+write
+append
+set id long 4
+set y long 2000
+set mo long 11
+set dd long 3
+set h long 15
+set mi long 48
+set s long 28
+set ms long 396
+set d date 06/16/1998
+set c empty
+write
+append
+set id long 5
+set y long 1
+set mo long 7
+set dd long 23
+set h long 15
+set mi long 32
+set s long 20
+set ms long 845
+set d date 04/27/1925
+set c string 07/06/9999 15:23:25
+write
+append
+set id long 6
+set y long 2020
+set mo long 3
+set dd long 26
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 11/12/2037
+set c string 01/12/1997 03:28:04
+write
+append
+set id long 7
+set y long 100
+set mo long 6
+set dd long 6
+set h long 23
+set mi long 51
+set s long 34
+set ms long 0
+set d date 06/01/1921
+set c string 03/09/0100
+write
+append
+set id long 8
+set y long 1997
+set mo long 5
+set dd long 11
+set h long 6
+set mi long 53
+set s long 3
+set ms long 500
+set d date 02/15/2052
+set c string 10/04/1899 21:04:32.500
+write
+append
+set id long 9
+set y long 1959
+set mo long 9
+set dd long 1
+set h long 23
+set mi long 1
+set s long 6
+set ms long 704
+set d date 06/17/2000
+set c string 06/13/1971 06:21:39
+write
+append
+set id long 10
+set y long 1904
+set mo long 1
+set dd long 15
+set h long 13
+set mi long 43
+set s long 10
+set ms long 499
+set d date 06/07/2093
+set c string 06/26/1987 12:12:38.104
+write
+append
+set id long 11
+set y long 100
+set mo long 6
+set dd long 30
+set h long 21
+set mi long 32
+set s long 52
+set ms long 500
+set d empty
+set c string 10/22/1975 19:23:21
+write
+append
+set id long 12
+set y long 1922
+set mo long 6
+set dd long 1
+set h long 13
+set mi long 9
+set s long 21
+set ms long 999
+set d date 03/30/1930
+set c string 09/25/1943 02:16:37.499
+write
+append
+set id long 13
+set y long 1
+set mo long 8
+set dd long 18
+set h long 22
+set mi long 34
+set s long 19
+set ms long 0
+set d date 06/18/2030
+set c string 03/25/9999 21:54:20
+write
+append
+set id long 14
+set y long 1907
+set mo long 5
+set dd long 5
+set h long 18
+set mi long 55
+set s long 42
+set ms long 988
+set d date 09/10/2053
+set c string 08/27/1906 00:00:00
+write
+append
+set id long 15
+set y long 1901
+set mo long 11
+set dd long 28
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 03/18/2099
+set c string 11/05/2000
+write
+append
+set id long 16
+set y long 1905
+set mo long 2
+set dd long 23
+set h long 11
+set mi long 7
+set s long 0
+set ms long 500
+set d date 10/27/0100
+set c string 04/13/1934 22:59:14
+write
+append
+set id long 17
+set y long 1901
+set mo long 10
+set dd long 9
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 07/03/1932
+set c string 04/16/2057
+write
+append
+set id long 18
+set y long 2079
+set mo long 7
+set dd long 8
+set h long 14
+set mi long 48
+set s long 42
+set ms long 159
+set d date 01/05/0001
+set c string 09/22/0001 02:52:24
+write
+append
+set id long 19
+set y long 2000
+set mo long 3
+set dd long 4
+set h long 1
+set mi long 32
+set s long 14
+set ms long 500
+set d date 05/21/2000
+set c string 07/12/2013 09:41:52.955
+write
+append
+set id long 20
+set y long 1
+set mo long 3
+set dd long 23
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 02/23/2019
+set c string 01/23/1986 04:01:28
+write
+append
+set id long 21
+set y long 1899
+set mo long 12
+set dd long 27
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set d date 10/12/1989
+set c string 09/11/2023 04:52:33.999
+write
+append
+set id long 22
+set y long 2082
+set mo long 7
+set dd long 29
+set h long 13
+set mi long 1
+set s long 51
+set ms long 941
+set d date 08/19/2026
+set c string 06/27/2014 09:51:53.000
+write
+append
+set id long 23
+set y long 1899
+set mo long 3
+set dd long 7
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d date 06/05/1960
+set c string 10/23/1899 23:53:18
+write
+append
+set id long 24
+set y long 2087
+set mo long 2
+set dd long 7
+set h long 15
+set mi long 49
+set s long 41
+set ms long 126
+set d empty
+set c string 08/22/9999 23:59:59
+write
+append
+set id long 25
+set y long 9999
+set mo long 7
+set dd long 27
+set h long 9
+set mi long 11
+set s long 21
+set ms long 0
+set d date 01/19/9999
+set c string 11/27/1899 15:24:54
+write
+append
+set id long 26
+set y long 9999
+set mo long 1
+set dd long 6
+set h long 0
+set mi long 34
+set s long 12
+set ms long 0
+set d date 04/29/2057
+set c string 08/20/9999 20:30:30.999
+write
+append
+set id long 27
+set y long 2000
+set mo long 2
+set dd long 19
+set h long 15
+set mi long 1
+set s long 54
+set ms long 500
+set d date 10/24/1752
+set c string 07/15/9999
+write
+append
+set id long 28
+set y long 2060
+set mo long 9
+set dd long 25
+set h long 17
+set mi long 14
+set s long 44
+set ms long 0
+set d empty
+set c empty
+write
+append
+set id long 29
+set y long 1987
+set mo long 6
+set dd long 26
+set h long 12
+set mi long 12
+set s long 38
+set ms long 531
+set d date 11/25/1969
+set c string 09/08/0100 23:59:59.000
+write
+append
+set id long 30
+set y long 100
+set mo long 10
+set dd long 21
+set h long 5
+set mi long 43
+set s long 15
+set ms long 0
+set d date 04/10/0100
+set c string 09/17/0001 18:37:28.927
+write
+append
+set id long 31
+set y long 100
+set mo long 10
+set dd long 11
+set h long 2
+set mi long 19
+set s long 54
+set ms long 256
+set d date 07/06/1899
+set c empty
+write
+append
+set id long 32
+set y long 2067
+set mo long 6
+set dd long 9
+set h long 0
+set mi long 0
+set s long 0
+set ms long 508
+set d date 10/27/1899
+set c string 12/03/2016 21:04:29.514
+write
+append
+set id long 33
+set y long 1966
+set mo long 4
+set dd long 3
+set h long 23
+set mi long 59
+set s long 59
+set ms long 999
+set d date 09/17/1926
+set c string 08/10/1899
+write
+append
+set id long 34
+set y long 2000
+set mo long 8
+set dd long 23
+set h long 18
+set mi long 9
+set s long 22
+set ms long 117
+set d date 02/12/2074
+set c string 08/17/0100
+write
+append
+set id long 35
+set y long 2000
+set mo long 5
+set dd long 27
+set h long 8
+set mi long 18
+set s long 19
+set ms long 999
+set d date 09/07/1941
+set c string 05/06/1984 15:13:43
+write
+append
+set id long 36
+set y long 2017
+set mo long 5
+set dd long 19
+set h long 0
+set mi long 37
+set s long 7
+set ms long 0
+set d date 09/07/9999
+set c string 06/25/2050
+write
+append
+set id long 37
+set y long 2001
+set mo long 6
+set dd long 22
+set h long 21
+set mi long 13
+set s long 41
+set ms long 999
+set d date 03/16/1899
+set c string 04/17/2000 01:56:07
+write
+append
+set id long 38
+set y long 2041
+set mo long 10
+set dd long 12
+set h long 10
+set mi long 58
+set s long 51
+set ms long 277
+set d date 03/16/1752
+set c string 04/09/1971 23:59:59.000
+write
+append
+set id long 39
+set y long 1752
+set mo long 6
+set dd long 23
+set h long 4
+set mi long 2
+set s long 53
+set ms long 0
+set d date 11/20/2072
+set c string 01/28/1959 09:01:00
+write
+append
+set id long 40
+set y long 1949
+set mo long 1
+set dd long 31
+set h long 11
+set mi long 34
+set s long 52
+set ms long 999
+set d date 10/30/9999
+set c string 10/23/0100 02:36:09
+write
+append
+set id long 41
+set y long 9999
+set mo long 4
+set dd long 21
+set h long 13
+set mi long 24
+set s long 32
+set ms long 0
+set d date 02/27/1752
+set c empty
+write
+append
+set id long 42
+set y long 2014
+set mo long 11
+set dd long 21
+set h long 9
+set mi long 12
+set s long 35
+set ms long 499
+set d date 12/07/2072
+set c string 04/23/0100
+write
+append
+set id long 43
+set y long 2015
+set mo long 7
+set dd long 3
+set h long 9
+set mi long 4
+set s long 35
+set ms long 499
+set d date 03/30/9999
+set c string 12/05/1932
+write
+append
+set id long 44
+set y long 2015
+set mo long 7
+set dd long 26
+set h long 6
+set mi long 38
+set s long 41
+set ms long 999
+set d date 03/02/1945
+set c string 11/16/1942 03:16:09
+write
+append
+set id long 45
+set y long 1
+set mo long 9
+set dd long 13
+set h long 6
+set mi long 50
+set s long 44
+set ms long 323
+set d date 11/09/1953
+set c empty
+write
+append
+set id long 46
+set y long 2013
+set mo long 7
+set dd long 30
+set h long 14
+set mi long 10
+set s long 38
+set ms long 674
+set d date 12/17/1948
+set c string 12/31/0001 03:26:27
+write
+append
+set id long 47
+set y long 2059
+set mo long 4
+set dd long 26
+set h long 9
+set mi long 17
+set s long 55
+set ms long 0
+set d date 02/19/9999
+set c string 12/26/2029 11:35:23
+write
+append
+set id long 48
+set y long 2052
+set mo long 1
+set dd long 16
+set h long 23
+set mi long 13
+set s long 54
+set ms long 500
+set d date 10/06/1999
+set c string 05/10/1906 09:41:04
+write
+append
+set id long 49
+set y long 1953
+set mo long 12
+set dd long 8
+set h long 15
+set mi long 26
+set s long 44
+set ms long 999
+set d date 11/13/1970
+set c string 10/12/2066
+write
+append
+set id long 50
+set y long 1
+set mo long 1
+set dd long 10
+set h long 2
+set mi long 49
+set s long 24
+set ms long 0
+set d date 11/30/2029
+set c string 06/24/9999 19:34:47
+write
+append
+set id long 51
+set y long 1981
+set mo long 7
+set dd long 27
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d empty
+set c string 11/04/0100 05:46:33.999
+write
+append
+set id long 52
+set y long 1924
+set mo long 2
+set dd long 2
+set h long 4
+set mi long 37
+set s long 54
+set ms long 999
+set d date 04/02/2038
+set c string 07/19/1997 02:37:50
+write
+append
+set id long 53
+set y long 9999
+set mo long 4
+set dd long 5
+set h long 22
+set mi long 39
+set s long 15
+set ms long 0
+set d date 09/22/0100
+set c string 09/10/1979 17:30:20.923
+write
+append
+set id long 54
+set y long 1965
+set mo long 4
+set dd long 1
+set h long 1
+set mi long 17
+set s long 30
+set ms long 999
+set d date 10/04/0001
+set c string 02/25/9999 23:47:58
+write
+append
+set id long 55
+set y long 2068
+set mo long 10
+set dd long 3
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set d date 07/29/1952
+set c string 08/16/1994
+write
+append
+set id long 56
+set y long 1925
+set mo long 10
+set dd long 20
+set h long 14
+set mi long 2
+set s long 5
+set ms long 308
+set d date 11/27/2049
+set c empty
+write
+append
+set id long 57
+set y long 1899
+set mo long 4
+set dd long 1
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 08/23/1921
+set c empty
+write
+append
+set id long 58
+set y long 1752
+set mo long 2
+set dd long 20
+set h long 17
+set mi long 56
+set s long 1
+set ms long 889
+set d empty
+set c empty
+write
+append
+set id long 59
+set y long 2034
+set mo long 1
+set dd long 8
+set h long 8
+set mi long 51
+set s long 58
+set ms long 500
+set d date 01/23/2009
+set c string 05/17/1899 18:01:39
+write
+append
+set id long 60
+set y long 1959
+set mo long 8
+set dd long 31
+set h long 4
+set mi long 42
+set s long 6
+set ms long 0
+set d date 03/18/0001
+set c string 04/22/1752
+write
+append
+set id long 61
+set y long 2003
+set mo long 7
+set dd long 12
+set h long 9
+set mi long 17
+set s long 22
+set ms long 499
+set d date 08/29/2004
+set c string 02/19/0100 21:18:37.999
+write
+append
+set id long 62
+set y long 2044
+set mo long 5
+set dd long 19
+set h long 11
+set mi long 39
+set s long 54
+set ms long 999
+set d date 03/20/2065
+set c string 04/04/2099 17:07:14
+write
+append
+set id long 63
+set y long 1915
+set mo long 11
+set dd long 29
+set h long 9
+set mi long 21
+set s long 54
+set ms long 499
+set d date 03/28/1924
+set c string 04/17/1752 11:35:17
+write
+append
+set id long 64
+set y long 1
+set mo long 4
+set dd long 4
+set h long 4
+set mi long 5
+set s long 40
+set ms long 999
+set d date 01/28/9999
+set c string 05/29/1913
+write
+append
+set id long 65
+set y long 9999
+set mo long 7
+set dd long 23
+set h long 0
+set mi long 0
+set s long 0
+set ms long 347
+set d date 02/05/1899
+set c string 01/15/2094
+write
+append
+set id long 66
+set y long 1899
+set mo long 9
+set dd long 2
+set h long 22
+set mi long 55
+set s long 52
+set ms long 500
+set d date 12/04/2000
+set c string 07/27/1752 21:19:48.499
+write
+append
+set id long 67
+set y long 2094
+set mo long 2
+set dd long 13
+set h long 17
+set mi long 36
+set s long 23
+set ms long 499
+set d date 06/27/1752
+set c string 03/15/2021 04:31:45.499
+write
+append
+set id long 68
+set y long 9999
+set mo long 9
+set dd long 2
+set h long 15
+set mi long 50
+set s long 45
+set ms long 500
+set d date 07/19/1944
+set c string 11/07/2034 18:18:57
+write
+append
+set id long 69
+set y long 1899
+set mo long 8
+set dd long 4
+set h long 2
+set mi long 46
+set s long 25
+set ms long 500
+set d date 08/13/0001
+set c string 01/15/1924 15:11:29.000
+write
+append
+set id long 70
+set y long 1947
+set mo long 6
+set dd long 30
+set h long 3
+set mi long 19
+set s long 49
+set ms long 499
+set d date 09/17/0100
+set c string 12/24/1899 02:49:35
+write
+append
+set id long 71
+set y long 1954
+set mo long 6
+set dd long 23
+set h long 23
+set mi long 24
+set s long 37
+set ms long 999
+set d date 01/28/2052
+set c string 02/26/0100
+write
+append
+set id long 72
+set y long 1752
+set mo long 11
+set dd long 11
+set h long 11
+set mi long 11
+set s long 38
+set ms long 499
+set d date 05/28/1926
+set c string 03/06/0100 22:59:58.499
+write
+append
+set id long 73
+set y long 1899
+set mo long 9
+set dd long 5
+set h long 1
+set mi long 22
+set s long 39
+set ms long 500
+set d date 02/17/2062
+set c string 03/08/1940 18:53:43.500
+write
+append
+set id long 74
+set y long 1
+set mo long 7
+set dd long 8
+set h long 13
+set mi long 12
+set s long 25
+set ms long 999
+set d date 09/14/0100
+set c string 07/24/2013
+write
+append
+set id long 75
+set y long 2088
+set mo long 4
+set dd long 25
+set h long 0
+set mi long 2
+set s long 50
+set ms long 999
+set d date 06/27/1752
+set c string 02/04/0001 15:14:26.500
+write
+append
+set id long 76
+set y long 1944
+set mo long 2
+set dd long 14
+set h long 15
+set mi long 16
+set s long 28
+set ms long 999
+set d empty
+set c string 09/23/0001 12:14:07.499
+write
+append
+set id long 77
+set y long 1752
+set mo long 3
+set dd long 29
+set h long 14
+set mi long 17
+set s long 13
+set ms long 0
+set d date 06/05/1957
+set c string 02/18/2046 23:55:13
+write
+append
+set id long 78
+set y long 2003
+set mo long 6
+set dd long 13
+set h long 23
+set mi long 53
+set s long 37
+set ms long 500
+set d date 06/11/1956
+set c string 11/12/0100
+write
+append
+set id long 79
+set y long 9999
+set mo long 10
+set dd long 9
+set h long 11
+set mi long 52
+set s long 21
+set ms long 0
+set d date 05/26/1920
+set c empty
+write
+append
+set id long 80
+set y long 2048
+set mo long 12
+set dd long 1
+set h long 9
+set mi long 10
+set s long 1
+set ms long 449
+set d date 04/04/1944
+set c string 06/11/0001 05:58:03
+write
+append
+set id long 81
+set y long 1752
+set mo long 4
+set dd long 2
+set h long 5
+set mi long 17
+set s long 40
+set ms long 999
+set d date 02/22/1752
+set c string 07/10/9999 21:08:31.500
+write
+append
+set id long 82
+set y long 1929
+set mo long 9
+set dd long 20
+set h long 8
+set mi long 19
+set s long 49
+set ms long 780
+set d date 01/01/1977
+set c string 10/01/0001
+write
+append
+set id long 83
+set y long 100
+set mo long 3
+set dd long 20
+set h long 22
+set mi long 56
+set s long 20
+set ms long 499
+set d date 10/27/2000
+set c string 11/21/2047 14:13:16.012
+write
+append
+set id long 84
+set y long 1965
+set mo long 9
+set dd long 10
+set h long 21
+set mi long 53
+set s long 3
+set ms long 999
+set d date 09/09/1899
+set c string 04/02/1976 08:54:17
+write
+append
+set id long 85
+set y long 1752
+set mo long 8
+set dd long 4
+set h long 4
+set mi long 40
+set s long 57
+set ms long 662
+set d date 06/12/2035
+set c string 08/30/1919
+write
+append
+set id long 86
+set y long 1911
+set mo long 4
+set dd long 5
+set h long 3
+set mi long 11
+set s long 39
+set ms long 587
+set d date 03/25/1965
+set c string 01/30/1953 16:32:36
+write
+append
+set id long 87
+set y long 100
+set mo long 4
+set dd long 23
+set h long 11
+set mi long 51
+set s long 48
+set ms long 525
+set d date 12/17/1948
+set c string 06/16/1991 02:22:43.999
+write
+append
+set id long 88
+set y long 9999
+set mo long 5
+set dd long 13
+set h long 20
+set mi long 48
+set s long 6
+set ms long 387
+set d date 04/07/1950
+set c string 03/21/1928 12:20:25.499
+write
+append
+set id long 89
+set y long 1752
+set mo long 5
+set dd long 21
+set h long 4
+set mi long 57
+set s long 2
+set ms long 499
+set d date 10/21/1906
+set c string 01/02/2030 11:14:10.000
+write
+append
+set id long 90
+set y long 1909
+set mo long 5
+set dd long 26
+set h long 3
+set mi long 51
+set s long 5
+set ms long 788
+set d date 08/27/2077
+set c string 09/24/2073 00:37:26.499
+write
+append
+set id long 91
+set y long 1981
+set mo long 1
+set dd long 9
+set h long 6
+set mi long 41
+set s long 47
+set ms long 999
+set d date 08/04/1973
+set c string 01/02/1941 14:17:24
+write
+append
+set id long 92
+set y long 1972
+set mo long 2
+set dd long 11
+set h long 21
+set mi long 9
+set s long 7
+set ms long 999
+set d date 12/11/0100
+set c empty
+write
+append
+set id long 93
+set y long 2040
+set mo long 2
+set dd long 24
+set h long 4
+set mi long 57
+set s long 9
+set ms long 663
+set d date 06/18/1911
+set c string 10/15/9999 03:26:00
+write
+append
+set id long 94
+set y long 2067
+set mo long 5
+set dd long 29
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d empty
+set c string 04/14/1899 22:13:03.499
+write
+append
+set id long 95
+set y long 1927
+set mo long 2
+set dd long 24
+set h long 0
+set mi long 7
+set s long 15
+set ms long 0
+set d date 01/26/2032
+set c string 06/04/1900
+write
+append
+set id long 96
+set y long 2000
+set mo long 4
+set dd long 10
+set h long 19
+set mi long 57
+set s long 8
+set ms long 500
+set d date 10/27/0001
+set c string 01/10/9999 12:57:26
+write
+append
+set id long 97
+set y long 1752
+set mo long 8
+set dd long 30
+set h long 19
+set mi long 47
+set s long 52
+set ms long 500
+set d date 11/12/2037
+set c string 06/04/2029 06:06:55.000
+write
+append
+set id long 98
+set y long 2092
+set mo long 11
+set dd long 11
+set h long 7
+set mi long 1
+set s long 32
+set ms long 0
+set d date 02/16/0001
+set c empty
+write
+append
+set id long 99
+set y long 2066
+set mo long 10
+set dd long 18
+set h long 1
+set mi long 24
+set s long 35
+set ms long 999
+set d date 11/30/2029
+set c string 07/19/1964 19:09:01.000
+write
+append
+set id long 100
+set y long 1899
+set mo long 10
+set dd long 12
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 10/09/0001
+set c string 09/24/1899
+write
+append
+set id long 101
+set y long 2000
+set mo long 6
+set dd long 29
+set h long 6
+set mi long 57
+set s long 53
+set ms long 592
+set d date 09/07/2032
+set c string 09/13/1899 04:18:59.633
+write
+append
+set id long 102
+set y long 1949
+set mo long 10
+set dd long 15
+set h long 1
+set mi long 43
+set s long 14
+set ms long 0
+set d date 12/29/1998
+set c string 03/18/1954 03:15:30.500
+write
+append
+set id long 103
+set y long 2003
+set mo long 4
+set dd long 25
+set h long 11
+set mi long 44
+set s long 30
+set ms long 999
+set d date 12/02/9999
+set c string 06/29/2000 13:54:00
+write
+append
+set id long 104
+set y long 1752
+set mo long 8
+set dd long 5
+set h long 13
+set mi long 53
+set s long 2
+set ms long 741
+set d date 10/24/1971
+set c string 08/21/1752 14:06:16.500
+write
+append
+set id long 105
+set y long 2082
+set mo long 6
+set dd long 6
+set h long 15
+set mi long 59
+set s long 34
+set ms long 499
+set d date 01/31/1997
+set c string 08/02/1752 10:06:39.999
+write
+append
+set id long 106
+set y long 1752
+set mo long 4
+set dd long 12
+set h long 8
+set mi long 48
+set s long 39
+set ms long 296
+set d date 06/14/1968
+set c string 03/27/2090 23:59:59.500
+write
+append
+set id long 107
+set y long 2047
+set mo long 2
+set dd long 10
+set h long 6
+set mi long 6
+set s long 45
+set ms long 999
+set d date 01/13/2000
+set c empty
+write
+append
+set id long 108
+set y long 2017
+set mo long 6
+set dd long 21
+set h long 0
+set mi long 0
+set s long 0
+set ms long 566
+set d date 01/28/9999
+set c string 12/08/1953 15:26:44
+write
+append
+set id long 109
+set y long 2001
+set mo long 4
+set dd long 25
+set h long 6
+set mi long 24
+set s long 1
+set ms long 499
+set d date 05/15/1971
+set c string 03/27/2071
+write
+append
+set id long 110
+set y long 1940
+set mo long 11
+set dd long 12
+set h long 11
+set mi long 51
+set s long 8
+set ms long 999
+set d date 01/10/2000
+set c string 11/14/2000 22:48:21.499
+write
+append
+set id long 111
+set y long 1943
+set mo long 12
+set dd long 13
+set h long 21
+set mi long 37
+set s long 20
+set ms long 619
+set d empty
+set c string 10/31/1957 11:00:58
+write
+append
+set id long 112
+set y long 1899
+set mo long 4
+set dd long 21
+set h long 12
+set mi long 9
+set s long 38
+set ms long 999
+set d date 07/10/9999
+set c string 09/20/2032 21:57:16.500
+write
+append
+set id long 113
+set y long 1969
+set mo long 12
+set dd long 27
+set h long 4
+set mi long 33
+set s long 57
+set ms long 999
+set d date 11/28/1901
+set c string 01/03/2082 18:53:00.500
+write
+append
+set id long 114
+set y long 1930
+set mo long 12
+set dd long 16
+set h long 0
+set mi long 45
+set s long 3
+set ms long 0
+set d date 09/02/2010
+set c string 06/30/1945
+write
+append
+set id long 115
+set y long 9999
+set mo long 8
+set dd long 6
+set h long 3
+set mi long 13
+set s long 23
+set ms long 500
+set d empty
+set c string 06/11/2000 14:14:33.000
+write
+append
+set id long 116
+set y long 1957
+set mo long 11
+set dd long 17
+set h long 22
+set mi long 55
+set s long 38
+set ms long 499
+set d date 06/16/2000
+set c string 12/23/1926 17:22:01.725
+write
+append
+set id long 117
+set y long 1935
+set mo long 11
+set dd long 19
+set h long 6
+set mi long 42
+set s long 29
+set ms long 0
+set d date 08/17/2052
+set c string 01/01/2080 00:00:00
+write
+append
+set id long 118
+set y long 100
+set mo long 8
+set dd long 10
+set h long 19
+set mi long 0
+set s long 29
+set ms long 876
+set d empty
+set c string 11/11/2000 22:22:37
+write
+append
+set id long 119
+set y long 2061
+set mo long 5
+set dd long 23
+set h long 21
+set mi long 5
+set s long 26
+set ms long 454
+set d date 10/16/1899
+set c string 11/24/1905 02:37:48.834
+write
+append
+set id long 120
+set y long 2095
+set mo long 8
+set dd long 19
+set h long 20
+set mi long 54
+set s long 50
+set ms long 499
+set d date 01/16/1752
+set c string 04/03/1976 23:59:59.999
+write
+append
+set id long 121
+set y long 2019
+set mo long 9
+set dd long 9
+set h long 0
+set mi long 8
+set s long 30
+set ms long 500
+set d empty
+set c string 05/23/0001
+write
+append
+set id long 122
+set y long 1752
+set mo long 4
+set dd long 29
+set h long 14
+set mi long 56
+set s long 46
+set ms long 0
+set d date 02/22/1976
+set c string 01/16/0100 23:59:59.999
+write
+append
+set id long 123
+set y long 9999
+set mo long 11
+set dd long 28
+set h long 18
+set mi long 19
+set s long 49
+set ms long 500
+set d date 10/15/9999
+set c string 12/12/1992 12:52:07.499
+write
+append
+set id long 124
+set y long 1899
+set mo long 3
+set dd long 18
+set h long 23
+set mi long 56
+set s long 0
+set ms long 555
+set d date 05/02/0100
+set c string 08/09/1996
+write
+append
+set id long 125
+set y long 2071
+set mo long 8
+set dd long 1
+set h long 15
+set mi long 51
+set s long 30
+set ms long 999
+set d date 07/31/1906
+set c string 11/27/2007 19:52:53.499
+write
+append
+set id long 126
+set y long 2054
+set mo long 5
+set dd long 20
+set h long 22
+set mi long 8
+set s long 15
+set ms long 999
+set d date 02/11/1752
+set c string 10/22/2034
+write
+append
+set id long 127
+set y long 9999
+set mo long 9
+set dd long 12
+set h long 6
+set mi long 5
+set s long 47
+set ms long 499
+set d date 05/26/2000
+set c string 06/03/1965 21:38:58.499
+write
+append
+set id long 128
+set y long 1969
+set mo long 9
+set dd long 25
+set h long 8
+set mi long 21
+set s long 29
+set ms long 499
+set d date 03/21/1939
+set c string 05/31/2074 18:18:22
+write
+append
+set id long 129
+set y long 1954
+set mo long 1
+set dd long 15
+set h long 21
+set mi long 1
+set s long 8
+set ms long 544
+set d date 02/21/1959
+set c string 02/13/1899
+write
+append
+set id long 130
+set y long 100
+set mo long 9
+set dd long 13
+set h long 14
+set mi long 35
+set s long 0
+set ms long 999
+set d date 04/05/2053
+set c string 07/10/9999
+write
+append
+set id long 131
+set y long 100
+set mo long 1
+set dd long 17
+set h long 19
+set mi long 12
+set s long 37
+set ms long 0
+set d date 08/20/1942
+set c string 05/26/0001 12:11:23
+write
+append
+set id long 132
+set y long 9999
+set mo long 7
+set dd long 10
+set h long 21
+set mi long 8
+set s long 31
+set ms long 437
+set d date 10/22/2036
+set c string 06/26/1981 18:58:23
+write
+append
+set id long 133
+set y long 2029
+set mo long 9
+set dd long 27
+set h long 7
+set mi long 10
+set s long 18
+set ms long 0
+set d date 07/04/1970
+set c string 05/18/0001 23:59:59
+write
+append
+set id long 134
+set y long 1973
+set mo long 7
+set dd long 12
+set h long 17
+set mi long 43
+set s long 25
+set ms long 866
+set d date 01/21/1914
+set c string 08/08/1752
+write
+append
+set id long 135
+set y long 1955
+set mo long 2
+set dd long 21
+set h long 17
+set mi long 3
+set s long 55
+set ms long 999
+set d date 09/30/1975
+set c empty
+write
+append
+set id long 136
+set y long 2096
+set mo long 11
+set dd long 19
+set h long 18
+set mi long 2
+set s long 43
+set ms long 500
+set d date 12/01/2052
+set c string 05/06/2000
+write
+append
+set id long 137
+set y long 1988
+set mo long 11
+set dd long 30
+set h long 4
+set mi long 24
+set s long 16
+set ms long 999
+set d date 01/03/1963
+set c string 03/29/2005
+write
+append
+set id long 138
+set y long 2035
+set mo long 6
+set dd long 17
+set h long 8
+set mi long 49
+set s long 32
+set ms long 577
+set d date 02/26/2023
+set c string 02/06/9999 17:25:02.000
+write
+append
+set id long 139
+set y long 1752
+set mo long 12
+set dd long 19
+set h long 12
+set mi long 16
+set s long 52
+set ms long 688
+set d date 07/26/1914
+set c empty
+write
+append
+set id long 140
+set y long 1899
+set mo long 12
+set dd long 11
+set h long 0
+set mi long 56
+set s long 59
+set ms long 999
+set d date 08/14/0100
+set c string 06/16/1935 09:49:15.000
+write
+append
+set id long 141
+set y long 1899
+set mo long 9
+set dd long 5
+set h long 1
+set mi long 22
+set s long 39
+set ms long 500
+set d date 02/20/2065
+set c string 02/26/2026 20:33:53.249
+write
+append
+set id long 142
+set y long 9999
+set mo long 1
+set dd long 4
+set h long 22
+set mi long 19
+set s long 50
+set ms long 602
+set d date 02/13/9999
+set c string 07/19/2074 23:59:59.999
+write
+append
+set id long 143
+set y long 1
+set mo long 12
+set dd long 13
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d empty
+set c string 12/24/2003 07:34:18.000
+write
+append
+set id long 144
+set y long 2082
+set mo long 12
+set dd long 5
+set h long 21
+set mi long 22
+set s long 37
+set ms long 238
+set d date 09/15/2036
+set c string 04/06/2020
+write
+append
+set id long 145
+set y long 1910
+set mo long 10
+set dd long 24
+set h long 22
+set mi long 32
+set s long 7
+set ms long 499
+set d date 12/20/0001
+set c string 06/15/9999 01:48:04.500
+write
+append
+set id long 146
+set y long 1752
+set mo long 10
+set dd long 15
+set h long 3
+set mi long 1
+set s long 0
+set ms long 500
+set d date 07/23/9999
+set c string 02/04/1899 13:34:22
+write
+append
+set id long 147
+set y long 2001
+set mo long 4
+set dd long 17
+set h long 17
+set mi long 25
+set s long 17
+set ms long 631
+set d date 09/01/1917
+set c string 02/03/1899 22:26:42
+write
+append
+set id long 148
+set y long 2028
+set mo long 8
+set dd long 9
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d date 02/26/1979
+set c string 02/21/2041 11:10:33
+write
+append
+set id long 149
+set y long 100
+set mo long 2
+set dd long 25
+set h long 19
+set mi long 13
+set s long 45
+set ms long 0
+set d date 03/09/0100
+set c string 01/25/2001
+write
+append
+set id long 150
+set y long 2060
+set mo long 9
+set dd long 15
+set h long 8
+set mi long 45
+set s long 59
+set ms long 476
+set d date 03/07/1903
+set c string 11/13/1914
+write
+append
+set id long 151
+set y long 2032
+set mo long 6
+set dd long 6
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set d date 04/21/1939
+set c empty
+write
+append
+set id long 152
+set y long 1960
+set mo long 1
+set dd long 31
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set d date 01/19/1923
+set c string 10/04/9999 04:33:47.195
+write
+append
+set id long 153
+set y long 2000
+set mo long 3
+set dd long 20
+set h long 10
+set mi long 29
+set s long 29
+set ms long 500
+set d date 08/12/1977
+set c string 02/04/0100
+write
+append
+set id long 154
+set y long 100
+set mo long 4
+set dd long 10
+set h long 12
+set mi long 13
+set s long 47
+set ms long 587
+set d date 05/05/0100
+set c string 07/20/2093 23:59:59
+write
+append
+set id long 155
+set y long 2000
+set mo long 4
+set dd long 24
+set h long 14
+set mi long 20
+set s long 22
+set ms long 999
+set d date 08/24/1904
+set c string 12/20/1924 23:44:17.499
+write
+append
+set id long 156
+set y long 100
+set mo long 6
+set dd long 21
+set h long 23
+set mi long 5
+set s long 15
+set ms long 0
+set d date 06/30/0100
+set c string 09/06/0100 13:50:32
+write
+append
+set id long 157
+set y long 2056
+set mo long 11
+set dd long 28
+set h long 18
+set mi long 11
+set s long 56
+set ms long 0
+set d date 01/25/2000
+set c string 09/24/1995 17:33:55
+write
+append
+set id long 158
+set y long 1905
+set mo long 6
+set dd long 13
+set h long 16
+set mi long 17
+set s long 54
+set ms long 843
+set d date 08/13/2030
+set c string 06/03/1900 04:24:43.499
+write
+append
+set id long 159
+set y long 1899
+set mo long 3
+set dd long 7
+set h long 23
+set mi long 59
+set s long 59
+set ms long 238
+set d date 08/20/0100
+set c string 08/24/2086 22:39:47
+write
+append
+set id long 160
+set y long 1752
+set mo long 5
+set dd long 12
+set h long 0
+set mi long 11
+set s long 5
+set ms long 493
+set d date 11/18/2063
+set c string 01/13/1752
+write
+goto 60
+set y long 2076
+set mo long 3
+set dd long 9
+set h long 10
+set mi long 9
+set s long 1
+set ms long 999
+set c string 10/03/1950
+write
+goto 157
+set d date 12/06/1752
+set c string 12/16/1899 00:17:52.676
+write
+goto 54
+write
+goto 16
+set y long 1752
+set mo long 1
+set dd long 17
+set h long 13
+set mi long 28
+set s long 7
+set ms long 635
+set c string 11/29/2045 01:35:53.500
+write
+append
+set id long 161
+set y long 2000
+set mo long 4
+set dd long 12
+set h long 12
+set mi long 7
+set s long 31
+set ms long 0
+set d empty
+set c string 10/28/2032 05:25:00
+write
+append
+set id long 162
+set y long 1752
+set mo long 4
+set dd long 24
+set h long 23
+set mi long 29
+set s long 57
+set ms long 999
+set d date 09/20/2023
+set c empty
+write
+goto 46
+delete
+goto 156
+set y long 2078
+set mo long 8
+set dd long 11
+set h long 13
+set mi long 55
+set s long 39
+set ms long 500
+set d date 05/24/1953
+write
+goto 91
+set d date 06/11/1996
+set c string 05/08/1940 02:49:22
+write
+goto 98
+set y long 1909
+set mo long 6
+set dd long 5
+set h long 10
+set mi long 22
+set s long 11
+set ms long 0
+set d empty
+write
+append
+set id long 163
+set y long 100
+set mo long 8
+set dd long 9
+set h long 3
+set mi long 48
+set s long 6
+set ms long 499
+set d date 02/01/9999
+set c empty
+write
+goto 92
+set y long 9999
+set mo long 12
+set dd long 27
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+set c string 09/17/2026 14:40:51.999
+write
+goto 86
+set y long 1921
+set mo long 3
+set dd long 23
+set h long 1
+set mi long 40
+set s long 36
+set ms long 0
+write
+goto 123
+set y long 1904
+set mo long 8
+set dd long 24
+set h long 20
+set mi long 25
+set s long 3
+set ms long 372
+set d date 07/16/2050
+write
+goto 10
+set c string 05/22/1980
+write
+goto 153
+set y long 100
+set mo long 11
+set dd long 21
+set h long 12
+set mi long 21
+set s long 29
+set ms long 0
+set c string 06/26/1987 12:12:38.089
+write
+goto 34
+set c string 07/18/1752 12:10:53.261
+write
+append
+set id long 164
+set y long 9999
+set mo long 3
+set dd long 18
+set h long 0
+set mi long 39
+set s long 42
+set ms long 499
+set d date 11/23/9999
+set c string 04/03/1945
+write
+goto 112
+write
+goto 72
+set y long 1976
+set mo long 10
+set dd long 29
+set h long 3
+set mi long 39
+set s long 13
+set ms long 0
+set d date 12/15/2034
+set c empty
+write
+goto 37
+write
+goto 19
+set y long 1928
+set mo long 12
+set dd long 6
+set h long 4
+set mi long 42
+set s long 27
+set ms long 499
+set c string 03/30/2046 02:26:46
+write
+goto 164
+write
+append
+set id long 165
+set y long 2000
+set mo long 6
+set dd long 13
+set h long 2
+set mi long 8
+set s long 9
+set ms long 0
+set d date 03/12/1947
+set c string 05/06/1967 17:28:12
+write
+goto 95
+set y long 2083
+set mo long 1
+set dd long 18
+set h long 21
+set mi long 1
+set s long 36
+set ms long 499
+set c string 10/09/1901
+write
+goto 5
+delete
+goto 138
+set y long 1953
+set mo long 5
+set dd long 28
+set h long 20
+set mi long 7
+set s long 16
+set ms long 500
+set d date 04/13/0001
+set c string 09/29/1899
+write
+goto 13
+set y long 2000
+set mo long 11
+set dd long 30
+set h long 0
+set mi long 23
+set s long 7
+set ms long 999
+set c empty
+write
+goto 96
+set d date 09/23/1899
+set c string 06/14/9999
+write
+append
+set id long 166
+set y long 1
+set mo long 1
+set dd long 26
+set h long 23
+set mi long 59
+set s long 59
+set ms long 621
+set d date 07/17/2004
+set c empty
+write
+goto 40
+write
+goto 29
+set y long 2000
+set mo long 4
+set dd long 21
+set h long 0
+set mi long 0
+set s long 0
+set ms long 614
+set c string 06/30/1899 07:39:17
+write
+append
+set id long 167
+set y long 1964
+set mo long 7
+set dd long 19
+set h long 19
+set mi long 9
+set s long 1
+set ms long 0
+set d date 05/15/1970
+set c string 04/11/0100
+write
+goto 84
+set y long 9999
+set mo long 10
+set dd long 30
+set h long 3
+set mi long 30
+set s long 51
+set ms long 986
+set c string 05/10/1993
+write
+goto 97
+set y long 1901
+set mo long 10
+set dd long 26
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+write
+goto 39
+set y long 1752
+set mo long 7
+set dd long 6
+set h long 20
+set mi long 58
+set s long 57
+set ms long 304
+set c string 12/24/1899
+write
+goto 52
+set y long 1968
+set mo long 7
+set dd long 10
+set h long 8
+set mi long 1
+set s long 44
+set ms long 499
+set d date 06/28/2060
+set c string 12/24/2003
+write
+goto 2
+write
+goto 99
+write
+goto 159
+set c string 09/09/1899
+write
+goto 139
+set y long 1972
+set mo long 3
+set dd long 16
+set h long 6
+set mi long 0
+set s long 35
+set ms long 316
+set c string 12/20/2000 23:34:09.372
+write
+goto 147
+set y long 2001
+set mo long 5
+set dd long 19
+set h long 17
+set mi long 38
+set s long 36
+set ms long 500
+set c string 07/16/9999
+write
+append
+set id long 168
+set y long 2020
+set mo long 6
+set dd long 15
+set h long 19
+set mi long 31
+set s long 18
+set ms long 172
+set d date 07/27/1983
+set c string 04/25/2088 00:02:50.999
+write
+goto 95
+set y long 1
+set mo long 9
+set dd long 29
+set h long 1
+set mi long 27
+set s long 13
+set ms long 499
+write
+goto 117
+write
+goto 121
+set d date 11/18/0001
+set c string 11/10/1940 19:40:59.500
+write
+append
+set id long 169
+set y long 2039
+set mo long 10
+set dd long 23
+set h long 1
+set mi long 5
+set s long 9
+set ms long 0
+set d date 04/16/9999
+set c string 06/28/2060 10:27:29.999
+write
+goto 23
+set d date 10/15/2093
+write
+goto 93
+set y long 2014
+set mo long 6
+set dd long 27
+set h long 9
+set mi long 51
+set s long 53
+set ms long 722
+write
+goto 96
+set y long 1948
+set mo long 11
+set dd long 30
+set h long 7
+set mi long 10
+set s long 31
+set ms long 499
+write
+append
+set id long 170
+set y long 1990
+set mo long 10
+set dd long 8
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 11/20/1954
+set c string 06/14/2010 18:12:57.500
+write
+append
+set id long 171
+set y long 2061
+set mo long 9
+set dd long 21
+set h long 13
+set mi long 28
+set s long 15
+set ms long 482
+set d date 11/11/2002
+set c string 10/25/1990
+write
+goto 127
+set y long 2066
+set mo long 4
+set dd long 11
+set h long 5
+set mi long 27
+set s long 42
+set ms long 500
+write
+goto 130
+set d date 03/05/1905
+write
+goto 107
+set y long 9999
+set mo long 5
+set dd long 9
+set h long 21
+set mi long 44
+set s long 28
+set ms long 999
+write
+goto 109
+set y long 100
+set mo long 12
+set dd long 28
+set h long 4
+set mi long 5
+set s long 8
+set ms long 0
+set c string 10/17/1899 22:21:58
+write
+goto 14
+set y long 1904
+set mo long 2
+set dd long 22
+set h long 10
+set mi long 14
+set s long 51
+set ms long 499
+write
+goto 124
+set y long 1982
+set mo long 11
+set dd long 27
+set h long 8
+set mi long 37
+set s long 49
+set ms long 417
+write
+goto 165
+set y long 100
+set mo long 2
+set dd long 9
+set h long 23
+set mi long 59
+set s long 59
+set ms long 0
+write
+goto 82
+set y long 2057
+set mo long 3
+set dd long 1
+set h long 16
+set mi long 9
+set s long 59
+set ms long 999
+set c string 04/22/1914 00:08:03.999
+write
+goto 64
+set d date 10/20/1952
+set c string 05/29/1752 02:29:32
+write
+goto 4
+set y long 2000
+set mo long 8
+set dd long 29
+set h long 18
+set mi long 50
+set s long 10
+set ms long 999
+set d date 08/24/0100
+write
+append
+set id long 172
+set y long 100
+set mo long 1
+set dd long 10
+set h long 5
+set mi long 17
+set s long 47
+set ms long 726
+set d date 05/27/1940
+set c string 05/07/1986
+write
+goto 101
+set y long 1977
+set mo long 11
+set dd long 13
+set h long 7
+set mi long 7
+set s long 33
+set ms long 999
+set c string 09/02/1899 22:55:52
+write
+goto 106
+set y long 9999
+set mo long 5
+set dd long 2
+set h long 10
+set mi long 9
+set s long 58
+set ms long 499
+set d date 09/10/1970
+set c string 02/23/1935
+write
+goto 125
+set y long 1976
+set mo long 4
+set dd long 12
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+write
+goto 29
+set y long 1960
+set mo long 1
+set dd long 31
+set h long 23
+set mi long 59
+set s long 59
+set ms long 106
+set d date 04/08/1899
+set c string 09/27/2029 07:10:18
+write
+append
+set id long 173
+set y long 100
+set mo long 7
+set dd long 11
+set h long 14
+set mi long 17
+set s long 25
+set ms long 538
+set d date 03/28/1997
+set c string 02/12/1943
+write
+goto 121
+set y long 1999
+set mo long 7
+set dd long 26
+set h long 4
+set mi long 8
+set s long 45
+set ms long 500
+set d empty
+set c string 10/05/1911 13:21:02.000
+write
+goto 78
+set y long 2013
+set mo long 7
+set dd long 24
+set h long 7
+set mi long 42
+set s long 47
+set ms long 999
+set d date 06/20/0001
+write
+goto 132
+write
+goto 131
+set y long 100
+set mo long 6
+set dd long 18
+set h long 0
+set mi long 57
+set s long 30
+set ms long 578
+set d date 08/09/2005
+write
+goto 116
+set y long 2074
+set mo long 6
+set dd long 17
+set h long 6
+set mi long 48
+set s long 19
+set ms long 499
+set d date 09/09/1922
+write
+goto 49
+set y long 2040
+set mo long 12
+set dd long 26
+set h long 1
+set mi long 11
+set s long 37
+set ms long 500
+set c string 02/16/1999
+write
+goto 71
+set y long 1949
+set mo long 10
+set dd long 15
+set h long 5
+set mi long 11
+set s long 35
+set ms long 0
+write
+goto 10
+write
+goto 42
+write
+goto 29
+set c string 02/12/2000 16:27:41.441
+write
+goto 24
+set y long 1899
+set mo long 9
+set dd long 12
+set h long 19
+set mi long 49
+set s long 32
+set ms long 999
+set d date 10/11/2009
+set c string 03/14/1945
+write
+goto 101
+set y long 2049
+set mo long 12
+set dd long 26
+set h long 5
+set mi long 49
+set s long 20
+set ms long 0
+write
+goto 89
+set d date 05/23/1899
+set c empty
+write
+goto 27
+set y long 1929
+set mo long 1
+set dd long 20
+set h long 15
+set mi long 57
+set s long 9
+set ms long 500
+set c string 01/21/2024 16:40:30.500
+write
+goto 125
+set y long 2046
+set mo long 11
+set dd long 1
+set h long 18
+set mi long 58
+set s long 29
+set ms long 500
+write
+goto 167
+set y long 1951
+set mo long 10
+set dd long 8
+set h long 21
+set mi long 44
+set s long 29
+set ms long 173
+set c string 08/29/0100 12:20:04
+write
+goto 14
+set c string 06/13/2003 23:53:37.500
+write
+goto 137
+set c string 06/26/2076 17:58:44
+write
+goto 163
+set d date 09/11/2054
+write
+goto 120
+write
+goto 99
+delete
+goto 18
+set y long 1752
+set mo long 8
+set dd long 16
+set h long 3
+set mi long 50
+set s long 40
+set ms long 0
+set d empty
+set c string 11/21/2014 09:12:35
+write
+goto 57
+set y long 2066
+set mo long 12
+set dd long 23
+set h long 19
+set mi long 20
+set s long 57
+set ms long 500
+set c string 04/29/1899 00:00:00
+write
+goto 84
+set y long 1919
+set mo long 5
+set dd long 14
+set h long 7
+set mi long 41
+set s long 41
+set ms long 500
+set d date 12/05/2037
+set c string 09/03/2062 15:52:48
+write
+goto 10
+set c string 07/06/1899
+write
+append
+set id long 174
+set y long 2066
+set mo long 1
+set dd long 18
+set h long 2
+set mi long 24
+set s long 13
+set ms long 499
+set d date 10/17/1899
+set c string 04/14/2026
+write
+goto 65
+set y long 1988
+set mo long 11
+set dd long 7
+set h long 13
+set mi long 36
+set s long 39
+set ms long 999
+set c string 05/24/2045 07:40:14.999
+write
+goto 110
+delete
+goto 83
+set y long 2084
+set mo long 5
+set dd long 13
+set h long 17
+set mi long 11
+set s long 44
+set ms long 500
+set d date 07/24/2006
+write
+append
+set id long 175
+set y long 1947
+set mo long 7
+set dd long 15
+set h long 16
+set mi long 15
+set s long 43
+set ms long 500
+set d date 02/28/2096
+set c string 05/15/1970 05:01:28
+write
+goto 134
+set d date 12/27/2043
+set c string 03/12/1973
+write
+goto 78
+write
+goto 22
+set c string 09/27/2000
+write
+goto 64
+delete
+append
+set id long 176
+set y long 1899
+set mo long 4
+set dd long 1
+set h long 11
+set mi long 28
+set s long 16
+set ms long 0
+set d date 02/06/0100
+set c string 09/20/0100 11:09:50.499
+write
+goto 164
+write
+goto 99
+set d date 01/21/1752
+set c string 05/09/2085 18:42:12.500
+write
+goto 10
+set y long 2002
+set mo long 9
+set dd long 23
+set h long 1
+set mi long 21
+set s long 12
+set ms long 0
+set d date 07/21/2018
+write
+goto 117
+set c empty
+write
+goto 151
+set c string 07/23/1963 00:23:56
+write
+append
+set id long 177
+set y long 2000
+set mo long 12
+set dd long 26
+set h long 0
+set mi long 0
+set s long 0
+set ms long 0
+set d date 08/30/1919
+set c string 10/21/1752 21:12:15
+write
+goto 82
+set c string 01/03/1899 10:44:15.451
+write
+goto 142
+delete
+goto 20
+set y long 9999
+set mo long 6
+set dd long 6
+set h long 2
+set mi long 5
+set s long 48
+set ms long 179
+set d date 08/05/1995
+write
+goto 57
+set y long 1994
+set mo long 9
+set dd long 20
+set h long 23
+set mi long 59
+set s long 59
+set ms long 500
+set d date 08/17/1910
+write
+append
+set id long 178
+set y long 9999
+set mo long 4
+set dd long 18
+set h long 10
+set mi long 50
+set s long 20
+set ms long 0
+set d date 02/28/2096
+set c string 08/12/1912 20:44:03.999
+write
+append
+set id long 179
+set y long 1906
+set mo long 5
+set dd long 10
+set h long 9
+set mi long 41
+set s long 4
+set ms long 94
+set d date 09/17/2000
+set c string 12/28/1946
+write
+goto 11
+set y long 1
+set mo long 7
+set dd long 14
+set h long 9
+set mi long 20
+set s long 25
+set ms long 0
+set c string 12/21/9999 19:05:42.210
+write
+goto 8
+write
+goto 31
+set d date 11/08/1979
+set c empty
+write
+append
+set id long 180
+set y long 1899
+set mo long 8
+set dd long 10
+set h long 14
+set mi long 57
+set s long 43
+set ms long 500
+set d date 01/26/1899
+set c string 08/01/0001
+write
+goto 154
+set y long 2000
+set mo long 7
+set dd long 12
+set h long 16
+set mi long 22
+set s long 0
+set ms long 254
+write
+goto 3
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 4
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 6
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 9
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 26
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 29
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 30
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 43
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 50
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 75
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 81
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 82
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 89
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 91
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 107
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 111
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 119
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 136
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 140
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 153
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 158
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 161
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 172
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 178
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+goto 179
+keyfromrecord cts
+keyfromrecord dcts
+keyfromrecord stots
+keyfromrecord ctots
+order cts
+rows
+order dcts
+rows
+order stots
+rows
+order ctots
+rows
+order cts
+seek 2 11/18/2063 13:35:23.499
+pos
+seek 2 09/27/2016 05:42:17
+pos
+seek 1 06/06/2032
+pos
+seek 1 02/24/2040
+pos
+seek 2 10/22/9999
+pos
+seek 1 06/18/0100 00:57
+pos
+seek 2 03/23/0001
+pos
+seek 1 09/13/2000 16:23:56.499
+pos
+seek 1 05/23/2061
+pos
+seek 2 12/08/1953 15:26:44.999
+pos
+seek 2 11/09/1899 21:41:22.499
+pos
+seek 1 10/12/0001
+pos
+seek 1 
+pos
+seek 2 
+pos
+order dcts
+seek 1 01/03/1899 18:13:59
+pos
+seek 1 03/29/1752
+pos
+seek 2 01/18/1899 04:33:43.757
+pos
+seek 2 03/18/1899
+pos
+seek 2 06/30/1899 05:41:26.896
+pos
+seek 2 01/12/1997 03:28:04.355
+pos
+seek 2 09/25/1752
+pos
+seek 1 01/09/2013 18:15:59
+pos
+seek 2 11/26/2000 13:39:58.500
+pos
+seek 2 11/05/0001
+pos
+seek 2 09/29/1987 03:01
+pos
+seek 1 06/06/9999 02:05
+pos
+seek 1 
+pos
+seek 2 
+pos
+order ctots
+seek 1 09/25/2009 03:04:50.999
+pos
+seek 2 06/21/1958 21:06
+pos
+seek 1 02/14/0100
+pos
+seek 2 07/12/1973
+pos
+seek 1 10/08/1990 00:00
+pos
+seek 1 08/17/1911 21:50:18.500
+pos
+seek 2 10/26/1957 14:37
+pos
+seek 2 05/14/1968 13:50:00.724
+pos
+seek 2 06/09/2067 00:00:00
+pos
+seek 2 09/22/1943
+pos
+seek 2 10/21/1906 21:24
+pos
+seek 1 02/09/1999 00:00:00
+pos
+seek 1 
+pos
+seek 2 
+pos
+lookup cts 4 2451569.3184606479
+lookup cts 4 2451569
+lookup cts 2 01/25/2000 07:38:35
+lookup cts 4 2464989.7410995369
+lookup cts 4 2464989
+lookup cts 2 10/22/2036 17:47:11
+lookup cts 4 2360969.3334722221
+lookup cts 4 2360969
+lookup cts 2 01/05/1752 08:00:12
+lookup cts 4 1757697.2731250001
+lookup cts 4 1757697
+lookup cts 2 04/23/0100 06:33:18
+lookup cts 4 2451896.0550925927
+lookup cts 4 2451896
+lookup cts 2 12/17/2000 01:19:20
+lookup cts 4 2438915.9020601851
+lookup cts 4 2438915
+lookup cts 2 06/03/1965 21:38:58
+lookup stots 4 2361048.9298842591
+lookup stots 4 2361048
+lookup stots 2 03/24/1752 22:19:02
+lookup stots 4 2361145
+lookup stots 4 2361145
+lookup stots 2 06/29/1752 00:00:00
+lookup stots 4 2425064.2178125
+lookup stots 4 2425064
+lookup stots 2 07/02/1927 05:13:39
+lookup stots 4 5373374.2540162038
+lookup stots 4 5373374
+lookup stots 2 09/12/9999 06:05:47
+lookup stots 4 2456504.5907175927
+lookup stots 4 2456504
+lookup stots 2 07/30/2013 14:10:38
+lookup stots 4 2427898.664097222
+lookup stots 4 2427898
+lookup stots 2 04/05/1935 15:56:18
+order -
+createindex - bcts 2 0 CREATETIMESTAMP(y, mo, dd, h, mi, s, ms)
+append
+set id long 181
+set y long 1752
+set mo long 2
+set dd long 9
+set h long 16
+set mi long 42
+set s long 26
+set ms long 0
+set d empty
+set c string 10/15/1752 03:01:00
+write
+append
+set id long 182
+set y long 1922
+set mo long 6
+set dd long 5
+set h long 0
+set mi long 56
+set s long 59
+set ms long 899
+set d date 07/02/1927
+set c string 08/04/2000 03:32:52
+write
+append
+set id long 183
+set y long 2071
+set mo long 5
+set dd long 18
+set h long 19
+set mi long 20
+set s long 12
+set ms long 132
+set d date 10/09/2073
+set c string 06/02/2017
+write
+append
+set id long 184
+set y long 100
+set mo long 10
+set dd long 7
+set h long 23
+set mi long 47
+set s long 39
+set ms long 499
+set d date 06/15/1949
+set c string 09/27/2096 13:14:25.529
+write
+append
+set id long 185
+set y long 1902
+set mo long 7
+set dd long 15
+set h long 15
+set mi long 54
+set s long 8
+set ms long 499
+set d date 04/21/9999
+set c empty
+write
+append
+set id long 186
+set y long 1913
+set mo long 4
+set dd long 9
+set h long 14
+set mi long 44
+set s long 31
+set ms long 799
+set d date 02/18/2063
+set c empty
+write
+append
+set id long 187
+set y long 100
+set mo long 5
+set dd long 15
+set h long 6
+set mi long 38
+set s long 35
+set ms long 499
+set d date 11/11/1938
+set c string 08/07/9999 17:20:27
+write
+append
+set id long 188
+set y long 1959
+set mo long 11
+set dd long 11
+set h long 14
+set mi long 12
+set s long 41
+set ms long 500
+set d date 07/03/2036
+set c string 12/21/9999
+write
+append
+set id long 189
+set y long 1923
+set mo long 1
+set dd long 19
+set h long 12
+set mi long 53
+set s long 6
+set ms long 146
+set d empty
+set c string 11/27/9999 16:29:52.500
+write
+append
+set id long 190
+set y long 1752
+set mo long 1
+set dd long 25
+set h long 2
+set mi long 1
+set s long 7
+set ms long 499
+set d date 11/12/9999
+set c string 01/05/0001 21:24:44.500
+write
+order bcts
+rows
+order -
+close
+# A FoxPro order on a timestamp built on records.
+tabletype cdx
+open g.dbf
+append
+set id long 1
+set c string 01/02/2020 12:00:00
+write
+append
+set id long 2
+set c string 01/03/2020 06:00:00
+write
+append
+set id long 3
+set c string 01/04/2020 12:34:56
+write
+append
+set id long 4
+set c string 01/01/2020 12:00:00
+write
+append
+set id long 5
+set c string 01/02/2020 00:01:41
+write
+append
+set id long 6
+set c string 01/02/2020 00:10:10
+write
+createindex - b 2 0 CTOTS(c)
+append
+set id long 7
+set c string 01/02/2020 18:00:00
+write
+append
+set id long 8
+set c string 01/02/2020 00:00:01
+write
+append
+set id long 9
+set c string 01/02/2020 00:07:24
+write
+order b
+rows
+seek 2 01/02/2020 12:00:00
+pos
+seek 2 01/03/2020 06:00:00
+pos
+seek 2 01/04/2020 12:34:56
+pos
+seek 2 01/01/2020 12:00:00
+pos
+seek 2 01/02/2020 00:01:41
+pos
+seek 2 01/02/2020 00:10:10
+pos
+seek 2 01/02/2020 18:00:00
+pos
+seek 2 01/02/2020 00:00:01
+pos
+seek 2 01/02/2020 00:07:24
+pos
+lookup b 2 01/02/2020 12:00:00
+lookup b 4 2458851.5
+lookup b 1 c142c27180000000
+lookup b 1 c142c27180202020
+order m
+rows
+seek 2 01/02/2020 12:00:00
+pos
+seek 2 01/03/2020 06:00:00
+pos
+seek 2 01/04/2020 12:34:56
+pos
+seek 2 01/01/2020 12:00:00
+pos
+seek 2 01/02/2020 00:01:41
+pos
+seek 2 01/02/2020 00:10:10
+pos
+seek 2 01/02/2020 18:00:00
+pos
+seek 2 01/02/2020 00:00:01
+pos
+seek 2 01/02/2020 00:07:24
+pos
+lookup m 2 01/02/2020 12:00:00
+lookup m 4 2458851.5
+lookup m 1 c142c27180000000
+lookup m 1 c142c27180202020
+order -
+close

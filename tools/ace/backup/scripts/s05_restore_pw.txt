@@ -1,0 +1,7 @@
+#include dd_all.txt
+sql 1 EXECUTE PROCEDURE sp_ModifyUserProperty('ADSSYS', 'USER_PASSWORD', 'secret')
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'wrong', '@ROOT@\dwrong\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dempty\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', NULL, '@ROOT@\dnull\d.add', NULL)
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', 'secret', '@ROOT@\dgood\d.add', NULL)

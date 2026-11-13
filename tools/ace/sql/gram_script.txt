@@ -1,0 +1,135 @@
+# The script forms ELSEIF, ENDIF, ENDWHILE, ENDTRY, END TRY and a bare END,
+# in scripts sent as a statement.
+# For fixtures/sql/gram_script.json, in an empty data folder (on the local server):
+#
+#     run.sh <work> <ace32.dll> gram_script.txt > ../../../fixtures/sql/gram_script.json
+stmt
+## script forms: ELSEIF, ENDIF, ENDWHILE, ENDTRY, END TRY and a bare END
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ELSE i = 30; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ELSE i = 30; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 3; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ELSE i = 30; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 3; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ELSEIF i = 3 THEN i = 40; ELSEIF i = 3 THEN i = 50; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 9; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; ELSE i = 30; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSE IF i = 2 THEN i = 20; END IF; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSE IF i = 2 THEN i = 20; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSIF i = 2 THEN i = 20; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDIF
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDIF;
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END IF
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END;
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSE i = 30; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 1 THEN i = 10; ELSEIF i = 2 THEN i = 20; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END; SELECT i AS i FROM system.iota;
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END IF; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDIF SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDIF ; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSEIF i = 3 i = 30; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSE i = 30; ELSEIF i = 2 THEN i = 40; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSE i = 30; ELSE i = 40; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSEIF; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSEIF ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ELSEIF i = 3 THEN ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; ENDWHILE
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; ENDWHILE;
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; END WHILE
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; END
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 THEN i = 20; END TRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO i = i + 1; END WHILE; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO IF i = 3 THEN i = 4; ENDIF; i = i + 1; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO IF i = 3 THEN i = 4; END; i = i + 1; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 5 DO IF i = 3 THEN i = 4; ENDWHILE; i = i + 1; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END TRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; ENDTRY
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; ENDTRY;
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END TRY
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END TRY;
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END;
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL i = 7; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; FINALLY i = 8; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1; FINALLY i = i + 8; END TRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1; FINALLY i = i + 8; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1; END TRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY i = 1 / 0; CATCH ALL IF i IS NULL THEN i = 7; ENDIF; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY IF i IS NULL THEN i = 1 / 0; ENDIF; CATCH ALL i = 7; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY IF i IS NULL THEN i = 1 / 0; END; CATCH ALL i = 7; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; TRY IF i IS NULL THEN i = 1 / 0; ENDTRY; CATCH ALL i = 7; ENDTRY; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN WHILE i < 4 DO i = i + 1; END; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN WHILE i < 4 DO i = i + 1; END; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN WHILE i < 4 DO i = i + 1; END WHILE; END; SELECT i AS i FROM system.iota
+query END
+query END;
+query ENDIF
+query ENDIF;
+query ENDWHILE;
+query ENDTRY;
+query END TRY;
+query END IF;
+query ELSEIF 1 = 1 THEN SELECT 1 AS a FROM system.iota;
+query ELSE SELECT 1 AS a FROM system.iota;
+query DECLARE i INTEGER; i = 1; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; END; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; END IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; ELSEIF i = 1 THEN i = 2; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; ELSE i = 2; END; SELECT i AS i FROM system.iota
+query IF 1 = 1 THEN SELECT 1 AS a FROM system.iota; ENDIF;
+query IF 1 = 1 THEN SELECT 1 AS a FROM system.iota; END;
+query IF 1 = 1 THEN SELECT 1 AS a FROM system.iota; ELSEIF 1 = 2 THEN SELECT 2 AS a FROM system.iota; ENDIF;
+query IF 1 = 2 THEN SELECT 1 AS a FROM system.iota; ELSEIF 1 = 1 THEN SELECT 2 AS a FROM system.iota; ENDIF;
+query IF 1 = 2 THEN SELECT 1 AS a FROM system.iota; ELSEIF 1 = 3 THEN SELECT 2 AS a FROM system.iota; ELSE SELECT 3 AS a FROM system.iota; END;
+query WHILE 1 = 0 DO SELECT 1 AS a FROM system.iota; ENDWHILE;
+query TRY SELECT 1 AS a FROM system.iota; CATCH ALL SELECT 2 AS a FROM system.iota; ENDTRY;
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2 ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; ENDIF i = 3; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; END i = 3; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; ENDIF IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; END IF IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; ENDIFF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; END-IF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; end if; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; if i = 1 then i = 2; elseif i = 3 then i = 4; endif; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 1; IF i = 1 THEN i = 2; END   IF; SELECT i AS i FROM system.iota
+## the same in the bodies of procedures, in a dictionary
+ddcreate gs\gs.add
+stmt
+direct CREATE PROCEDURE g1(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; x = 2; IF x = 1 THEN x = 10; ELSEIF x = 2 THEN x = 20; ELSE x = 30; ENDIF; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g1()
+direct CREATE PROCEDURE g2(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; x = 0; WHILE x < 5 DO x = x + 1; ENDWHILE; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g2()
+direct CREATE PROCEDURE g3(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; x = 2; IF x = 2 THEN x = 20; END; WHILE x < 25 DO x = x + 1; END; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g3()
+direct CREATE PROCEDURE g4(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; TRY x = 1 / 0; CATCH ALL x = 7; ENDTRY; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g4()
+direct CREATE PROCEDURE g5(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; TRY x = 1 / 0; CATCH ALL x = 8; END TRY; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g5()
+direct CREATE PROCEDURE g6(o INTEGER OUTPUT) BEGIN DECLARE x INTEGER; TRY x = 1 / 0; CATCH ALL x = 9; END; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE g6()
+direct CREATE PROCEDURE g7() BEGIN DECLARE x INTEGER; x = 1; ENDIF; END
+direct CREATE PROCEDURE g9() BEGIN DECLARE x INTEGER; IF x = 1 THEN x = 2; END
+direct CREATE PROCEDURE g10() BEGIN DECLARE x INTEGER; IF x = 1 THEN x = 2; ELSEIF x = 3 THEN x = 4; END
+direct CREATE PROCEDURE g11() BEGIN DECLARE x INTEGER; IF x = 1 THEN x = 2; ENDWHILE; END
+direct CREATE PROCEDURE g12() BEGIN DECLARE x INTEGER; ELSEIF x = 1 THEN x = 2; ENDIF; END
+direct CREATE PROCEDURE g13() BEGIN DECLARE x INTEGER; WHILE x < 3 DO x = x + 1; END IF; END
+direct CREATE PROCEDURE g14() BEGIN DECLARE x INTEGER; IF x = 1 THEN x = 2; END WHILE; END
+query SELECT name FROM system.storedprocedures ORDER BY name

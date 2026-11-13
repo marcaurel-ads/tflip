@@ -1,0 +1,11 @@
+sql CREATE TABLE t (id AUTOINC, name CHAR(10), m MEMO, n INTEGER)
+sql CREATE INDEX name ON t (name)
+sql INSERT INTO t (name, m, n) VALUES ('bravo', 'memo b', 1), ('alpha', NULL, 2), ('charlie', 'memo c', 3)
+sql CREATE TABLE dest (name CHAR(8), n INTEGER)
+sql INSERT INTO dest (name, n) VALUES ('zz', 9)
+tabletype cdx
+createtable f.dbf 0 c,Character,6;m,Memo
+append
+set c string xx
+write
+close

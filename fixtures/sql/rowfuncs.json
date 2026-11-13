@@ -1,0 +1,540 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT CHR(65) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: CHR -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT PADL('x', 5, '.') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: PADL -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT PADR('x', 5, '.') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: PADR -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT PADC('x', 5, '.') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: PADC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT PAD('x', 5, '.') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: PAD -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT INLIST(2, 1, 2, 3) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: INLIST -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT TODAY() FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: TODAY -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT NOW_UTC() FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: NOW_UTC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT DESCEND('a') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: DESCEND -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 0},
+{"cmd": "direct CREATE TABLE t (id autoinc, n integer, s char(8), d date, l logical, m memo, f double, ts timestamp, v varchar(10))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE TABLE u (n integer, s char(8))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t (n, s) VALUES (1, 'one')", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n, s, d, l, f, ts, v) VALUES (2, '', '2020-01-02', false, 0, '2020-01-02 03:04:05', ' ')", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n, s, d, l, f, ts, v) VALUES (0, 'x', NULL, true, 1.5, NULL, 'v')", "rc": 0},
+{"cmd": "directnull INSERT INTO u (n, s) VALUES (1, 'u1')", "rc": 0},
+{"cmd": "directnull INSERT INTO u (n, s) VALUES (2, 'u2')", "rc": 0},
+{"cmd": "query SELECT * FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 15, 4, 0], ["n", 11, 4, 0], ["s", 4, 8, 0], ["d", 3, 4, 0], ["l", 1, 1, 0], ["m", 5, 9, 0], ["f", 10, 8, 15], ["ts", 14, 8, 0], ["v", 23, 10, 0]], "rows": [
+  [1, ["1", "1", "one     ", null, null, null, null, null, null]],
+  [2, ["2", "2", "        ", "01/02/2020", "F", null, "0.000000000000000", "01/02/2020 03:04:05 AM", " "]],
+  [3, ["3", "0", "x       ", null, "T", null, "1.500000000000000", null, "v"]]]}},
+{"cmd": "query SELECT ROWID, n FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["ROWID", 4, 18, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["DlOrvpCoWFnzAAAAAB", "1"]],
+  [2, ["DlOrvpCoWFnzAAAAAC", "2"]],
+  [3, ["DlOrvpCoWFnzAAAAAD", "0"]]]}},
+{"cmd": "query SELECT ROWID FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ROWID", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT t.ROWID, u.ROWID FROM t, u WHERE t.n = u.n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ROWID", 4, 18, 0], ["ROWID_1", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCoWFnzAAAAAB", "DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCoWFnzAAAAAC", "DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT ROWID FROM t WHERE ROWID = 'x'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["ROWID", 4, 18, 0]], "rows": []}},
+{"cmd": "query SELECT * FROM t WHERE LENGTH(ROWID) = 18", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["n", 11, 4, 0], ["s", 4, 8, 0], ["d", 3, 4, 0], ["l", 1, 1, 0], ["m", 5, 9, 0], ["f", 10, 8, 15], ["ts", 14, 8, 0], ["v", 23, 10, 0]], "rows": [
+  [1, ["1", "1", "one     ", null, null, null, null, null, null]],
+  [2, ["2", "2", "        ", "01/02/2020", "F", null, "0.000000000000000", "01/02/2020 03:04:05 AM", " "]],
+  [3, ["3", "0", "x       ", null, "T", null, "1.500000000000000", null, "v"]]]}},
+{"cmd": "query SELECT LENGTH(ROWID), RIGHT(ROWID, 6), UPPER(ROWID) FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 4, 18, 0]], "rows": [
+  [1, ["18", "AAAAAB", "DLORVPCVOHBDAAAAAB"]],
+  [2, ["18", "AAAAAC", "DLORVPCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT x.ROWID FROM u x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ROWID", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT ROWID r FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["r", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT ROWID FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: ROWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT ROWID FROM (SELECT n FROM u) x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: ROWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT ROWID FROM t, u", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2137;  [SAP][Advantage SQL Engine]Column found in multiple tables: ROWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT ROWID FROM t ORDER BY ROWID DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["ROWID", 4, 18, 0]], "rows": [
+  [3, ["DlOrvpCoWFnzAAAAAD"]],
+  [2, ["DlOrvpCoWFnzAAAAAC"]],
+  [1, ["DlOrvpCoWFnzAAAAAB"]]]}},
+{"cmd": "query SELECT COUNT(ROWID) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query SELECT DISTINCT ROWID FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ROWID", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "query SELECT ROWID FROM u UNION SELECT ROWID FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["ROWID", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAC"]]]}},
+{"cmd": "directnull INSERT INTO u (ROWID, n) VALUES ('AAAAAAAAAAAAAAAAAA', 5)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: ROWID -- Location of error in the SQL statement is: 16"},
+{"cmd": "directnull UPDATE u SET ROWID = 'AAAAAAAAAAAAAAAAAA'", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: ROWID -- Location of error in the SQL statement is: 14"},
+{"cmd": "query SELECT s FROM u WHERE ROWID = (SELECT ROWID FROM u WHERE n = 2)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["s", 4, 8, 0]], "rows": [
+  [1, ["u2      "]]]}},
+{"cmd": "query SELECT RECNO(), DELETED(), ROWNUM(), n FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "F", "1", "1"]],
+  [2, ["2", "F", "2", "2"]],
+  [3, ["3", "F", "3", "0"]]]}},
+{"cmd": "query SELECT RECNO(t), DELETED(t), RECNO(u), DELETED(u), t.n FROM t, u WHERE t.n = u.n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 11, 4, 0], ["EXPR_3", 1, 1, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "F", "1", "F", "1"]],
+  [2, ["2", "F", "2", "F", "2"]]]}},
+{"cmd": "query SELECT RECNO(), n FROM t WHERE RECNO() > 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["2", "2"]],
+  [2, ["3", "0"]]]}},
+{"cmd": "query SELECT n FROM t ORDER BY RECNO() DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["n", 11, 4, 0]], "rows": [
+  [3, ["0"]],
+  [2, ["2"]],
+  [1, ["1"]]]}},
+{"cmd": "query SELECT RECNO(zz) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2122;  [SAP][Advantage SQL Engine]Table or alias not found: zz", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RECNO(1) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RECNO() FROM t, u", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2209;  [SAP][Advantage SQL Engine]A reference to a table was not unique. It must be qualified with an alias. ", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT DELETED() FROM t, u", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2209;  [SAP][Advantage SQL Engine]A reference to a table was not unique. It must be qualified with an alias. ", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RECNO(x) FROM t x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT RECNO(t) FROM t x", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2122;  [SAP][Advantage SQL Engine]Table or alias not found: t", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT RECNO() FROM (SELECT n FROM t) x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT RECNO(x) FROM (SELECT n FROM t) x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT RECNO(), DELETED() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["0", "F"]]]}},
+{"cmd": "query SELECT ROWNUM(), n FROM t ORDER BY n DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 3, "fields": [["EXPR", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [2, ["2", "2"]],
+  [1, ["1", "1"]],
+  [3, ["3", "0"]]]}},
+{"cmd": "query SELECT ROWNUM(), n FROM t WHERE n > 0", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["2", "2"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ROWNUM() > 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE ROWNUM() = 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ROWNUM() < 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT ROWNUM(), ROWNUM() FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["2", "2"]],
+  [3, ["3", "3"]]]}},
+{"cmd": "query SELECT ROWNUM() FROM t GROUP BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]],
+  [3, ["3"]]]}},
+{"cmd": "query SELECT ROWNUM(), n FROM t UNION ALL SELECT ROWNUM(), n FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["EXPR", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["2", "2"]],
+  [3, ["3", "0"]],
+  [4, ["1", "1"]],
+  [5, ["2", "2"]]]}},
+{"cmd": "query SELECT ROWNUM(1) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: ROWNUM -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TOP 2 ROWNUM(), n FROM t ORDER BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "0"]],
+  [2, ["2", "1"]]]}},
+{"cmd": "directnull DELETE FROM t WHERE n = 2", "rc": 0},
+{"cmd": "query SELECT RECNO(), DELETED(), n FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "F", "1"]],
+  [2, ["3", "F", "0"]]]}},
+{"cmd": "query SELECT n FROM t WHERE DELETED()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE NOT DELETED()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [3, ["0"]]]}},
+{"cmd": "query SELECT DELETED(t) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]],
+  [2, ["F"]]]}},
+{"cmd": "query SELECT EMPTY(n), EMPTY(s), EMPTY(d), EMPTY(l), EMPTY(m), EMPTY(f), EMPTY(ts), EMPTY(v), EMPTY(id), n FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_30.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0], ["EXPR_7", 1, 1, 0], ["EXPR_8", 1, 1, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["F", "F", "T", "T", "T", "T", "T", "T", "F", "1"]],
+  [2, ["F", "F", "T", "F", "T", "F", "T", "F", "F", "0"]]]}},
+{"cmd": "query SELECT EMPTY(''), EMPTY(' '), EMPTY(0), EMPTY('a'), EMPTY(1), EMPTY(TRUE), EMPTY(FALSE) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_31.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0]], "rows": [
+  [1, ["F", "F", "F", "F", "F", "F", "F"]]]}},
+{"cmd": "query SELECT EMPTY(NULL) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2123;  [SAP][Advantage SQL Engine]Data type of parameter cannot be determined", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT EMPTY(s), EMPTY(UPPER(s)), EMPTY(RTRIM(s)), EMPTY(s + ''), EMPTY(CAST(d AS SQL_DATE)), EMPTY(IFNULL(d, d)), EMPTY(d + 0) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_32.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0]], "rows": [
+  [1, ["F", "F", "F", "F", "F", "F", "F"]],
+  [2, ["F", "F", "F", "F", "F", "F", "F"]]]}},
+{"cmd": "query SELECT EMPTY(n) FROM u WHERE EMPTY(n)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_33.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["EXPR", 1, 1, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE EMPTY(d)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [3, ["0"]]]}},
+{"cmd": "query SELECT n FROM t WHERE EMPTY(n) = FALSE", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [3, ["0"]]]}},
+{"cmd": "query SELECT EMPTY(x) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: x -- Location of error in the SQL statement is: 14", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT EMPTY() FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: EMPTY -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT EMPTY(1, 2) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: EMPTY -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT EMPTY(n + 0), EMPTY(s + ''), EMPTY(CAST(NULL AS SQL_CHAR)) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_34.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0]], "rows": [
+  [1, ["F", "F", "F"]],
+  [2, ["F", "F", "F"]]]}},
+{"cmd": "query SELECT EMPTY(CURDATE()), EMPTY(CAST(NULL AS SQL_DATE)) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_35.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["F", "F"]]]}},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID(), LASTROWVERSION() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_36.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0], ["EXPR_3", 19, 8, 0]], "rows": [
+  [1, ["3", "3", "DlOrvpCVOHBDAAAAAC", null]]]}},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n) VALUES (10)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID(), LASTROWVERSION() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_37.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0], ["EXPR_3", 19, 8, 0]], "rows": [
+  [1, ["4", "4", "DlOrvpCoWFnzAAAAAC", null]]]}},
+{"cmd": "directnull INSERT INTO t (n) VALUES (11)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_38.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["5", "5", "DlOrvpCoWFnzAAAAAE"]]]}},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_39.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["5", null, "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"]]]}},
+{"cmd": "directnull INSERT INTO u (n) VALUES (12)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["5", null, "DlOrvpCVOHBDAAAAAD"]]]}},
+{"cmd": "query SELECT LASTAUTOINC() FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: LASTAUTOINC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC(1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: CONNECTION or STATEMENT [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC(x) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: CONNECTION or STATEMENT [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC(connection), LASTAUTOINC( statement ) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["5", null]]]}},
+{"cmd": "query SELECT LASTAUTOINC('CONNECTION') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: CONNECTION or STATEMENT [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION, STATEMENT) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: ) [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: LASTAUTOINC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION) + 1, -LASTAUTOINC(STATEMENT) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["6", null]]]}},
+{"cmd": "query SELECT n, LASTAUTOINC(CONNECTION) FROM u WHERE n = 12", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["12", "5"]]]}},
+{"cmd": "query SELECT LASTROWID(1), LASTROWVERSION(1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: LASTROWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT LASTROWID FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: LASTROWID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO t (n) VALUES (13), (14)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_3f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 19, 0]], "rows": [
+  [1, ["7", "DlOrvpCoWFnzAAAAAG"]]]}},
+{"cmd": "directnull INSERT INTO t (id, n) VALUES (100, 15)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_40.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 19, 0]], "rows": [
+  [1, ["8", "DlOrvpCoWFnzAAAAAH"]]]}},
+{"cmd": "directnull UPDATE t SET n = 5 WHERE n = 10", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_41.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 19, 0]], "rows": [
+  [1, ["8", "DlOrvpCoWFnzAAAAAH"]]]}},
+{"cmd": "directnull INSERT INTO u SELECT n, s FROM t", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_42.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 19, 0]], "rows": [
+  [1, ["8", "DlOrvpCVOHBDAAAAAK"]]]}},
+{"cmd": "query SELECT LASTROWID() = ROWID FROM t WHERE n = 15", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_44.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "query SELECT LASTROWID(), ROWID FROM u", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_45.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 10, "fields": [["EXPR", 23, 19, 0], ["ROWID", 4, 18, 0]], "rows": [
+  [1, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAB"]],
+  [2, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAC"]],
+  [3, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAD"]],
+  [4, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAE"]],
+  [5, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAF"]],
+  [6, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAG"]],
+  [7, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAH"]],
+  [8, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAI"]],
+  [9, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAJ"]],
+  [10, ["DlOrvpCVOHBDAAAAAK", "DlOrvpCVOHBDAAAAAK"]]]}},
+{"cmd": "direct CREATE TABLE rv (n integer, r rowversion, a autoinc)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO rv (n) VALUES (1)", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_46.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]]]}},
+{"cmd": "directnull INSERT INTO rv (n) VALUES (2)", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION(), LASTAUTOINC(CONNECTION), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_47.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["2", "2", "DlOrvpCqr/5jAAAAAC"]]]}},
+{"cmd": "directnull UPDATE rv SET n = 3 WHERE n = 1", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_48.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "query SELECT * FROM rv", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "rv.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["r", 21, 8, 0], ["a", 15, 4, 0]], "rows": [
+  [1, ["3", "3", "1"]],
+  [2, ["2", "2", "2"]]]}},
+{"cmd": "query SELECT APPLICATIONID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_49.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["sql.exe"]]]}},
+{"cmd": "query SELECT APPLICATIONID(1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: APPLICATIONID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT APPLICATIONID FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: APPLICATIONID -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE sp_GetApplicationID()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_4a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["ApplicationID", 5, 9, 0]], "rows": [
+  [1, ["sql.exe"]]]}},
+{"cmd": "directnull EXECUTE PROCEDURE sp_SetApplicationID('myapp')", "rc": 0},
+{"cmd": "query SELECT APPLICATIONID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 5, 9, 0]], "rows": [
+  [1, ["myapp"]]]}},
+{"cmd": "query SELECT TTOC(ts) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(ts, 1), TTOC(ts, 2), TTOC(ts, 3) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["EXPR", 23, 14, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, [null, null, null]],
+  [2, [null, null, null]],
+  [3, [null, null, null]],
+  [4, [null, null, null]],
+  [5, [null, null, null]],
+  [6, [null, null, null]],
+  [7, [null, null, null]]]}},
+{"cmd": "query SELECT TTOC(ts, 1), TTOC(ts, 2), TTOC(ts, 3) FROM t WHERE ts IS NULL", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["EXPR", 23, 14, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, [null, null, null]],
+  [2, [null, null, null]],
+  [3, [null, null, null]],
+  [4, [null, null, null]],
+  [5, [null, null, null]],
+  [6, [null, null, null]],
+  [7, [null, null, null]]]}},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05.678'}, 1), TTOC({ts '2020-01-02 03:04:05.678'}, 2), TTOC({ts '2020-01-02 03:04:05.678'}, 3) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_4f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 14, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["20200102030405", "030405", "2020-01-02T03:04:05"]]]}},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 13:04:05'}, 1), TTOC({ts '1999-12-31 23:59:59'}, 2), TTOC({ts '0100-03-04 00:00:00'}, 3) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_50.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 14, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["20200102130405", "235959", "0100-03-04T00:00:00"]]]}},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, 3) + 'x', LENGTH(TTOC({ts '2020-01-02 03:04:05'}, 3)) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_51.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 20, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["2020-01-02T03:04:05x", "19"]]]}},
+{"cmd": "query SELECT TTOC(ts, 3 + 0), TTOC(ts, 1.0), TTOC(ts, 1 + n - n) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 25", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(CURRENT_TIMESTAMP, 1) FROM system.iota WHERE 1 = 0", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2121;  [SAP][Advantage SQL Engine]Column not found: CURRENT_TIMESTAMP -- Location of error in the SQL statement is: 13", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, CAST(2 AS SQL_SMALLINT)) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_52.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 19, 0]], "rows": [
+  [1, ["030405"]]]}},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, CAST(2 AS SQL_DOUBLE)) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, NULL) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_53.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 19, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT TTOC(CAST('2020-01-02 03:04:05' AS SQL_TIMESTAMP), 1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_54.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 14, 0]], "rows": [
+  [1, ["20200102030405"]]]}},
+{"cmd": "query SELECT TTOC(CAST(NULL AS SQL_TIMESTAMP), 1), TTOC(CAST(NULL AS SQL_TIMESTAMP), 2), TTOC(CAST(NULL AS SQL_TIMESTAMP), 3) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_55.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 14, 0], ["EXPR_1", 23, 6, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, [null, null, null]]]}},
+{"cmd": "query SELECT TTOC({t '13:04:05'}, 1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(1, 1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(ts, 1, 2) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, 0), TTOC({ts '2020-01-02 03:04:05'}, 4), TTOC({ts '2020-01-02 03:04:05'}, -1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC. The valid format values are 1, 2, or 3. -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC({ts '2020-01-02 03:04:05'}, 1.5) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(d, 1) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC('x', 1) FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(ts, '1') FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC() FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2159;  [SAP][Advantage SQL Engine]Invalid argument to scalar function: TTOC -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TTOC(ts, n) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_57.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["EXPR", 23, 19, 0]], "rows": [
+  [1, [null]],
+  [2, [null]],
+  [3, [null]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]]]}},
+{"cmd": "query SELECT TTOC(NULL, 1) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_58.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 23, 14, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "query SELECT s COLLATE ads_default_ci FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_59.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["s", 20, 8, 0]], "rows": [
+  [1, ["one     "]],
+  [2, [null]],
+  [3, ["x       "]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]]]}},
+{"cmd": "query SELECT s COLLATE ads_default_cs FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["s", 4, 8, 0]], "rows": [
+  [1, ["one     "]],
+  [2, [null]],
+  [3, ["x       "]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]]]}},
+{"cmd": "query SELECT COLLATE(s, 'ads_default_ci') FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: COLLATE -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n FROM t WHERE s COLLATE ads_default_ci = 'ONE'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT n FROM t WHERE s = 'ONE'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT n FROM t WHERE s COLLATE ads_default_cs = 'ONE'", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 0, "fields": [["n", 11, 4, 0]], "rows": []}},
+{"cmd": "query SELECT 'a' COLLATE ads_default_ci = 'A' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["T"]]]}},
+{"cmd": "query SELECT 'a' COLLATE ads_default_cs = 'A' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "query SELECT 'a' COLLATE nonsense FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  unknown language found after COLLATE clause. -- Location of error in the SQL statement is: 20 [Parsing Expression (column 1 in the SELECT clause)]", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 1 COLLATE ads_default_ci FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: FROM Missing the keyword FROM after the column definitions in the SELECT statement. -- Location of error in the SQL statement is: 18", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n COLLATE ads_default_ci FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2214;  [SAP][Advantage SQL Engine]Invalid coercion: Explicit coercion is only legal if the column is a string.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT m COLLATE ads_default_ci FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["m", 5, 9, 0]], "rows": [
+  [1, [null]],
+  [2, [null]],
+  [3, [null]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]]]}},
+{"cmd": "query SELECT v COLLATE ads_default_ci FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["v", 20, 10, 0]], "rows": [
+  [1, [null]],
+  [2, [null]],
+  [3, ["v         "]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]]]}},
+{"cmd": "query SELECT 'a' COLLATE 'ads_default_ci' FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found:  expecting language after COLLATE clause. [Parsing Expression (column 1 in the SELECT clause)] -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT 'a' COLLATE ads_default_ci COLLATE ads_default_cs FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: FROM Missing the keyword FROM after the column definitions in the SELECT statement. -- Location of error in the SQL statement is: 43", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT s COLLATE ads_default_ci AS c FROM t ORDER BY 1", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_5f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 7, "fields": [["c", 20, 8, 0]], "rows": [
+  [2, [null]],
+  [4, [null]],
+  [5, [null]],
+  [6, [null]],
+  [7, [null]],
+  [1, ["one     "]],
+  [3, ["x       "]]]}},
+{"cmd": "query SELECT n FROM t ORDER BY s COLLATE ads_default_ci", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "t.adt", "options": 65776, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 7, "fields": [["n", 11, 4, 0]], "rows": [
+  [2, ["5"]],
+  [4, ["11"]],
+  [5, ["13"]],
+  [6, ["14"]],
+  [7, ["15"]],
+  [1, ["1"]],
+  [3, ["0"]]]}},
+{"cmd": "query SELECT 'B' COLLATE ads_default_ci < 'a' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_62.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0]], "rows": [
+  [1, ["F"]]]}},
+{"cmd": "query SELECT 'a' COLLATE ads_default_ci = 'A' COLLATE ads_default_cs FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 2213;  [SAP][Advantage SQL Engine]Invalid comparison or operation on strings with different collations.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT COLLATE('a') FROM system.iota", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2158;  [SAP][Advantage SQL Engine]Scalar function not found: COLLATE -- Location of error in the SQL statement is: 8", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT UPPER('a' COLLATE ads_default_ci) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_63.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 20, 1, 0]], "rows": [
+  [1, ["A"]]]}},
+{"cmd": "query SELECT 'a' COLLATE ads_default_ci + 'b' FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_64.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 20, 2, 0]], "rows": [
+  [1, ["ab"]]]}},
+{"cmd": "query SELECT COUNT(*) FROM t GROUP BY s COLLATE ads_default_ci", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_66.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["5"]],
+  [2, ["1"]],
+  [3, ["1"]]]}},
+{"cmd": "tabletype 2", "rc": 0},
+{"cmd": "direct CREATE TABLE cx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo, dbl double)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO cx (id) VALUES (0)", "rc": 0},
+{"cmd": "directnull INSERT INTO cx (id, c, nn, dd, ll, mm, dbl) VALUES (2, '  ', 0, '2020-01-02', false, '', 0)", "rc": 0},
+{"cmd": "directnull INSERT INTO cx (id, c, nn, dd, ll, mm, dbl) VALUES (3, 'x', 1.5, '2020-01-02', true, 'memo', 2.5)", "rc": 0},
+{"cmd": "directnull INSERT INTO cx (id, c, dd) VALUES (4, CHAR(9), NULL)", "rc": 0},
+{"cmd": "directnull INSERT INTO cx (id, c, mm) VALUES (5, CHAR(13) + CHAR(10) + CHAR(9) + ' ', CHAR(9))", "rc": 0},
+{"cmd": "directnull INSERT INTO cx (id, c, mm) VALUES (6, 'a', CHAR(32))", "rc": 0},
+{"cmd": "query SELECT * FROM cx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "cx.dbf", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 6, "fields": [["ID", 11, 4, 0], ["C", 4, 5, 0], ["NN", 2, 6, 2], ["DD", 3, 8, 0], ["LL", 1, 1, 0], ["MM", 5, 10, 0], ["DBL", 10, 8, 15]], "rows": [
+  [1, [null, null, null, null, null, null, null]],
+  [2, ["2", null, "  0.00", "01/02/2020", "F", null, null]],
+  [3, ["3", "x    ", "  1.50", "01/02/2020", "T", "memo", "2.500000000000000"]],
+  [4, ["4", "\u0009    ", null, null, null, null, null]],
+  [5, ["5", "\u000d\u000a\u0009  ", null, null, null, "\u0009", null]],
+  [6, ["6", "a    ", null, null, null, " ", null]]]}},
+{"cmd": "query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), EMPTY(dbl) FROM cx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_67.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 6, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0]], "rows": [
+  [1, ["0", "T", "T", "T", "T", "T", "T", "T"]],
+  [2, ["2", "F", "T", "T", "F", "T", "T", "T"]],
+  [3, ["3", "F", "F", "F", "F", "F", "F", "F"]],
+  [4, ["4", "F", "F", "T", "T", "T", "T", "T"]],
+  [5, ["5", "F", "F", "T", "T", "T", "F", "T"]],
+  [6, ["6", "F", "F", "T", "T", "T", "F", "T"]]]}},
+{"cmd": "query SELECT id, EMPTY(c + ''), EMPTY(UPPER(c)), EMPTY(nn + 0), EMPTY(id + 0), EMPTY(dd), EMPTY(CAST(dd AS SQL_DATE)), EMPTY(IFNULL(c, 'x')), EMPTY(CAST(c AS SQL_CHAR)), RECNO(), DELETED() FROM cx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_68.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 6, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0], ["EXPR_7", 1, 1, 0], ["EXPR_8", 11, 4, 0], ["EXPR_9", 1, 1, 0]], "rows": [
+  [1, ["0", "F", "F", "F", "F", "T", "F", "F", "F", "1", "F"]],
+  [2, ["2", "F", "F", "F", "F", "F", "F", "F", "F", "2", "F"]],
+  [3, ["3", "F", "F", "F", "F", "F", "F", "F", "F", "3", "F"]],
+  [4, ["4", "F", "F", "F", "F", "T", "F", "F", "F", "4", "F"]],
+  [5, ["5", "F", "F", "F", "F", "T", "F", "F", "F", "5", "F"]],
+  [6, ["6", "F", "F", "F", "F", "T", "F", "F", "F", "6", "F"]]]}},
+{"cmd": "query SELECT EMPTY(''), EMPTY(' '), EMPTY(0), EMPTY('a'), EMPTY(1), EMPTY(TRUE), EMPTY(FALSE), EMPTY(0.0) FROM cx WHERE id = 3", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0], ["EXPR_7", 1, 1, 0]], "rows": [
+  [1, ["F", "F", "F", "F", "F", "F", "F", "F"]]]}},
+{"cmd": "query SELECT id FROM cx WHERE EMPTY(c)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "cx.dbf", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["id", 11, 4, 0]], "rows": [
+  [1, [null]],
+  [2, ["2"]],
+  [4, ["4"]],
+  [5, ["5"]]]}},
+{"cmd": "query SELECT id FROM cx WHERE NOT EMPTY(nn)", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "cx.dbf", "options": 65776, "table_type": 2, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0]], "rows": [
+  [3, ["3"]]]}},
+{"cmd": "directnull DELETE FROM cx WHERE id = 2", "rc": 0},
+{"cmd": "query SELECT id, RECNO(), DELETED() FROM cx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 6, "fields": [["id", 11, 4, 0], ["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["0", "1", "F"]],
+  [2, ["2", "2", "T"]],
+  [3, ["3", "3", "F"]],
+  [4, ["4", "4", "F"]],
+  [5, ["5", "5", "F"]],
+  [6, ["6", "6", "F"]]]}},
+{"cmd": "query SELECT id, RECNO(), DELETED() FROM cx WHERE DELETED()", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["id", 11, 4, 0], ["EXPR", 11, 4, 0], ["EXPR_1", 1, 1, 0]], "rows": [
+  [1, ["2", "2", "T"]]]}},
+{"cmd": "tabletype 4", "rc": 0},
+{"cmd": "direct CREATE TABLE vx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo, dbl double, ts timestamp, vc varchar(5), bi bigint)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO vx (id, nn, dbl, bi) VALUES (0, 0, 0, 0)", "rc": 0},
+{"cmd": "directnull INSERT INTO vx (id) VALUES (1)", "rc": 0},
+{"cmd": "directnull INSERT INTO vx (id, c, nn, dd, ll, mm, dbl, ts, vc, bi) VALUES (2, '  ', 0, '2020-01-02', false, '', 0, '2020-01-02 03:04:05', '', 0)", "rc": 0},
+{"cmd": "query SELECT * FROM vx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "vx.dbf", "options": 65776, "table_type": 4, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["c", 4, 5, 0], ["nn", 2, 6, 2], ["dd", 3, 8, 0], ["ll", 1, 1, 0], ["mm", 5, 4, 0], ["dbl", 10, 8, 15], ["ts", 14, 8, 0], ["vc", 23, 5, 0], ["bi", 19, 8, 0]], "rows": [
+  [1, ["0", "     ", "  0.00", "  /  /    ", " ", "", "0.000000000000000", "  /  /     12:00:00 AM", "", "0"]],
+  [2, ["1", "     ", "      ", "  /  /    ", " ", "", "0.000000000000000", "  /  /     12:00:00 AM", "", "0"]],
+  [3, ["2", "     ", "  0.00", "01/02/2020", "F", "", "0.000000000000000", "01/02/2020 03:04:05 AM", "", "0"]]]}},
+{"cmd": "query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), EMPTY(dbl), EMPTY(ts), EMPTY(vc), EMPTY(bi) FROM vx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 1, 1, 0], ["EXPR_7", 1, 1, 0], ["EXPR_8", 1, 1, 0], ["EXPR_9", 1, 1, 0]], "rows": [
+  [1, ["0", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T"]],
+  [2, ["1", "F", "T", "T", "T", "T", "T", "T", "T", "T", "T"]],
+  [3, ["2", "F", "T", "T", "F", "T", "T", "T", "F", "T", "T"]]]}},
+{"cmd": "tabletype 1", "rc": 0},
+{"cmd": "direct CREATE TABLE nx (id integer, c char(5), nn numeric(6,2), dd date, ll logical, mm memo)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO nx (id) VALUES (1)", "rc": 0},
+{"cmd": "directnull INSERT INTO nx (id, c, nn, dd, ll, mm) VALUES (2, '  ', 0, '2020-01-02', false, '')", "rc": 0},
+{"cmd": "query SELECT id, EMPTY(id), EMPTY(c), EMPTY(nn), EMPTY(dd), EMPTY(ll), EMPTY(mm), RECNO(), DELETED() FROM nx", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["id", 11, 4, 0], ["EXPR", 1, 1, 0], ["EXPR_1", 1, 1, 0], ["EXPR_2", 1, 1, 0], ["EXPR_3", 1, 1, 0], ["EXPR_4", 1, 1, 0], ["EXPR_5", 1, 1, 0], ["EXPR_6", 11, 4, 0], ["EXPR_7", 1, 1, 0]], "rows": [
+  [1, ["1", "F", "T", "T", "T", "T", "T", "1", "F"]],
+  [2, ["2", "F", "T", "T", "F", "T", "T", "2", "F"]]]}},
+{"cmd": "tabletype 3", "rc": 0},
+{"cmd": "query SELECT n, ROWNUM() FROM (SELECT TOP 5 n FROM t ORDER BY n DESC) x", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_71.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 5, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["15", "1"]],
+  [2, ["14", "2"]],
+  [3, ["13", "3"]],
+  [4, ["11", "4"]],
+  [5, ["5", "5"]]]}},
+{"cmd": "query SELECT COUNT(*), MAX(ROWNUM()) FROM t", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_73.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["7", "0"]]]}},
+{"cmd": "query SELECT n FROM t WHERE ROWNUM() <= 2 ORDER BY n DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_74.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 2, "fields": [["n", 11, 4, 0]], "rows": [
+  [2, ["5"]],
+  [1, ["1"]]]}},
+{"cmd": "query SELECT ROWNUM() r, n FROM t WHERE n > 1 ORDER BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_76.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 1, "count": 5, "fields": [["r", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["1", "5"]],
+  [2, ["2", "11"]],
+  [3, ["3", "13"]],
+  [4, ["4", "14"]],
+  [5, ["5", "15"]]]}},
+{"cmd": "query SELECT t.n, ROWNUM() FROM t, u WHERE t.n = u.n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_79.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 8, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["1", "2"]],
+  [3, ["5", "3"]],
+  [4, ["0", "4"]],
+  [5, ["11", "5"]],
+  [6, ["13", "6"]],
+  [7, ["14", "7"]],
+  [8, ["15", "8"]]]}},
+{"cmd": "query SELECT n, ROWNUM() FROM t GROUP BY n ORDER BY n DESC", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 7, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["15", "1"]],
+  [2, ["14", "2"]],
+  [3, ["13", "3"]],
+  [4, ["11", "4"]],
+  [5, ["5", "5"]],
+  [6, ["1", "6"]],
+  [7, ["0", "7"]]]}},
+{"cmd": "query SELECT ROWNUM() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query SELECT ROWNUM() FROM u WHERE ROWNUM() = 1 OR n = 2", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1"]],
+  [2, ["2"]]]}},
+{"cmd": "query SELECT n, (SELECT ROWNUM() FROM u WHERE u.n = t.n) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = S0000;   NativeError = 2167;  [SAP][Advantage SQL Engine]SELECT sub-query returned more than one row.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT n, ROWNUM() FROM t LIMIT 2", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2117;  [SAP][Advantage SQL Engine]Unexpected token: 2 -- Expecting semicolon. -- Location of error in the SQL statement is: 33", "has_cursor": false, "affected": 4294967295},
+{"cmd": "query SELECT TOP 2 START AT 2 n, ROWNUM() FROM t ORDER BY n", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_81.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["5", "2"]]]}},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "directnull INSERT INTO t (n) VALUES (20)", "rc": 0},
+{"cmd": "directnull INSERT INTO u (n) VALUES (21)", "rc": 0},
+{"cmd": "query SELECT LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_82.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 23, 19, 0]], "rows": [
+  [1, ["9", "DlOrvpCVOHBDAAAAAL"]]]}},
+{"cmd": "directnull INSERT INTO rv (n) VALUES (22)", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT), LASTROWID() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_83.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 23, 19, 0]], "rows": [
+  [1, ["4", "3", "DlOrvpCqr/5jAAAAAD"]]]}},
+{"cmd": "directnull INSERT INTO t (n) VALUES (23)", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION(), LASTAUTOINC(STATEMENT), LASTAUTOINC(CONNECTION) FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_84.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["4", "10", "10"]]]}},
+{"cmd": "directnull DELETE FROM rv WHERE n = 22", "rc": 0},
+{"cmd": "query SELECT LASTROWVERSION() FROM system.iota", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_85.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 19, 8, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "direct CREATE TABLE dm (n integer)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (1)", "rc": 0},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (2)", "rc": 0},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (3)", "rc": 0},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (4)", "rc": 0},
+{"cmd": "directnull DELETE FROM dm WHERE RECNO() = 2", "rc": 0},
+{"cmd": "query SELECT n, RECNO() FROM dm", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_86.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["3", "3"]],
+  [3, ["4", "4"]]]}},
+{"cmd": "directnull UPDATE dm SET n = n + 10 WHERE RECNO() = 3", "rc": 0},
+{"cmd": "query SELECT n, RECNO() FROM dm", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_87.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["13", "3"]],
+  [3, ["4", "4"]]]}},
+{"cmd": "directnull UPDATE dm SET n = RECNO() * 100 WHERE n = 4", "rc": 0},
+{"cmd": "query SELECT n, RECNO() FROM dm", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_88.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 3, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["13", "3"]],
+  [3, ["400", "4"]]]}},
+{"cmd": "directnull UPDATE dm SET n = 77 WHERE ROWID = (SELECT ROWID FROM dm WHERE n = 1)", "rc": 0},
+{"cmd": "directnull UPDATE dm SET n = 78 WHERE ROWID = LASTROWID()", "rc": 0},
+{"cmd": "directnull UPDATE dm SET n = ROWNUM()", "rc": 0},
+{"cmd": "directnull UPDATE dm SET n = ROWNUM() WHERE n = 0", "rc": 0},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (ROWNUM())", "rc": 0},
+{"cmd": "directnull DELETE FROM dm WHERE DELETED()", "rc": 0},
+{"cmd": "directnull DELETE FROM dm WHERE EMPTY(n)", "rc": 0},
+{"cmd": "query SELECT n, RECNO() FROM dm", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 4, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["1", "2"]],
+  [3, ["1", "3"]],
+  [4, ["1", "4"]]]}},
+{"cmd": "directnull INSERT INTO dm (n) VALUES (LASTAUTOINC(CONNECTION))", "rc": 0},
+{"cmd": "directnull INSERT INTO dm (n) SELECT ROWNUM() FROM dm", "rc": 0},
+{"cmd": "query SELECT n, RECNO() FROM dm", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 10, "fields": [["n", 11, 4, 0], ["EXPR", 11, 4, 0]], "rows": [
+  [1, ["1", "1"]],
+  [2, ["1", "2"]],
+  [3, ["1", "3"]],
+  [4, ["1", "4"]],
+  [5, ["10", "5"]],
+  [6, ["1", "6"]],
+  [7, ["2", "7"]],
+  [8, ["3", "8"]],
+  [9, ["4", "9"]],
+  [10, ["5", "10"]]]}}
+]

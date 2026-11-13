@@ -1,0 +1,94 @@
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adt | 
+5168 dbf.c:6387 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adt | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adi | 
+7041 index.c:5484 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adi | 
+7041 index.c:9568 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adi | 
+5168 dbf.c:6951 C:\ads\data\bk\s06_restore_user\dgood\t_adt.adi | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.cdx | 
+7041 index.c:5199 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.cdx | 
+7041 index.c:9568 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.cdx | 
+5168 dbf.c:6951 C:\ads\data\bk\s06_restore_user\dgood\t_cdx.cdx | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_ntx.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s06_restore_user\dgood\t_ntx.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s06_restore_user\dgood\t_ntx.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_name.ntx | 
+7041 index.c:5117 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_name.ntx | 
+7041 index.c:9568 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_name.ntx | 
+5168 dbf.c:6951 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_name.ntx | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_d.ntx | 
+7041 index.c:5117 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_d.ntx | 
+7041 index.c:9568 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_d.ntx | 
+5168 dbf.c:6951 C:\ads\data\bk\s06_restore_user\dgood\t_ntx_d.ntx | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.dbf | 
+7041 dbf.c:20452 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.dbf | 
+5168 dbf.c:6387 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.dbf | 
+2 resrc.c:1919 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.cdx | 
+7041 index.c:5199 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.cdx | 
+7041 index.c:9568 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.cdx | 
+5168 dbf.c:6951 C:\ads\data\bk\s06_restore_user\dgood\t_vfp.cdx | 
+7078 dctnry.c:100 nosuch | 
+7078 dctnry.c:101 C:\ads\data\bk\s06_restore_user\img\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 dctnry.c:100 nosuch | 
+7078 dctnry.c:101 C:\ads\data\bk\s06_restore_user\dnouser\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 bkuser | 
+7078 ace2ads.cpp:1297  | 
+7078 main.c:12563 bkuser | 
+7078 ace2ads.cpp:1297  | 
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 2
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 3
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 4
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 5
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 6
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 7
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 10
+AuthUsername:nosuch
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 8
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 9
+AuthUsername:ADSSERVER1
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0
+7020 login.c:6717 00000000:000000000000 | Username: ADS Internal 11
+AuthUsername:nosuch
+OSUserLogin:
+Address:00000000:000000000000
+TerminalAddress:0.0.0.0

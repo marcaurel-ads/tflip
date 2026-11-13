@@ -1,0 +1,15 @@
+# Which arguments the SQL conditionals evaluate, for fixtures/sql/iif.json (a
+# table of its own in an empty data folder). IIF, CASE and COALESCE take
+# only the branch they need; IFNULL evaluates both arguments, so a division
+# by 0 in the second fails it (2153).
+stmt
+direct CREATE TABLE t (n integer, x integer)
+directnull INSERT INTO t (n, x) VALUES (0, 10)
+directnull INSERT INTO t (n, x) VALUES (2, 10)
+query SELECT n, x / n AS q FROM t WHERE n > 0
+query SELECT n, IIF(n > 0, x / n, 0) AS q FROM t
+query SELECT n, CASE WHEN n > 0 THEN x / n ELSE 0 END AS q FROM t
+query SELECT n, IIF(n = 0, 0, x / n) AS q FROM t
+query SELECT IIF(1 = 1, 1, 1 / 0) AS q FROM system.iota
+query SELECT n, IFNULL(n, x / 0) AS q FROM t
+query SELECT n, COALESCE(n, x / 0) AS q FROM t

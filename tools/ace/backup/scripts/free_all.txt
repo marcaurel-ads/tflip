@@ -1,0 +1,14 @@
+shell mkdir @CLIENT@\fsrc
+free 0
+free 1 fsrc
+#table 1 f_adt 3 50
+connopt TableType=CDX;
+free 2 fsrc
+#table 2 f_cdx 2 50
+connopt TableType=VFP;
+free 3 fsrc
+#table 3 f_vfp 4 50
+connopt TableType=NTX;
+free 4 fsrc
+#table 4 f_ntx 1 50
+connopt

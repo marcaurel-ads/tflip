@@ -1,0 +1,21 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 38,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "name", "type": 4, "type_name": "Character", "length": 12, "decimals": 0},
+  {"name": "note", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000000000000000000001000000616c70686120202020202020810000000c00000000", "values": {"id": {"text": "1"}, "name": {"text": "alpha       "}, "note": {"text": "aes-128 memo"}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000000000000000000002000000626574612020202020202020000000000000000000", "values": {"id": {"text": "2"}, "name": {"text": "beta        "}, "note": {"null": true}}}
+ ]
+}

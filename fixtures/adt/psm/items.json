@@ -1,0 +1,22 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 32,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "name", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "qty", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "note", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000010000006170706c65202020202006000000000000000000000000", "values": {"id": {"text": "1"}, "name": {"text": "apple     "}, "qty": {"text": "6"}, "note": {"null": true}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000020000007065617220202020202000000000000000000000000000", "values": {"id": {"text": "2"}, "name": {"text": "pear      "}, "qty": {"text": "0"}, "note": {"null": true}}}
+ ]
+}

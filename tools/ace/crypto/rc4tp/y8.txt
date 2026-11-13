@@ -1,0 +1,66 @@
+# DBF tables made in an RC4 dictionary with ENCRYPT_NEW_TABLE and ENCRYPT_INDEXES on, then changed: indexes, pack, zap, reindex, restructure, drop.
+ddcreate 0 %D\y8\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+dbset 120 1
+stmttype 2
+sql CREATE TABLE pcdx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO pcdx VALUES (1, 'a memo', 'one')
+sql INSERT INTO pcdx VALUES (2, 'another memo that is longer than the first one by quite a bit', 'two')
+sql INSERT INTO pcdx VALUES (3, 'c', 'three')
+sql UPDATE pcdx SET note = 'changed', name = 'uno' WHERE id = 1
+sql DELETE FROM pcdx WHERE id = 2
+sql CREATE INDEX pcdx_name ON pcdx (name)
+sql INSERT INTO pcdx VALUES (4, 'd', 'four')
+sql EXECUTE PROCEDURE sp_PackTable('pcdx')
+sql INSERT INTO pcdx VALUES (5, 'e', 'five')
+sql EXECUTE PROCEDURE sp_Reindex('pcdx', 1024)
+sql CREATE TABLE qcdx (a INTEGER, b CHAR(5))
+sql INSERT INTO qcdx VALUES (1, 'x')
+sql CREATE INDEX qcdx_a ON qcdx (a)
+sql ALTER TABLE qcdx ADD COLUMN c INTEGER
+sql ALTER TABLE pcdx ADD COLUMN c INTEGER
+sql EXECUTE PROCEDURE sp_ZapTable('qcdx')
+sql INSERT INTO qcdx VALUES (7, 'y', 8)
+sql DROP TABLE qcdx
+stmttype 1
+sql CREATE TABLE pntx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO pntx VALUES (1, 'a memo', 'one')
+sql INSERT INTO pntx VALUES (2, 'another memo that is longer than the first one by quite a bit', 'two')
+sql INSERT INTO pntx VALUES (3, 'c', 'three')
+sql UPDATE pntx SET note = 'changed', name = 'uno' WHERE id = 1
+sql DELETE FROM pntx WHERE id = 2
+sql CREATE INDEX pntx_name ON pntx (name)
+sql INSERT INTO pntx VALUES (4, 'd', 'four')
+sql EXECUTE PROCEDURE sp_PackTable('pntx')
+sql INSERT INTO pntx VALUES (5, 'e', 'five')
+sql EXECUTE PROCEDURE sp_Reindex('pntx', 1024)
+sql CREATE TABLE qntx (a INTEGER, b CHAR(5))
+sql INSERT INTO qntx VALUES (1, 'x')
+sql CREATE INDEX qntx_a ON qntx (a)
+sql ALTER TABLE qntx ADD COLUMN c INTEGER
+sql ALTER TABLE pntx ADD COLUMN c INTEGER
+sql EXECUTE PROCEDURE sp_ZapTable('qntx')
+sql INSERT INTO qntx VALUES (7, 'y', 8)
+sql DROP TABLE qntx
+stmttype 4
+sql CREATE TABLE pvfp (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO pvfp VALUES (1, 'a memo', 'one')
+sql INSERT INTO pvfp VALUES (2, 'another memo that is longer than the first one by quite a bit', 'two')
+sql INSERT INTO pvfp VALUES (3, 'c', 'three')
+sql UPDATE pvfp SET note = 'changed', name = 'uno' WHERE id = 1
+sql DELETE FROM pvfp WHERE id = 2
+sql CREATE INDEX pvfp_name ON pvfp (name)
+sql INSERT INTO pvfp VALUES (4, 'd', 'four')
+sql EXECUTE PROCEDURE sp_PackTable('pvfp')
+sql INSERT INTO pvfp VALUES (5, 'e', 'five')
+sql EXECUTE PROCEDURE sp_Reindex('pvfp', 1024)
+sql CREATE TABLE qvfp (a INTEGER, b CHAR(5))
+sql INSERT INTO qvfp VALUES (1, 'x')
+sql CREATE INDEX qvfp_a ON qvfp (a)
+sql ALTER TABLE qvfp ADD COLUMN c INTEGER
+sql ALTER TABLE pvfp ADD COLUMN c INTEGER
+sql EXECUTE PROCEDURE sp_ZapTable('qvfp')
+sql INSERT INTO qvfp VALUES (7, 'y', 8)
+sql DROP TABLE qvfp
+disconnect

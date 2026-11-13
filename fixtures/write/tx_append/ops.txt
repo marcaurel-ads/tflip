@@ -1,0 +1,60 @@
+# Appends in a transaction on the remote server: what the files hold
+# between AdsAppendRecord and the write, after a cancelled append, and what
+# another connection sees meanwhile.
+open t shared
+open2 t shared
+tabletype vfp
+open v shared
+open2 v shared
+tabletype adt
+use 1
+begin
+append
+flush
+snapshot adt_pending
+use 2
+state
+count
+use 1
+set id long 3
+set name string three
+set m string a memo value
+cancel
+flush
+snapshot adt_cancelled
+state
+append
+set id long 4
+set name string four
+write
+flush
+snapshot adt_written
+commit
+flush
+snapshot adt_committed
+use 3
+begin
+append
+flush
+snapshot vfp_pending
+use 4
+state
+count
+use 3
+set id long 3
+set name string three
+set m string a memo value
+cancel
+flush
+snapshot vfp_cancelled
+state
+append
+set id long 4
+set name string four
+set m string another memo
+write
+flush
+snapshot vfp_written
+commit
+flush
+snapshot vfp_committed

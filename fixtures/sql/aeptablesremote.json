@@ -1,0 +1,21 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE DATABASE \"ae\\ae.add\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE log (s VARCHAR(4000))", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE tp(cmd CHAR(2000), n INTEGER, s CHAR(20), d DOUBLE, trace VARCHAR(4000) OUTPUT, m INTEGER OUTPUT, t CHAR(20) OUTPUT, x DOUBLE OUTPUT) FUNCTION Run IN LIBRARY \"plain_aeptables.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE tp('ret 0', 7, 'abc', 1.5)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06A5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["trace", 23, 4002, 0], ["m", 11, 4, 0], ["t", 4, 20, 0], ["x", 10, 8, 15]], "rows": [
+  [1, ["ret | ", null, null, null]]]}},
+{"cmd": "direct DELETE FROM log", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE tp('open 0 __input;open 1 #__input;open 2 __input 3 1 1 1 8192;open 3 __input 1 1 1 1 8192;open 4 __error;open 5 #__error;open 6 __error 3 1 1 1 8192', 7, 'abc', 1.5)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06A7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["trace", 23, 4002, 0], ["m", 11, 4, 0], ["t", 4, 20, 0], ["x", 10, 8, 15]], "rows": [
+  [1, ["open __input=7041 {7041} | open #__input=0 | open __input=0 | open __input=0 | open __error=7041 {7041} | open #__error=0 | open __error=0 | ", null, null, null]]]}},
+{"cmd": "direct DELETE FROM log", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE tp('open 0 __output;open 1 #__output;open 2 __output 3 1 1 1 8192;open 3 #__output 3 1 1 1 8192;open 4 __Output 3 1 1 1 8192', 7, 'abc', 1.5)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06A8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["trace", 23, 4002, 0], ["m", 11, 4, 0], ["t", 4, 20, 0], ["x", 10, 8, 15]], "rows": [
+  [1, ["open __output=7041 {7041} | open #__output=7112 {7112} | open __output=7112 {7112} | open #__output=7112 {7112} | open __Output=7112 {7112} | ", null, null, null]]]}},
+{"cmd": "direct DELETE FROM log", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE tp('sql INSERT INTO __output (m) VALUES (1);open 0 __output;open 1 #__output;open 2 __output 3 1 1 1 8192;open 3 #__output 3 1 1 1 8192;info 2', 7, 'abc', 1.5)", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06A9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 2, "fields": [["trace", 23, 4002, 0], ["m", 11, 4, 0], ["t", 4, 20, 0], ["x", 10, 8, 15]], "rows": [
+  [1, [null, "1", null, null]],
+  [2, ["sql=0 | open __output=7041 {7041} | open #__output=7112 {7112} | open __output=7112 {7112} | open #__output=7112 {7112} | info=[ht 5018:0 tt 5023:0 alias 5023: n 5023:0 count 5018:0 recno 5023:0 eof 5023:9 bof 5023:9] {5018} | ", null, null, null]]]}},
+{"cmd": "direct DELETE FROM log", "rc": 0, "has_cursor": false, "affected": 1}
+]

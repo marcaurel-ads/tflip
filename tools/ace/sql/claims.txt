@@ -1,0 +1,4089 @@
+stmt
+## group none
+## p-script-last-cursor
+query SELECT 1 AS a FROM system.iota; SELECT 2 AS b FROM system.iota
+## p-trailing-semicolon
+query SELECT 1 AS a FROM system.iota;
+## p-double-semicolon
+query SELECT 1 AS a FROM system.iota;;
+## p-garbage-alias
+query SELECT 1 AS a FROM system.iota garbage garbage2
+## p-bang-equals-semicolon
+query SELECT 1 AS a FROM system.iota WHERE 1 != 2
+## p-paren-needs-union
+query ((SELECT 1 AS a FROM system.iota))
+## p-paren-union
+query (SELECT 1 AS a FROM system.iota UNION SELECT 2 FROM system.iota) UNION SELECT 3 FROM system.iota
+## p-formfeed-identifier
+query SELECT 1 AS ab FROM system.iota
+## p-line-comment-dashes
+query SELECT 1 AS a -- comment\nFROM system.iota
+## p-line-comment-slashes
+query SELECT 1 AS a // comment\nFROM system.iota
+## p-block-comment
+query SELECT /* x */ 1 AS a FROM system.iota
+## p-block-comment-not-nested
+query SELECT 1 AS a FROM system.iota /* a /* b */ c */
+## p-block-comment-unterminated
+query SELECT /* never closed FROM system.iota
+## p-vendor-escape-fn
+query SELECT --(*vendor(Microsoft),product(ODBC) fn UCASE('a') *)-- AS u FROM system.iota
+## p-word-chars
+query SELECT 1 AS a#b$c@d, 2 AS abc'def, 3 AS a&b FROM system.iota
+## p-at-not-variable
+query SELECT @p FROM system.iota
+## p-token-1024
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM system.iota
+## p-token-1025
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM system.iota
+## p-number-1025
+query SELECT 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111 AS a FROM system.iota
+## p-alias-128
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM system.iota
+## p-alias-129
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM system.iota
+## p-string-5000
+query SELECT LENGTH('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') AS r FROM system.iota
+## p-nested-parens
+query SELECT ((((((((((((((((((((((((((((((((((((((((((((((((((1)))))))))))))))))))))))))))))))))))))))))))))))))) AS r FROM system.iota
+## p-delimited-no-escape
+query SELECT "a""b" FROM system.iota
+## p-delimited-other-closer
+query SELECT 1 AS "x]y", 2 AS [x"y] FROM system.iota
+## p-delimited-unterminated
+query SELECT 1 AS "abc FROM system.iota
+## p-qualifier-spaces
+query SELECT 1 AS a FROM system . iota
+## p-qualifier-quoted
+query SELECT 1 AS a FROM "system"."iota" x, [system].[iota] y
+## p-delimited-function
+query SELECT "UCASE"('a') FROM system.iota
+## p-string-escape
+query SELECT 'it''s' AS r FROM system.iota
+## p-string-no-backslash
+query SELECT LENGTH('a\qb') AS r FROM system.iota
+## p-string-newline
+query SELECT LENGTH('a\nb') AS r FROM system.iota
+## p-n-prefix
+query SELECT N'abc' AS r FROM system.iota
+## p-number-forms
+query SELECT .5 AS a, 1.e2 AS b, 1E+2 AS c FROM system.iota
+## p-number-trailing-point
+query SELECT 5. AS r FROM system.iota
+## p-number-bare-e
+query SELECT 1e AS r FROM system.iota
+## p-number-two-points
+query SELECT 1.2.3 AS r FROM system.iota
+## p-number-implicit-alias
+query SELECT 1abc FROM system.iota
+## p-typed-literals
+query SELECT Date'2020-01-02' AS d, Timestamp'2020-01-02 03:04:05' AS ts, x'4142' AS b, X'48 65' AS h FROM system.iota
+## p-typed-literal-space
+query SELECT DATE '2020-01-02' FROM system.iota
+## p-typed-literal-odd-hex
+query SELECT x'414' AS r FROM system.iota
+## p-typed-literals-more
+query SELECT Time'10:11:12' AS t, Datetime'2020-01-02 03:04:05' AS dt, Binary'41' AS b FROM system.iota
+## p-typed-literal-bad-date
+query SELECT Date'2020-13-01' AS r FROM system.iota
+## p-logical-literals
+query SELECT TRUE AS a, FALSE AS b, .T. AS c, .F. AS d FROM system.iota
+## p-param-unbound
+clearparams
+query SELECT 1 AS a FROM system.iota WHERE 1 = ?
+## p-named-param-unbound
+clearparams
+query SELECT 1 AS a FROM system.iota WHERE 1 = :_p
+## p-system-variables
+clearparams
+query SELECT ::stmt.UpdateCount AS u FROM system.iota
+## p-named-param-echo
+clearparams
+query DECLARE :x INTEGER;
+## p-odbc-escapes
+query SELECT {d '2024-01-02'} AS d, {t '10:11:12'} AS t, {ts '2024-01-02 10:11:12'} AS ts, {FN UCASE('a')} AS f FROM system.iota
+## p-oj-in-select
+query SELECT {oj system.iota} FROM system.iota
+## p-escape-bad-date
+query SELECT {d '2023-02-29'} AS r FROM system.iota
+## p-null-as-value
+query SELECT IIF(1=1, NULL, 2) AS y, COALESCE(NULL, 1) AS c, CASE WHEN 1=1 THEN NULL ELSE 1 END AS x FROM system.iota
+## p-null-select-item
+query SELECT NULL AS n FROM system.iota
+## p-null-parenthesised
+query SELECT (NULL) AS n FROM system.iota
+## p-null-operand
+query SELECT 1 AS a FROM system.iota WHERE 1 = NULL
+## p-null-in-list
+query SELECT 1 AS a FROM system.iota WHERE 1 IN (NULL, 1)
+## p-boolean-select-items
+query SELECT 1 = 1 AS e, 1 IN (1, 2) AS d FROM system.iota
+## p-show-all-internal-plan
+query SHOW ALL INTERNAL PLAN FOR SELECT 1 AS a FROM system.iota
+## p-show-all-plan
+query SHOW ALL PLAN FOR SELECT 1 AS a FROM system.iota
+## p-show-internal-plan
+query SHOW INTERNAL PLAN FOR SELECT 1 AS a FROM system.iota
+## p-hints
+query SELECT {NOJOINORDEROPT static} 1 AS a FROM system.iota
+## p-hints-case
+query SELECT {nomiscopt NoSubQueryOpt NOPUSHDOWNSORTOPT noexecutionopt} 1 AS a FROM system.iota
+## p-hint-unknown
+query SELECT {bogus} 1 AS a FROM system.iota
+## p-hint-after-delete
+query CREATE TABLE h (a INTEGER)
+query INSERT INTO h VALUES (1)
+query DELETE {NOMISCOPT} FROM h
+direct DROP TABLE h
+## p-execute-print
+query EXECUTE PRINT 'a' + 'b'
+## p-execute-dprint
+query EXECUTE DPRINT 'x'
+## p-execute-bad
+query EXECUTE nosuch
+## p-dbreak
+query DBREAK; SELECT 3 AS a FROM system.iota
+## p-elif
+query DECLARE i INTEGER; SET i = 2; IF i = 1 THEN SELECT 1 AS a FROM system.iota; ELIF i = 2 THEN SELECT 2 AS a FROM system.iota; END IF;
+## p-end-tag-mismatch
+query DECLARE i INTEGER; IF 1 = 1 THEN SET i = 1; END WHILE;
+## p-end-tag-match
+query DECLARE i INTEGER; SET i = 0; WHILE i < 3 DO SET i = i + 1; END WHILE; SELECT i AS a FROM system.iota
+## p-for-loop
+query DECLARE i INTEGER; FOR i = 1 TO 3 DO SELECT 1 AS a FROM system.iota; END FOR;
+## p-set-assignment
+query DECLARE i INTEGER; SET i = 7; SELECT i AS a FROM system.iota
+## p-prec-mul-add
+query SELECT 2 + 3 * 4 AS r FROM system.iota
+## p-prec-or-add
+query SELECT 1 | 2 + 4 AS r FROM system.iota
+## p-prec-shift-sub
+query SELECT 12 - 2 << 1 AS r FROM system.iota
+## p-prec-and-or
+query SELECT 7 & 3 | 8 AS r FROM system.iota
+## p-prec-unary
+query SELECT -2 * -3 AS r FROM system.iota
+## p-prec-xor
+query SELECT 6 ^ 3 AS r FROM system.iota
+## p-prec-bitnot
+query SELECT ~1 AS r FROM system.iota
+## p-prec-mod
+query SELECT 7 % 3 AS r FROM system.iota
+## p-prec-not
+query SELECT NOT 1 = 2 AS r FROM system.iota
+## p-no-chained-comparison
+query SELECT 1 AS a FROM system.iota WHERE 1 < 2 < 3
+## p-not-before-comparison
+query SELECT 1 AS a FROM system.iota WHERE 1 NOT = 2
+## p-escape-empty
+query SELECT 1 AS a FROM system.iota WHERE 'a' LIKE 'a' ESCAPE ''
+## p-escape-two
+query SELECT 1 AS a FROM system.iota WHERE 'a' LIKE 'a' ESCAPE 'xy'
+## p-escape-percent
+query SELECT 1 AS a FROM system.iota WHERE 'a' LIKE 'a' ESCAPE '%'
+## p-unsupported-eqeq
+query SELECT 1 AS a FROM system.iota WHERE 1 == 1
+## p-unsupported-eqlt
+query SELECT 1 AS a FROM system.iota WHERE 1 =< 1
+## p-unsupported-concat
+query SELECT 'a' || 'b' AS r FROM system.iota
+## p-unsupported-mod
+query SELECT 7 MOD 2 AS r FROM system.iota
+## p-unsupported-some
+query SELECT 1 AS a FROM system.iota WHERE 1 = SOME (SELECT 1 FROM system.iota)
+## p-unsupported-double-minus
+query SELECT - -5 AS r FROM system.iota
+## p-any-all
+query SELECT 1 AS a FROM system.iota WHERE 1 = ANY (SELECT 1 FROM system.iota) AND 2 > ALL (SELECT 1 FROM system.iota)
+## p-keywords-procedure
+query EXECUTE PROCEDURE sp_GetSQLKeywords()
+## p-not-reserved
+query SELECT 1 AS cast, 2 AS convert, 3 AS matched FROM system.iota
+## p-for-reserved
+query SELECT 1 AS for FROM system.iota
+## p-user-reserved
+query SELECT 1 AS user FROM system.iota
+## p-sql-reserved
+query SELECT 1 AS sql FROM system.iota
+## p-reserved-delimited
+query SELECT 1 AS "user", 2 AS [for] FROM system.iota
+## p-script-reserved-alias
+query SELECT 1 AS while, 2 AS try, 3 AS debug FROM system.iota
+## p-script-reserved-variable
+query DECLARE while INTEGER;
+## p-context-keyword
+query SELECT 1 AS top, 2 AS plan, 3 AS show FROM system.iota
+## p-location-mid-message
+query SELECT 1 FROM system.iota WHERE ((
+## p-location-crlf
+query SELECT 1 AS a\r\nFROM system.iota\r\nWHERE ((
+## p-location-bare-cr
+query SELECT 1 AS a\rFROM system.iota\rWHERE ((
+## p-location-crlf-in-string
+query SELECT 'a\r\nb' AS a FROM system.iota WHERE ((
+## p-lost-detail-2109
+query SELECT x'ABC' AS r FROM system.iota
+## o-show-plan-not-first
+query SELECT 1 FROM system.iota; SHOW PLAN FOR SELECT 1 FROM system.iota
+## o-plan-columns
+query SHOW PLAN FOR SELECT 1 FROM system.iota
+## o-hint-comma
+query SELECT {NOJOINORDEROPT, static} 1 FROM system.iota
+## x-year-string
+query SELECT YEAR('2024-05-06') AS r FROM system.iota
+## x-hour-string
+query SELECT HOUR('10:11:12') AS r FROM system.iota
+## x-year-time
+query SELECT YEAR({t '10:11:12'}) AS r FROM system.iota
+## x-hour-date
+query SELECT HOUR({d '2024-01-02'}) AS r FROM system.iota
+## x-lookup-case
+query SELECT alltrim(' x ') + Upper('y') AS r FROM system.iota
+## x-lookup-exact
+query SELECT LOG__(1) AS r FROM system.iota
+## x-lookup-exact-2
+query SELECT CHAR9LENGTH('a') AS r FROM system.iota
+## x-argc-upper-2
+query SELECT UPPER('a', 'b') AS r FROM system.iota
+## x-argc-upper-0
+query SELECT UPPER() AS r FROM system.iota
+## x-argc-substring
+query SELECT SUBSTRING('abc', 2) AS r FROM system.iota
+## x-argc-str
+query SELECT STR(1.5) AS r FROM system.iota
+## x-fn-length
+query SELECT {fn LENGTH('ab ')} AS r FROM system.iota
+## x-fn-ifnull
+query SELECT {fn IFNULL(CAST(NULL AS SQL_INTEGER), 1)} AS r FROM system.iota
+## x-fn-any-name
+query SELECT {fn ALLTRIM(' x ')} AS r FROM system.iota
+## x-fn-unknown
+query SELECT {fn NOSUCH(1)} AS r FROM system.iota
+## x-round-one-arg
+query SELECT ROUND(2.567) AS r FROM system.iota
+## x-truncate-one-arg
+query SELECT TRUNCATE(2.567) AS r FROM system.iota
+## x-extract-week
+query SELECT EXTRACT(WEEK FROM {d '2024-01-02'}) AS r FROM system.iota
+## x-alltrim
+query SELECT ALLTRIM('  ab  ') + '|' AS r FROM system.iota
+## x-oindexof
+query SELECT OINDEXOF('hello', 'l') AS r FROM system.iota
+## x-oindexof-absent
+query SELECT OINDEXOF('hello', 'x') AS r FROM system.iota
+## x-osubstring
+query SELECT OSUBSTRING('hello', 1, 2) AS r FROM system.iota
+## x-osubstring-0
+query SELECT OSUBSTRING('hello', 0, 2) AS r FROM system.iota
+## x-osubstring-2-args
+query SELECT OSUBSTRING('hello', 2) AS r FROM system.iota
+## x-lastrowversion
+query SELECT LASTROWVERSION() AS r FROM system.iota
+## x-newidstring-mime
+query SELECT LENGTH(NEWIDSTRING(MIME)) AS r FROM system.iota
+## x-newidstring-file
+query SELECT LENGTH(NEWIDSTRING(File)) AS r FROM system.iota
+## x-newidstring-numbers
+query SELECT LENGTH(NEWIDSTRING(Numbers)) AS r FROM system.iota
+## x-newidstring-curly
+query SELECT LENGTH(NEWIDSTRING(Curlybraces)) AS r FROM system.iota
+## x-dtoc-format
+query SELECT DTOC({d '2024-01-31'}, 1) AS r FROM system.iota
+## x-dtoc-format-2
+query SELECT DTOC({d '2024-01-31'}, 2) AS r FROM system.iota
+## x-dtoc-format-string
+query SELECT DTOC({d '2024-01-31'}, 'x') AS r FROM system.iota
+## x-null-compare
+query SELECT CAST(NULL AS SQL_INTEGER) = 1 AS r FROM system.iota
+## x-null-not
+query SELECT NOT (CAST(NULL AS SQL_INTEGER) = 1) AS r FROM system.iota
+## x-null-and-true
+query SELECT (1=1) AND (CAST(NULL AS SQL_INTEGER)=1) AS r FROM system.iota
+## x-null-and-false
+query SELECT (1=2) AND (CAST(NULL AS SQL_INTEGER)=1) AS r FROM system.iota
+## x-null-or-false
+query SELECT (1=2) OR (CAST(NULL AS SQL_INTEGER)=1) AS r FROM system.iota
+## x-null-or-true
+query SELECT (1=1) OR (CAST(NULL AS SQL_INTEGER)=1) AS r FROM system.iota
+## x-null-simple-case
+query SELECT CASE CAST(NULL AS SQL_INTEGER) WHEN CAST(NULL AS SQL_INTEGER) THEN 'eq' ELSE 'ne' END AS r FROM system.iota
+## x-null-searched-case
+query SELECT CASE WHEN CAST(NULL AS SQL_INTEGER)=1 THEN 't' WHEN NOT(CAST(NULL AS SQL_INTEGER)=1) THEN 'f' ELSE 'u' END AS r FROM system.iota
+## x-null-predicates
+query SELECT CAST(NULL AS SQL_INTEGER) IN (1,2), CAST(NULL AS SQL_INTEGER) BETWEEN 1 AND 2, CAST(NULL AS SQL_VARCHAR(5)) LIKE 'a' FROM system.iota
+## x-null-concat
+query SELECT 'a' + CAST(NULL AS SQL_VARCHAR(5)) AS r FROM system.iota
+## x-null-functions
+query SELECT CONCAT('a', CAST(NULL AS SQL_VARCHAR(5))), STR(CAST(NULL AS SQL_DOUBLE), 5, 0), TRIM(CAST(NULL AS SQL_VARCHAR(5))), LENGTH(CAST(NULL AS SQL_VARCHAR(5))), IFNULL(CAST(NULL AS SQL_INTEGER), 1) FROM system.iota
+## x-empty-null-expression
+query SELECT EMPTY(CAST(NULL AS SQL_INTEGER)) AS r FROM system.iota
+## x-empty-string
+query SELECT EMPTY('') AS r FROM system.iota
+## x-null-plus
+query SELECT NULL + 1 AS r FROM system.iota
+## x-null-concat-bare
+query SELECT 'a' + NULL AS r FROM system.iota
+## x-iif-null
+query SELECT IIF(1=1, NULL, 1) AS r FROM system.iota
+## x-ifnull-bare-null
+query SELECT IFNULL(NULL, 1) AS r FROM system.iota
+## x-typed-null
+query SELECT CAST(NULL AS SQL_INTEGER) + 1 AS r FROM system.iota
+## x-and-short-circuit
+query SELECT (1=2) AND (1/0=1) AS r FROM system.iota
+## x-or-short-circuit
+query SELECT (1=1) OR (1/0=1) AS r FROM system.iota
+## x-and-left-first
+query SELECT (1/0=1) AND (1=2) AS r FROM system.iota
+## x-or-left-first
+query SELECT (1/0=1) OR (1=1) AS r FROM system.iota
+## x-iif-lazy
+query SELECT IIF(1=1, 1, 1/0) + IIF(1=2, 1/0, 2) AS r FROM system.iota
+## x-case-lazy
+query SELECT CASE WHEN 1=1 THEN 1 ELSE 1/0 END AS r FROM system.iota
+## x-case-when-lazy
+query SELECT CASE 1 WHEN 1 THEN 5 WHEN 1/0 THEN 6 END AS r FROM system.iota
+## x-coalesce-lazy
+query SELECT COALESCE(1, 1/0) AS r FROM system.iota
+## x-ifnull-eager
+query SELECT IFNULL(1, 1/0) AS r FROM system.iota
+## x-isnull-eager
+query SELECT ISNULL(1, 1/0) AS r FROM system.iota
+## x-iota-no-pushdown
+query SELECT 1 AS a FROM system.iota WHERE 1=2 AND 1/0=1
+## x-in-list-division
+query SELECT 1 IN (1, 1/0) AS r FROM system.iota
+## x-in-list-null
+query SELECT 3 IN (1, CAST(NULL AS SQL_INTEGER)) AS r FROM system.iota
+## x-iif-string-condition
+query SELECT IIF('T', 1, 2) AS r FROM system.iota
+## x-trailing-blanks
+query SELECT 'a' = 'a   ', '' = '   ', 'a' < 'a ' FROM system.iota
+## x-concat-char-blanks
+query SELECT CAST('ab' AS SQL_CHAR(5)) + 'c' AS r FROM system.iota
+## x-concat-varchar
+query SELECT CAST('ab' AS SQL_VARCHAR(5)) + 'c' AS r FROM system.iota
+## x-concat-varchar-blank
+query SELECT CAST('ab ' AS SQL_VARCHAR(5)) + 'c' AS r FROM system.iota
+## x-case-sensitive
+query SELECT 'a' = 'A', 'Z' < 'a' FROM system.iota
+## x-collate-ci
+query SELECT 'a' COLLATE ADS_DEFAULT_CI = 'A' AS r FROM system.iota
+## x-collate-type
+query SELECT 'a' COLLATE ADS_DEFAULT_CI AS r FROM system.iota
+## x-collate-unknown
+query SELECT 'a' COLLATE FOO AS r FROM system.iota
+## x-string-number-compare
+query SELECT '10' = 10 AS r FROM system.iota
+## x-string-times
+query SELECT '5' * 2 AS r FROM system.iota
+## x-string-date
+query SELECT {d '2024-01-31'} = '2024-01-31' AS r FROM system.iota
+## x-string-date-us
+query SELECT {d '2024-01-31'} = '01/01/2024' AS r FROM system.iota
+## x-like-blanks
+query SELECT 'ab ' LIKE 'ab', 'ab' LIKE 'ab ', 'ab' LIKE 'ab_', 'ab ' LIKE 'ab_', ' ab' LIKE 'ab', 'ab' LIKE 'AB' FROM system.iota
+## x-like-empty
+query SELECT '' LIKE '%', '' LIKE '' FROM system.iota
+## x-like-escape
+query SELECT 'a%b' LIKE 'a\%b' ESCAPE '\', 'axb' LIKE 'a\%b' ESCAPE '\' FROM system.iota
+## x-like-no-glob
+clearparams
+query SELECT 'ab' LIKE '[a]b', 'ab' LIKE 'a*', 'ab' LIKE 'a?' FROM system.iota
+## x-plus-no-cap
+query SELECT LEN((((((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))) + ((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))))) + (((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))) + ((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))))) + ((((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))) + ((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))))) + (((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))) + ((((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024)))) + (((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))) + ((SPACE(1024) + SPACE(1024)) + (SPACE(1024) + SPACE(1024))))))))) AS r FROM system.iota
+## x-repeat-limit
+query SELECT LEN(REPEAT('ab', 512)) AS r FROM system.iota
+## x-repeat-over
+query SELECT REPEAT('ab', 513) AS r FROM system.iota
+## x-space-range
+query SELECT LEN(SPACE(1024)) + LEN(SPACE(0)) AS r FROM system.iota
+## x-space-over
+query SELECT SPACE(1025) AS r FROM system.iota
+## x-replace-over
+query SELECT REPLACE(SPACE(1000), ' ', 'xx') AS r FROM system.iota
+## x-substring-past-end
+query SELECT SUBSTRING('abc', 5, 1) AS r FROM system.iota
+## x-substring-zero
+query SELECT SUBSTRING('abc', 0, 2) AS r FROM system.iota
+## x-substring-negative
+query SELECT SUBSTRING('abc', -1, 3) AS r FROM system.iota
+## x-substring-length
+query SELECT SUBSTRING('abc', 2, -1) AS r FROM system.iota
+## x-left-zero
+query SELECT LEFT('abc', 0) AS r FROM system.iota
+## x-left-negative
+query SELECT LEFT('abc', -1) AS r FROM system.iota
+## x-repeat-zero
+query SELECT REPEAT('ab', 0) AS r FROM system.iota
+## x-replace-empty
+query SELECT REPLACE('abc', '', 'x') AS r FROM system.iota
+## x-char-minus-one
+query SELECT CHAR(-1) AS r FROM system.iota
+## x-char-256
+query SELECT ASCII(CHAR(256)), CHAR(256) IS NULL, CHAR(256) + 'x' FROM system.iota
+## x-char-nul-column
+query SELECT CHAR(0) AS r FROM system.iota
+## x-ascii-empty
+query SELECT ASCII('') AS r FROM system.iota
+## x-str-overflow
+query SELECT STR(12345, 3, 0) AS r FROM system.iota
+## x-str-length-range
+query SELECT STR(1, 33, 0) AS r FROM system.iota
+## x-strzero-negative
+query SELECT STRZERO(-12, 6, 0) AS r FROM system.iota
+## x-val-prefix
+query SELECT VAL('12abc'), VAL('abc'), VAL(' 1.5e2') FROM system.iota
+## x-ttoc-format
+query SELECT TTOC({ts '2024-01-31 10:11:12'}, 1) AS r FROM system.iota
+## x-ttoc-bad-format
+query SELECT TTOC({ts '2024-01-31 10:11:12'}, 4) AS r FROM system.iota
+## x-int-overflow
+query SELECT 2147483647 + 1 AS r FROM system.iota
+## x-int-64bit
+query SELECT (2147483647 + 1) / 2 AS r FROM system.iota
+## x-bigint-wrap
+query SELECT 9223372036854775807 + 1 AS r FROM system.iota
+## x-bigint-wrap-negative
+query SELECT 1 AS a FROM system.iota WHERE 9223372036854775807 + 1 < 0
+## x-bigint-wrap-not-null
+query SELECT 1 AS a FROM system.iota WHERE 9223372036854775807 + 1 IS NULL
+## x-smallint-promote
+query SELECT CAST(32767 AS SQL_SMALLINT) + CAST(1 AS SQL_SMALLINT) AS r FROM system.iota
+## x-unary-minus-range
+query SELECT -CAST(-2147483648 AS SQL_INTEGER) AS r FROM system.iota
+## x-int-division
+query SELECT 7/2, -7/2, -7 % 2, MOD(-7, 2) FROM system.iota
+## x-shifts
+query SELECT -1 >> 1, 1 << 63, 1 << 64, 1 << -1 FROM system.iota
+## x-shift-31
+query SELECT 1 << 31 AS r FROM system.iota
+## x-bitwise-binding
+query SELECT 4 & 1+3 AS r FROM system.iota
+## x-bitwise-decimal
+query SELECT 5 & 3.5 AS r FROM system.iota
+## x-div-zero-int
+query SELECT 7 / 0 AS r FROM system.iota
+## x-mod-zero
+query SELECT 7 % 0 AS r FROM system.iota
+## x-mod-function-zero
+query SELECT MOD(7, 0) AS r FROM system.iota
+## x-div-zero-numeric
+query SELECT 7.0 / 0 AS r FROM system.iota
+## x-div-zero-double
+query SELECT CAST(1 AS SQL_DOUBLE) / 0 AS r FROM system.iota
+## x-div-scale-1
+query SELECT 1 / 3.0 AS r FROM system.iota
+## x-div-scale-2
+query SELECT 2 / 3.0 AS r FROM system.iota
+## x-div-scale-3
+query SELECT 1.0 / 3, 2.0 / 3 FROM system.iota
+## x-div-scale-4
+query SELECT 7.00 / 3 AS r FROM system.iota
+## x-div-scale-cast
+query SELECT CAST(1 AS SQL_NUMERIC(10,4)) / 3 AS r FROM system.iota
+## x-div-more-scale
+query SELECT 1.000000 / 3 AS r FROM system.iota
+## x-decimal-overflow
+query SELECT 123456789012345678901234567890 * 1000000000000 AS r FROM system.iota
+## x-double-inf
+query SELECT 1e300 * 1e300 AS r FROM system.iota
+## x-double-denormal
+query SELECT 1e-320 AS r FROM system.iota
+## x-equality-classes
+query SELECT 1 = 1.0, 1.10 = 1.1, CAST(1.5 AS SQL_MONEY) = 1.5, 0.1 + 0.2 = 0.3, CAST(0.1 AS SQL_DOUBLE) + CAST(0.2 AS SQL_DOUBLE) = CAST(0.3 AS SQL_DOUBLE) FROM system.iota
+## x-money-division-rounds
+query SELECT CAST(1.5 AS SQL_MONEY) / 7 AS r FROM system.iota
+## x-money-plus-double
+query SELECT CAST(1.5 AS SQL_MONEY) + CAST(1 AS SQL_DOUBLE) AS r FROM system.iota
+## x-money-range
+query SELECT CAST(922337203685477 AS SQL_MONEY) * 10 AS r FROM system.iota
+## x-cast-integral
+query SELECT CAST(4.0 AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-double-negative
+query SELECT CAST(CAST(-2.9 AS SQL_DOUBLE) AS SQL_INTEGER) AS r FROM system.iota
+## x-convert-double
+query SELECT CONVERT(CAST(3.9 AS SQL_DOUBLE), SQL_INTEGER) AS r FROM system.iota
+## x-cast-money-integer
+query SELECT CAST(CAST(2.5 AS SQL_MONEY) AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-bigint-numeric
+query SELECT CAST(3.9 AS SQL_BIGINT) AS r FROM system.iota
+## x-cast-numeric-truncates
+query SELECT CAST(1.994 AS SQL_NUMERIC(10,2)), CAST(-2.75 AS SQL_NUMERIC(10,1)), CAST('1.239' AS SQL_NUMERIC(10,2)) FROM system.iota
+## x-cast-money-truncates
+query SELECT CAST(1.23456 AS SQL_MONEY), CAST(2.00005 AS SQL_MONEY) FROM system.iota
+## x-round-half-away
+query SELECT ROUND(2.5,0), ROUND(-2.5,0), ROUND(2.45,1), ROUND(1234.5,-2), ROUND(15,-1) FROM system.iota
+## x-round-double
+query SELECT ROUND(CAST(0.125 AS SQL_DOUBLE), 2) AS r FROM system.iota
+## x-str-rounds
+query SELECT STR(2.5,3,0), STR(-1.5,5,0) FROM system.iota
+## x-money-arith-rounds
+query SELECT CAST(1.5 AS SQL_MONEY) + 1.12345 AS r FROM system.iota
+## x-round-keeps-class
+query SELECT ROUND(CAST(2.567 AS SQL_DOUBLE), 1), TRUNCATE(2.567, 1) FROM system.iota
+## x-cast-smallint-range
+query SELECT CAST(70000 AS SQL_SMALLINT) AS r FROM system.iota
+## x-cast-bit-range
+query SELECT CAST(5 AS SQL_BIT) AS r FROM system.iota
+## x-cast-string-integer
+query SELECT CAST(' 12 ' AS SQL_INTEGER), CAST('+5' AS SQL_INTEGER), CAST('' AS SQL_INTEGER) FROM system.iota
+## x-cast-string-integer-bad
+query SELECT CAST('12abc' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-integer-exp
+query SELECT CAST('1e3' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-integer-hex
+query SELECT CAST('0x10' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-integer-true
+query SELECT CAST('true' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-integer-decimal
+query SELECT CAST('1.5' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-integer-range
+query SELECT CAST('99999999999' AS SQL_INTEGER) AS r FROM system.iota
+## x-cast-string-double
+query SELECT CAST('1.5e3' AS SQL_DOUBLE), CAST(' ' AS SQL_DOUBLE) FROM system.iota
+## x-cast-string-double-comma
+query SELECT CAST('1,5' AS SQL_DOUBLE) AS r FROM system.iota
+## x-cast-string-double-inf
+query SELECT CAST('Inf' AS SQL_DOUBLE) AS r FROM system.iota
+## x-cast-string-double-nan
+query SELECT CAST('nan' AS SQL_DOUBLE) AS r FROM system.iota
+## x-cast-string-numeric
+query SELECT CAST(' -1.5 ' AS SQL_NUMERIC(10,2)), CAST('  ' AS SQL_NUMERIC(10,2)) FROM system.iota
+## x-cast-string-numeric-exp
+query SELECT CAST('1e2' AS SQL_NUMERIC(10,2)) AS r FROM system.iota
+## x-cast-string-numeric-signs
+query SELECT CAST('--1' AS SQL_NUMERIC(10,2)) AS r FROM system.iota
+## x-cast-string-money
+query SELECT CAST('$1.5' AS SQL_MONEY) AS r FROM system.iota
+## x-cast-char-truncates
+query SELECT CAST(12345 AS SQL_CHAR(3)), CAST(1.5 AS SQL_CHAR(2)) FROM system.iota
+## x-cast-double-varchar
+query SELECT CAST(CAST(1 AS SQL_DOUBLE) / 3 AS SQL_VARCHAR(30)), CAST(1e20 AS SQL_VARCHAR(30)), CAST(1e-7 AS SQL_VARCHAR(30)) FROM system.iota
+## x-cast-logical
+query SELECT CAST(TRUE AS SQL_INTEGER), CAST(FALSE AS SQL_CHAR(1)) FROM system.iota
+## x-cast-guid-bad
+query SELECT CAST('x' AS SQL_GUID) AS r FROM system.iota
+## x-cast-guid-braced
+query SELECT CAST('{2a69032f-4972-c442-b184-476b44b25058}' AS SQL_GUID) AS r FROM system.iota
+## x-cast-bad-type
+query SELECT CAST(1 AS INTEGER) AS r FROM system.iota
+## x-cast-boolean
+query SELECT CAST(1 AS SQL_BOOLEAN) AS r FROM system.iota
+## x-cast-cichar
+query SELECT CAST('a' AS SQL_CICHAR) AS r FROM system.iota
+## x-cast-decimal-precision
+query SELECT CAST(1 AS SQL_DECIMAL(5,2)) AS r FROM system.iota
+## x-date-minus-date
+query SELECT {d '2024-03-01'} - {d '2024-01-01'} AS r FROM system.iota
+## x-timestamp-plus
+query SELECT {ts '2024-01-01 00:00:00'} + 1 AS r FROM system.iota
+## x-date-times
+query SELECT {d '2024-01-01'} * 2 AS r FROM system.iota
+## x-date-minus-timestamp
+query SELECT {d '2024-01-01'} - {ts '2024-01-01 00:00:00'} AS r FROM system.iota
+## x-proleptic
+query SELECT {d '1582-10-15'} - {d '1582-10-04'} AS r FROM system.iota
+## x-date-range-high
+query SELECT {d '9999-12-31'} + 1 AS r FROM system.iota
+## x-date-range-low
+query SELECT {d '0001-01-01'} - 1 AS r FROM system.iota
+## x-date-literal-range
+query SELECT {d '10000-01-01'} AS r FROM system.iota
+## x-timestamp-24h
+query SELECT {ts '2024-01-01 24:00:00'} AS r FROM system.iota
+## x-timestamp-ms
+query SELECT {ts '2024-01-01 10:11:12.3456'} AS r FROM system.iota
+## x-string-date-short
+query SELECT CAST('2024-1-5' AS SQL_DATE) AS r FROM system.iota
+## x-string-date-us-cast
+query SELECT CAST('01/31/2024' AS SQL_DATE) AS r FROM system.iota
+## x-string-date-dots
+query SELECT CAST('31.01.2024' AS SQL_DATE) AS r FROM system.iota
+## x-string-date-compact
+query SELECT CAST('20240131' AS SQL_DATE) AS r FROM system.iota
+## x-string-date-empty
+query SELECT CAST('' AS SQL_DATE) AS r FROM system.iota
+## x-string-date-invalid
+query SELECT CAST('2024-02-30' AS SQL_DATE) AS r FROM system.iota
+## x-ctod-us
+query SELECT CTOD('01/31/2024') AS r FROM system.iota
+## x-string-timestamp-date
+query SELECT CAST('2024-01-31' AS SQL_TIMESTAMP) AS r FROM system.iota
+## x-string-timestamp-t
+query SELECT CAST('2024-01-31T10:11:12' AS SQL_TIMESTAMP) AS r FROM system.iota
+## x-string-time
+query SELECT CAST('10:11' AS SQL_TIME), CAST('10:11:12 PM' AS SQL_TIME) FROM system.iota
+## x-date-to-timestamp
+query SELECT CAST({d '2024-01-31'} AS SQL_TIMESTAMP) AS r FROM system.iota
+## x-timestamp-to-time
+query SELECT CAST({ts '2024-01-31 10:11:12.345'} AS SQL_TIME) AS r FROM system.iota
+## x-timestampadd-month
+query SELECT TIMESTAMPADD(SQL_TSI_MONTH, 1, {d '2024-01-31'}) AS r FROM system.iota
+## x-timestampadd-year
+query SELECT TIMESTAMPADD(SQL_TSI_YEAR, 1, {d '2024-02-29'}) AS r FROM system.iota
+## x-timestampdiff-month
+query SELECT TIMESTAMPDIFF(SQL_TSI_MONTH, '2024-01-31', '2024-02-01') AS r FROM system.iota
+## x-timestampdiff-year
+query SELECT TIMESTAMPDIFF(SQL_TSI_YEAR, '2023-12-31', '2024-01-01') AS r FROM system.iota
+## x-timestampdiff-day
+query SELECT TIMESTAMPDIFF(SQL_TSI_DAY, {ts '2024-01-01 23:00:00'}, {ts '2024-01-02 01:00:00'}) AS r FROM system.iota
+## x-timestampdiff-elapsed
+query SELECT TIMESTAMPDIFF(SQL_TSI_HOUR, {ts '2024-01-01 10:59:00'}, {ts '2024-01-01 11:01:00'}), TIMESTAMPDIFF(SQL_TSI_MINUTE, {ts '2024-01-01 10:59:59'}, {ts '2024-01-01 11:00:00'}), TIMESTAMPDIFF(SQL_TSI_WEEK, {d '2024-01-06'}, {d '2024-01-07'}), TIMESTAMPDIFF(SQL_TSI_QUARTER, {d '2024-03-31'}, {d '2024-04-01'}) FROM system.iota
+## x-timestampdiff-overflow
+query SELECT TIMESTAMPDIFF(SQL_TSI_SECOND, {d '2024-01-01'}, {d '2100-01-01'}) AS r FROM system.iota
+## x-current-timestamp-0
+query SELECT FRAC_SECOND(CURRENT_TIMESTAMP(0)) AS r FROM system.iota
+## x-current-timestamp-4
+query SELECT CURRENT_TIMESTAMP(4) AS r FROM system.iota
+## x-current-time-2
+query SELECT CURRENT_TIME(2) AS r FROM system.iota
+## x-week-isoweek
+query SELECT WEEK({d '2023-01-01'}), ISOWEEK({d '2023-01-01'}) FROM system.iota
+## x-createtimestamp-invalid
+query SELECT CREATETIMESTAMP(2024, 2, 30, 0, 0, 0, 0) AS r FROM system.iota
+## x-cast-date-string-error
+query SELECT CAST('01/31/2024' AS SQL_DATE) AS r FROM system.iota
+## r-format-2153
+query SELECT 1/0 FROM system.iota
+## r-format-2117
+query SELECT 1 AS a FROM system.iota garbage garbage2
+## r-detail-lost-comment
+query SELECT /* never closed FROM system.iota
+## r-detail-lost-binary
+query SELECT x'ABC' FROM system.iota
+## r-detail-2236
+query SELECT CAST('abc' AS SQL_INTEGER) FROM system.iota
+## r-detail-dangling-colon
+clearparams
+prepare SELECT :p FROM system.iota
+param 1 long 1
+exec
+closecursor
+## r-detail-511
+query SELECT qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq FROM system.iota
+## r-location-operator
+query SELECT '1'+1 FROM system.iota
+## r-location-escape
+query SELECT {d '2023-02-29'} FROM system.iota
+## r-asa-5179
+query SELECT CAST(1 AS SQL_INTEGER) + 2147483647 FROM system.iota
+## g-savepoint
+query BEGIN TRANSACTION; SAVEPOINT s1; COMMIT WORK
+## g-create-view-free
+query CREATE VIEW v AS SELECT 1 AS a FROM system.iota
+## g-top-start-at
+query CREATE TABLE s (n INTEGER)
+query DECLARE i INTEGER; SET i = 1; WHILE i <= 5 DO INSERT INTO s VALUES (i); SET i = i + 1; END WHILE;
+query SELECT TOP 2 START AT 2 n FROM s
+direct DROP TABLE s
+## g-hints-in-braces
+query SELECT {static NOJOINORDEROPT NOMISCOPT NOPUSHDOWNSORTOPT NOEXECUTIONOPT NOSUBQUERYOPT} 1 AS a FROM system.iota
+## g-insert-default-values
+query CREATE TABLE d (a INTEGER, b CHAR(2))
+query INSERT INTO d DEFAULT VALUES
+query SELECT a, b FROM d
+direct DROP TABLE d
+## g-insert-default-null
+query CREATE TABLE d (a INTEGER, b CHAR(2))
+query INSERT INTO d VALUES (DEFAULT, NULL)
+query SELECT a, b FROM d
+direct DROP TABLE d
+## g-merge-no-into
+query CREATE TABLE m (k INTEGER)
+query CREATE TABLE s (k INTEGER)
+query INSERT INTO s VALUES (1)
+query MERGE m USING s ON m.k = s.k WHEN NOT MATCHED THEN INSERT (k) VALUES (s.k)
+direct DROP TABLE m
+direct DROP TABLE s
+## g-union-item-parenthesised
+query SELECT 1 AS a FROM system.iota UNION (SELECT 2 FROM system.iota)
+## g-union-order-by-name
+query SELECT 2 AS a FROM system.iota UNION SELECT 1 FROM system.iota ORDER BY a
+## g-bitwise-below-plus
+query SELECT 1 + 1 & 1 AS r FROM system.iota
+## g-identifiers-loose
+query SELECT 1 AS _x, 2 AS #t, 3 AS @p, 4 AS a&b FROM system.iota
+## g-quoted-identifiers
+query SELECT 1 AS "2two", 2 AS "my name", 3 AS [3D], 4 AS [I/O] FROM system.iota
+## g-binary-literal-spaces
+query SELECT X'48 65 6C 6C 6F' AS r FROM system.iota
+## g-data-types
+query CREATE TABLE ty (a CHAR(2), b CICHAR(2), c NCHAR(2), d NVARCHAR(2), e VARCHAR(2), f VARBINARY(2), g NUMERIC(6,2), h DOUBLE, i CURDOUBLE, j MONEY, k INTEGER, l SHORT, m LONGINT, n AUTOINC, o LOGICAL, p DATE, q TIME, r TIMESTAMP, s MODTIME, t ROWVERSION, u MEMO, v NMEMO, w BLOB, x RAW(4), y GUID)
+query SELECT * FROM ty
+direct DROP TABLE ty
+## g-cast-precision
+query SELECT CAST(1 AS SQL_INTEGER(5)) AS r FROM system.iota
+## group sem
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-location-left-operand
+query SELECT c + 1 FROM t1
+## s-assignment-detail
+query INSERT INTO t3 (k) VALUES ('x')
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-name-spelling
+query SELECT T2.X FROM t2
+## s-sysvar-conn
+clearparams
+query SELECT ::conn.Name AS a, ::conn.TransactionCount AS b, ::conn.OperationCount AS c, ::stmt.TrigRecNo AS d FROM system.iota
+## s-sysvar-server
+clearparams
+query SELECT ::server.x FROM system.iota
+## s-ambiguous-column
+query SELECT i FROM t1, t2
+## s-unique-column
+query SELECT x FROM t1, t2
+## s-aliased-table-name
+query SELECT t1.i FROM t1 a
+## s-alias-swap
+query SELECT t1.x FROM t1 t2, t2 t1
+## s-quoted-file-alias
+query SELECT t2.x FROM "t2.adt"
+## s-unquoted-dotted-table
+query SELECT * FROM t2.adt
+## s-on-sees-joined-tables
+query SELECT * FROM t1 JOIN t2 ON t1.i = t3.k JOIN t3 ON t3.k = t2.x
+## s-script-ambiguous
+query DECLARE i INTEGER; SELECT i FROM t2;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-alias-twice
+query SELECT * FROM t2 JOIN t2 ON 1 = 1
+## s-update-from-twice
+query UPDATE t3 SET k = 1 FROM t3 a, t3 b
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-right-join-subquery
+query SELECT * FROM t2 RIGHT JOIN (SELECT * FROM t3) s ON s.k = t2.i
+## s-full-join-system-table
+query SELECT * FROM t2 FULL JOIN system.iota s ON 1 = 1
+## s-right-join-system-table
+query SELECT * FROM t2 RIGHT JOIN system.iota s ON 1 = 1
+## s-right-join-null-side
+query SELECT * FROM system.iota s RIGHT JOIN t2 ON 1 = 1
+## s-right-join-on-subquery
+query SELECT t2.i FROM t2 RIGHT JOIN t3 ON t2.x = (SELECT MAX(g) FROM t3 z)
+## s-star-not-alone
+query SELECT *, i FROM t2
+## s-star-after-item
+query SELECT x, * FROM t2
+## s-table-star-twice
+query SELECT t2.*, t2.* FROM t2
+## s-star-duplicates
+query SELECT * FROM t2 a, t2 b
+## s-expr-names
+query SELECT 1, 2, i + 1 FROM t2
+## s-expr-not-orderable
+query SELECT i + 1 FROM t2 ORDER BY EXPR
+## s-derived-expr-name
+query SELECT i FROM (SELECT i + 1 FROM t2) s
+## s-alias-not-in-where
+query SELECT i AS q FROM t2 WHERE q = 5
+## s-where-sees-column
+query SELECT i AS c FROM t2 WHERE c = 'abc'
+## s-group-alias-first
+query SELECT -x AS i FROM t2 GROUP BY i
+## s-group-alias-shadow
+query SELECT c AS x, x FROM t2 GROUP BY x
+## s-group-ordinal
+query SELECT x, COUNT(*) FROM t2 GROUP BY 1
+## s-group-ordinal-beyond
+query SELECT x FROM t2 GROUP BY 2
+## s-group-ordinal-zero
+query SELECT x FROM t2 GROUP BY 0
+## s-group-constant
+query SELECT x FROM t2 GROUP BY 'a'
+## s-group-ordinal-aggregate
+query SELECT SUM(i) FROM t2 GROUP BY 1
+## s-group-repeated
+query SELECT x FROM t2 GROUP BY x, x
+## s-group-collate
+query SELECT c FROM t2 GROUP BY c COLLATE ADS_DEFAULT_CI
+## s-group-memo
+query SELECT me FROM t1 GROUP BY me
+## s-group-function
+query SELECT UPPER(c) FROM t2 GROUP BY UPPER(c)
+## s-group-expr
+query SELECT x + 1 FROM t2 GROUP BY x + 1
+## s-group-expr-column
+query SELECT x + 1 FROM t2 GROUP BY x
+## s-group-other-expr
+query SELECT x * 2 FROM t2 GROUP BY x + 1
+## s-group-missing
+query SELECT SUM(i), x FROM t2
+## s-group-missing-expr
+query SELECT x + COUNT(*) FROM t2
+## s-group-star
+query SELECT * FROM t2 GROUP BY i
+## s-having-no-group
+query SELECT COUNT(*) FROM t2 HAVING COUNT(*) > 1
+## s-having-alias
+query SELECT x, COUNT(*) AS cnt FROM t2 GROUP BY x HAVING cnt > 1
+## s-group-correlated
+query SELECT x, (SELECT COUNT(*) FROM t2 b WHERE b.x = a.x) AS k FROM t2 a GROUP BY x
+## s-group-uncorrelated
+query SELECT x, (SELECT COUNT(*) FROM t2 b) AS k FROM t2 a GROUP BY x
+## s-aggregate-correlated
+query SELECT COUNT(*), (SELECT MAX(k) FROM t3 WHERE g = t2.x) FROM t2
+## s-order-alias-first
+query SELECT i AS x, -x AS i FROM t2 ORDER BY i
+## s-order-ordinal-beyond
+query SELECT i FROM t2 ORDER BY 2
+## s-order-ordinal-zero
+query SELECT i FROM t2 ORDER BY 0
+## s-order-ordinal-negative
+query SELECT i FROM t2 ORDER BY -1
+## s-order-decimal-ignored
+query SELECT i FROM t2 ORDER BY 1.9 DESC
+## s-order-string-ignored
+query SELECT i FROM t2 ORDER BY 'abc' DESC
+## s-order-subquery-ignored
+query SELECT i FROM t2 ORDER BY (SELECT MAX(k) FROM t3) DESC
+## s-order-distinct-other-column
+query SELECT DISTINCT i FROM t2 ORDER BY c DESC
+## s-order-aggregate-selected
+query SELECT x, SUM(i) FROM t2 GROUP BY x ORDER BY SUM(i)
+## s-order-aggregate-expr
+query SELECT x, SUM(i) FROM t2 GROUP BY x ORDER BY SUM(i) + 1
+## s-order-count-not-selected
+query SELECT x FROM t2 GROUP BY x ORDER BY COUNT(*)
+## s-order-memo
+query SELECT i FROM t1 ORDER BY me
+## s-order-blob
+query SELECT i FROM t1 ORDER BY b
+## s-order-nchar
+query SELECT i FROM t1 ORDER BY nc, nv
+## s-union-order-alias
+query SELECT i AS q, c FROM t2 UNION SELECT x, c FROM t2 ORDER BY q DESC
+## s-union-order-name
+query SELECT i, c FROM t2 UNION SELECT x, c FROM t2 ORDER BY c
+## s-union-order-second-name
+query SELECT i, c FROM t2 UNION SELECT x, c FROM t2 ORDER BY x
+## s-union-order-second-alias
+query SELECT i, c FROM t2 UNION SELECT x AS b, c FROM t2 ORDER BY b
+## s-derived-order-top
+query SELECT * FROM (SELECT TOP 1 x FROM t2 ORDER BY x DESC) s
+## s-derived-order-no-top
+query SELECT * FROM (SELECT x FROM t2 ORDER BY x DESC) s
+## s-in-subquery-order
+query SELECT i FROM t2 WHERE x IN (SELECT g FROM t3 ORDER BY g)
+## s-in-subquery-order-top
+query SELECT i FROM t2 WHERE x IN (SELECT TOP 1 g FROM t3 ORDER BY g DESC)
+## s-order-166
+query SELECT i FROM t2 ORDER BY i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i
+## s-order-167
+query SELECT i FROM t2 ORDER BY i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i
+## s-group-256
+query SELECT i FROM t2 GROUP BY i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i
+## s-distinct-256
+query SELECT DISTINCT i + 0, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8, i + 9, i + 10, i + 11, i + 12, i + 13, i + 14, i + 15, i + 16, i + 17, i + 18, i + 19, i + 20, i + 21, i + 22, i + 23, i + 24, i + 25, i + 26, i + 27, i + 28, i + 29, i + 30, i + 31, i + 32, i + 33, i + 34, i + 35, i + 36, i + 37, i + 38, i + 39, i + 40, i + 41, i + 42, i + 43, i + 44, i + 45, i + 46, i + 47, i + 48, i + 49, i + 50, i + 51, i + 52, i + 53, i + 54, i + 55, i + 56, i + 57, i + 58, i + 59, i + 60, i + 61, i + 62, i + 63, i + 64, i + 65, i + 66, i + 67, i + 68, i + 69, i + 70, i + 71, i + 72, i + 73, i + 74, i + 75, i + 76, i + 77, i + 78, i + 79, i + 80, i + 81, i + 82, i + 83, i + 84, i + 85, i + 86, i + 87, i + 88, i + 89, i + 90, i + 91, i + 92, i + 93, i + 94, i + 95, i + 96, i + 97, i + 98, i + 99, i + 100, i + 101, i + 102, i + 103, i + 104, i + 105, i + 106, i + 107, i + 108, i + 109, i + 110, i + 111, i + 112, i + 113, i + 114, i + 115, i + 116, i + 117, i + 118, i + 119, i + 120, i + 121, i + 122, i + 123, i + 124, i + 125, i + 126, i + 127, i + 128, i + 129, i + 130, i + 131, i + 132, i + 133, i + 134, i + 135, i + 136, i + 137, i + 138, i + 139, i + 140, i + 141, i + 142, i + 143, i + 144, i + 145, i + 146, i + 147, i + 148, i + 149, i + 150, i + 151, i + 152, i + 153, i + 154, i + 155, i + 156, i + 157, i + 158, i + 159, i + 160, i + 161, i + 162, i + 163, i + 164, i + 165, i + 166, i + 167, i + 168, i + 169, i + 170, i + 171, i + 172, i + 173, i + 174, i + 175, i + 176, i + 177, i + 178, i + 179, i + 180, i + 181, i + 182, i + 183, i + 184, i + 185, i + 186, i + 187, i + 188, i + 189, i + 190, i + 191, i + 192, i + 193, i + 194, i + 195, i + 196, i + 197, i + 198, i + 199, i + 200, i + 201, i + 202, i + 203, i + 204, i + 205, i + 206, i + 207, i + 208, i + 209, i + 210, i + 211, i + 212, i + 213, i + 214, i + 215, i + 216, i + 217, i + 218, i + 219, i + 220, i + 221, i + 222, i + 223, i + 224, i + 225, i + 226, i + 227, i + 228, i + 229, i + 230, i + 231, i + 232, i + 233, i + 234, i + 235, i + 236, i + 237, i + 238, i + 239, i + 240, i + 241, i + 242, i + 243, i + 244, i + 245, i + 246, i + 247, i + 248, i + 249, i + 250, i + 251, i + 252, i + 253, i + 254, i + 255 FROM t2
+## s-aggregate-where
+query SELECT i FROM t2 WHERE SUM(i) > 1
+## s-aggregate-group-by
+query SELECT x FROM t2 GROUP BY SUM(i)
+## s-aggregate-update
+query UPDATE t3 SET v = SUM(v)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-aggregate-delete
+query DELETE FROM t3 WHERE SUM(v) > 1
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-aggregate-nested
+query SELECT SUM(MAX(i)) FROM t2
+## s-sum-distinct
+query SELECT SUM(DISTINCT x) FROM t2
+## s-max-distinct
+query SELECT MAX(DISTINCT x) FROM t2
+## s-count-distinct-star
+query SELECT COUNT(DISTINCT *) FROM t2
+## s-count-types
+query SELECT COUNT(*), COUNT(x), COUNT(DISTINCT x) FROM t2
+## s-sum-types
+query SELECT SUM(si), SUM(i), SUM(li), SUM(m), SUM(d) FROM t1
+## s-sum-numeric
+query SELECT SUM(v) FROM t3
+## s-sum-integer-overflow
+query SELECT SUM(k) FROM (SELECT 2147483647 AS k FROM t3) s
+## s-avg-integer-rounds
+query SELECT AVG(i) FROM t2 WHERE i < 7
+## s-avg-integer-rounds-2
+query SELECT AVG(k) FROM t3 WHERE k < 3
+## s-avg-numeric
+query SELECT AVG(v) FROM t3
+## s-avg-more-digits
+query SELECT AVG(k + 0.0) FROM t3 WHERE k < 3
+## s-min-max-types
+query SELECT MAX(c), MAX(nc), MIN(ci), MAX(dt), MIN(tm), MAX(ts), MAX(l) FROM t1
+## s-max-memo
+query SELECT MAX(me) FROM t1
+## s-sum-char
+query SELECT SUM(c) FROM t1
+## s-avg-char
+query SELECT AVG(c) FROM t1
+## s-outer-aggregate
+query SELECT * FROM t2 WHERE x = (SELECT MAX(x) FROM t3)
+## s-scalar-two-columns
+query SELECT (SELECT k, g FROM t3) AS r FROM t2
+## s-scalar-two-rows
+query SELECT (SELECT k FROM t3) AS r FROM system.iota
+## s-scalar-no-row
+query SELECT (SELECT k FROM t3 WHERE k > 99) AS r FROM system.iota
+## s-in-subquery-type
+query SELECT i FROM t2 WHERE i IN (SELECT c FROM t2)
+## s-exists-columns
+query SELECT i FROM t2 WHERE EXISTS (SELECT i, x FROM t2)
+## s-row-value-in
+query SELECT i FROM t2 WHERE (x, i) IN (SELECT g, k FROM t3)
+## s-union-in-subquery
+query SELECT i FROM t2 WHERE i IN (SELECT k FROM t3 UNION SELECT 7 FROM system.iota)
+## s-in-list-column
+query SELECT i FROM t2 WHERE i IN (1, 2, x)
+## s-in-list-expression
+query SELECT i FROM t2 WHERE i IN (1, 1+1)
+## s-correlation-inner-first
+query SELECT i FROM t1 WHERE EXISTS (SELECT * FROM t2 WHERE i = 6)
+## s-correlation-ambiguous-inner
+query SELECT i FROM t1 WHERE EXISTS (SELECT * FROM t2 a, t2 b WHERE i = 5)
+## s-insert-count-list
+query INSERT INTO t3 (k, g) VALUES (1)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-insert-count-implicit
+query INSERT INTO t3 VALUES (1, 2)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-insert-count-select
+query INSERT INTO t3 SELECT k FROM t3
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-insert-column-twice
+query INSERT INTO t3 (k, k) VALUES (1, 2)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-insert-unknown-column
+query INSERT INTO t3 (nosuch) VALUES (1)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-update-column-twice
+query UPDATE t3 SET k = 1, k = 2
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-update-correlated-set
+query UPDATE t3 SET v = (SELECT MAX(x) FROM t2 WHERE t2.x = t3.g)
+query SELECT v FROM t3
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-logical-eq-1
+query SELECT i AS r FROM t1 WHERE l = 1
+## s-logical-in
+query SELECT i AS r FROM t1 WHERE l IN (TRUE, 1)
+## s-logical-eq-2
+query SELECT i AS r FROM t1 WHERE l = 2
+## s-logical-eq-decimal
+query SELECT i AS r FROM t1 WHERE l = 1.0
+## s-logical-eq-column
+query SELECT i AS r FROM t1 WHERE l = i
+## s-where-1
+query SELECT i AS r FROM t1 WHERE 1
+## s-iif-1
+query SELECT IIF(1, 't', 'f') AS r FROM t1
+## s-where-5
+query SELECT i AS r FROM t1 WHERE 5
+## s-where-column
+query SELECT i AS r FROM t1 WHERE i
+## s-where-not-column
+query SELECT i AS r FROM t1 WHERE NOT i
+## s-iif-5
+query SELECT IIF(5, 't', 'f') AS r FROM t1
+## s-where-char
+query SELECT i AS r FROM t1 WHERE c
+## s-logical-union-integer
+query SELECT l FROM t1 UNION ALL SELECT i + 1 FROM t1
+## s-logical-cast
+query SELECT CAST(l AS SQL_INTEGER) AS r FROM t1
+## s-logical-plus
+query SELECT l + 1 AS r FROM t1
+## s-logical-negate
+query SELECT -l AS r FROM t1
+## s-logical-bitwise
+query SELECT l AND TRUE AS a, l & TRUE AS b, ~l AS c, l << 1 AS d FROM t1
+## s-shift-by-logical
+query SELECT i << l AS r FROM t1
+## s-logical-into-integer
+query INSERT INTO t3 (k) VALUES (TRUE)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-logical-param-string
+clearparams
+prepare SELECT i AS r FROM t1 WHERE l = ?
+param 1 string T
+exec
+closecursor
+## s-literal-integers
+query SELECT 1, -1, 00012, 5. FROM system.iota
+## s-literal-longint
+query SELECT 2147483648, 9223372036854775807 FROM system.iota
+## s-literal-19-digit-numeric
+query SELECT 9223372036854775808 AS r FROM t1
+## s-literal-20-digits
+query SELECT 11111111111111111111 AS r FROM t1
+## s-literal-30-digits
+query SELECT 111111111111111111111111111111 AS r FROM t1
+## s-literal-31-digits
+query SELECT 1234567890123456789012345678901 AS r FROM t1
+## s-literal-decimals
+query SELECT 1.5, 1.50, .5, 0.001 FROM system.iota
+## s-literal-30-digit-decimal
+query SELECT 1111111111111111111111111111.11 AS r FROM t1
+## s-literal-point-29
+query SELECT 0.11111111111111111111111111111 AS r FROM t1
+## s-literal-31-digit-decimal
+query SELECT 11111111111111111111111111111.11 AS r FROM t1
+## s-literal-exponent
+query SELECT 1e3, 1.5E+2 FROM system.iota
+## s-literal-strings
+query SELECT 'abc', N'abc', '' FROM system.iota
+## s-literal-binary
+query SELECT X'4142' AS r FROM t1
+## s-literal-date-string
+query SELECT '2024-01-02' AS r FROM t1
+## s-integer-plus-date
+query SELECT 1 + dt AS r FROM t1
+## s-integer-minus-date
+query SELECT 1 - dt AS r FROM t1
+## s-column-minus-date
+query SELECT i - dt AS r FROM t1
+## s-num-add
+query SELECT n + n AS r FROM t1
+## s-num-add-mixed
+query SELECT n + n2 AS r FROM t1
+## s-num-mul
+query SELECT n * n AS r FROM t1
+## s-num-mul-mixed
+query SELECT n * n2 AS r FROM t1
+## s-num-mul-capped
+query SELECT n2 * n2 AS r FROM t1
+## s-num-mod-int-num
+query SELECT i % n AS r FROM t1
+## s-num-mod-num-int
+query SELECT n % i AS r FROM t1
+## s-num-mod-mixed
+query SELECT n2 % n AS r FROM t1
+## s-num-literal-add
+query SELECT 1 + 1.5 AS r FROM t1
+## s-num-literal-mul
+query SELECT 1.25 * 1.5 AS r FROM t1
+## s-num-div
+query SELECT n / n AS r FROM t1
+## s-num-div-mixed
+query SELECT n / n2 AS r FROM t1
+## s-num-div-int
+query SELECT n / i AS r FROM t1
+## s-num-div-longint
+query SELECT n / li AS r FROM t1
+## s-num-div-capped
+query SELECT n2 / li AS r FROM t1
+## s-num-div-chain
+query SELECT n2 / n2 / n2 / n2 AS r FROM t1
+## s-num-div-literal
+query SELECT 10.0 / 3 AS r FROM t1
+## s-num-div-literal-2
+query SELECT 10 / 3.0 AS r FROM t1
+## s-num-div-literal-3
+query SELECT 1.5 / 2.25 AS r FROM t1
+## s-num-div-cast
+query SELECT CAST(1 AS SQL_NUMERIC(10,4)) / CAST(1 AS SQL_NUMERIC(10,4)) AS r FROM t1
+## s-num-scale-overflow
+query SELECT CAST(1 AS SQL_NUMERIC(30,16)) * CAST(1 AS SQL_NUMERIC(30,16)) FROM system.iota
+## s-num-division-scale-cut
+query SELECT CAST(1 AS SQL_NUMERIC(30,28)) / CAST(1 AS SQL_NUMERIC(30,28)) FROM system.iota
+## s-cast-numeric-lengths
+query SELECT CAST(1 AS SQL_NUMERIC(10,2)), CAST(1 AS SQL_NUMERIC(10,0)), CAST(1 AS SQL_NUMERIC(33,0)) FROM system.iota
+## s-precedence
+query SELECT i + d, i + cd, n + m, d + m, cd + m, i + m FROM t1
+## s-money-times-money
+query SELECT m * m AS r FROM t1
+## s-shortint-ops
+query SELECT si + si, si * si, si / si, si % si FROM t1
+## s-shift-left-type
+query SELECT si << li, i << li, si + li FROM t1
+## s-integer-overflow
+query SELECT 2147483647 + 1 AS r FROM t2
+## s-integer-overflow-column
+query SELECT i * 1000000000 AS r FROM t2
+## s-date-eq-timestamp
+query SELECT i AS r FROM t1 WHERE dt = ts
+## s-date-plus-fraction
+query SELECT dt + 1.5 AS r FROM t1
+## s-date-plus-double
+query SELECT dt + d AS r FROM t1
+## s-date-minus-date
+query SELECT dt - dt AS r FROM t1
+## s-date-plus-money
+query SELECT dt + m AS r FROM t1
+## s-timestamp-plus
+query SELECT ts + 1 AS r FROM t1
+## s-time-minus-time
+query SELECT tm - tm AS r FROM t1
+## s-timestamp-minus
+query SELECT ts - ts AS r FROM t1
+## s-bitwise-20-digits
+query SELECT 12345678901234567890 & 1 AS r FROM t1
+## s-bitwise-19-digits
+query SELECT 1234567890123456789 & 1 AS r FROM t1
+## s-bitwise-double
+query SELECT d & 1 AS r FROM t1
+## s-bitwise-money
+query SELECT m & 1 AS r FROM t1
+## s-bitnot-decimal
+query SELECT ~n AS r FROM t1
+## s-binary-bitwise
+query SELECT X'0F' & 3 AS r FROM t1
+## s-binary-two-bitwise
+query SELECT X'0F' & X'01' AS r FROM t1
+## s-binary-plus
+query SELECT X'0F' + 1 AS r FROM t1
+## s-concat-65529
+query SELECT CAST('a' AS SQL_CHAR(40000)) + CAST('b' AS SQL_CHAR(25529)) AS r FROM system.iota
+## s-concat-memo
+query SELECT CAST('a' AS SQL_CHAR(40000)) + CAST('b' AS SQL_CHAR(25530)) AS r FROM system.iota
+## s-concat-wchar-overflow
+query SELECT CAST('a' AS SQL_WCHAR(20000)) + CAST('b' AS SQL_WCHAR(20000)) AS r FROM system.iota
+## s-concat-literal
+query SELECT c + 'x' AS r FROM t1
+## s-concat-cichar
+query SELECT c + ci AS r FROM t1
+## s-concat-collate
+query SELECT c + ci COLLATE ADS_DEFAULT_CI AS r FROM t1
+## s-concat-number
+query SELECT c + 1 AS r FROM t1
+## s-concat-date
+query SELECT c + dt AS r FROM t1
+## s-plus-numeric-row
+query SELECT i + li, i + n, si + n, li + n, n + si, ai + n FROM t1
+## s-plus-date-row
+query SELECT dt + i, dt + li, dt + si, d + dt FROM t1
+## s-plus-curdouble-date
+query SELECT cd + dt AS r FROM t1
+## s-plus-date-date
+query SELECT dt + dt AS r FROM t1
+## s-plus-strings
+query SELECT c + c, c + vc, c + me, c + nc, c + nv, vc + vc FROM t1
+## s-plus-wide-strings
+query SELECT vc + nc, me + nc, nc + nv, ci + ci FROM t1
+## s-plus-cichar-memo
+query SELECT ci + me AS r FROM t1
+## s-plus-time
+query SELECT tm + tm AS r FROM t1
+## s-plus-logical
+query SELECT l + l AS r FROM t1
+## s-plus-blob
+query SELECT b + b AS r FROM t1
+## s-plus-guid
+query SELECT g + g AS r FROM t1
+## s-minus-strings
+query SELECT vc - vc AS r FROM t1
+## s-minus-number-date
+query SELECT n - dt AS r FROM t1
+## s-mul-matrix
+query SELECT i * n, si * n, li * n2, n * 2.25, 1.5 * i, 1 * n2 FROM t1
+## s-div-matrix
+query SELECT i / n, n / si, n2 / i, 1.5 / li, si / 2, n / 2.25 FROM t1
+## s-mod-matrix
+query SELECT li % n, n % si, n2 % li, 1.5 % i, i % 2.25, si % li FROM t1
+## s-and-domain
+query SELECT si & si, i & li, si << i, li << 1 FROM t1
+## s-and-numeric
+query SELECT i & n AS r FROM t1
+## s-and-decimal-literal
+query SELECT i & 1.5 AS r FROM t1
+## s-cmp-number-char
+query SELECT i AS r FROM t1 WHERE i = c
+## s-cmp-char-cichar
+query SELECT i AS r FROM t1 WHERE c = ci
+## s-cmp-between-cichar
+query SELECT i AS r FROM t1 WHERE c BETWEEN ci AND ci
+## s-cmp-collate
+query SELECT i AS r FROM t1 WHERE c = ci COLLATE ADS_DEFAULT_CI
+## s-cmp-char-group
+query SELECT i AS r FROM t1 WHERE c = nc AND c = vc AND c <> me
+## s-cmp-binary-group
+query SELECT i AS r FROM t1 WHERE b = vb OR r = g
+## s-cmp-date-time
+query SELECT i AS r FROM t1 WHERE dt = tm
+## s-cmp-time-timestamp
+query SELECT i AS r FROM t1 WHERE tm < ts
+## s-cmp-logical-char
+query SELECT i AS r FROM t1 WHERE l = c
+## s-cmp-mixed-numeric
+query SELECT i AS r FROM t1 WHERE si < li AND n <= d AND m = cd AND ai > 0
+## s-date-string-eq
+query SELECT i AS r FROM t1 WHERE dt = '2024-01-02' AND dt < '2025-01-01'
+## s-date-string-invalid
+query SELECT i AS r FROM t1 WHERE dt < '2025-13-01'
+## s-timestamp-date-string
+query SELECT i AS r FROM t1 WHERE ts < '2025-01-01'
+## s-date-string-expression
+query SELECT i AS r FROM t1 WHERE dt = '2024' + '-01-02'
+## s-date-plus-string
+query SELECT dt + '1' AS r FROM t1
+## s-integer-string
+query SELECT i AS r FROM t1 WHERE i = '5'
+## s-string-plus-integer
+query SELECT '1' + 1 AS r FROM t1
+## s-merge-case
+query SELECT CASE WHEN i > 0 THEN i ELSE n END AS r FROM t1
+## s-merge-ifnull
+query SELECT IFNULL(i, n) AS r FROM t1
+## s-merge-isnull
+query SELECT ISNULL(i, 2.5) AS r FROM t1
+## s-merge-coalesce
+query SELECT COALESCE(i, n) AS r FROM t1
+## s-merge-union
+query SELECT i FROM t1 UNION SELECT n FROM t1
+## s-merge-union-literals
+query SELECT 1 FROM system.iota UNION SELECT 1.55 FROM system.iota
+## s-merge-case-fits
+query SELECT CASE WHEN i > 0 THEN 2000000000 ELSE n END AS r FROM t1
+## s-merge-coalesce-overflow
+query SELECT COALESCE(2000000000, n) AS a FROM t1
+## s-merge-union-overflow
+query SELECT 2000000000 AS a FROM t2 UNION SELECT 1.25 FROM t2
+## s-merge-int-double
+query SELECT CASE WHEN i > 0 THEN i ELSE d END AS r FROM t1
+## s-merge-money
+query SELECT CASE WHEN i > 0 THEN m ELSE n END AS r FROM t1
+## s-merge-money-curdouble-case
+query SELECT CASE WHEN i > 0 THEN m ELSE cd END AS r FROM t1
+## s-merge-money-curdouble-union
+query SELECT m FROM t1 UNION SELECT cd FROM t1
+## s-merge-shortint
+query SELECT si FROM t1 UNION SELECT si FROM t1 UNION SELECT li FROM t1
+## s-merge-shortint-case
+query SELECT CASE WHEN i > 0 THEN si ELSE si END AS r FROM t1
+## s-merge-char-varchar
+query SELECT CASE WHEN i > 0 THEN c ELSE vc END AS r FROM t1
+## s-merge-char-memo
+query SELECT CASE WHEN i > 0 THEN c ELSE me END AS r FROM t1
+## s-merge-char-nchar
+query SELECT CASE WHEN i > 0 THEN c ELSE nc END AS r FROM t1
+## s-merge-raw-varbinary
+query SELECT CASE WHEN i > 0 THEN r ELSE vb END AS r FROM t1
+## s-merge-guid-raw
+query SELECT CASE WHEN i > 0 THEN g ELSE r END AS r FROM t1
+## s-merge-case-date-ts
+query SELECT CASE WHEN i > 0 THEN dt ELSE ts END AS r FROM t1
+## s-merge-coalesce-date-ts
+query SELECT COALESCE(dt, ts) AS r FROM t1
+## s-merge-iif-time-ts
+query SELECT IIF(i > 0, tm, ts) AS r FROM t1
+## s-merge-union-mismatch
+query SELECT i FROM t2 UNION SELECT c FROM t2
+## s-merge-case-cichar
+query SELECT CASE WHEN i > 0 THEN c ELSE ci END AS r FROM t1
+## s-merge-coalesce-cichar
+query SELECT COALESCE(c, ci) AS r FROM t1
+## s-merge-union-collation
+query SELECT c FROM t1 UNION SELECT ci FROM t1
+## s-merge-union-collation-2
+query SELECT ci FROM t1 UNION SELECT c FROM t1
+## s-case-all-null
+query SELECT CASE WHEN i > 0 THEN NULL ELSE NULL END AS r FROM t1
+## s-coalesce-all-null
+query SELECT COALESCE(NULL, NULL) AS r FROM t1
+## s-simple-case-when-type
+query SELECT CASE i WHEN 'x' THEN 1 END AS r FROM t1
+## s-cast-char-defaults
+query SELECT CAST(i AS SQL_CHAR), CAST(si AS SQL_CHAR), CAST(li AS SQL_CHAR), CAST(n AS SQL_CHAR), CAST(d AS SQL_CHAR), CAST(m AS SQL_CHAR), CAST(dt AS SQL_CHAR), CAST(tm AS SQL_CHAR), CAST(l AS SQL_CHAR), CAST(me AS SQL_CHAR), CAST(g AS SQL_CHAR) FROM t1
+## s-cast-char-wraps
+query SELECT CAST('a' AS SQL_CHAR(70000)) AS r FROM t1
+## s-cast-varchar-timestamp
+query SELECT CAST(ts AS SQL_VARCHAR) AS r FROM t1
+## s-cast-varchar-too-long
+query SELECT CAST('a' AS SQL_VARCHAR(65531)) AS r FROM t1
+## s-cast-varchar-wraps
+query SELECT CAST('a' AS SQL_VARCHAR(70000)) AS r FROM t1
+## s-cast-type-names
+query SELECT CAST('a' AS SQL_WCHAR(3)), CAST('a' AS SQL_WVARCHAR(3)), CAST('a' AS SQL_LONGVARCHAR), CAST(X'41' AS SQL_BINARY(2)), CAST(X'41' AS SQL_VARBINARY(2)) FROM system.iota
+## s-cast-longvarbinary
+query SELECT CAST(X'41' AS SQL_LONGVARBINARY) AS r FROM t1
+## s-cast-integers
+query SELECT CAST(1 AS SQL_INTEGER), CAST(1 AS SQL_SMALLINT), CAST(1 AS SQL_TINYINT), CAST(1 AS SQL_BIGINT) FROM system.iota
+## s-cast-numeric-default
+query SELECT CAST(i AS SQL_NUMERIC) AS r FROM t1
+## s-cast-numeric-bad-scale
+query SELECT CAST(1 AS SQL_NUMERIC(10,11)) AS r FROM t1
+## s-cast-numeric-scale-9
+query SELECT CAST(1 AS SQL_NUMERIC(10,9)) AS r FROM t1
+## s-cast-decimal
+query SELECT CAST(1 AS SQL_DECIMAL) AS r FROM t1
+## s-cast-others
+query SELECT CAST(1 AS SQL_DOUBLE), CAST(1 AS SQL_FLOAT), CAST(1 AS SQL_REAL), CAST(1 AS SQL_MONEY), CAST(1 AS SQL_BIT), CAST('2024-01-02' AS SQL_DATE), CAST('10:11:12' AS SQL_TIME), CAST('2024-01-02 10:11:12' AS SQL_TIMESTAMP), CAST('2024-01-02' AS SQL_TYPE_DATE) FROM system.iota
+## s-assign-decimal-integer
+query INSERT INTO t3 (k) VALUES (1.5)
+query SELECT k FROM t3 WHERE k < 2
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-rounds
+query INSERT INTO t3 (k, v) VALUES (9, 1.555)
+query SELECT v FROM t3 WHERE k = 9
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-numeric-overflow
+query INSERT INTO t3 (k, v) VALUES (9, 123456.789)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-integer-overflow
+query INSERT INTO t3 (k) VALUES (4000000000)
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-param-truncated
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (9, ?)
+param 1 string 1.235
+exec
+closecursor
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-param-written
+clearparams
+prepare INSERT INTO t3 (k, v) VALUES (9, ?)
+param 1 string 1.235
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 9
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-update-param
+clearparams
+prepare UPDATE t3 SET v = ? WHERE k = 1
+param 1 double 99.999
+exec
+closecursor
+query SELECT v FROM t3 WHERE k = 1
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-money-variable
+query DECLARE x MONEY; SET x = 1.23456;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-integer-variable
+query DECLARE x INTEGER; SET x = 3000000000;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-assign-char-variable
+query DECLARE x CHAR(3); SET x = 'abcdef'; SELECT x AS r FROM system.iota
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-param-both-untyped
+clearparams
+prepare SELECT i AS r FROM t2 WHERE ? = ?
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+## s-param-plus-untyped
+clearparams
+prepare SELECT ? + ? AS r FROM t1
+param 1 long 1
+param 2 long 1
+exec
+closecursor
+## s-param-is-null
+clearparams
+prepare SELECT i AS r FROM t2 WHERE ? IS NULL
+param 1 long 1
+exec
+closecursor
+## s-param-in-subquery
+clearparams
+prepare SELECT i AS r FROM t2 WHERE ? IN (SELECT x FROM t2)
+param 1 long 2
+exec
+closecursor
+## s-param-date-days
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 long 3
+exec
+closecursor
+## s-param-date-days-fraction
+clearparams
+prepare SELECT dt + ? AS r FROM t1
+param 1 double 3.7
+exec
+closecursor
+## s-param-concat
+clearparams
+prepare SELECT ? + c AS r FROM t1
+param 1 string x
+exec
+closecursor
+## s-param-function
+clearparams
+prepare SELECT UPPER(?) AS r FROM t1
+param 1 string x
+exec
+closecursor
+## s-param-no-partner
+clearparams
+prepare SELECT ? AS r FROM t1
+param 1 long 1
+exec
+closecursor
+## s-param-negate
+clearparams
+prepare SELECT -? AS r FROM t1
+param 1 long 1
+exec
+closecursor
+## s-param-order-by
+clearparams
+prepare SELECT i FROM t2 ORDER BY ?
+param 1 long 1
+exec
+closecursor
+## s-param-case
+clearparams
+prepare SELECT CASE WHEN ? THEN 1 ELSE 2 END AS r FROM t1
+param 1 logical 1
+exec
+closecursor
+## s-param-coalesce
+clearparams
+prepare SELECT COALESCE(?, 1) AS r FROM t1
+param 1 long 1
+exec
+closecursor
+## s-param-top
+clearparams
+prepare SELECT TOP ? i FROM t2
+param 1 long 1
+exec
+closecursor
+## s-param-exact-scale
+clearparams
+prepare SELECT ? + 1.5 AS r FROM t1
+param 1 double 2.25
+exec
+closecursor
+## s-param-overflow
+clearparams
+prepare SELECT i AS r FROM t1 WHERE n = ?
+param 1 string 123456789.1
+exec
+closecursor
+## s-param-integer-string
+clearparams
+prepare SELECT i AS r FROM t1 WHERE i = ?
+param 1 string x
+exec
+closecursor
+## s-param-date-garbage
+clearparams
+prepare SELECT i AS r FROM t1 WHERE dt = ?
+param 1 string garbage
+exec
+closecursor
+## s-named-param-slots
+clearparams
+prepare SELECT i AS r FROM t2 WHERE i = :p OR x = :p
+param 1 long 5
+exec
+closecursor
+## s-named-param-slots-bound
+clearparams
+prepare SELECT i AS r FROM t2 WHERE i = :p OR x = :p
+param 1 long 5
+param 2 long 2
+exec
+closecursor
+## s-param-unbound
+clearparams
+prepare SELECT i AS r FROM t2 WHERE i = ? AND x = ?
+param 1 long 5
+exec
+closecursor
+## s-distinct-memo
+query SELECT DISTINCT me FROM t1
+## s-union-memo
+query SELECT me FROM t1 UNION SELECT me FROM t1
+## s-script-leave
+query DECLARE x INTEGER; LEAVE;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-unreachable-raise
+query DECLARE x INTEGER; RAISE myerr(1, 'boom'); SET x = 1;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-autoinc-variable
+query DECLARE x AUTOINC;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-char-size
+query DECLARE x CHAR(99999);
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-numeric-size
+query DECLARE x NUMERIC(40,2);
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-string-memo
+query DECLARE s STRING; DECLARE m MEMO; SET s = 'ab'; SET m = 'cd'; SELECT s + m AS r FROM system.iota
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-script-set-sysvar
+clearparams
+query SET ::conn.x = 1;
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+direct CREATE TABLE t1 (i INTEGER, si SHORTINT, li LONGINT, n NUMERIC(10,2), n2 NUMERIC(20,5), d DOUBLE, cd CURDOUBLE, m MONEY, c CHAR(10), ci CICHAR(10), vc VARCHAR(20), me MEMO, nc NCHAR(10), nv NVARCHAR(10), dt DATE, tm TIME, ts TIMESTAMP, l LOGICAL, b BLOB, r RAW(8), vb VARBINARY(8), ai AUTOINC, g GUID)
+direct INSERT INTO t1 (i, si, li, n, n2, d, cd, m, c, ci, vc, me, nc, nv, dt, tm, ts, l) VALUES (1, 2, 3, 1.5, 2.5, 1.5, 1.5, 1.5, 'abc', 'ABC', 'abc', 'memo', 'abc', 'abc', '2024-01-02', '10:11:12', '2024-01-02 10:11:12', TRUE)
+direct CREATE TABLE t2 (i INTEGER, c CHAR(5), x INTEGER, "Mixed Case" INTEGER)
+direct INSERT INTO t2 VALUES (5, 'abc', 1, 1)
+direct INSERT INTO t2 VALUES (6, 'def', 2, 2)
+direct INSERT INTO t2 VALUES (7, 'ghi', 2, 3)
+direct CREATE TABLE t3 (k INTEGER, g INTEGER, v NUMERIC(8,2))
+direct INSERT INTO t3 VALUES (1, 1, 5.00)
+direct INSERT INTO t3 VALUES (2, 1, 6.00)
+direct INSERT INTO t3 VALUES (3, 2, 1.25)
+## s-group-by-in-union
+query SELECT x, COUNT(*) FROM t2 GROUP BY x HAVING COUNT(*) > 1 UNION SELECT 9, 9 FROM system.iota
+direct DROP TABLE t1
+direct DROP TABLE t2
+direct DROP TABLE t3
+## group expr
+direct CREATE TABLE t1 (i INTEGER, c CHAR(5), v VARCHAR(10), ci CICHAR(5), n NUMERIC(8,2), d DATE, ts TIMESTAMP, l LOGICAL, m MEMO, dbl DOUBLE, cur MONEY)
+direct INSERT INTO t1 VALUES (1, 'ab', 'ab', 'AB', 1.5, '2024-01-02', '2024-01-02 10:11:12', TRUE, 'memo', 1.5, 1.5)
+direct INSERT INTO t1 (i) VALUES (2)
+direct INSERT INTO t1 VALUES (3, '', '', '', 0, NULL, NULL, FALSE, '', 0, 0)
+## x-nextrowversion
+query SELECT NEXTROWVERSION('t1', 1) FROM system.iota
+## x-null-where
+query SELECT i FROM t1 WHERE n <> 1
+## x-empty-column
+query SELECT i FROM t1 WHERE EMPTY(n) OR EMPTY(c)
+## x-empty-values
+query SELECT c, v, ci, m FROM t1 WHERE i = 3
+## x-empty-memo-is-null
+query SELECT i FROM t1 WHERE m IS NULL
+## x-empty-char-not-null
+query SELECT i FROM t1 WHERE c IS NULL OR v IS NULL
+## x-aggregates-null
+query SELECT COUNT(*), COUNT(n), AVG(n), COUNT(DISTINCT n) FROM t1
+## x-aggregates-empty
+query SELECT SUM(n), AVG(n), MAX(n), COUNT(n) FROM t1 WHERE i > 5
+## x-aggregates-all-null
+query SELECT SUM(n), COUNT(n) FROM t1 WHERE i = 2
+## x-group-concat-null
+query SELECT GROUP_CONCAT(v) FROM t1
+## x-null-sorts-low
+query SELECT n FROM t1 ORDER BY n
+## x-null-sorts-low-desc
+query SELECT n FROM t1 ORDER BY n DESC
+## x-null-group
+query SELECT d, COUNT(*) FROM t1 GROUP BY d
+## x-where-no-short-circuit
+query SELECT i FROM t1 WHERE i=1 OR 1/(i-1)=1
+## x-where-join-short-circuit
+query SELECT t.i FROM t1 t JOIN system.iota x ON 1=1 WHERE t.i=1 OR 1/(t.i-1)=1
+## x-where-order-no-help
+query SELECT i FROM t1 WHERE 1/(i-1)=1 OR i=1
+## x-where-iif-no-help
+query SELECT i FROM t1 WHERE IIF(i=1, 1, 1/(i-1)) = 1
+## x-select-iif-guard
+query SELECT IIF(i=1, 0, 1/(i-1)) FROM t1
+## x-cichar-compare
+query SELECT i FROM t1 WHERE ci = 'ab'
+## x-memo-compare-like
+query SELECT i FROM t1 WHERE m = 'memo' AND m LIKE 'me%'
+## x-like-cichar
+query SELECT i FROM t1 WHERE ci LIKE 'ab'
+## x-cichar-plus-char
+query SELECT ci + c FROM t1
+## x-cichar-eq-char
+query SELECT i FROM t1 WHERE ci = c
+## x-cichar-plus-literal
+query SELECT ci + 'x' FROM t1
+## x-cichar-plus-varchar
+query SELECT ci + v FROM t1
+## x-concat-cichar
+query SELECT CONCAT(ci, c) FROM t1
+## x-int-64bit-where
+query SELECT i FROM t1 WHERE 2147483647 + 1 > 2147483647
+## x-sum-overflow
+query SELECT SUM(2147483647) FROM t1
+## x-group-concat-int
+query SELECT GROUP_CONCAT(i) FROM t1
+direct DROP TABLE t1
+## group exec
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-delete-no-rows
+query DELETE FROM b WHERE id > 100
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-params-at-execute
+clearparams
+prepare SELECT :a + 1, :b FROM system.iota
+param 1 long 1
+param 2 long 2
+exec
+closecursor
+## e-affected-matched
+query UPDATE b SET g = g
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-autoinc
+query UPDATE a SET a = 50
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-update-from
+direct CREATE TABLE m1 (k INTEGER, v INTEGER)
+direct CREATE TABLE m2 (k INTEGER, v INTEGER)
+direct INSERT INTO m1 VALUES (1, 1)
+direct INSERT INTO m1 VALUES (2, 2)
+direct INSERT INTO m2 VALUES (1, 9)
+direct INSERT INTO m2 VALUES (1, 8)
+direct INSERT INTO m2 VALUES (1, 7)
+direct INSERT INTO m2 VALUES (2, 6)
+direct INSERT INTO m2 VALUES (2, 5)
+query UPDATE m1 SET v = m2.v FROM m1, m2 WHERE m1.k = m2.k
+direct DROP TABLE m1
+direct DROP TABLE m2
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-merge
+direct CREATE TABLE s (id INTEGER, v INTEGER)
+direct INSERT INTO s VALUES (4, 40)
+direct INSERT INTO s VALUES (5, 50)
+direct INSERT INTO s VALUES (6, 60)
+query MERGE INTO u USING s ON u.id = s.id WHEN MATCHED THEN UPDATE SET v = s.v WHEN NOT MATCHED THEN INSERT (id, v) VALUES (s.id, s.v)
+direct DROP TABLE s
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-select
+query SELECT * FROM b
+## e-affected-create
+query CREATE TABLE z (x INTEGER)
+direct DROP TABLE z
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-script
+query UPDATE b SET g=g; SELECT * FROM b; UPDATE b SET g=g WHERE id=1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-affected-script-loop
+query DECLARE i INTEGER; SET i = 1; WHILE i <= 300 DO INSERT INTO u VALUES (i, i); SET i = i + 1; END WHILE;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-script-last-dml
+query SELECT * FROM b; UPDATE b SET g = g WHERE id = 1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-script-late-declare
+query DECLARE x INTEGER; SET x = 1; DECLARE y INTEGER;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-script-error-location
+query DECLARE x INTEGER; SET x = 0; WHILE x < 3 DO SET x = x + 1; END WHILE; SELECT 1/0 FROM system.iota;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-script-raise-block
+query DECLARE x INTEGER; RAISE myerr(42, 'boom');
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-plan-distinct
+query SHOW PLAN FOR SELECT DISTINCT s FROM b
+## e-plan-union
+query SHOW PLAN FOR SELECT id FROM b UNION SELECT id FROM u
+## e-plan-merge
+direct CREATE TABLE s (id INTEGER, v INTEGER)
+direct INSERT INTO s VALUES (4, 40)
+query SHOW PLAN FOR MERGE INTO u USING s ON u.id = s.id WHEN MATCHED THEN UPDATE SET v = s.v WHEN NOT MATCHED THEN INSERT (id, v) VALUES (s.id, s.v)
+direct DROP TABLE s
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-union-key-order
+query SELECT g FROM b UNION SELECT g FROM b
+## e-uncorrelated-cached
+query SELECT COUNT(DISTINCT s) AS ds, COUNT(DISTINCT r) AS dr FROM (SELECT id, (SELECT RAND() FROM system.iota) AS s, RAND() AS r FROM b) x
+## e-correlated-aggregate
+query SELECT id, (SELECT MAX(x.id) FROM b x WHERE x.g = b.g) AS m FROM b WHERE id < 5
+## e-top-binds-block
+query SELECT TOP 1 id FROM b WHERE id > 5 UNION SELECT id FROM b WHERE id < 3
+## e-top-start-at
+query SELECT TOP 2 START AT 3 id FROM b
+## e-top-percent
+query SELECT TOP 50 PERCENT id FROM b WHERE id <= 7
+## e-live-cursor
+query SELECT * FROM b WHERE id <= 3
+## e-live-write
+query SELECT * FROM b WHERE id <= 3
+## e-static-cursor
+query SELECT id + 0 AS x FROM b WHERE id > 5
+## e-static-write
+direct SELECT id + 0 AS x FROM b
+gotop
+edit 1 1
+closecursor
+## e-live-duplicate-alias
+query SELECT id AS a, g AS a FROM b
+## e-silent-row-loss
+query SELECT id, 1/(id-4) AS x FROM b
+## e-silent-row-loss-cast
+query SELECT id, CAST(CASE WHEN id=2 THEN 'x' ELSE '1' END AS SQL_INTEGER) AS c FROM b
+## e-error-at-execute-order
+query SELECT id, 1/(id-4) AS x FROM b ORDER BY id DESC
+## e-error-at-execute-aggregate
+query SELECT SUM(1/(id-4)) FROM b
+## e-constant-cast-prepare
+query SELECT CAST('x' AS SQL_INTEGER) FROM b
+## e-live-filter-error
+query SELECT * FROM b WHERE g = 1 OR 1/(id-4) = 1
+## e-live-filter-error-execute
+query SELECT * FROM b WHERE 1/(id-4) = 1
+## e-naming-expr
+query SELECT 1 AS EXPR_1, 2, 3, id, id AS ID, id AS id_1 FROM b
+## e-naming-case
+query SELECT 1 AS a, 2 AS A, 3 AS a_1, 4 AS a FROM b
+## e-naming-star
+query SELECT x.*, y.* FROM t x, t y
+## e-naming-long
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 2 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM b
+## e-naming-too-long
+query SELECT 1 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 2 AS aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa FROM b
+## e-types-common
+query SELECT v * 2, id + 0.5, 1.5, 'abc', name + 'x', TRUE FROM t
+## e-types-special
+query SELECT a + 0, rv + 0 FROM a
+## e-types-strings
+direct CREATE TABLE w (n NCHAR(4), c CICHAR(4), s CHAR(5), i2 SHORTINT)
+direct INSERT INTO w VALUES ('a', 'b', 'c', 1)
+query SELECT n + '', c + '', CAST(1 AS SQL_BIGINT), CURRENT_DATE(), UPPER(s), i2 * 1 FROM w
+direct DROP TABLE w
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-types-union-char
+query SELECT s AS first FROM b UNION SELECT name FROM t
+## e-types-union-number-char
+query SELECT 1 AS x FROM b UNION ALL SELECT s FROM b
+## e-null-first-asc
+query SELECT id, g FROM b ORDER BY g, id
+## e-null-last-desc
+query SELECT id, g FROM b ORDER BY g DESC, id DESC
+## e-null-mixed
+query SELECT id, g FROM b ORDER BY g DESC, id ASC
+## e-null-mixed-static
+query SELECT id, g, id + 0 FROM b ORDER BY g DESC, id ASC
+## e-null-desc-static
+query SELECT id, g, id + 0 FROM b ORDER BY g DESC
+## e-ties-desc
+query SELECT id, s FROM b WHERE s = 'D' ORDER BY s DESC
+## e-ties-asc
+query SELECT id, s FROM b WHERE s = 'D' ORDER BY s
+## e-byte-order
+query SELECT s FROM b WHERE s IN ('A', 'B', '_', 'a', 'b') ORDER BY s
+## e-group-null-first
+query SELECT g, COUNT(*) FROM b GROUP BY g
+## e-order-internal-names
+query SELECT id + 0 AS x, id FROM b ORDER BY 2 DESC
+## e-distinct-1024
+query SELECT DISTINCT CAST(s AS SQL_CHAR(1024)) FROM b
+## e-distinct-1025
+query SELECT DISTINCT CAST(s AS SQL_CHAR(1025)) FROM b
+## e-distinct-nchar-513
+query SELECT DISTINCT CAST(s AS SQL_WCHAR(513)) FROM b
+## e-union-1025
+query SELECT CAST(s AS SQL_CHAR(1025)) FROM b UNION SELECT CAST(s AS SQL_CHAR(1025)) FROM b
+## e-group-1025
+query SELECT CAST(s AS SQL_CHAR(1025)) FROM b GROUP BY 1
+## e-three-keys
+query SELECT DISTINCT CAST(s AS SQL_CHAR(1024)), CAST(id AS SQL_CHAR(1024)), CAST(g AS SQL_CHAR(1024)) FROM b
+## e-dml-not-atomic
+query UPDATE u SET v = v/(id-3)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-dml-not-atomic-state
+query UPDATE u SET v = v/(id-3)
+query SELECT * FROM u
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-delete-not-atomic
+query DELETE FROM u WHERE 1/(id-3) = 1 OR id < 10
+query SELECT id FROM u
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-insert-select-first-row
+query INSERT INTO u SELECT id, 1/(id-1) FROM u
+query SELECT COUNT(*) FROM u
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-ace-error-wrapped
+direct CREATE UNIQUE INDEX uid ON u (id)
+query UPDATE u SET id = id + 1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-unique-mid-update
+direct CREATE UNIQUE INDEX uid ON u (id)
+query UPDATE u SET id = 16 - 6 * id
+query SELECT id FROM u
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-rollback-free-tables
+query BEGIN TRANSACTION
+query UPDATE a SET c = 'z' WHERE c = 'x'
+query ROLLBACK
+query SELECT c FROM a
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-rollback-script
+query BEGIN TRANSACTION; UPDATE a SET c = 'z' WHERE c = 'x'; ROLLBACK WORK; SELECT c FROM a
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-halloween-index
+direct CREATE TABLE m1 (k INTEGER, v INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 16 DO INSERT INTO m1 VALUES (i, i); SET i = i + 1; END WHILE;
+direct CREATE INDEX k ON m1 (k)
+query UPDATE m1 SET k = k + 1000 WHERE k > 0
+query SELECT MIN(k), MAX(k), COUNT(*) FROM m1
+direct DROP TABLE m1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-halloween-affected
+query UPDATE u SET id = id + 100 WHERE id > 0
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-halloween-insert-select
+direct CREATE TABLE m1 (k INTEGER, v INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 8 DO INSERT INTO m1 VALUES (i, i); SET i = i + 1; END WHILE;
+query INSERT INTO m1 SELECT k + 10, v FROM m1 WHERE k < 1000
+direct DROP TABLE m1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-unique-shift-up
+direct INSERT INTO u SELECT id + 10, v FROM u
+direct CREATE UNIQUE INDEX uid ON u (id)
+query UPDATE u SET id = id + 1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-unique-shift-far
+direct INSERT INTO u SELECT id + 10, v FROM u
+direct CREATE UNIQUE INDEX uid ON u (id)
+query UPDATE u SET id = id + 100
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-unique-shift-down
+direct INSERT INTO u SELECT id + 10, v FROM u
+direct CREATE UNIQUE INDEX uid ON u (id)
+query UPDATE u SET id = id - 1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-autoinc-insert-ignored
+query INSERT INTO a (a, c) VALUES (10, 'y')
+query SELECT a FROM a WHERE c = 'y'
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-autoinc-update-ignored
+query UPDATE a SET a = 50
+query SELECT a, rv FROM a
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-same-value-written
+query UPDATE a SET c = c
+query SELECT a, rv FROM a
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-free-table-default
+query CREATE TABLE f (x INTEGER DEFAULT '1')
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-free-table-not-null
+query CREATE TABLE f (x INTEGER CONSTRAINT NOT NULL)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-free-table-minimum
+query CREATE TABLE f (x INTEGER CONSTRAINT MINIMUM '1')
+query INSERT INTO f VALUES (0)
+query SELECT x FROM f
+direct DROP TABLE f
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-select-into-cursor
+query SELECT id, id + 1, s, s INTO n FROM b
+direct DROP TABLE n
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-select-into-exists
+query SELECT * INTO b FROM u
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-create-as-select
+query CREATE TABLE n AS SELECT * FROM b
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## e-temp-table
+query CREATE TABLE #t (x INTEGER)
+query INSERT INTO #t VALUES (1)
+query SELECT * FROM #t
+direct DROP TABLE #t
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-format-5004
+query SELECT * FROM nosuchtable
+## r-no-location-2126
+query SELECT id FROM b ORDER BY 5
+## r-no-location-2189
+query SELECT id FROM b UNION SELECT id, g FROM b
+## r-no-location-2212
+query SELECT COUNT(SUM(1)) FROM b
+## r-asa-5125-grant
+query GRANT SELECT ON t TO u
+## r-2198
+query EXECUTE PROCEDURE sp_NoSuchProc()
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2010
+query SELECT * INTO t FROM t
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2011
+direct CREATE TABLE mm (m MEMO)
+query CREATE INDEX i1 ON mm (m)
+direct DROP TABLE mm
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2101-having
+query SELECT 1 FROM t HAVING 1=1
+## r-2102
+clearparams
+prepare SELECT ? + 1.5 FROM t
+param 1 double 2.25
+exec
+closecursor
+## r-2103
+query SELECT CAST(x'00' AS SQL_LONGVARBINARY) FROM t
+## r-2109
+query SELECT CTOD('01/31/2024') FROM t
+## r-2110
+query DECLARE i INTEGER; FOR i = 1 TO 2 DO SET i = i; END FOR;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2111
+query SELECT CAST(2.5 AS SQL_INTEGER) FROM t
+## r-2113
+query SELECT 'abc FROM t
+## r-2114
+query SELECT xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FROM t
+## r-2115-begin
+query BEGIN
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2116
+query SELECT 1.2.3 FROM t
+## r-2117-primary-key
+query CREATE TABLE pk (a INTEGER PRIMARY KEY, b INTEGER PRIMARY KEY)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2118
+query SELECT {BOGUS} id FROM t
+## r-2119
+query SELECT 1 - {d '2024-01-01'} FROM t
+## r-2121
+query SELECT nosuch FROM t
+## r-2122
+query SELECT x.id FROM t
+## r-2123
+clearparams
+prepare SELECT ? + ? FROM t
+param 1 long 1
+param 2 long 2
+exec
+closecursor
+## r-2124
+query SELECT '1'+1 FROM t
+## r-2124-procedure
+query EXECUTE PROCEDURE sp_GetTables(1, NULL, NULL, NULL)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2125-drop-system
+query DROP TABLE system.iota
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2125-procedure-alias
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetSQLKeywords())
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2126
+query SELECT id FROM t ORDER BY 5
+## r-2128-not-raised
+query SELECT id FROM b ORDER BY id+1
+## r-2129-insert
+query INSERT INTO t (id, name) VALUES (1)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2129-procedure
+query EXECUTE PROCEDURE sp_GetTables('a','b')
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2131
+query SELECT id FROM t WHERE 1 IN (1, 1/0)
+## r-2132
+query SELECT 1 FROM system.iota a, system.iota a
+## r-2132-same-table
+query SELECT 1 FROM t, t
+## r-2133
+query INSERT INTO t (id, id) VALUES (1, 2)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2135
+query CREATE TABLE t2 (a NOSUCHTYPE)
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2137
+query SELECT id FROM t, u
+## r-2141
+clearparams
+query SELECT id FROM t WHERE id = ?
+## r-2145
+direct CREATE TABLE mm (m MEMO)
+query SELECT m FROM mm ORDER BY m
+direct DROP TABLE mm
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2149
+query SELECT id FROM t WHERE SUM(id) > 1
+## r-2150-not-raised
+query SELECT * FROM t GROUP BY id
+## r-2152-not-raised
+query SELECT COUNT(*) FROM b HAVING COUNT(*) > 1
+## r-2153
+query SELECT 1.0/0 FROM t
+## r-2158
+query SELECT NOSUCH(1) FROM t
+## r-2158-unicode
+query SELECT UNICODE('a') FROM t
+## r-2159-str
+query SELECT STR(1, 40) FROM t
+## r-2159-decimal
+query SELECT CAST(1 AS SQL_DECIMAL(5,6)) FROM t
+## r-2166
+query SELECT (SELECT id, v FROM t) FROM t
+## r-2167
+query SELECT (SELECT id FROM b) FROM t
+## r-2189
+query SELECT id FROM t UNION SELECT id, v FROM t
+## r-2191
+query SELECT 1 FROM t UNION SELECT name FROM t
+## r-2191-print
+query EXECUTE PRINT 1 + 1
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2192-not-raised
+query SELECT g, COUNT(*) FROM b GROUP BY g HAVING COUNT(*) > 2 UNION SELECT 9, 9 FROM t
+## r-2194
+direct CREATE TABLE mm (m MEMO)
+query SELECT DISTINCT m FROM mm
+direct DROP TABLE mm
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2195-not-raised
+query SELECT DISTINCT id FROM b ORDER BY s
+## r-2196
+query SELECT id, COUNT(*) FROM t
+## r-2201
+query SELECT id FROM t ORDER BY -1
+## r-2202
+query SELECT id FROM t GROUP BY 1+1
+## r-2206-2132
+query UPDATE t SET v = 1 FROM t, t
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2212
+query SELECT MAX(COUNT(id)) FROM t
+## r-2215
+query CREATE TABLE t9 (a INTEGER) IN DATABASE
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2216
+query DECLARE i INTEGER; IF 1 = 1 THEN SET i = 1;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2218
+query DECLARE i INTEGER; SET j = 1;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2219-continue
+query DECLARE i INTEGER; CONTINUE;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2220
+query DECLARE c CURSOR AS SELECT id FROM t; FETCH c;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2221
+query DECLARE c CURSOR AS SELECT id FROM t; OPEN c; OPEN c;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2223
+query DECLARE c CURSOR AS SELECT id FROM t; DECLARE x INTEGER; OPEN c; SET x = c.id;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2224
+query RAISE myerr(42, 'boom');
+## r-2227
+query DECLARE i SHORT; SET i = 100000;
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-2232
+query SELECT 123456789012345678901234567890*1000000000000 FROM t
+## r-2236
+query SELECT CAST('abc' AS SQL_INTEGER) FROM t
+## r-5016
+query DROP INDEX t.nosuch
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+direct CREATE TABLE b (id INTEGER, g INTEGER, s CHAR(5))
+direct INSERT INTO b VALUES (1, 1, 'A')
+direct INSERT INTO b VALUES (2, NULL, 'B')
+direct INSERT INTO b VALUES (3, 2, 'D')
+direct INSERT INTO b VALUES (4, 0, 'a')
+direct INSERT INTO b VALUES (5, 1, '_')
+direct INSERT INTO b VALUES (6, 2, 'b')
+direct INSERT INTO b VALUES (7, 1, 'D')
+direct INSERT INTO b VALUES (8, 0, 'C')
+direct INSERT INTO b VALUES (9, 2, 'E')
+direct INSERT INTO b VALUES (10, 1, 'F')
+direct CREATE TABLE u (id INTEGER, v INTEGER)
+direct INSERT INTO u VALUES (1, 1)
+direct INSERT INTO u VALUES (2, 2)
+direct INSERT INTO u VALUES (3, 3)
+direct INSERT INTO u VALUES (4, 4)
+direct CREATE TABLE a (a AUTOINC, c CHAR(5), rv ROWVERSION, mt MODTIME)
+direct INSERT INTO a (c) VALUES ('x')
+direct CREATE TABLE t (id INTEGER, name CHAR(10), v INTEGER)
+direct INSERT INTO t VALUES (1, 'one', 10)
+## r-5125-system-columns
+query SELECT * FROM system.columns
+## r-5072
+direct SELECT id + 1 FROM t
+gotop
+edit 1 1
+closecursor
+direct DROP TABLE b
+direct DROP TABLE u
+direct DROP TABLE a
+direct DROP TABLE t
+## group opt
+direct CREATE TABLE big (id INTEGER, grp INTEGER, city CHAR(10), d DATE, cc CICHAR(10), name CHAR(10), amt NUMERIC(10,2))
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 3000 DO INSERT INTO big VALUES (i, MOD(i, 10), 'City' + CAST(MOD(i, 50) AS SQL_VARCHAR(2)), CAST('2019-01-01' AS SQL_DATE) + i, 'CC' + CAST(i AS SQL_VARCHAR(5)), 'N' + CAST(i AS SQL_VARCHAR(5)), i * 2.5); SET i = i + 1; END WHILE;
+direct CREATE INDEX ID ON big (id)
+direct CREATE INDEX GRP ON big (grp)
+direct CREATE INDEX CITY_GRP ON big (city, grp)
+direct CREATE INDEX D ON big (d)
+direct CREATE INDEX CC ON big (cc)
+direct CREATE INDEX NAME ON big (name)
+direct EXECUTE PROCEDURE sp_CreateIndex90('big', 'big.adi', 'UNAME', 'UPPER(name)', '', 2, 512, '')
+direct EXECUTE PROCEDURE sp_CreateIndex90('big', 'big.adi', 'CONDAMT', 'amt', 'grp = 3', 2, 512, '')
+direct EXECUTE PROCEDURE sp_CreateIndex90('big', 'big.adi', 'AMTD', 'amt', '', 10, 512, '')
+direct CREATE TABLE ord (custid INTEGER, qty INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 1000 DO INSERT INTO ord VALUES (i, MOD(i, 7)); SET i = i + 1; END WHILE;
+direct CREATE INDEX CUSTID ON ord (custid)
+direct CREATE TABLE noidx (k INTEGER, v INTEGER)
+direct DECLARE i INTEGER; SET i = 1; WHILE i <= 1000 DO INSERT INTO noidx VALUES (i, i); SET i = i + 1; END WHILE;
+## o-plan-live-id
+query SHOW PLAN FOR SELECT * FROM big WHERE id = 5
+## o-equality-propagation
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid AND b.id = 5
+## o-no-range-propagation
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid AND b.id < 5
+## o-or-two-indexes
+query SHOW PLAN FOR SELECT * FROM big WHERE id = 1 OR grp = 2
+## o-join-order-smaller-outer
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid
+## o-join-order-restricted-outer
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid AND b.grp = 2
+## o-join-cartesian
+query SHOW PLAN FOR SELECT * FROM noidx n, big b
+## o-nojoinorderopt
+query SHOW PLAN FOR SELECT {NOJOINORDEROPT} * FROM big b, ord o WHERE b.id = o.custid
+## o-join-outer-expression
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid + 1
+## o-join-type-mismatch
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.amt = o.qty
+## o-join-non-equi
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id > o.custid
+## o-join-or
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid OR b.grp = o.qty
+## o-join-temp-index
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM big b, noidx n WHERE n.k = b.id AND b.grp = 2
+## o-join-temp-index-hidden
+query SHOW PLAN FOR SELECT * FROM big b, noidx n WHERE n.k = b.id AND b.grp = 2
+## o-static-scope
+query SHOW PLAN FOR SELECT {static} * FROM big WHERE id = 5
+## o-live-xbase-text
+query SHOW PLAN FOR SELECT * FROM big WHERE id = 5 AND grp = 3 OR NOT (id > 5) OR IFNULL(id, 0) = 5 OR d < CURDATE()
+## o-static-isam-text
+query SHOW PLAN FOR SELECT {static} * FROM big WHERE id > 5 AND grp = 3 AND d > '2020-01-01'
+## o-scope-two-equalities
+query SHOW PLAN FOR SELECT {static} * FROM big WHERE city = 'City3' AND grp = 3
+## o-scope-descending
+query SHOW PLAN FOR SELECT {static} * FROM big WHERE amt = 7.5
+## o-scope-range-no
+query SHOW PLAN FOR SELECT {static} * FROM big WHERE id > 10 AND id < 20
+## o-scope-temp-index
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM big WHERE id IN (SELECT custid FROM ord WHERE qty = 2)
+## o-upper-index
+query SHOW PLAN FOR SELECT * FROM big WHERE UCASE(name) = 'N5'
+## o-lower-no-index
+query SHOW PLAN FOR SELECT * FROM big WHERE LOWER(name) = 'n5'
+## o-upper-cichar-no-index
+query SHOW PLAN FOR SELECT * FROM big WHERE UPPER(cc) = 'CC5'
+## o-cichar-index
+query SHOW PLAN FOR SELECT * FROM big WHERE cc = 'cc5'
+## o-year-index
+query SHOW PLAN FOR SELECT * FROM big WHERE YEAR(d) = 2020
+## o-abs-unoptimized
+query SHOW PLAN FOR SELECT * FROM big WHERE ABS(id) = 5
+## o-conditional-index-unused
+query SHOW PLAN FOR SELECT * FROM big WHERE grp = 3 AND amt > 100
+## o-multisegment-equalities
+query SHOW PLAN FOR SELECT * FROM big WHERE grp = 3 AND city = 'City3'
+## o-multisegment-range
+query SHOW PLAN FOR SELECT * FROM big WHERE city = 'City3' AND grp > 3
+## o-descending-range
+query SHOW PLAN FOR SELECT * FROM big WHERE amt > 4000
+## o-descending-order
+query SHOW PLAN FOR SELECT * FROM big ORDER BY amt
+## o-ne-not-optimized
+query SHOW PLAN FOR SELECT * FROM big WHERE id <> 5 AND NOT (grp > 5)
+## o-estimates-na-small
+query SHOW PLAN FOR SELECT * FROM big WHERE grp = 3 AND id < 100
+## o-like-scope
+query SHOW PLAN FOR SELECT * FROM big WHERE name LIKE 'N5%'
+## o-like-extra-aof
+query SHOW PLAN FOR SELECT * FROM big WHERE name LIKE 'N5%' AND grp = 3
+## o-like-upper
+query SHOW PLAN FOR SELECT * FROM big WHERE UPPER(name) LIKE 'N5%'
+## o-sort-pushdown
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid ORDER BY o.custid
+## o-sort-no-index
+query SHOW PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid ORDER BY o.qty
+## o-sort-internal
+query SHOW ALL INTERNAL PLAN FOR SELECT * FROM big b, ord o WHERE b.id = o.custid ORDER BY o.qty
+## o-live-order-temp
+query SHOW PLAN FOR SELECT * FROM big ORDER BY city
+## o-live-order-reverse
+query SHOW PLAN FOR SELECT * FROM big ORDER BY id DESC
+## o-live-star
+query SELECT * FROM big WHERE id = 5
+## o-live-subset
+query SELECT id AS x, name, name, id FROM big WHERE grp = 2
+## o-live-indexes
+query SELECT * FROM big WHERE id < 3
+## o-live-order-temp-index
+query SELECT * FROM big WHERE id < 3 ORDER BY city
+## o-static-expression
+query SELECT id + 1 FROM big WHERE id = 5
+## o-live-where-functions
+query SELECT * FROM big WHERE LEFT(name, 2) = 'N5' AND LENGTH(city) > 0 AND ABS(id) > 0 AND YEAR(d) > 0
+## o-static-where-case
+query SELECT * FROM big WHERE CASE WHEN id = 5 THEN 1 ELSE 0 END = 1
+## o-static-where-cast
+query SELECT * FROM big WHERE CAST(id AS SQL_CHAR(4)) = '5'
+## o-live-where-in-or
+query SELECT * FROM big WHERE id IS NOT NULL AND (grp IN (1, 2) OR city = 'City3') AND 1 = 1
+## o-static-like
+query SELECT * FROM big WHERE name LIKE 'N5%'
+## o-live-order-expression
+query SELECT * FROM big WHERE id < 5 ORDER BY id + 1
+## o-static-top
+query SELECT TOP 2 * FROM big
+## o-static-distinct
+query SELECT DISTINCT grp FROM big
+## o-static-join
+query SELECT b.* FROM big b, ord o WHERE b.id = o.custid AND o.custid = 5
+## o-static-hint
+query SELECT {static} * FROM big WHERE id = 5
+## o-live-derived
+query SELECT * FROM (SELECT * FROM big WHERE grp = 2) x WHERE x.id < 100
+## o-live-derived-plan
+query SHOW PLAN FOR SELECT * FROM (SELECT * FROM big WHERE grp = 2) x WHERE x.id < 100
+## o-static-derived-distinct
+query SELECT * FROM (SELECT DISTINCT id, grp FROM big) x WHERE x.id < 100
+## o-static-uses-optimizer
+query SHOW PLAN FOR SELECT * FROM big WHERE COS(id) < 0 AND id < 10
+## o-count-shortcut
+query SHOW PLAN FOR SELECT COUNT(*) FROM big
+## o-max-shortcut
+query SHOW PLAN FOR SELECT MAX(id) FROM big
+## o-min-count-shortcut
+query SHOW PLAN FOR SELECT MIN(amt), COUNT(*) FROM big
+## o-count-where-shortcut
+query SHOW PLAN FOR SELECT COUNT(*) FROM big WHERE grp = 2
+## o-count-where-value
+query SELECT COUNT(*) FROM big WHERE grp = 2
+## o-max-no-index
+query SHOW PLAN FOR SELECT MAX(qty) FROM ord
+## o-nomiscopt-max
+query SHOW PLAN FOR SELECT {NOMISCOPT} MAX(id) FROM big
+## o-nomiscopt-count
+query SHOW PLAN FOR SELECT {NOMISCOPT} COUNT(*) FROM big WHERE grp = 2
+## o-in-subquery
+query SHOW PLAN FOR SELECT * FROM big WHERE id IN (SELECT custid FROM ord WHERE qty = 2)
+## o-nosubqueryopt-in
+query SHOW PLAN FOR SELECT {NOSUBQUERYOPT} * FROM big WHERE id IN (SELECT custid FROM ord WHERE qty = 2)
+## o-correlated-exists
+query SHOW PLAN FOR SELECT * FROM big b WHERE EXISTS (SELECT * FROM ord o WHERE o.custid = b.id)
+## o-derived-distinct-no-aof
+query SHOW PLAN FOR SELECT * FROM (SELECT DISTINCT id, grp FROM big) x WHERE x.id < 100
+## o-derived-distinct-nosubqueryopt
+query SHOW PLAN FOR SELECT {NOSUBQUERYOPT} * FROM (SELECT DISTINCT id, grp FROM big) x WHERE x.id < 100
+## o-plan-script-last
+query SHOW PLAN FOR SELECT * FROM big WHERE id = 1; SELECT * FROM big WHERE grp = 2
+## o-nopushdownsortopt
+query SHOW PLAN FOR SELECT {NOPUSHDOWNSORTOPT} * FROM big b, ord o WHERE b.id = o.custid ORDER BY o.custid
+## o-noexecutionopt-live
+query SHOW PLAN FOR SELECT {NOEXECUTIONOPT} * FROM big WHERE id = 5
+## e-plan-group-by
+query SHOW PLAN FOR SELECT grp, COUNT(*) FROM big WHERE id > 5 GROUP BY grp HAVING COUNT(*) > 2 ORDER BY 2 DESC
+direct DROP TABLE big
+direct DROP TABLE ord
+direct DROP TABLE noidx

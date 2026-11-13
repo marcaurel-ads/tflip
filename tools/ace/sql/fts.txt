@@ -1,0 +1,359 @@
+# Full-text plans and reads (fixtures/sql/fts_plans.json): SHOW PLAN of
+# CONTAINS combined with other predicates (live cursors), of static cursors
+# (SCORE, {static}), of indexes whose longest word cuts search words, and
+# queries over a FIXED (not maintained) full-text index. Run by sql.c (see
+# run.sh) on a copy of fixtures/sql/fts/, whose fx, px and qx tables
+# fts_tables.txt made: fx.m has a FIXED index built over
+#   1 'alpha bravo charlie', 2 'delta echo', 3 'alpha delta alpha', 4 NULL,
+#   5 'bravo kilo lima', 6 'Superextraordinarily long words'
+# after which 7 'alpha echo' was added, 2 became 'foxtrot golf', 5 'charlie
+# alpha' and 4 'hotel', and 3 was deleted; fx.id has an index. px.body has a
+# full-text index made before px.n's, qx.body one made after qx.id's.
+stmt
+# --- live plans: CONTAINS with other predicates, word lengths
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND id = 1
+query SHOW PLAN FOR SELECT id FROM docs WHERE id = 1 AND CONTAINS(body, 'medical')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') OR CONTAINS(body, 'skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'card') AND CONTAINS(body, 'birthday')
+query SHOW PLAN FOR SELECT id FROM docs WHERE NOT CONTAINS(body, 'medical')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical near doctors') AND id = 1
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical near doctors') OR CONTAINS(body, 'skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND CONTAINS(title, 'medical')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') OR CONTAINS(title, 'alpine')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(*, 'medical') AND id > 0
+query SHOW PLAN FOR SELECT id FROM docs WHERE (CONTAINS(body, 'skiing') OR id = 3) AND CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not medical') AND id = 2
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'zzz') AND CONTAINS(body, 'card') AND CONTAINS(body, 'birthday')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'card') AND CONTAINS(body, 'birthday') AND CONTAINS(body, 'party')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'alpha') AND CONTAINS(body, 'bravo') AND CONTAINS(body, 'charlie')
+query SHOW PLAN FOR SELECT id FROM docs WHERE NOT (CONTAINS(body, 'medical') OR id = 3)
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND title = 'x'
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') = TRUE
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') OR CONTAINS(body, 'skiing') OR CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical or skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical and not doctors')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'doc*')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '*ock*')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not medical')
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') OR n = 40
+query SHOW PLAN FOR SELECT id FROM px WHERE n > 10 AND CONTAINS(body, 'green')
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red near green') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red near green') OR n = 40
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND n >= 20 AND n <= 40
+query SHOW PLAN FOR SELECT id FROM px WHERE NOT CONTAINS(body, 'red') AND n = 20
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND CONTAINS(body, 'blue') AND n = 30
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND id = 3
+query SHOW PLAN FOR SELECT id FROM px WHERE (CONTAINS(body, 'red') OR n = 20) AND id < 5
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'white') AND CONTAINS(body, 'red') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') ORDER BY n
+query SELECT id FROM px WHERE CONTAINS(body, 'red') AND n = 10
+query SELECT id FROM px WHERE CONTAINS(body, 'red') OR n = 40
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card near birthday') FROM docs WHERE CONTAINS(body, 'card near birthday')
+query SHOW PLAN FOR SELECT id, SCORE(title, 'alpine') FROM docs WHERE CONTAINS(title, 'alpine')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'card') AND id = 5
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'card') OR id = 3
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'card') ORDER BY SCORE(1) DESC
+query SHOW PLAN FOR SELECT id, SCORE(1), SCOREDISTINCT(1) FROM docs WHERE CONTAINS(body, 'birthday or card')
+query SHOW PLAN FOR SELECT id, SCORE(*, 'card') FROM docs WHERE CONTAINS(*, 'card')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'not card')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE NOT CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT id, SCOREDISTINCT(body, 'card') FROM docs WHERE CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE CONTAINS(body, 'red') AND n = 10
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE CONTAINS(body, 'red') AND n > 10
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE n > 10
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE CONTAINS(body, 'red') ORDER BY n
+query SHOW PLAN FOR SELECT id FROM docs WHERE SCORE(body, 'card') >= 2
+query SHOW PLAN FOR SELECT id, SCORE(body, 'card') FROM docs WHERE CONTAINS(body, 'medical') OR CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'zzz') FROM docs WHERE CONTAINS(body, 'zzz')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'APPLES')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'apple')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'Medic')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'medica')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'Medical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'APPL*')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'APPLES*')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*PLE')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*SAUCE')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'foo#b')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'foo')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'apple or Medical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(m, '1,423.99')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(m, 'zebra;')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'veterinary')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'abcdefghijklmnopqrstuvwxyzabcd')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'abcdefghijklmnopqrstuvwxyzabc')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'abcdefghijklmnopqrstuvwxyzabcde')
+query SELECT id FROM opts WHERE CONTAINS(c, 'APPLES')
+query SELECT id FROM opts WHERE CONTAINS(c, 'apple')
+query SELECT id FROM opts WHERE CONTAINS(c, 'Medic')
+query SELECT id FROM opts WHERE CONTAINS(c, 'Medical')
+query SELECT id FROM opts WHERE CONTAINS(c, '*SAUCE')
+query SELECT id FROM opts WHERE CONTAINS(c, 'APPLES*')
+# --- static plans, and more live combinations
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE n = 10 AND CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE n = 10 AND id = 1
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px WHERE id = 1 AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE n = 10 AND id = 1
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1 AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE n = 10 AND CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red near green') AND id = 1
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1 AND CONTAINS(body, 'red') AND CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red near green')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'zzz near green')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red near green') AND CONTAINS(body, 'blue near red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red near green') AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'not red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'not (red near green)')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(*, 'red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(title, 'x') AND CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(title, 'x') AND id = 2
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(body, '"medical doctors"')
+query SHOW PLAN FOR SELECT {static} id FROM opts WHERE CONTAINS(c, 'MEDICAL')
+query SHOW PLAN FOR SELECT {static} id FROM opts WHERE CONTAINS(c, 'MEDICAL') AND id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1)
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1), id
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND n > 10 ORDER BY SCORE(1)
+query SHOW PLAN FOR SELECT id, SCORE(2) FROM px WHERE CONTAINS(body, 'red') AND CONTAINS(body, 'green')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') AS s FROM px WHERE CONTAINS(body, 'red') ORDER BY s
+query SHOW PLAN FOR SELECT TOP 1 id, SCORE(body, 'red') FROM px WHERE CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL') AND id = 1
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL') OR CONTAINS(c, 'foo')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL') OR CONTAINS(c, 'Medical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL') AND CONTAINS(c, 'Medical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL or apple')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'MEDICAL or zz')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'zzz near yyy')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'zzz near yyy') AND id = 1
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'alpha near(1) india')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '"bravo alpha"')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical and not (doctors near x)')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical or (alpha near bravo)')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not medical and not skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not (medical or skiing)')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not "medical doctors"')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND NOT CONTAINS(body, 'skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE NOT CONTAINS(body, 'medical near doctors')
+query SHOW PLAN FOR SELECT id FROM docs WHERE NOT CONTAINS(body, 'medical') OR id = 2
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, title)
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'it''s')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '"it''s" and "x"')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND CONTAINS(body, 'medical')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'card') AND CONTAINS(body, 'birthday') AND id = 5
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND id BETWEEN 1 AND 3
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical') AND id IN (1, 2)
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND n IN (10, 50)
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'black') AND n = 10 AND n = 20
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 10 AND n = 20 AND CONTAINS(body, 'black')
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 30 AND CONTAINS(body, 'black') AND id = 3
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'white') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 10 AND CONTAINS(body, 'white')
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 10 AND n = 20
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'zzz') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'zzz near red') AND n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'zzz near red') OR n = 10
+query SHOW PLAN FOR SELECT id FROM px WHERE NOT (CONTAINS(body, 'red') AND n = 10)
+# --- static plans: the order of restrictions
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(body, 'alpha') AND CONTAINS(title, 'x') AND CONTAINS(body, 'card') AND CONTAINS(title, 'y')
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(title, 'x') AND CONTAINS(body, 'alpha') AND CONTAINS(title, 'y') AND CONTAINS(body, 'card')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1 AND CONTAINS(body, 'red') AND n > 5 AND CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n > 5 AND id = 1 AND CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE n > 5 AND id = 1 AND CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1 AND n > 5 AND CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE n > 5 AND CONTAINS(body, 'red') AND n < 40
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n BETWEEN 5 AND 40
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n IN (10, 30)
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND (n = 10 OR id = 3)
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(*, 'red') AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'zzz') AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND CONTAINS(body, 'zzz') AND CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n = 99 AND n = 10
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND body = 'x'
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND id + 1 = 2
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND id IS NULL
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND NOT CONTAINS(body, 'blue')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND CONTAINS(body, 'blue') = TRUE
+query SHOW PLAN FOR SELECT {static} p.id FROM px p JOIN px q ON p.id = q.id WHERE CONTAINS(p.body, 'red')
+query SHOW PLAN FOR SELECT p.id, SCORE(p.body, 'red') FROM px p WHERE CONTAINS(p.body, 'red')
+query SHOW PLAN FOR SELECT COUNT(*) FROM px WHERE CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT DISTINCT id FROM px WHERE CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical and not "medical doctors"')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'skiing or not "medical doctors"')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'skiing or not medical')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'not medical near doctors')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical near not doctors')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '"medical doctors" and skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '"medical doctors" or skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, '(medical near doctors) and not skiing')
+query SHOW PLAN FOR SELECT id FROM docs WHERE CONTAINS(body, 'medical and not skiing')
+query SELECT id FROM docs WHERE CONTAINS(body, 'medical and not "medical doctors"')
+query SELECT id FROM docs WHERE CONTAINS(body, 'skiing or not "medical doctors"')
+# --- static plans: the order of restrictions (2)
+query SHOW PLAN FOR SELECT {static} id FROM qx WHERE CONTAINS(body, 'red') AND id > 0
+query SHOW PLAN FOR SELECT {static} id FROM qx WHERE id > 0 AND CONTAINS(body, 'red')
+query SHOW PLAN FOR SELECT id FROM qx WHERE CONTAINS(body, 'red') AND id > 0
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE id > 1 AND id = 2 AND CONTAINS(title, 'x') AND id < 9 AND CONTAINS(title, 'y')
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE CONTAINS(title, 'y') AND id < 9 AND id = 2 AND id = 3 AND CONTAINS(title, 'x') AND id > 1
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE id <> 2 AND id = 3 AND CONTAINS(title, 'x')
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE id = 1 AND n = 10 AND CONTAINS(body, 'red') AND id > 0
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n = 99 AND id = 2
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n > 0 AND n = 10 AND n < 99
+# --- a FIXED index
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'foxtrot')
+query SELECT id FROM fx WHERE CONTAINS(m, 'delta')
+query SELECT id FROM fx WHERE CONTAINS(m, 'hotel')
+query SELECT id FROM fx WHERE CONTAINS(m, 'kilo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'charlie')
+query SELECT id FROM fx WHERE CONTAINS(m, 'not alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, 'not kilo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha and bravo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha or foxtrot')
+query SELECT id FROM fx WHERE CONTAINS(m, 'charlie or echo')
+query SELECT id FROM fx WHERE CONTAINS(m, '"alpha bravo"')
+query SELECT id FROM fx WHERE CONTAINS(m, '"charlie alpha"')
+query SELECT id FROM fx WHERE CONTAINS(m, '"bravo kilo"')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha near bravo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'bravo near kilo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'charlie near alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, 'not (bravo near kilo)')
+query SELECT id FROM fx WHERE CONTAINS(m, 'not (alpha near charlie)')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alp*')
+query SELECT id FROM fx WHERE CONTAINS(m, '*ta')
+query SELECT id FROM fx WHERE CONTAINS(m, '*lph*')
+query SELECT id FROM fx WHERE CONTAINS(m, 'superextraordinarily')
+query SELECT id FROM fx WHERE CONTAINS(m, 'Superextraordinarily')
+query SELECT id FROM fx WHERE CONTAINS(*, 'alpha')
+query SELECT id FROM fx WHERE CONTAINS(*, 'echo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') AND id > 1
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') OR id = 2
+query SELECT id FROM fx WHERE NOT CONTAINS(m, 'alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') AND CONTAINS(m, 'alpha')
+query SELECT id, CONTAINS(m, 'alpha'), CONTAINS(m, 'echo'), CONTAINS(m, 'not alpha'), CONTAINS(m, 'charlie near alpha') FROM fx
+query SELECT id, SCORE(m, 'alpha'), SCOREDISTINCT(m, 'alpha'), SCORE(m, 'echo'), SCOREDISTINCT(m, 'echo'), SCORE(m, 'alpha bravo'), SCOREDISTINCT(m, 'alpha bravo') FROM fx
+query SELECT id, SCORE(m, 'alpha or delta'), SCOREDISTINCT(m, 'alpha or delta'), SCOREDISTINCT(m, 'alpha alpha'), SCOREDISTINCT(m, 'alp*'), SCOREDISTINCT(m, 'not alpha') FROM fx
+query SELECT id, SCORE(1), SCOREDISTINCT(1) FROM fx WHERE CONTAINS(m, 'alpha or echo')
+query SELECT id, SCORE(*, 'alpha'), SCOREDISTINCT(*, 'alpha') FROM fx
+query SELECT id FROM fx WHERE SCOREDISTINCT(m, 'echo') > 0
+query SELECT id FROM fx WHERE SCORE(m, 'echo') > 0
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') ORDER BY SCORE(1)
+query SELECT id FROM fx WHERE CONTAINS(m || '', 'alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, c)
+query SELECT id FROM fx WHERE CONTAINS(c, 'one')
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'alpha')
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'echo')
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'charlie near alpha')
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'not alpha')
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'alpha') AND id > 1
+query SHOW PLAN FOR SELECT id, SCORE(m, 'alpha') FROM fx WHERE CONTAINS(m, 'alpha')
+query SHOW PLAN FOR SELECT id FROM fixed WHERE CONTAINS(m, 'index')
+query SELECT id, SCORE(c, 'APPLESAUCE'), SCOREDISTINCT(c, 'APPLESAUCE'), SCORE(c, 'apple'), SCOREDISTINCT(c, 'apple'), SCORE(c, 'appl*'), SCOREDISTINCT(c, 'appl*') FROM opts
+query SELECT id, SCORE(c, 'Medical'), SCOREDISTINCT(c, 'Medical'), SCOREDISTINCT(c, 'Medic'), SCOREDISTINCT(c, 'APPLES') FROM opts
+query SELECT id FROM fixed WHERE CONTAINS(m, 'not index')
+query SELECT id FROM fixed WHERE CONTAINS(m, 'after')
+query SELECT id, CONTAINS(m, 'index') FROM fixed
+# --- CONTAINS as a value, more word lengths, empty candidates
+query SELECT id, CONTAINS(m, 'echo') FROM fx
+query SELECT id, CONTAINS(m, 'alpha') FROM fx
+query SELECT id, CONTAINS(m, 'echo'), CONTAINS(m, 'alpha') FROM fx
+query SELECT id, CONTAINS(m, 'foxtrot') FROM fx
+query SELECT id, CONTAINS(m, 'golf'), CONTAINS(m, 'hotel'), CONTAINS(m, 'charlie'), CONTAINS(m, 'kilo'), CONTAINS(m, 'delta') FROM fx
+query SELECT id, CONTAINS(m, 'zulu'), CONTAINS(m, 'not zulu'), CONTAINS(m, 'alpha or zulu'), CONTAINS(m, 'echo or alpha') FROM fx
+query SELECT id, CONTAINS(m, 'alpha and echo'), CONTAINS(m, 'echo and alpha'), CONTAINS(m, 'not echo'), CONTAINS(m, '"alpha echo"'), CONTAINS(m, 'ech*') FROM fx
+query SELECT id, CONTAINS(*, 'echo'), CONTAINS(*, 'alpha') FROM fx
+query SELECT id, CONTAINS(m, 'echo') FROM fx WHERE id = 7
+query SELECT id, CONTAINS(m, 'echo') FROM fx WHERE id > 0
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') OR id = 7
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') = FALSE
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') OR CONTAINS(m, 'foxtrot near golf')
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo near alpha')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') AND CONTAINS(m, 'echo near alpha')
+query SELECT id, CONTAINS(body, 'card'), CONTAINS(body, 'skiing'), CONTAINS(body, 'alpha') FROM docs
+query SELECT id, CONTAINS(c, 'APPLES'), CONTAINS(c, 'Medic'), CONTAINS(c, 'apple'), CONTAINS(c, 'Medical') FROM opts
+query SELECT id, SCORE(m, 'golf'), SCOREDISTINCT(m, 'golf'), SCOREDISTINCT(m, 'golf or echo'), SCOREDISTINCT(m, 'echo near delta'), SCOREDISTINCT(m, '"delta echo"') FROM fx
+query SELECT id, SCOREDISTINCT(m, 'superextraordinarily'), SCORE(m, 'superextraordinarily') FROM fx
+query SELECT id, SCOREDISTINCT(c, 'APPL*'), SCOREDISTINCT(c, 'APPLES*'), SCOREDISTINCT(c, 'APPLESAUCE*'), SCOREDISTINCT(c, '*PLE'), SCOREDISTINCT(c, '*SAUCE') FROM opts
+query SELECT id FROM opts WHERE CONTAINS(c, '*pple')
+query SELECT id FROM opts WHERE CONTAINS(c, '*pplesauces')
+query SELECT id FROM opts WHERE CONTAINS(c, '*edical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*pple')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*edical')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*pplesauces')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*edic*')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, '*edica*')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'ME')
+query SHOW PLAN FOR SELECT id FROM opts WHERE CONTAINS(c, 'M*')
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 99 AND id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 99 OR id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 10 AND id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE NOT (n = 10) AND id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE id = 1 AND NOT (n = 10)
+query SHOW PLAN FOR SELECT id FROM px WHERE n = 20 AND NOT CONTAINS(body, 'red') AND id = 1
+query SHOW PLAN FOR SELECT id FROM px WHERE NOT CONTAINS(body, 'red') AND NOT CONTAINS(body, 'blue') AND n = 20 AND id = 2
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') AND (n = 10 OR n = 30) AND NOT CONTAINS(body, 'blue')
+# --- a FIXED index: which CONTAINS its order answers
+query SELECT id, CONTAINS(m, 'alpha'), CONTAINS(m, 'echo') FROM fx
+query SELECT id, CONTAINS(m, 'alpha'), CONTAINS(m, 'echo'), CONTAINS(m, 'not alpha') FROM fx
+query SELECT id, CONTAINS(m, 'charlie'), CONTAINS(m, 'echo') FROM fx
+query SELECT id, CONTAINS(m, 'echo'), CONTAINS(m, 'echo') FROM fx
+query SELECT id, CONTAINS(body, 'alpha'), CONTAINS(body, 'bravo') FROM docs
+query SELECT id, CONTAINS(body, 'skiing'), CONTAINS(body, 'card') FROM docs
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') AND c = 'two'
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') OR c = 'zzz'
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') OR CONTAINS(c, 'zzz')
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') AND c <> 'x'
+query SELECT id FROM fx WHERE CONTAINS(m, 'alpha') OR c = 'zzz'
+query SELECT id FROM fx WHERE CONTAINS(m, 'not alpha') OR c = 'zzz'
+query SELECT id FROM fx WHERE CONTAINS(m, '"alpha bravo"') AND c = 'one'
+query SELECT id FROM fx WHERE NOT CONTAINS(m, 'alpha') AND c <> 'x'
+query SELECT id FROM fx WHERE NOT CONTAINS(m, 'alpha') OR c = 'zzz'
+query SELECT id, SCORE(m, 'echo') FROM fx WHERE CONTAINS(m, 'echo')
+query SELECT id, SCORE(m, 'echo') FROM fx WHERE CONTAINS(m, 'echo') OR c = 'zzz'
+query SELECT id, SCORE(m, 'echo') FROM fx WHERE CONTAINS(m, 'echo') AND c = 'two'
+query SELECT id, SCORE(m, 'alpha') FROM fx WHERE NOT CONTAINS(m, 'alpha')
+query SELECT id, SCORE(m, 'alpha') FROM fx WHERE CONTAINS(m, 'not alpha')
+query SELECT id, SCORE(m, 'alpha') FROM fx WHERE CONTAINS(m, 'charlie near alpha')
+query SELECT f.id FROM fx f JOIN fx g ON f.id = g.id WHERE CONTAINS(f.m, 'echo')
+query SELECT COUNT(*) FROM fx WHERE CONTAINS(m, 'echo')
+query SELECT id FROM fx WHERE id IN (SELECT id FROM fx WHERE CONTAINS(m, 'echo'))
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') ORDER BY id DESC
+query SELECT DISTINCT id FROM fx WHERE CONTAINS(m, 'echo')
+query SELECT id FROM fx WHERE CONTAINS(m, 'echo') UNION SELECT 99 FROM system.iota
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'echo') OR c = 'zzz'
+query SHOW PLAN FOR SELECT id FROM fx WHERE CONTAINS(m, 'echo') AND c = 'two'
+query SHOW PLAN FOR SELECT id, SCORE(m, 'echo') FROM fx WHERE CONTAINS(m, 'echo') OR c = 'zzz'
+# --- SCOREDISTINCT; sorts on values not shown
+query SELECT id, SCOREDISTINCT(body, '"medical doctors"'), SCOREDISTINCT(body, '"doctors medical"'), SCOREDISTINCT(body, 'medical near skiing'), SCOREDISTINCT(body, 'alpha near(1) india') FROM docs
+query SELECT id, SCOREDISTINCT(title, '"medical doctors"'), SCOREDISTINCT(title, '"doctors medical"'), SCOREDISTINCT(title, 'medical') FROM docs
+query SELECT id, SCOREDISTINCT(*, '"doctors medical"'), SCORE(*, '"doctors medical"') FROM docs
+query SELECT id, SCORE(body, '"doctors medical"'), SCORE(body, 'medical near skiing') FROM docs
+query SELECT id, SCOREDISTINCT(c, 'APPLE'), SCOREDISTINCT(c, 'apples'), SCOREDISTINCT(c, '"Medical APPLESAUCE"'), SCOREDISTINCT(c, '"APPLESAUCE Medical"') FROM opts
+query SELECT id, SCOREDISTINCT(m, '1,423.99'), SCOREDISTINCT(m, 'zebra;') FROM opts
+query SELECT id, SCOREDISTINCT(m, 'alpha'), SCOREDISTINCT(m, 'alpha') FROM fx WHERE CONTAINS(m, 'not zulu')
+query SELECT id, SCOREDISTINCT(m, 'Alpha'), SCOREDISTINCT(m, 'ALPHA bravo') FROM fx
+query SHOW PLAN FOR SELECT {static} id FROM px ORDER BY n
+query SHOW PLAN FOR SELECT {static} id FROM px ORDER BY id
+query SHOW PLAN FOR SELECT {static} id, n FROM px ORDER BY n
+query SHOW PLAN FOR SELECT {static} id FROM px ORDER BY id + 1
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px ORDER BY 2
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px ORDER BY SCORE(body, 'red')
+query SHOW PLAN FOR SELECT id FROM px ORDER BY SCORE(body, 'red')
+query SHOW PLAN FOR SELECT id, SCORE(body, 'red') FROM px ORDER BY id
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1) DESC, n
+query SHOW PLAN FOR SELECT id, n FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1), n
+query SHOW PLAN FOR SELECT id, n FROM px WHERE CONTAINS(body, 'red') ORDER BY n, SCORE(1)
+query SHOW PLAN FOR SELECT id FROM px WHERE CONTAINS(body, 'red') ORDER BY SCOREDISTINCT(1)
+query SHOW PLAN FOR SELECT body FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1)
+query SHOW PLAN FOR SELECT * FROM px WHERE CONTAINS(body, 'red') ORDER BY SCORE(1)
+query SHOW PLAN FOR SELECT id FROM docs WHERE id = 2 AND CONTAINS(title, 'x')
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE id = 2 AND CONTAINS(title, 'x')
+query SHOW PLAN FOR SELECT {static} id FROM docs WHERE id = 2 AND CONTAINS(title, 'x') AND id > 1
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n IN (10, 30) AND id IN (1, 3)
+query SHOW PLAN FOR SELECT {static} id FROM px WHERE CONTAINS(body, 'red') AND n IN (10)

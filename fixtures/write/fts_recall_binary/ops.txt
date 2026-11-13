@@ -1,0 +1,16 @@
+sql CREATE INDEX b_bl ON b (bl) CONTENT KEEPSCORE
+sql CREATE INDEX b_im ON b (im) CONTENT
+open b.adt
+goto 2
+delete
+goto 4
+delete
+state
+recall
+state
+recallall
+state
+goto 3
+delete
+recallall
+state

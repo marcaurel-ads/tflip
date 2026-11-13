@@ -1,0 +1,2 @@
+# Every ADT field type that is not kept in the memo file.
+sql CREATE TABLE rec (c_char CHAR(10), c_cichar CICHAR(10), c_varchar VARCHAR(20), c_nchar NCHAR(5), c_nvarchar NVARCHAR(10), c_raw RAW(4), c_varbinary VARBINARY(8), c_guid GUID, c_logical LOGICAL, c_numeric NUMERIC(10, 2), c_short SHORT, c_integer INTEGER, c_longint LONGINT, c_double DOUBLE, c_curdouble CURDOUBLE, c_money MONEY, c_date DATE, c_time TIME, c_timestamp TIMESTAMP, c_autoinc AUTOINC, c_rowversion ROWVERSION, c_modtime MODTIME)

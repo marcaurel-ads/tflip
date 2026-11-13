@@ -1,0 +1,11 @@
+ddcreate 0 %D\e7\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t (id INTEGER, note MEMO)
+sql INSERT INTO t VALUES (1, 'x')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'second')
+sql INSERT INTO t VALUES (2, 'y')
+disconnect
+connect Data Source=%D\e7\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=;
+sql INSERT INTO t VALUES (3, 'z')
+disconnect

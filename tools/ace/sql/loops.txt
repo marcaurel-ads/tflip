@@ -1,0 +1,105 @@
+# LEAVE and CONTINUE in a WHILE loop, in scripts sent as a statement, in the
+# bodies of procedures and of triggers, in a dictionary of an empty folder,
+# cp/cp.add: in nested loops, in IF, BEGIN, TRY, CATCH and FINALLY blocks of a
+# loop, in a loop of a TRY, in loops over a cursor, and what the language
+# refuses (statements after them, a label, one outside a loop).
+#
+#     run.sh <work> <ace32.dll> loops.txt > ../../../fixtures/sql/loops.json
+ddcreate cp\cp.add
+stmt
+direct CREATE TABLE t (n integer, s char(4))
+direct INSERT INTO t VALUES (1, 'a')
+direct INSERT INTO t VALUES (2, 'b')
+direct INSERT INTO t VALUES (3, 'c')
+direct CREATE TABLE log (n integer, s char(60))
+direct CREATE TABLE src (n integer, s char(4))
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 10 DO i = i + 1; IF i = 4 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; IF i = 3 THEN CONTINUE; END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; LEAVE; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; CONTINUE; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; LEAVE END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; CONTINUE END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; LEAVE; i = 100; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; CONTINUE; i = 100; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; IF i > 2 THEN LEAVE; i = 100; END IF; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; IF i > 2 THEN CONTINUE; ELSE i = i + 10; END IF; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; LEAVE lbl; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 6 DO i = i + 1; LEAVE 1; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; DECLARE j INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 3 DO i = i + 1; j = 0; WHILE j < 5 DO j = j + 1; IF j = 3 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR) + CAST(j AS SQL_CHAR) + ' '; END WHILE; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE j INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 3 DO i = i + 1; j = 0; WHILE j < 3 DO j = j + 1; IF j = 2 THEN CONTINUE; END IF; x = x + CAST(i AS SQL_CHAR) + CAST(j AS SQL_CHAR) + ' '; END WHILE; IF i = 2 THEN LEAVE; END IF; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; BEGIN IF i = 2 THEN CONTINUE; END IF; IF i = 5 THEN LEAVE; END IF; END; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); CATCH ALL x = x + 'c'; END TRY; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY x = x + 't'; IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; FINALLY x = x + 'f'; END TRY; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY RAISE e(1, 'x'); CATCH ALL x = x + 'c'; IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; END TRY; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY RAISE e(1, 'x'); CATCH ALL x = x + 'c'; FINALLY x = x + 'f'; IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; END TRY; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY RAISE e(1, 'x'); FINALLY x = x + 'f'; IF i = 2 THEN LEAVE; END IF; END TRY; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; TRY WHILE i < 6 DO i = i + 1; IF i = 3 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; x = x + 'a'; CATCH ALL x = x + 'c'; END TRY; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; TRY WHILE i < 6 DO i = i + 1; IF i = 3 THEN RAISE e(1, 'x'); END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; CATCH ALL LEAVE; END TRY; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY TRY IF i = 2 THEN CONTINUE; END IF; FINALLY x = x + 'a'; END TRY; FINALLY x = x + 'b'; END TRY; x = x + CAST(i AS SQL_CHAR); END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO IF c.n = 1 THEN CONTINUE; END IF; IF c.n = 3 THEN LEAVE; END IF; x = x + CAST(c.n AS SQL_CHAR); END WHILE; SELECT x AS x FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + CAST(c.n AS SQL_CHAR); LEAVE; END WHILE; SELECT x AS x FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; INSERT INTO log VALUES (i, 'w'); IF i = 2 THEN LEAVE; END IF; END WHILE
+query SELECT * FROM log
+query LEAVE;
+query CONTINUE;
+query IF 1 = 1 THEN LEAVE; END IF;
+query TRY LEAVE; CATCH ALL END TRY;
+query DECLARE i INTEGER; i = 0; WHILE i < 2 DO i = i + 1; END WHILE; LEAVE;
+query DECLARE i INTEGER; i = 0; TRY WHILE i < 2 DO i = i + 1; END WHILE; CATCH ALL LEAVE; END TRY;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; EXECUTE IMMEDIATE 'LEAVE'; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; EXECUTE IMMEDIATE 'WHILE 1 = 1 DO LEAVE; END WHILE;'; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; IF i = 2 THEN LEAVE; ELSE CONTINUE; END IF; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; IF i = 1 THEN CONTINUE; ELSE LEAVE; END IF; i = 50; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; IF i = 1 THEN CONTINUE; ELSE LEAVE; END IF; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY x = x + 't'; FINALLY IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; x = x + 'f'; END TRY; x = x + 'a'; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY x = x + 't'; CATCH ALL x = x + 'c'; END TRY; IF i = 2 THEN CONTINUE; END IF; x = x + 'a'; END WHILE; SELECT i AS i, x AS x FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO LEAVE; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; RETURN; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; CONTINUE; END WHILE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE (1); END WHILE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; leave; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE;; END WHILE; SELECT i AS i FROM system.iota
+direct CREATE PROCEDURE l1(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 8 DO i = i + 1; IF i = 2 THEN CONTINUE; END IF; IF i = 5 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE l1()
+direct CREATE PROCEDURE l2(r CHAR(100) OUTPUT) BEGIN DECLARE i INTEGER; DECLARE j INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 3 DO i = i + 1; j = 0; WHILE j < 4 DO j = j + 1; IF j = 3 THEN LEAVE; END IF; IF i = 2 THEN CONTINUE; END IF; x = x + CAST(i AS SQL_CHAR) + CAST(j AS SQL_CHAR) + ' '; END WHILE; END WHILE; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE l2()
+direct CREATE PROCEDURE l3(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 6 DO i = i + 1; TRY IF i = 2 THEN CONTINUE; END IF; IF i = 4 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); FINALLY x = x + 'f'; END TRY; END WHILE; INSERT INTO __output SELECT x FROM system.iota; END
+query EXECUTE PROCEDURE l3()
+direct CREATE PROCEDURE l4(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; LEAVE; END
+query EXECUTE PROCEDURE l4()
+direct CREATE PROCEDURE l5(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; i = 5; END WHILE; END
+query EXECUTE PROCEDURE l5()
+direct CREATE PROCEDURE l6(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE lbl; END WHILE; END
+direct CREATE PROCEDURE l7(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; RETURN; END WHILE; INSERT INTO __output SELECT 'x' FROM system.iota; END
+query EXECUTE PROCEDURE l7()
+direct CREATE TRIGGER g1 ON src AFTER INSERT BEGIN DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 8 DO i = i + 1; IF i = 2 THEN CONTINUE; END IF; IF i = 5 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); END WHILE; INSERT INTO log VALUES (0, x); END
+direct INSERT INTO src VALUES (1, 'a')
+query SELECT * FROM log
+direct DROP TRIGGER src.g1
+direct CREATE TRIGGER g2 ON src AFTER INSERT BEGIN DECLARE i INTEGER; i = 0; LEAVE; END
+direct INSERT INTO src VALUES (3, 'c')
+direct DROP TRIGGER src.g2
+direct CREATE TRIGGER g3 ON src AFTER INSERT BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; CONTINUE; i = 5; END WHILE; END
+direct INSERT INTO src VALUES (4, 'd')
+direct DROP TRIGGER src.g3
+direct CREATE TRIGGER g4 ON src BEFORE INSERT BEGIN DECLARE i INTEGER; DECLARE x STRING; i = 0; x = ''; WHILE i < 4 DO i = i + 1; TRY IF i = 3 THEN LEAVE; END IF; x = x + CAST(i AS SQL_CHAR); FINALLY x = x + 'f'; END TRY; END WHILE; INSERT INTO log VALUES (9, x); END
+direct INSERT INTO src VALUES (2, 'b')
+query SELECT * FROM log
+direct INSERT INTO src VALUES (5, 'e')
+query SELECT * FROM log
+direct CREATE PROCEDURE l8(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; RETURN; i = 5; END
+query EXECUTE PROCEDURE l8()
+direct CREATE PROCEDURE l9(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; i = ; END WHILE; END
+query EXECUTE PROCEDURE l9()
+direct CREATE PROCEDURE l10(r CHAR(40) OUTPUT) BEGIN DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; CONTINUE; INSERT INTO nosuch VALUES (1); END WHILE; END
+query EXECUTE PROCEDURE l10()
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; i = ; END WHILE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; INSERT INTO nosuch VALUES (1); END WHILE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; END IF; END WHILE;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; RETURN; i = ; END WHILE;
+query DECLARE i INTEGER; i = 0; RETURN;; i = 1;
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; LEAVE; END WHILE LEAVE;
+query EXECUTE IMMEDIATE 'CONTINUE'
+query DECLARE leave INTEGER; leave = 3; SELECT leave AS l FROM system.iota
+query DECLARE i INTEGER; DECLARE leave INTEGER; i = 0; WHILE i < 3 DO i = i + 1; leave = i; END WHILE; SELECT leave AS l FROM system.iota

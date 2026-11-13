@@ -1,0 +1,15 @@
+# Comparisons of each byte (field c) against reference characters, under the
+# default collation and ANSI_CHAR_SET=German, to see how a static collation
+# orders and equates strings. The references include accented bytes (\xe4 is
+# a-umlaut, \xf6 o-umlaut, \xdf sharp-s). Run like case.txt (run_case.sh).
+@table ca
+c = 'a'
+c = 'ä'
+c = 'A'
+c < 'b'
+c < 'm'
+c <= 'a'
+c > 'z'
+c < 'ä'
+!exact 0
+c = 'a'

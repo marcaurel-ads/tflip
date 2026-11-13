@@ -1,0 +1,30 @@
+# AdsDDCreate with usEncrypt 1: m is a dictionary that encrypts its records with RC4 (and its index), a table with a memo and an index, a user in a group with a grant, a long comment and a view are written to it, and ENCRYPT_NEW_TABLE is refused as it has no table password; n is made with any other flag; a dictionary that is there is refused.
+ddcreate 1 %D\m\m.add
+sql CREATE TABLE t (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'a memo', 'one')
+sql CREATE INDEX t_id ON t (id)
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+sql GRANT SELECT ON t TO u1
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'COMMENT', 'a long comment of the table, which is kept in the memo file', '', '')
+sql CREATE VIEW v AS SELECT id FROM t
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER)
+sql EXECUTE PROCEDURE sp_DropUser('u1')
+sql DROP VIEW v
+sql EXECUTE PROCEDURE sp_CreateUser('u2', '', 'second user')
+sql EXECUTE PROCEDURE sp_ModifyTableProperty('t', 'COMMENT', 'a comment of the table that is changed to a much longer text, which needs more blocks of the memo file than the one before, and so is stored anew', '', '')
+disconnect
+connect Data Source=%D\m\m.add;ServerType=LOCAL;User ID=ADSSYS;
+sql SELECT * FROM t
+sql INSERT INTO t VALUES (2, 'another memo', 'two')
+sql CREATE TABLE t3 (id INTEGER, name CHAR(10))
+sql CREATE INDEX t3_id ON t3 (id)
+sql DROP INDEX t3.t3_id
+sql DROP TABLE t3
+disconnect
+ddcreate 1 %D\m\m.add
+ddcreate 2 %D\n\n.add
+sql CREATE TABLE t (id INTEGER)
+disconnect

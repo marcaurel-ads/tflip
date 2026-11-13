@@ -1,0 +1,14 @@
+createtable t.adt 0 id,Integer;b,Binary;im,Image;v,Binary;m,Memo
+append
+set id long 1
+set b binary 0102030405060708090a
+write
+append
+set id long 2
+set b binary aabb
+set v binary 1112131415161718191a
+write
+append
+set id long 3
+write
+close

@@ -1,0 +1,154 @@
+# What is left of the replication objects, on a dictionary connection in an
+# empty folder (the dictionary, de/de.add, and the queue files are kept in
+# fixtures/sql/ddrepl/): the listings and system tables of publications,
+# articles and subscriptions while there are none and after, the refusals of
+# AdsDDDeletePublication, AdsDDCreateArticle and AdsDDCreateSubscription, the
+# queue name without an extension, and the memo blocks of the comments as
+# they are set and freed.
+#
+#     run.sh <work> <ace32.dll> ddrepl.txt > ../../../fixtures/sql/ddrepl.json
+#     cp <work>/data/de/* ../../../fixtures/sql/ddrepl/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE ft1 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE ft2 (id INTEGER, name CHAR(10), PRIMARY KEY (id))
+#
+# Nothing there yet.
+objects 15
+objects 16
+objects 16 ft1
+objects 17
+objects 17 pa
+query SELECT * FROM system.publications
+query SELECT * FROM system.articles
+query SELECT * FROM system.publicationarticles
+query SELECT * FROM system.subscriptions
+#
+# Publications, articles and subscriptions, with comments of different sizes
+# (the memo blocks are numbered in the order they are taken).
+ddpub pa first~comment 0
+ddpub pb - 0
+ddpub pc a~comment~of~some~length~that~spans~more~than~one~block~of~the~dictionary's~memo~file~when~it~is~stored~there~as~the~original~does~it~and~then~some~more~text~to~make~it~longer~still 0
+ddpub pd x 0
+ddart pa ft1 id 0
+ddart pa ft2 id 0
+ddart pb ft1 id 0
+ddsub sa pa target1 usr pw q1.adt 0 a~sub 0
+ddsub sb pa target2 usr pw q2 0 - 0
+ddsub sc pb target3 usr pw q3.dat 1 third~sub~comment 0
+ddsub sd pc target4 usr pw sub\q4.adt 0 fourth 0
+#
+# Properties the system tables show: the articles' filters and column lists,
+# a user-defined property and the connection string.
+ddpub px - 0
+ddapi AdsDDCreateArticle px ft1 id id>5 #0
+ddapi AdsDDCreateArticle px ft2 id = #0
+ddapi AdsDDSetArticleProperty px ft2 #1604 id;name #L
+ddapi AdsDDCreateArticle pd ft2 id = #0
+ddapi AdsDDSetArticleProperty pd ft2 #1605 name #L
+ddapi AdsDDSetPublicationProperty px #3 ud #L
+ddapi AdsDDSetSubscriptionProperty sa #1716 conn #L
+ddapi AdsDDSetSubscriptionProperty sa #3 userdef #L
+ddapi AdsDDSetSubscriptionProperty sb #1701 newtarget #L
+#
+# The order the system tables list in: not the order the objects were made in.
+ddpub pz - 0
+ddpub py - 0
+ddart pz ft2 id 0
+ddart pz ft1 id 0
+ddart py ft2 id 0
+ddsub sz pz target usr pw q20.adt 0 - 0
+ddsub sy pz target usr pw q21.adt 0 - 0
+objects 15
+objects 16
+objects 16 pa
+objects 16 pb
+objects 16 pd
+objects 16 ft1
+objects 16 nope
+objects 17
+objects 17 pa
+objects 17 pb
+objects 17 pd
+objects 17 nope
+query SELECT * FROM system.publications
+query SELECT * FROM system.articles
+query SELECT * FROM system.publicationarticles
+query SELECT * FROM system.subscriptions
+query SELECT Name, Comment FROM system.publications WHERE Comment IS NOT NULL
+query SELECT Name, Publication FROM system.subscriptions ORDER BY Publication DESC, Name
+#
+# What is refused when creating articles.
+ddart nopub ft1 id 0
+ddart pa nosuch id 0
+ddart pa - id 0
+ddart - ft1 id 0
+ddart pa ft1 id 0
+ddart pd ft1 - 0
+ddart pd ft1 - 1
+#
+# What is refused when creating subscriptions.
+ddsub se nopub target usr pw q5.adt 0 - 0
+ddsub se - target usr pw q5.adt 0 - 0
+ddsub sa pa target usr pw q5.adt 0 - 0
+ddsub SA pa target usr pw q5.adt 0 - 0
+ddsub se pa target usr pw - 0 - 0
+ddsub se pa target usr pw q6.adt 0 - 0
+ddsub sf pa target usr pw q7 0 - 0
+ddsub sg pa target usr pw sub\q8.dat 0 - 0
+ddsub sh pa target usr pw nodir\q9.adt 0 - 0
+ddsub si pa target usr pw sub/q11.adt 0 - 0
+ddsub sj pa target usr pw .\q12.adt 0 - 0
+ddsub sk pa target usr pw ..\q13.adt 0 - 0
+ddsub sl pa target usr pw Q14.ADT 0 - 0
+ddsub sm pa target usr pw q15.x.y 0 - 0
+ddsub t1 pa target usr pw q22.ab 0 - 0
+ddsub t2 pa target usr pw q23.abcd 0 - 0
+ddsub t3 pa target usr pw q24.a.bc 0 - 0
+ddsub t4 pa target usr pw q25.a 0 - 0
+ddsub sn pa target usr pw q16. 0 - 0
+ddsub so pa target usr pw sub\ 0 - 0
+ddsub sp pa target usr pw .adt 0 - 0
+ddsub sq pa target usr pw q18.adt. 0 - 0
+ddsub sr pa target usr pw sub\.adt 0 - 0
+ddsub ss pa target usr pw q19.ADD 0 - 0
+objects 17
+#
+# What is refused when deleting.
+dddelpub pa
+dddelpub pc
+dddelpub nope
+dddelpub -
+dddelsub nope
+dddelsub -
+dddelpub pd
+objects 15
+#
+# Comments set and freed.
+ddpubcomment pb a~comment~for~the~second~publication
+ddpubcomment pa short
+ddpubcomment pc c
+ddsubcomment sa a~new~comment~for~the~first~subscription~that~is~longer~than~the~one~it~had~before~it
+ddsubcomment sb now~it~has~one
+ddsubcomment sc -
+ddsubcomment nope x
+ddpubcomment nope x
+dddelsub sa
+dddelsub sc
+objects 17
+ddpub pe fifth~comment 0
+ddsub sa pb target usr pw q1.adt 0 again 0
+ddsub sx pe target usr pw q1.adt 0 shared~queue 0
+dddelsub sa
+dddelsub sx
+dddelsub sb
+dddelpub pc
+dddelpub pe
+dddelpub pb
+dddelpub pa
+objects 15
+objects 17
+query SELECT * FROM system.subscriptions
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.indexes WHERE Parent = '__sd'

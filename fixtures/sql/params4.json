@@ -1,0 +1,217 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "param a long 5", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT 1 + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :a + 1, :b + 2 FROM system.iota", "rc": 0},
+{"cmd": "param b long 7", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["6", "9"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :b + 1, :a + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["6", "9"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :a + 1, :b + 2, :c + 3 FROM system.iota", "rc": 0},
+{"cmd": "param c long 100", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["6", "9", "103"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :c + 1, :a + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["6", "9"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT :a + 1, :b + 2, :c + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "closecursor", "rc": 5023, "error": "Error 5018:  The handle given was not recognized by Advantage. Verify specified handle is open/active.  The given handle is not recognized as a valid Advantage Client Engine handle."},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "param 1 long 5", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :x + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :y + 1, :x + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "closecursor", "rc": 5023, "error": "Error 5018:  The handle given was not recognized by Advantage. Verify specified handle is open/active.  The given handle is not recognized as a valid Advantage Client Engine handle."},
+{"cmd": "prepare SELECT :x + 1, :y + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "closecursor", "rc": 5023, "error": "Error 5018:  The handle given was not recognized by Advantage. Verify specified handle is open/active.  The given handle is not recognized as a valid Advantage Client Engine handle."},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT :a + 1, :b + 2 FROM system.iota", "rc": 0},
+{"cmd": "param a long 10", "rc": 0},
+{"cmd": "param b long 20", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["11", "22"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_10.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["11", "22"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :b + 1, :a + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_11.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["11", "22"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2 FROM system.iota", "rc": 0},
+{"cmd": "param 2 long 50", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_12.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["11", "52"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :b + 1, :a + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_13.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["11", "52"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT :p + 1, :p + 2 FROM system.iota", "rc": 0},
+{"cmd": "param p long 4", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_14.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["5", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :p + 1, :q + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_15.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["5", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "param 3 long 9", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_16.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["5", "6", "12"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_17.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["5"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_18.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["5", "6", "12"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "param 4 long 1", "rc": 5110, "error": "Error 5110:  The parameter number specified was invalid for the statement."},
+{"cmd": "param 5 long 1", "rc": 5110, "error": "Error 5110:  The parameter number specified was invalid for the statement."},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_19.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["5", "6", "12"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 07002;   NativeError = 2141;  [SAP][Advantage SQL Engine]Parameter missing", "has_cursor": false, "affected": 4294967295},
+{"cmd": "closecursor", "rc": 5023, "error": "Error 5018:  The handle given was not recognized by Advantage. Verify specified handle is open/active.  The given handle is not recognized as a valid Advantage Client Engine handle."},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "param 1 null", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "param 1 string 12", "rc": 0},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["13"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "param 1 double 1.5", "rc": 0},
+{"cmd": "prepare SELECT :z + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "param 1 empty", "rc": 0},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, [null]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "param a long 2", "rc": 0},
+{"cmd": "prepare SELEC :a", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = 42000;   NativeError = 2115;  [SAP][Advantage SQL Engine]Expected lexical element not found: Your statement must start with CREATE, DROP, SELECT, INSERT, UPDATE, ALTER, EXECUTE, DELETE, GRANT, REVOKE, BEGIN, COMMIT, ROLLBACK, SAVEPOINT, SET, DEBUG or a script statement. -- Location of error in the SQL statement is: 1", "has_cursor": false, "affected": 4294967295},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_1f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM nosuchtable", "rc": 0},
+{"cmd": "exec", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5004;  [SAP][Advantage SQL Engine][ASA] Error 5004:  Either ACE could not find the specified file, or you do not have sufficient rights to access the file.  <data>\\nosuchtable.adt Table name: nosuchtable", "has_cursor": false, "affected": 4294967295},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_20.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare", "rc": 5101, "error": "Error 5101:  A value was outside of the expected range.  Empty SQL statement strings are invalid."},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_21.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_22.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["3"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare SELECT :Abc + 1 FROM system.iota", "rc": 0},
+{"cmd": "param abc long 3", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_23.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :ABC + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_24.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :abc + 1, :Abd + 2 FROM system.iota", "rc": 0},
+{"cmd": "param Abd long 40", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_25.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["4", "42"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :abd + 1, :ABC + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_26.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["4", "42"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "clearparams", "rc": 0},
+{"cmd": "prepare INSERT INTO nosuch VALUES (:a)", "rc": 0},
+{"cmd": "param a long 3", "rc": 0},
+{"cmd": "prepare SELECT :a + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_27.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["4"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "param 1 long 1", "rc": 0},
+{"cmd": "param 2 string 2", "rc": 0},
+{"cmd": "param 3 double 3.5", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_28.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["2", "4", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_29.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["2", "4", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2a.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2b.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["2", "4"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT ? + 1, ? + 2, ? + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2c.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["2", "4", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :m + 1, :n + 2, :o + 3 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2d.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0], ["EXPR_2", 11, 4, 0]], "rows": [
+  [1, ["2", "4", "6"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :o + 1 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2e.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "closecursor", "rc": 0},
+{"cmd": "prepare SELECT :n + 1, :o + 2 FROM system.iota", "rc": 0},
+{"cmd": "exec", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_2f.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["EXPR", 11, 4, 0], ["EXPR_1", 11, 4, 0]], "rows": [
+  [1, ["2", "4"]]]}},
+{"cmd": "closecursor", "rc": 0}
+]

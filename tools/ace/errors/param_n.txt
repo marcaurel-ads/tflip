@@ -1,0 +1,1290 @@
+# Calls given NULL pointers and refused options (see param_n.c).
+# The table
+AdsGetNumFields t p16
+AdsGetRecordLength t p32
+AdsGetFieldName t 1 pbuf pl16
+AdsGetFieldName t 0 pbuf pl16
+AdsGetFieldName t 99 pbuf pl16
+AdsGetFieldType t str:id p16
+AdsGetFieldType t str:nosuch p16
+AdsGetFieldLength t str:id p32
+AdsGetFieldDecimals t str:id p16
+AdsGetFieldOffset t str:id p32
+AdsGetTableFilename t 1 pbuf pl16
+AdsGetTableFilename t 2 pbuf pl16
+AdsGetTableFilename t 3 pbuf pl16
+AdsGetTableFilename t 0 pbuf pl16
+AdsGetTableFilename t 4 pbuf pl16
+AdsGetTableFilename t 99 pbuf pl16
+AdsGetTableAlias t pbuf pl16
+AdsGetTableOpenOptions t p32
+AdsGetTableType t p16
+AdsGetTableCharType t p16
+AdsGetTableLockType t p16
+AdsGetTableRights t p16
+AdsGetMemoBlockSize t p16
+AdsGetLastTableUpdate t pbuf pl16
+AdsGetNumIndexes t p16
+AdsGetAllIndexes t ph pl16
+AdsGetIndexHandle t str:BY_NAME ph
+AdsGetIndexHandle t str:NOSUCH ph
+AdsGetIndexHandleByOrder t 1 ph
+AdsGetIndexHandleByOrder t 99 ph
+AdsGetLastAutoinc t p32
+AdsGetRecordNum t 2 p32
+AdsGetRecordNum t 0 p32
+AdsGetRecordNum t 99 p32
+AdsGetRecord t pbuf pl32
+AdsGetRecordCRC t p32 0
+AdsAtBOF t p16
+AdsAtEOF t p16
+AdsIsFound t p16
+AdsIsRecordDeleted t p16
+AdsIsRecordEncrypted t p16
+AdsIsTableEncrypted t p16
+AdsIsTableLocked t p16
+AdsIsRecordLocked t 0 p16
+AdsGetNumLocks t p16
+AdsGetAllLocks t pbuf pl16
+AdsGetFilter t pbuf pl16
+AdsGetAOF t pbuf pl16
+AdsGetAOFOptLevel t p16 pbuf pl16
+AdsIsRecordInAOF t 1 p16
+AdsGetTableCollation t pbuf pl16
+AdsGetHandleType t p16
+# The fields
+AdsIsEmpty t str:id p16
+AdsIsNull t str:id p16
+AdsGetField t str:id pbuf pl32 0
+AdsGetField t str:id pbuf pl32 99
+AdsGetString t str:name pbuf pl32 0
+AdsGetLogical t str:active p16
+AdsGetLong t str:id p32
+AdsGetShort t str:id p16
+AdsGetDouble t str:amount p64
+AdsGetDate t str:born pbuf pl16
+AdsGetTime t str:born pbuf pl16
+AdsGetBinary t str:id 0 pbuf pl32
+AdsGetBinaryLength t str:id p32
+AdsGetMemoLength t str:id p32
+AdsGetMemoDataType t str:id p16
+AdsGetJulian t str:born p32
+AdsGetMilliseconds t str:born p32
+AdsGetMoney t str:amount p64
+# Expressions
+AdsIsExprValid t str:id p16
+AdsEvalLogicalExpr t str:active p16
+AdsEvalStringExpr t str:name pbuf pl16
+AdsEvalNumericExpr t str:id p64
+# The orders
+AdsGetIndexName i pbuf pl16
+AdsGetIndexFilename i 3 pbuf pl16
+AdsGetIndexFilename i 99 pbuf pl16
+AdsGetIndexExpr i pbuf pl16
+AdsGetIndexCondition i pbuf pl16
+AdsGetIndexCollation i pbuf pl16
+AdsGetKeyLength i p16
+AdsGetKeyType i p16
+AdsGetKeyNum i 2 p32
+AdsGetKeyNum i 0 p32
+AdsGetKeyNum i 99 p32
+AdsGetKeyCount i 2 p32
+AdsGetKeyCount i 99 p32
+AdsGetRelKeyPos i p64
+AdsExtractKey i pbuf pl16
+AdsIsIndexCompound i p16
+AdsIsIndexDescending i p16
+AdsIsIndexCustom i p16
+AdsIsIndexUnique i p16
+AdsGetIndexPageSize i p32
+# The connection and the process
+AdsGetCollation c pbuf pl16
+AdsGetNumOpenTables p16
+AdsGetNumActiveLinks c p16
+AdsGetConnectionType c p16
+AdsGetServerName c pbuf pl16
+AdsGetServerTime c pbuf pl16 p32 pbuf2 pl16b
+AdsGetConnectionPath c pbuf pl16
+AdsGetDateFormat pbuf pl16
+AdsGetEpoch p16
+AdsGetDecimals p16
+AdsGetExact p16
+AdsGetDeleted p16
+AdsGetVersion p32 p32 pbuf pbuf2 pl16
+# The statement
+AdsGetSQLStatement s pbuf pl16
+AdsGetNumParams s p16
+# Field names that can be NULL
+AdsGetFieldType t pstr:id p16
+AdsGetFieldLength t pstr:id p32
+AdsGetFieldDecimals t pstr:id p16
+AdsGetFieldOffset t pstr:id p32
+AdsIsEmpty t pstr:id p16
+AdsIsNull t pstr:id p16
+AdsGetField t pstr:id pbuf pl32 0
+AdsGetField t pstr:id pbuf pl32 99
+AdsGetString t pstr:name pbuf pl32 0
+AdsGetLogical t pstr:active p16
+AdsGetLong t pstr:id p32
+AdsGetShort t pstr:id p16
+AdsGetDouble t pstr:amount p64
+AdsGetDate t pstr:born pbuf pl16
+AdsGetTime t pstr:born pbuf pl16
+AdsGetBinary t pstr:id 0 pbuf pl32
+AdsGetBinaryLength t pstr:id p32
+AdsGetMemoLength t pstr:id p32
+AdsGetMemoDataType t pstr:id p16
+AdsGetJulian t pstr:born p32
+AdsGetMilliseconds t pstr:born p32
+AdsGetMoney t pstr:amount p64
+# The setters of the fields
+AdsSetString w pstr:name pstr:abc 3
+AdsSetString w pstr:nosuch pstr:abc 3
+AdsSetField w pstr:name pstr:abc 3
+AdsSetBinary w pstr:name 1 3 0 pstr:abc 3
+AdsSetDate w pstr:born pstr:01/02/2020 10
+AdsSetTime w pstr:born pstr:10:20:30 8
+AdsSetTimeStamp w pstr:born pstr:2020-01-02~10:20:30 19
+AdsSetLogical w pstr:active 1
+AdsSetLong w pstr:id 5
+AdsSetShort w pstr:id 5
+AdsSetMoney w pstr:amount 0 0
+AdsSetDouble w pstr:amount 1.5
+AdsSetDouble w pstr:nosuch 1.5
+AdsSetLongLong w pstr:id 0 0
+AdsSetJulian w pstr:born 2458850
+AdsSetMilliseconds w pstr:born 1000
+AdsSetEmpty w pstr:name
+AdsSetNull w pstr:name
+AdsSetRecord w pbuf 10
+AdsSetStringFromCodePage w 1252 pstr:name pstr:abc 3
+AdsSetTimeStampRaw w pstr:nosuch pbuf 8
+AdsSetFieldRaw w pstr:name pstr:abc 3
+AdsSetFieldRaw w pstr:nosuch pstr:abc 3
+AdsSetFieldRaw w pstr:name pstr:abc 0
+# The parameters of a statement
+AdsSetString q pstr:p pstr:abc 3
+AdsSetString q pstr:nosuch pstr:abc 3
+AdsSetString n pstr:p pstr:abc 3
+AdsSetField q pstr:p pstr:abc 3
+AdsSetBinary q pstr:p 1 3 0 pstr:abc 3
+AdsSetDate q pstr:p pstr:01/02/2020 10
+AdsSetTime q pstr:p pstr:10:20:30 8
+AdsSetTimeStamp q pstr:p pstr:2020-01-02~10:20:30 19
+AdsSetLogical q pstr:p 1
+AdsSetLong q pstr:p 5
+AdsSetShort q pstr:p 5
+AdsSetMoney q pstr:p 0 0
+AdsSetLongLong q pstr:p 0 0
+AdsSetDouble q pstr:p 1.5
+AdsSetDouble q pstr:nosuch 1.5
+AdsSetDouble n pstr:p 1.5
+AdsSetJulian q pstr:p 2458850
+AdsSetMilliseconds q pstr:p 1000
+AdsSetEmpty q pstr:p
+AdsSetNull q pstr:p
+AdsSetStringFromCodePage q 1252 pstr:p pstr:abc 3
+AdsSetStringW q pstr:p pwstr:abc 3
+AdsSetFieldW q pstr:p pwstr:abc 3
+AdsSetTimeStampRaw q pstr:p pbuf 8
+AdsSetTimeStampRaw q pstr:p pbuf 4
+AdsSetFieldRaw q pstr:p pstr:abc 3
+AdsSetFieldRaw q pstr:p pstr:abc 0
+AdsClearSQLParams q
+# The W forms
+AdsGetStringW t pstr:name pbuf pl32 0
+AdsGetFieldW t pstr:name pbuf pl32 0
+AdsSetStringW w pstr:name pwstr:abc 3
+AdsSetFieldW w pstr:name pwstr:abc 3
+AdsEvalLogicalExprW t pwstr:active p16
+AdsPrepareSQLW s pwstr:SELECT~*~FROM~indexed
+AdsVerifySQLW s pwstr:SELECT~*~FROM~indexed
+AdsBinaryToFileW w pstr:name pwstr:x.bin
+AdsFileToBinaryW w pstr:name 1 pwstr:x.bin
+AdsCachePrepareSQLW c pwstr:SELECT~*~FROM~indexed ph
+AdsExecuteSQLDirectW s pwstr:SELECT~*~FROM~indexed ph
+# The pointers of the other setters
+AdsSetFilter t pstr:id>0
+AdsSetFilter100 t pstr:id>0 0
+AdsSetAOF100 t pstr:id>0 0
+AdsSetScope i 1 pstr:abc 3 4
+AdsSetRelation t i pstr:id
+AdsSetScopedRelation t i pstr:id
+AdsSetDateFormat pstr:MM/DD/YYYY
+AdsSetDateFormat60 c pstr:MM/DD/YYYY
+AdsSetCollation c pstr:
+AdsSetDefault pstr:.
+AdsSetSearchPath pstr:.
+AdsSetCollationLang pstr:
+# The cursor
+AdsGetNumFields k p16
+AdsGetRecordLength k p32
+AdsGetFieldName k 1 pbuf pl16
+AdsGetFieldName k 0 pbuf pl16
+AdsGetFieldName k 99 pbuf pl16
+AdsGetFieldType k str:id p16
+AdsGetFieldType k str:nosuch p16
+AdsGetFieldLength k str:id p32
+AdsGetFieldDecimals k str:id p16
+AdsGetFieldOffset k str:id p32
+AdsGetTableAlias k pbuf pl16
+AdsGetTableType k p16
+AdsGetRecordNum k 2 p32
+AdsGetRecordNum k 0 p32
+AdsGetRecordNum k 99 p32
+AdsGetRecord k pbuf pl32
+AdsGetRecordCRC k p32 0
+AdsAtBOF k p16
+AdsAtEOF k p16
+AdsIsFound k p16
+AdsIsRecordDeleted k p16
+AdsIsRecordEncrypted k p16
+AdsIsRecordLocked k 0 p16
+AdsGetNumLocks k p16
+AdsGetAllLocks k pbuf pl16
+AdsGetFilter k pbuf pl16
+AdsGetAOF k pbuf pl16
+AdsGetAOFOptLevel k p16 pbuf pl16
+AdsIsRecordInAOF k 1 p16
+AdsGetHandleType k p16
+AdsIsEmpty k str:id p16
+AdsIsNull k str:id p16
+AdsGetField k str:id pbuf pl32 0
+AdsGetField k str:id pbuf pl32 99
+AdsGetString k str:name pbuf pl32 0
+AdsGetLogical k str:active p16
+AdsGetLong k str:id p32
+AdsGetShort k str:id p16
+AdsGetDouble k str:amount p64
+AdsGetDate k str:born pbuf pl16
+AdsGetTime k str:born pbuf pl16
+AdsGetBinary k str:id 0 pbuf pl32
+AdsGetBinaryLength k str:id p32
+AdsGetMemoLength k str:id p32
+AdsGetMemoDataType k str:id p16
+AdsGetJulian k str:born p32
+AdsGetMilliseconds k str:born p32
+AdsGetMoney k str:amount p64
+AdsIsExprValid k str:id p16
+AdsEvalLogicalExpr k str:active p16
+AdsEvalStringExpr k str:name pbuf pl16
+AdsEvalNumericExpr k str:id p64
+# The statements' text and handles
+AdsPrepareSQL n pstr:SELECT~*~FROM~indexed
+AdsVerifySQL n pstr:SELECT~*~FROM~indexed
+AdsCachePrepareSQL c pstr:SELECT~*~FROM~indexed ph
+AdsExecuteSQLDirect n pstr:SELECT~*~FROM~indexed ph
+AdsCreateSQLStatement c ph
+# Fields a cursor does not have
+AdsGetFieldLength k str:nosuch p32
+AdsGetString k str:nosuch pbuf pl32 0
+AdsIsNull k str:nosuch p16
+# The keys and the filters
+AdsSeek i pstr:abc 3 2 1 p16
+AdsSeek i pstr:abc 3 4 1 p16
+AdsSeek i pstr:abc 0 2 1 p16
+AdsSetAOF t pstr:id>0 1
+AdsSetAOF t pstr:id>0 0
+AdsEvalAOF t pstr:id>0 p16
+AdsCustomizeAOF t 1 pl32 1
+# The dictionary
+AdsDDGetDatabaseProperty d 1 pbuf pl16
+AdsDDGetDatabaseProperty d 99 pbuf pl16
+AdsDDGetTableProperty d pstr:t 205 pbuf pl16
+AdsDDGetTableProperty d pstr:nosuch 205 pbuf pl16
+AdsDDGetTableProperty d pstr:t 999 pbuf pl16
+AdsDDGetFieldProperty d pstr:t pstr:s 306 pbuf pl16
+AdsDDGetFieldProperty d pstr:t pstr:nosuch 306 pbuf pl16
+AdsDDGetIndexProperty d pstr:t pstr:BY_ID 401 pbuf pl16
+AdsDDGetIndexProperty d pstr:t pstr:NOSUCH 401 pbuf pl16
+AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 900 pbuf pl16
+AdsDDGetIndexFileProperty d pstr:t pstr:nosuch.adi 900 pbuf pl16
+AdsDDGetUserProperty d pstr:ADSSYS 1 pbuf pl16
+AdsDDGetUserProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetUserGroupProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetLinkProperty d pstr:NOSUCH 1300 pbuf pl16
+AdsDDGetViewProperty d pstr:NOSUCH 700 pbuf pl16
+AdsDDGetTriggerProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetProcedureProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetRefIntegrityProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetPublicationProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetArticleProperty d pstr:NOSUCH pstr:NOSUCH 1 pbuf pl16
+AdsDDGetSubscriptionProperty d pstr:NOSUCH 1 pbuf pl16
+AdsDDGetPermissions d pstr:DB:Public 1 pstr:t pstr: 0 p32
+AdsDDFindFirstObject d 1 pstr:x pbuf pl16 ph
+AdsDDFindNextObject d 0 pbuf pl16
+AdsDDFindClose d 0
+# What the dictionary getters refuse an object or a property for
+# (one row each: the object is looked for as the property is, with a buffer of 200 bytes)
+=AdsDDGetDatabaseProperty d 1 pbuf pl16
+=AdsDDGetDatabaseProperty d 2 pbuf pl16
+=AdsDDGetDatabaseProperty d 3 pbuf pl16
+=AdsDDGetDatabaseProperty d 4 pbuf pl16
+=AdsDDGetDatabaseProperty d 5 pbuf pl16
+=AdsDDGetDatabaseProperty d 100 pbuf pl16
+=AdsDDGetDatabaseProperty d 101 pbuf pl16
+=AdsDDGetDatabaseProperty d 102 pbuf pl16
+=AdsDDGetDatabaseProperty d 103 pbuf pl16
+=AdsDDGetDatabaseProperty d 104 pbuf pl16
+=AdsDDGetDatabaseProperty d 105 pbuf pl16
+=AdsDDGetDatabaseProperty d 106 pbuf pl16
+=AdsDDGetDatabaseProperty d 107 pbuf pl16
+=AdsDDGetDatabaseProperty d 108 pbuf pl16
+=AdsDDGetDatabaseProperty d 109 pbuf pl16
+=AdsDDGetDatabaseProperty d 110 pbuf pl16
+=AdsDDGetDatabaseProperty d 111 pbuf pl16
+=AdsDDGetDatabaseProperty d 112 pbuf pl16
+=AdsDDGetDatabaseProperty d 113 pbuf pl16
+=AdsDDGetDatabaseProperty d 114 pbuf pl16
+=AdsDDGetDatabaseProperty d 115 pbuf pl16
+=AdsDDGetDatabaseProperty d 116 pbuf pl16
+=AdsDDGetDatabaseProperty d 117 pbuf pl16
+=AdsDDGetDatabaseProperty d 118 pbuf pl16
+=AdsDDGetDatabaseProperty d 119 pbuf pl16
+=AdsDDGetDatabaseProperty d 120 pbuf pl16
+=AdsDDGetDatabaseProperty d 121 pbuf pl16
+=AdsDDGetDatabaseProperty d 122 pbuf pl16
+=AdsDDGetDatabaseProperty d 123 pbuf pl16
+=AdsDDGetDatabaseProperty d 124 pbuf pl16
+=AdsDDGetDatabaseProperty d 125 pbuf pl16
+=AdsDDGetDatabaseProperty d 126 pbuf pl16
+=AdsDDGetDatabaseProperty d 127 pbuf pl16
+=AdsDDGetDatabaseProperty d 128 pbuf pl16
+=AdsDDGetDatabaseProperty d 129 pbuf pl16
+=AdsDDGetDatabaseProperty d 130 pbuf pl16
+=AdsDDGetDatabaseProperty d 131 pbuf pl16
+=AdsDDGetDatabaseProperty d 132 pbuf pl16
+=AdsDDGetDatabaseProperty d 133 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 1 pbuf pl16
+=AdsDDGetTableProperty d pstr:nosuch 1 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 2 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 3 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 4 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 5 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 200 pbuf pl16
+=AdsDDGetTableProperty d pstr:nosuch 200 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 201 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 202 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 203 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 204 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 205 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 206 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 207 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 208 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 209 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 210 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 211 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 212 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 213 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 214 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 215 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 216 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 217 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 218 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 219 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 220 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 221 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 222 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 223 pbuf pl16
+=AdsDDGetTableProperty d pstr:t 224 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 1 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 3 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 300 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 301 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 302 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 303 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 304 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 305 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 306 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 307 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 308 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 309 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 310 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 311 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 312 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 313 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 314 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 315 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:s 999 pbuf pl16
+=AdsDDGetFieldProperty d pstr:t pstr:nosuch 999 pbuf pl16
+=AdsDDGetFieldProperty d pstr:nosuch pstr:s 306 pbuf pl16
+=AdsDDGetFieldProperty d pstr:nosuch pstr:s 999 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 1 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 3 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 400 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 401 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 402 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 403 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 404 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 405 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 406 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 407 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 408 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 409 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 410 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 411 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 412 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 413 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 414 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 415 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 416 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 417 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:BY_ID 999 pbuf pl16
+=AdsDDGetIndexProperty d pstr:t pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetIndexProperty d pstr:nosuch pstr:BY_ID 401 pbuf pl16
+=AdsDDGetIndexProperty d pstr:nosuch pstr:BY_ID 999 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 899 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 900 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 901 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 902 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 903 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 904 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:t.adi 999 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:t pstr:nosuch.adi 999 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:nosuch pstr:t.adi 900 pbuf pl16
+=AdsDDGetIndexFileProperty d pstr:nosuch pstr:t.adi 999 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 1 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 3 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 600 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 999 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 1102 pbuf pl16
+=AdsDDGetUserProperty d pstr:ADSSYS 1105 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 600 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 1102 pbuf pl16
+=AdsDDGetUserProperty d pstr:NOSUCH 1105 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 1 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 3 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 600 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 999 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 1102 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:DB:Public 1105 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 600 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 1102 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:NOSUCH 1105 pbuf pl16
+=AdsDDGetLinkProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetLinkProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetLinkProperty d pstr:NOSUCH 1300 pbuf pl16
+=AdsDDGetLinkProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetViewProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetViewProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetViewProperty d pstr:NOSUCH 700 pbuf pl16
+=AdsDDGetViewProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:NOSUCH 1400 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:NOSUCH 800 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetRefIntegrityProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetRefIntegrityProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetRefIntegrityProperty d pstr:NOSUCH 500 pbuf pl16
+=AdsDDGetRefIntegrityProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:NOSUCH 1500 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:NOSUCH 1700 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetArticleProperty d pstr:NOSUCH pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetArticleProperty d pstr:NOSUCH pstr:NOSUCH 1600 pbuf pl16
+=AdsDDGetArticleProperty d pstr:NOSUCH pstr:NOSUCH 999 pbuf pl16
+=AdsDDFindNextObject d 12345 pbuf pl16
+=AdsDDFindClose d 12345
+# The same as a connection with a user (ADSSYS, who has no password)
+=AdsDDGetDatabaseProperty da 1 pbuf pl16
+=AdsDDGetDatabaseProperty da 2 pbuf pl16
+=AdsDDGetDatabaseProperty da 3 pbuf pl16
+=AdsDDGetDatabaseProperty da 4 pbuf pl16
+=AdsDDGetDatabaseProperty da 5 pbuf pl16
+=AdsDDGetDatabaseProperty da 100 pbuf pl16
+=AdsDDGetDatabaseProperty da 101 pbuf pl16
+=AdsDDGetDatabaseProperty da 102 pbuf pl16
+=AdsDDGetDatabaseProperty da 103 pbuf pl16
+=AdsDDGetDatabaseProperty da 104 pbuf pl16
+=AdsDDGetDatabaseProperty da 105 pbuf pl16
+=AdsDDGetDatabaseProperty da 106 pbuf pl16
+=AdsDDGetDatabaseProperty da 107 pbuf pl16
+=AdsDDGetDatabaseProperty da 108 pbuf pl16
+=AdsDDGetDatabaseProperty da 109 pbuf pl16
+=AdsDDGetDatabaseProperty da 110 pbuf pl16
+=AdsDDGetDatabaseProperty da 111 pbuf pl16
+=AdsDDGetDatabaseProperty da 112 pbuf pl16
+=AdsDDGetDatabaseProperty da 113 pbuf pl16
+=AdsDDGetDatabaseProperty da 114 pbuf pl16
+=AdsDDGetDatabaseProperty da 115 pbuf pl16
+=AdsDDGetDatabaseProperty da 116 pbuf pl16
+=AdsDDGetDatabaseProperty da 117 pbuf pl16
+=AdsDDGetDatabaseProperty da 118 pbuf pl16
+=AdsDDGetDatabaseProperty da 119 pbuf pl16
+=AdsDDGetDatabaseProperty da 120 pbuf pl16
+=AdsDDGetDatabaseProperty da 121 pbuf pl16
+=AdsDDGetDatabaseProperty da 122 pbuf pl16
+=AdsDDGetDatabaseProperty da 123 pbuf pl16
+=AdsDDGetDatabaseProperty da 124 pbuf pl16
+=AdsDDGetDatabaseProperty da 125 pbuf pl16
+=AdsDDGetDatabaseProperty da 126 pbuf pl16
+=AdsDDGetDatabaseProperty da 127 pbuf pl16
+=AdsDDGetDatabaseProperty da 128 pbuf pl16
+=AdsDDGetDatabaseProperty da 129 pbuf pl16
+=AdsDDGetDatabaseProperty da 130 pbuf pl16
+=AdsDDGetDatabaseProperty da 131 pbuf pl16
+=AdsDDGetDatabaseProperty da 132 pbuf pl16
+=AdsDDGetDatabaseProperty da 133 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 1 pbuf pl16
+=AdsDDGetTableProperty da pstr:nosuch 1 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 2 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 3 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 4 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 5 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 200 pbuf pl16
+=AdsDDGetTableProperty da pstr:nosuch 200 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 201 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 202 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 203 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 204 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 205 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 206 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 207 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 208 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 209 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 210 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 211 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 212 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 213 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 214 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 215 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 216 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 217 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 218 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 219 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 220 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 221 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 222 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 223 pbuf pl16
+=AdsDDGetTableProperty da pstr:t 224 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 1 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 3 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 300 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 301 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 302 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 303 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 304 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 305 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 306 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 307 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 308 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 309 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 310 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 311 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 312 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 313 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 314 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 315 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:s 999 pbuf pl16
+=AdsDDGetFieldProperty da pstr:t pstr:nosuch 999 pbuf pl16
+=AdsDDGetFieldProperty da pstr:nosuch pstr:s 306 pbuf pl16
+=AdsDDGetFieldProperty da pstr:nosuch pstr:s 999 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 1 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 3 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 400 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 401 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 402 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 403 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 404 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 405 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 406 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 407 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 408 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 409 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 410 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 411 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 412 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 413 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 414 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 415 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 416 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 417 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:BY_ID 999 pbuf pl16
+=AdsDDGetIndexProperty da pstr:t pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetIndexProperty da pstr:nosuch pstr:BY_ID 401 pbuf pl16
+=AdsDDGetIndexProperty da pstr:nosuch pstr:BY_ID 999 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 899 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 900 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 901 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 902 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 903 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 904 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:t.adi 999 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:t pstr:nosuch.adi 999 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:nosuch pstr:t.adi 900 pbuf pl16
+=AdsDDGetIndexFileProperty da pstr:nosuch pstr:t.adi 999 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 1 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 3 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 600 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 999 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 1102 pbuf pl16
+=AdsDDGetUserProperty da pstr:ADSSYS 1105 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 600 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 1102 pbuf pl16
+=AdsDDGetUserProperty da pstr:NOSUCH 1105 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 1 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 3 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 600 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 999 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 1102 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:DB:Public 1105 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 600 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 1102 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:NOSUCH 1105 pbuf pl16
+=AdsDDGetLinkProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetLinkProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetLinkProperty da pstr:NOSUCH 1300 pbuf pl16
+=AdsDDGetLinkProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetViewProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetViewProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetViewProperty da pstr:NOSUCH 700 pbuf pl16
+=AdsDDGetViewProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:NOSUCH 1400 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:NOSUCH 800 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetRefIntegrityProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetRefIntegrityProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetRefIntegrityProperty da pstr:NOSUCH 500 pbuf pl16
+=AdsDDGetRefIntegrityProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:NOSUCH 1500 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:NOSUCH 3 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:NOSUCH 1700 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:NOSUCH 999 pbuf pl16
+=AdsDDGetArticleProperty da pstr:NOSUCH pstr:NOSUCH 1 pbuf pl16
+=AdsDDGetArticleProperty da pstr:NOSUCH pstr:NOSUCH 1600 pbuf pl16
+=AdsDDGetArticleProperty da pstr:NOSUCH pstr:NOSUCH 999 pbuf pl16
+# The kinds of object the dictionary had none of, with one each (group grp, link lnk, view vw, trigger trg, procedure prc,
+# publication pub, subscription sub, and article t of pub), for no user and for ADSSYS
+=AdsDDGetUserGroupProperty d pstr:grp 1 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 2 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 3 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 4 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 5 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 600 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 999 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1001 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1002 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1003 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1004 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1005 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1101 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1102 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1103 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1104 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1105 pbuf pl16
+=AdsDDGetUserGroupProperty d pstr:grp 1201 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 2 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 3 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 4 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 5 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 600 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 999 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1001 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1002 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1003 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1004 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1005 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1101 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1102 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1103 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1104 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1105 pbuf pl16
+=AdsDDGetUserGroupProperty da pstr:grp 1201 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 2 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 3 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 4 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 5 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 999 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1300 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1301 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1302 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1303 pbuf pl16
+=AdsDDGetLinkProperty d pstr:lnk 1304 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 2 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 3 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 4 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 5 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 999 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1300 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1301 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1302 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1303 pbuf pl16
+=AdsDDGetLinkProperty da pstr:lnk 1304 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 1 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 2 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 3 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 4 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 5 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 999 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 700 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 701 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 702 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 703 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 704 pbuf pl16
+=AdsDDGetViewProperty d pstr:vw 705 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 1 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 2 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 3 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 4 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 5 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 999 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 700 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 701 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 702 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 703 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 704 pbuf pl16
+=AdsDDGetViewProperty da pstr:vw 705 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 2 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 3 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 4 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 5 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 999 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1400 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1401 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1402 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1403 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1404 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1405 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1406 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1407 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1408 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1409 pbuf pl16
+=AdsDDGetTriggerProperty d pstr:trg 1410 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 2 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 3 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 4 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 5 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 999 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1400 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1401 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1402 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1403 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1404 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1405 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1406 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1407 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1408 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1409 pbuf pl16
+=AdsDDGetTriggerProperty da pstr:trg 1410 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 1 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 2 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 3 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 4 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 5 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 999 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 800 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 801 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 802 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 803 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 804 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 805 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 806 pbuf pl16
+=AdsDDGetProcedureProperty d pstr:prc 807 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 1 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 2 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 3 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 4 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 5 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 999 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 800 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 801 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 802 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 803 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 804 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 805 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 806 pbuf pl16
+=AdsDDGetProcedureProperty da pstr:prc 807 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 1 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 2 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 3 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 4 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 5 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 999 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 1500 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 1501 pbuf pl16
+=AdsDDGetPublicationProperty d pstr:pub 1502 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 1 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 2 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 3 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 4 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 5 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 999 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 1500 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 1501 pbuf pl16
+=AdsDDGetPublicationProperty da pstr:pub 1502 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 2 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 3 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 4 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 5 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 999 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1700 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1701 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1702 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1703 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1704 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1705 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1706 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1707 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1708 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1709 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1710 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1711 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1712 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1713 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1714 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1715 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1716 pbuf pl16
+=AdsDDGetSubscriptionProperty d pstr:sub 1717 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 2 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 3 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 4 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 5 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 999 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1700 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1701 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1702 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1703 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1704 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1705 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1706 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1707 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1708 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1709 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1710 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1711 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1712 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1713 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1714 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1715 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1716 pbuf pl16
+=AdsDDGetSubscriptionProperty da pstr:sub 1717 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 2 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 3 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 4 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 5 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 999 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1600 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1601 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1602 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1603 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1604 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1605 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1606 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1607 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1608 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:t 1609 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 2 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 3 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 4 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 5 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 999 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1600 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1601 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1602 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1603 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1604 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1605 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1606 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1607 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1608 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:t 1609 pbuf pl16
+=AdsDDGetArticleProperty d pstr:nosuch pstr:t 1 pbuf pl16
+=AdsDDGetArticleProperty d pstr:nosuch pstr:t 1600 pbuf pl16
+=AdsDDGetArticleProperty d pstr:nosuch pstr:t 999 pbuf pl16
+=AdsDDGetArticleProperty da pstr:nosuch pstr:t 1 pbuf pl16
+=AdsDDGetArticleProperty da pstr:nosuch pstr:t 1600 pbuf pl16
+=AdsDDGetArticleProperty da pstr:nosuch pstr:t 999 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:nosuch 1 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:nosuch 1600 pbuf pl16
+=AdsDDGetArticleProperty d pstr:pub pstr:nosuch 999 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:nosuch 1 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:nosuch 1600 pbuf pl16
+=AdsDDGetArticleProperty da pstr:pub pstr:nosuch 999 pbuf pl16
+=AdsDDGetLinkProperty d pstr:NOSUCH 2 pbuf pl16
+=AdsDDGetLinkProperty da pstr:NOSUCH 2 pbuf pl16
+=AdsDDGetArticleProperty d pstr:NOSUCH pstr:t 3 pbuf pl16
+# The rights properties of a group that has rights granted (grp: table t, view vw, procedure prc, link lnk), and a rule (ri) between pt and ct,
+# each with its pointers made NULL
++AdsDDGetUserGroupProperty d pstr:grp 1001 pbuf pl16
++AdsDDGetUserGroupProperty d pstr:grp 1002 pbuf pl16
++AdsDDGetUserGroupProperty d pstr:grp 1003 pbuf pl16
++AdsDDGetUserGroupProperty d pstr:grp 1004 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 1 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 2 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 3 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 4 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 5 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 500 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 501 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 502 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 503 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 504 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 505 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 506 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 507 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 508 pbuf pl16
++AdsDDGetRefIntegrityProperty d pstr:ri 999 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:grp 1001 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:grp 1002 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:grp 1003 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:grp 1004 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 1 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 2 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 3 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 4 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 5 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 500 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 501 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 502 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 503 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 504 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 505 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 506 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 507 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 508 pbuf pl16
++AdsDDGetRefIntegrityProperty da pstr:ri 999 pbuf pl16
++AdsDDGetPermissions d pstr:grp 1 pstr:t pstr: 0 p32
++AdsDDGetPermissions d pstr:grp 6 pstr:vw pstr: 0 p32
++AdsDDGetPermissions d pstr:grp 10 pstr:prc pstr: 0 p32
++AdsDDGetPermissions da pstr:grp 1 pstr:t pstr: 0 p32
+# A date field is 4 bytes in the original: 8 are refused
+AdsSetTimeStampRaw w pstr:born pbuf 8
+AdsSetTimeStampRaw w pstr:born pbuf 4
+AdsSetTimeStampRaw w pstr:born pbuf 0
+AdsSetFieldRaw w pstr:born pbuf 8
+AdsSetFieldRaw w pstr:born pbuf 4
+AdsSetFieldRaw w pstr:born pbuf 3
+AdsSetFieldRaw w pstr:born pbuf 0
+AdsSetTimeStampRaw w pstr:id pbuf 4
+AdsSetTimeStampRaw w pstr:amount pbuf 8
+AdsSetTimeStampRaw w pstr:name pbuf 8
+AdsSetFieldRaw w pstr:amount pbuf 8
+AdsSetFieldRaw w pstr:id pbuf 4
+AdsSetFieldRaw w pstr:id pbuf 8
+# The raw setters on a field of each type of all_types.adt (a), with lengths below, at and above the field's
+AdsSetFieldRaw a pstr:c_char pbuf 0
+AdsSetTimeStampRaw a pstr:c_char pbuf 0
+AdsSetFieldRaw a pstr:c_char pbuf 4
+AdsSetTimeStampRaw a pstr:c_char pbuf 4
+AdsSetFieldRaw a pstr:c_char pbuf 10
+AdsSetTimeStampRaw a pstr:c_char pbuf 10
+AdsSetFieldRaw a pstr:c_char pbuf 11
+AdsSetTimeStampRaw a pstr:c_char pbuf 11
+AdsSetFieldRaw a pstr:c_char pbuf 30
+AdsSetTimeStampRaw a pstr:c_char pbuf 30
+AdsSetFieldRaw a pstr:c_cichar pbuf 11
+AdsSetTimeStampRaw a pstr:c_cichar pbuf 11
+AdsSetFieldRaw a pstr:c_varchar pbuf 4
+AdsSetTimeStampRaw a pstr:c_varchar pbuf 4
+AdsSetFieldRaw a pstr:c_varchar pbuf 20
+AdsSetTimeStampRaw a pstr:c_varchar pbuf 20
+AdsSetFieldRaw a pstr:c_varchar pbuf 21
+AdsSetTimeStampRaw a pstr:c_varchar pbuf 21
+AdsSetFieldRaw a pstr:c_nchar pbuf 4
+AdsSetTimeStampRaw a pstr:c_nchar pbuf 4
+AdsSetFieldRaw a pstr:c_nchar pbuf 10
+AdsSetTimeStampRaw a pstr:c_nchar pbuf 10
+AdsSetFieldRaw a pstr:c_nchar pbuf 11
+AdsSetTimeStampRaw a pstr:c_nchar pbuf 11
+AdsSetFieldRaw a pstr:c_nvarchar pbuf 4
+AdsSetTimeStampRaw a pstr:c_nvarchar pbuf 4
+AdsSetFieldRaw a pstr:c_nvarchar pbuf 20
+AdsSetTimeStampRaw a pstr:c_nvarchar pbuf 20
+AdsSetFieldRaw a pstr:c_nvarchar pbuf 21
+AdsSetTimeStampRaw a pstr:c_nvarchar pbuf 21
+AdsSetFieldRaw a pstr:c_memo pbuf 4
+AdsSetTimeStampRaw a pstr:c_memo pbuf 4
+AdsSetFieldRaw a pstr:c_memo pbuf 9
+AdsSetTimeStampRaw a pstr:c_memo pbuf 9
+AdsSetFieldRaw a pstr:c_memo pbuf 10
+AdsSetTimeStampRaw a pstr:c_memo pbuf 10
+AdsSetFieldRaw a pstr:c_nmemo pbuf 4
+AdsSetTimeStampRaw a pstr:c_nmemo pbuf 4
+AdsSetFieldRaw a pstr:c_blob pbuf 4
+AdsSetTimeStampRaw a pstr:c_blob pbuf 4
+AdsSetFieldRaw a pstr:c_blob pbuf 10
+AdsSetTimeStampRaw a pstr:c_blob pbuf 10
+AdsSetFieldRaw a pstr:c_raw pbuf 3
+AdsSetTimeStampRaw a pstr:c_raw pbuf 3
+AdsSetFieldRaw a pstr:c_raw pbuf 4
+AdsSetTimeStampRaw a pstr:c_raw pbuf 4
+AdsSetFieldRaw a pstr:c_raw pbuf 5
+AdsSetTimeStampRaw a pstr:c_raw pbuf 5
+AdsSetFieldRaw a pstr:c_varbinary pbuf 4
+AdsSetTimeStampRaw a pstr:c_varbinary pbuf 4
+AdsSetFieldRaw a pstr:c_varbinary pbuf 9
+AdsSetTimeStampRaw a pstr:c_varbinary pbuf 9
+AdsSetFieldRaw a pstr:c_guid pbuf 8
+AdsSetTimeStampRaw a pstr:c_guid pbuf 8
+AdsSetFieldRaw a pstr:c_guid pbuf 16
+AdsSetTimeStampRaw a pstr:c_guid pbuf 16
+AdsSetFieldRaw a pstr:c_guid pbuf 17
+AdsSetTimeStampRaw a pstr:c_guid pbuf 17
+AdsSetFieldRaw a pstr:c_logical pbuf 0
+AdsSetTimeStampRaw a pstr:c_logical pbuf 0
+AdsSetFieldRaw a pstr:c_logical pbuf 1
+AdsSetTimeStampRaw a pstr:c_logical pbuf 1
+AdsSetFieldRaw a pstr:c_logical pbuf 2
+AdsSetTimeStampRaw a pstr:c_logical pbuf 2
+AdsSetFieldRaw a pstr:c_numeric pbuf 4
+AdsSetTimeStampRaw a pstr:c_numeric pbuf 4
+AdsSetFieldRaw a pstr:c_numeric pbuf 10
+AdsSetTimeStampRaw a pstr:c_numeric pbuf 10
+AdsSetFieldRaw a pstr:c_numeric pbuf 11
+AdsSetTimeStampRaw a pstr:c_numeric pbuf 11
+AdsSetFieldRaw a pstr:c_short pbuf 1
+AdsSetTimeStampRaw a pstr:c_short pbuf 1
+AdsSetFieldRaw a pstr:c_short pbuf 2
+AdsSetTimeStampRaw a pstr:c_short pbuf 2
+AdsSetFieldRaw a pstr:c_short pbuf 3
+AdsSetTimeStampRaw a pstr:c_short pbuf 3
+AdsSetFieldRaw a pstr:c_integer pbuf 2
+AdsSetTimeStampRaw a pstr:c_integer pbuf 2
+AdsSetFieldRaw a pstr:c_integer pbuf 4
+AdsSetTimeStampRaw a pstr:c_integer pbuf 4
+AdsSetFieldRaw a pstr:c_integer pbuf 5
+AdsSetTimeStampRaw a pstr:c_integer pbuf 5
+AdsSetFieldRaw a pstr:c_integer pbuf 8
+AdsSetTimeStampRaw a pstr:c_integer pbuf 8
+AdsSetFieldRaw a pstr:c_longint pbuf 4
+AdsSetTimeStampRaw a pstr:c_longint pbuf 4
+AdsSetFieldRaw a pstr:c_longint pbuf 8
+AdsSetTimeStampRaw a pstr:c_longint pbuf 8
+AdsSetFieldRaw a pstr:c_longint pbuf 9
+AdsSetTimeStampRaw a pstr:c_longint pbuf 9
+AdsSetFieldRaw a pstr:c_double pbuf 4
+AdsSetTimeStampRaw a pstr:c_double pbuf 4
+AdsSetFieldRaw a pstr:c_double pbuf 8
+AdsSetTimeStampRaw a pstr:c_double pbuf 8
+AdsSetFieldRaw a pstr:c_double pbuf 9
+AdsSetTimeStampRaw a pstr:c_double pbuf 9
+AdsSetFieldRaw a pstr:c_curdouble pbuf 9
+AdsSetTimeStampRaw a pstr:c_curdouble pbuf 9
+AdsSetFieldRaw a pstr:c_money pbuf 4
+AdsSetTimeStampRaw a pstr:c_money pbuf 4
+AdsSetFieldRaw a pstr:c_money pbuf 8
+AdsSetTimeStampRaw a pstr:c_money pbuf 8
+AdsSetFieldRaw a pstr:c_money pbuf 9
+AdsSetTimeStampRaw a pstr:c_money pbuf 9
+AdsSetFieldRaw a pstr:c_date pbuf 0
+AdsSetTimeStampRaw a pstr:c_date pbuf 0
+AdsSetFieldRaw a pstr:c_date pbuf 3
+AdsSetTimeStampRaw a pstr:c_date pbuf 3
+AdsSetFieldRaw a pstr:c_date pbuf 4
+AdsSetTimeStampRaw a pstr:c_date pbuf 4
+AdsSetFieldRaw a pstr:c_date pbuf 5
+AdsSetTimeStampRaw a pstr:c_date pbuf 5
+AdsSetFieldRaw a pstr:c_date pbuf 8
+AdsSetTimeStampRaw a pstr:c_date pbuf 8
+AdsSetFieldRaw a pstr:c_time pbuf 0
+AdsSetTimeStampRaw a pstr:c_time pbuf 0
+AdsSetFieldRaw a pstr:c_time pbuf 4
+AdsSetTimeStampRaw a pstr:c_time pbuf 4
+AdsSetFieldRaw a pstr:c_time pbuf 5
+AdsSetTimeStampRaw a pstr:c_time pbuf 5
+AdsSetFieldRaw a pstr:c_time pbuf 8
+AdsSetTimeStampRaw a pstr:c_time pbuf 8
+AdsSetFieldRaw a pstr:c_timestamp pbuf 0
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 0
+AdsSetFieldRaw a pstr:c_timestamp pbuf 4
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 4
+AdsSetFieldRaw a pstr:c_timestamp pbuf 7
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 7
+AdsSetFieldRaw a pstr:c_timestamp pbuf 8
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 8
+AdsSetFieldRaw a pstr:c_timestamp pbuf 9
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 9
+AdsSetFieldRaw a pstr:c_timestamp pbuf 16
+AdsSetTimeStampRaw a pstr:c_timestamp pbuf 16
+AdsSetFieldRaw a pstr:c_autoinc pbuf 4
+AdsSetTimeStampRaw a pstr:c_autoinc pbuf 4
+AdsSetFieldRaw a pstr:c_autoinc pbuf 5
+AdsSetTimeStampRaw a pstr:c_autoinc pbuf 5
+AdsSetFieldRaw a pstr:c_rowversion pbuf 4
+AdsSetTimeStampRaw a pstr:c_rowversion pbuf 4
+AdsSetFieldRaw a pstr:c_rowversion pbuf 8
+AdsSetTimeStampRaw a pstr:c_rowversion pbuf 8
+AdsSetFieldRaw a pstr:c_rowversion pbuf 9
+AdsSetTimeStampRaw a pstr:c_rowversion pbuf 9
+# What each right of a group is in its rights property (g<hex> holds that mask on t, vw and prc where it is valid)
++AdsDDGetUserGroupProperty da pstr:g1 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g2 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g4 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g10 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g20 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g100 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g13 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g23 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g33 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g32 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g31 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g30 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g102 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:g8fffffff 1004 pbuf pl16
++AdsDDGetUserGroupProperty da pstr:gffffffff 1004 pbuf pl16
+# What the raw setters make of bytes: the record as the call left it, for a Numeric field (bytes that are no number), a VarChar value of 19 and 20 bytes, and DBF tables
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~12345.67 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:1234567890 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~~~ 10
+@AdsSetFieldRaw a pstr:c_numeric pbuf 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:abc 3
+@AdsSetFieldRaw a pstr:c_numeric pbuft:abc 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:abcdefghij 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~1e5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~-1.5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~+1.5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~12.3.4 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:12~34~~~~~ 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~~. 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~-~ 10
+@AdsSetTimeStampRaw a pstr:c_numeric pbuft:~~12345.67 10
+@AdsSetTimeStampRaw a pstr:c_numeric pbuft:1234567890 10
+@AdsSetTimeStampRaw a pstr:c_numeric pbuft:~~~~~~~~~~ 10
+@AdsSetTimeStampRaw a pstr:c_numeric pbuft:abcdefghij 10
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abc 3
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrs 19
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrst 20
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstu 21
+@AdsSetTimeStampRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrs 19
+@AdsSetTimeStampRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrst 20
+@AdsSetFieldRaw x pstr:n pbuft:~~~123.45 8
+@AdsSetFieldRaw x pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw x pstr:n pbuft:abc 3
+@AdsSetFieldRaw x pstr:n pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw x pstr:n pbuft:12345678 8
+@AdsSetFieldRaw x pstr:n pbuft:123456789 9
+@AdsSetFieldRaw x pstr:n pbuft:~~~~-1.5~ 8
+@AdsSetFieldRaw x pstr:n pbuf 8
+@AdsSetTimeStampRaw x pstr:n pbuft:~~~123.45 8
+@AdsSetTimeStampRaw x pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw x pstr:d pbuft:20240131 8
+@AdsSetFieldRaw x pstr:d pbuft:abcdefgh 8
+@AdsSetFieldRaw x pstr:d pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw x pstr:d pbuft:20241345 8
+@AdsSetFieldRaw x pstr:d pbuft:2024 4
+@AdsSetFieldRaw x pstr:d pbuf 8
+@AdsSetFieldRaw x pstr:d pbuft:20240131 9
+@AdsSetTimeStampRaw x pstr:d pbuft:20240131 8
+@AdsSetFieldRaw x pstr:c pbuft:hello 5
+@AdsSetFieldRaw x pstr:c pbuft:hello 10
+@AdsSetFieldRaw x pstr:c pbuft:hello 11
+@AdsSetFieldRaw x pstr:l pbuft:T 1
+@AdsSetFieldRaw x pstr:l pbuft:X 1
+@AdsSetFieldRaw x pstr:l pbuft:abc 3
+@AdsSetFieldRaw x pstr:l pbuf 1
+@AdsSetFieldRaw y pstr:n pbuft:~~~123.45 8
+@AdsSetFieldRaw y pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw y pstr:n pbuft:abc 3
+@AdsSetFieldRaw y pstr:n pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw y pstr:n pbuft:12345678 8
+@AdsSetFieldRaw y pstr:n pbuft:123456789 9
+@AdsSetFieldRaw y pstr:n pbuft:~~~~-1.5~ 8
+@AdsSetFieldRaw y pstr:n pbuf 8
+@AdsSetTimeStampRaw y pstr:n pbuft:~~~123.45 8
+@AdsSetTimeStampRaw y pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw y pstr:d pbuft:20240131 8
+@AdsSetFieldRaw y pstr:d pbuft:abcdefgh 8
+@AdsSetFieldRaw y pstr:d pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw y pstr:d pbuft:20241345 8
+@AdsSetFieldRaw y pstr:d pbuft:2024 4
+@AdsSetFieldRaw y pstr:d pbuf 8
+@AdsSetFieldRaw y pstr:d pbuft:20240131 9
+@AdsSetTimeStampRaw y pstr:d pbuft:20240131 8
+@AdsSetFieldRaw y pstr:c pbuft:hello 5
+@AdsSetFieldRaw y pstr:c pbuft:hello 10
+@AdsSetFieldRaw y pstr:c pbuft:hello 11
+@AdsSetFieldRaw y pstr:l pbuft:T 1
+@AdsSetFieldRaw y pstr:l pbuft:X 1
+@AdsSetFieldRaw y pstr:l pbuft:abc 3
+@AdsSetFieldRaw y pstr:l pbuf 1
+@AdsSetFieldRaw v pstr:n pbuft:~~~123.45 8
+@AdsSetFieldRaw v pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw v pstr:n pbuft:abc 3
+@AdsSetFieldRaw v pstr:n pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw v pstr:n pbuft:12345678 8
+@AdsSetFieldRaw v pstr:n pbuft:123456789 9
+@AdsSetFieldRaw v pstr:n pbuft:~~~~-1.5~ 8
+@AdsSetFieldRaw v pstr:n pbuf 8
+@AdsSetTimeStampRaw v pstr:n pbuft:~~~123.45 8
+@AdsSetTimeStampRaw v pstr:n pbuft:abcdefgh 8
+@AdsSetFieldRaw v pstr:d pbuft:20240131 8
+@AdsSetFieldRaw v pstr:d pbuft:abcdefgh 8
+@AdsSetFieldRaw v pstr:d pbuft:~~~~~~~~ 8
+@AdsSetFieldRaw v pstr:d pbuft:20241345 8
+@AdsSetFieldRaw v pstr:d pbuft:2024 4
+@AdsSetFieldRaw v pstr:d pbuf 8
+@AdsSetFieldRaw v pstr:d pbuft:20240131 9
+@AdsSetTimeStampRaw v pstr:d pbuft:20240131 8
+@AdsSetFieldRaw v pstr:c pbuft:hello 5
+@AdsSetFieldRaw v pstr:c pbuft:hello 10
+@AdsSetFieldRaw v pstr:c pbuft:hello 11
+@AdsSetFieldRaw v pstr:l pbuft:T 1
+@AdsSetFieldRaw v pstr:l pbuft:X 1
+@AdsSetFieldRaw v pstr:l pbuft:abc 3
+@AdsSetFieldRaw v pstr:l pbuf 1
+@AdsSetFieldRaw a pstr:c_varchar pbuft:a 1
+@AdsSetFieldRaw a pstr:c_varchar pbuft:ab 2
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqr 18
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuv 22
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuvw 23
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuvwx 24
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuvwxyzABCD 30
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN 40
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567 60
+@AdsSetFieldRaw a pstr:c_varchar pbuft:abc 0
+@AdsSetFieldRaw a pstr:c_varchar pbuf 10
+@AdsSetTimeStampRaw a pstr:c_varchar pbuft:abcdefghijklmnopqrstuv 22
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~~+ 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~-. 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~+. 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~.. 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~-- 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~-1- 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~1- 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~1. 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~~5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~-0 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~00 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~1,5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~0x10 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~-.5 10
+@AdsSetFieldRaw a pstr:c_numeric pbuft:~~~~~~~~.5 10

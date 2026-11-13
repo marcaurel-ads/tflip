@@ -1,0 +1,34 @@
+# Maintenance by a handle without the password on a shared AES table: indexes, encryption, pack, zap.
+include setup.inc
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+order y h2 ICH
+tablecheck h2
+index inew h2 %D\t.adi INEW 0 N1
+order z h1 INEW
+reindex h2
+order y2 h2 ICH
+keycount y2
+dropindex y
+order x1 h1 ICH
+index inew2 h2 %D\tb.adi INEW2 0 CH
+order zb h1 INEW2
+decrypt h2
+tablecheck h2
+tablecheck h1
+encrypt h2
+tablecheck h2
+pack h2
+count h1
+pack h2
+count h1
+zap h2
+count h1
+count h2
+append h2
+set h2 CH after
+write h2
+cancel h2
+top h1
+dump h1

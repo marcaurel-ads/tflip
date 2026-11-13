@@ -1,0 +1,14 @@
+[
+{"cmd": "restructure t.adt 0 ||name,nm,Char,10", "rc": 0},
+{"cmd": "open t.adt", "rc": 0, "table": 1},
+{"cmd": "top", "rc": 0},
+{"cmd": "record", "rc": 0, "record": "040000000001000000616c706861202020202020202020312e3530810000000800000000"},
+{"cmd": "order nm", "rc": 5016, "error": "Error 5016:  Advantage could not find an index order with the specified name."},
+{"cmd": "rows", "rc": 0, "rows": [1, 2], "count": [0, 2]},
+{"cmd": "close", "rc": 0},
+{"cmd": "restructure u.adt 0 ||a,a,Integer", "rc": 0},
+{"cmd": "restructure v.adt 0 ||a,A,Integer", "rc": 0},
+{"cmd": "restructure w.adt 0 ||a,a2,Integer;b,b2,Char,5", "rc": 0},
+{"cmd": "restructure x.adt 0 ||a,a2,Integer;b,b,Char,5", "rc": 0},
+{"cmd": "restructure y.adt 0 ||a,a2,Integer,(2)", "rc": 0}
+]

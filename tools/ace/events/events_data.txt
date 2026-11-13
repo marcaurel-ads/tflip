@@ -1,0 +1,75 @@
+# Events that take data (ADS_EVENT_WITH_DATA): a row for each signal,
+# dropping events, and the errors of the procedures (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_data.txt
+#             > ../../../fixtures/events/events_data.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE PROCEDURE sig(n CHAR(20), d CHAR(50)) BEGIN DECLARE @n CHAR(20); DECLARE @d CHAR(50); @n = (SELECT n FROM __input); @d = (SELECT d FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0, @d); END;
+sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;
+sql 1 CREATE PROCEDURE sigopt(n CHAR(20), o INTEGER) BEGIN DECLARE @n CHAR(20); DECLARE @o INTEGER; @n = (SELECT n FROM __input); @o = (SELECT o FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, @o); END;
+connect 2 d\d.add
+# data events
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('d', 2)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('p', 0)
+sql 2 EXECUTE PROCEDURE sig('d', 'one')
+sql 2 EXECUTE PROCEDURE sig('d', 'two')
+sql 2 EXECUTE PROCEDURE sig0('d')
+sql 2 EXECUTE PROCEDURE sig('d', '')
+sql 2 EXECUTE PROCEDURE sig('p', 'ignored')
+sql 2 EXECUTE PROCEDURE sig('p', 'ignored2')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('d', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('d', 0, 0, 0)
+sql 2 EXECUTE PROCEDURE sig('d', 'three')
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 2 EXECUTE PROCEDURE sig('d', 'four')
+sql 2 EXECUTE PROCEDURE sig('p', 'ignored3')
+sql 2 EXECUTE PROCEDURE sig('d', 'five')
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+# name echo and case
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('MiXed', 0)
+sql 2 EXECUTE PROCEDURE sig0('mixed')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('MIXED', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('mixed', 10, 0, 0)
+# create twice, with another option
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('MiXed', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('MiXed', 2)
+sql 2 EXECUTE PROCEDURE sig('mixed', 'q')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('mixed', 0, 0, 0)
+# drop
+sql 2 EXECUTE PROCEDURE sig0('mixed')
+sql 1 EXECUTE PROCEDURE sp_DropEvent('mixed', 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('mixed', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_DropEvent('mixed', 0)
+sql 1 EXECUTE PROCEDURE sp_DropEvent('nonesuch', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('mixed', 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('mixed', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_DropAllEvents(0)
+sql 1 EXECUTE PROCEDURE sp_DropAllEvents(0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('d', 0, 0, 0)
+# drop on one connection does not touch the other
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('s', 0)
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('s', 0)
+sql 1 EXECUTE PROCEDURE sp_DropEvent('s', 0)
+sql 1 EXECUTE PROCEDURE sig0('s')
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('s', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('s', 0, 0, 0)
+# errors
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent(NULL, 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('x', 1)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('x', 7)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('x')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 1)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', NULL, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_DropEvent('x', 1)
+sql 1 EXECUTE PROCEDURE sp_DropAllEvents(1)
+sql 2 EXECUTE PROCEDURE sigopt('x', 1)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('x', 0, 0, 0)

@@ -1,0 +1,145 @@
+# A dictionary with an administrator password: setting it
+# (sp_ModifyDatabase 'ADMIN_PASSWORD', AdsDDSetDatabaseProperty 101) and its
+# refusals, then the writes that enciphered with the dictionary key (users and
+# their groups, rights, links) by ADSSYS and by users who are not, on a
+# dictionary connection in an empty folder (the dictionary, de/de.add, is kept
+# in fixtures/sql/spddadminpw/, with the one it links to). The key is what it
+# was before the password.
+#
+#     run.sh <work> <ace32.dll> spddadminpw.txt > ../../../fixtures/sql/spddadminpw.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddadminpw/
+ddcreate de\de.add
+stmt
+direct CREATE DATABASE "other.add"
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', 'first')
+direct EXECUTE PROCEDURE sp_CreateGroup('g2', 'second')
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'one')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', 'two')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'DB:Admin')
+direct GRANT SELECT ON t1 TO g1
+#
+# Setting it: a string and its NUL, nothing, more than 20 bytes, a string
+# that is not ended, NULL.
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'secret1')
+disconnect
+connect de\de.add ADSSYS
+connect de\de.add ADSSYS wrong
+connect de\de.add ADSSYS secret1
+stmt
+dddbprop 101 -1 secret2
+dddbprop 101 3 xyz
+dddbprop 101 8 secret3
+dddbprop 101 0 -
+dddbprop 101 1 -
+disconnect
+connect de\de.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'abcdefghijklmnopqrstuvwxyz')
+disconnect
+connect de\de.add ADSSYS abcdefghijklmnopqrst
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', NULL)
+disconnect
+connect de\de.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'secret1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'a', 'b')
+disconnect
+#
+# Users who are not the administrator are refused, a member of DB:Admin too.
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'u1set')
+dddbprop 101 -1 u1set
+dddbprop 101 3 xyz
+dddbprop 101 0 -
+disconnect
+connect de\de.add u2 pw2
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'u2set')
+dddbprop 101 -1 u2set
+dddbprop 101 3 xyz
+dddbprop 101 1 -
+disconnect
+connect de\de.add ADSSYS secret1
+stmt
+direct EXECUTE PROCEDURE sp_ChangeCurrentUserPassword('', 'secret1')
+#
+# The writes with the key, as the administrator.
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', 'three')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'g2')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g2')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u3', 'DB:Admin')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u3', 'DB:Admin')
+query SELECT * FROM system.usergroupmembers
+direct GRANT INSERT, UPDATE ON t1 TO u3
+direct GRANT SELECT ON t1 TO g2
+direct GRANT SELECT ON t1 TO u1 WITH GRANT
+direct GRANT CREATE TABLE TO g2
+direct REVOKE SELECT ON t1 FROM g1
+direct REVOKE UPDATE ON t1 FROM u3
+query SELECT * FROM system.permissions
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk2', 'other.add', 1, 0, 0, 'ADSSYS', 'x')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk2', 'other.add', 1, 0, 'ADSSYS', 'y')
+direct EXECUTE PROCEDURE sp_DropLink('lk1', 1)
+ddlink lk3 other.add ADSSYS z 1
+dduser u4 pw4
+direct EXECUTE PROCEDURE sp_DropUser('u4')
+disconnect
+#
+# And as users: the key is the one their own secret holds.
+connect de\de.add u2 pw2
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', 'five')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'g1')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u5', 'g2')
+direct EXECUTE PROCEDURE sp_RemoveUserFromGroup('u5', 'g2')
+direct GRANT SELECT ON t1 TO u5
+direct GRANT INSERT ON t1 TO g1
+direct REVOKE INSERT ON t1 FROM g1
+direct EXECUTE PROCEDURE sp_CreateLink('lk4', 'other.add', 1, 0, 0, 'ADSSYS', 'w')
+direct EXECUTE PROCEDURE sp_DropUser('u5')
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.permissions
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw6', 'six')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+direct GRANT SELECT ON t1 TO u6
+direct GRANT SELECT ON t1 TO g2
+direct EXECUTE PROCEDURE sp_CreateLink('lk5', 'other.add', 1, 0, 0, 'ADSSYS', 'v')
+disconnect
+#
+# Changed again, and taken away: what the key wraps stays readable.
+connect de\de.add ADSSYS secret1
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'secret2')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g2')
+direct EXECUTE PROCEDURE sp_CreateUser('u7', 'pw7', 'seven')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u7', 'g1')
+direct GRANT SELECT ON t1 TO u7
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.permissions
+disconnect
+connect de\de.add ADSSYS secret1
+connect de\de.add ADSSYS secret2
+stmt
+dddbprop 101 -1 -
+disconnect
+connect de\de.add ADSSYS
+stmt
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u7', 'g2')
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.permissions
+disconnect
+connect de\de.add u7 pw7
+stmt
+query SELECT * FROM t1
+disconnect

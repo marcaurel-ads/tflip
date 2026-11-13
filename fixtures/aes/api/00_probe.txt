@@ -1,0 +1,13 @@
+connect c1 Data Source=%D;ServerType=LOCAL;
+create a c1 %D\t.adt CH,Character,10
+opts a
+close a
+open a c1 %D\t.adt 1
+opts a
+close a
+open a c1 %D\t.adt 4
+opts a
+close a
+open a c1 %D\t.adt 0
+opts a
+close a

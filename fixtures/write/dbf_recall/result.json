@@ -1,0 +1,16 @@
+[
+{"cmd": "tabletype cdx", "rc": 0},
+{"cmd": "open f.dbf exclusive", "rc": 0, "table": 1},
+{"cmd": "recallall", "rc": 0},
+{"cmd": "state", "rc": 0, "recno": [0, 1], "count": [0, 3], "deleted": [0, 0], "autoinc": [0, 0]},
+{"cmd": "order nd", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [2, 1, 3], "count": [0, 3], "keys": [0, 3]},
+{"cmd": "close", "rc": 0},
+{"cmd": "tabletype ntx", "rc": 0},
+{"cmd": "open n.dbf exclusive", "rc": 0, "table": 2},
+{"cmd": "openindex n_c.ntx", "rc": 0},
+{"cmd": "recallall", "rc": 0},
+{"cmd": "order n_c", "rc": 0},
+{"cmd": "rows", "rc": 0, "rows": [1, 2], "count": [0, 2], "keys": [0, 2]},
+{"cmd": "close", "rc": 0}
+]

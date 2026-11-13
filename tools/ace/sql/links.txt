@@ -1,0 +1,133 @@
+# Tables reached through a data dictionary's links: link.table in SELECT and
+# in INSERT/UPDATE/DELETE. Run by sql.c on an empty data folder with copies of
+# the props dictionary in props/ and of the dict one in dict/ (which the script
+# changes: it adds links, a view and rows).
+#
+#     run.sh <work> <ace32.dll> links.txt > ../../../fixtures/sql/links.json
+#
+# On a free connection a qualified name is a link, which it cannot have.
+stmt
+query SELECT * FROM x.customers
+query SELECT * FROM "dict\dict.add".customers
+query SELECT * FROM all_types.adt
+connect props\props.add ADSSYS adssyspw
+stmt
+# Creating a link logs into the linked dictionary: it must be there, and know
+# the user (not the password); without a user it must allow anonymous logins,
+# unless the link authenticates as the active user. A link that is not global
+# is the connection's own.
+ddlink dlink ..\dict\dict.add alice secret 1
+ddlink DLINK ..\dict\dict.add alice secret 1
+ddlink dbadpw ..\dict\dict.add alice wrong 1
+ddlink dnouser ..\dict\dict.add - - 1
+ddlink dactive ..\dict\dict.add - - 3
+ddlink dadmin ..\dict\dict.add ADSSYS adssyspw 5
+ddlink dmissing ..\absent\gone.add alice secret 1
+ddlink dnobody ..\dict\dict.add nobody pw 1
+ddlink dlocal ..\dict\dict.add alice secret 0
+ddlink dlocal ..\dict\dict.add alice secret 1
+ddlink selflink ..\dict\dict.add alice secret 0
+query SELECT Name, Link_Path, Link_Options, Link_UserName FROM system.links
+# A link's tables, by any case and quoting.
+query SELECT * FROM dlink.customers
+query SELECT * FROM dlink.orders
+query SELECT * FROM DLINK.CUSTOMERS
+query SELECT * FROM "dlink".customers
+query SELECT * FROM dlink."customers"
+query SELECT * FROM [dlink].[customers]
+query SELECT * FROM dlocal.customers
+query SELECT * FROM dnouser.customers
+query SELECT * FROM dactive.customers
+query SELECT * FROM dadmin.orders
+query SELECT * FROM selflink.parent
+query SELECT * FROM selflink.GetTombstones
+# A name that is no link is a dictionary's path, relative to this one's
+# folder, logged into as the connection's user.
+query SELECT * FROM "..\dict\dict.add".customers
+query SELECT * FROM "props.add".parent
+query SELECT * FROM ".\props.add".parent
+query SELECT * FROM "parent.adt"
+# What fails.
+query SELECT * FROM dbadpw.customers
+query SELECT * FROM dlink.nosuch
+query SELECT * FROM dlink.big_orders
+query SELECT * FROM dlink.GetTombstones
+query SELECT * FROM nolink.customers
+query SELECT * FROM parent.adt
+query SELECT * FROM "..\dict\dict".customers
+query SELECT * FROM "props\props.add".parent
+query SELECT * FROM "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij".t
+query SELECT * FROM "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijk".t
+query SELECT * FROM dlink.customers.adt
+query SELECT * FROM dlink.system.tables
+query SELECT dlink.customers.name FROM dlink.customers
+# Aliases, joins, unions and subqueries.
+query SELECT c.name, c.id FROM dlink.customers c
+query SELECT customers.name FROM dlink.customers
+query SELECT * FROM "dlink".customers x WHERE x.id > 1
+query SELECT * FROM dlink.customers WHERE id = 1
+query SELECT p.code, c.name FROM parent p, dlink.customers c WHERE p.id = c.id
+query SELECT p.code, c.name FROM parent p JOIN dlink.customers c ON p.id = c.id
+query SELECT * FROM dlink.customers, dlink.orders WHERE customers.id = orders.customer
+query SELECT * FROM selflink.parent, parent
+query SELECT id, name FROM dlink.customers UNION SELECT id, code FROM parent
+query SELECT * FROM parent WHERE id IN (SELECT id FROM dlink.customers)
+query SELECT COUNT(*) FROM dlink.orders
+query SELECT {static} * FROM dlink.customers
+# A view reading a link's tables.
+ddview v_link SELECT c.name, o.total, o.id FROM dlink.customers c, dlink.orders o WHERE c.id = o.customer
+ddview v_link2 SELECT * FROM dlink.customers
+query SELECT * FROM v_link
+query SELECT * FROM v_link2
+query EXECUTE PROCEDURE sp_GetColumns(null, null, 'v_link%', null)
+# Writing through a link: the linked dictionary's triggers fire, and the
+# connection's transaction does not take the rows in.
+query INSERT INTO dlink.orders (customer, total) VALUES (1, 5)
+query SELECT * FROM dlink.customers
+query UPDATE dlink.orders SET total = 7 WHERE total = 5
+query DELETE FROM dlink.orders WHERE total = 7
+query BEGIN TRANSACTION
+query INSERT INTO dlink.orders (customer, total) VALUES (2, 3)
+query ROLLBACK
+query INSERT INTO "..\dict\dict.add".orders (customer, total) VALUES (2, 4)
+query SELECT * FROM dlink.orders
+query DELETE FROM dlink.nosuch
+query INSERT INTO nolink.x (a) VALUES (1)
+query UPDATE dlink.big_orders SET total = 1
+# The linked dictionary's rights and rules hold for the link's user.
+connect dict\dict.add ADSSYS adssyspw
+stmt
+ddlink pbob ..\props\props.add bob bobpw 1
+ddlink pbadpw ..\props\props.add bob wrong 1
+ddlink pactive ..\props\props.add - - 3
+ddlink pnouser ..\props\props.add - - 1
+query SELECT * FROM pbob.parent
+query SELECT * FROM pbob.child
+query UPDATE pbob.parent SET label = 'lbl'
+query DELETE FROM pbob.parent WHERE id = 1
+query SELECT * FROM pbadpw.parent
+query INSERT INTO pactive.child (id, parent_id) VALUES (5, 99)
+query SELECT * FROM pactive.parent
+connect dict\dict.add alice secret
+stmt
+query SELECT * FROM pactive.parent
+query SELECT * FROM "..\props\props.add".parent
+query SELECT * FROM pbob.parent
+# A user of a dictionary that verifies rights needs access to the link.
+connect props\props.add bob bobpw
+stmt
+query SELECT * FROM parent
+query SELECT * FROM child
+query DELETE FROM parent WHERE id = 1
+query SELECT * FROM dlink.customers
+query SELECT * FROM selflink.parent
+query SELECT * FROM "..\dict\dict.add".customers
+# The connection's own link is not another one's.
+connect props\props.add ADSSYS adssyspw
+stmt
+query SELECT * FROM dlocal.customers
+# Changing a link's table's structure.
+query CREATE INDEX by_total ON dlink.orders (total)
+query ALTER TABLE dlink.orders ADD COLUMN extra INTEGER
+query DROP TABLE dlink.orders
+query CREATE TABLE dlink.made (id INTEGER)

@@ -1,0 +1,22 @@
+# The folder the freeconf_* scripts run in: a dictionary with a user, a table,
+# a view and a procedure that read a free table, and free ADT and DBF tables.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> freeconf_setup.txt
+#             > ../../../fixtures/events/freeconf_setup.json
+free 0
+sql 0 CREATE TABLE "free1.adt" (id INTEGER, name CHAR(10))
+sql 0 INSERT INTO "free1.adt" VALUES (1, 'one')
+sql 0 CREATE TABLE "free2.dbf" (id INTEGER, name CHAR(10))
+sql 0 INSERT INTO "free2.dbf" VALUES (2, 'two')
+sql 0 CREATE DATABASE "d.add"
+connect 1 d.add
+sql 1 CREATE TABLE t1 (id INTEGER, name CHAR(10)) IN DATABASE
+sql 1 INSERT INTO t1 VALUES (3, 'three')
+sql 1 EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+sql 1 GRANT SELECT, INSERT, UPDATE ON t1 TO u2
+sql 1 CREATE VIEW v1 AS SELECT * FROM "free1.adt"
+sql 1 CREATE PROCEDURE p1 (id INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT id FROM "free1.adt"; END
+sql 1 GRANT SELECT ON v1 TO u2
+sql 1 GRANT EXECUTE ON p1 TO u2
+disconnect 1
+disconnect 0

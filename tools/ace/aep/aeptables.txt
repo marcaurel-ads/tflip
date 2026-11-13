@@ -1,0 +1,91 @@
+# External procedures reaching __input and __error through the table API
+# (aeptables.c as aeptables.aep), on the original's local server:
+# aeptables.sh builds the library into the folder ae/ of the data folder, in
+# which this script makes its dictionary. Each call's commands are traced
+# into __output, and into the table log, which is read after a call that
+# fails (its __output is lost) and emptied. The tables are the temporary
+# tables #__input and #__error (and __input, __error with ADS_TEMP_TABLE,
+# 8192); __output is 7112 there, in the first call as in any (not recorded,
+# its text has the machine's temporary folder in it), and so are the first
+# call's #__input opens: a first call that opens nothing comes before.
+#
+#     tools/ace/aep/aeptables.sh <work folder> > fixtures/sql/aeptables.json
+stmt
+direct CREATE DATABASE "ae\ae.add"
+connect ae\ae.add ADSSYS
+stmt
+direct CREATE TABLE log (s VARCHAR(4000))
+direct CREATE PROCEDURE tp(cmd CHAR(2000), n INTEGER, s CHAR(20), d DOUBLE, trace VARCHAR(4000) OUTPUT, m INTEGER OUTPUT, t CHAR(20) OUTPUT, x DOUBLE OUTPUT) FUNCTION Run IN LIBRARY "aeptables.aep"
+# A first call that opens nothing (the original's local server finds no __input through the table API in the first call of a connection that opens it).
+query EXECUTE PROCEDURE tp('ret 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+# Open and read __input; the names the table API takes it by.
+query EXECUTE PROCEDURE tp('open 0 #__input;handle 0;info 0;get 0 cmd;get 0 s;getlong 0 n;getfield 0 d;empty 0 s;skip 0 1;info 0;close 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__INPUT;open 1 #__Input;open 3 #__inputx;open 4 #__input 1;open 5 #__input 2;open 6 #__input 4;info 4;info 5', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;open 1 #__input;info 1;getlong 1 n;close 0;getlong 1 n;close 1', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;getlong 0 nosuch;get 0 nosuch;getlong 0 d', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;goto 0 1;goto 0 2;info 0;top 0;info 0;skip 0 -1;info 0;skip 0 1;info 0;skip 0 1;info 0;getlong 0 n', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;get 0 s;getfield 0 d;getlong 0 d', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;getlong 0 n;getfield 0 n;empty 0 n;empty 0 s;empty 0 d;get 0 s;getfield 0 d', NULL, NULL, NULL)
+direct DELETE FROM log
+# The ADS_TEMP_TABLE option takes the names without the #.
+query EXECUTE PROCEDURE tp('open 0 __input 3 1 1 1 8192;open 1 __error 3 1 1 1 8192;info 0;info 1', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 __INPUT 3 1 1 1 8192;open 1 #__input 3 1 1 1 8192;open 2 __Error 3 1 1 1 8192;open 3 __inputx 3 1 1 1 8192;get 0 s', 7, 'abc', 1.5)
+direct DELETE FROM log
+# __input after writes through the table API.
+query EXECUTE PROCEDURE tp('open 0 #__input;setlong 0 n 9;set 0 s changed;write 0;getlong 0 n;sql INSERT INTO __output (m) VALUES (1)', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;setlong 0 n 9;set 0 s changed;write 0;close 0;open 1 #__input;getlong 1 n;get 1 s;info 1', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__input;app 0;setlong 0 n 10;write 0;info 0;skip 0 1;getlong 0 n;top 0;getlong 0 n', 7, 'abc', 1.5)
+direct DELETE FROM log
+# __error written through the table API.
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 42;set 0 message no thanks;write 0;info 0;getlong 0 errno;get 0 message', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 43;close 0;info 0', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 44;set 0 message appended only', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;set 0 message just text;write 0;close 0;info 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 46;set 0 message first;write 0;app 0;setlong 0 errno 47;set 0 message second;write 0;info 0', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 48;set 0 message kept;write 0;ret 5', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 48;set 0 message kept;write 0;ret 5;sql INSERT INTO __error VALUES (49, ''by sql'')', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 0;set 0 message zero;write 0;info 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setnull 0 errno;set 0 message empty number;write 0;info 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 51;set 0 nosuch x;write 0', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;setlong 0 errno 52;set 0 message after output;write 0;sql INSERT INTO __output (m) VALUES (1)', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('sql INSERT INTO __output (m) VALUES (1);open 0 #__error;app 0;setlong 0 errno 53;set 0 message output then error;write 0', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('open 0 #__error;app 0;write 0;info 0;app 0;info 0;write 0;info 0', 7, 'abc', 1.5)
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('sql INSERT INTO __error (errno, message) VALUES (60, ''lower'')', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+query EXECUTE PROCEDURE tp('sql INSERT INTO __error (errorno, message) VALUES (61, ''upper'')', 7, 'abc', 1.5)
+query SELECT s FROM log
+direct DELETE FROM log
+# Outside a procedure the names are nobody's.
+otype 3 #__input

@@ -1,0 +1,4 @@
+# A plain dictionary given the data encryption type AES-128 by sp_ModifyDatabase: its secrets are enciphered with the new cipher (the users' passwords lost, K kept) and nothing else changes.
+connect Data Source=%D\m_P_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

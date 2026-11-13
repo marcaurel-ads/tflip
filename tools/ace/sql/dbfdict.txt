@@ -1,0 +1,27 @@
+# DBF tables in a data dictionary: the fixtures/dictionary/dbftables
+# dictionary the original engine made (a FoxPro table c with a memo and a
+# compound index, a Clipper table n with an NTX index, a Visual FoxPro table v
+# and a FoxPro table c0 without an index), opened by name and through SQL.
+# Run by sql.c on an empty data folder with a copy of it in dbftables/ (which
+# the script changes).
+#
+#     run.sh <work> <ace32.dll> dbfdict.txt > ../../../fixtures/sql/dbfdict.json
+connect dbftables\db.add ADSSYS
+stmt
+find62
+objects 1
+open c
+open n
+open v
+open c0
+open c.dbf
+query SELECT * FROM c
+query SELECT * FROM n WHERE id > 1
+query SELECT c.id, n.name, v.name FROM c, n, v WHERE c.id = n.id AND n.id = v.id
+query SELECT COUNT(*) FROM c0
+query INSERT INTO n (id, name) VALUES (3, 'three')
+query UPDATE c SET name = 'uno', notes = 'a memo' WHERE id = 1
+query DELETE FROM v WHERE id = 2
+query SELECT * FROM n
+query SELECT * FROM c
+query SELECT * FROM v

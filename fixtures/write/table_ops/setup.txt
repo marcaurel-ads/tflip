@@ -1,0 +1,23 @@
+# Tables for the smaller table calls: one with orders, memo values and
+# deleted records, copies of it to pack, delete and recall, others without
+# a unique column, with an AutoInc, and a VFP table with NULL flags.
+sql CREATE TABLE t (id INTEGER, name CHAR(10), amount NUMERIC(8, 2), d DATE, m MEMO)
+sql CREATE UNIQUE INDEX id ON t (id)
+sql CREATE INDEX name ON t (name)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('t', 't', 'multi', 'name;amount', NULL, 0, 512, NULL)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('t', 't', 'dt', 'd', NULL, 0, 512, NULL)
+sql INSERT INTO t VALUES (1, 'alpha', 1.5, '2020-01-02', 'm1'), (2, 'beta', -2.25, '2021-03-04', 'm2'), (3, 'gamma', 3, NULL, NULL), (4, 'delta', 4, '1999-12-31', 'm4'), (5, 'eps', 5, '2000-01-01', NULL)
+sql DELETE FROM t WHERE id IN (2, 4)
+sql CREATE TABLE p (id INTEGER, m MEMO)
+sql CREATE INDEX id ON p (id)
+sql INSERT INTO p VALUES (1, 'first memo'), (2, 'second'), (3, NULL), (4, 'fourth memo value')
+sql DELETE FROM p WHERE id = 2
+sql CREATE TABLE q (id INTEGER, m MEMO)
+sql INSERT INTO q VALUES (1, 'one'), (2, 'two')
+sql CREATE TABLE gone (id INTEGER, m MEMO)
+sql CREATE INDEX id ON gone (id)
+sql CREATE TABLE a (n AUTOINC, x CHAR(3), rv ROWVERSION)
+sql CREATE TABLE f (n INTEGER, x CHAR(3))
+tabletype vfp
+sql CREATE TABLE v (n INTEGER NULL, c CHAR(4) NULL, vc VARCHAR(6) NULL, nn INTEGER)
+sql INSERT INTO v VALUES (NULL, 'ab', 'abcdef', 1), (2, NULL, 'ab', 2)

@@ -1,0 +1,22 @@
+{
+ "table_type": "adt",
+ "record_count": 0,
+ "record_length": 749,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "TableName", "type": 23, "type_name": "VarCharFox", "length": 200, "decimals": 0},
+  {"name": "KeyValues", "type": 27, "type_name": "NVarChar", "length": 256, "decimals": 0},
+  {"name": "DeleteTime", "type": 14, "type_name": "TimeStamp", "length": 8, "decimals": 0},
+  {"name": "LastChange", "type": 2, "type_name": "Numeric", "length": 20, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "PRIMARYKEY", "file": "GetTombstones.adi", "expression": "Upper(TableName);LastChange", "condition": "", "collation": "", "key_length": 210, "key_type": 16, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 0, "keys": [
+  ]}
+ ],
+ "records": [
+ ]
+}

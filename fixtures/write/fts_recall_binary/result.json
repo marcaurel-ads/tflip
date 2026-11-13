@@ -1,0 +1,18 @@
+[
+{"cmd": "sql CREATE INDEX b_bl ON b (bl) CONTENT KEEPSCORE", "rc": 0},
+{"cmd": "sql CREATE INDEX b_im ON b (im) CONTENT", "rc": 0},
+{"cmd": "open b.adt", "rc": 0, "table": 1},
+{"cmd": "goto 2", "rc": 0},
+{"cmd": "delete", "rc": 0},
+{"cmd": "goto 4", "rc": 0},
+{"cmd": "delete", "rc": 0},
+{"cmd": "state", "rc": 0, "recno": [0, 4], "count": [0, 4], "deleted": [0, 1], "autoinc": [0, 0]},
+{"cmd": "recall", "rc": 0},
+{"cmd": "state", "rc": 0, "recno": [0, 4], "count": [0, 4], "deleted": [0, 0], "autoinc": [0, 0]},
+{"cmd": "recallall", "rc": 0},
+{"cmd": "state", "rc": 0, "recno": [0, 1], "count": [0, 5], "deleted": [0, 0], "autoinc": [0, 0]},
+{"cmd": "goto 3", "rc": 0},
+{"cmd": "delete", "rc": 0},
+{"cmd": "recallall", "rc": 0},
+{"cmd": "state", "rc": 0, "recno": [0, 1], "count": [0, 5], "deleted": [0, 0], "autoinc": [0, 0]}
+]

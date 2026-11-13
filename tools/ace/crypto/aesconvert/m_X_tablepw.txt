@@ -1,0 +1,4 @@
+# A table encryption password replaced, one of more than 20 characters.
+connect Data Source=%D\m_X_tablepw\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'abcdefghijklmnopqrstuvwxyz')
+disconnect

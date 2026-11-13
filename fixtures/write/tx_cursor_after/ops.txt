@@ -1,0 +1,223 @@
+# What a handle stands on after a commit or a rollback of what it deleted or appended.
+tabletype adt
+open aa shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+commit
+txcount
+state
+get id
+skip -1
+state
+get id
+skip 1
+state
+goto 5
+state
+append
+state
+close
+open aa shared
+state
+rows
+close
+open ab shared
+begin
+goto 2
+delete
+write
+state
+get id
+commit
+state
+get id
+skip 1
+state
+get id
+close
+open ab shared
+state
+rows
+close
+open ac shared
+begin
+append
+set id long 4
+write
+state
+get id
+rollback
+state
+get id
+skip -1
+state
+get id
+goto 4
+state
+close
+open ac shared
+state
+rows
+close
+open ad shared
+begin
+goto 2
+delete
+write
+rollback
+state
+get id
+skip 1
+state
+close
+open ah shared
+begin
+savepoint s
+append
+set id long 4
+write
+rollbackto s
+state
+get id
+rollback
+state
+get id
+skip 1
+state
+close
+open ai shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+skip -1
+state
+get id
+skip 1
+state
+commit
+state
+close
+tabletype vfp
+open va shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+commit
+txcount
+state
+get id
+skip -1
+state
+get id
+skip 1
+state
+goto 5
+state
+append
+state
+close
+open va shared
+state
+rows
+close
+open vb shared
+begin
+goto 2
+delete
+write
+state
+get id
+commit
+state
+get id
+skip 1
+state
+get id
+close
+open vb shared
+state
+rows
+close
+open vc shared
+begin
+append
+set id long 4
+write
+state
+get id
+rollback
+state
+get id
+skip -1
+state
+get id
+goto 4
+state
+close
+open vc shared
+state
+rows
+close
+open vd shared
+begin
+goto 2
+delete
+write
+rollback
+state
+get id
+skip 1
+state
+close
+open vh shared
+begin
+savepoint s
+append
+set id long 4
+write
+rollbackto s
+state
+get id
+rollback
+state
+get id
+skip 1
+state
+close
+open vi shared
+begin
+append
+set id long 4
+write
+savepoint s
+append
+set id long 5
+write
+rollbackto s
+skip -1
+state
+get id
+skip 1
+state
+commit
+state
+close

@@ -1,0 +1,397 @@
+# The scenarios grants.exe runs (see grants.c for the verbs). Each `@ name`
+# starts a new dictionary; grants.sh keeps the ones named there as goldens.
+
+# SQL GRANT on every kind of object, found by its bare name.
+@ sqlgrant
+user bob
+group G1
+user bob2
+group G2
+table t
+view v SELECT id FROM t
+proc p
+link lnk
+pub pb
+sql GRANT SELECT ON v TO bob
+sql GRANT EXECUTE ON p TO bob
+sql GRANT ACCESS ON lnk TO bob
+sql GRANT ALTER, DROP ON lnk TO G1
+sql GRANT ALTER ON bob2 TO bob
+sql GRANT DROP ON G2 TO bob
+sql GRANT ALL ON pb TO bob
+sql GRANT ALL ON lnk TO G2 WITH GRANT
+sql GRANT INSERT(s), UPDATE(s), SELECT(id) ON t TO bob
+sql GRANT SELECT(s), DELETE ON t TO G1
+sql GRANT ALTER DATABASE TO G2 WITH GRANT
+sql GRANT ALL ON [v] TO "bob2"
+sql grant execute, inherit on p to bob2 with grant;
+sql GRANT ALL ON bob TO G1
+sql GRANT INHERIT ON t TO bob2
+sql GRANT INHERIT DATABASE TO bob2
+sql GRANT SELECT ( s ) ON t TO bob2 -- a comment
+get bob|0|t||0
+get bob|4|s|t|0
+get bob|0|v||0
+get G1|0|lnk||0
+get bob2|0|p||0
+get bob|0|DB:Public||0
+get bob|0|nosuch||0
+dump SELECT * FROM system.permissions WHERE Grantee IN ('bob', 'G2') AND Object_Type <> 4
+
+# SQL REVOKE, the grant option and the inherit bit.
+@ sqlrevoke
+user bob
+group G1
+user bob2
+table t
+view v SELECT id FROM t
+link lnk
+pub pb
+sql GRANT ALL ON t TO bob WITH GRANT
+sql REVOKE GRANT OPTION FOR SELECT ON t FROM bob
+sql REVOKE UPDATE ON t FROM bob
+sql GRANT SELECT(s), UPDATE(s) ON t TO G1 WITH GRANT
+sql REVOKE GRANT OPTION FOR SELECT(s) ON t FROM G1
+sql REVOKE INSERT(id) ON t FROM G1
+sql REVOKE INHERIT ON v FROM bob
+sql REVOKE ALTER ON pb FROM bob2
+sql GRANT ALL ON lnk TO G1 WITH GRANT
+sql REVOKE GRANT OPTION FOR ALL ON lnk FROM G1
+sql GRANT ALL ON v TO bob2
+sql REVOKE ALL ON v FROM bob2
+sql REVOKE ALTER DATABASE FROM bob
+sql REVOKE INHERIT DATABASE FROM bob2
+sql REVOKE SELECT ON t FROM G1
+get bob|0|t||0
+get G1|4|s|t|0
+get bob|0|v||0
+get bob2|0|v||0
+dump SELECT * FROM system.permissions WHERE Grantee = 'bob' OR Grantee = 'G1'
+
+# The right to create each kind of object, and its inherit bit.
+@ sqlcreate
+user bob
+group G1
+user bob2
+group G2
+sql GRANT CREATE TABLE, CREATE VIEW TO bob
+sql GRANT CREATE USER GROUP TO bob WITH GRANT
+sql GRANT INHERIT CREATE PROCEDURE TO bob WITH GRANT
+sql REVOKE INHERIT CREATE TABLE, CREATE LINK FROM bob
+sql GRANT CREATE FUNCTION, CREATE PACKAGE, CREATE PUBLICATION, CREATE SUBSCRIPTION TO G1 WITH GRANT
+sql REVOKE GRANT OPTION FOR CREATE PACKAGE FROM G1
+sql REVOKE CREATE SUBSCRIPTION FROM G1
+sql GRANT CREATE USER, CREATE LINK TO G1
+sql REVOKE CREATE LINK FROM G2
+sql GRANT INHERIT CREATE VIEW TO bob2
+sql REVOKE GRANT OPTION FOR INHERIT CREATE PROCEDURE FROM bob
+member G1 bob
+dump SELECT * FROM system.permissions WHERE "Create" IS NOT NULL AND Grantee IN ('bob', 'G1', 'bob2', 'G2', 'DB:Admin')
+dump SELECT * FROM system.effectivepermissions WHERE "Create" IS NOT NULL AND Grantee IN ('bob', 'G1')
+
+# A statement stops at its first failing permission, keeping those before.
+@ partial
+user bob
+group G1
+user bob2
+table t
+view v SELECT id FROM t
+sql GRANT SELECT, EXECUTE ON t TO bob
+sql GRANT ACCESS, SELECT ON v TO bob
+sql GRANT SELECT(s), EXECUTE ON t TO G1
+sql GRANT INSERT(s), SELECT(nosuch) ON t TO bob2
+sql GRANT ALTER DATABASE, INHERIT DATABASE, CREATE USER TO G1 WITH GRANT
+sql GRANT ALTER DATABASE, SELECT TO bob
+sql GRANT SELECT, CREATE TABLE TO bob2
+sql GRANT INHERIT, CREATE TABLE TO bob2
+
+# A failing grant still raises the dictionary's version; a syntax error or a
+# permission with no object does not reach it.
+@ noraise
+user bob
+table t
+sql GRANT SELECT TO bob
+sql GRANT SELECT, CREATE TABLE TO bob
+sql GRANT INHERIT, CREATE TABLE TO bob
+@ raise
+user bob
+table t
+grant 0|nosuch||bob|0x1
+
+# Rejected statements: syntax and the engine's own answers.
+@ errors
+user bob
+group G1
+table t
+view v SELECT id FROM t
+proc p
+link lnk
+pub pb
+sql GRANT SELECT(s, id) ON t TO bob
+sql GRANT SELECT(nosuch) ON t TO bob
+sql GRANT DELETE(s) ON t TO bob
+sql GRANT SELECT(s) ON v TO bob
+sql GRANT SELECT(s) ON p TO bob
+sql GRANT EXECUTE ON t TO bob
+sql GRANT ACCESS ON t TO bob
+sql GRANT SELECT ON p TO bob
+sql GRANT SELECT ON G1 TO bob
+sql GRANT SELECT ON nosuch TO bob
+sql GRANT SELECT ON t TO ghost
+sql GRANT SELECT ON t TO bob, G1
+sql GRANT SELECT ON t TO PUBLIC
+sql GRANT SELECT ON t TO bob WITH GRANT OPTION
+sql GRANT SELECT ON TABLE t TO bob
+sql GRANT SELECT ON t.s TO bob
+sql GRANT READ ON t TO bob
+sql GRANT SELECT TO bob
+sql GRANT ALTER TO bob
+sql GRANT SELECT ON t
+sql GRANT ON t TO bob
+sql GRANT
+sql REVOKE
+sql GRANT ALTER DATABASE ON t TO bob
+sql GRANT CREATE TABLE, SELECT ON t TO bob
+sql GRANT SELECT, ALTER DATABASE ON t TO bob
+sql GRANT CREATE TABLE ON t TO bob
+sql GRANT CREATE INDEX TO bob
+sql GRANT CREATE TO bob
+sql GRANT INHERIT CREATE TO bob
+sql GRANT INHERIT TO bob
+sql GRANT INHERIT CREATE VIEW TO G1
+sql GRANT INHERIT ON t TO G1
+sql GRANT INHERIT DATABASE TO G1
+sql GRANT INHERIT ON t TO bob WITH GRANT
+sql GRANT CREATE TABLE TO DB:Admin
+sql GRANT CREATE TABLE TO [DB:Public]
+sql GRANT SELECT ON t TO [DB:Admin]
+sql GRANT ALTER ON [DB:Debug] TO bob
+sql GRANT ALL ON t TO bob, G1
+sql GRANT ALTER ON Database TO bob
+sql GRANT SELECT ON DATABASE TO bob
+sql GRANT SELECT ON t TO bob WITH GRANT WITH GRANT
+sql GRANT ALTER ON t TO t
+sql GRANT ALTER ON bob TO bob
+sql GRANT ALL TO bob
+sql GRANT ALL PRIVILEGES ON t TO bob
+sql GRANT CREATE TABLE bob
+sql GRANT ALTER DATABASE
+sql GRANT ALTER DATABASE DATABASE TO bob
+sql GRANT SELECT ON t TO
+sql GRANT SELECT ON t TO bob WITH
+sql GRANT SELECT ON t TO bob WITH ADMIN
+sql GRANT SELECT ON TO bob
+sql GRANT SELECT( ON t TO bob
+sql GRANT SELECT() ON t TO bob
+sql GRANT SELECT, ON t TO bob
+sql GRANT SELECT ON t TO 'bob'
+sql GRANT SELECT ON 't' TO bob
+sql GRANT SELECT ON t TO bob GRANT
+sql GRANT SELECT ON t TO :p
+sql GRANT ALTER DATABASE TO bob, G1
+sql GRANT CREATE TABLE TO nosuch
+sql REVOKE SELECT ON t TO bob
+sql REVOKE SELECT ON t FROM bob WITH GRANT
+sql REVOKE GRANT OPTION SELECT ON t FROM bob
+sql REVOKE GRANT OPTION FOR GRANT OPTION FOR SELECT ON t FROM bob
+sql REVOKE GRANT OPTION FOR SELECT ON t TO bob
+sql REVOKE SELECT ON t FROM
+sql REVOKE SELECT ON nosuch FROM bob
+sql REVOKE EXECUTE ON t FROM bob
+sql REVOKE CREATE TABLE ON t FROM bob
+sql REVOKE GRANT OPTION FOR INHERIT ON t FROM bob
+sql REVOKE CREATE TABLE FROM nosuch
+
+# AdsDDGrantPermission/AdsDDRevokePermission/AdsDDGetPermissions with object
+# type 0: the object is found by name among every kind.
+@ api0
+user bob
+group G1
+table t
+view v SELECT id FROM t
+proc p
+link lnk
+pub pb
+grant 0|t||bob|0x1
+grant 0|t||bob|0x4
+grant 0|s|t|bob|0x1
+grant 0|t|zzz|bob|0x2
+grant 0|nosuch||bob|0x1
+grant 0|Database||bob|0x100
+grant 0|||bob|0x100
+grant 0|-|-|bob|0x100
+grant 0|v||bob|0x20
+grant 0|v||bob|0x4
+grant 0|p||bob|0x4
+grant 0|lnk||bob|0x40
+grant 0|pb||G1|0x200
+grant 0|pb||G1|0x1
+grant 0|G1||bob|0x100
+grant 0|bob||G1|0x100
+grant 0|bob||bob|0x100
+grant 0|t||ghost|0x1
+grant 0|t||bob|0xFFFFFFFF
+grant 0|t||bob|0x80
+grant 0|DB:Admin||bob|0x100
+grant 0|t||G1|0x8
+grant 0|v||G1|0x80000001
+revoke 0|t||bob|0x1
+revoke 0|nosuch||bob|0x1
+revoke 0|v||G1|0x20
+revoke 0|v||G1|0x80000001
+get bob|0|t||0
+get bob|0|nosuch||0
+get bob|0|s|t|0
+get G1|0|v||0
+get bob|0|DB:Admin||0
+get bob|0|Database||0
+get bob|0|pb||0
+
+# The API's own rules: the inherit bit, built-in groups, the error texts.
+@ apirules
+user bob
+group G1
+table t
+view v SELECT id FROM t
+proc p
+link lnk
+pub pb
+grant 1|t||bob|0x8
+grant 1|t||bob|0x80000008
+grant 1|t||DB:Admin|0x1
+grant 1|nosuch||DB:Admin|0x1
+grant 1|t||SERVER:Monitor|0x1
+revoke 1|t||DB:Debug|0x1
+grant 1|t||[DB:Public]|0x1
+grant 1|t||bob|0
+grant 1|t||bob|0x80000000
+grant 1|t||bob|0x400
+grant 1|t||bob|0x81
+revoke 1|t||bob|0x81
+grant 1|nosuch|t|bob|0x200
+grant 4|nosuch|t|bob|0x200
+grant 6|nosuch|t|bob|0x200
+grant 8|nosuch|t|bob|0x200
+grant 9|nosuch|t|bob|0x200
+grant 10|nosuch|t|bob|0x200
+grant 11|nosuch|t|bob|0x200
+grant 12|nosuch|t|bob|0x200
+grant 15|nosuch|t|bob|0x200
+grant 17|nosuch|t|bob|0x200
+grant 18|nosuch|t|bob|0x200
+grant 19|nosuch|t|bob|0x200
+grant 2|t||bob|0x100
+grant 1|t||G1|0x400
+grant 6|v||G1|0x4
+grant 8|bob||G1|0x1
+grant 9|G1||bob|0x1
+grant 10|p||G1|0x1
+grant 11|||G1|0x1
+grant 12|lnk||G1|0x1
+grant 15|pb||G1|0x1
+grant 4|s|t|bob|0x20
+grant 4|nosuch|t|bob|0x1
+grant 4|s|nosuch|bob|0x1
+grant 4|s|v|bob|0x1
+grant 9|DB:Public||bob|0x100
+get bob|9|DB:Public||0
+
+# The rights to create through the API: an empty name, CREATE alone or with
+# INHERIT (and the grant option).
+@ apicreate
+user bob
+group G1
+user bob2
+grant 1|-|-|bob|0x80
+grant 6||-|bob|0x80000080
+grant 8|-||bob|0x88
+grant 9|-|-|bob|0x80000088
+grant 10|-|-|bob|0x80
+grant 12|-|-|bob|0x80
+grant 15|-|-|bob|0x80
+grant 17|-|-|bob|0x80
+grant 18|-|-|bob|0x80
+grant 19|-|-|bob|0x80
+revoke 1|-|-|bob|0x88
+revoke 6|-|-|bob|0x80000080
+revoke 8|-|-|bob|0x80000088
+revoke 9|-|-|bob|0x80000088
+revoke 10|-|-|bob|0x80
+revoke 12|-|-|bob|0x80000088
+grant 1|-|-|G1|0x80000080
+grant 6|-|-|G1|0x80
+revoke 1|-|-|G1|0x80
+revoke 8|-|-|G1|0x80000080
+grant 1|-|-|G1|0x88
+revoke 1|-|-|G1|0x88
+grant 0|-|-|bob|0x80
+grant 4|-|-|bob|0x80
+grant 11|-|-|bob|0x80
+grant 2|-|-|bob|0x80
+grant 20|-|-|bob|0x80
+grant 9|-|-|bob|0x81
+grant 1|t||bob|0x80
+grant 1|t||bob|0x88
+grant 1|-|x|bob|0x80
+grant 1|-|-|ghost|0x80
+grant 1|-|-|DB:Admin|0x80
+grant 1|-|-|DB:Public|0x80
+grant 1|-|-|bob|0x8
+revoke 6|-|-|bob2|0x88
+grant 8|-|-|bob2|0x88
+get bob|1|-|-|0
+dump SELECT * FROM system.permissions WHERE "Create" IS NOT NULL AND Grantee IN ('bob', 'G1', 'bob2')
+
+# The per-column rights: a table grant reaches every column, and the
+# per-column slot is kept only while the columns differ.
+@ columns
+user bob
+group G1
+user bob2
+group G2
+table t
+table t2
+table t3
+grant 1|t||bob|0x1
+grant 4|s|t|bob|0x1
+grant 4|s|t|G1|0x1
+grant 1|t||G1|0x1
+sql GRANT SELECT ON t TO bob2
+sql GRANT UPDATE(s) ON t TO bob2
+sql GRANT SELECT ON t TO G2
+sql REVOKE SELECT(s) ON t FROM G2
+sql GRANT SELECT(id) ON t2 TO bob WITH GRANT
+sql GRANT SELECT(s) ON t2 TO bob WITH GRANT
+sql REVOKE GRANT OPTION FOR SELECT(s) ON t2 FROM bob
+sql GRANT UPDATE(id) ON t2 TO G1 WITH GRANT
+sql GRANT SELECT(s) ON t2 TO G1 WITH GRANT
+sql REVOKE SELECT(s) ON t2 FROM G1
+sql GRANT SELECT ON t2 TO bob2 WITH GRANT
+sql REVOKE INSERT(s) ON t2 FROM bob2
+sql GRANT SELECT(s) ON t2 TO G2 WITH GRANT
+sql GRANT SELECT ON t2 TO G2
+grant 1|t3||bob|0x8
+grant 1|t3||bob2|0x1
+revoke 1|t3||bob2|0x8
+grant 1|t3||bob2|0x8
+sql GRANT SELECT ON t3 TO G1 WITH GRANT
+sql GRANT UPDATE(s) ON t3 TO G1 WITH GRANT
+sql GRANT ALTER ON t3 TO G2
+get bob|4|s|t2|0
+get G1|4|id|t2|0
+dump SELECT * FROM system.permissions WHERE Object_Type IN (1, 4) AND Grantee IN ('bob', 'G1', 'bob2', 'G2')
+
+# Rights granted to DB:Public live in the object itself (a table's slot 12, a
+# view's slot 5), which tflip does not write (see KNOWN_ISSUES): no golden.
+@ public
+user bob
+table t
+view v SELECT id FROM t
+grant 1|t||DB:Public|0x80000001
+grant 1|t||DB:Public|0x8
+grant 4|s|t|DB:Public|0x1
+grant 1|-|-|DB:Public|0x80
+grant 1|t||DB:Public|0x3
+revoke 1|t||DB:Public|0x2
+sql GRANT SELECT ON v TO [DB:Public]
+get DB:Public|1|t||0

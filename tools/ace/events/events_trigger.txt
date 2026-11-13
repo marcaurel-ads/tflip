@@ -1,0 +1,50 @@
+# A trigger signalling an event with the ROWID of its record, as the help
+# does, a wait read by a query, the options and names' limits (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_trigger.txt
+#             > ../../../fixtures/events/events_trigger.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE TABLE my_table (name CHAR(10))
+sql 1 CREATE TRIGGER my_trig ON my_table AFTER INSERT BEGIN EXECUTE PROCEDURE sp_SignalEvent('my_event', false, 0, ::stmt.TrigRowID); END;
+sql 1 CREATE TRIGGER my_trig2 ON my_table AFTER UPDATE BEGIN EXECUTE PROCEDURE sp_SignalEvent('my_event', false, 0, ::stmt.TrigRowID + 'u'); END;
+sql 1 CREATE TRIGGER my_trig3 ON my_table AFTER DELETE BEGIN EXECUTE PROCEDURE sp_SignalEvent('plain', false, 0); END;
+sql 1 CREATE PROCEDURE w(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_WaitForEvent(@n, 1500, 0, 0); END;
+connect 2 d\d.add
+connect 3 d\d.add
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('my_event', 2)
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('plain', 0)
+sql 1 INSERT INTO my_table VALUES ('Charles')
+sql 1 INSERT INTO my_table VALUES ('Dora')
+sql 1 UPDATE my_table SET name = 'X' WHERE name = 'Dora'
+sql 1 DELETE FROM my_table WHERE name = 'X'
+sql 2 SELECT * FROM my_table WHERE ROWID = ( SELECT StringData FROM ( EXECUTE PROCEDURE sp_WaitForEvent( 'my_event', 0, 0, 0 )) Sig )
+sql 2 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+# a rolled-back trigger insert signals at once
+sql 1 BEGIN TRANSACTION
+sql 1 INSERT INTO my_table VALUES ('Eve')
+sql 1 ROLLBACK
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('my_event', 0, 0, 0)
+# a wait in a procedure with a timeout
+sql 2 EXECUTE PROCEDURE w('plain')
+sql 2 SELECT * FROM (EXECUTE PROCEDURE sp_WaitForEvent('plain', 1200, 0, 0)) a
+sql 2 SELECT EventCount + 1 AS n FROM (EXECUTE PROCEDURE sp_WaitForEvent('plain', 0, 0, 0)) a
+# limits
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o0', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o1', 1)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o3', 3)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o4', 4)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o8', 8)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('o-1', -1)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('  sp', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('sp  ', 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('sp', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('  SP', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('é', 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('É', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678', 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789X', 0)

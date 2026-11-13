@@ -1,0 +1,4450 @@
+# A cursor left on a record deleted (written) or an appended one cancelled, then AdsSkip: in record order and in the order on id, deleted records shown or not, ADT, NTX and CDX.
+tabletype adt
+createtable a1.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a2.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a3.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a4.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a5.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a6.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a7.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a8.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a9.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a10.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a11.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a12.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a13.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a14.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a15.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a16.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a17.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a18.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a19.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a20.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a21.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a22.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a23.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a24.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a25.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a26.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a27.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a28.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a29.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a30.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a31.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a32.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a33.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a34.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a35.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a36.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a37.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a38.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a39.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a40.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a41.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a42.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a43.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a44.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a45.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a46.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a47.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a48.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a49.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a50.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a51.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a52.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a53.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a54.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a55.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a56.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a57.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a58.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a59.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a60.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a61.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a62.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a63.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a64.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a65.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a66.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a67.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a68.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a69.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a70.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a71.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a72.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a73.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+createtable a74.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 512 id
+close
+tabletype ntx
+createtable n1.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n1.ntx id 0 0 id
+close
+createtable n2.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n2.ntx id 0 0 id
+close
+createtable n3.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n3.ntx id 0 0 id
+close
+createtable n4.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n4.ntx id 0 0 id
+close
+createtable n5.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n5.ntx id 0 0 id
+close
+createtable n6.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n6.ntx id 0 0 id
+close
+createtable n7.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n7.ntx id 0 0 id
+close
+createtable n8.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n8.ntx id 0 0 id
+close
+createtable n9.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n9.ntx id 0 0 id
+close
+createtable n10.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n10.ntx id 0 0 id
+close
+createtable n11.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n11.ntx id 0 0 id
+close
+createtable n12.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n12.ntx id 0 0 id
+close
+createtable n13.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n13.ntx id 0 0 id
+close
+createtable n14.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n14.ntx id 0 0 id
+close
+createtable n15.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n15.ntx id 0 0 id
+close
+createtable n16.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n16.ntx id 0 0 id
+close
+createtable n17.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n17.ntx id 0 0 id
+close
+createtable n18.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n18.ntx id 0 0 id
+close
+createtable n19.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n19.ntx id 0 0 id
+close
+createtable n20.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex n20.ntx id 0 0 id
+close
+tabletype cdx
+createtable c1.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c2.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c3.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c4.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c5.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c6.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c7.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c8.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c9.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c10.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c11.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c12.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c13.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c14.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c15.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c16.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c17.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c18.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c19.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close
+createtable c20.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+append
+set id long 11
+write
+append
+set id long 12
+write
+createindex - id 2 0 id
+close

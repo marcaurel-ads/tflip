@@ -1,0 +1,5 @@
+# RC4, then AES-256, in an AES-128 dictionary.
+connect Data Source=%D\m_E_type3to6\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '3')
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '6')
+disconnect

@@ -1,0 +1,27 @@
+# The 10 bytes a DBF table's header holds when it is enciphered: what they depend on (the structure, the table password).
+ddcreate 0 %D\y3\p.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+stmttype 2
+sql CREATE TABLE pa1 (c CHAR(1))
+sql CREATE TABLE pa2 (c CHAR(2))
+sql CREATE TABLE pa3 (c CHAR(3))
+sql CREATE TABLE pb1 (c CHAR(1), d CHAR(1))
+sql CREATE TABLE pb2 (c CHAR(1), d CHAR(1), e CHAR(1))
+sql CREATE TABLE pn1 (xx CHAR(1))
+sql CREATE TABLE pi1 (c INTEGER)
+sql CREATE TABLE pm1 (c MEMO)
+disconnect
+ddcreate 0 %D\y3\q.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'otherpw1')
+dbset 106 1
+stmttype 2
+sql CREATE TABLE qa1 (c CHAR(1))
+sql CREATE TABLE qa2 (c CHAR(2))
+sql CREATE TABLE qa3 (c CHAR(3))
+sql CREATE TABLE qb1 (c CHAR(1), d CHAR(1))
+sql CREATE TABLE qb2 (c CHAR(1), d CHAR(1), e CHAR(1))
+sql CREATE TABLE qn1 (xx CHAR(1))
+sql CREATE TABLE qi1 (c INTEGER)
+sql CREATE TABLE qm1 (c MEMO)
+disconnect

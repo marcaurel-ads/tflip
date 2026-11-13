@@ -1,0 +1,24 @@
+# Full-text orders on the tables of a plain dictionary, z: what the dictionary records of each (its Key object: the words' lengths, the delimiters, the noise words, which spill into the memo file), for each option, and a table with one dropped.
+connect Data Source=%D\;ServerType=LOCAL;
+sql CREATE DATABASE "z\z.add"
+disconnect
+connect Data Source=%D\z\z.add;ServerType=LOCAL;User ID=ADSSYS;
+sql CREATE TABLE o (id INTEGER, body MEMO, c CHAR(40))
+sql INSERT INTO o VALUES (1, 'the quick brown fox', 'jumps over')
+sql CREATE INDEX o_fts ON o (body) CONTENT
+sql CREATE INDEX o_c ON o (c) CONTENT
+sql CREATE INDEX o_min ON o (body) CONTENT MIN WORD 1 MAX WORD 5
+sql CREATE INDEX o_case ON o (body) CONTENT CASESENSITIVE
+sql CREATE INDEX o_score ON o (body) CONTENT KEEPSCORE
+sql CREATE INDEX o_fixed ON o (body) CONTENT NOTMAINTAINED
+sql CREATE INDEX o_delim ON o (body) CONTENT DELIMITERS ',.' PROTECTNUMBERS
+sql CREATE INDEX o_noise ON o (body) CONTENT NOISE 'quick brown'
+sql CREATE INDEX o_drop ON o (body) CONTENT DROPCHARS 'z' NEW CONDITIONALS '.'
+sql CREATE INDEX o_all ON o (body) CONTENT MIN WORD 2 MAX WORD 12 CASESENSITIVE KEEPSCORE
+sql CREATE INDEX o_id ON o (id)
+sql DROP INDEX o.o_min
+sql DROP INDEX o.o_fts
+sql CREATE TABLE o2 (id INTEGER, body MEMO)
+sql CREATE INDEX o2_fts ON o2 (body) CONTENT
+sql DROP TABLE o2
+disconnect

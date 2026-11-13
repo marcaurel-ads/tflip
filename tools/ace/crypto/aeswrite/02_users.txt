@@ -1,0 +1,16 @@
+# A user with a description, a group, the user in it. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+sql EXECUTE PROCEDURE sp_CreateGroup('g1', 'a group')
+sql EXECUTE PROCEDURE sp_AddUserToGroup('u1', 'g1')
+disconnect

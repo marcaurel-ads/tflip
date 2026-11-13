@@ -1,0 +1,10 @@
+# Built on the records, then rebuilt with another order before it.
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('big', 'big', 'del', 'DELETED()', NULL, 4098, 512, NULL)
+open big.adt exclusive
+order del
+count
+createindex - x 2 512 x
+reindex
+order del
+count
+close

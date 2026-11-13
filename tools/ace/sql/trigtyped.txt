@@ -1,0 +1,20 @@
+# Script variables of a trigger body that are typed (CHAR(n) padded, DATE,
+# NUMERIC with its scale) where a DML statement of the body reads them, on a
+# copy of the psm dictionary (fixtures/adt/psm) alone, whose own triggers it
+# drops first:
+#
+#     run.sh <work> <ace32.dll> trigtyped.txt > ../../../fixtures/sql/trigtyped.json
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE TRIGGER tt1 ON items AFTER INSERT BEGIN DECLARE c CHAR(10); DECLARE d DATE; DECLARE n NUMERIC(8,2); DECLARE v VARCHAR(10); DECLARE x DOUBLE; DECLARE m MONEY; DECLARE u CHAR(5); c = 'ab'; d = CAST('2020-03-04' AS SQL_DATE); n = 1.5; v = 'xy'; x = 1.5; m = 2.5; INSERT INTO audit (msg) VALUES ('c=' + c + '|'); INSERT INTO audit (msg) VALUES ('d=' + CAST(d AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('n=' + CAST(n AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('v=' + v + '|'); INSERT INTO audit (msg) VALUES ('l=' + CAST(LENGTH(c) AS SQL_CHAR)); INSERT INTO audit (msg) SELECT 'w' FROM system.iota WHERE c = 'ab'; INSERT INTO audit (msg) VALUES ('n4=' + CAST(n / 4 AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('x=' + CAST(x AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('x4=' + CAST(x / 4 AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('m=' + CAST(m AS SQL_CHAR)); INSERT INTO audit (msg) VALUES ('u=' + IFNULL(u, 'null') + '|'); INSERT INTO audit (msg) VALUES ('uv=' + IFNULL(CAST(LENGTH(u) AS SQL_CHAR), 'nl')); INSERT INTO audit (msg) VALUES ('ct=' + CAST(c AS SQL_CHAR(12)) + '|'); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT TRIM(msg) FROM audit ORDER BY seq
+direct DROP TRIGGER items.tt1

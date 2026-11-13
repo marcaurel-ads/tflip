@@ -1,0 +1,3 @@
+2 resrc.c:1919 C:\ads\data\bk\s59b_diff_newtable\img\x_new.adt | 
+7041 dbf.c:20452 C:\ads\data\bk\s59b_diff_newtable\img\x_new.adt | 
+7041 dbf.c:4361 C:\ads\data\bk\s59b_diff_newtable\img\x_new.adt | 

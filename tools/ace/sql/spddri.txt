@@ -1,0 +1,134 @@
+# sp_CreateReferentialIntegrity and sp_DropReferentialIntegrity on a dictionary
+# connection in an empty folder (the dictionary, de/de.add, is kept in
+# fixtures/sql/spddri/): the rules, the order of what they refuse, a user who
+# is not the administrator, and what the rules do to the rows. The rows that
+# are there already, which the original checks against a new rule, are
+# spddri2.txt's.
+#
+#     run.sh <work> <ace32.dll> spddri.txt > ../../../fixtures/sql/spddri.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddri/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE parent (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE TABLE child (cid INTEGER, pid INTEGER, tag CHAR(10))
+direct CREATE TABLE nokey (id INTEGER, code CHAR(10))
+direct CREATE TABLE fails (a INTEGER)
+direct CREATE TABLE c1 (id INTEGER, pid INTEGER)
+direct CREATE TABLE c2 (id INTEGER, pid INTEGER)
+direct CREATE TABLE c3 (id INTEGER, pid INTEGER)
+direct CREATE TABLE c4 (id INTEGER, pid INTEGER)
+direct CREATE INDEX pid ON child (pid)
+direct CREATE INDEX tag ON child (tag)
+direct CREATE UNIQUE INDEX code ON parent (code)
+direct CREATE INDEX cid ON child (cid)
+direct CREATE INDEX pid ON c1 (pid)
+direct CREATE INDEX pid ON c2 (pid)
+direct CREATE INDEX pid ON c3 (pid)
+direct CREATE INDEX pid ON c4 (pid)
+direct INSERT INTO parent VALUES (1, 'one')
+direct INSERT INTO parent VALUES (2, 'two')
+direct INSERT INTO parent VALUES (3, 'three')
+direct INSERT INTO child VALUES (10, 1, 'a')
+direct INSERT INTO child VALUES (11, 2, 'b')
+#
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 2, 2, '', 'No parent for that key', 'Children exist')
+query SELECT * FROM system.relations
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('RI1', 'parent', 'child', 'pid', 2, 2, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri2', 'parent', 'c1', 'pid', 1, 1, 'fails', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri3', 'parent', 'c2', 'pid', 3, 4, NULL, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri4', 'parent', 'c3', 'pid', 4, 3, '', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri5', 'parent', 'c4', 'pid', 2, 1, '', '', '')
+query SELECT * FROM system.relations
+#
+# What a rule is refused for, and which refusal comes first.
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nope', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nokey', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'nope', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', '', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', NULL, 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, 0, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 5, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, 5, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', -1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', NULL, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, NULL, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'tag', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'parent', 'code', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'child', 'parent', 'code', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity(NULL, 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'nope', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'nokey', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'parent', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'parent', 'child', 'nope', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'parent', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'parent', 'child', 'tag', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'nope', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'nope', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 'parent', 'child', 'tag', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nope', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nokey', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nope', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'nokey', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'nope', 'nope', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'nope', 'nope', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'tag', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, 1, 'nope', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 'x', 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, 1)
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('riX', 'parent', 'child', 'pid', 1, 1, '', '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity()
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri6', 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri7', 'parent', 'child', 'pid', 1, 1, 'nope', '', '')
+query SELECT * FROM system.relations
+query SELECT * FROM system.indexes
+#
+# What a rule does with the rows.
+direct INSERT INTO child VALUES (13, 9, 'z')
+direct UPDATE child SET pid = 7 WHERE cid = 10
+direct DELETE FROM parent WHERE id = 1
+direct UPDATE parent SET id = 5 WHERE id = 2
+direct INSERT INTO c1 VALUES (1, 9)
+direct INSERT INTO c4 VALUES (1, 3)
+direct UPDATE c4 SET pid = 8 WHERE id = 1
+direct DELETE FROM parent WHERE id = 3
+#
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri1')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri1')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('RI6')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('nope')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity(NULL)
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity()
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('a', 'b')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity(1)
+query SELECT * FROM system.relations
+#
+# A user who is not the administrator.
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'parent', 'child', 'nope', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('', 'nope', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'nokey', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'parent', 'child', 'pid', 0, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'parent', 'nope', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri8', 'parent', 'child', 'tag', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('ri5')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('nope')
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('f1', 'parent', 'child', 'pid', 1, 1, '', '', '')
+direct EXECUTE PROCEDURE sp_DropReferentialIntegrity('f1')

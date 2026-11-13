@@ -1,0 +1,25 @@
+# Copies of an armed free VFP table on an AES-128 connection, of an armed free VFP table on an RC4 connection, and of a free ADT table on an AES connection.
+connect Data Source=%D\v14\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+createt 4 %D\v14\fa
+createt 3 %D\v14\fadt
+stmttype 4
+sql INSERT INTO fa VALUES (1, 'one')
+sql INSERT INTO fa VALUES (2, 'two')
+encpw %D\v14\fa secret
+stmttype 3
+sql INSERT INTO fadt VALUES (1, 'one')
+sql INSERT INTO fadt VALUES (2, 'two')
+encpw %D\v14\fadt secret
+stmttype 4
+copy %D\v14\fa %D\v14\cpa
+stmttype 3
+copy %D\v14\fadt %D\v14\cpadt
+disconnect
+connect Data Source=%D\v14\;ServerType=LOCAL;
+createt 4 %D\v14\fr
+stmttype 4
+sql INSERT INTO fr VALUES (1, 'one')
+sql INSERT INTO fr VALUES (2, 'two')
+encpw %D\v14\fr secret
+copy %D\v14\fr %D\v14\cpr
+disconnect

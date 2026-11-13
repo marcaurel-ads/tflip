@@ -1,0 +1,38 @@
+# AOFs under the static collation ANSI_CHAR_SET=German (the engine's
+# adslocal.cfg), with orders on the text and others, in ADT and FoxPro
+# tables, and the same tables without orders.
+sql CREATE TABLE g (id INTEGER, name CHAR(10), ci CICHAR(10))
+sql CREATE INDEX name ON g (name)
+sql CREATE INDEX ci ON g (ci)
+sql CREATE INDEX id ON g (id)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('g', 'g', 'upname', 'UPPER(name)', NULL, 2, 512, NULL)
+sql INSERT INTO g VALUES (1, 'apfel', 'apfel')
+sql INSERT INTO g VALUES (2, 'Apfel', 'Apfel')
+sql INSERT INTO g VALUES (3, 'Äpfel', 'Äpfel')
+sql INSERT INTO g VALUES (4, 'Birne', 'Birne')
+sql INSERT INTO g VALUES (5, 'ss', 'ss')
+sql INSERT INTO g VALUES (6, 'ß', 'ß')
+sql INSERT INTO g VALUES (7, 'äpfel', 'äpfel')
+sql INSERT INTO g VALUES (8, NULL, NULL)
+sql INSERT INTO g VALUES (9, 'zebra', 'Zebra')
+sql INSERT INTO g VALUES (10, '', '')
+sql CREATE TABLE h (id INTEGER, name CHAR(10), ci CICHAR(10))
+sql INSERT INTO h SELECT * FROM g
+tabletype cdx
+sql CREATE TABLE c (id INTEGER, name CHAR(10), amount NUMERIC(6, 2), born DATE)
+sql CREATE INDEX name ON c (name)
+sql CREATE INDEX id ON c (id)
+sql CREATE INDEX amount ON c (amount)
+sql CREATE INDEX born ON c (born)
+sql EXECUTE PROCEDURE sp_CreateIndex90 ('c', 'c', 'upname', 'UPPER(name)', NULL, 2, 0, NULL)
+sql INSERT INTO c VALUES (1, 'apfel', 1.5, '1990-01-05')
+sql INSERT INTO c VALUES (2, 'Apfel', -2, '1985-03-01')
+sql INSERT INTO c VALUES (3, 'Äpfel', 0, '2000-02-02')
+sql INSERT INTO c VALUES (4, 'Birne', 10, NULL)
+sql INSERT INTO c VALUES (5, 'ss', 2.25, '1990-12-31')
+sql INSERT INTO c VALUES (6, 'ß', -0.5, '1970-01-01')
+sql INSERT INTO c VALUES (7, 'äpfel', 3, '1991-01-01')
+sql INSERT INTO c VALUES (8, '', 4, '1992-01-01')
+sql INSERT INTO c VALUES (9, 'zebra', 5, '1993-01-01')
+sql CREATE TABLE d (id INTEGER, name CHAR(10), amount NUMERIC(6, 2), born DATE)
+sql INSERT INTO d SELECT * FROM c

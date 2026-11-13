@@ -1,0 +1,23 @@
+free 0
+sql 0 CREATE DATABASE "src\d.add"
+connect 1 src\d.add
+ttype 3
+sql 1 CREATE TABLE x_one (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_one VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_one VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_one VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_one VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_one VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 CREATE TABLE x_two (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_two VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_two VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_two VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_two VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_two VALUES (5, 'n5', 'memo 5', NULL)
+sql 1 CREATE TABLE x_ctl (id INTEGER, name CHAR(10), note MEMO, bin BLOB)
+sql 1 INSERT INTO x_ctl VALUES (1, 'n1', 'memo 1', NULL)
+sql 1 INSERT INTO x_ctl VALUES (2, 'n2', 'memo 2', NULL)
+sql 1 INSERT INTO x_ctl VALUES (3, 'n3', 'memo 3', NULL)
+sql 1 INSERT INTO x_ctl VALUES (4, 'n4', 'memo 4', NULL)
+sql 1 INSERT INTO x_ctl VALUES (5, 'n5', 'memo 5', NULL)
+ttype 0

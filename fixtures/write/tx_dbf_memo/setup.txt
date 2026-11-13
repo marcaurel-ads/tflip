@@ -1,0 +1,15 @@
+tabletype cdx
+sql CREATE TABLE c (id integer, m memo)
+sql INSERT INTO c VALUES (1, 'memo one')
+sql INSERT INTO c (id) VALUES (2)
+sql INSERT INTO c (id) VALUES (3)
+tabletype ntx
+sql CREATE TABLE n (id integer, m memo)
+sql INSERT INTO n VALUES (1, 'memo one')
+sql INSERT INTO n (id) VALUES (2)
+sql INSERT INTO n (id) VALUES (3)
+tabletype vfp
+sql CREATE TABLE v (id integer, m memo)
+sql INSERT INTO v VALUES (1, 'memo one')
+sql INSERT INTO v (id) VALUES (2)
+sql INSERT INTO v (id) VALUES (3)

@@ -1,0 +1,14 @@
+# Add a field, rename and drop fields, change types of indexed fields.
+restructure a.adt 0 extra,Char,4||
+open a.adt
+order a_fts
+top
+record
+close
+restructure b.adt 0 ||body,text,Char,40
+restructure c.adt 0 |title|
+restructure d.adt 0 |body|
+restructure e.adt 0 ||id,id,Double,2
+restructure f.adt 0 ||m,m,Memo,10
+restructure g.adt 0 extra,Char,4|title|
+restructure h.adt 0 ||body,body,Char,50

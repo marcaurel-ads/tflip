@@ -1,0 +1,31 @@
+# The memo blocks of the comments of publications and subscriptions as they
+# are made, set, longer and shorter, and freed by deleting a subscription,
+# in a dictionary small enough for its index (de.ai) to be compared (the
+# dictionary, de/de.add, is kept in fixtures/sql/ddrepl2/):
+#
+#     run.sh <work> <ace32.dll> ddrepl2.txt > ../../../fixtures/sql/ddrepl2.json
+#     cp <work>/data/de/* ../../../fixtures/sql/ddrepl2/
+ddcreate de\de.add
+stmt
+ddpub pa first~comment 0
+ddpub pb - 0
+ddpub pc a~comment~of~some~length~that~spans~more~than~one~block~of~the~dictionary~memo~file~when~it~is~stored~there~as~the~original~does~it~and~then~some~more~text~to~make~it~longer~still~and~longer~and~longer~and~longer~and~longer~and~longer~and~longer~and~longer~and~longer 0
+ddsub sa pa target1 usr pw q1.adt 0 a~sub 0
+ddsub sb pa target2 usr pw q2.adt 0 - 0
+ddsub sc pb target3 usr pw q3.adt 1 third~sub~comment 0
+ddpubcomment pb a~comment~for~the~second~publication
+ddpubcomment pa short
+ddpubcomment pc c
+ddsubcomment sa a~new~comment~for~the~first~subscription~that~is~longer~than~the~one~it~had~before~it
+ddsubcomment sb now~it~has~one
+ddsubcomment sc -
+dddelsub sa
+ddpubcomment pb a~second~comment~for~the~second~publication~that~is~longer~than~the~first~one~was~by~far~as~the~memo~blocks~are~reused
+ddsub sd pc target4 usr pw q4.adt 0 fourth 0
+dddelsub sc
+dddelsub sb
+ddpubcomment pa -
+dddelpub pb
+ddpub pe fifth~comment 0
+dddelsub sd
+dddelpub pc

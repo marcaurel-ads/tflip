@@ -1,0 +1,30 @@
+# DBF tables made and added in an AES dictionary with ENCRYPT_NEW_TABLE on: which types it takes (CDX and NTX do not support strong encryption) and what it leaves behind.
+connect Data Source=%D\y5\free;ServerType=LOCAL;
+createt 2 %D\y5\free\fcdx
+createt 1 %D\y5\free\fntx
+createt 4 %D\y5\free\fvfp
+disconnect
+connect Data Source=%D\y5\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\y5\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+addtablet 2 acdx %D\y5\free\fcdx.dbf
+addtablet 1 antx %D\y5\free\fntx.dbf
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+addtablet 2 bcdx %D\y5\free\fcdx.dbf
+addtablet 1 bntx %D\y5\free\fntx.dbf
+createt 2 ccdx
+createt 1 cntx
+stmttype 2
+sql CREATE TABLE scdx (id INTEGER)
+stmttype 1
+sql CREATE TABLE sntx (id INTEGER)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'FALSE')
+createt 2 ccdx
+createt 1 cntx
+createt 4 cvfp
+addtablet 4 avfp %D\y5\free\fvfp.dbf
+tget ccdx 214
+tget cvfp 214
+tget avfp 214
+disconnect

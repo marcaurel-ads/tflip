@@ -1,0 +1,4 @@
+{
+ "82": {"fields": ["value"], "why": "the original's handle that is on a record does not read it again (KNOWN_ISSUES.md, Other handles see changes at once)"},
+ "86": {"fields": ["value"], "why": "the same"}
+}

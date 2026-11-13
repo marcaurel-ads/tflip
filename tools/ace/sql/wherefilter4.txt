@@ -1,0 +1,52 @@
+# Which WHERE constructs make a one-table SELECT a static cursor (a tim_ file
+# in the cursor's name) rather than the table itself, for
+# fixtures/sql/wherefilter4.json.
+stmt
+direct CREATE TABLE t (n integer, x integer, s char(10), m memo)
+directnull INSERT INTO t (n, x, s) VALUES (0, 10, 'abc')
+directnull INSERT INTO t (n, x, s) VALUES (2, 10, 'abd')
+directnull INSERT INTO t (n, x, s) VALUES (5, 10, 'xyz')
+query SELECT n FROM t WHERE n > 0
+query SELECT n FROM t WHERE CASE WHEN n > 1 THEN 1 ELSE 0 END = 1
+query SELECT n FROM t WHERE CASE n WHEN 2 THEN 1 ELSE 0 END = 1
+query SELECT n FROM t WHERE s || 'x' = 'abdx'
+query SELECT n FROM t WHERE CAST(n AS SQL_CHAR) = '2'
+query SELECT n FROM t WHERE CONVERT(n, SQL_CHAR) = '2'
+query SELECT n FROM t WHERE EXISTS (SELECT 1 FROM t t2 WHERE t2.n = 2)
+query SELECT n FROM t WHERE n IN (SELECT n FROM t t2)
+query SELECT n FROM t WHERE n > (SELECT MIN(n) FROM t t2)
+query SELECT n FROM t WHERE m IS NULL
+query SELECT n FROM t WHERE TRIM(s) = 'abd'
+query SELECT n FROM t WHERE LTRIM(s) = 'abd'
+query SELECT n FROM t WHERE ROWNUM() > 0
+query SELECT n FROM t WHERE TIMESTAMPADD(SQL_TSI_DAY, 1, NOW()) > NOW()
+query SELECT n FROM t WHERE MOD(n, 2) = 0
+query SELECT n FROM t WHERE SQRT(n) > 1
+query SELECT n FROM t WHERE REPLACE(s, 'a', 'b') = 'bbd'
+query SELECT n FROM t WHERE LEFT(s, 2) = 'ab'
+query SELECT n FROM t WHERE UPPER(s) = 'ABD'
+query SELECT n FROM t WHERE ABS(n) > 1
+query SELECT n FROM t WHERE IFNULL(n, 1) > 1
+query SELECT n FROM t WHERE COALESCE(n, 1) > 1
+query SELECT n FROM t WHERE IIF(n > 1, 1, 0) = 1
+query SELECT n FROM t WHERE LENGTH(s) = 3
+query SELECT n FROM t WHERE POSITION('b' IN s) = 2
+query SELECT n FROM t WHERE SUBSTRING(s, 1, 2) = 'ab'
+query SELECT n FROM t WHERE n IN (2, 5)
+query SELECT n FROM t WHERE n BETWEEN 1 AND 3
+query SELECT n FROM t WHERE NOT (n = 2)
+query SELECT n FROM t WHERE n = 2 OR s = 'xyz'
+query SELECT n FROM t WHERE x / n > 1 OR n = 0
+query SELECT n FROM t WHERE CHAR(65) = 'A'
+query SELECT n FROM t WHERE CURDATE() > '2000-01-01'
+query SELECT n FROM t WHERE ISNULL(n, 0) > 1
+query SELECT n FROM t WHERE POWER(n, 2) > 1
+query SELECT n FROM t WHERE n % 2 = 0
+query SELECT n FROM t WHERE STRTODATE('2000-01-01', 'YYYY-MM-DD') > CURDATE()
+query SELECT n FROM t WHERE CONCAT(s, 'x') = 'abdx'
+query SELECT n FROM t WHERE LCASE(s) = 'abd'
+query SELECT n FROM t WHERE RIGHT(s, 1) = 'd'
+query SELECT n FROM t WHERE REPEAT(s, 2) = 'abdabd'
+query SELECT n FROM t WHERE LOCATE('b', s) = 2
+query SELECT n FROM t WHERE YEAR(NOW()) > 2000
+query SELECT n FROM t WHERE ASCII(s) = 97

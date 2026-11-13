@@ -1,0 +1,21 @@
+# Makes the dictionary of ddpublicbad.txt and ddpublicbad2.txt, before a byte
+# of the rights slot for DB:Public of the table t1 (or the view v1) is flipped
+# with crates/tflip-storage/examples/pubslot.rs:
+#
+#     run.sh <work> <ace32.dll> ddpublicbad_make.txt > /dev/null
+#     cp <work>/data/pb.add ... <work>/data/t*.adt <folder>; pubslot <folder>/pb.add table t1 0
+ddcreate pb.add
+stmt
+direct CREATE TABLE t1 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id CHAR(4), name CHAR(10)) IN DATABASE
+direct INSERT INTO t1 VALUES ('1', 'one')
+direct INSERT INTO t2 VALUES ('1', 'uno')
+direct CREATE VIEW v1 AS SELECT id FROM t2
+direct EXECUTE PROCEDURE sp_CreateUser('bob', 'bobpw', '')
+direct GRANT SELECT ON t1 TO "DB:Public"
+direct GRANT SELECT ON v1 TO "DB:Public"
+direct CREATE FUNCTION f1 (a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+direct GRANT EXECUTE ON f1 TO "DB:Public"
+direct GRANT SELECT ON t2 TO bob
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+disconnect

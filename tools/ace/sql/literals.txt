@@ -1,0 +1,367 @@
+# Literals and functions the help documents: TIME and DATE literals, a T in a
+# timestamp, a text assigned to a timestamp, GUID literals, CURRENT_TIMESTAMP(n),
+# AVG of integers, unary plus, a subquery's unqualified column, a memo in
+# DISTINCT, GROUP BY and ORDER BY, ORDER BY of a UNION, and RIGHT JOIN of a
+# system table or a subquery. (INLIST is not an SQL function, but the
+# expression engine's: its cases are in ../expr/cases.txt.) Run in an empty
+# data folder:
+#
+#     run.sh <work> <ace32.dll> literals.txt > ../../../fixtures/sql/literals.json
+stmt
+## TIME and DATE literals
+expr TIME'9:00 am'
+expr TIME'09:00 am'
+expr TIME'09:00 AM'
+expr TIME'9:00:00 am'
+expr TIME'09:00:00 am'
+expr TIME'09:15:30 PM'
+expr TIME'9:00:00'
+expr TIME'9:00'
+expr TIME'09:00'
+expr TIME'00:00:00'
+expr TIME'12:00 am'
+expr TIME'12:30 pm'
+expr TIME'12:00:00 pm'
+expr TIME'24:00:00'
+expr TIME'23:59:59'
+expr TIME'09:15:30'
+expr TIME'9:15:30.123'
+expr TIME'10:11:12.345'
+expr TIME'10:11:12.3'
+expr TIME'10:11 pm'
+expr TIME'10.11.12'
+expr TIME' 10:11:12'
+expr TIME'10:11:12 '
+expr TIME'13:00 pm'
+expr TIME'25:00:00'
+expr TIME'9'
+expr TIME''
+expr TIME'abc'
+expr {t '9:00 am'}
+expr {t '09:00 am'}
+expr {t '10:11:12'}
+expr CAST('09:15:30 PM' AS SQL_TIME)
+expr CAST('9:15 pm' AS SQL_TIME)
+expr CAST('9:15:30' AS SQL_TIME)
+expr DATE'2012-12-31'
+expr DATE'12/31/2012'
+expr DATE'2012/12/31'
+expr DATE'12-31-2012'
+expr DATE'2012-1-5'
+expr DATE'1/5/2012'
+expr DATE'1/5/12'
+expr DATE'12/31/12'
+expr DATE'2012-12-3'
+expr DATE'20121231'
+expr DATE'2012-12-31 10:00:00'
+expr DATE'2012-12-31T10:11:12'
+expr DATE'12/31/2012T10:11:12'
+expr DATE'2012-13-01'
+expr DATE'abc'
+expr DATE''
+expr DATE '2012-12-31'
+expr {d '2012-12-31'}
+## TIMESTAMP literals, and a T between the date and the time
+expr TIMESTAMP'2012-12-31 10:11:12'
+expr TIMESTAMP'2012-12-31T10:11:12'
+expr TIMESTAMP'2012-12-31T10:11:12.345'
+expr TIMESTAMP'2012-12-31 10:11:12.345'
+expr TIMESTAMP'2012-12-31 10:11 pm'
+expr TIMESTAMP'2012-12-31 10:11:12 AM'
+expr TIMESTAMP'2012-12-31 10:11:12 PM'
+expr TIMESTAMP'2012-12-31'
+expr TIMESTAMP'12/31/2012 10:11:12'
+expr TIMESTAMP'12/31/2012'
+expr TIMESTAMP'1/5/2012 1:02:03'
+expr TIMESTAMP'1/5/2012 01:02:03 pm'
+expr TIMESTAMP'abc'
+expr TIMESTAMP'2012-12-31t10:11:12'
+expr TIMESTAMP'2012-12-31  10:11:12'
+expr TIMESTAMP'2012-12-31T 10:11:12'
+expr TIMESTAMP'2012-12-31T10:11'
+expr TIMESTAMP'2012-12-31T10:11 pm'
+expr TIMESTAMP'2012-12-31T10:11:12 PM'
+expr TIMESTAMP'2012-12-31T22:11:12Z'
+expr TIMESTAMP'2012-12-31T22:11:12+01:00'
+expr TIMESTAMP'12/31/2012T10:11:12'
+expr {ts '2012-12-31 10:11:12'}
+expr {ts '2012-12-31T10:11:12'}
+expr CAST('12/31/2012' AS SQL_TIMESTAMP)
+expr CAST('2012-12-31' AS SQL_TIMESTAMP)
+expr CAST('2012-12-31T10:11:12' AS SQL_TIMESTAMP)
+expr CAST('10:11:12' AS SQL_TIMESTAMP)
+expr CAST(TIMESTAMP'2012-12-31T10:11:12.345' AS SQL_CHAR)
+expr CAST(TIMESTAMP'2012-12-31 10:11:12.345' AS SQL_CHAR)
+expr CAST(TIMESTAMP'2012-12-31T10:11:12.5' AS SQL_CHAR)
+expr CAST(TIME'10:11:12.345' AS SQL_CHAR)
+expr TIMESTAMPDIFF(SQL_TSI_FRAC_SECOND, TIMESTAMP'2012-12-31 10:11:12', TIMESTAMP'2012-12-31T10:11:12.345')
+expr TIMESTAMPDIFF(SQL_TSI_FRAC_SECOND, TIMESTAMP'2012-12-31 10:11:12', TIMESTAMP'2012-12-31 10:11:12.345')
+## A text into and against a timestamp
+direct CREATE TABLE ts (id integer, t timestamp, d date, tm time)
+directnull INSERT INTO ts (id, t) VALUES (1, '12/31/2012')
+directnull INSERT INTO ts (id, t) VALUES (2, '2012-12-31')
+directnull INSERT INTO ts (id, t) VALUES (3, '2012-12-31T10:11:12')
+directnull INSERT INTO ts (id, t) VALUES (4, '12/31/2012 10:11:12')
+directnull INSERT INTO ts (id, t) VALUES (5, '2012-12-31 10:11:12')
+directnull INSERT INTO ts (id, d) VALUES (6, '2012-12-31T10:11:12')
+directnull INSERT INTO ts (id, tm) VALUES (7, '9:00 am')
+directnull INSERT INTO ts (id, tm) VALUES (8, '09:00 pm')
+directnull INSERT INTO ts (id, tm) VALUES (9, '2012-12-31 10:11:12')
+directnull INSERT INTO ts (id, t) VALUES (10, 'garbage')
+directnull INSERT INTO ts (id, t) VALUES (11, DATE'2012-12-31')
+directnull INSERT INTO ts (id, d) VALUES (12, TIMESTAMP'2012-12-31 10:11:12')
+directnull INSERT INTO ts (id, d) VALUES (13, '2012-12-31 10:11:12')
+query SELECT * FROM ts ORDER BY id
+query SELECT id FROM ts WHERE t = '12/31/2012'
+query SELECT id FROM ts WHERE t = '2012-12-31'
+query SELECT id FROM ts WHERE t > '12/31/2012 00:00:00'
+query SELECT id FROM ts WHERE t = '2012-12-31T10:11:12'
+query SELECT id FROM ts WHERE t = DATE'2012-12-31'
+query SELECT id FROM ts WHERE tm = '9:00 am'
+query SELECT id FROM ts WHERE tm = TIME'9:00 am'
+query SELECT id FROM ts WHERE d = '2012-12-31 10:11:12'
+directnull UPDATE ts SET t = '1/2/2013' WHERE id = 3
+query SELECT t FROM ts WHERE id = 3
+## GUID literals
+expr CAST('{6F9619FF-8B86-D011-B42D-00C04FC964FF}' AS SQL_GUID)
+expr CAST('6F9619FF-8B86-D011-B42D-00C04FC964FF' AS SQL_GUID)
+expr CAST('6F9619FF8B86D011B42D00C04FC964FF' AS SQL_GUID)
+expr CAST('{6F9619FF-8B86-D011-B42D-00C04FC964FF' AS SQL_GUID)
+expr CAST('xyz' AS SQL_GUID)
+expr CAST('' AS SQL_GUID)
+expr CAST('6F9619FF-8B86-D011-B42D-00C04FC964' AS SQL_GUID)
+expr GUID'6F9619FF-8B86-D011-B42D-00C04FC964FF'
+expr {guid '6F9619FF-8B86-D011-B42D-00C04FC964FF'}
+expr {guid '{6F9619FF-8B86-D011-B42D-00C04FC964FF}'}
+direct CREATE TABLE g (id integer, g guid)
+directnull INSERT INTO g VALUES (1, '{6F9619FF-8B86-D011-B42D-00C04FC964FF}')
+directnull INSERT INTO g VALUES (2, '6F9619FF-8B86-D011-B42D-00C04FC964FF')
+directnull INSERT INTO g VALUES (3, '6f9619ff-8b86-d011-b42d-00c04fc964ff')
+directnull INSERT INTO g VALUES (4, 'nope')
+directnull INSERT INTO g VALUES (5, '{6F9619FF-8B86-D011-B42D-00C04FC964FF')
+directnull INSERT INTO g VALUES (6, '6F9619FF8B86D011B42D00C04FC964FF')
+directnull INSERT INTO g VALUES (7, '')
+directnull INSERT INTO g VALUES (8, ' 6F9619FF-8B86-D011-B42D-00C04FC964FF')
+directnull INSERT INTO g VALUES (9, '6F9619FF-8B86-D011-B42D-00C04FC964FF}')
+query SELECT * FROM g ORDER BY id
+query SELECT id FROM g WHERE g = '{6F9619FF-8B86-D011-B42D-00C04FC964FF}'
+query SELECT id FROM g WHERE g = '6F9619FF-8B86-D011-B42D-00C04FC964FF'
+query SELECT id FROM g WHERE g = '6f9619ff-8b86-d011-b42d-00c04fc964ff'
+query SELECT id FROM g WHERE g = 'nope'
+query SELECT id FROM g WHERE g IN ('{6F9619FF-8B86-D011-B42D-00C04FC964FF}')
+query SELECT id FROM g WHERE g > '{00000000-0000-0000-0000-000000000000}'
+## CURRENT_TIMESTAMP(n), recorded by type and length
+expr CURRENT_TIMESTAMP
+expr CURRENT_TIMESTAMP()
+expr CURRENT_TIMESTAMP(0)
+expr CURRENT_TIMESTAMP(1)
+expr CURRENT_TIMESTAMP(3)
+expr CURRENT_TIMESTAMP(4)
+expr CURRENT_TIMESTAMP(6)
+expr CURRENT_TIMESTAMP(-1)
+expr CURRENT_TIMESTAMP('a')
+expr CURRENT_TIMESTAMP(1.5)
+expr CURRENT_TIMESTAMP(NULL)
+expr CURRENT_TIMESTAMP(1, 2)
+expr CURRENT_TIME(3)
+expr CURRENT_TIME(4)
+expr CURRENT_DATE(3)
+expr NOW(3)
+expr LENGTH(CAST(CURRENT_TIMESTAMP(0) AS SQL_CHAR))
+expr LENGTH(CAST(CURRENT_TIMESTAMP(3) AS SQL_CHAR))
+expr LENGTH(CAST(CURRENT_TIMESTAMP() AS SQL_CHAR))
+expr TIMESTAMPDIFF(SQL_TSI_FRAC_SECOND, CURRENT_TIMESTAMP(0), CURRENT_TIMESTAMP(0)) >= 0
+## Tables for the rest
+direct CREATE TABLE n (a integer, s shortint, l longint, m money, d double, c char(4), b logical)
+directnull INSERT INTO n VALUES (1, 1, 1, 1, 1, 'a', TRUE)
+directnull INSERT INTO n VALUES (2, 2, 2, 2, 2, 'b', FALSE)
+directnull INSERT INTO n VALUES (4, 4, 4, 4, 4, 'a', TRUE)
+directnull INSERT INTO n VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+directnull CREATE TABLE o (id integer, note memo, bin binary, c char(4))
+directnull INSERT INTO o VALUES (1, 'alpha', CAST('x' AS SQL_BINARY), 'a')
+directnull INSERT INTO o VALUES (2, 'beta', CAST('y' AS SQL_BINARY), 'a')
+directnull INSERT INTO o VALUES (3, 'alpha', CAST('x' AS SQL_BINARY), 'b')
+directnull INSERT INTO o VALUES (4, NULL, NULL, 'b')
+directnull INSERT INTO o VALUES (5, 'Alpha', CAST('X' AS SQL_BINARY), 'b')
+directnull CREATE TABLE p (id integer, pv integer, c char(4))
+directnull INSERT INTO p VALUES (1, 10, 'z')
+directnull INSERT INTO p VALUES (2, 20, 'a')
+directnull INSERT INTO p VALUES (7, 70, 'z')
+## AVG of integers
+query SELECT AVG(a), AVG(s), AVG(l), AVG(m), AVG(d) FROM n
+query SELECT SUM(a), SUM(s), SUM(l), SUM(m), SUM(d) FROM n
+query SELECT AVG(a) FROM n WHERE a > 100
+query SELECT AVG(a) * 1 FROM n
+query SELECT AVG(CAST(a AS SQL_DOUBLE)) FROM n
+query SELECT AVG(a) FROM n GROUP BY c
+query SELECT AVG(a) + 0.5 FROM n
+query SELECT c, AVG(a) FROM n GROUP BY c
+query SELECT AVG(DISTINCT a) FROM n
+## Unary plus
+query SELECT +COUNT(*) FROM n
+query SELECT +SUM(a) FROM n
+query SELECT -SUM(a) FROM n
+query SELECT +AVG(a), +MAX(c), +MIN(m) FROM n
+query SELECT +AVG(a) FROM n
+query SELECT +MAX(c) FROM n
+query SELECT +MIN(m) FROM n
+query SELECT +MAX(b) FROM n
+query SELECT +SUM(d) FROM n
+query SELECT c, +COUNT(*) FROM n GROUP BY c
+query SELECT +c FROM n
+query SELECT +b FROM n
+expr +'x'
+expr +1
+expr +NULL
+expr +DATE'2012-12-31'
+## An unqualified column of the outer table in a subquery
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE pv > 0)
+query SELECT id FROM p WHERE pv IN (SELECT pv FROM n)
+query SELECT id, (SELECT pv FROM n WHERE a = 1) FROM p
+query SELECT id FROM p WHERE (SELECT COUNT(*) FROM n WHERE a < pv) > 2
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE a = id)
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE nosuch = 1)
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE n.a = p.id)
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE c = 'a' AND id > 0)
+query SELECT id FROM p WHERE EXISTS (SELECT 1 FROM n WHERE a = pv / 10)
+query SELECT id FROM p WHERE id IN (SELECT a FROM n WHERE a < pv)
+query SELECT id FROM p WHERE id IN (SELECT pv FROM n)
+query SELECT id, (SELECT MAX(a) FROM n WHERE a < pv) FROM p
+## A memo and a binary in DISTINCT, GROUP BY and ORDER BY
+query SELECT * FROM o ORDER BY id
+query SELECT id FROM o WHERE note = 'alpha'
+query SELECT id FROM o WHERE note LIKE 'al%'
+query SELECT id FROM o WHERE bin = CAST('x' AS SQL_BINARY)
+query SELECT COUNT(note), COUNT(bin) FROM o
+query SELECT DISTINCT note FROM o
+query SELECT DISTINCT bin FROM o
+query SELECT DISTINCT id, note FROM o
+query SELECT DISTINCT UPPER(note) FROM o
+query SELECT DISTINCT CAST(note AS SQL_VARCHAR(10)) FROM o
+query SELECT note, COUNT(*) FROM o GROUP BY note
+query SELECT id FROM o GROUP BY bin
+query SELECT UPPER(note) u FROM o GROUP BY UPPER(note)
+query SELECT CAST(note AS SQL_VARCHAR(10)) n, COUNT(*) FROM o GROUP BY CAST(note AS SQL_VARCHAR(10))
+query SELECT c, COUNT(note), COUNT(bin) FROM o GROUP BY c
+query SELECT c, MAX(note) FROM o GROUP BY c
+query SELECT c, MIN(note) FROM o GROUP BY c
+query SELECT c, MAX(bin) FROM o GROUP BY c
+query SELECT c, COUNT(DISTINCT note) FROM o GROUP BY c
+query SELECT COUNT(DISTINCT bin) FROM o
+query SELECT id FROM o ORDER BY note
+query SELECT id FROM o ORDER BY bin
+query SELECT note FROM o ORDER BY 1
+query SELECT id, note FROM o ORDER BY note DESC
+query SELECT id FROM o ORDER BY UPPER(note)
+query SELECT CAST(note AS SQL_VARCHAR(10)) n FROM o ORDER BY 1
+query SELECT n FROM (SELECT note AS n FROM o) s ORDER BY n
+query SELECT DISTINCT n FROM (SELECT note AS n FROM o) s
+query SELECT note FROM o UNION SELECT note FROM o
+query SELECT note FROM o UNION ALL SELECT note FROM o
+query SELECT id, note FROM o UNION ALL SELECT id, 'q' FROM p ORDER BY id
+query SELECT id FROM o WHERE id IN (SELECT id FROM p) ORDER BY id
+## ORDER BY of a UNION
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY id
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY c, id
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY p.id
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY o.id
+query SELECT o.id, c FROM o UNION SELECT p.id, c FROM p ORDER BY id
+query SELECT id AS x, c FROM o UNION SELECT pv, c FROM p ORDER BY x
+query SELECT id AS x, c FROM o UNION SELECT pv, c FROM p ORDER BY id
+query SELECT id AS x, c FROM o UNION SELECT pv AS y, c FROM p ORDER BY y
+query SELECT id, c FROM o UNION SELECT pv, c FROM p ORDER BY pv
+query SELECT id, c FROM o UNION SELECT pv, c FROM p ORDER BY c DESC, id
+query SELECT id, c FROM o UNION SELECT pv, 'z' FROM p ORDER BY c DESC, id
+query SELECT id, c FROM o UNION SELECT pv, 'z' FROM p ORDER BY 2, 1
+query SELECT id, c FROM o UNION SELECT pv, 'z' FROM p ORDER BY nosuch
+query SELECT id, c FROM o UNION ALL SELECT id, c FROM p ORDER BY c, id DESC
+query SELECT id, c FROM o UNION ALL SELECT pv, 'z' FROM p ORDER BY id DESC
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY UPPER(c)
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY id + 1
+query SELECT id, c FROM o UNION SELECT id, c FROM p ORDER BY 3
+## RIGHT JOIN of a system table or a subquery
+query SELECT p.id, i.* FROM p RIGHT JOIN system.iota i ON 1 = 1
+query SELECT p.id, i.* FROM system.iota i RIGHT JOIN p ON 1 = 1
+query SELECT * FROM system.iota i RIGHT JOIN p ON p.id = 1
+query SELECT p.id, s.x FROM p RIGHT JOIN (SELECT id AS x FROM o) s ON p.id = s.x
+query SELECT p.id, s.x FROM (SELECT id AS x FROM o) s RIGHT JOIN p ON p.id = s.x
+query SELECT p.id, s.x FROM p LEFT JOIN (SELECT id AS x FROM o) s ON p.id = s.x
+query SELECT p.id, s.x FROM p FULL JOIN (SELECT id AS x FROM o) s ON p.id = s.x
+query SELECT p.id, s.x FROM p JOIN (SELECT id AS x FROM o) s ON p.id = s.x
+query SELECT p.id, o.id FROM p RIGHT JOIN o ON p.id = o.id
+query SELECT p.id, o.id FROM p RIGHT JOIN o ON p.id = o.id WHERE p.id IS NULL
+query SELECT p.id, s.x FROM p RIGHT JOIN (SELECT TOP 1 id AS x FROM o) s ON p.id = s.x
+## GUIDs in CAST, a date or a timestamp into the other, the precision's effect
+query SELECT id FROM g WHERE g = CAST('6F9619FF-8B86-D011-B42D-00C04FC964FF' AS SQL_GUID)
+query SELECT id FROM g WHERE g = CAST('xyz' AS SQL_GUID)
+directnull INSERT INTO g VALUES (20, CAST('6F9619FF-8B86-D011-B42D-00C04FC964FF' AS SQL_GUID))
+query SELECT CAST(g AS SQL_CHAR) c FROM g WHERE id = 1
+query SELECT CAST(g AS SQL_VARCHAR(40)) c FROM g WHERE id = 1
+query SELECT id FROM g WHERE CAST(g AS SQL_CHAR) = '6f9619ff-8b86-d011-b42d-00c04fc964ff'
+directnull INSERT INTO ts (id, tm) VALUES (14, TIMESTAMP'2012-12-31 10:11:12')
+directnull INSERT INTO ts (id, d) VALUES (15, CURRENT_TIMESTAMP())
+directnull INSERT INTO ts (id, t) VALUES (16, CURRENT_DATE())
+directnull INSERT INTO ts (id, t) VALUES (17, TIMESTAMP'2012-12-31T10:11:12')
+directnull INSERT INTO ts (id, tm) VALUES (18, TIME'09:00:00')
+directnull INSERT INTO ts (id, tm) VALUES (19, '09:00:00')
+directnull INSERT INTO ts (id, d) VALUES (21, DATE'2012-12-31')
+directnull UPDATE ts SET d = TIMESTAMP'2012-12-31 10:11:12' WHERE id = 21
+directnull UPDATE ts SET t = DATE'2012-12-31' WHERE id = 17
+directnull UPDATE ts SET t = '1/2/2013 01:02:03' WHERE id = 17
+query SELECT id, t, d, tm FROM ts WHERE id > 10 ORDER BY id
+query SELECT id FROM ts WHERE t BETWEEN '12/31/2012' AND '12/31/2013'
+query SELECT id FROM ts WHERE t IN ('12/31/2012')
+query SELECT id FROM ts WHERE d = ''
+expr FRAC_SECOND(CURRENT_TIMESTAMP(0)) = 0
+expr FRAC_SECOND(CURRENT_TIMESTAMP(1)) % 100 = 0
+expr FRAC_SECOND(CURRENT_TIMESTAMP(2)) % 10 = 0
+query SELECT p.id, s.x FROM (SELECT id AS x FROM o) s FULL JOIN p ON p.id = s.x
+query SELECT p.id, o.id FROM p FULL JOIN o ON p.id = o.id
+## The edges of the time and date texts, escapes, unary minus
+expr TIME '09:00:00'
+expr TIMESTAMP '2012-12-31 10:11:12'
+expr DATE 'x'
+expr TIME'09:5'
+expr TIME'09:05:7'
+expr TIME'09:00pm'
+expr TIME'00:30 am'
+expr TIME'09:00:60'
+expr TIME'09:60'
+expr TIME'09:05:07.'
+expr TIME'09:05:07.1234'
+expr TIME'009:05'
+expr {d '12/31/2012'}
+expr {d 'x'}
+expr {d '2012-1-5'}
+expr {t 'x'}
+expr {t '10:11'}
+expr {ts '2012-12-31'}
+expr {ts 'x'}
+expr {x '1'}
+expr {guid 'x'}
+expr CURRENT_TIMESTAMP(2)
+query SELECT -c FROM n
+query SELECT -b FROM n
+query SELECT -MAX(c) FROM n
+query SELECT -MAX(b) FROM n
+query SELECT -MAX(m) FROM n
+expr -'x'
+expr -DATE'2012-12-31'
+expr -TIME'10:11:12'
+## The same with a system table, on a dictionary connection
+ddcreate sy.add
+stmt
+direct CREATE TABLE q (id integer, name char(10))
+directnull INSERT INTO q VALUES (1, 'one')
+directnull INSERT INTO q VALUES (2, 'two')
+query SELECT t.name, q.id FROM system.tables t RIGHT JOIN q ON t.name = 'q'
+query SELECT t.name, q.id FROM q RIGHT JOIN system.tables t ON t.name = 'q'
+query SELECT t.name, q.id FROM system.tables t LEFT JOIN q ON t.name = 'q'
+query SELECT t.name, q.id FROM q LEFT JOIN system.tables t ON t.name = 'q'
+query SELECT t.name, q.id FROM system.tables t FULL JOIN q ON t.name = 'q'
+query SELECT t.name, q.id FROM system.tables t JOIN q ON t.name = 'q'
+query SELECT t.name, c.name FROM system.tables t RIGHT JOIN system.columns c ON t.name = c.parent
+query SELECT t.name, s.n FROM system.tables t RIGHT JOIN (SELECT name AS n FROM q) s ON t.name = s.n
+query SELECT t.name, s.n FROM (SELECT name AS n FROM q) s RIGHT JOIN system.tables t ON t.name = s.n
+query SELECT t.name, q.id FROM q FULL JOIN system.tables t ON t.name = 'q'
+query SELECT t.name, q.id FROM system.tables t RIGHT JOIN q ON t.name = q.name

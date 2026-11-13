@@ -1,0 +1,4 @@
+# The dictionary of a_Y.txt (a plain dictionary with links and subscriptions that have passwords) taken to AES256 enciphering its records, made in a process of its own.
+connect Data Source=%D\c_Y_AES256_1;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'AES256', 1)
+disconnect

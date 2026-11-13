@@ -1,0 +1,125 @@
+# Which table of an inner join the original reads first: the sizes of the tables (live
+# records, deleted ones, restricted ones, an order on the join column), with the rows' order
+# and the plan of each (an empty data folder), for fixtures/sql/joinorder.json.
+stmt
+query CREATE TABLE p1 (k integer, v integer)
+query INSERT INTO p1 VALUES (5, 50)
+query INSERT INTO p1 VALUES (3, 30)
+query INSERT INTO p1 VALUES (8, 80)
+query INSERT INTO p1 VALUES (1, 10)
+query INSERT INTO p1 VALUES (9, 90)
+query INSERT INTO p1 VALUES (2, 20)
+query INSERT INTO p1 VALUES (7, 70)
+query INSERT INTO p1 VALUES (4, 40)
+query INSERT INTO p1 VALUES (6, 60)
+query INSERT INTO p1 VALUES (10, 100)
+query DELETE FROM p1 WHERE k > 6
+query CREATE TABLE p2 (k integer, v integer)
+query INSERT INTO p2 VALUES (4, 40)
+query INSERT INTO p2 VALUES (8, 80)
+query INSERT INTO p2 VALUES (6, 60)
+query INSERT INTO p2 VALUES (2, 20)
+query INSERT INTO p2 VALUES (1, 10)
+query INSERT INTO p2 VALUES (3, 30)
+query INSERT INTO p2 VALUES (9, 90)
+query INSERT INTO p2 VALUES (7, 70)
+query CREATE TABLE p3 (k integer, v integer)
+query INSERT INTO p3 VALUES (2, 20)
+query INSERT INTO p3 VALUES (6, 60)
+query INSERT INTO p3 VALUES (4, 40)
+query INSERT INTO p3 VALUES (1, 10)
+query INSERT INTO p3 VALUES (3, 30)
+query INSERT INTO p3 VALUES (5, 50)
+query CREATE TABLE p4 (k integer, v integer)
+query INSERT INTO p4 VALUES (9, 90)
+query INSERT INTO p4 VALUES (4, 40)
+query INSERT INTO p4 VALUES (6, 60)
+query INSERT INTO p4 VALUES (2, 20)
+query INSERT INTO p4 VALUES (8, 80)
+query INSERT INTO p4 VALUES (1, 10)
+query INSERT INTO p4 VALUES (3, 30)
+query INSERT INTO p4 VALUES (7, 70)
+query INSERT INTO p4 VALUES (5, 50)
+query INSERT INTO p4 VALUES (10, 100)
+query INSERT INTO p4 VALUES (11, 110)
+query INSERT INTO p4 VALUES (12, 120)
+query CREATE INDEX p4_k ON p4 (k)
+query CREATE TABLE p5 (k integer, v integer)
+query INSERT INTO p5 VALUES (6, 60)
+query INSERT INTO p5 VALUES (1, 10)
+query INSERT INTO p5 VALUES (4, 40)
+query INSERT INTO p5 VALUES (2, 20)
+query INSERT INTO p5 VALUES (5, 50)
+query INSERT INTO p5 VALUES (3, 30)
+query INSERT INTO p5 VALUES (8, 80)
+query INSERT INTO p5 VALUES (7, 70)
+query CREATE INDEX p5_k ON p5 (k)
+query CREATE TABLE p6 (k integer, v integer)
+query INSERT INTO p6 VALUES (3, 30)
+query INSERT INTO p6 VALUES (6, 60)
+query INSERT INTO p6 VALUES (1, 10)
+query INSERT INTO p6 VALUES (4, 40)
+query INSERT INTO p6 VALUES (2, 20)
+query INSERT INTO p6 VALUES (5, 50)
+query INSERT INTO p6 VALUES (9, 90)
+query INSERT INTO p6 VALUES (8, 80)
+query INSERT INTO p6 VALUES (7, 70)
+query INSERT INTO p6 VALUES (10, 100)
+query SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1 JOIN p2 ON p1.k = p2.k
+query SHOW PLAN FOR SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1 JOIN p2 ON p1.k = p2.k
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 JOIN p1 ON p2.k = p1.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 JOIN p1 ON p2.k = p1.k
+query SELECT p1.k + 0 AS ak, p3.v + 0 AS bv FROM p1 JOIN p3 ON p1.k = p3.k
+query SHOW PLAN FOR SELECT p1.k + 0 AS ak, p3.v + 0 AS bv FROM p1 JOIN p3 ON p1.k = p3.k
+query SELECT p3.k + 0 AS ak, p1.v + 0 AS bv FROM p3 JOIN p1 ON p3.k = p1.k
+query SHOW PLAN FOR SELECT p3.k + 0 AS ak, p1.v + 0 AS bv FROM p3 JOIN p1 ON p3.k = p1.k
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k
+query SELECT p6.k + 0 AS ak, p2.v + 0 AS bv FROM p6 JOIN p2 ON p6.k = p2.k
+query SHOW PLAN FOR SELECT p6.k + 0 AS ak, p2.v + 0 AS bv FROM p6 JOIN p2 ON p6.k = p2.k
+query SELECT p4.k + 0 AS ak, p2.v + 0 AS bv FROM p4 JOIN p2 ON p4.k = p2.k
+query SHOW PLAN FOR SELECT p4.k + 0 AS ak, p2.v + 0 AS bv FROM p4 JOIN p2 ON p4.k = p2.k
+query SELECT p2.k + 0 AS ak, p4.v + 0 AS bv FROM p2 JOIN p4 ON p2.k = p4.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p4.v + 0 AS bv FROM p2 JOIN p4 ON p2.k = p4.k
+query SELECT p4.k + 0 AS ak, p5.v + 0 AS bv FROM p4 JOIN p5 ON p4.k = p5.k
+query SHOW PLAN FOR SELECT p4.k + 0 AS ak, p5.v + 0 AS bv FROM p4 JOIN p5 ON p4.k = p5.k
+query SELECT p5.k + 0 AS ak, p4.v + 0 AS bv FROM p5 JOIN p4 ON p5.k = p4.k
+query SHOW PLAN FOR SELECT p5.k + 0 AS ak, p4.v + 0 AS bv FROM p5 JOIN p4 ON p5.k = p4.k
+query SELECT p4.k + 0 AS ak, p6.v + 0 AS bv FROM p4 JOIN p6 ON p4.k = p6.k
+query SHOW PLAN FOR SELECT p4.k + 0 AS ak, p6.v + 0 AS bv FROM p4 JOIN p6 ON p4.k = p6.k
+query SELECT p6.k + 0 AS ak, p4.v + 0 AS bv FROM p6 JOIN p4 ON p6.k = p4.k
+query SHOW PLAN FOR SELECT p6.k + 0 AS ak, p4.v + 0 AS bv FROM p6 JOIN p4 ON p6.k = p4.k
+query SELECT p5.k + 0 AS ak, p6.v + 0 AS bv FROM p5 JOIN p6 ON p5.k = p6.k
+query SHOW PLAN FOR SELECT p5.k + 0 AS ak, p6.v + 0 AS bv FROM p5 JOIN p6 ON p5.k = p6.k
+query SELECT p6.k + 0 AS ak, p5.v + 0 AS bv FROM p6 JOIN p5 ON p6.k = p5.k
+query SHOW PLAN FOR SELECT p6.k + 0 AS ak, p5.v + 0 AS bv FROM p6 JOIN p5 ON p6.k = p5.k
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k > 8
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k > 8
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k >= 8
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k >= 8
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k = 8
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k = 8
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p2.k > 3
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p2.k > 3
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k < 3 OR p6.k > 8
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.k < 3 OR p6.k > 8
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.v > 70
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k WHERE p6.v > 70
+query SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1, p2 WHERE p1.k = p2.k
+query SHOW PLAN FOR SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1, p2 WHERE p1.k = p2.k
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2, p1 WHERE p2.k = p1.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2, p1 WHERE p2.k = p1.k
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 LEFT JOIN p1 ON p2.k = p1.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 LEFT JOIN p1 ON p2.k = p1.k
+query SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1 RIGHT JOIN p2 ON p1.k = p2.k
+query SHOW PLAN FOR SELECT p1.k + 0 AS ak, p2.v + 0 AS bv FROM p1 RIGHT JOIN p2 ON p1.k = p2.k
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 JOIN p1 ON p2.k > p1.k WHERE p1.k > 4
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2 JOIN p1 ON p2.k > p1.k WHERE p1.k > 4
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2, p1
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv FROM p2, p1
+query SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k + 0
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p6.v + 0 AS bv FROM p2 JOIN p6 ON p2.k = p6.k + 0
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv, p3.v + 0 AS cv FROM p2 JOIN p1 ON p2.k = p1.k JOIN p3 ON p3.k = p2.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv, p3.v + 0 AS cv FROM p2 JOIN p1 ON p2.k = p1.k JOIN p3 ON p3.k = p2.k
+query SELECT p2.k + 0 AS ak, p1.v + 0 AS bv, p6.v + 0 AS cv FROM p6 JOIN p2 ON p2.k = p6.k JOIN p1 ON p1.k = p6.k
+query SHOW PLAN FOR SELECT p2.k + 0 AS ak, p1.v + 0 AS bv, p6.v + 0 AS cv FROM p6 JOIN p2 ON p2.k = p6.k JOIN p1 ON p1.k = p6.k

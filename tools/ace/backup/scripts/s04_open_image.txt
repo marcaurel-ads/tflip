@@ -1,0 +1,7 @@
+#include dd_all.txt
+#include bk_full.txt
+connect 2 img\d.add
+sql 2 SELECT * FROM t_adt
+sql 2 SELECT * FROM t_cdx
+free 3
+sql 3 SELECT * FROM "img/t_adt.adt"

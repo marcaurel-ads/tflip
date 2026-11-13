@@ -1,0 +1,45 @@
+{
+ "table_type": "adt",
+ "record_count": 5,
+ "record_length": 213,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "c_char", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "c_cichar", "type": 20, "type_name": "CICharacter", "length": 10, "decimals": 0},
+  {"name": "c_varchar", "type": 23, "type_name": "VarCharFox", "length": 20, "decimals": 0},
+  {"name": "c_nchar", "type": 26, "type_name": "NChar", "length": 5, "decimals": 0},
+  {"name": "c_nvarchar", "type": 27, "type_name": "NVarChar", "length": 10, "decimals": 0},
+  {"name": "c_memo", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0},
+  {"name": "c_nmemo", "type": 28, "type_name": "NMemo", "length": 9, "decimals": 0},
+  {"name": "c_blob", "type": 6, "type_name": "Binary", "length": 9, "decimals": 0},
+  {"name": "c_raw", "type": 16, "type_name": "Raw", "length": 4, "decimals": 0},
+  {"name": "c_varbinary", "type": 24, "type_name": "VarBinaryFox", "length": 8, "decimals": 0},
+  {"name": "c_guid", "type": 29, "type_name": "GUID", "length": 16, "decimals": 0},
+  {"name": "c_logical", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "c_numeric", "type": 2, "type_name": "Numeric", "length": 10, "decimals": 2},
+  {"name": "c_short", "type": 12, "type_name": "ShortInt", "length": 2, "decimals": 0},
+  {"name": "c_integer", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "c_longint", "type": 19, "type_name": "LongInt", "length": 8, "decimals": 0},
+  {"name": "c_double", "type": 10, "type_name": "Double", "length": 8, "decimals": 15},
+  {"name": "c_curdouble", "type": 17, "type_name": "CurDouble", "length": 8, "decimals": 2},
+  {"name": "c_money", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "c_date", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "c_time", "type": 13, "type_name": "Time", "length": 4, "decimals": 0},
+  {"name": "c_timestamp", "type": 14, "type_name": "TimeStamp", "length": 8, "decimals": 0},
+  {"name": "c_autoinc", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "c_rowversion", "type": 21, "type_name": "RowVersion", "length": 8, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000616263202020202020204d69586544202020202076617200000000000000000000000000000000000300e400ac20200020002000a9031327200020002000200020002000200020000200820000000900000000830000001e00000000810000000300000000deadbeef0102000000000000020067452301ab89efcd0123456789abcdef54202031323334352e3637feff15cd5b07cb04fb711f0100000000000000000c40000000000000024040e2010000000000d28125008ac5f302d28125008ac5f302010000000100000000000000", "values": {"c_char": {"text": "abc       "}, "c_cichar": {"text": "MiXeD     "}, "c_varchar": {"text": "var"}, "c_nchar": {"text": "\u00e4\u20ac   "}, "c_nvarchar": {"text": "\u03a9\u2713"}, "c_memo": {"text": "memo text"}, "c_nmemo": {"text": "nmemo \u00fcn\u00efc\u00f8d\u00e9 \u2713"}, "c_blob": {"hex": "00ff10"}, "c_raw": {"hex": "deadbeef"}, "c_varbinary": {"hex": "0102"}, "c_guid": {"text": "01234567-89ab-cdef-0123-456789abcdef"}, "c_logical": {"text": "T"}, "c_numeric": {"text": "  12345.67"}, "c_short": {"text": "-2"}, "c_integer": {"text": "123456789"}, "c_longint": {"text": "1234567890123"}, "c_double": {"text": "3.5"}, "c_curdouble": {"text": "2.25"}, "c_money": {"text": "12.3456"}, "c_date": {"text": "2017-11-08", "julian": 2458066}, "c_time": {"text": "13:45:30.250", "ms": 49530250}, "c_timestamp": {"text": "2017-11-08 13:45:30.250", "julian": 2458066, "ms": 49530250}, "c_autoinc": {"text": "1"}, "c_rowversion": {"text": "1"}}},
+  {"recno": 2, "deleted": false, "raw": "04000000007a7a7a7a7a7a7a7a7a7a000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000000000000000000000ffff0000000000000000000000000000000046202d39393939392e3939ff7f0100008001000000000000809fc8eb85f3cce1ff2000000000000080010000000000008052441a00000000002cfe5100ff5b2605020000000200000000000000", "values": {"c_char": {"text": "zzzzzzzzzz"}, "c_cichar": {"null": true}, "c_varchar": {"null": true}, "c_nchar": {"null": true}, "c_nvarchar": {"null": true}, "c_memo": {"null": true}, "c_nmemo": {"null": true}, "c_blob": {"null": true}, "c_raw": {"null": true}, "c_varbinary": {"null": true}, "c_guid": {"null": true}, "c_logical": {"text": "F"}, "c_numeric": {"text": " -99999.99"}, "c_short": {"text": "32767"}, "c_integer": {"text": "-2147483647"}, "c_longint": {"text": "-9223372036854775807"}, "c_double": {"text": "-9.9999999999999981e+307"}, "c_curdouble": {"null": true}, "c_money": {"text": "-922337203685477.5807"}, "c_date": {"text": "0001-01-01", "julian": 1721426}, "c_time": {"text": "00:00:00.000", "ms": 0}, "c_timestamp": {"text": "9999-12-31 23:59:59.999", "julian": 5373484, "ms": 86399999}, "c_autoinc": {"text": "2"}, "c_rowversion": {"text": "2"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000002000000000000000000000008000000080000000000000008020000000000000802000000000000080000000000000008000000000ffffffff0000000000000000030000000300000000000000", "values": {"c_char": {"null": true}, "c_cichar": {"null": true}, "c_varchar": {"null": true}, "c_nchar": {"null": true}, "c_nvarchar": {"null": true}, "c_memo": {"null": true}, "c_nmemo": {"null": true}, "c_blob": {"null": true}, "c_raw": {"null": true}, "c_varbinary": {"null": true}, "c_guid": {"null": true}, "c_logical": {"null": true}, "c_numeric": {"null": true}, "c_short": {"null": true}, "c_integer": {"null": true}, "c_longint": {"null": true}, "c_double": {"null": true}, "c_curdouble": {"null": true}, "c_money": {"null": true}, "c_date": {"null": true}, "c_time": {"null": true}, "c_timestamp": {"null": true}, "c_autoinc": {"text": "3"}, "c_rowversion": {"text": "3"}}},
+  {"recno": 4, "deleted": false, "raw": "0400000000e4f6fc802020202020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000002000000000000000000000008000000080000000000000008020000000000000802000000000000080000000000000008000000000ffffffff0000000000000000040000000400000000000000", "values": {"c_char": {"text": "\u00e4\u00f6\u00fc\u0080      "}, "c_cichar": {"null": true}, "c_varchar": {"text": ""}, "c_nchar": {"null": true}, "c_nvarchar": {"null": true}, "c_memo": {"null": true}, "c_nmemo": {"null": true}, "c_blob": {"null": true}, "c_raw": {"null": true}, "c_varbinary": {"null": true}, "c_guid": {"null": true}, "c_logical": {"null": true}, "c_numeric": {"null": true}, "c_short": {"null": true}, "c_integer": {"null": true}, "c_longint": {"null": true}, "c_double": {"null": true}, "c_curdouble": {"null": true}, "c_money": {"null": true}, "c_date": {"null": true}, "c_time": {"null": true}, "c_timestamp": {"null": true}, "c_autoinc": {"text": "4"}, "c_rowversion": {"text": "4"}}},
+  {"recno": 5, "deleted": false, "raw": "040000000072657573652020202020000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000000000000000ffff840000002400000000000000000000000000000000000000000000000000000000000000000000ffff000000000000000000000000000000002000000000000000000000008000000080000000000000008020000000000000802000000000000080000000000000008000000000ffffffff0000000000000000060000000600000000000000", "values": {"c_char": {"text": "reuse     "}, "c_cichar": {"null": true}, "c_varchar": {"null": true}, "c_nchar": {"null": true}, "c_nvarchar": {"null": true}, "c_memo": {"text": "placed in the deleted record's slot?"}, "c_nmemo": {"null": true}, "c_blob": {"null": true}, "c_raw": {"null": true}, "c_varbinary": {"null": true}, "c_guid": {"null": true}, "c_logical": {"null": true}, "c_numeric": {"null": true}, "c_short": {"null": true}, "c_integer": {"null": true}, "c_longint": {"null": true}, "c_double": {"null": true}, "c_curdouble": {"null": true}, "c_money": {"null": true}, "c_date": {"null": true}, "c_time": {"null": true}, "c_timestamp": {"null": true}, "c_autoinc": {"text": "6"}, "c_rowversion": {"text": "6"}}}
+ ]
+}

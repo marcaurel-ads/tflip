@@ -1,0 +1,4 @@
+# The dictionary of a_Y.txt (a plain dictionary with links and subscriptions that have passwords) taken to RC4 with its records in the clear, made in a process of its own.
+connect Data Source=%D\c_Y_RC4_0;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('d.add', 'adm', 'ddpw', 'RC4', 0)
+disconnect

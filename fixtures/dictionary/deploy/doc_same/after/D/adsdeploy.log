@@ -1,0 +1,3 @@
+00:00:00  :  Starting Deployment...
+00:00:00  :  Creating fail table directory {D}\fail.
+00:00:00  :  Error 5128:  The data dictionary cannot be created because the file already exists.

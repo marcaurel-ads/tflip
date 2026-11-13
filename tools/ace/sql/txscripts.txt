@@ -1,0 +1,197 @@
+# Transactions in scripts sent as a statement, on the remote server
+# (SQL_SERVER_TYPE=2, see triggers.txt): BEGIN TRANSACTION, COMMIT and
+# ROLLBACK in a script and around TRY ... CATCH, a COMMIT with none begun, a
+# statement that fails in a transaction, and what a script leaves open.
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txscripts.txt <share>
+#             > ../../../fixtures/sql/txscripts.json
+stmt
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (n integer PRIMARY KEY, s char(4))
+txcount
+# A script that begins and rolls back, one that commits.
+query BEGIN TRANSACTION; INSERT INTO t VALUES (1, 'a'); ROLLBACK;
+query SELECT n FROM t ORDER BY n
+txcount
+query BEGIN TRANSACTION; INSERT INTO t VALUES (2, 'b'); COMMIT;
+query SELECT n FROM t ORDER BY n
+txcount
+# Commit and rollback with none begun, alone and in a script.
+direct COMMIT
+direct ROLLBACK
+query INSERT INTO t VALUES (3, 'c'); COMMIT;
+query SELECT n FROM t ORDER BY n
+query INSERT INTO t VALUES (4, 'd'); ROLLBACK;
+query SELECT n FROM t ORDER BY n
+txcount
+# A script that leaves its transaction open: the count after it, and a
+# rollback by the next statement.
+query BEGIN TRANSACTION; INSERT INTO t VALUES (5, 'e');
+txcount
+query SELECT n FROM t ORDER BY n
+direct ROLLBACK
+query SELECT n FROM t ORDER BY n
+txcount
+# Nested begins in one script.
+query BEGIN TRANSACTION; BEGIN TRANSACTION; INSERT INTO t VALUES (6, 'f'); ROLLBACK;
+txcount
+query SELECT n FROM t ORDER BY n
+txcount
+# Commit in a script of a transaction the client began.
+direct BEGIN TRANSACTION
+query INSERT INTO t VALUES (7, 'g'); COMMIT;
+txcount
+query SELECT n FROM t ORDER BY n
+# Rollback in a script of a transaction the client began.
+direct BEGIN TRANSACTION
+query INSERT INTO t VALUES (8, 'h'); ROLLBACK;
+txcount
+query SELECT n FROM t ORDER BY n
+# A failing statement in a transaction: the script stops, the transaction stays.
+query BEGIN TRANSACTION; INSERT INTO u VALUES (1, 'a'); INSERT INTO u VALUES (1, 'b'); INSERT INTO u VALUES (2, 'c'); COMMIT;
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+txcount
+# The same, the client's transaction around it.
+direct BEGIN TRANSACTION
+direct INSERT INTO u VALUES (10, 'x')
+direct INSERT INTO u VALUES (10, 'y')
+txcount
+direct INSERT INTO u VALUES (11, 'z')
+direct COMMIT
+query SELECT n, s FROM u ORDER BY n
+# TRY ... CATCH inside a transaction, the catch rolling back.
+query DELETE FROM u
+query BEGIN TRANSACTION; TRY INSERT INTO u VALUES (1, 'a'); INSERT INTO u VALUES (1, 'b'); COMMIT; CATCH ALL ROLLBACK; END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+# TRY around a transaction.
+query TRY BEGIN TRANSACTION; INSERT INTO u VALUES (2, 'a'); INSERT INTO u VALUES (2, 'b'); COMMIT; CATCH ALL ROLLBACK; END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+# A catch that does not roll back: what stays, the count.
+query TRY BEGIN TRANSACTION; INSERT INTO u VALUES (3, 'a'); INSERT INTO u VALUES (3, 'b'); COMMIT; CATCH ALL INSERT INTO u VALUES (4, 'c'); END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+txcount
+# A catch that commits.
+query TRY BEGIN TRANSACTION; INSERT INTO u VALUES (5, 'a'); INSERT INTO u VALUES (5, 'b'); CATCH ALL COMMIT; END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+# FINALLY with a rollback.
+query TRY BEGIN TRANSACTION; INSERT INTO u VALUES (6, 'a'); INSERT INTO u VALUES (6, 'b'); FINALLY ROLLBACK; END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+# A transaction begun in the TRY and an error nothing there catches.
+query TRY BEGIN TRANSACTION; INSERT INTO u VALUES (7, 'a'); RAISE myerr(1, 'x'); CATCH other INSERT INTO u VALUES (8, 'a'); END TRY;
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+# Savepoints in a script.
+query BEGIN TRANSACTION; INSERT INTO t VALUES (20, 'a'); SAVEPOINT sp1; INSERT INTO t VALUES (21, 'b'); ROLLBACK TO SAVEPOINT sp1; INSERT INTO t VALUES (22, 'c'); COMMIT;
+query SELECT n FROM t WHERE n >= 20 ORDER BY n
+txcount
+query ROLLBACK TO SAVEPOINT nosuch;
+query SAVEPOINT sp9;
+query BEGIN TRANSACTION; ROLLBACK TO SAVEPOINT nosuch; COMMIT;
+txcount
+direct ROLLBACK
+# EXECUTE IMMEDIATE and transactions.
+query EXECUTE IMMEDIATE 'BEGIN TRANSACTION';
+txcount
+query EXECUTE IMMEDIATE 'INSERT INTO t VALUES (30, ''a'')';
+query EXECUTE IMMEDIATE 'ROLLBACK';
+txcount
+query SELECT n FROM t WHERE n >= 30 ORDER BY n
+# The system variable inside a script.
+query SELECT ::conn.TransactionCount AS c FROM system.iota
+query BEGIN TRANSACTION; SELECT ::conn.TransactionCount AS c FROM system.iota; ROLLBACK;
+query BEGIN TRANSACTION; BEGIN TRANSACTION; SELECT ::conn.TransactionCount AS c FROM system.iota; ROLLBACK;
+txcount
+direct ROLLBACK
+# What a script leaves of nested begins, and how a rollback after it goes.
+query DELETE FROM t
+query BEGIN TRANSACTION; BEGIN TRANSACTION; INSERT INTO t VALUES (40, 'a');
+txcount
+query SELECT ::conn.TransactionCount AS c FROM system.iota
+query SELECT n FROM t ORDER BY n
+direct COMMIT
+txcount
+direct COMMIT
+txcount
+query SELECT n FROM t ORDER BY n
+query BEGIN TRANSACTION; BEGIN TRANSACTION; INSERT INTO t VALUES (42, 'a'); ROLLBACK;
+txcount
+query SELECT n FROM t ORDER BY n
+# The client's transaction around a script that fails: what the failure takes back.
+query DELETE FROM u
+direct BEGIN TRANSACTION
+direct INSERT INTO u VALUES (50, 'a')
+query INSERT INTO u VALUES (51, 'a'); INSERT INTO u VALUES (50, 'b');
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+query SELECT n, s FROM u ORDER BY n
+# The client's transaction around a script that begins one of its own and fails.
+direct BEGIN TRANSACTION
+direct INSERT INTO u VALUES (52, 'a')
+query BEGIN TRANSACTION; INSERT INTO u VALUES (53, 'a'); INSERT INTO u VALUES (52, 'b');
+txcount
+query SELECT n, s FROM u ORDER BY n
+direct ROLLBACK
+txcount
+query SELECT n, s FROM u ORDER BY n
+# A script's failure after a COMMIT of the transaction it began.
+query BEGIN TRANSACTION; INSERT INTO u VALUES (54, 'a'); COMMIT; INSERT INTO u VALUES (55, 'a'); INSERT INTO u VALUES (54, 'b');
+txcount
+query SELECT n, s FROM u ORDER BY n
+# A failure in a script with a savepoint.
+query BEGIN TRANSACTION; INSERT INTO u VALUES (56, 'a'); SAVEPOINT s1; INSERT INTO u VALUES (57, 'a'); INSERT INTO u VALUES (56, 'b');
+txcount
+query SELECT n, s FROM u ORDER BY n
+# The count seen from inside a script.
+query BEGIN TRANSACTION; SELECT ::conn.TransactionCount AS c FROM system.iota
+txcount
+direct ROLLBACK
+query BEGIN TRANSACTION; BEGIN TRANSACTION; SELECT ::conn.TransactionCount AS c FROM system.iota
+direct ROLLBACK
+txcount
+query DECLARE c INTEGER; BEGIN TRANSACTION; c = ::conn.TransactionCount; ROLLBACK; SELECT c AS c FROM system.iota
+# A script's transaction around a DDL statement.
+query BEGIN TRANSACTION; INSERT INTO t VALUES (60, 'a'); CREATE TABLE w (n integer); ROLLBACK;
+txcount
+query SELECT n FROM t WHERE n >= 60 ORDER BY n
+query SELECT COUNT(*) AS c FROM w
+query BEGIN TRANSACTION; INSERT INTO t VALUES (61, 'a'); DROP TABLE w; ROLLBACK;
+query BEGIN TRANSACTION; INSERT INTO t VALUES (62, 'a'); DELETE FROM t WHERE n = 62; ROLLBACK;
+query SELECT n FROM t WHERE n >= 60 ORDER BY n
+# ROLLBACK in a loop and after a cursor opened in the transaction.
+query DECLARE i INTEGER; BEGIN TRANSACTION; i = 0; WHILE i < 3 DO INSERT INTO t VALUES (70 + i, 'a'); i = i + 1; END WHILE; ROLLBACK;
+query SELECT n FROM t WHERE n >= 70 ORDER BY n
+txcount
+# A script that commits an inner level and leaves one: the COMMIT or ROLLBACK
+# after it works but is refused as out of sequence (5047).
+query DELETE FROM t
+query BEGIN TRANSACTION; BEGIN TRANSACTION; INSERT INTO t VALUES (80, 'a'); COMMIT;
+query SELECT n FROM t ORDER BY n
+direct COMMIT /* sequence a */
+query SELECT n FROM t ORDER BY n
+txcount
+query BEGIN TRANSACTION; INSERT INTO t VALUES (81, 'a'); BEGIN TRANSACTION; INSERT INTO t VALUES (82, 'a'); COMMIT;
+query SELECT n FROM t ORDER BY n
+direct ROLLBACK /* sequence b */
+query SELECT n FROM t ORDER BY n
+txcount
+query BEGIN TRANSACTION; BEGIN TRANSACTION; BEGIN TRANSACTION; COMMIT;
+txcount
+direct COMMIT
+txcount
+direct COMMIT /* sequence c */
+txcount
+query BEGIN TRANSACTION; COMMIT; BEGIN TRANSACTION;
+direct COMMIT
+txcount

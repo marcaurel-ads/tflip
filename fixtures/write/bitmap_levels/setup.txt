@@ -1,0 +1,4 @@
+sql CREATE TABLE d (n INTEGER)
+sql INSERT INTO d VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+sql CREATE TABLE c (x CHAR(1))
+sql INSERT INTO c SELECT CASE WHEN (a.n * 100000 + b.n * 10000 + c.n * 1000 + e.n * 100 + f.n * 10 + g.n) % 7 = 0 THEN 'b' ELSE 'a' END FROM d a, d b, d c, d e, d f, d g WHERE a.n * 100000 + b.n * 10000 + c.n * 1000 + e.n * 100 + f.n * 10 + g.n < 492031

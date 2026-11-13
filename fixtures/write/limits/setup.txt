@@ -1,0 +1,2 @@
+createtable base.adt 0 a,Integer
+close

@@ -1,0 +1,21 @@
+tabletype cdx
+sql CREATE TABLE cdx_t (id integer, name char(10), m memo)
+sql INSERT INTO cdx_t (id, name, m) VALUES (1, 'one', 'memo one')
+sql INSERT INTO cdx_t (id, name) VALUES (2, 'two')
+sql INSERT INTO cdx_t (id, name, m) VALUES (3, 'three', 'memo three')
+tabletype vfp
+sql CREATE TABLE vfp_t (id integer, name char(10), m memo)
+sql INSERT INTO vfp_t (id, name, m) VALUES (1, 'one', 'memo one')
+sql INSERT INTO vfp_t (id, name) VALUES (2, 'two')
+sql INSERT INTO vfp_t (id, name, m) VALUES (3, 'three', 'memo three')
+tabletype ntx
+sql CREATE TABLE ntx_t (id integer, name char(10), m memo)
+sql INSERT INTO ntx_t (id, name, m) VALUES (1, 'one', 'memo one')
+sql INSERT INTO ntx_t (id, name) VALUES (2, 'two')
+sql INSERT INTO ntx_t (id, name, m) VALUES (3, 'three', 'memo three')
+tabletype cdx
+sql CREATE INDEX cdx_name ON cdx_t (name)
+tabletype vfp
+sql CREATE INDEX vfp_name ON vfp_t (name)
+tabletype ntx
+sql CREATE INDEX ntx_name ON ntx_t (name)

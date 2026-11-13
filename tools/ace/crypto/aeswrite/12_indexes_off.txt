@@ -1,0 +1,25 @@
+# ENCRYPT_INDEXES turned off again, and a table with an index encrypted. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tj (id INTEGER, name CHAR(10))
+sql CREATE INDEX tj_name ON tj (name)
+sql INSERT INTO tj VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tj')
+sql INSERT INTO tj VALUES (2, 'two')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tj (id INTEGER, name CHAR(10))
+sql CREATE INDEX tj_name ON tj (name)
+sql INSERT INTO tj VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tj')
+sql INSERT INTO tj VALUES (2, 'two')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'FALSE')
+sql CREATE TABLE tj (id INTEGER, name CHAR(10))
+sql CREATE INDEX tj_name ON tj (name)
+sql INSERT INTO tj VALUES (1, 'one')
+sql EXECUTE PROCEDURE sp_EncryptTable('tj')
+sql INSERT INTO tj VALUES (2, 'two')
+disconnect

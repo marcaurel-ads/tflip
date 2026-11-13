@@ -1,0 +1,25 @@
+# Zapping, decrypting and encrypting by an exclusive handle without the password on an AES table.
+include setup.inc
+open h2 c2 %D\t.adt 1
+decrypt h2
+tablecheck h2
+encrypt h2
+tablecheck h2
+zap h2
+count h2
+tablecheck h2
+append h2
+set h2 CH after
+set h2 N1 9
+write h2
+cancel h2
+count h2
+close h2
+open h1 c1 %D\t.adt 4
+enable h1 secret
+tablecheck h1
+count h1
+goto h1 1
+dump h1
+order x1 h1 ICH
+keycount x1

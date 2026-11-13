@@ -1,0 +1,234 @@
+# A table of each DBF kind with every field type it takes (but General and
+# Picture, which have tables of their own): a record with a value in every
+# field, one with none, one deleted, and in VFP one of NULLs.
+tabletype ntx
+createtable n.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo;sd,ShortDate;b,Binary;im,Image;dbl,Double,10,3;i,Integer;li,LongInt;vc,VarChar,10;nc,NChar,4;nv,NVarChar,4;nm,NMemo;g,GUID;long,Character,300
+append
+set c string abc
+set n double -1234.5
+set d date 01/02/2020
+set l logical 1
+set m string \@00600m
+set sd date 03/04/2021
+set b binary 0102030405
+set im image 0a0b0c
+set dbl double 3.125
+set i long -7
+set li longlong 1234567890123
+set vc string var
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set nm stringw nmemo
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set long string \@00290w
+write
+append
+write
+append
+set c string gone
+set m string deleted memo
+set i long 9
+write
+delete
+append
+set c string last
+set n double 99999.99
+set dbl double -98765.4321
+set i long -2147483647
+set li longlong -9223372036854775807
+set vc string 0123456789
+set nm stringw \@00100n
+write
+close
+tabletype cdx
+createtable c.dbf 128 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo;sd,ShortDate;b,Binary;im,Image;dbl,Double,10,3;i,Integer;li,LongInt;vc,VarChar,10;nc,NChar,4;nv,NVarChar,4;nm,NMemo;g,GUID;long,Character,300
+append
+set c string abc
+set n double -1234.5
+set d date 01/02/2020
+set l logical 1
+set m string \@00600m
+set sd date 03/04/2021
+set b binary 0102030405
+set im image 0a0b0c
+set dbl double 3.125
+set i long -7
+set li longlong 1234567890123
+set vc string var
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set nm stringw nmemo
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set long string \@00290w
+write
+append
+write
+append
+set c string gone
+set m string deleted memo
+set i long 9
+write
+delete
+append
+set c string last
+set n double 99999.99
+set dbl double -98765.4321
+set i long -2147483647
+set li longlong -9223372036854775807
+set vc string 0123456789
+set nm stringw \@00100n
+write
+close
+tabletype vfp
+createtable v.dbf 0 c,Character,10;n,Numeric,8,2;d,Date;l,Logical;m,Memo;dbl,Double,2;i,Integer;mo,Money;ts,TimeStamp;li,LongInt;g,GUID;nc,NChar,4;nv,NVarChar,4;nm,NMemo;ai,AutoInc;vc,VarChar,10;vb,VarBinary,6;b,Binary;cb,Character,8,0,NOCPTRANS;long,Character,300
+append
+set c string abc
+set n double -1234.5
+set d date 01/02/2020
+set l logical 1
+set m string \@00600m
+set dbl double 3.125
+set i long -7
+set mo double 12.3456
+set ts timestamp 01/02/2020 03:04:05
+set li longlong 1234567890123
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set nc stringw \xe4\xe9
+set nv stringw caf\xe9
+set nm stringw nmemo
+set vc string var
+set vb binary 010203
+set b binary 0102030405
+set cb string cb
+set long string \@00290w
+write
+append
+write
+append
+set c string gone
+set m string deleted memo
+set i long 9
+write
+delete
+append
+set c string last
+set n double 99999.99
+set dbl double -98765.4321
+set i long -2147483647
+set mo double -922337203685.4775
+set ts timestamp 12/31/9999 23:59:59
+set li longlong -9223372036854775807
+set vc string 0123456789
+set vb binary 0a0b0c0d0e0f
+set nm stringw \@00100n
+write
+close
+createtable vn.dbf 0 c,Character,10,NULL;n,Numeric,8,2,NULL;d,Date,NULL;l,Logical,NULL;m,Memo,NULL;dbl,Double,2,NULL;i,Integer,NULL;mo,Money,NULL;ts,TimeStamp,NULL;li,LongInt,NULL;g,GUID,NULL;nc,NChar,4,NULL;nv,NVarChar,4,NULL;nm,NMemo,NULL;vc,VarChar,10,NULL;vb,VarBinary,6,NULL;b,Binary,NULL
+append
+set c string abc
+set n double 1.5
+set d date 01/02/2020
+set l logical 0
+set m string memo
+set dbl double 3.125
+set i long 7
+set mo double 1.5
+set ts timestamp 01/02/2020 03:04:05
+set li longlong 12
+set g field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set nc stringw ab
+set nv stringw cd
+set nm stringw ef
+set vc string var
+set vb binary 010203
+set b binary 0102
+write
+append
+set c null
+set n null
+set d null
+set l null
+set m null
+set dbl null
+set i null
+set mo null
+set ts null
+set li null
+set g null
+set nc null
+set nv null
+set nm null
+set vc null
+set vb null
+set b null
+write
+append
+set c empty
+set n empty
+set d empty
+set l empty
+set m empty
+set dbl empty
+set i empty
+set mo empty
+set ts empty
+set li empty
+set g empty
+set nc empty
+set nv empty
+set nm empty
+set vc empty
+set vb empty
+set b empty
+write
+close
+# General and Picture fields.
+tabletype ntx
+createtable ng.dbf 0 k,Character,2;ge,General;pi,Picture
+append
+set k string a
+set ge field abc
+write
+append
+set k string b
+write
+close
+tabletype cdx
+createtable cg.dbf 0 k,Character,2;ge,General;pi,Picture
+append
+set k string a
+set ge field abc
+write
+close
+tabletype vfp
+createtable vg.dbf 0 k,Character,2;ge,General;pi,Picture
+append
+set k string a
+set ge image 0a0b
+set pi image 0c0d
+write
+close
+# Values a converted field cannot hold: a Double wider than the Numeric it
+# becomes; a table a conversion overwrites.
+tabletype ntx
+createtable nbig.dbf 0 k,Character,2;dbl,Double,10,3
+append
+set k string a
+set dbl double 1.5
+write
+append
+set k string b
+set dbl double -1e20
+write
+append
+set k string c
+set dbl double 2.5
+write
+close
+tabletype cdx
+createtable old.dbf 0 k,Character,2;m,Memo
+append
+set k string zz
+set m string old memo
+write
+close

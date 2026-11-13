@@ -1,0 +1,30 @@
+# Query logging with an encryption password, on a plain free connection: the log table, then enabling it again with no password and a wrong one.
+connect c1 Data Source=%D;ServerType=LOCAL;
+sql c1 CREATE TABLE a (id INTEGER)
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 0, 0, 0, 'pw')
+sql c1 INSERT INTO a VALUES (1)
+sql c1 SELECT * FROM a
+sqlc c1 EXECUTE PROCEDURE sp_GetQueryLoggingResults('pw')
+sqlc c1 EXECUTE PROCEDURE sp_GetQueryLoggingResults('wrong')
+sqlc c1 EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+open q c1 %D\ql.adt 4
+tablecheck q
+count q
+close q
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 0, 0, 0, '')
+sql c1 SELECT * FROM a
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 0, 0, 0, 'wrong')
+sql c1 SELECT * FROM a
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 0, 0, 0, 'pw')
+sql c1 SELECT * FROM a
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+sql c1 EXECUTE PROCEDURE sp_EnableQueryLogging('ql', 1, 0, 0, '')
+sql c1 SELECT * FROM a
+sql c1 EXECUTE PROCEDURE sp_DisableQueryLogging()
+open q c1 %D\ql.adt 4
+tablecheck q
+count q
+close q

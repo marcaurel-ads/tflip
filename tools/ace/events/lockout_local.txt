@@ -1,0 +1,54 @@
+# Failed logins on the local server and ENFORCE_MAX_FAILED_LOGINS: with the enforcement on and the
+# limit 2, six failures of a user and four of the administrator lock no one out and the right
+# password is taken after them (the remote server's lockout is in lockout_basic.txt), but the
+# refusals name the call (axServerConnect) as a server's do, those of unknown users and of an
+# empty password too, and not once the enforcement is off again
+#
+#     EV_SERVER_TYPE=1 ev.exe <ace32.dll> <data folder> lockout_local.txt
+#             > ../../../fixtures/events/lockout_local.json
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+sql 1 EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+sql 1 EXECUTE PROCEDURE sp_CreateUser('u4', '', '')
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '2')
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect 1
+connect 1 d\d.add ADSSYS adm
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add nobody bad
+connect 2 d\d.add ADSSYS bad
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'TRUE')
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2 bad
+connect 2 d\d.add u2
+connect 2 d\d.add U2 bad
+connect 2 d\d.add nobody bad
+connect 2 d\d.add nobody
+connect 2 d\d.add u4 bad
+connect 2 d\d.add
+sql 1 SELECT Name, Logins_Disabled FROM system.users
+connect 3 d\d.add u2 pw2
+disconnect 3
+connect 2 d\d.add ADSSYS bad
+connect 2 d\d.add ADSSYS bad
+connect 2 d\d.add ADSSYS bad
+connect 2 d\d.add ADSSYS bad
+connect 2 d\d.add ADSSYS
+connect 3 d\d.add ADSSYS adm
+disconnect 3
+connect 3 d\d.add u3 pw3
+disconnect 3
+sql 1 SELECT Name, Logins_Disabled FROM system.users
+sql 1 EXECUTE PROCEDURE sp_ModifyDatabase('ENFORCE_MAX_FAILED_LOGINS', 'FALSE')
+connect 2 d\d.add u2 bad
+connect 2 d\d.add nobody bad
+connect 2 d\d.add ADSSYS bad
+disconnect 1

@@ -1,0 +1,48 @@
+# Packing, reindexing and zapping need the table open exclusively.
+open p.adt shared
+pack
+zap
+reindex
+close
+open p.adt exclusive
+openindex p2.adi
+state
+reindex
+state
+pack
+state
+top
+get m
+skip 50
+get m
+record
+close
+open z.adt exclusive
+zap
+state
+append
+set id long 9
+write
+close
+# Tables created through the API: type names cut short, an AutoInc's first
+# value, invalid definitions.
+createtable c1.adt 0 id,Integer;name,Char,10;ci,CICharacter,5;n,Numeric,8,2;d,Date;l,Logical;m,Memo;b,Binary;dbl,Double,4;s,ShortInt;li,LongInt;cd,CurDouble,2;mo,Money;t,Time;ts,TimeStamp;vc,VarChar,20;nc,NChar,4;nv,NVarChar,6;r,Raw,3;vb,VarBinary,5;g,GUID;nm,NMemo;rv,RowVersion;mt,ModTime
+createtable c2.adt 64 id,AutoInc,67;name,ch,25;x,int
+append
+set name string first
+write
+state
+createtable c3.adt 0 id,nosuchtype
+createtable c4.adt 0 id,Char,0
+createtable c5.adt 0 id,Char
+createtable c6.adt 0 
+createtable c2.adt 0 id,Integer
+# Orders created through the API, on an empty and a full table.
+use 5
+createindex - byname 2 512 name
+createindex - byid 3 512 id
+createindex other byx 2 1024 x FOR x > 3
+createindex - bad 2 512 nosuch
+createindex - byname 2 512 id
+deleteindex byid
+deleteindex nosuch

@@ -1,0 +1,85 @@
+# The order of a dictionary field's own NOT NULL (CONSTRAINT NOT NULL) and the
+# BEFORE triggers that fill the field, in a dictionary the script makes
+# (zq/zq.add), in an empty folder with a folder zq: fixtures/sql/trignn.json.
+ddcreate zq\zq.add
+stmt
+direct CREATE TABLE tn (id INTEGER, name CHAR(10) CONSTRAINT NOT NULL, q INTEGER)
+direct CREATE TABLE audit (msg CHAR(60)) IGNORE TRANSACTIONS
+direct INSERT INTO tn (id) VALUES (0)
+direct INSERT INTO tn (id, name) VALUES (1, NULL)
+query SELECT COUNT(*) AS c FROM tn
+closestmt
+stmt
+# BEFORE INSERT fills the field: the row is kept or refused.
+direct CREATE TRIGGER b1 ON tn BEFORE INSERT BEGIN INSERT INTO audit VALUES ('b1 ' + IFNULL(__new.name, '<null>')); UPDATE __new SET name = 'filled' WHERE __new.name IS NULL; END
+direct INSERT INTO tn (id) VALUES (2)
+direct INSERT INTO tn (id, name) VALUES (3, NULL)
+direct INSERT INTO tn (id, name) VALUES (4, 'given')
+query SELECT id, name FROM tn ORDER BY id
+closestmt
+stmt
+query SELECT msg FROM audit
+closestmt
+stmt
+# AFTER INSERT runs only when the insert is kept.
+direct CREATE TRIGGER a1 ON tn AFTER INSERT BEGIN INSERT INTO audit VALUES ('a1 ' + TRIM(CAST(id AS SQL_CHAR))); END
+direct INSERT INTO tn (id) VALUES (5)
+query SELECT msg FROM audit
+closestmt
+stmt
+direct DROP TRIGGER tn.b1
+direct DROP TRIGGER tn.a1
+direct DELETE FROM audit
+# BEFORE INSERT without a fill: what the refusal leaves of the trigger's own work.
+direct CREATE TRIGGER b2 ON tn BEFORE INSERT BEGIN INSERT INTO audit VALUES ('b2'); END
+direct INSERT INTO tn (id) VALUES (6)
+query SELECT msg FROM audit
+closestmt
+stmt
+direct DROP TRIGGER tn.b2
+direct DELETE FROM audit
+# BEFORE UPDATE fills a field the update set to NULL.
+direct CREATE TRIGGER u1 ON tn BEFORE UPDATE BEGIN INSERT INTO audit VALUES ('u1 ' + IFNULL(__new.name, '<null>')); UPDATE __new SET name = 'refilled' WHERE __new.name IS NULL; END
+direct UPDATE tn SET name = NULL WHERE id = 4
+direct UPDATE tn SET q = 7 WHERE id = 4
+query SELECT id, name, q FROM tn ORDER BY id
+closestmt
+stmt
+query SELECT msg FROM audit
+closestmt
+stmt
+direct DROP TRIGGER tn.u1
+# INSTEAD OF INSERT with a NULL: the trigger's own insert is checked.
+direct DELETE FROM audit
+direct CREATE TRIGGER i1 ON tn INSTEAD OF INSERT BEGIN INSERT INTO audit VALUES ('i1'); END
+direct INSERT INTO tn (id) VALUES (7)
+query SELECT msg FROM audit
+closestmt
+stmt
+query SELECT COUNT(*) AS c FROM tn
+closestmt
+stmt
+# What a refused INSTEAD OF insert leaves: the record number of the next one.
+direct INSERT INTO tn (id, name) VALUES (9, 'x')
+direct DROP TRIGGER tn.i1
+direct CREATE TRIGGER a2 ON tn AFTER INSERT BEGIN INSERT INTO audit VALUES ('a2 ' + TRIM(CAST(::stmt.TrigRecNo AS SQL_CHAR))); END
+direct INSERT INTO tn (id, name) VALUES (10, 'y')
+direct DROP TRIGGER tn.a2
+query SELECT msg FROM audit
+closestmt
+stmt
+# INSTEAD OF UPDATE to NULL.
+direct DELETE FROM audit
+direct CREATE TRIGGER i2 ON tn INSTEAD OF UPDATE BEGIN INSERT INTO audit VALUES ('i2'); END
+direct UPDATE tn SET name = NULL WHERE id = 4
+direct UPDATE tn SET q = 5 WHERE id = 4
+query SELECT msg FROM audit
+closestmt
+stmt
+direct DROP TRIGGER tn.i2
+# Can a BEFORE trigger change what is written?
+direct CREATE TRIGGER w1 ON tn BEFORE INSERT BEGIN UPDATE __new SET q = 99; END
+direct INSERT INTO tn (id, name) VALUES (8, 'w')
+query SELECT id, q FROM tn WHERE id = 8
+closestmt
+stmt

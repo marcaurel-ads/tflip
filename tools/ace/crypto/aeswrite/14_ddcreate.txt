@@ -1,0 +1,18 @@
+# AdsDDCreate101 with an encryption type and a dictionary password: h (AES-128) and i (AES-256) are made, a table of each encrypted and filled; j has no password and k one of 21 characters, which the original refuses after it has written the header and the memo file.
+ddcreate101 Data Source=%D\h\h.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (1, 'one')
+disconnect
+ddcreate101 Data Source=%D\i\i.add;ServerType=LOCAL;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'TRUE')
+sql CREATE TABLE t2 (id INTEGER, name CHAR(10))
+sql INSERT INTO t2 VALUES (1, 'one')
+disconnect
+ddcreate101 Data Source=%D\j\j.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+ddcreate101 Data Source=%D\j\j.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+ddcreate101 Data Source=%D\k\k.add;ServerType=LOCAL;EncryptionType=AES256;FIPS=FALSE;DDPassword=123456789012345678901
+ddcreate101 Data Source=%D\c\c.add;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+ddcreate101 Data Source=%D\h\h2.add;ServerType=LOCAL;EncryptionType=AES999;FIPS=FALSE;DDPassword=ddpw;

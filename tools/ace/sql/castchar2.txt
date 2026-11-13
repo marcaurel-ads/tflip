@@ -1,0 +1,16 @@
+# CAST(x AS SQL_CHAR) with no length, for the types castchar.txt does not
+# have: the column is as wide as the type of x needs (a BIGINT literal as its
+# digits and one more, a TINYINT 4, a REAL 13, NEWID() 1024), for
+# fixtures/sql/castchar2.json in an empty data folder.
+stmt
+direct CREATE TABLE ci (si shortint, i integer, b bigint, d double, dt date, ts timestamp, tm time, l logical, g guid, mn money, c char(5), vc varchar(5), nc nchar(5), nv nvarchar(5), vb varbinary(8), m memo, nm nmemo, a autoinc, rv rowversion, cd curdouble, rw raw(4), ci2 cichar(5))
+direct INSERT INTO ci (si, i, b, d, dt, ts, tm, l, g, mn, c, vc, nc, nv, vb, m, nm, cd, ci2) VALUES (1, 1, 1, 1.5, '2020-01-02', '2020-01-02 03:04:05', '03:04:05', true, 'ABCDEF01-2345-6789-ABCD-EF0123456789', 2.5, 'abc', 'abc', 'abc', 'abc', CAST('abcd' AS SQL_VARBINARY(8)), 'memo', 'nmemo', 1.5, 'abc')
+query SELECT CAST(si AS SQL_CHAR), CAST(i AS SQL_CHAR), CAST(b AS SQL_CHAR), CAST(d AS SQL_CHAR) FROM ci
+query SELECT CAST(dt AS SQL_CHAR), CAST(ts AS SQL_CHAR), CAST(tm AS SQL_CHAR), CAST(l AS SQL_CHAR), CAST(g AS SQL_CHAR), CAST(mn AS SQL_CHAR) FROM ci
+query SELECT CAST(c AS SQL_CHAR), CAST(vc AS SQL_CHAR), CAST(nc AS SQL_CHAR), CAST(nv AS SQL_CHAR), CAST(vb AS SQL_CHAR) FROM ci
+query SELECT CAST(m AS SQL_CHAR), CAST(nm AS SQL_CHAR), CAST(a AS SQL_CHAR), CAST(cd AS SQL_CHAR), CAST(ci2 AS SQL_CHAR) FROM ci
+query SELECT CAST(CAST(1 AS SQL_BIGINT) AS SQL_CHAR), CAST(CAST(12345 AS SQL_BIGINT) AS SQL_CHAR), CAST(CAST(-5 AS SQL_BIGINT) AS SQL_CHAR), CAST(CAST(1234567890123 AS SQL_BIGINT) AS SQL_CHAR), CAST(CAST(0 AS SQL_BIGINT) AS SQL_CHAR) FROM system.iota
+query SELECT CAST(CAST(1 AS SQL_TINYINT) AS SQL_CHAR), CAST(CAST(100 AS SQL_TINYINT) AS SQL_CHAR), CAST(CAST(-5 AS SQL_TINYINT) AS SQL_CHAR), CAST(CAST(1 AS SQL_INTEGER) AS SQL_CHAR), CAST(CAST(1 AS SQL_SMALLINT) AS SQL_CHAR), CAST(CAST(1.5 AS SQL_REAL) AS SQL_CHAR), CAST(CAST(1.5 AS SQL_FLOAT) AS SQL_CHAR) FROM system.iota
+query SELECT CAST(CAST(1 AS SQL_BIGINT) AS SQL_VARCHAR), CAST(CAST(1 AS SQL_TINYINT) AS SQL_VARCHAR), CAST(CAST(1.5 AS SQL_REAL) AS SQL_VARCHAR), CAST(NEWID() AS SQL_VARCHAR) FROM system.iota WHERE 1 = 0
+query SELECT CAST(NEWID() AS SQL_CHAR), CAST(NEWIDSTRING() AS SQL_CHAR), CAST(CAST('ABCDEF01-2345-6789-ABCD-EF0123456789' AS SQL_GUID) AS SQL_CHAR), CAST(CAST('2020-01-02' AS SQL_DATE) AS SQL_CHAR), CAST(CAST('2020-01-02 03:04:05' AS SQL_TIMESTAMP) AS SQL_CHAR), CAST(CAST(1 AS SQL_BIT) AS SQL_CHAR), CAST(1 AS SQL_CHAR), CAST(1000000 AS SQL_CHAR), CAST(1.5e0 AS SQL_CHAR), CAST(TRUE AS SQL_CHAR) FROM system.iota WHERE 1 = 0
+query SELECT CAST(l AS SQL_VARCHAR(10)), CAST(l AS SQL_CHAR(5)), CAST(NOT l AS SQL_CHAR), CAST(FALSE AS SQL_VARCHAR(10)), CAST(l AS SQL_CHAR(1)) FROM ci

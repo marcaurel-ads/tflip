@@ -1,0 +1,17 @@
+# Single-order .idx files (plain, unique, descending with a condition);
+# candidate orders (refused), a custom one, binary ones.
+tabletype cdx
+open f.dbf exclusive
+createindex fi.idx fi 0 512 c
+createindex fu.idx fu 1 512 c
+createindex fd.idx fd 8 512 UPPER(c) FOR n > 1
+createindex - cand 2050 512 n
+createindex - cand2 2050 512 c
+createindex - cust 6 512 c
+createindex - bin 4098 512 l
+createindex - bin2 4098 512 DELETED()
+order cust
+rows
+order bin2
+rows
+close

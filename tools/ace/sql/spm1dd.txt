@@ -1,0 +1,22 @@
+# sp_IgnoreTableTransactions on the tables of a data dictionary (dm/dm.add):
+# the dictionary and the table files it leaves are fixtures/sql/spm1dd/.
+#
+#     run.sh <work> <ace32.dll> spm1dd.txt > ../../../fixtures/sql/spm1dd.json
+#     cp <work>/data/dm/* ../../../fixtures/sql/spm1dd/
+ddcreate dm\dm.add
+stmt
+query CREATE TABLE da (id INTEGER)
+query CREATE TABLE db (id INTEGER)
+query CREATE TABLE dc (id INTEGER)
+query CREATE TABLE dd (id INTEGER) AS FREE TABLE
+closestmt
+stmt
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('da')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('db', true)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('db', false)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('dc.adt')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('DC', false)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('dd')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('nosuch')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions(NULL)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('')

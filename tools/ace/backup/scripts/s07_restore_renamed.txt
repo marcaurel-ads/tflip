@@ -1,0 +1,6 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\other.add', NULL)
+connect 2 dst\other.add
+sql 2 SELECT COUNT(*) FROM t_adt
+sql 2 SELECT name FROM system.tables ORDER BY name

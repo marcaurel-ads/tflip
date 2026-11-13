@@ -1,0 +1,117 @@
+stmt
+direct CREATE TABLE lg (id INTEGER, n INTEGER, b LOGICAL, d DOUBLE, s CHAR(5), v VARCHAR(5), dt DATE, m MEMO, nm NUMERIC(5,2), bi BIGINT)
+directnull INSERT INTO lg VALUES (1, 5, TRUE, 1.5, 'abc', 'abc', '2020-01-01', 'xyz', 1.5, 7)
+directnull INSERT INTO lg VALUES (2, 0, FALSE, 0, '', '', NULL, NULL, 0, 0)
+directnull INSERT INTO lg VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+directnull INSERT INTO lg VALUES (4, -1, TRUE, 0.5, 'F', 'F', '1900-01-01', '', 0.5, -1)
+directnull INSERT INTO lg VALUES (5, 1, TRUE, 0, '0', '0', '2020-01-01', '', 0, 1)
+expr '' AND 1
+expr 'F' AND 1
+expr '0' AND 1
+expr 'false' AND 1
+expr x'00' AND 1
+expr x'' AND 1
+expr 0.0 AND 1
+expr 0.5 AND 1
+expr 1e0 AND 1
+expr 0e0 AND 1
+expr 1 AND ''
+expr 1 AND 0
+expr 1 AND 0.0
+expr 1 OR ''
+expr NOT ''
+expr NOT x'00'
+expr NOT 0.0
+expr 1 AND DATE '2020-01-01'
+expr 1 AND CURDATE()
+expr 1 AND CAST(0 AS SQL_BIGINT)
+expr 1 AND CAST(0 AS SQL_DOUBLE)
+expr 1 AND CAST(0 AS SQL_MONEY)
+expr 1 AND NULL
+expr TRUE AND NULL
+expr 1 AND CAST(NULL AS SQL_INTEGER)
+expr NOT CAST(NULL AS SQL_INTEGER)
+expr CAST(NULL AS SQL_INTEGER) AND TRUE
+expr CAST(NULL AS SQL_INTEGER) OR TRUE
+expr CAST(NULL AS SQL_INTEGER) AND FALSE
+expr 1 + 1 AND 1
+expr 1 = 1 OR 5
+expr ABS(1) AND 1
+expr (SELECT 1 FROM system.iota) AND 1
+expr 1 AND (SELECT 0 FROM system.iota)
+expr 1 AND ?
+query SELECT id, n AND b, n OR b, NOT n FROM lg ORDER BY id
+query SELECT id, d AND b, d OR b, NOT d FROM lg ORDER BY id
+query SELECT id, s AND b, s OR b, NOT s FROM lg ORDER BY id
+query SELECT id, v AND b, v OR b, NOT v FROM lg ORDER BY id
+query SELECT id, dt AND b, NOT dt FROM lg ORDER BY id
+query SELECT id, m AND b, NOT m FROM lg ORDER BY id
+query SELECT id, nm AND b, NOT nm FROM lg ORDER BY id
+query SELECT id, bi AND b, NOT bi FROM lg ORDER BY id
+query SELECT id, b AND TRUE, b OR FALSE, NOT b FROM lg ORDER BY id
+query SELECT id, n AND d FROM lg ORDER BY id
+query SELECT id FROM lg WHERE n AND n
+query SELECT id FROM lg WHERE n + 1 AND b
+query SELECT id FROM lg WHERE ABS(n) AND b
+query SELECT id FROM lg WHERE (n) AND b
+query SELECT id FROM lg WHERE 1 AND 1
+query SELECT id FROM lg WHERE 'a'
+query SELECT id FROM lg WHERE ''
+query SELECT id FROM lg WHERE 0 OR b
+query SELECT id FROM lg WHERE 1 + 1
+query SELECT id FROM lg WHERE ABS(1)
+query SELECT id FROM lg WHERE NOT 1
+query SELECT id FROM lg WHERE NOT 0
+query SELECT id FROM lg WHERE b AND NOT 0
+query SELECT id FROM lg WHERE (SELECT 1 FROM system.iota)
+query SELECT id FROM lg WHERE id = 1 OR 0.5
+query SELECT id FROM lg WHERE id = 1 OR 0
+query SELECT id FROM lg WHERE id = 1 OR 1
+query SELECT id FROM lg WHERE x'00'
+query SELECT id FROM lg WHERE NULL
+query SELECT id FROM lg WHERE CAST(NULL AS SQL_INTEGER)
+query SELECT id FROM lg WHERE b AND CAST(NULL AS SQL_INTEGER)
+query SELECT id FROM lg WHERE n AND 1
+query SELECT id FROM lg WHERE b OR n
+query SELECT id FROM lg WHERE id = n AND 1
+query SELECT id FROM lg HAVING 1
+query SELECT id FROM lg GROUP BY id HAVING 1
+query SELECT id FROM lg GROUP BY id HAVING 0
+query SELECT id FROM lg GROUP BY id HAVING 1 AND id > 2
+query SELECT id FROM lg a JOIN lg c ON 1
+query SELECT a.id FROM lg a JOIN lg c ON 1 AND a.id = c.id
+query SELECT a.id FROM lg a JOIN lg c ON a.id = c.id AND 1
+query SELECT a.id FROM lg a JOIN lg c ON a.id
+query SELECT id FROM lg WHERE id IN (SELECT id FROM lg WHERE 1)
+query SELECT id, CASE WHEN id = 1 AND 1 THEN 'a' ELSE 'b' END FROM lg
+query SELECT id, IIF(1 AND 1, 'a', 'b') FROM lg
+query SELECT id, IIF(n AND b, 'a', 'b') FROM lg
+query SELECT id, IIF(n, 'a', 'b') FROM lg
+query SELECT id, IIF(0, 'a', 'b') FROM lg
+query SELECT id, IIF(1, 'a', 'b') FROM lg
+query SELECT id, IIF(2, 'a', 'b') FROM lg
+query SELECT id, IIF('a', 'a', 'b') FROM lg
+query SELECT id, IIF(b, 'a', 'b') FROM lg
+query SELECT id, IIF(id, 'a', 'b') FROM lg
+query DECLARE i INTEGER; i = 2; IF 2 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF 'a' THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF 1 AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF NOT 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE 0 DO i = 10; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE 1 AND 0 DO i = 10; ENDWHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE 1 AND 0 DO i = 10; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE 1 AND i < 4 DO i = i + 1; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; WHILE i < 4 AND 1 DO i = i + 1; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i = 2 AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 2; IF i AND 1 THEN i = 10; ENDIF; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER, b LOGICAL; i = 2; b = 1 AND 1; SELECT b AS b FROM system.iota
+query DECLARE i INTEGER, b LOGICAL; i = 2; b = i; SELECT b AS b FROM system.iota
+query DECLARE i INTEGER, b LOGICAL; i = 0; b = i AND 1; SELECT b AS b FROM system.iota
+directnull UPDATE lg SET b = 1 AND 1 WHERE id = 2
+query SELECT b FROM lg WHERE id = 2
+directnull UPDATE lg SET b = n AND b WHERE id = 2
+query SELECT b FROM lg WHERE id = 2
+directnull INSERT INTO lg (id, b) VALUES (9, 1 AND 0)
+query SELECT b FROM lg WHERE id = 9

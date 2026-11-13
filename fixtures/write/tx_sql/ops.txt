@@ -1,0 +1,1277 @@
+# SQL statements and transactions on the remote server, a table per
+# case (ids 1, 2, 3, 20; a unique order on id). A statement that fails part
+# way: UPDATE SET id = id * 10 changes record 1, then record 2's 20 is
+# taken (7057); INSERT ... SELECT id * 10 adds 10, then 20 is taken; a
+# DELETE meets record 2, which the other connection has locked (5035).
+# Each outside a transaction, in one, and in each mode of SET TRANSACTION;
+# the records read back from both connections.
+# plain_update
+open plain_update shared
+open2 plain_update shared
+use 1
+sql SET TRANSACTION EXPLICIT
+sql UPDATE plain_update SET id = id * 10
+txcount
+use 1
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 2
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 1
+# plain_insert
+open plain_insert shared
+open2 plain_insert shared
+use 3
+sql SET TRANSACTION EXPLICIT
+sql INSERT INTO plain_insert SELECT id * 10, 'new' FROM plain_insert WHERE id < 3
+txcount
+use 3
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 4
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 3
+# plain_delete
+open plain_delete shared
+open2 plain_delete shared
+use 5
+sql SET TRANSACTION EXPLICIT
+use 6
+goto 2
+lock 2
+use 5
+sql DELETE FROM plain_delete WHERE id <> 20
+use 6
+unlock 2
+use 5
+txcount
+use 5
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 6
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 5
+# tx_update
+open tx_update shared
+open2 tx_update shared
+use 7
+sql SET TRANSACTION EXPLICIT
+begin
+sql UPDATE tx_update SET name = 'y' WHERE id = 3
+sql UPDATE tx_update SET id = id * 10
+txcount
+use 7
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 8
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 7
+rollback
+txcount
+use 7
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 8
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 7
+# tx_delete
+open tx_delete shared
+open2 tx_delete shared
+use 9
+sql SET TRANSACTION EXPLICIT
+begin
+use 10
+goto 2
+lock 2
+use 9
+sql DELETE FROM tx_delete WHERE id <> 20
+use 10
+unlock 2
+use 9
+txcount
+use 9
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 10
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 9
+rollback
+txcount
+use 9
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 10
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 9
+# on_update
+open on_update shared
+open2 on_update shared
+use 11
+sql SET TRANSACTION AUTOCOMMIT_ON
+sql UPDATE on_update SET id = id * 10
+txcount
+use 11
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 12
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 11
+# on_insert
+open on_insert shared
+open2 on_insert shared
+use 13
+sql SET TRANSACTION AUTOCOMMIT_ON
+sql INSERT INTO on_insert SELECT id * 10, 'new' FROM on_insert WHERE id < 3
+txcount
+use 13
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 14
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 13
+# on_delete
+open on_delete shared
+open2 on_delete shared
+use 15
+sql SET TRANSACTION AUTOCOMMIT_ON
+use 16
+goto 2
+lock 2
+use 15
+sql DELETE FROM on_delete WHERE id <> 20
+use 16
+unlock 2
+use 15
+txcount
+use 15
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 16
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 15
+# on_ok
+open on_ok shared
+open2 on_ok shared
+use 17
+sql SET TRANSACTION AUTOCOMMIT_ON
+sql UPDATE on_ok SET name = 'z' WHERE id = 3
+txcount
+use 18
+islocked 3
+use 17
+txcount
+use 17
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 18
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 17
+# off_update
+open off_update shared
+open2 off_update shared
+use 19
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql UPDATE off_update SET id = id * 10
+txcount
+use 19
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 20
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 19
+rollback
+txcount
+use 19
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 20
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 19
+# off_insert
+open off_insert shared
+open2 off_insert shared
+use 21
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql INSERT INTO off_insert SELECT id * 10, 'new' FROM off_insert WHERE id < 3
+txcount
+use 21
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 22
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 21
+rollback
+txcount
+use 21
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 22
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 21
+# off_delete
+open off_delete shared
+open2 off_delete shared
+use 23
+sql SET TRANSACTION AUTOCOMMIT_OFF
+use 24
+goto 2
+lock 2
+use 23
+sql DELETE FROM off_delete WHERE id <> 20
+use 24
+unlock 2
+use 23
+txcount
+use 23
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 24
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 23
+rollback
+txcount
+use 23
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 24
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 23
+# off_later
+open off_later shared
+open2 off_later shared
+use 25
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql UPDATE off_later SET name = 'p' WHERE id = 3
+txcount
+sql UPDATE off_later SET id = id * 10
+txcount
+use 25
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 26
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 25
+rollback
+txcount
+use 25
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 26
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 25
+# off_first
+open off_first shared
+open2 off_first shared
+use 27
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql UPDATE off_first SET id = 3 WHERE id = 2
+txcount
+rollback
+txcount
+use 27
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 28
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 27
+# off_ok
+open off_ok shared
+open2 off_ok shared
+use 29
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql UPDATE off_ok SET name = 'w' WHERE id = 3
+txcount
+sql INSERT INTO off_ok VALUES (4, 'four')
+txcount
+use 29
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 30
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 29
+rollback
+txcount
+txcount
+use 29
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 30
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 29
+# plain_update_lock
+open plain_update_lock shared
+open2 plain_update_lock shared
+use 31
+sql SET TRANSACTION EXPLICIT
+use 32
+goto 2
+lock 2
+use 31
+sql UPDATE plain_update_lock SET name = 'x'
+use 32
+unlock 2
+use 31
+txcount
+use 31
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 32
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 31
+# on_update_lock
+open on_update_lock shared
+open2 on_update_lock shared
+use 33
+sql SET TRANSACTION AUTOCOMMIT_ON
+use 34
+goto 2
+lock 2
+use 33
+sql UPDATE on_update_lock SET name = 'x'
+use 34
+unlock 2
+use 33
+txcount
+use 33
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 34
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 33
+# tx_update_lock
+open tx_update_lock shared
+open2 tx_update_lock shared
+use 35
+sql SET TRANSACTION EXPLICIT
+begin
+use 36
+goto 2
+lock 2
+use 35
+sql UPDATE tx_update_lock SET name = 'x'
+use 36
+unlock 2
+use 35
+txcount
+use 35
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 36
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+use 35
+rollback
+# tx_insert
+open tx_insert shared
+open2 tx_insert shared
+use 37
+sql SET TRANSACTION EXPLICIT
+begin
+sql UPDATE tx_insert SET name = 'y' WHERE id = 3
+sql INSERT INTO tx_insert SELECT id * 10, 'new' FROM tx_insert WHERE id < 3
+txcount
+use 37
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 38
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 37
+rollback
+# tx_update_later
+open tx_update_later shared
+open2 tx_update_later shared
+use 39
+sql SET TRANSACTION EXPLICIT
+begin
+sql UPDATE tx_update_later SET name = 'y' WHERE id = 3
+sql UPDATE tx_update_later SET id = id * 10 WHERE id > 1
+txcount
+use 39
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 40
+goto 1
+get id
+get name
+goto 2
+get id
+get name
+goto 3
+get id
+get name
+goto 4
+get id
+get name
+goto 5
+get id
+get name
+goto 6
+get id
+get name
+use 39
+rollback
+# The mode after an explicit transaction, and after SQL's.
+sql SET TRANSACTION AUTOCOMMIT_OFF
+begin
+txcount
+sql UPDATE on_ok SET name = 'u' WHERE id = 3
+txcount
+commit
+sql UPDATE on_ok SET name = 't' WHERE id = 3
+txcount
+rollback
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql BEGIN TRANSACTION
+txcount
+sql COMMIT
+sql UPDATE on_ok SET name = 's' WHERE id = 3
+txcount
+rollback
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql SELECT * FROM on_ok
+txcount
+sql SET TRANSACTION AUTOCOMMIT_OFF
+sql SET TRANSACTION EXPLICIT
+sql UPDATE on_ok SET name = 'q' WHERE id = 3
+txcount
+sql SET TRANSACTION AUTOCOMMIT_ON
+begin
+sql SET TRANSACTION EXPLICIT
+rollback

@@ -1,0 +1,10 @@
+# A plain dictionary with subscriptions that have no password and a password of one character, a link with a user and a password of 6 characters that is not global (refused: 5097) and one that is, a user with a password, and an ADSSYS password (adm).
+ddcreate 0 %D\W\W.add
+sql EXECUTE PROCEDURE sp_CreateUser('u1', 'userpw', 'a user')
+ddlink lk1 W.add ADSSYS linkpw 0
+ddlink lk2 W.add ADSSYS linkpw 1
+ddpub pub1 a~publication 0
+ddsub sub2 pub1 target~two repuser - queue2 1 - 0
+ddsub sub4 pub1 target~four repuser p queue4 1 - 0
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ADMIN_PASSWORD', 'adm')
+disconnect

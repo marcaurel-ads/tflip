@@ -1,0 +1,20 @@
+[
+{"user": "ADSSYS", "password": "adssyspw", "rc": 0},
+{"user": "ADSSYS", "password": "wrong", "rc": 7078},
+{"user": "ADSSYS", "password": "", "rc": 7078},
+{"user": "ADSSYS", "password": null, "rc": 7078},
+{"user": "ADSSYS", "password": "ADSSYSPW", "rc": 7078},
+{"user": "adssys", "password": "adssyspw", "rc": 0},
+{"user": "alice", "password": "secret", "rc": 0},
+{"user": "alice", "password": "wrong", "rc": 7078},
+{"user": "alice", "password": "", "rc": 7078},
+{"user": "alice", "password": null, "rc": 7078},
+{"user": "alice", "password": "Secret", "rc": 7078},
+{"user": "alice", "password": "SECRET", "rc": 7078},
+{"user": "ALICE", "password": "secret", "rc": 0},
+{"user": "Alice", "password": "secret", "rc": 0},
+{"user": null, "password": null, "rc": 0},
+{"user": null, "password": "secret", "rc": 0},
+{"user": "nobody", "password": "x", "rc": 7078},
+{"user": "", "password": "", "rc": 0}
+]

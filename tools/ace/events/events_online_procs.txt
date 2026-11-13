@@ -1,0 +1,161 @@
+# What the online maintenance procedures do while other connections use the
+# table, on the remote server. sp_PackTableOnline leaves the table open (reads
+# and writes, and what they write is in the packed table) until its final
+# stage, which waits for the transactions on the table to end, signals
+# `__OPFinalStage_<table>` and then takes the table; sp_ReindexOnline works
+# the same and signals no event; sp_PackAllTablesOnline signals one event for
+# each table it packs, a free table's folder's tables as well as a
+# dictionary's. The Timeout option (seconds) bounds the wait for a
+# transaction: 7176 for a pack, 7189 for a reindex, and the offline pack and
+# reindex are refused (7008) meanwhile. A reader's open cursor does not hold
+# an online pack back.
+#
+# The tables are not read between the online calls on them (see
+# events_online_args.txt for why); the times are the original's, which a
+# replay need not keep.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_online_procs.txt
+#             > ../../../fixtures/events/events_online_procs.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+connect 2 d\d.add
+connect 3 d\d.add
+sql 1 CREATE TABLE big (n INTEGER, s CHAR(40), x DOUBLE)
+sql 1 INSERT INTO big VALUES (1, 'abcdefghij', 1.5)
+sql 1 INSERT INTO big SELECT n + 1, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 2, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 4, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 8, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 16, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 32, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 64, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 128, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 256, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 512, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 1024, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 2048, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 4096, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 8192, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 16384, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 32768, s, x FROM big
+sql 1 INSERT INTO big SELECT n + 65536, s, x FROM big
+sql 1 CREATE INDEX bs ON big (s, n)
+sql 1 DELETE FROM big WHERE n > 40000
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_big', 0)
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('__ORFinalStage_big', 0)
+# sp_PackTableOnline: the other connection reads and writes meanwhile, and the
+# event is signalled.
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_big', 8000, 0, 0)
+sleep 50
+async 1 EXECUTE PROCEDURE sp_PackTableOnline('big')
+sleep 15
+sql 3 INSERT INTO big VALUES (-1, 'zz', 0)
+sql 3 DELETE FROM big WHERE n = 5
+sql 3 UPDATE big SET s = 'yy' WHERE n = 6
+join 2
+join 1
+sql 3 SELECT COUNT(*) FROM big
+sql 3 SELECT n FROM big WHERE s = 'zz' ORDER BY n
+sql 3 SELECT n FROM big WHERE s = 'yy'
+sql 3 SELECT COUNT(*) FROM big WHERE n = 5
+# sp_ReindexOnline: the same, and no event. A pack leaves the table's readers
+# refused a second online operation (see events_online_args.txt), so the reader
+# goes and another comes.
+disconnect 3
+connect 4 d\d.add
+sql 1 DELETE FROM big WHERE n > 20000
+async 2 EXECUTE PROCEDURE sp_WaitForEvent('__ORFinalStage_big', 1500, 0, 0)
+sleep 50
+async 1 EXECUTE PROCEDURE sp_ReindexOnline('big')
+sleep 5
+sql 4 INSERT INTO big VALUES (-2, 'zy', 0)
+join 1
+join 2
+sql 4 SELECT n FROM big WHERE s = 'zy' ORDER BY n
+sql 4 SELECT n FROM big WHERE s + '' = 'zy' ORDER BY n
+sql 4 SELECT COUNT(*) FROM big
+disconnect 4
+# A transaction on the table holds the final stage back: the others read and
+# write meanwhile, the offline pack and reindex are refused, a wait for the
+# event ends without it, and the Timeout ends the call (7176, 7189).
+connect 3 d\d.add
+connect 4 d\d.add
+connect 5 d\d.add
+sql 1 CREATE TABLE tx (n INTEGER, s CHAR(10))
+sql 1 CREATE INDEX txs ON tx (s)
+sql 1 CREATE TABLE ty (n INTEGER, s CHAR(10))
+sql 1 INSERT INTO tx VALUES (1, 'a')
+sql 1 INSERT INTO tx VALUES (2, 'b')
+sql 1 INSERT INTO ty VALUES (1, 'a')
+sql 1 INSERT INTO ty VALUES (2, 'b')
+sql 1 DELETE FROM tx WHERE n = 1
+sql 1 DELETE FROM ty WHERE n = 1
+sql 5 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_tx', 0)
+sql 4 BEGIN TRANSACTION
+sql 4 INSERT INTO tx VALUES (3, 'c')
+async 5 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_tx', 800, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_PackTableOnline('tx', 'Timeout=1')
+join 5
+sql 2 EXECUTE PROCEDURE sp_ReindexOnline('tx', 'Timeout=1')
+sql 2 EXECUTE PROCEDURE sp_PackAllTablesOnline('Timeout=1')
+sql 2 EXECUTE PROCEDURE sp_PackTable('tx')
+sql 2 EXECUTE PROCEDURE sp_Reindex('tx', 0)
+sql 2 EXECUTE PROCEDURE sp_PackTableOnline('ty', 'Timeout=1')
+sql 2 EXECUTE PROCEDURE sp_ReindexOnline('ty', 'Timeout=1')
+sql 3 INSERT INTO tx VALUES (4, 'd')
+sql 3 UPDATE tx SET s = 'dd' WHERE n = 4
+async 5 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_tx', 4000, 0, 0)
+async 2 EXECUTE PROCEDURE sp_PackTableOnline('tx', 'Timeout=0')
+sleep 1000
+sql 3 INSERT INTO tx VALUES (5, 'e')
+sql 4 COMMIT WORK
+join 2
+join 5
+sql 3 EXECUTE PROCEDURE sp_GetTableSizeInfo('tx')
+sql 3 SELECT n, s FROM tx ORDER BY n
+# sp_PackAllTablesOnline: an event for each table of the dictionary, and of
+# the folder for free tables.
+sql 0 CREATE DATABASE "e\e.add"
+connect 6 e\e.add
+connect 7 e\e.add
+connect 10 e\e.add
+sql 6 CREATE TABLE pa (n INTEGER, s CHAR(10))
+sql 6 CREATE TABLE pb (n INTEGER, s CHAR(10))
+sql 6 INSERT INTO pa VALUES (1, 'a')
+sql 6 INSERT INTO pa VALUES (2, 'b')
+sql 6 INSERT INTO pb VALUES (1, 'a')
+sql 6 INSERT INTO pb VALUES (2, 'b')
+sql 6 DELETE FROM pa WHERE n = 1
+sql 6 DELETE FROM pb WHERE n = 1
+sql 7 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_pa', 0)
+sql 10 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_pb', 0)
+async 7 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_pa', 1500, 0, 0)
+async 10 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_pb', 1500, 0, 0)
+sleep 50
+sql 6 EXECUTE PROCEDURE sp_PackAllTablesOnline()
+join 7
+join 10
+sql 6 EXECUTE PROCEDURE sp_GetTableSizeInfo('pa')
+sql 6 EXECUTE PROCEDURE sp_GetTableSizeInfo('pb')
+sql 0 CREATE TABLE fa (n INTEGER, s CHAR(10))
+sql 0 CREATE TABLE fb (n INTEGER, s CHAR(10))
+sql 0 INSERT INTO fa VALUES (1, 'a')
+sql 0 INSERT INTO fa VALUES (2, 'b')
+sql 0 INSERT INTO fb VALUES (1, 'a')
+sql 0 INSERT INTO fb VALUES (2, 'b')
+sql 0 DELETE FROM fa WHERE n = 1
+sql 0 DELETE FROM fb WHERE n = 1
+free 8
+free 9
+sql 8 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_fa', 0)
+sql 9 EXECUTE PROCEDURE sp_CreateEvent('__OPFinalStage_fb', 0)
+async 8 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_fa', 1500, 0, 0)
+async 9 EXECUTE PROCEDURE sp_WaitForEvent('__OPFinalStage_fb', 1500, 0, 0)
+sleep 50
+sql 0 EXECUTE PROCEDURE sp_PackAllTablesOnline()
+join 8
+join 9
+sql 0 EXECUTE PROCEDURE sp_GetTableSizeInfo('fa')
+sql 0 EXECUTE PROCEDURE sp_GetTableSizeInfo('fb')

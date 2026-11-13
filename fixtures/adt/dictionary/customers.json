@@ -1,0 +1,26 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 56,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "name", "type": 4, "type_name": "Character", "length": 30, "decimals": 0},
+  {"name": "credit", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "note", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "PK_CUSTOMERS", "file": "customers.adi", "expression": "id", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": true, "descending": false, "candidate": true, "custom": false, "compound": true, "primary_key": true, "nullable": false, "fts": false, "key_count": 2, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "040000000001000000416c6963652020202020202020202020202020202020202020202020202040420f0000000000810000000e00000000", "values": {"id": {"text": "1"}, "name": {"text": "Alice                         "}, "credit": {"text": "100.0000"}, "note": {"text": "first customer"}}},
+  {"recno": 2, "deleted": false, "raw": "040000000002000000756e6b6e6f776e2020202020202020202020202020202020202020202020e050240000000000000000000000000000", "values": {"id": {"text": "2"}, "name": {"text": "unknown                       "}, "credit": {"text": "238.0000"}, "note": {"null": true}}}
+ ]
+}

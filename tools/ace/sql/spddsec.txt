@@ -1,0 +1,24 @@
+# sp_GetSecurityInfo: the columns of its one row, on a dictionary connection,
+# for a user who is not the administrator and on a free connection (the
+# dictionary, de/de.add, is kept in fixtures/sql/spddsec/).
+#
+#     run.sh <work> <ace32.dll> spddsec.txt > ../../../fixtures/sql/spddsec.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddsec/
+ddcreate de\de.add
+stmt
+query EXECUTE PROCEDURE sp_GetSecurityInfo()
+query SELECT * FROM (EXECUTE PROCEDURE sp_GetSecurityInfo()) a
+query SELECT FIPSMode, EncryptionType FROM (EXECUTE PROCEDURE sp_GetSecurityInfo()) a
+query EXECUTE PROCEDURE sp_GetSecurityInfo('x')
+query EXECUTE PROCEDURE sp_GetSecurityInfo(1)
+query EXECUTE PROCEDURE sp_GetSecurityInfo(NULL)
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+disconnect
+connect de\de.add u1 pw1
+stmt
+query EXECUTE PROCEDURE sp_GetSecurityInfo()
+disconnect
+connect de
+stmt
+query EXECUTE PROCEDURE sp_GetSecurityInfo()
+query EXECUTE PROCEDURE sp_GetSecurityInfo('x')

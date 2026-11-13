@@ -1,0 +1,38 @@
+# SHOW PLAN FOR UPDATE ... FROM (and the UPDATEs and DELETEs without one to compare) on ADT tables in an
+# empty folder, without an index and with one.
+# For fixtures/sql/planupd.json:
+#
+#     run.sh <work> <ace32.dll> planupd.txt > ../../../fixtures/sql/planupd.json
+stmt
+directnull CREATE TABLE a (id Integer, name Char(10), val Integer)
+directnull CREATE TABLE b (id Integer, name Char(10), val Integer)
+directnull CREATE TABLE c (id Integer, name Char(10), val Integer)
+directnull INSERT INTO a VALUES (1, 'a1', 10)
+directnull INSERT INTO a VALUES (2, 'a2', 20)
+directnull INSERT INTO b VALUES (1, 'b1', 100)
+directnull INSERT INTO b VALUES (2, 'b2', 200)
+directnull INSERT INTO c VALUES (1, 'c1', 1000)
+directnull CREATE INDEX bid ON b (id)
+query SHOW PLAN FOR UPDATE a SET val = 1
+query SHOW PLAN FOR UPDATE a SET val = 1 WHERE id = 1
+query SHOW PLAN FOR UPDATE b SET val = 1 WHERE id = 1
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id
+query SHOW PLAN FOR UPDATE a SET val = b.val + 1, name = b.name FROM b WHERE a.id = b.id
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a, b WHERE a.id = b.id
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id WHERE b.val > 100
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id WHERE a.val > 10
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a LEFT JOIN b ON a.id = b.id
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM b INNER JOIN a ON a.id = b.id
+query SHOW PLAN FOR UPDATE a SET a.val = b.val FROM a INNER JOIN b ON a.id = b.id INNER JOIN c ON c.id = a.id
+query SHOW PLAN FOR UPDATE a SET val = b.val FROM b WHERE a.id = b.id AND b.val > 100
+query SHOW PLAN FOR UPDATE a SET val = 5 FROM b WHERE a.id = b.id
+query SHOW PLAN FOR UPDATE a SET val = 5 WITH DELETE FROM b WHERE a.id = b.id
+query SHOW PLAN FOR UPDATE a SET val = 5 WITH RECALL FROM b WHERE a.id = b.id
+query SHOW PLAN FOR UPDATE a x SET x.val = y.val FROM a x INNER JOIN b y ON x.id = y.id
+query SHOW PLAN FOR UPDATE a SET a.val = a2.val FROM a a2 WHERE a.id = a2.id + 1
+query SHOW PLAN FOR UPDATE a SET val = 1 FROM nosuch WHERE a.id = nosuch.id
+query SHOW PLAN FOR DELETE FROM a
+query SHOW PLAN FOR DELETE FROM a WHERE id = 1
+query SHOW PLAN FOR DELETE FROM b WHERE id = 1
+query SHOW PLAN FOR INSERT INTO c VALUES (2, 'x', 1)
+query SHOW PLAN FOR INSERT INTO c SELECT * FROM a

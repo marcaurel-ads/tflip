@@ -1,0 +1,18 @@
+ddcreate 0 %D\x2\d.add
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+dbset 120 1
+disconnect
+connect Data Source=%D\x2;ServerType=LOCAL;
+sql CREATE TABLE ft (id INTEGER, note MEMO)
+sql INSERT INTO ft VALUES (1, 'free memo')
+sql CREATE INDEX ft_id ON ft (id)
+sql CREATE TABLE ft2 (id INTEGER)
+sql INSERT INTO ft2 VALUES (1)
+disconnect
+connect Data Source=%D\x2\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=;
+addtable ft ft.adt ft.adi
+addtable ft2 ft2.adt
+tget ft 214
+tget ft2 214
+disconnect

@@ -1,0 +1,101 @@
+# Database triggers ON DATABASE AFTER CONNECT and BEFORE DISCONNECT firing, in an
+# empty folder with a dictionary dbt/dbt.add the script creates (kept in
+# fixtures/sql/trigdbfire/, which the replay compares but for the audit
+# table, which holds the folder's path): what __info
+# tells them (the values that do not differ from one machine or run to the
+# next), a failing CONNECT trigger refusing the connection with 7109 but for
+# ADSSYS, __error and RAISE in them, the order of several, DISCONNECT
+# triggers' errors ignored. Recorded on the local server:
+#
+#     run.sh <work> <ace32.dll> trigdbfire.txt > ../../../fixtures/sql/trigdbfire.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigdbfire/
+#
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE audit (msg VARCHAR(400))
+direct CREATE TABLE t1 (id INTEGER)
+dduser bob bobpw
+direct GRANT ALL ON t1 TO bob
+#
+# CONNECT: what __info tells.
+direct CREATE TRIGGER c1 ON DATABASE AFTER CONNECT BEGIN INSERT INTO audit (msg) SELECT 'TrigType=' + TRIM(TrigType) FROM __info; INSERT INTO audit (msg) SELECT 'TrigEvent=' + TRIM(TrigEvent) FROM __info; INSERT INTO audit (msg) SELECT 'UserName=' + TRIM(UserName) FROM __info; INSERT INTO audit (msg) SELECT 'ConnPath=' + TRIM(ConnPath) FROM __info; INSERT INTO audit (msg) SELECT 'Address=' + IFNULL(TRIM(Address), '<null>') FROM __info; INSERT INTO audit (msg) SELECT 'StmtCount=' + CAST(StmtCount AS SQL_CHAR(10)) FROM __info; INSERT INTO audit (msg) SELECT 'CommType=' + TRIM(CommType) FROM __info; INSERT INTO audit (msg) SELECT 'EncrType=' + TRIM(EncrType) FROM __info; INSERT INTO audit (msg) SELECT 'TLS=' + IFNULL(TRIM(TLSCipher), '<null>') + '/' + IFNULL(TRIM(TLSVersion), '<null>') FROM __info; INSERT INTO audit (msg) SELECT 'Columns=' + CAST(COUNT(*) AS SQL_CHAR(10)) FROM system.columns WHERE parent = 'audit'; END
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER c1
+#
+# Several: in order of priority, and each one's own __info.
+direct CREATE TRIGGER c2 ON DATABASE AFTER CONNECT BEGIN INSERT INTO audit (msg) SELECT 'c2 ' + TRIM(UserName) FROM __info; END PRIORITY 2
+direct CREATE TRIGGER c3 ON DATABASE AFTER CONNECT BEGIN INSERT INTO audit (msg) SELECT 'c3 ' + TRIM(UserName) FROM __info; END PRIORITY 1
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER c2
+direct DROP TRIGGER c3
+#
+# A failing CONNECT trigger: the connection is refused (7109), but for ADSSYS,
+# which is let in; what the trigger wrote stays.
+direct CREATE TRIGGER c4 ON DATABASE AFTER CONNECT BEGIN INSERT INTO audit (msg) SELECT 'c4 ' + TRIM(UserName) FROM __info; RAISE bad(1, 'no connect'); END
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER c4
+# The same by __error, and by a statement that fails.
+direct CREATE TRIGGER c5 ON DATABASE AFTER CONNECT BEGIN INSERT INTO __error (errno, message) VALUES (4242, 'refused'); END
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+direct DROP TRIGGER c5
+direct CREATE TRIGGER c6 ON DATABASE AFTER CONNECT BEGIN INSERT INTO nosuchtable VALUES (1); END
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+direct DROP TRIGGER c6
+direct CREATE TRIGGER c7 ON DATABASE AFTER CONNECT BEGIN INSERT INTO __error (message) VALUES ('only text'); END
+connect dbt\dbt.add bob bobpw
+connect dbt\dbt.add ADSSYS
+stmt
+direct DROP TRIGGER c7
+#
+# A wrong password is refused before any trigger runs.
+direct CREATE TRIGGER c8 ON DATABASE AFTER CONNECT BEGIN INSERT INTO audit (msg) VALUES ('c8'); END
+connect dbt\dbt.add bob wrong
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER c8
+#
+# DISCONNECT: BEFORE, at AdsDisconnect, an error in it ignored.
+direct CREATE TRIGGER d1 ON DATABASE BEFORE DISCONNECT BEGIN INSERT INTO audit (msg) SELECT 'd1 ' + TRIM(TrigType) + ' ' + TRIM(TrigEvent) + ' ' + TRIM(UserName) FROM __info; END
+connect dbt\dbt.add bob bobpw
+disconnect
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER d1
+direct CREATE TRIGGER d2 ON DATABASE BEFORE DISCONNECT BEGIN INSERT INTO audit (msg) VALUES ('d2'); RAISE bad(1, 'no disconnect'); END
+connect dbt\dbt.add bob bobpw
+disconnect
+connect dbt\dbt.add ADSSYS
+stmt
+query SELECT msg FROM audit
+direct DELETE FROM audit
+direct DROP TRIGGER d2
+direct CREATE TRIGGER d3 ON DATABASE BEFORE DISCONNECT BEGIN INSERT INTO __error (errno, message) VALUES (1, 'x'); END
+connect dbt\dbt.add bob bobpw
+disconnect
+connect dbt\dbt.add ADSSYS
+stmt
+direct DROP TRIGGER d3

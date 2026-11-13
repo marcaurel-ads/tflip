@@ -1,0 +1,57 @@
+# VFP fields that take NULL, written in a transaction on the remote server:
+# the _NullFlags byte while the record is marked, after a rollback and
+# after a commit.
+tabletype vfp
+open v shared
+open2 v shared
+use 1
+begin
+goto 1
+set n null
+set vc null
+set m null
+write
+goto 2
+set n string two
+set d date 2021-03-04
+set vc string vc two
+set m string memo two
+write
+flush
+snapshot changed
+use 2
+goto 1
+get n
+get vc
+use 1
+goto 1
+get n
+get vc
+get m
+rollback
+flush
+snapshot rolledback
+goto 1
+get n
+get m
+begin
+goto 1
+set n null
+set vc string short
+write
+goto 3
+set n null
+set d null
+write
+append
+set id long 4
+set vc null
+write
+commit
+flush
+snapshot committed
+goto 1
+get n
+get vc
+goto 3
+get d

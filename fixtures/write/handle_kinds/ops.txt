@@ -1,0 +1,20 @@
+# the kinds of handle
+use conn
+handletype
+open f.adt
+use 1
+handletype
+handletype ix
+handletype fts
+close
+open g.adt
+append
+set id long 3
+write
+close
+ddconnect hk.add
+use conn
+handletype
+cursor SELECT * FROM t
+use 3
+handletype

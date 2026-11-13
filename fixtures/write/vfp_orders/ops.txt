@@ -1,0 +1,13 @@
+# Orders on fields that take NULL; candidate orders (one on such a
+# field, which leaves NULL out).
+tabletype vfp
+open v.dbf exclusive
+createindex - c 2 512 c
+createindex - i 2 512 i
+createindex - cand 2050 512 k
+createindex - cand2 2050 512 c
+order c
+rows
+order cand
+rows
+close

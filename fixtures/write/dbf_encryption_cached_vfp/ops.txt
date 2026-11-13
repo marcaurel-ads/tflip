@@ -1,0 +1,287 @@
+tabletype vfp
+# read, disable, read again
+open g1.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+encstate
+get d1
+get n1
+get m1
+disableenc
+encstate
+get d1
+get n1
+get m1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# moved to, never read
+open g2.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+disableenc
+encstate
+get d1
+get n1
+get m1
+close
+# one field read
+open g3.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+get n1
+disableenc
+get d1
+get n1
+get m1
+close
+# one encrypted record
+open g4.dbf exclusive
+enableenc secret
+goto 2
+encryptrecord
+encstate
+get d1
+get n1
+get m1
+disableenc
+encstate
+get d1
+get n1
+get m1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# the record opened at
+open g5.dbf exclusive
+enableenc secret
+encrypttable
+disableenc
+encstate
+get d1
+get n1
+get m1
+close
+# a record just written
+open g6.dbf exclusive
+enableenc secret
+encrypttable
+append
+set d1 string zulu
+set n1 long 9
+set m1 string zmemo
+write
+disableenc
+encstate
+get d1
+get n1
+get m1
+goto 4
+encstate
+get d1
+get n1
+get m1
+close
+# a record changed
+open g7.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+set d1 string BRAVO2
+write
+disableenc
+encstate
+get d1
+get n1
+get m1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# enable again after disable
+open g8.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+encstate
+get d1
+get n1
+get m1
+disableenc
+enableenc secret
+encstate
+get d1
+get n1
+get m1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# the memo read first
+open g9.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+get m1
+disableenc
+encstate
+get d1
+get n1
+get m1
+close
+# goto 3 read, goto 2 not
+open g10.dbf exclusive
+enableenc secret
+encrypttable
+goto 3
+encstate
+get d1
+get n1
+get m1
+goto 2
+disableenc
+encstate
+get d1
+get n1
+get m1
+goto 3
+encstate
+get d1
+get n1
+get m1
+close
+# a field set after disable
+open g11.dbf exclusive
+enableenc secret
+goto 2
+encryptrecord
+disableenc
+set d1 string CHANGED
+write
+encstate
+get d1
+get n1
+get m1
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# a delete after disable
+open g12.dbf exclusive
+enableenc secret
+goto 2
+encryptrecord
+disableenc
+delete
+write
+encstate
+get d1
+get n1
+get m1
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# another field set after disable
+open g13.dbf exclusive
+enableenc secret
+goto 2
+encryptrecord
+disableenc
+set n1 long 777
+write
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+enableenc secret
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# a change after disable, moved away
+open g14.dbf exclusive
+enableenc secret
+goto 2
+encryptrecord
+disableenc
+set d1 string CHANGED
+goto 1
+encstate
+get d1
+get n1
+get m1
+goto 2
+encstate
+get d1
+get n1
+get m1
+enableenc secret
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# a field set after disable, table encrypted
+open g15.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+disableenc
+set d1 string CHANGED
+write
+encstate
+get d1
+get n1
+get m1
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close
+# a delete after disable, table encrypted
+open g16.dbf exclusive
+enableenc secret
+encrypttable
+goto 2
+disableenc
+delete
+write
+encstate
+get d1
+get n1
+get m1
+goto 1
+goto 2
+encstate
+get d1
+get n1
+get m1
+close

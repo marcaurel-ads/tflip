@@ -1,0 +1,664 @@
+[
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE DATABASE \"ae\\ae.add\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct CREATE TABLE t (n INTEGER)", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct CREATE PROCEDURE api_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiBegin IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE api_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE api_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION ApiRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_begin(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlBegin IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_commit(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE sql_rollback(code INTEGER OUTPUT, intx INTEGER OUTPUT) FUNCTION SqlRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION WriteT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE read_t(n INTEGER OUTPUT) FUNCTION ReadT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE open_t(code INTEGER OUTPUT, n INTEGER OUTPUT) FUNCTION OpenT IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE kind(a INTEGER OUTPUT, handle INTEGER OUTPUT, b INTEGER OUTPUT, conn INTEGER OUTPUT) FUNCTION Kind IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE keep(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION Keep IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_statement(a INTEGER OUTPUT) FUNCTION UseStatement IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_table(a INTEGER OUTPUT) FUNCTION UseTable IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_cursor(a INTEGER OUTPUT, b INTEGER OUTPUT) FUNCTION UseCursor IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE drop_kept(a INTEGER OUTPUT, b INTEGER OUTPUT, c INTEGER OUTPUT) FUNCTION DropKept IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE seq_api_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqApiCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE seq_api_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqApiRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE seq_sql_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqSqlCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE seq_sql_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION SeqSqlRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_api_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteApiCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_api_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteApiRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_sql_commit(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteSqlCommit IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE write_sql_rollback(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION WriteSqlRollback IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE open_api(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION OpenApi IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE open_sql(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT) FUNCTION OpenSql IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_both(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnBoth IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_local_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnLocalAis IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_remote_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnRemoteAis IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_default(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnDefault IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_local(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnLocal IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_remote(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnRemote IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_ais(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnAis IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_any(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT) FUNCTION OwnAny IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_statement_text(e CHAR(300) OUTPUT) FUNCTION UseStatementText IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE use_table_text(e CHAR(300) OUTPUT) FUNCTION UseTableText IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE path_of(p CHAR(200) OUTPUT) FUNCTION PathOf IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct CREATE PROCEDURE own_tx(c1 INTEGER OUTPUT, c2 INTEGER OUTPUT, c3 INTEGER OUTPUT, c4 INTEGER OUTPUT, c5 INTEGER OUTPUT, c6 INTEGER OUTPUT, c7 INTEGER OUTPUT) FUNCTION OwnTx IN LIBRARY \"aeprules.aep\"", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "query EXECUTE PROCEDURE kind()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06AA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["handle", 11, 4, 0], ["b", 11, 4, 0], ["conn", 11, 4, 0]], "rows": [
+  [1, ["0", "6", "0", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE path_of()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06AB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["p", 4, 200, 0]], "rows": [
+  [1, ["<data>\\ae\\ae.add                                                                                                                                                     "]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_tx()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06AC.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0], ["c7", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "1", "0", "0", "0"]]]}},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06B4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_both()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06B5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "6097", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_local_ais()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06B6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_remote_ais()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06B9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_default()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06BC.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_local()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06BF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "6082", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_remote()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06C0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "6097", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_ais()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06C1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_any()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06C4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "1"]]]}},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06C7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06C8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06CA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06CB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06CD.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06CE.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06CF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06D1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06D2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06D4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06D5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06D6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06D8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06D9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06DB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sql_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06DC.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06DD.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06DF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06E0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06E2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06E3.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06E4.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06E6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06E7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "1"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06E9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06EA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06EB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06ED.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06EE.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["7200", "1"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06F0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE seq_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06F1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06F5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06F6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06FA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_06FB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_06FF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE seq_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0700.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "0", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0704.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0705.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "2"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0709.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_070A.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_070E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_070F.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0713.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0714.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0718.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0719.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_071D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_071E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0722.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0723.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "2"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0727.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0728.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_072C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE write_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_072D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "5047", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0731.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0732.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0736.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0737.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_073B.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE write_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_073C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "5047", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0740.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0741.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0745.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0746.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_074A.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE write_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_074B.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "7200", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_074F.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0750.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0754.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0755.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0759.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE write_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_075A.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "7200", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_075E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_075F.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0763.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE write_sql_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0764.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "7200", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0768.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE open_api()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0769.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_076D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE open_api()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_076E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0772.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE open_api()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0773.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0777.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE open_sql()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0778.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_077C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE open_sql()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_077D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "3"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct ROLLBACK", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0781.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE open_sql()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0782.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "2"]]]}},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0786.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE seq_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0787.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_078B.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_078C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_078E.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_078F.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0791.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct ROLLBACK", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5047;  [SAP][Advantage SQL Engine][ASA] Error 5047:  The transaction command was not in valid sequence.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct COMMIT", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_0793.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0794.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE api_begin()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0795.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["0", "1"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0796.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5047;  [SAP][Advantage SQL Engine][ASA] Error 5047:  The transaction command was not in valid sequence.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_0797.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "1", "2"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 2},
+{"cmd": "query EXECUTE PROCEDURE api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_079A.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["intx", 11, 4, 0]], "rows": [
+  [1, ["5047", "0"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 2},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 0},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_079C.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add ADSSYS", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "direct BEGIN TRANSACTION", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct INSERT INTO t VALUES (1100)", "rc": 0, "has_cursor": false, "affected": 1},
+{"cmd": "query EXECUTE PROCEDURE seq_api_rollback()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_079D.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "5047", "0", "2"]]]}},
+{"cmd": "txcount", "rc": 0, "count": 1},
+{"cmd": "query SELECT COUNT(*) AS c FROM t WHERE n >= 1000", "rc": 0, "has_cursor": true, "affected": 4294967295, "cursor": {"file": "tim_07A1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c", 11, 4, 0]], "rows": [
+  [1, ["2"]]]}},
+{"cmd": "direct COMMIT", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7207;  [SAP][Advantage SQL Engine][ASA] Unexpected error from Advantage Server Agent.  Check Advantage error log for details.", "has_cursor": false, "affected": 4294967295},
+{"cmd": "txcount", "rc": 0, "count": 0},
+{"cmd": "direct DELETE FROM t WHERE n >= 1000", "rc": 0, "has_cursor": false, "affected": 2},
+{"cmd": "direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', '')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')", "rc": 0, "has_cursor": false, "affected": 0},
+{"cmd": "direct GRANT EXECUTE ON write_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON read_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON open_t TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON kind TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON keep TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_statement TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_table TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_cursor TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON drop_kept TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_statement_text TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON use_table_text TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON own_remote TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON own_local TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON own_default TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON seq_api_commit TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "direct GRANT EXECUTE ON write_sql_commit TO u1", "rc": 0, "has_cursor": false, "affected": 4294967295},
+{"cmd": "disconnect", "rc": 0},
+{"cmd": "connect ae\\ae.add u1 pw1", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query SELECT * FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7079;  [SAP][Advantage SQL Engine][ASA] Error 7079:  Cannot open table or view because the user does not have read rights to the table or view. Table name: t", "has_cursor": false, "affected": 0},
+{"cmd": "direct INSERT INTO t VALUES (3)", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user. Table name: t", "has_cursor": false, "affected": 0},
+{"cmd": "direct UPDATE t SET n = n", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user. Table name: t", "has_cursor": false, "affected": 0},
+{"cmd": "direct DELETE FROM t WHERE n = 5", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user. Table name: t", "has_cursor": false, "affected": 0},
+{"cmd": "query SELECT COUNT(*) FROM t", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7079;  [SAP][Advantage SQL Engine][ASA] Error 7079:  Cannot open table or view because the user does not have read rights to the table or view. Table name: t", "has_cursor": false, "affected": 0},
+{"cmd": "query EXECUTE PROCEDURE read_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07A2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["n", 11, 4, 0]], "rows": [
+  [1, ["1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE write_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07A5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["0", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE open_t()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07A8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["code", 11, 4, 0], ["n", 11, 4, 0]], "rows": [
+  [1, ["0", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE kind()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07A9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["handle", 11, 4, 0], ["b", 11, 4, 0], ["conn", 11, 4, 0]], "rows": [
+  [1, ["0", "6", "0", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_remote()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07AA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "6097", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_local()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07AB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "6082", "0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE own_default()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07AC.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "4", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE seq_api_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07AF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "1", "0", "0", "1"]]]}},
+{"cmd": "query EXECUTE PROCEDURE write_sql_commit()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["c1", 11, 4, 0], ["c2", 11, 4, 0], ["c3", 11, 4, 0], ["c4", 11, 4, 0], ["c5", 11, 4, 0], ["c6", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0", "7200", "0", "2"]]]}},
+{"cmd": "query EXECUTE PROCEDURE keep()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B5.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B6.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B7.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B8.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "switch", "rc": 0},
+{"cmd": "connect ae\\ae.add adssys", "rc": 0},
+{"cmd": "stmt", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07B9.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["5202"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BA.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["5202"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BB.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["5202", "5202"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_statement_text()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BC.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["e", 4, 300, 0]], "rows": [
+  [1, ["5202: Error 5202:  The handle is not owned by the current user.                                                                                                                                                                                                                                             "]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table_text()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BD.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["e", 4, 300, 0]], "rows": [
+  [1, ["5202: Error 5202:  The handle is not owned by the current user.                                                                                                                                                                                                                                             "]]]}},
+{"cmd": "query EXECUTE PROCEDURE drop_kept()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BE.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["5202", "5202", "5202"]]]}},
+{"cmd": "switch", "rc": 0},
+{"cmd": "query EXECUTE PROCEDURE use_statement()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07BF.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_table()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07C0.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0]], "rows": [
+  [1, ["0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE use_cursor()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07C1.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0]], "rows": [
+  [1, ["0", "0"]]]}},
+{"cmd": "query EXECUTE PROCEDURE drop_kept()", "rc": 0, "has_cursor": true, "affected": 0, "cursor": {"file": "tim_07C2.tmp", "options": 65555, "table_type": 3, "handle_type": 5, "indexes": 0, "count": 1, "fields": [["a", 11, 4, 0], ["b", 11, 4, 0], ["c", 11, 4, 0]], "rows": [
+  [1, ["0", "0", "0"]]]}}
+]

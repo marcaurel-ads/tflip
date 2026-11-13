@@ -1,0 +1,6 @@
+# A table with Binary, Image and Memo fields, and another whose file is
+# read into them.
+createtable c.adt 0 id,Integer;name,Char,10;b,Binary;im,Image;mm,Memo
+close
+sql INSERT INTO c (id, name) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'), (6, 'six')
+sql CREATE TABLE f (id INTEGER)

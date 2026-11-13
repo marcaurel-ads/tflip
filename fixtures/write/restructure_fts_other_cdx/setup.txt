@@ -1,0 +1,29 @@
+tabletype cdx
+sql CREATE TABLE a (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO a VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma')
+sql CREATE TABLE b (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO b VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma')
+sql CREATE TABLE c (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO c VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma')
+sql CREATE TABLE d (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO d VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma')
+sql CREATE TABLE e (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO e VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma')
+sql CREATE TABLE zz (x INTEGER)
+open a.dbf
+createfts - w_a body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+open b.dbf
+createfts - w_b body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+open c.dbf
+createfts - w_c body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+open d.dbf
+createfts - w_d body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+open e.dbf
+createfts - w_e body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+sql CREATE INDEX b_id ON b (id)
+sql CREATE INDEX c_f ON c (m) CONTENT

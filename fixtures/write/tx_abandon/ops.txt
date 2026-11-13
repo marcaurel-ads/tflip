@@ -1,0 +1,17 @@
+# A client that ends in the middle of a transaction: its changes, an
+# append and a delete are never committed; after/ is what the server left.
+open t shared
+begin
+goto 1
+set name string uno
+set m string changed
+write
+append
+set id long 3
+set name string three
+write
+goto 2
+delete
+write
+flush
+snapshot during

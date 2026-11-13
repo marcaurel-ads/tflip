@@ -1,0 +1,31 @@
+# AdsGotoRecord to a deleted ADT record (one on the free list): where the
+# table is then, what it reads, and how it moves on.
+# Reads only: the files stay as they are.
+open p shared
+goto 3
+goto 2
+pos
+state
+get name
+get id
+record
+skip 1
+pos
+goto 3
+goto 2
+skip -1
+pos
+goto 2
+skip 0
+pos
+goto 2
+order name
+oskip 1
+pos
+order -
+goto 2
+goto 5
+pos
+goto 2
+top
+pos

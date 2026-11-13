@@ -1,0 +1,212 @@
+ads_ascii	English	English, US ASCII
+ar	Arabic	Arabic
+ar_AE	Arabic	Arabic, United Arab Emirates
+ar_BH	Arabic	Arabic, Bahrain
+ar_DZ	Arabic	Arabic, Algeria
+ar_EG	Arabic	Arabic, Egypt
+ar_IQ	Arabic	Arabic, Iraq
+ar_JO	Arabic	Arabic, Jordan
+ar_KW	Arabic	Arabic, Kuwait
+ar_LB	Arabic	Arabic, Lebanon
+ar_LY	Arabic	Arabic, Libya
+ar_MA	Arabic	Arabic, Morocco
+ar_OM	Arabic	Arabic, Oman
+ar_QA	Arabic	Arabic, Qatar
+ar_SA	Arabic	Arabic, Saudi Arabia
+ar_SD	Arabic	Arabic, Sudan
+ar_SY	Arabic	Arabic, Syria
+ar_TN	Arabic	Arabic, Tunisia
+ar_YE	Arabic	Arabic, Yemen
+as	Assamese	Assamese
+as_IN	Assamese	Assamese, India
+be	Belarusi	Belarusian
+be_BY	Belarusi	Belarusian, Belarus
+bg	Bulgaria	Bulgarian
+bg_BG	Bulgaria	Bulgarian, Bulgaria
+bn	Bengali	Bengali
+bn_IN	Bengali	Bengali, India
+ca	Catalan	Catalan
+ca_ES	Catalan	Catalan, Spain
+cs	Czech	Czech
+cs_CZ	Czech	Czech, Czech Republic
+cy	Welsh	Welsh
+da	Danish	Danish
+da_DK	Danish	Danish, Denmark
+de	German	German
+de_AT	German	German, Austria
+de_BE	German	German, Belgium
+de_CH	German	German, Switzerland
+de_DE	German	German, Germany
+de_LU	German	German, Luxembourg
+el	Greek	Greek
+el_GR	Greek	Greek, Greece
+en	English	English
+en_AU	English	English, Australia
+en_BE	English	English, Belgium
+en_BW	English	English, Botswana
+en_CA	English	English, Canada
+en_GB	English	English, United Kingdom
+en_HK	English	English, Hong Kong SAR China
+en_IE	English	English, Ireland
+en_IN	English	English, India
+en_MT	English	English, Malta
+en_NZ	English	English, New Zealand
+en_PH	English	English, Philippines
+en_SG	English	English, Singapore
+en_US	English	English, United States
+en_US_POSIX	English	English, United States
+en_VI	English	English, U.S. Virgin Islands
+en_ZA	English	English, South Africa
+en_ZW	English	English, Zimbabwe
+eo	Esperant	Esperanto
+es	Spanish	Spanish
+es_AR	Spanish	Spanish, Argentina
+es_BO	Spanish	Spanish, Bolivia
+es_CL	Spanish	Spanish, Chile
+es_CO	Spanish	Spanish, Colombia
+es_CR	Spanish	Spanish, Costa Rica
+es_DO	Spanish	Spanish, Dominican Republic
+es_EC	Spanish	Spanish, Ecuador
+es_ES	Spanish	Spanish, Spain
+es_GT	Spanish	Spanish, Guatemala
+es_HN	Spanish	Spanish, Honduras
+es_MX	Spanish	Spanish, Mexico
+es_NI	Spanish	Spanish, Nicaragua
+es_PA	Spanish	Spanish, Panama
+es_PE	Spanish	Spanish, Peru
+es_PR	Spanish	Spanish, Puerto Rico
+es_PY	Spanish	Spanish, Paraguay
+es_SV	Spanish	Spanish, El Salvador
+es_US	Spanish	Spanish, United States
+es_UY	Spanish	Spanish, Uruguay
+es_VE	Spanish	Spanish, Venezuela
+et	Estonian	Estonian
+et_EE	Estonian	Estonian, Estonia
+fa	Persian	Persian
+fa_AF	Persian	Persian, Afghanistan
+fa_IR	Persian	Persian, Iran
+fi	Finnish	Finnish
+fi_FI	Finnish	Finnish, Finland
+fo	Faroese	Faroese
+fo_FO	Faroese	Faroese, Faroe Islands
+fr	French	French
+fr_BE	French	French, Belgium
+fr_CA	French	French, Canada
+fr_CH	French	French, Switzerland
+fr_FR	French	French, France
+fr_LU	French	French, Luxembourg
+ga	Irish	Irish
+ga_IE	Irish	Irish, Ireland
+gu	Gujarati	Gujarati
+gu_IN	Gujarati	Gujarati, India
+haw	Hawaiian	Hawaiian
+he	Hebrew	Hebrew
+he_IL	Hebrew	Hebrew, Israel
+hi	Hindi	Hindi
+hi_IN	Hindi	Hindi, India
+hr	Croatian	Croatian
+hr_HR	Croatian	Croatian, Croatia
+hu	Hungaria	Hungarian
+hu_HU	Hungaria	Hungarian, Hungary
+id	Indonesi	Indonesian
+id_ID	Indonesi	Indonesian, Indonesia
+is	Icelandi	Icelandic
+is_IS	Icelandi	Icelandic, Iceland
+it	Italian	Italian
+it_CH	Italian	Italian, Switzerland
+it_IT	Italian	Italian, Italy
+ja	Japanese	Japanese
+ja_JP	Japanese	Japanese, Japan
+kk	Kazakh	Kazakh
+kk_KZ	Kazakh	Kazakh, Kazakhstan
+kl	Kalaalli	Kalaallisut
+kl_GL	Kalaalli	Kalaallisut, Greenland
+km	Khmer	Khmer
+kn	Kannada	Kannada
+kn_IN	Kannada	Kannada, India
+ko	Korean	Korean
+ko_KR	Korean	Korean, South Korea
+kok	Konkani	Konkani
+lt	Lithuani	Lithuanian
+lt_LT	Lithuani	Lithuanian, Lithuania
+lv	Latvian	Latvian
+lv_LV	Latvian	Latvian, Latvia
+mk	Macedoni	Macedonian
+mk_MK	Macedoni	Macedonian, Macedonia
+ml	Malayala	Malayalam
+mr	Marathi	Marathi
+mr_IN	Marathi	Marathi, India
+ms	Malay	Malay
+ms_BN	Malay	Malay, Brunei
+ms_MY	Malay	Malay, Malaysia
+mt	Maltese	Maltese
+mt_MT	Maltese	Maltese, Malta
+nb	Norwegia	Norwegian Bokmål
+nb_NO	Norwegia	Norwegian Bokmål, Norway
+nl	Dutch	Dutch
+nl_BE	Dutch	Dutch, Belgium
+nl_NL	Dutch	Dutch, Netherlands
+nn	Norwegia	Norwegian Nynorsk
+nn_NO	Norwegia	Norwegian Nynorsk, Norway
+om	Oromo	Oromo
+om_ET	Oromo	Oromo, Ethiopia
+om_KE	Oromo	Oromo, Kenya
+or	Oriya	Oriya
+pa	Punjabi	Punjabi
+pa_Arab	Punjabi	Punjabi
+pa_Arab_PK	Punjabi	Punjabi, Pakistan, Arabic
+pa_Guru	Punjabi	Punjabi
+pa_Guru_IN	Punjabi	Punjabi, India, Gurmukhi
+pl	Polish	Polish
+pl_PL	Polish	Polish, Poland
+ps	Pashto	Pashto
+ps_AF	Pashto	Pashto, Afghanistan
+pt	Portugue	Portuguese
+pt_BR	Portugue	Portuguese, Brazil
+pt_PT	Portugue	Portuguese, Portugal
+ro	Romanian	Romanian
+ro_RO	Romanian	Romanian, Romania
+ru	Russian	Russian
+ru_RU	Russian	Russian, Russia
+ru_UA	Russian	Russian, Ukraine
+sk	Slovak	Slovak
+sk_SK	Slovak	Slovak, Slovakia
+sl	Slovenia	Slovenian
+sl_SI	Slovenia	Slovenian, Slovenia
+sq	Albanian	Albanian
+sq_AL	Albanian	Albanian, Albania
+sr	Serbian	Serbian
+sr_Cyrl	Serbian	Serbian
+sr_Cyrl_BA	Serbian	Serbian, Bosnia and Herzegovina, Cyrillic
+sr_Cyrl_ME	Serbian	Serbian, Montenegro, Cyrillic
+sr_Cyrl_RS	Serbian	Serbian, Serbia, Cyrillic
+sr_Latn	Serbian	Serbian
+sr_Latn_BA	Serbian	Serbian, Bosnia and Herzegovina, Latin
+sr_Latn_ME	Serbian	Serbian, Montenegro, Latin
+sr_Latn_RS	Serbian	Serbian, Serbia, Latin
+sv	Swedish	Swedish
+sv_FI	Swedish	Swedish, Finland
+sv_SE	Swedish	Swedish, Sweden
+ta	Tamil	Tamil
+ta_IN	Tamil	Tamil, India
+te	Telugu	Telugu
+te_IN	Telugu	Telugu, India
+th	Thai	Thai
+th_TH	Thai	Thai, Thailand
+tr	Turkish	Turkish
+tr_TR	Turkish	Turkish, Turkey
+uk	Ukrainia	Ukrainian
+uk_UA	Ukrainia	Ukrainian, Ukraine
+ur	Urdu	Urdu
+ur_IN	Urdu	Urdu, India
+ur_PK	Urdu	Urdu, Pakistan
+vi	Vietname	Vietnamese
+vi_VN	Vietname	Vietnamese, Vietnam
+zh	Chinese	Chinese
+zh_Hans	Chinese	Chinese
+zh_Hans_CN	Chinese	Chinese, China, Simplified Han
+zh_Hans_SG	Chinese	Chinese, Singapore, Simplified Han
+zh_Hant	Chinese	Chinese
+zh_Hant_HK	Chinese	Chinese, Hong Kong SAR China, Traditional Han
+zh_Hant_MO	Chinese	Chinese, Macau SAR China, Traditional Han
+zh_Hant_TW	Chinese	Chinese, Taiwan, Traditional Han

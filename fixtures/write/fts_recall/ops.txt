@@ -1,0 +1,27 @@
+open c.adt
+goto 2
+delete
+goto 4
+delete
+state
+recallall
+state
+close
+open m.adt
+goto 2
+delete
+goto 4
+delete
+state
+recallall
+state
+close
+open k.adt
+goto 2
+delete
+goto 4
+delete
+state
+recallall
+state
+close

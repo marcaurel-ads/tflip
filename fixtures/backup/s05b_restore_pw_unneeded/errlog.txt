@@ -1,0 +1,12 @@
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05b_restore_pw_unneeded\img\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 
+7078 main.c:12563 ADSSYS | 
+7078 ace2ads.cpp:1297  | 
+7078 dctnry.c:100 ADSSERVER1 | 
+7078 dctnry.c:101 C:\ads\data\bk\s05b_restore_pw_unneeded\dst\d.add | 
+7078 dctnry.c:139 00000000:000000000000 | 
+7078 ace2ads.cpp:1243  | 

@@ -1,0 +1,76 @@
+# Database triggers ON DATABASE BEFORE | AFTER OPEN_TABLE that fail, cancelling
+# the open, and CLOSE_TABLE ones, whose failure is ignored, in an empty folder
+# with a dictionary dbt/dbt.add the script creates (kept in
+# fixtures/sql/trigdbopen/, which the replay compares). Recorded on
+# the local server, with no statement's tables kept open (AdsCacheOpenCursors
+# 0), so that every statement opens its table:
+#
+#     run.sh <work> <ace32.dll> trigdbopen.txt > ../../../fixtures/sql/trigdbopen.json
+#     cp <work>/data/dbt/* ../../../fixtures/sql/trigdbopen/
+#
+# What such triggers log (the open count in __info, which opens and closes
+# there are) is in trigdblog.txt, trigdblog2.txt and trigdblog3.txt.
+cachecursors 0
+ddcreate dbt\dbt.add
+stmt
+direct CREATE TABLE t1 (id INTEGER)
+direct CREATE TABLE t2 (id INTEGER)
+direct INSERT INTO t1 VALUES (1)
+direct INSERT INTO t1 VALUES (2)
+direct INSERT INTO t2 VALUES (1)
+# A BEFORE trigger that raises for one table: statements that open it fail
+# (naming it), and so does a client's open; others are not touched.
+direct CREATE TRIGGER o5 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no t2'); END IF; END
+query SELECT * FROM t1
+direct INSERT INTO t2 VALUES (1)
+direct UPDATE t2 SET id = 5
+direct DELETE FROM t2
+query SELECT * FROM t2
+query SELECT COUNT(*) FROM t1 a, t2 b
+open t2
+open t1
+direct DROP TRIGGER o5
+query SELECT * FROM t2
+# By __error: its number and text.
+direct CREATE TRIGGER o6 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4242, 'no t2'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+open t2
+direct DROP TRIGGER o6
+# An AFTER trigger cancels it as well.
+direct CREATE TRIGGER o7 ON DATABASE AFTER OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4243, 'no t2 after'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+open t2
+query SELECT COUNT(*) FROM t1
+direct DROP TRIGGER o7
+# A statement's open is not a client's (IsDirect), and what a statement opens
+# for its result is a client's.
+direct CREATE TRIGGER o8 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' AND __info.IsDirect = 1 THEN INSERT INTO __error (errno, message) VALUES (4244, 'direct'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+query SELECT * FROM t2
+stmt
+open t2
+direct DROP TRIGGER o8
+direct CREATE TRIGGER o9 ON DATABASE BEFORE OPEN_TABLE BEGIN IF TRIM(__info.TableName) = 't2' AND __info.IsDirect = 0 THEN INSERT INTO __error (errno, message) VALUES (4245, 'by a statement'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+stmt
+query SELECT * FROM t2
+stmt
+open t2
+direct DROP TRIGGER o9
+# The table's type and whether it is free.
+direct CREATE TRIGGER o10 ON DATABASE BEFORE OPEN_TABLE BEGIN IF __info.TableType = 2 THEN INSERT INTO __error (errno, message) VALUES (4246, 'a type 2 table'); END IF; IF __info.IsFree = 1 THEN INSERT INTO __error (errno, message) VALUES (4247, 'a free table'); END IF; END
+query SELECT * FROM t1
+query SELECT * FROM system.iota
+open t1
+direct DROP TRIGGER o10
+# A CLOSE_TABLE trigger cannot cancel the close.
+direct CREATE TRIGGER o11 ON DATABASE BEFORE CLOSE_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN INSERT INTO __error (errno, message) VALUES (4248, 'no close'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+open t2
+query SELECT COUNT(*) FROM t2
+direct DROP TRIGGER o11
+direct CREATE TRIGGER o12 ON DATABASE AFTER CLOSE_TABLE BEGIN IF TRIM(__info.TableName) = 't2' THEN RAISE bad(1, 'no close'); END IF; END
+direct INSERT INTO t2 VALUES (1)
+open t2
+query SELECT COUNT(*) FROM t2
+direct DROP TRIGGER o12

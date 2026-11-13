@@ -1,0 +1,250 @@
+# SQL on DBF tables, which the statement's table type opens and creates
+# (AdsStmtSetTableType): fixtures/sql/dbf.json. The script makes its own
+# tables, in an empty folder.
+stmt
+# The settings' values, and settings with a cursor open.
+tabletype 0
+tabletype 5
+chartype 0
+chartype 128
+chartype 127
+chartype 1
+locktype 2
+locktype 0
+readonly 0
+readonly 3
+rights 0
+rights 3
+rights 1
+# Table type 1 (ntx).
+tabletype 1
+direct CREATE TABLE ntx_s (id integer, name char(10), v varchar(12), m memo, d date, n numeric(8,2), l logical, f double, g bigint)
+directnull INSERT INTO ntx_s (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+directnull INSERT INTO ntx_s (id, name) VALUES (2, 'two')
+directnull INSERT INTO ntx_s (id, name, v, n) VALUES (3, 'three', 'a longer one', -2.75)
+directnull INSERT INTO ntx_s (id, name, d, l) VALUES (4, 'Four', '1999-12-31', false)
+query SELECT * FROM ntx_s
+query SELECT id, name, n FROM ntx_s WHERE n IS NULL
+query SELECT id, name FROM ntx_s WHERE n > 0 OR d IS NOT NULL ORDER BY name DESC
+query SELECT COUNT(*), MAX(d), MIN(name), MAX(n) FROM ntx_s
+query SELECT SUM(n) FROM ntx_s
+query SELECT COUNT(n), AVG(n), MIN(n), SUM(n), COUNT(d), MIN(d), COUNT(v), COUNT(l) FROM ntx_s
+query SELECT COUNT(*) FROM ntx_s WHERE n IS NULL
+query SELECT id, v, m, LENGTH(v) FROM ntx_s WHERE v <> ''
+query SELECT ntx_s.name, x.id FROM ntx_s, ntx_s x WHERE ntx_s.id = x.id + 1
+directnull CREATE INDEX ntx_nm ON ntx_s (name)
+query SELECT id, name FROM ntx_s WHERE name = 'two'
+query SELECT id, name FROM ntx_s ORDER BY name
+info
+directnull DELETE FROM ntx_s WHERE id = 2
+count
+query SELECT id, name FROM ntx_s
+query SELECT COUNT(*) FROM ntx_s
+direct SELECT * FROM ntx_s WHERE id < 3
+tabletype 3
+chartype 2
+readonly 1
+closecursor
+readonly 1
+query SELECT id, name FROM ntx_s
+tabletype 1
+query SELECT id, name FROM ntx_s
+chartype 2
+query SELECT id, name FROM ntx_s WHERE id = 4
+chartype 1
+readonly 2
+directnull UPDATE ntx_s SET name = 'vier' WHERE id = 4
+query SELECT id, name FROM ntx_s WHERE id = 4
+# Table type 2 (cdx).
+tabletype 2
+direct CREATE TABLE cdx_s (id integer, name char(10), v varchar(12), m memo, d date, n numeric(8,2), l logical, f double, g bigint)
+directnull INSERT INTO cdx_s (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+directnull INSERT INTO cdx_s (id, name) VALUES (2, 'two')
+directnull INSERT INTO cdx_s (id, name, v, n) VALUES (3, 'three', 'a longer one', -2.75)
+directnull INSERT INTO cdx_s (id, name, d, l) VALUES (4, 'Four', '1999-12-31', false)
+query SELECT * FROM cdx_s
+query SELECT id, name, n FROM cdx_s WHERE n IS NULL
+query SELECT id, name FROM cdx_s WHERE n > 0 OR d IS NOT NULL ORDER BY name DESC
+query SELECT COUNT(*), MAX(d), MIN(name), MAX(n) FROM cdx_s
+query SELECT SUM(n) FROM cdx_s
+query SELECT COUNT(n), AVG(n), MIN(n), SUM(n), COUNT(d), MIN(d), COUNT(v), COUNT(l) FROM cdx_s
+query SELECT COUNT(*) FROM cdx_s WHERE n IS NULL
+query SELECT id, v, m, LENGTH(v) FROM cdx_s WHERE v <> ''
+query SELECT cdx_s.name, x.id FROM cdx_s, cdx_s x WHERE cdx_s.id = x.id + 1
+directnull CREATE INDEX cdx_nm ON cdx_s (name)
+query SELECT id, name FROM cdx_s WHERE name = 'two'
+query SELECT id, name FROM cdx_s ORDER BY name
+info
+directnull DELETE FROM cdx_s WHERE id = 2
+count
+query SELECT id, name FROM cdx_s
+query SELECT COUNT(*) FROM cdx_s
+direct SELECT * FROM cdx_s WHERE id < 3
+tabletype 3
+chartype 2
+readonly 1
+closecursor
+readonly 1
+query SELECT id, name FROM cdx_s
+tabletype 2
+query SELECT id, name FROM cdx_s
+chartype 2
+query SELECT id, name FROM cdx_s WHERE id = 4
+chartype 1
+readonly 2
+directnull UPDATE cdx_s SET name = 'vier' WHERE id = 4
+query SELECT id, name FROM cdx_s WHERE id = 4
+# Table type 4 (vfp).
+tabletype 4
+direct CREATE TABLE vfp_s (id integer, name char(10), v varchar(12), m memo, d date, n numeric(8,2), l logical, f double, g bigint, a autoinc, ts timestamp, y money)
+directnull INSERT INTO vfp_s (id, name, v, m, d, n, l, f, g) VALUES (1, 'one', 'short', 'a memo', '2020-01-02', 1.5, true, 2.25, 1234567890123)
+directnull INSERT INTO vfp_s (id, name) VALUES (2, 'two')
+directnull INSERT INTO vfp_s (id, name, v, n) VALUES (3, 'three', 'a longer one', -2.75)
+directnull INSERT INTO vfp_s (id, name, d, l) VALUES (4, 'Four', '1999-12-31', false)
+query SELECT * FROM vfp_s
+query SELECT id, name, n FROM vfp_s WHERE n IS NULL
+query SELECT id, name FROM vfp_s WHERE n > 0 OR d IS NOT NULL ORDER BY name DESC
+query SELECT COUNT(*), MAX(d), MIN(name), MAX(n) FROM vfp_s
+query SELECT SUM(n) FROM vfp_s
+query SELECT COUNT(n), AVG(n), MIN(n), SUM(n), COUNT(d), MIN(d), COUNT(v), COUNT(l) FROM vfp_s
+query SELECT COUNT(*) FROM vfp_s WHERE n IS NULL
+query SELECT id, v, m, LENGTH(v) FROM vfp_s WHERE v <> ''
+query SELECT vfp_s.name, x.id FROM vfp_s, vfp_s x WHERE vfp_s.id = x.id + 1
+directnull CREATE INDEX vfp_nm ON vfp_s (name)
+query SELECT id, name FROM vfp_s WHERE name = 'two'
+query SELECT id, name FROM vfp_s ORDER BY name
+info
+directnull DELETE FROM vfp_s WHERE id = 2
+count
+query SELECT id, name FROM vfp_s
+query SELECT COUNT(*) FROM vfp_s
+direct SELECT * FROM vfp_s WHERE id < 3
+tabletype 3
+chartype 2
+readonly 1
+closecursor
+readonly 1
+query SELECT id, name FROM vfp_s
+tabletype 4
+query SELECT id, name FROM vfp_s
+chartype 2
+query SELECT id, name FROM vfp_s WHERE id = 4
+chartype 1
+readonly 2
+directnull UPDATE vfp_s SET name = 'vier' WHERE id = 4
+query SELECT id, name FROM vfp_s WHERE id = 4
+# A table of another type.
+tabletype 2
+query SELECT * FROM ntx_s
+tabletype 1
+query SELECT * FROM cdx_s
+tabletype 3
+query SELECT * FROM cdx_s
+# Blank values: a Clipper or FoxPro table has no NULL, so an empty field
+# (blank, 0, false, spaces) is NULL to IS NULL, IFNULL and COALESCE, and its
+# value (a blank one's 0, empty date, false or spaces) to comparisons,
+# arithmetic and aggregates; a blank one shows as NULL (but text, doubles and
+# integers) and is a group of its own. A VFP table's blank values are values
+# (a date 1899-12-30), but IFNULL takes an empty one for NULL.
+tabletype 1
+direct CREATE TABLE ntx_b (id integer, c char(6), v varchar(8), d date, n numeric(6,2), l logical, f double, g bigint, i integer)
+directnull INSERT INTO ntx_b (id, c, v, d, n, l, f, g, i) VALUES (1, 'x', 'x', '2020-01-02', 5, true, 1.5, 7, 3)
+directnull INSERT INTO ntx_b (id) VALUES (2)
+directnull INSERT INTO ntx_b (id, c, v, d, n, l, f, g, i) VALUES (3, 'y', 'y', '2021-01-01', 0, false, 2.5, 9, 4)
+query SELECT COUNT(*), COUNT(c), COUNT(v), COUNT(d), COUNT(n), COUNT(l), COUNT(f), COUNT(g), COUNT(i) FROM ntx_b
+query SELECT MIN(f), MAX(f), MIN(g), MAX(g), MIN(i), MAX(i), MIN(c), MAX(c), MIN(d), MAX(d), MIN(l), MAX(l) FROM ntx_b
+query SELECT SUM(f), SUM(g), SUM(i), AVG(f), AVG(g), AVG(i), SUM(n), AVG(n), MIN(n), MAX(n) FROM ntx_b
+query SELECT MIN(n), MAX(n), SUM(n), AVG(n), COUNT(n), MIN(d), MAX(d), MIN(f), SUM(i), MIN(c), COUNT(c), MIN(l), MAX(l), MAX(i) FROM ntx_b WHERE id = 2
+query SELECT COUNT(n + 0), MIN(n + 0), SUM(n * 2), COUNT(UPPER(v)) FROM ntx_b
+query SELECT id, IFNULL(n, 9), IFNULL(c, 'z'), IFNULL(l, TRUE), COALESCE(n, 7), COALESCE(l, TRUE) FROM ntx_b
+query SELECT n + 0, d, c, n, l, f, CASE WHEN n IS NULL THEN 'null' ELSE 'not' END FROM ntx_b WHERE id = 2
+query SELECT {static} id, n, d, c, v, l, f, g, i FROM ntx_b WHERE id = 2
+query SELECT id FROM ntx_b WHERE n < 1
+query SELECT id FROM ntx_b WHERE n = 0
+query SELECT id FROM ntx_b WHERE d < '2000-01-01'
+query SELECT id FROM ntx_b WHERE d IS NULL
+query SELECT id FROM ntx_b WHERE c = ''
+query SELECT id FROM ntx_b WHERE l = FALSE
+query SELECT id FROM ntx_b WHERE f = 0 AND i = 0
+query SELECT COUNT(*) FROM ntx_b WHERE n IS NOT NULL
+query SELECT COUNT(*) FROM ntx_b WHERE n + 0 IS NULL
+query SELECT COUNT(*) FROM ntx_b WHERE n IN (0)
+query SELECT n, COUNT(*), COUNT(n) FROM ntx_b GROUP BY n
+query SELECT n + 0, COUNT(*) FROM ntx_b GROUP BY n + 0
+query SELECT d, COUNT(*), COUNT(d) FROM ntx_b GROUP BY d
+query SELECT c, COUNT(*), COUNT(c) FROM ntx_b GROUP BY c
+query SELECT l, COUNT(*), COUNT(l) FROM ntx_b GROUP BY l
+query SELECT id, COUNT(n), SUM(i) FROM ntx_b GROUP BY id
+query SELECT DISTINCT n FROM ntx_b
+query SELECT COUNT(a.n), MIN(b.d) FROM ntx_b a, ntx_b b WHERE a.id = b.id
+query SELECT id, n FROM ntx_b UNION SELECT 9, 0 FROM system.iota
+query SELECT MAX(n) - MIN(n), COUNT(*) - COUNT(n) FROM ntx_b
+query SELECT MIN(x.n), COUNT(x.n) FROM (SELECT n FROM ntx_b) x
+tabletype 2
+direct CREATE TABLE cdx_b (id integer, c char(6), v varchar(8), d date, n numeric(6,2), l logical, f double, g bigint, i integer)
+directnull INSERT INTO cdx_b (id, c, v, d, n, l, f, g, i) VALUES (1, 'x', 'x', '2020-01-02', 5, true, 1.5, 7, 3)
+directnull INSERT INTO cdx_b (id) VALUES (2)
+directnull INSERT INTO cdx_b (id, c, v, d, n, l, f, g, i) VALUES (3, 'y', 'y', '2021-01-01', 0, false, 2.5, 9, 4)
+query SELECT COUNT(*), COUNT(c), COUNT(v), COUNT(d), COUNT(n), COUNT(l), COUNT(f), COUNT(g), COUNT(i) FROM cdx_b
+query SELECT MIN(f), MAX(f), MIN(g), MAX(g), MIN(i), MAX(i), MIN(c), MAX(c), MIN(d), MAX(d), MIN(l), MAX(l) FROM cdx_b
+query SELECT SUM(f), SUM(g), SUM(i), AVG(f), AVG(g), AVG(i), SUM(n), AVG(n), MIN(n), MAX(n) FROM cdx_b
+query SELECT MIN(n), MAX(n), SUM(n), AVG(n), COUNT(n), MIN(d), MAX(d), MIN(f), SUM(i), MIN(c), COUNT(c), MIN(l), MAX(l), MAX(i) FROM cdx_b WHERE id = 2
+query SELECT COUNT(n + 0), MIN(n + 0), SUM(n * 2), COUNT(UPPER(v)) FROM cdx_b
+query SELECT id, IFNULL(n, 9), IFNULL(c, 'z'), IFNULL(l, TRUE), COALESCE(n, 7), COALESCE(l, TRUE) FROM cdx_b
+query SELECT n + 0, d, c, n, l, f, CASE WHEN n IS NULL THEN 'null' ELSE 'not' END FROM cdx_b WHERE id = 2
+query SELECT {static} id, n, d, c, v, l, f, g, i FROM cdx_b WHERE id = 2
+query SELECT id FROM cdx_b WHERE n < 1
+query SELECT id FROM cdx_b WHERE n = 0
+query SELECT id FROM cdx_b WHERE d < '2000-01-01'
+query SELECT id FROM cdx_b WHERE d IS NULL
+query SELECT id FROM cdx_b WHERE c = ''
+query SELECT id FROM cdx_b WHERE l = FALSE
+query SELECT id FROM cdx_b WHERE f = 0 AND i = 0
+query SELECT COUNT(*) FROM cdx_b WHERE n IS NOT NULL
+query SELECT COUNT(*) FROM cdx_b WHERE n + 0 IS NULL
+query SELECT COUNT(*) FROM cdx_b WHERE n IN (0)
+query SELECT n, COUNT(*), COUNT(n) FROM cdx_b GROUP BY n
+query SELECT n + 0, COUNT(*) FROM cdx_b GROUP BY n + 0
+query SELECT d, COUNT(*), COUNT(d) FROM cdx_b GROUP BY d
+query SELECT c, COUNT(*), COUNT(c) FROM cdx_b GROUP BY c
+query SELECT l, COUNT(*), COUNT(l) FROM cdx_b GROUP BY l
+query SELECT id, COUNT(n), SUM(i) FROM cdx_b GROUP BY id
+query SELECT DISTINCT n FROM cdx_b
+query SELECT COUNT(a.n), MIN(b.d) FROM cdx_b a, cdx_b b WHERE a.id = b.id
+query SELECT id, n FROM cdx_b UNION SELECT 9, 0 FROM system.iota
+query SELECT MAX(n) - MIN(n), COUNT(*) - COUNT(n) FROM cdx_b
+query SELECT MIN(x.n), COUNT(x.n) FROM (SELECT n FROM cdx_b) x
+tabletype 4
+direct CREATE TABLE vfp_b (id integer, c char(6), v varchar(8), d date, n numeric(6,2), l logical, f double, g bigint, i integer)
+directnull INSERT INTO vfp_b (id, c, v, d, n, l, f, g, i) VALUES (1, 'x', 'x', '2020-01-02', 5, true, 1.5, 7, 3)
+directnull INSERT INTO vfp_b (id) VALUES (2)
+directnull INSERT INTO vfp_b (id, c, v, d, n, l, f, g, i) VALUES (3, 'y', 'y', '2021-01-01', 0, false, 2.5, 9, 4)
+query SELECT COUNT(*), COUNT(c), COUNT(v), COUNT(d), COUNT(n), COUNT(l), COUNT(f), COUNT(g), COUNT(i) FROM vfp_b
+query SELECT MIN(f), MAX(f), MIN(g), MAX(g), MIN(i), MAX(i), MIN(c), MAX(c), MIN(d), MAX(d), MIN(l), MAX(l) FROM vfp_b
+query SELECT SUM(f), SUM(g), SUM(i), AVG(f), AVG(g), AVG(i), SUM(n), AVG(n), MIN(n), MAX(n) FROM vfp_b
+query SELECT MIN(n), MAX(n), SUM(n), AVG(n), COUNT(n), MIN(d), MAX(d), MIN(f), SUM(i), MIN(c), COUNT(c), MIN(l), MAX(l), MAX(i) FROM vfp_b WHERE id = 2
+query SELECT COUNT(n + 0), MIN(n + 0), SUM(n * 2), COUNT(UPPER(v)) FROM vfp_b
+query SELECT id, IFNULL(n, 9), IFNULL(c, 'z'), IFNULL(l, TRUE), COALESCE(n, 7), COALESCE(l, TRUE) FROM vfp_b
+query SELECT n + 0, d, c, n, l, f, CASE WHEN n IS NULL THEN 'null' ELSE 'not' END FROM vfp_b WHERE id = 2
+query SELECT {static} id, n, d, c, v, l, f, g, i FROM vfp_b WHERE id = 2
+query SELECT id FROM vfp_b WHERE n < 1
+query SELECT id FROM vfp_b WHERE n = 0
+query SELECT id FROM vfp_b WHERE d < '2000-01-01'
+query SELECT id FROM vfp_b WHERE d IS NULL
+query SELECT id FROM vfp_b WHERE c = ''
+query SELECT id FROM vfp_b WHERE l = FALSE
+query SELECT id FROM vfp_b WHERE f = 0 AND i = 0
+query SELECT COUNT(*) FROM vfp_b WHERE n IS NOT NULL
+query SELECT COUNT(*) FROM vfp_b WHERE n + 0 IS NULL
+query SELECT COUNT(*) FROM vfp_b WHERE n IN (0)
+query SELECT n, COUNT(*), COUNT(n) FROM vfp_b GROUP BY n
+query SELECT n + 0, COUNT(*) FROM vfp_b GROUP BY n + 0
+query SELECT d, COUNT(*), COUNT(d) FROM vfp_b GROUP BY d
+query SELECT c, COUNT(*), COUNT(c) FROM vfp_b GROUP BY c
+query SELECT l, COUNT(*), COUNT(l) FROM vfp_b GROUP BY l
+query SELECT id, COUNT(n), SUM(i) FROM vfp_b GROUP BY id
+query SELECT DISTINCT n FROM vfp_b
+query SELECT COUNT(a.n), MIN(b.d) FROM vfp_b a, vfp_b b WHERE a.id = b.id
+query SELECT id, n FROM vfp_b UNION SELECT 9, 0 FROM system.iota
+query SELECT MAX(n) - MIN(n), COUNT(*) - COUNT(n) FROM vfp_b
+query SELECT MIN(x.n), COUNT(x.n) FROM (SELECT n FROM vfp_b) x

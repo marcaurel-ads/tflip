@@ -1,0 +1,24 @@
+# DDL in a transaction, on the remote server (SQL_SERVER_TYPE=2, see
+# triggers.txt), on free tables in an empty folder: CREATE INDEX, CREATE TABLE
+# and DROP TABLE go through (and stay after a rollback), ALTER TABLE that
+# restructures and DROP INDEX are refused (5063).
+#
+#     SQL_SERVER_TYPE=2 run.sh <work> <ace32.dll> txddl.txt <share>
+#             > ../../../fixtures/sql/txddl.json
+stmt
+query CREATE TABLE d (n INTEGER, s CHAR(8))
+query INSERT INTO d VALUES (1, 'one')
+direct BEGIN TRANSACTION
+query CREATE INDEX j3 ON d (n)
+query ALTER TABLE d ADD COLUMN q INTEGER
+query ALTER TABLE d DROP COLUMN s
+query ALTER TABLE d ALTER COLUMN s s CHAR(10)
+query DROP INDEX d.j3
+query CREATE TABLE e (n INTEGER)
+query DROP TABLE e
+query SELECT * FROM d
+txcount
+direct ROLLBACK
+query DROP INDEX d.j3
+query ALTER TABLE d ADD COLUMN q INTEGER
+query SELECT * FROM d

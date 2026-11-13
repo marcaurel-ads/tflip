@@ -1,0 +1,25 @@
+ddcreate dd.add
+sql CREATE TABLE g6 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO g6 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX g6_id ON g6 (id)
+sql CREATE INDEX g6_body ON g6 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX g6_title ON g6 (title)
+sql CREATE INDEX g6_m ON g6 (m) CONTENT
+sql CREATE TABLE h6 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO h6 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX h6_id ON h6 (id)
+sql CREATE INDEX h6_body ON h6 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX h6_title ON h6 (title)
+sql CREATE INDEX h6_m ON h6 (m) CONTENT
+sql CREATE TABLE h7 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO h7 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX h7_id ON h7 (id)
+sql CREATE INDEX h7_body ON h7 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX h7_title ON h7 (title)
+sql CREATE INDEX h7_m ON h7 (m) CONTENT
+sql CREATE TABLE zz (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO zz VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX zz_id ON zz (id)
+sql CREATE INDEX zz_body ON zz (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX zz_title ON zz (title)
+sql CREATE INDEX zz_m ON zz (m) CONTENT

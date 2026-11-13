@@ -1,0 +1,6 @@
+sql CREATE TABLE xc (id INTEGER, body MEMO)
+sql INSERT INTO xc VALUES (1, 'first memo value'), (2, 'second memo value'), (3, NULL), (4, 'fourth memo value')
+sql CREATE TABLE xr (id INTEGER, body MEMO)
+sql INSERT INTO xr VALUES (1, 'first memo value'), (2, 'second memo value'), (3, NULL), (4, 'fourth memo value')
+sql CREATE TABLE ts (id INTEGER, body MEMO)
+sql INSERT INTO ts VALUES (1, 'first memo value'), (2, 'second memo value'), (3, NULL)

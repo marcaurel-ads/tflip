@@ -1,0 +1,339 @@
+# What a user without rights sees of a dictionary: the system tables and
+# the catalog procedures, for the administrator, a user with a right on one
+# table, and a user with none. The dictionary, vx/vx.add, is kept in
+# fixtures/sql/ddvisible/:
+#
+#     run.sh <work> <ace32.dll> ddvisible.txt > ../../../fixtures/sql/ddvisible.json
+#     cp <work>/data/vx/* ../../../fixtures/sql/ddvisible/
+ddcreate vx\vx.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10), secret CHAR(10)) IN DATABASE
+direct CREATE TABLE t2 (id INTEGER, pid INTEGER) IN DATABASE
+direct CREATE TABLE t3 (id INTEGER, PRIMARY KEY (id)) IN DATABASE
+direct CREATE INDEX t1name ON t1 (name)
+direct CREATE INDEX t2pid ON t2 (pid)
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE TRIGGER tg1 ON t1 AFTER INSERT BEGIN SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE pr2(a INTEGER, b CHAR(10)) BEGIN SELECT a FROM system.iota; END
+direct CREATE FUNCTION f1(a INTEGER) RETURNS INTEGER BEGIN RETURN a + 1; END
+direct CREATE TRIGGER dbt1 ON DATABASE AFTER OPEN_TABLE BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateLink('lk0', 'vx.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('ri1', 't3', 't2', 't2pid', 2, 2, '', '', '')
+direct INSERT INTO t1 VALUES (1, 'one', 's1')
+direct INSERT INTO t1 VALUES (2, 'two', 's2')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u6', 'pw6', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u7', 'pw7', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u8', 'pw8', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+direct EXECUTE PROCEDURE sp_AddUserToGroup('u2', 'g1')
+direct GRANT SELECT ON t1 TO u2
+direct GRANT SELECT ON vw1 TO u2
+direct GRANT EXECUTE ON pr1 TO u2
+direct GRANT SELECT (id) ON t2 TO u4
+direct GRANT SELECT ON t2 TO u5
+direct GRANT SELECT ON t3 TO u5
+direct GRANT SELECT, ALTER ON t1 TO u6
+direct GRANT UPDATE, INSERT, DELETE ON t1 TO u7
+direct GRANT ALTER ON t1 TO u8
+direct GRANT ALTER ON pr2 TO u8
+direct GRANT ALTER ON vw1 TO u8
+direct GRANT ALTER ON f1 TO u8
+direct GRANT ALTER ON pr1 TO u6
+direct GRANT ALTER ON vw1 TO u6
+direct GRANT ALTER ON f1 TO u6
+direct GRANT EXECUTE ON pr2 TO u6
+direct GRANT EXECUTE ON pr2 TO u2
+direct GRANT EXECUTE ON f1 TO u6
+direct GRANT SELECT ON vw1 TO u6
+direct GRANT EXECUTE ON f1 TO u2
+direct GRANT ACCESS ON lk0 TO u2
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('COMMENT', 'a comment')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERSION_MAJOR', '7')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('TRIGGERS_DISABLED', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('DISABLE_DLL_CACHING', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('LOGINS_DISABLED_MSG', 'closed')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('MAX_FAILED_ATTEMPTS', '9')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('USER_DEFINED_PROP', 'user defined')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_DELIMITERS', ' ,.;')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('FTS_NOISE_WORDS', 'a the')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENABLE_INTERNET', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_COMMUNICATION', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('INTERNET_SECURITY_LEVEL', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_VIA_ROOT', '1')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', 'qlog')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'T')
+direct EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_NEW_TABLE', 'T')
+disconnect
+#
+connect vx\vx.add adssys
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u2 pw2
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u3 pw3
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u4 pw4
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u5 pw5
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u6 pw6
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u7 pw7
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u8 pw8
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+#
+# The dictionary no longer verifies access rights.
+connect vx\vx.add adssys
+stmt
+direct EXECUTE PROCEDURE sp_ModifyDatabase('VERIFY_ACCESS_RIGHTS', 'F')
+disconnect
+connect vx\vx.add u3 pw3
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect
+connect vx\vx.add u6 pw6
+stmt
+query SELECT * FROM system.dictionary
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexes
+query SELECT Name FROM system.users
+query SELECT Name FROM system.usergroups
+query SELECT * FROM system.usergroupmembers
+query SELECT * FROM system.views
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.triggers
+query SELECT * FROM system.permissions
+query SELECT * FROM system.indexfiles
+query SELECT * FROM system.functions
+query SELECT * FROM system.links
+query SELECT * FROM system.relations
+query SELECT * FROM system.packages
+query SELECT * FROM system.links
+query SELECT * FROM system.columns
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't1', NULL)
+query EXECUTE PROCEDURE sp_GetColumns(NULL, NULL, 't2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't%', 'TABLE')
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, NULL, 'SYSTEM TABLE')
+disconnect

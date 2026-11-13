@@ -1,0 +1,23 @@
+{
+ "table_type": "adt",
+ "record_count": 0,
+ "record_length": 45,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "name", "type": 4, "type_name": "Character", "length": 10, "decimals": 0},
+  {"name": "qty", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "price", "type": 2, "type_name": "Numeric", "length": 8, "decimals": 2},
+  {"name": "d", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "flag", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "note", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+ ]
+}

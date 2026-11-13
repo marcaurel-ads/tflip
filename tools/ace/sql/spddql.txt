@@ -1,0 +1,40 @@
+# Query logging on a dictionary connection in an empty folder (the dictionary,
+# de/de.add): where the log table goes (a table of the dictionary, in the
+# folder next to it), the QUERY_LOG_TABLE property, and a user who is not the
+# administrator. Replayed with the times masked.
+#
+#     run.sh <work> <ace32.dll> spddql.txt > ../../../fixtures/sql/spddql.json
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query SELECT * FROM system.dictionary
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query SELECT * FROM system.tables
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('t1', 0, 0, 0, '')
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('q2', 0, 1, 5, 'secret', 0)
+query SELECT * FROM t1
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('secret')
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('wrong')
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query EXECUTE PROCEDURE sp_ModifyDatabase('QUERY_LOG_TABLE', 'q3')
+query SELECT * FROM system.dictionary
+query EXECUTE PROCEDURE sp_EnableQueryLogging('q3', 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+query EXECUTE PROCEDURE sp_ViewQueryLogging()
+query EXECUTE PROCEDURE sp_EnableQueryLogging('ql1', 1, 0, 0, '')
+query EXECUTE PROCEDURE sp_GetQueryLoggingResults('')
+query EXECUTE PROCEDURE sp_DisableQueryLogging()

@@ -1,0 +1,12 @@
+# The length and decimals CREATE TABLE on a dictionary connection records for
+# a field of each type, in an empty folder with a dictionary fl/fl.add the
+# script creates (kept in fixtures/sql/ddfieldlen/):
+#
+#     run.sh <work> <ace32.dll> ddfieldlen.txt > ../../../fixtures/sql/ddfieldlen.json
+#     cp <work>/data/fl/* ../../../fixtures/sql/ddfieldlen/
+ddcreate fl\fl.add
+stmt
+direct CREATE TABLE a1 (c1 CHAR(10), c2 VARCHAR(100), c3 CICHAR(6), c4 NCHAR(5), c5 NVARCHAR(30), c6 RAW(7), c7 BINARY, c8 VARBINARY(20))
+direct CREATE TABLE a2 (n1 NUMERIC(10,3), n2 DOUBLE, n3 CURDOUBLE, n4 MONEY, n5 SHORT, n6 INTEGER, n7 AUTOINC, n8 ROWVERSION, n9 MODTIME)
+direct CREATE TABLE a3 (d1 DATE, d2 TIME, d3 TIMESTAMP, d4 LOGICAL, d5 GUID, d6 MEMO, d7 NMEMO, d8 BLOB)
+query SELECT Parent, Name, Field_Type, Field_Length, Field_Decimal FROM system.columns

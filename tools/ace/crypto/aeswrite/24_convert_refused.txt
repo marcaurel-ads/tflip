@@ -1,0 +1,12 @@
+# What sp_SetDDEncryptionType refuses before it converts: the folder connection names the dictionary, whose ADSSYS password is the second argument and whose dictionary password (if it is an AES one that encrypts its records) the process must have been given by a connection to it. p is the dictionary of 23_convert_setup.txt and e is AES-128 enciphering its records. Nothing is converted.
+connect Data Source=%D\p;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('p.add', 'x', 'ddpw', 'AES128', 1)
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('p.add', '', '', 'AES128', 1)
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('nope.add', '', 'ddpw', 'AES128', 1)
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+disconnect
+connect Data Source=%D\e;ServerType=LOCAL;
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('e.add', '', 'wrong', 'RC4', 1)
+sql EXECUTE PROCEDURE sp_SetDDEncryptionType('e.add', 'x', 'ddpw', 'RC4', 1)
+disconnect

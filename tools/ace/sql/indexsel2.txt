@@ -1,0 +1,135 @@
+# Indexes in SELECTs that run through their plan: CICHARACTER text with characters that sort
+# differently in lower and in upper case, and text under a dynamic collation (an empty data folder),
+# for fixtures/sql/indexsel2.json.
+stmt
+query CREATE TABLE zs (id integer, ci cichar(8), ch char(8), ni cichar(8))
+query INSERT INTO zs VALUES (1, 'a_b', 'a_b', 'a_b')
+query INSERT INTO zs VALUES (2, 'A[x', 'A[x', 'A[x')
+query INSERT INTO zs VALUES (3, 'Zed', 'Zed', 'Zed')
+query INSERT INTO zs VALUES (4, 'zed', 'zed', 'zed')
+query INSERT INTO zs VALUES (5, '_x', '_x', '_x')
+query INSERT INTO zs VALUES (6, '1', '1', '1')
+query INSERT INTO zs VALUES (7, 'b', 'b', 'b')
+query INSERT INTO zs VALUES (8, 'B', 'B', 'B')
+query INSERT INTO zs VALUES (9, '~t', '~t', '~t')
+query INSERT INTO zs VALUES (10, '`q', '`q', '`q')
+query INSERT INTO zs VALUES (11, '{z', '{z', '{z')
+query INSERT INTO zs VALUES (12, 'Ab', 'Ab', 'Ab')
+query INSERT INTO zs VALUES (13, 'ab', 'ab', 'ab')
+query CREATE INDEX z_ci ON zs (ci)
+query CREATE INDEX z_ch ON zs (ch)
+query SELECT id + 0 AS r, ci FROM zs WHERE ci = 'a_b'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni = 'a_b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni = 'a_b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci = 'a_b'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci = 'A_B'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni = 'A_B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni = 'A_B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci = 'A_B'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci >= 'b'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni >= 'b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni >= 'b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci >= 'b'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci >= 'A'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni >= 'A'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni >= 'A'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci >= 'A'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci <= 'B'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni <= 'B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni <= 'B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci <= 'B'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci <= '_'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni <= '_'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni <= '_'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci <= '_'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci >= '['
+query SELECT id + 0 AS r, ni FROM zs WHERE ni >= '['
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni >= '['
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci >= '['
+query SELECT id + 0 AS r, ci FROM zs WHERE ci < '_'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni < '_'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni < '_'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci < '_'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci > 'Zed'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni > 'Zed'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni > 'Zed'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci > 'Zed'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci > '['
+query SELECT id + 0 AS r, ni FROM zs WHERE ni > '['
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni > '['
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci > '['
+query SELECT id + 0 AS r, ci FROM zs WHERE ci >= '`'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni >= '`'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni >= '`'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci >= '`'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci < '~'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni < '~'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni < '~'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci < '~'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci BETWEEN 'A' AND 'B'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni BETWEEN 'A' AND 'B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni BETWEEN 'A' AND 'B'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci BETWEEN 'A' AND 'B'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci BETWEEN '[' AND '`'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni BETWEEN '[' AND '`'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni BETWEEN '[' AND '`'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci BETWEEN '[' AND '`'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci <> 'b'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni <> 'b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni <> 'b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci <> 'b'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci > 'zed'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni > 'zed'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni > 'zed'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci > 'zed'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci >= '_x'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni >= '_x'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni >= '_x'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci >= '_x'
+query SELECT id + 0 AS r, ci FROM zs WHERE ci <= 'a_b'
+query SELECT id + 0 AS r, ni FROM zs WHERE ni <= 'a_b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ni FROM zs WHERE ni <= 'a_b'
+query SHOW PLAN FOR SELECT id + 0 AS r, ci FROM zs WHERE ci <= 'a_b'
+query CREATE TABLE ys (id integer, n integer, s char(4), ci cichar(4), t cichar(4))
+query INSERT INTO ys VALUES (2, 20, 'bb', 'BB', 'bb')
+query INSERT INTO ys VALUES (4, 40, 'dd', 'DD', 'dd')
+query INSERT INTO ys VALUES (6, 60, 'ff', 'FF', 'ff')
+query INSERT INTO ys VALUES (1, 10, 'aa', 'AA', 'aa')
+query INSERT INTO ys VALUES (9, 90, 'ii', 'II', 'ii')
+query INSERT INTO ys VALUES (3, 30, 'cc', 'CC', 'cc')
+query INSERT INTO ys VALUES (5, 50, 'ee', 'EE', 'ee')
+query INSERT INTO ys VALUES (7, 20, 'bb', 'BB', 'bb')
+query SELECT id + 0 AS r, n FROM ys WHERE n >= 20
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n >= 20
+query SELECT id + 0 AS r, n FROM ys WHERE n <= 40
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n <= 40
+query SELECT id + 0 AS r, n FROM ys WHERE n = 20
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n = 20
+query SELECT id + 0 AS r, n FROM ys WHERE n > 20
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n > 20
+query SELECT id + 0 AS r, n FROM ys WHERE n < 40
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n < 40
+query SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND n <= 50
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND n <= 50
+query SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND id > 1
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n >= 20 AND id > 1
+query SELECT id + 0 AS r, n FROM ys WHERE n <= 40 AND n <> 30
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n <= 40 AND n <> 30
+query SELECT id + 0 AS r, n FROM ys WHERE s >= 'cc'
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE s >= 'cc'
+query SELECT id + 0 AS r, n FROM ys WHERE s <= 'cc'
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE s <= 'cc'
+query SELECT id + 0 AS r, n FROM ys WHERE ci >= 'cc'
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE ci >= 'cc'
+query SELECT id + 0 AS r, n FROM ys WHERE ci <= 'cc'
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE ci <= 'cc'
+query SELECT id + 0 AS r, n FROM ys WHERE t >= 'CC'
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE t >= 'CC'
+query SELECT id + 0 AS r, n FROM ys WHERE id >= 3
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE id >= 3
+query SELECT id + 0 AS r, n FROM ys WHERE id <= 3
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE id <= 3
+query SELECT id + 0 AS r, n FROM ys WHERE n IN (40, 20)
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n IN (40, 20)
+query SELECT id + 0 AS r, n FROM ys WHERE n >= 20 OR n < 0
+query SHOW PLAN FOR SELECT id + 0 AS r, n FROM ys WHERE n >= 20 OR n < 0

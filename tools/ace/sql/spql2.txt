@@ -1,0 +1,30 @@
+# Query logging on a free connection: what each kind of statement leaves in the
+# log table (optimized or not, its return code and rows, errors before and while
+# it runs), and when its end time is written (the cursor closing).
+#
+#     run.sh <work> <ace32.dll> spql2.txt > ../../../fixtures/sql/spql2.json
+stmt
+query CREATE TABLE t1 (id INTEGER, name CHAR(10))
+query INSERT INTO t1 VALUES (1, 'one')
+query EXECUTE PROCEDURE sp_EnableQueryLogging('qlog', 1, 0, 0, '')
+query SELECT * FROM t1
+query SELECT * FROM t1 WHERE name = 'one'
+query SELECT * FROM t1 WHERE id = 1
+query UPDATE t1 SET name = 'two' WHERE id = 1
+query DELETE FROM t1 WHERE id = 5
+query INSERT INTO t1 VALUES (2, 'x')
+query CREATE INDEX i1 ON t1 (id)
+query SELECT * FROM t1 WHERE id = 1
+query SELECT * FROM t1 WHERE name = 'one'
+query SELECT * FROM t1 ORDER BY name
+query SELECT * FROM nosuch
+query SELEC 1
+query SELECT 1/0 FROM t1
+query EXECUTE PROCEDURE sp_mgGetServerType()
+query EXECUTE PROCEDURE sp_mgKillUser()
+query INSERT INTO t1 VALUES (1, 'one'), (3, 'three')
+query SELECT * FROM t1 WHERE id > 0
+query SELECT * FROM qlog
+query SELECT * FROM qlog
+query EXECUTE PROCEDURE sp_DisableQueryLogging()
+query SELECT * FROM qlog

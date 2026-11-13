@@ -1,0 +1,123 @@
+# SELECT ... INTO table, in an empty folder: the table the result makes, on
+# a free connection and on a dictionary one (dd/dd.add), and what it
+# refuses. The files are kept in fixtures/sql/selinto/:
+#
+#     run.sh <work> <ace32.dll> selinto.txt > ../../../fixtures/sql/selinto.json
+#     cp -r <work>/data/* ../../../fixtures/sql/selinto/
+stmt
+direct CREATE TABLE src (id INTEGER, name CHAR(10), nm CICHAR(6), v VARCHAR(20), n NUMERIC(8,2), d DATE, t TIME, ts TIMESTAMP, l LOGICAL, f DOUBLE, m MONEY, g GUID, memo MEMO, b BLOB, nc NCHAR(4), nv NVARCHAR(8), nmm NMEMO, s SHORT, bi BIGINT, r RAW(3), vb VARBINARY(6))
+direct INSERT INTO src (id, name, nm, v, n, d, t, ts, l, f, m, memo, nc, nv, s, bi) VALUES (1, 'one', 'Aa', 'short', 1.5, '2020-01-02', '10:20:30', '2020-01-02 10:20:30', true, 2.25, 3.5, 'a memo', 'ab', 'abc', 7, 1234567890123)
+direct INSERT INTO src (id, name, memo, nmm) VALUES (2, 'two', 'another memo value longer than the block of the memo file, which is eight bytes', 'nmemo')
+direct INSERT INTO src (id) VALUES (3)
+direct CREATE TABLE other (id INTEGER, tag CHAR(5))
+direct INSERT INTO other VALUES (1, 'x')
+direct INSERT INTO other VALUES (2, 'y')
+direct INSERT INTO other VALUES (2, 'z')
+direct CREATE TABLE auto (a AUTOINC, b ROWVERSION, d CURDOUBLE, e NUMERIC(20,10), f BLOB, g CICHAR(5))
+direct INSERT INTO auto (d, e, g) VALUES (1.5, 2.0000000001, 'xy')
+direct INSERT INTO auto (d) VALUES (2.5)
+#
+# One of each column type.
+direct SELECT * INTO t_all FROM src
+info
+closecursor
+direct SELECT * FROM src
+info
+closecursor
+query SELECT * FROM t_all
+query SELECT * INTO t_auto FROM auto
+query SELECT * FROM auto
+query SELECT id, name INTO t_two FROM src WHERE id < 3
+query SELECT id, name INTO t_two FROM src
+query SELECT id AS ident, UPPER(name) AS un, id * 2 AS dbl, name + 'x', 1, 'abc', 1.5, TRUE, CAST(id AS SQL_CHAR(3)) AS c3, IIF(id > 1, 'big', 'small') AS sz INTO t_expr FROM src
+query SELECT * FROM t_expr
+query SELECT n + 1 AS a, n * n AS b, f / 3 AS c, d + 1 AS e, LEFT(v, 3) AS lv, v + name AS cc, nm + 'x' AS cx, CAST(id AS SQL_VARCHAR(7)) AS cv, CAST(id AS SQL_NUMERIC(9,3)) AS cn, id / 2 AS idiv, m + m AS mm, IFNULL(name, 'z') AS ifn, COALESCE(v, name) AS co, 1 + 1 AS two, UPPER(nv) AS unv, nc + nc AS ncc, SUBSTRING(memo, 1, 4) AS sm, CAST(id AS SQL_BIGINT) AS cb, CAST(id AS SQL_DOUBLE) AS cdbl, CAST(d AS SQL_TIMESTAMP) AS cts, s + s AS ss, bi + bi AS bb, t AS tt, l AND l AS ll, r, vb, g, TRIM(name) AS tr, 'x' AS lit, memo + memo AS mm2, UPPER(nmm) AS unm, CAST(memo AS SQL_CHAR(10)) AS cm, LENGTH(name) AS ln, 99999999999 AS big, 1e10 AS fl, name + name + name AS n3, CAST(NULL AS SQL_INTEGER) AS cn2 INTO t_expr2 FROM src
+query SELECT * FROM t_expr2
+query SELECT nv + nv AS a, nc + 'x' AS b, nc + name AS c, nc + nv AS d, nmm + nmm AS e, nc + nc + nc AS f FROM src
+query SELECT NULL AS nl, id INTO t_null FROM src
+query SELECT 2147483647 + id AS x INTO t_over FROM src
+query SELECT id INTO t_nosrc2 FROM nosuch
+query SELECT id INTO src FROM nosuch
+query SELECT d + 1 AS x INTO t_ts FROM src WHERE 1 = 2
+query SELECT COUNT(*) AS c, COUNT(name) AS cn, SUM(n) AS sn, SUM(f) AS sf, SUM(m) AS sm, SUM(s) AS ss, AVG(f) AS af, AVG(n) AS an, MAX(d) AS md, MIN(ts) AS mt, MAX(v) AS mv, MAX(nm) AS mn2 INTO t_agg FROM src
+query SELECT * FROM t_agg
+query SELECT name, COUNT(*) AS c INTO t_grp FROM src GROUP BY name HAVING COUNT(*) > 0 ORDER BY name
+query SELECT * INTO t_sv FROM (SELECT id, name FROM src) x
+query SELECT x.id, y.tag INTO t_lj FROM src x LEFT JOIN other y ON x.id = y.id
+query SELECT * FROM t_lj
+query SELECT s.id, o.tag, COUNT(*) AS cnt, SUM(s.id) AS sm, AVG(s.id) AS av, MAX(s.name) AS mx, MIN(s.n) AS mn INTO t_join FROM src s INNER JOIN other o ON s.id = o.id GROUP BY s.id, o.tag
+query SELECT * FROM t_join
+query SELECT TOP 2 id, memo INTO t_top FROM src ORDER BY id DESC
+query SELECT DISTINCT tag INTO t_dist FROM other
+query SELECT id INTO t_union FROM src UNION SELECT id FROM other
+query SELECT id INTO t_union2 FROM src UNION ALL SELECT id FROM other
+query SELECT id FROM src UNION SELECT id INTO t_union3 FROM other
+query SELECT * FROM (SELECT id INTO t_sub FROM src) x
+query SELECT * FROM src WHERE id IN (SELECT id INTO t_sub2 FROM other)
+query SELECT {static} id INTO t_static FROM src
+query SELECT id INTO t_empty FROM src WHERE id > 100
+query SELECT memo, nmm, b INTO t_memos FROM src
+query SELECT id INTO t_all FROM src
+query SELECT id INTO t_two FROM src
+query SELECT id INTO nosuch.t_x FROM src
+query SELECT id INTO t_nosrc FROM nosuch
+query SELECT id INTO "t quoted" FROM src
+query SELECT id, id INTO t_dupcol FROM src
+query SELECT id, name INTO t_cons FROM src ORDER BY name
+query SELECT * INTO t_one FROM other WHERE id = 1
+query SELECT * FROM t_one
+query SELECT id INTO FROM src
+query SELECT id INTO t_x, t_y FROM src
+query SELECT id INTO t_x INTO t_y FROM src
+direct INSERT INTO t_two VALUES (9, 'nine')
+query SELECT * FROM t_two
+# the cursor: its live changes, ordering, record count
+query SELECT id, name INTO t_live FROM src ORDER BY id DESC
+query EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't_%', 'TABLE') 
+query SELECT TABLE_NAME, TABLE_TYPE INTO t_proc FROM (EXECUTE PROCEDURE sp_GetTables(NULL, NULL, 't_%', 'TABLE')) p
+# A parameter, run twice (the second finds the table), and AdsVerifySQL.
+prepare SELECT id, name INTO t_par FROM src WHERE id > ?
+param 1 long 1
+exec
+count
+closecursor
+exec
+verify SELECT id INTO t_ver FROM src
+verify SELECT id INTO t_par FROM src
+#
+# Under each table type and character type of the statement: an ADT table.
+tabletype 1
+stmt
+query SELECT id, name, memo, d, n, l, ts INTO a_ntx FROM src
+tabletype 2
+stmt
+query SELECT id, name, memo INTO a_cdx FROM src
+tabletype 4
+stmt
+query SELECT id, name, memo, d, n, l, ts INTO a_vfp FROM src
+tabletype 3
+chartype 2
+stmt
+query SELECT id, name INTO a_oem FROM src
+chartype 1
+stmt
+#
+# On a dictionary connection.
+ddcreate dd\dd.add
+stmt
+direct CREATE TABLE dsrc (id INTEGER, name CHAR(10), memo MEMO, n NUMERIC(8,2))
+direct INSERT INTO dsrc VALUES (1, 'one', 'a memo', 1.5)
+direct INSERT INTO dsrc VALUES (2, 'two', NULL, 2.5)
+direct SELECT * INTO d_all FROM dsrc
+info
+closecursor
+query SELECT * FROM d_all
+query SELECT Name, Table_Path FROM system.tables
+query SELECT id AS ident, UPPER(name) AS un INTO d_expr FROM dsrc
+query SELECT * FROM d_expr
+query SELECT id INTO d_all FROM dsrc
+query SELECT id INTO dsrc FROM dsrc
+query SELECT id INTO d_x FROM dsrc
+query SELECT Name FROM system.tables
+direct DROP TABLE d_x
+query SELECT * FROM d_all

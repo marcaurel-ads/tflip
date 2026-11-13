@@ -1,0 +1,60 @@
+# The small management procedures on the local server: sp_SetStatementLimit,
+# sp_SetRequestPriority, sp_CancelQuery and sp_IgnoreTableTransactions, and
+# the table files the last leaves in fixtures/sql/spm1/.
+#
+#     run.sh <work> <ace32.dll> spm1.txt > ../../../fixtures/sql/spm1.json
+#     cp <work>/data/*.adt ../../../fixtures/sql/spm1/
+stmt
+query CREATE TABLE mt (id INTEGER, name CHAR(10))
+query CREATE TABLE mu (id INTEGER, name CHAR(10))
+query CREATE TABLE mv (id INTEGER, name CHAR(10))
+query CREATE TABLE mw (id INTEGER, name CHAR(10))
+query CREATE TABLE mx (id INTEGER, name CHAR(10))
+query CREATE TABLE my (id INTEGER, name CHAR(10)) 
+query INSERT INTO mt VALUES (1, 'one')
+query EXECUTE PROCEDURE sp_SetStatementLimit(10)
+query EXECUTE PROCEDURE sp_SetStatementLimit(0)
+query EXECUTE PROCEDURE sp_SetStatementLimit(-1)
+query EXECUTE PROCEDURE sp_SetStatementLimit(NULL)
+query EXECUTE PROCEDURE sp_SetStatementLimit(2.5)
+query EXECUTE PROCEDURE sp_SetStatementLimit()
+query EXECUTE PROCEDURE sp_SetStatementLimit(1, 2)
+query EXECUTE PROCEDURE sp_SetStatementLimit('x')
+query EXECUTE PROCEDURE sp_SetStatementLimit(2147483648)
+query SELECT * FROM (EXECUTE PROCEDURE sp_SetStatementLimit(5)) p
+query EXECUTE PROCEDURE sp_SetRequestPriority('low')
+query EXECUTE PROCEDURE sp_SetRequestPriority('normal')
+query EXECUTE PROCEDURE sp_SetRequestPriority('HIGH')
+query EXECUTE PROCEDURE sp_SetRequestPriority('critical')
+query EXECUTE PROCEDURE sp_SetRequestPriority('bogus')
+query EXECUTE PROCEDURE sp_SetRequestPriority('')
+query EXECUTE PROCEDURE sp_SetRequestPriority()
+query EXECUTE PROCEDURE sp_SetRequestPriority(NULL)
+query EXECUTE PROCEDURE sp_SetRequestPriority(1)
+query EXECUTE PROCEDURE sp_SetRequestPriority('low', 'high')
+query EXECUTE PROCEDURE sp_CancelQuery(1)
+query EXECUTE PROCEDURE sp_CancelQuery(0)
+query EXECUTE PROCEDURE sp_CancelQuery(NULL)
+query EXECUTE PROCEDURE sp_CancelQuery('x')
+query EXECUTE PROCEDURE sp_CancelQuery()
+query EXECUTE PROCEDURE sp_CancelQuery(1, 2)
+# What sp_IgnoreTableTransactions does to the table's header, and when it
+# refuses.
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mu', true)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mu', false)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mv', false)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mw', NULL)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mx', 1)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('my', 0)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt.adt')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt', 'x')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('nosuch')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('nosuch.adt', false)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions(NULL)
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('')
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions()
+query EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt', true, 1)
+query SELECT * FROM (EXECUTE PROCEDURE sp_IgnoreTableTransactions('mt')) p
+query EXECUTE PROCEDURE sp_IgnoreTransactions('mt')

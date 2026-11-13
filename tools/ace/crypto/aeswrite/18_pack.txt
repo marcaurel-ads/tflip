@@ -1,0 +1,13 @@
+# An encrypted table with enciphered indexes is packed. On each dictionary of 00_create.txt that has the table of 11_indexes.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_PackTable('ti')
+sql INSERT INTO ti VALUES (7, 'seven')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_PackTable('ti')
+sql INSERT INTO ti VALUES (7, 'seven')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_PackTable('ti')
+sql INSERT INTO ti VALUES (7, 'seven')
+disconnect

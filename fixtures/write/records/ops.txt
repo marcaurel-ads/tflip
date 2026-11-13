@@ -1,0 +1,94 @@
+open rec.adt shared
+state
+# A record with a value in every field, through the typed setters.
+append
+state
+islocked 1
+set c_char string abc
+set c_cichar string MiXeD
+set c_varchar string var
+set c_nchar string \xe4\x80
+set c_nvarchar stringw caf\xe9
+set c_raw field \xde\xad\xbe\xef
+set c_raw binary deadbeef
+set c_varbinary binary 0102
+set c_guid string {01234567-89AB-CDEF-0123-456789ABCDEF}
+set c_guid field {01234567-89AB-CDEF-0123-456789ABCDEF}
+set c_logical logical 1
+set c_numeric double 12345.67
+set c_short short -2
+set c_integer long 123456789
+set c_longint longlong 1234567890123
+set c_double double 3.5
+set c_curdouble double 2.25
+set c_money money 123456
+set c_date date 11/08/2017
+set c_time time 13:45:30.250
+set c_timestamp timestamp 11/08/2017 13:45:30.250
+record
+get c_char
+get c_numeric
+get c_autoinc
+write
+state
+islocked 1
+# Strings through AdsSetField, and boundary values.
+append
+set c_char field zzzzzzzzzzzz
+set c_numeric field -99999.99
+set c_short field 32767
+set c_integer field -2147483647
+set c_date field 01/01/0001
+set c_time field 00:00:00
+set c_logical field F
+write
+# A record with nothing set.
+append
+write
+# An append cancelled: it goes on the free list.
+append
+set c_char string cancelled
+cancel
+state
+# An update, written by moving off the record.
+goto 1
+set c_char string updated
+set c_integer null
+skip 1
+goto 1
+get c_char
+get c_integer
+# A delete, and an append that reuses its slot.
+goto 2
+delete
+state
+append
+state
+set c_char string reused
+write
+# Explicit locks.
+lock 1
+islocked 1
+locks
+set c_short short 7
+write
+islocked 1
+unlock 1
+islocked 1
+# Empty values.
+goto 3
+set c_char empty
+set c_varchar empty
+set c_numeric empty
+set c_date empty
+write
+close
+open rec.adt
+top
+get c_char
+skip 1
+get c_char
+skip 1
+get c_char
+state
+close

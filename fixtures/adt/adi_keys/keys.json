@@ -1,0 +1,258 @@
+{
+ "table_type": "adt",
+ "record_count": 6,
+ "record_length": 133,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "k_char", "type": 4, "type_name": "Character", "length": 6, "decimals": 0},
+  {"name": "k_cichar", "type": 20, "type_name": "CICharacter", "length": 6, "decimals": 0},
+  {"name": "k_varchar", "type": 23, "type_name": "VarCharFox", "length": 6, "decimals": 0},
+  {"name": "k_nchar", "type": 26, "type_name": "NChar", "length": 3, "decimals": 0},
+  {"name": "k_nvarchar", "type": 27, "type_name": "NVarChar", "length": 3, "decimals": 0},
+  {"name": "k_raw", "type": 16, "type_name": "Raw", "length": 3, "decimals": 0},
+  {"name": "k_guid", "type": 29, "type_name": "GUID", "length": 16, "decimals": 0},
+  {"name": "k_logical", "type": 1, "type_name": "Logical", "length": 1, "decimals": 0},
+  {"name": "k_numeric", "type": 2, "type_name": "Numeric", "length": 8, "decimals": 2},
+  {"name": "k_short", "type": 12, "type_name": "ShortInt", "length": 2, "decimals": 0},
+  {"name": "k_integer", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "k_longint", "type": 19, "type_name": "LongInt", "length": 8, "decimals": 0},
+  {"name": "k_double", "type": 10, "type_name": "Double", "length": 8, "decimals": 15},
+  {"name": "k_curdouble", "type": 17, "type_name": "CurDouble", "length": 8, "decimals": 2},
+  {"name": "k_money", "type": 18, "type_name": "Money", "length": 8, "decimals": 4},
+  {"name": "k_date", "type": 3, "type_name": "Date", "length": 4, "decimals": 0},
+  {"name": "k_time", "type": 13, "type_name": "Time", "length": 4, "decimals": 0},
+  {"name": "k_timestamp", "type": 14, "type_name": "TimeStamp", "length": 8, "decimals": 0},
+  {"name": "k_autoinc", "type": 15, "type_name": "AutoInc", "length": 4, "decimals": 0},
+  {"name": "k_rowversion", "type": 21, "type_name": "RowVersion", "length": 8, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "I_CHAR", "file": "keys.adi", "expression": "k_char", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000"},
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 2, "key": "5a7a20202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 4, "key": "c4e980202020"}
+  ]},
+  {"name": "I_CICHAR", "file": "keys.adi", "expression": "k_cichar", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000"},
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 2, "key": "7a7a20202020"},
+   {"recno": 4, "key": "e4c980202020"}
+  ]},
+  {"name": "I_VARCHAR", "file": "keys.adi", "expression": "k_varchar", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000"},
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 2, "key": "5a7a20202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 4, "key": "c4e980202020"}
+  ]},
+  {"name": "I_NCHAR", "file": "keys.adi", "expression": "k_nchar", "condition": "", "collation": ":en_US", "key_length": 15, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000000000000000000000"},
+   {"recno": 3, "key": "060606010701070000000000000000"},
+   {"recno": 5, "key": "2c0105010500000000000000000000"},
+   {"recno": 1, "key": "2c2e30010701070000000000000000"},
+   {"recno": 2, "key": "5e5e0106018f050000000000000000"},
+   {"recno": 4, "key": "6070ff62500329680107018f060000"}
+  ]},
+  {"name": "I_NVARCHAR", "file": "keys.adi", "expression": "k_nvarchar", "condition": "", "collation": ":en_US", "key_length": 15, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000000000000000000000"},
+   {"recno": 3, "key": "010100000000000000000000000000"},
+   {"recno": 5, "key": "2c0105010500000000000000000000"},
+   {"recno": 1, "key": "2c2e30010701070000000000000000"},
+   {"recno": 2, "key": "5e5e0106018f050000000000000000"},
+   {"recno": 4, "key": "6070ff62500329680107018f060000"}
+  ]},
+  {"name": "I_RAW", "file": "keys.adi", "expression": "k_raw", "condition": "", "collation": "", "key_length": 3, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 3, "key": "000000"},
+   {"recno": 6, "key": "000000"},
+   {"recno": 5, "key": "010000"},
+   {"recno": 1, "key": "010203"},
+   {"recno": 4, "key": "7f8081"},
+   {"recno": 2, "key": "ff0000"}
+  ]},
+  {"name": "I_GUID", "file": "keys.adi", "expression": "k_guid", "condition": "", "collation": "", "key_length": 16, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00000000000000000000000000000000"},
+   {"recno": 3, "key": "00000000000000000000000000000001"},
+   {"recno": 5, "key": "00000000000000000000000000000002"},
+   {"recno": 1, "key": "33221100554477668899aabbccddeeff"},
+   {"recno": 4, "key": "ffffff7fffffffffffffffffffffffff"},
+   {"recno": 2, "key": "ffffffff000000000000000000000001"}
+  ]},
+  {"name": "I_LOGICAL", "file": "keys.adi", "expression": "k_logical", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00"},
+   {"recno": 2, "key": "46"},
+   {"recno": 3, "key": "46"},
+   {"recno": 1, "key": "54"},
+   {"recno": 4, "key": "54"},
+   {"recno": 5, "key": "54"}
+  ]},
+  {"name": "I_NUMERIC", "file": "keys.adi", "expression": "k_numeric", "condition": "", "collation": "", "key_length": 4, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00000000"},
+   {"recno": 5, "key": "4900000f"},
+   {"recno": 2, "key": "4999849f"},
+   {"recno": 3, "key": "8000000f"},
+   {"recno": 1, "key": "8000150f"},
+   {"recno": 4, "key": "8999999f"}
+  ]},
+  {"name": "I_SHORT", "file": "keys.adi", "expression": "k_short", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 5, "key": "3f20003fffffffff"},
+   {"recno": 2, "key": "400fffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 4, "key": "c0dfffc000000000"}
+  ]},
+  {"name": "I_INTEGER", "file": "keys.adi", "expression": "k_integer", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 5, "key": "3e200000003fffff"},
+   {"recno": 2, "key": "400fffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 4, "key": "c1dfffffffc00000"}
+  ]},
+  {"name": "I_LONGINT", "file": "keys.adi", "expression": "k_longint", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 5, "key": "0000000000000001"},
+   {"recno": 2, "key": "7fffffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "8000000000000001"},
+   {"recno": 4, "key": "ffffffffffffffff"}
+  ]},
+  {"name": "I_DOUBLE", "file": "keys.adi", "expression": "k_double", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 5, "key": "01c81bc377ff8a62"},
+   {"recno": 2, "key": "4007ffffffffffff"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "bff8000000000000"},
+   {"recno": 4, "key": "fe37e43c8800759d"}
+  ]},
+  {"name": "I_CURDOUBLE", "file": "keys.adi", "expression": "k_curdouble", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 2, "key": "4007ffffffffffff"},
+   {"recno": 5, "key": "7e5a91e03d070c99"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 4, "key": "81a56e1fc2f8f366"},
+   {"recno": 1, "key": "bff8000000000000"}
+  ]},
+  {"name": "I_MONEY", "file": "keys.adi", "expression": "k_money", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 5, "key": "0000000000000001"},
+   {"recno": 2, "key": "7fffffffffffc568"},
+   {"recno": 3, "key": "8000000000000000"},
+   {"recno": 1, "key": "8000000000003a98"},
+   {"recno": 4, "key": "ffffffffffffffff"}
+  ]},
+  {"name": "I_DATE", "file": "keys.adi", "expression": "k_date", "condition": "", "collation": "", "key_length": 8, "key_type": 3, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 3, "key": "c13a445200000000"},
+   {"recno": 5, "key": "c1418a8c80000000"},
+   {"recno": 2, "key": "c1426cd680000000"},
+   {"recno": 1, "key": "c142c0e900000000"},
+   {"recno": 4, "key": "c1547f8b00000000"}
+  ]},
+  {"name": "I_TIME", "file": "keys.adi", "expression": "k_time", "condition": "", "collation": "", "key_length": 4, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00000000"},
+   {"recno": 2, "key": "00000001"},
+   {"recno": 4, "key": "00000002"},
+   {"recno": 5, "key": "02932e01"},
+   {"recno": 1, "key": "02b32981"},
+   {"recno": 3, "key": "05265c00"}
+  ]},
+  {"name": "I_TIMESTAMP", "file": "keys.adi", "expression": "k_timestamp", "condition": "", "collation": "", "key_length": 8, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 4, "key": "001a445200000001"},
+   {"recno": 2, "key": "0024d9ad00000001"},
+   {"recno": 5, "key": "00253d8c00000001"},
+   {"recno": 1, "key": "002581d202b32c96"},
+   {"recno": 3, "key": "0051fe2c05265c00"}
+  ]},
+  {"name": "I_AUTOINC", "file": "keys.adi", "expression": "k_autoinc", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 1, "key": "bff0000000000000"},
+   {"recno": 2, "key": "c000000000000000"},
+   {"recno": 3, "key": "c008000000000000"},
+   {"recno": 4, "key": "c010000000000000"},
+   {"recno": 5, "key": "c014000000000000"},
+   {"recno": 6, "key": "c018000000000000"}
+  ]},
+  {"name": "I_ROWVERSION", "file": "keys.adi", "expression": "k_rowversion", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 1, "key": "8000000000000001"},
+   {"recno": 2, "key": "8000000000000002"},
+   {"recno": 3, "key": "8000000000000003"},
+   {"recno": 4, "key": "8000000000000004"},
+   {"recno": 5, "key": "8000000000000005"},
+   {"recno": 6, "key": "8000000000000006"}
+  ]},
+  {"name": "I_DESC", "file": "keys.adi", "expression": "k_char", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": true, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 4, "key": "c4e980202020"},
+   {"recno": 1, "key": "616263202020"},
+   {"recno": 5, "key": "612020202020"},
+   {"recno": 2, "key": "5a7a20202020"},
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 6, "key": "000000000000"}
+  ]},
+  {"name": "I_MULTI", "file": "keys.adi", "expression": "k_integer;k_char;k_date", "condition": "", "collation": "", "key_length": 22, "key_type": 16, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00000000000000000000000000000000000000000000"},
+   {"recno": 5, "key": "3e200000003fffff612020202020c1418a8c80000000"},
+   {"recno": 2, "key": "400fffffffffffff5a7a20202020c1426cd680000000"},
+   {"recno": 3, "key": "8000000000000000202020202020c13a445200000000"},
+   {"recno": 1, "key": "bff0000000000000616263202020c142c0e900000000"},
+   {"recno": 4, "key": "c1dfffffffc00000c4e980202020c1547f8b00000000"}
+  ]},
+  {"name": "X_UPPER", "file": "keys.adi", "expression": "UPPER(k_char)", "condition": "", "collation": "", "key_length": 6, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000"},
+   {"recno": 3, "key": "202020202020"},
+   {"recno": 5, "key": "412020202020"},
+   {"recno": 1, "key": "414243202020"},
+   {"recno": 2, "key": "5a5a20202020"},
+   {"recno": 4, "key": "c4e980202020"}
+  ]},
+  {"name": "X_CONCAT", "file": "keys.adi", "expression": "k_char + k_varchar", "condition": "", "collation": "", "key_length": 12, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "000000000000000000000000"},
+   {"recno": 3, "key": "202020202020202020202020"},
+   {"recno": 2, "key": "5a7a202020205a7a20202020"},
+   {"recno": 5, "key": "612020202020612020202020"},
+   {"recno": 1, "key": "616263202020616263202020"},
+   {"recno": 4, "key": "c4e980202020c4e980202020"}
+  ]},
+  {"name": "X_STR", "file": "keys.adi", "expression": "STR(k_integer, 11)", "condition": "", "collation": "", "key_length": 11, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000000000"},
+   {"recno": 3, "key": "2020202020202020202030"},
+   {"recno": 1, "key": "2020202020202020202031"},
+   {"recno": 2, "key": "2020202020202020202d31"},
+   {"recno": 4, "key": "2032313437343833363437"},
+   {"recno": 5, "key": "2d32313437343833363437"}
+  ]},
+  {"name": "X_DTOS", "file": "keys.adi", "expression": "DTOS(k_date)", "condition": "", "collation": "", "key_length": 8, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "0000000000000000"},
+   {"recno": 3, "key": "3030303130313031"},
+   {"recno": 5, "key": "3135383231303135"},
+   {"recno": 2, "key": "3139303030313031"},
+   {"recno": 1, "key": "3230313731313038"},
+   {"recno": 4, "key": "3939393931323331"}
+  ]},
+  {"name": "X_LOGICAL", "file": "keys.adi", "expression": "k_logical", "condition": "", "collation": "", "key_length": 1, "key_type": 1, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 6, "keys": [
+   {"recno": 6, "key": "00"},
+   {"recno": 2, "key": "46"},
+   {"recno": 3, "key": "46"},
+   {"recno": 1, "key": "54"},
+   {"recno": 4, "key": "54"},
+   {"recno": 5, "key": "54"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "04000000006162632020204142432020206162630000000300610062006300610062006300030001020333221100554477668899aabbccddeeff5420202020312e35300100010000000100000000000000000000000000f83f000000000000f83f983a000000000000d28125008029b302d2812500952cb302010000000100000000000000", "values": {"k_char": {"text": "abc   "}, "k_cichar": {"text": "ABC   "}, "k_varchar": {"text": "abc"}, "k_nchar": {"text": "abc"}, "k_nvarchar": {"text": "abc"}, "k_raw": {"hex": "010203"}, "k_guid": {"text": "00112233-4455-6677-8899-aabbccddeeff"}, "k_logical": {"text": "T"}, "k_numeric": {"text": "    1.50"}, "k_short": {"text": "1"}, "k_integer": {"text": "1"}, "k_longint": {"text": "1"}, "k_double": {"text": "1.5"}, "k_curdouble": {"text": "1.5"}, "k_money": {"text": "1.5000"}, "k_date": {"text": "2017-11-08", "julian": 2458066}, "k_time": {"text": "12:34:56.000", "ms": 45296000}, "k_timestamp": {"text": "2017-11-08 12:34:56.789", "julian": 2458066, "ms": 45296789}, "k_autoinc": {"text": "1"}, "k_rowversion": {"text": "1"}}},
+  {"recno": 2, "deleted": false, "raw": "04000000005a7a202020207a5a202020205a7a0000000002005a007a0020005a007a0020000200ff0000ffffffff000000000000000000000001462020202d312e3530ffffffffffffffffffffffffffff000000000000f8bf000000000000f8bf68c5ffffffffffffadd9240000000000add9240000000000020000000200000000000000", "values": {"k_char": {"text": "Zz    "}, "k_cichar": {"text": "zZ    "}, "k_varchar": {"text": "Zz"}, "k_nchar": {"text": "Zz "}, "k_nvarchar": {"text": "Zz"}, "k_raw": {"hex": "ff0000"}, "k_guid": {"text": "ffffffff-0000-0000-0000-000000000001"}, "k_logical": {"text": "F"}, "k_numeric": {"text": "   -1.50"}, "k_short": {"text": "-1"}, "k_integer": {"text": "-1"}, "k_longint": {"text": "-1"}, "k_double": {"text": "-1.5"}, "k_curdouble": {"text": "-1.5"}, "k_money": {"text": "-1.5000"}, "k_date": {"text": "1900-01-01", "julian": 2415021}, "k_time": {"text": "00:00:00.000", "ms": 0}, "k_timestamp": {"text": "1900-01-01 00:00:00.000", "julian": 2415021, "ms": 0}, "k_autoinc": {"text": "2"}, "k_rowversion": {"text": "2"}}},
+  {"recno": 3, "deleted": false, "raw": "040000000020202020202020202020202000000000000000002000200020002000200020000000000000000000000000000000000000000000014620202020302e3030000000000000000000000000000000000000000000000000000000000000000000000000000052441a00ff5b26052cfe5100ff5b2605030000000300000000000000", "values": {"k_char": {"text": "      "}, "k_cichar": {"text": "      "}, "k_varchar": {"text": ""}, "k_nchar": {"text": "   "}, "k_nvarchar": {"text": ""}, "k_raw": {"null": true}, "k_guid": {"text": "00000000-0000-0000-0000-000000000001"}, "k_logical": {"text": "F"}, "k_numeric": {"text": "    0.00"}, "k_short": {"text": "0"}, "k_integer": {"text": "0"}, "k_longint": {"text": "0"}, "k_double": {"text": "0"}, "k_curdouble": {"text": "0"}, "k_money": {"text": "0.0000"}, "k_date": {"text": "0001-01-01", "julian": 1721426}, "k_time": {"text": "23:59:59.999", "ms": 86399999}, "k_timestamp": {"text": "9999-12-31 23:59:59.999", "julian": 5373484, "ms": 86399999}, "k_autoinc": {"text": "3"}, "k_rowversion": {"text": "3"}}},
+  {"recno": 4, "deleted": false, "raw": "0400000000c4e980202020e4c980202020c4e9800000000300a9033604ac20a9033604ac2003007f8081ffffff7fffffffffffffffffffffffff5420393939392e3939ff7fffffff7fffffffffffffff7f9d7500883ce4377e66f3f8c21f6ea501ffffffffffffff7f2cfe51000100000052441a0000000000040000000400000000000000", "values": {"k_char": {"text": "\u00c4\u00e9\u0080   "}, "k_cichar": {"text": "\u00e4\u00c9\u0080   "}, "k_varchar": {"text": "\u00c4\u00e9\u0080"}, "k_nchar": {"text": "\u03a9\u0436\u20ac"}, "k_nvarchar": {"text": "\u03a9\u0436\u20ac"}, "k_raw": {"hex": "7f8081"}, "k_guid": {"text": "7fffffff-ffff-ffff-ffff-ffffffffffff"}, "k_logical": {"text": "T"}, "k_numeric": {"text": " 9999.99"}, "k_short": {"text": "32767"}, "k_integer": {"text": "2147483647"}, "k_longint": {"text": "9223372036854775807"}, "k_double": {"text": "1.0000000000000002e+300"}, "k_curdouble": {"text": "1.0000000000000022e-300"}, "k_money": {"text": "922337203685477.5807"}, "k_date": {"text": "9999-12-31", "julian": 5373484}, "k_time": {"text": "00:00:00.001", "ms": 1}, "k_timestamp": {"text": "0001-01-01 00:00:00.000", "julian": 1721426, "ms": 0}, "k_autoinc": {"text": "4"}, "k_rowversion": {"text": "4"}}},
+  {"recno": 5, "deleted": false, "raw": "0400000000612020202020612020202020610000000000010061002000200061002000200001000100000000000000000000000000000000000254202d3939392e393901800100008001000000000000809d7500883ce437fe66f3f8c21f6ea581010000000000008019152300002e93028c3d250000000000050000000500000000000000", "values": {"k_char": {"text": "a     "}, "k_cichar": {"text": "a     "}, "k_varchar": {"text": "a"}, "k_nchar": {"text": "a  "}, "k_nvarchar": {"text": "a"}, "k_raw": {"hex": "010000"}, "k_guid": {"text": "00000000-0000-0000-0000-000000000002"}, "k_logical": {"text": "T"}, "k_numeric": {"text": " -999.99"}, "k_short": {"text": "-32767"}, "k_integer": {"text": "-2147483647"}, "k_longint": {"text": "-9223372036854775807"}, "k_double": {"text": "-1.0000000000000002e+300"}, "k_curdouble": {"text": "-1.0000000000000022e-300"}, "k_money": {"text": "-922337203685477.5807"}, "k_date": {"text": "1582-10-15", "julian": 2299161}, "k_time": {"text": "12:00:00.000", "ms": 43200000}, "k_timestamp": {"text": "1970-01-01 00:00:00.000", "julian": 2440588, "ms": 0}, "k_autoinc": {"text": "5"}, "k_rowversion": {"text": "5"}}},
+  {"recno": 6, "deleted": false, "raw": "0400000000000000000000000000000000000000000000ffff000000000000000000000000ffff00000000000000000000000000000000000000200000000000000000008000000080000000000000008020000000000000802000000000000080000000000000008000000000ffffffff0000000000000000060000000600000000000000", "values": {"k_char": {"null": true}, "k_cichar": {"null": true}, "k_varchar": {"null": true}, "k_nchar": {"null": true}, "k_nvarchar": {"null": true}, "k_raw": {"null": true}, "k_guid": {"null": true}, "k_logical": {"null": true}, "k_numeric": {"null": true}, "k_short": {"null": true}, "k_integer": {"null": true}, "k_longint": {"null": true}, "k_double": {"null": true}, "k_curdouble": {"null": true}, "k_money": {"null": true}, "k_date": {"null": true}, "k_time": {"null": true}, "k_timestamp": {"null": true}, "k_autoinc": {"text": "6"}, "k_rowversion": {"text": "6"}}}
+ ]
+}

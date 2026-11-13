@@ -1,0 +1,587 @@
+tabletype cdx
+# enable alone
+open e1.dbf exclusive
+enableenc secret
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+close
+# writes after enable
+open e2.dbf exclusive
+enableenc secret
+append
+set d1 string delta
+set n1 long 444
+set m1 string memo_delta
+write
+goto 2
+set d1 string BRAVO2
+set m1 string a_much_longer_replacement_memo_value_that_needs_more_room_than_before_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+goto 1
+set d1 string alpha2
+write
+goto 3
+delete
+goto 4
+recall
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+goto 5
+encstate
+get d1
+get n1
+get m1
+state
+close
+# records
+open e3.dbf exclusive
+enableenc secret
+goto 1
+encryptrecord
+goto 2
+encryptrecord
+goto 1
+decryptrecord
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+close
+# the table
+open e4.dbf exclusive
+enableenc secret
+encrypttable
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close
+# writes in an encrypted table
+open e5.dbf exclusive
+enableenc secret
+encrypttable
+append
+set d1 string delta
+set n1 long 444
+set m1 string memo_delta
+write
+goto 2
+set d1 string BRAVO2
+set m1 string a_much_longer_replacement_memo_value_that_needs_more_room_than_before_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+goto 1
+set d1 string alpha2
+write
+goto 3
+delete
+goto 4
+recall
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+goto 5
+encstate
+get d1
+get n1
+get m1
+state
+close
+# decrypt
+open e6.dbf exclusive
+enableenc secret
+encrypttable
+decrypttable
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+close
+# disable
+open e7.dbf exclusive
+enableenc secret
+encrypttable
+disableenc
+encstate
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+append
+set d1 string after_disable
+write
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+close
+# pack
+open e8.dbf exclusive
+enableenc secret
+encrypttable
+pack
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+close
+# zap
+open e9.dbf exclusive
+enableenc secret
+encrypttable
+zap
+append
+set d1 string zulu
+set n1 long 9
+set m1 string zmemo
+write
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+close
+# reindex
+open e10.dbf exclusive
+enableenc secret
+encrypttable
+reindex
+order e10_d1
+seek 2 bravo
+encstate
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+close
+# a new index
+open e11.dbf exclusive
+enableenc secret
+encrypttable
+createindex - i2 2 512 n1
+order i2
+seek 2 222
+encstate
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+close
+# reopened
+open e12.dbf exclusive
+enableenc secret
+encrypttable
+close
+open e12.dbf exclusive
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+enableenc wrong
+enableenc secret
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close
+# shared
+open e13.dbf exclusive
+enableenc secret
+encrypttable
+close
+open e13.dbf shared
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+append
+set d1 string delta
+set n1 long 444
+set m1 string memo_delta
+write
+goto 2
+enableenc secret
+append
+set d1 string delta
+set n1 long 444
+set m1 string memo_delta
+write
+goto 2
+set d1 string BRAVO2
+set m1 string a_much_longer_replacement_memo_value_that_needs_more_room_than_before_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write
+goto 1
+set d1 string alpha2
+write
+goto 3
+delete
+goto 4
+recall
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 5
+encstate
+get d1
+get n1
+get m1
+state
+close
+# twice
+open e14.dbf exclusive
+encrypttable
+decrypttable
+encryptrecord
+enableenc secret
+encrypttable
+encrypttable
+decrypttable
+decrypttable
+decryptrecord
+encryptrecord
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+close
+# another password
+open e15.dbf exclusive
+enableenc secret
+encrypttable
+enableenc other
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+close
+# recall all
+open e16.dbf exclusive
+enableenc secret
+encrypttable
+goto 3
+delete
+recallall
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+get m1
+state
+goto 2
+encstate
+get d1
+get n1
+get m1
+state
+goto 3
+encstate
+get d1
+get n1
+get m1
+state
+goto 4
+encstate
+get d1
+get n1
+get m1
+state
+close
+# no memo: enable
+open f1.dbf exclusive
+enableenc secret
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+state
+close
+# no memo: the table
+open f2.dbf exclusive
+enableenc secret
+encrypttable
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+state
+goto 2
+encstate
+get d1
+get n1
+state
+goto 4
+encstate
+get d1
+get n1
+state
+close
+# no memo: writes
+open f3.dbf exclusive
+enableenc secret
+encrypttable
+append
+set d1 string delta
+set n1 long 444
+write
+goto 2
+set d1 string BRAVO2
+write
+goto 1
+set d1 string alpha2
+write
+goto 3
+delete
+goto 4
+recall
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+state
+goto 2
+encstate
+get d1
+get n1
+state
+goto 3
+encstate
+get d1
+get n1
+state
+goto 4
+encstate
+get d1
+get n1
+state
+goto 5
+encstate
+get d1
+get n1
+state
+close
+# no memo: decrypt
+open f4.dbf exclusive
+enableenc secret
+encrypttable
+decrypttable
+encstate
+state
+goto 1
+encstate
+get d1
+get n1
+state
+close

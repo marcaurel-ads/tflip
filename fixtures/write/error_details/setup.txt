@@ -1,0 +1,18 @@
+# Tables for the details AdsGetLastError's text adds after a failure.
+sql CREATE TABLE p (id integer, name char(10), m memo, b blob)
+sql INSERT INTO p VALUES (1, 'a', 'x', NULL)
+sql INSERT INTO p VALUES (2, 'b', 'y', NULL)
+sql INSERT INTO p VALUES (3, 'c', 'z', NULL)
+sql CREATE INDEX name ON p (name)
+sql DELETE FROM p WHERE id = 2
+# A unique order in an ADI file of its own.
+sql CREATE TABLE uq (k CHAR(4), v CHAR(10))
+open uq.adt
+createindex other.adi UK 2048 0 k
+close
+# A candidate order in a CDX file of its own.
+tabletype vfp
+sql CREATE TABLE vv (id INTEGER)
+open vv.dbf
+createindex bag.cdx CAND2 2050 0 id
+close

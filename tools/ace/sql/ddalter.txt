@@ -1,0 +1,173 @@
+# ALTER TABLE of a dictionary's tables that changes fields: ADD, ALTER and
+# DROP COLUMN with the constraints of a column, on a dictionary connection
+# (ct\ct.add) in an empty folder. A change that only names fields again
+# renames them where they are; any other restructures the table (the old files
+# left as .BAK) and makes the table's Field objects anew. The dictionary and
+# the files it leaves are kept in fixtures/sql/ddalter/:
+#
+#     run.sh <work> <ace32.dll> ddalter.txt > ../../../fixtures/sql/ddalter.json
+#     cp <work>/data/ct/* ../../../fixtures/sql/ddalter/
+ddcreate ct\ct.add
+stmt
+dduser u1 pw
+#
+# ADD COLUMN, with the constraints of a column, at a position, with a column
+# that cannot be NULL on a table with records.
+direct CREATE TABLE ta (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX tab ON ta (b)
+direct INSERT INTO ta VALUES (1, 'x', 'p')
+direct INSERT INTO ta VALUES (2, 'y', 'q')
+direct ALTER TABLE ta ADD COLUMN d CHAR(5) DEFAULT 'abc' CONSTRAINT MINIMUM 'A' CONSTRAINT MAXIMUM 'z' CONSTRAINT NOT NULL CONSTRAINT ERROR MESSAGE 'dbad'
+direct ALTER TABLE ta ADD COLUMN e INTEGER POSITION 1
+direct ALTER TABLE ta ADD COLUMN f INTEGER CONSTRAINT NOT NULL
+direct ALTER TABLE ta ADD COLUMN g INTEGER DEFAULT 'abc' CONSTRAINT MINIMUM 'abc'
+direct ALTER TABLE ta ADD COLUMN h DOUBLE ADD COLUMN i CHAR(7) DEFAULT 'q' ADD COLUMN j MEMO
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent = 'ta'
+query SELECT * FROM ta
+#
+# Fields only named again are renamed where they are, in the table's header
+# and the dictionary (the orders' expressions follow, the files stay): with
+# constraints, with a name that differs in case, in a statement of several.
+direct CREATE TABLE tr (a INTEGER CONSTRAINT NOT NULL DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3), d INTEGER)
+direct CREATE INDEX tre ON tr (b, a)
+direct CREATE UNIQUE INDEX trc ON tr (c) IN FILE other
+direct CREATE INDEX trd ON tr (d DESC)
+direct INSERT INTO tr VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE tr ALTER COLUMN b bb CHAR(4) ALTER COLUMN a aa INTEGER
+direct ALTER TABLE tr ALTER COLUMN c cc CHAR(3) DEFAULT 'q' CONSTRAINT NOT NULL
+direct ALTER TABLE tr ALTER COLUMN d D INTEGER
+direct ALTER TABLE tr ALTER COLUMN aa a2 INTEGER CONSTRAINT NOT NULL
+direct ALTER TABLE tr ALTER COLUMN cc cc3 CHAR(3) POSITION 3
+direct ALTER TABLE tr ALTER COLUMN bb bb2 CHAR(4) ALTER COLUMN cc3 cc4 CHAR(3)
+query SELECT Name, Parent, Field_Num, Field_Can_Be_Null, Field_Default_Value FROM system.columns WHERE Parent = 'tr'
+query SELECT Name, Parent, Index_Expression, Index_Condition, Index_Key_Length FROM system.indexes WHERE Parent = 'tr'
+query SELECT * FROM tr
+#
+# A change that renames nothing, or more than names, restructures the table,
+# the constraints it gives set over the field's own.
+direct CREATE TABLE tc (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc2 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc3 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc4 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc5 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc6 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct CREATE TABLE tc7 (a INTEGER CONSTRAINT NOT NULL CONSTRAINT MINIMUM '1' CONSTRAINT MAXIMUM '9' CONSTRAINT ERROR MESSAGE 'bad' DEFAULT '3', b CHAR(4) DEFAULT 'x', c CHAR(3))
+direct INSERT INTO tc VALUES (1, 'x', 'p')
+direct ALTER TABLE tc ALTER COLUMN a a INTEGER
+direct ALTER TABLE tc2 ALTER COLUMN a a INTEGER DEFAULT '5' CONSTRAINT MINIMUM '2'
+direct ALTER TABLE tc3 ALTER COLUMN c c CHAR(3) CONSTRAINT NOT NULL CONSTRAINT ERROR MESSAGE 'cbad'
+direct ALTER TABLE tc4 ALTER COLUMN a a DOUBLE
+direct ALTER TABLE tc5 ALTER COLUMN c c CHAR(3) POSITION 1
+direct ALTER TABLE tc6 ALTER COLUMN a a2 INTEGER POSITION 2
+direct ALTER TABLE tc7 ALTER COLUMN b b2 CHAR(4) ALTER COLUMN c c CHAR(3)
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length, Field_Can_Be_Null, Field_Default_Value, Field_Min_Value, Field_Max_Value, Field_Validation_Msg FROM system.columns WHERE Parent LIKE 'tc%'
+query SELECT * FROM tc
+#
+# DROP COLUMN, and the key of a table that has an order on its fields.
+direct CREATE TABLE td (a INTEGER, b CHAR(4), c CHAR(3), d INTEGER, PRIMARY KEY (a))
+direct CREATE INDEX tdb ON td (b)
+direct INSERT INTO td VALUES (1, 'x', 'p', 5)
+direct ALTER TABLE td DROP COLUMN c
+direct ALTER TABLE td DROP COLUMN d ADD COLUMN d INTEGER
+direct ALTER TABLE td ADD COLUMN e CHAR(2) DROP COLUMN d
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent = 'td'
+query SELECT * FROM td
+#
+# What the restructure refuses, the table and the dictionary left as they were.
+direct CREATE TABLE te (a INTEGER, b CHAR(4), c CHAR(3), PRIMARY KEY (a))
+direct CREATE INDEX teb ON te (b) IN FILE other2
+direct CREATE INDEX tee ON te (c, a)
+direct ALTER TABLE te DROP COLUMN a
+direct ALTER TABLE te DROP COLUMN b
+direct ALTER TABLE te DROP COLUMN c
+direct ALTER TABLE te DROP COLUMN nosuch
+direct ALTER TABLE te ADD COLUMN a INTEGER
+direct ALTER TABLE te ADD COLUMN A CHAR(7) DEFAULT 'x'
+direct ALTER TABLE te ADD COLUMN x NUMERIC(8, 2)
+direct ALTER TABLE te ALTER COLUMN c b CHAR(3)
+direct ALTER TABLE te ALTER COLUMN nosuch x INTEGER
+direct ALTER TABLE te ALTER COLUMN c c2 CHAR(3) ALTER COLUMN c2 c3 CHAR(3)
+direct ALTER TABLE te ADD COLUMN y BADTYPE
+direct ALTER TABLE nosuch ADD COLUMN a INTEGER
+direct ALTER TABLE te ALTER COLUMN a a2 INTEGER DROP COLUMN b
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent = 'te'
+#
+# Memo tables: the block size, a memo field added to a table without one,
+# the last one dropped.
+direct CREATE TABLE tm (id INTEGER, m MEMO, n NMEMO)
+direct CREATE TABLE tm2 (id INTEGER, s CHAR(4))
+direct CREATE TABLE tm3 (id INTEGER, m MEMO)
+direct CREATE TABLE tm4 (id INTEGER, m MEMO)
+direct INSERT INTO tm VALUES (1, 'memo one', 'nmemo one')
+direct INSERT INTO tm3 VALUES (1, 'memo three')
+direct ALTER TABLE tm MEMOBLOCKSIZE 64
+direct ALTER TABLE tm ADD COLUMN z INTEGER MEMOBLOCKSIZE 128
+direct ALTER TABLE tm2 ADD COLUMN m MEMO
+direct ALTER TABLE tm3 DROP COLUMN m
+direct ALTER TABLE tm4 DROP COLUMN m ADD COLUMN m2 NMEMO
+direct INSERT INTO tm2 VALUES (1, 'a', 'added memo')
+direct ALTER TABLE tm2 ALTER COLUMN m m MEMO MEMOBLOCKSIZE 64
+query SELECT * FROM tm
+query SELECT * FROM tm2
+query SELECT Name, Table_Memo_Block_Size, Table_Trans_Free FROM system.tables WHERE Name LIKE 'tm%'
+#
+# IGNORE and RESPECT TRANSACTIONS with the fields.
+direct CREATE TABLE tt (id INTEGER, s CHAR(4))
+direct CREATE TABLE tt2 (id INTEGER, s CHAR(4)) IGNORE TRANSACTIONS
+direct CREATE TABLE tt3 (id INTEGER, s CHAR(4))
+direct ALTER TABLE tt ADD COLUMN x INTEGER IGNORE TRANSACTIONS
+direct ALTER TABLE tt2 ALTER COLUMN s s2 CHAR(4) RESPECT TRANSACTIONS
+direct ALTER TABLE tt3 ALTER COLUMN s s2 CHAR(4) IGNORE TRANSACTIONS
+query SELECT Name, Table_Trans_Free FROM system.tables WHERE Name LIKE 'tt%'
+#
+# Field comments, user-defined properties, the rules and triggers that name
+# the table: kept, the comments written again.
+direct CREATE TABLE tk (a INTEGER, b CHAR(4), c CHAR(3), PRIMARY KEY (a))
+direct CREATE TABLE tk2 (k INTEGER, a INTEGER)
+direct CREATE INDEX tk2a ON tk2 (a)
+direct EXECUTE PROCEDURE sp_ModifyFieldProperty('tk', 'b', 'COMMENT', 'a field comment', 'NO_VALIDATE', '')
+direct EXECUTE PROCEDURE sp_ModifyFieldProperty('tk', 'b', 'USER_DEFINED_PROP', 'ud', 'NO_VALIDATE', '')
+direct EXECUTE PROCEDURE sp_ModifyTableProperty('tk', 'COMMENT', 'a table', '', '')
+direct EXECUTE PROCEDURE sp_CreateReferentialIntegrity('rik', 'tk', 'tk2', 'tk2a', 1, 1, '', 'no parent', 'no child')
+direct CREATE TRIGGER tktrig ON tk AFTER INSERT BEGIN INSERT INTO tk2 (k) SELECT a FROM __new; END
+direct ALTER TABLE tk ALTER COLUMN b bb CHAR(4)
+direct ALTER TABLE tk ADD COLUMN d INTEGER
+direct ALTER TABLE tk ALTER COLUMN c c CHAR(5)
+direct ALTER TABLE tk2 ADD COLUMN z INTEGER
+direct INSERT INTO tk (a) VALUES (7)
+query SELECT * FROM tk2
+query SELECT Name, Parent, Field_Num, Field_Type, Field_Length FROM system.columns WHERE Parent LIKE 'tk%'
+#
+# A user needs the right to alter the table.
+direct CREATE TABLE tu (a INTEGER, b CHAR(4))
+direct CREATE TABLE tu2 (a INTEGER, b CHAR(4))
+direct GRANT ALTER ON tu TO u1
+connect ct\ct.add u1 pw
+stmt
+direct ALTER TABLE tu2 ADD COLUMN c INTEGER
+direct ALTER TABLE tu2 ALTER COLUMN a a2 INTEGER
+direct ALTER TABLE tu2 DROP COLUMN b
+direct ALTER TABLE tu2 IGNORE TRANSACTIONS
+direct ALTER TABLE tu ADD COLUMN c INTEGER
+direct ALTER TABLE tu ALTER COLUMN a a2 INTEGER
+direct ALTER TABLE tu DROP COLUMN b
+connect ct\ct.add ADSSYS
+stmt
+query SELECT Name, Parent, Field_Num FROM system.columns WHERE Parent LIKE 'tu%'
+query SELECT Name FROM system.tables
+#
+# The same on a free connection to the dictionary's folder, for a free table:
+# the definitions an error shows, and fields only named again (no .BAK).
+connect ct
+stmt
+direct CREATE TABLE fa (a INTEGER, b CHAR(4), n NUMERIC(8, 2))
+direct CREATE TABLE fb (a INTEGER, b CHAR(4))
+direct CREATE TABLE fc (a INTEGER, b CHAR(4))
+direct ALTER TABLE fa ADD COLUMN a INTEGER
+direct ALTER TABLE fa ADD COLUMN A CHAR(7)
+direct ALTER TABLE fa ADD COLUMN n NUMERIC(8, 2)
+direct ALTER TABLE fa ALTER COLUMN b a CHAR(4)
+direct ALTER TABLE fa ALTER COLUMN b n NUMERIC(8, 2)
+direct ALTER TABLE fa ALTER COLUMN b b2 CHAR(4) ALTER COLUMN b2 b3 CHAR(4)
+direct ALTER TABLE fb ALTER COLUMN a a2 INTEGER
+direct ALTER TABLE fc ALTER COLUMN a a INTEGER

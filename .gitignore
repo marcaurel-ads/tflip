@@ -1,0 +1,6 @@
+/target
+/run-arc32.sh
+/LOCAL.md
+# ts-rs's default when TS_RS_EXPORT_DIR (.cargo/config.toml) is not applied;
+# the bindings belong in web/src/bindings.
+/crates/tflip-studio/bindings/

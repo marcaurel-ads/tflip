@@ -1,0 +1,26 @@
+tabletype cdx
+restructure a.dbf 0 front,Character,4,(1)||
+restructure b.dbf 0 extra,Character,4||
+restructure c.dbf 0 extra,Character,4|title|
+restructure d.dbf 0 |body|
+restructure e.dbf 0 ||body,text,Character,40
+open a.dbf
+top
+record
+close
+open b.dbf
+top
+record
+close
+open c.dbf
+top
+record
+close
+open d.dbf
+top
+record
+close
+open e.dbf
+top
+record
+close

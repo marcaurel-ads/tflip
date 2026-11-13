@@ -1,0 +1,53 @@
+# Restructuring a table of an AES dictionary that encrypts its records and indexes: x (AES-128) and y (AES-256) get a table with a memo and two ordinary indexes, which ALTER TABLE then adds a column to, drops and renames columns of, widens a column of, and changes the type of an indexed column of; a memo column with a full-text order is added after.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "x\x.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "y\y.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\x\x.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(10), n INTEGER)
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one', 10)
+sql INSERT INTO tr VALUES (2, 'green yellow', 'two', 20)
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three', 30)
+sql CREATE INDEX tr_name ON tr (name)
+sql CREATE INDEX tr_id ON tr (id)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql INSERT INTO tr VALUES (4, 'white red', 'four', 40)
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 50, 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(20)
+sql ALTER TABLE tr DROP COLUMN n
+sql ALTER TABLE tr ALTER COLUMN extra extra2 CHAR(5)
+sql INSERT INTO tr VALUES (6, 'six six', 'six', 'e6')
+sql ALTER TABLE tr DROP COLUMN body
+sql INSERT INTO tr VALUES (7, 'seven', 'e7')
+sql ALTER TABLE tr ALTER COLUMN id id CHAR(8)
+sql INSERT INTO tr VALUES ('8', 'eight', 'e8')
+sql ALTER TABLE tr ADD COLUMN m MEMO
+sql CREATE INDEX tr_m ON tr (m) CONTENT
+sql UPDATE tr SET m = 'some words' WHERE id = '8'
+disconnect
+connect Data Source=%D\y\y.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_INDEXES', 'TRUE')
+sql CREATE TABLE tr (id INTEGER, body MEMO, name CHAR(10), n INTEGER)
+sql INSERT INTO tr VALUES (1, 'red green blue', 'one', 10)
+sql INSERT INTO tr VALUES (2, 'green yellow', 'two', 20)
+sql INSERT INTO tr VALUES (3, 'blue black red', 'three', 30)
+sql CREATE INDEX tr_name ON tr (name)
+sql CREATE INDEX tr_id ON tr (id)
+sql EXECUTE PROCEDURE sp_EncryptTable('tr')
+sql INSERT INTO tr VALUES (4, 'white red', 'four', 40)
+sql ALTER TABLE tr ADD COLUMN extra CHAR(5)
+sql INSERT INTO tr VALUES (5, 'red red red', 'five', 50, 'ex')
+sql ALTER TABLE tr ALTER COLUMN name name CHAR(20)
+sql ALTER TABLE tr DROP COLUMN n
+sql ALTER TABLE tr ALTER COLUMN extra extra2 CHAR(5)
+sql INSERT INTO tr VALUES (6, 'six six', 'six', 'e6')
+sql ALTER TABLE tr DROP COLUMN body
+sql INSERT INTO tr VALUES (7, 'seven', 'e7')
+sql ALTER TABLE tr ALTER COLUMN id id CHAR(8)
+sql INSERT INTO tr VALUES ('8', 'eight', 'e8')
+sql ALTER TABLE tr ADD COLUMN m MEMO
+sql CREATE INDEX tr_m ON tr (m) CONTENT
+sql UPDATE tr SET m = 'some words' WHERE id = '8'
+disconnect

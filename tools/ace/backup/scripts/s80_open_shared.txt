@@ -1,0 +1,9 @@
+#include dd_all.txt
+connect 2 src\d.add
+open 2 t_adt s
+lock 2 1
+hold 2 SELECT * FROM t_cdx
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img', NULL)
+release 2
+closetable 2
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)

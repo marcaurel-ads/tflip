@@ -1,0 +1,10 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+sql 1 INSERT INTO t_adt VALUES (11, 'newrow', 11.5, '2021-02-03', 1, 'added after the first backup')
+sql 1 INSERT INTO t_cdx VALUES (11, 'newrow', 11.5, '2021-02-03', 1, 'added after the first backup')
+sql 1 EXECUTE PROCEDURE sp_BackupDatabase('@ROOT@\img2', NULL)
+connect 2 dst\d.add
+sql 2 INSERT INTO t_adt VALUES (12, 'dstonly', 12.5, '2021-02-04', 0, 'in dst only')
+disconnect 2
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img2\d.add', '', '@ROOT@\dst\d.add', NULL)

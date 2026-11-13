@@ -1,0 +1,9 @@
+# The log table's files, byte for byte: a log that nothing has been written to
+# (its minimum time is longer than any statement runs). Kept in
+# fixtures/sql/spql6/:
+#
+#     run.sh <work> <ace32.dll> spql6.txt > ../../../fixtures/sql/spql6.json
+#     cp <work>/data/slow.* ../../../fixtures/sql/spql6/
+stmt
+query EXECUTE PROCEDURE sp_EnableQueryLogging('slow', 1, 0, 100000, '')
+query EXECUTE PROCEDURE sp_DisableQueryLogging()

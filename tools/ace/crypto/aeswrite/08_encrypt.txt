@@ -1,0 +1,22 @@
+# A table of the dictionary, with rows, encrypted; then a row appended. On each dictionary of 00_create.txt.
+connect Data Source=%D\c\c.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql INSERT INTO t VALUES (1, 'one')
+sql INSERT INTO t VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('t')
+sql INSERT INTO t VALUES (3, 'three')
+sql EXECUTE PROCEDURE sp_EncryptTable('t2')
+disconnect
+connect Data Source=%D\e\e.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql INSERT INTO t VALUES (1, 'one')
+sql INSERT INTO t VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('t')
+sql INSERT INTO t VALUES (3, 'three')
+sql EXECUTE PROCEDURE sp_EncryptTable('t2')
+disconnect
+connect Data Source=%D\f\f.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql INSERT INTO t VALUES (1, 'one')
+sql INSERT INTO t VALUES (2, 'two')
+sql EXECUTE PROCEDURE sp_EncryptTable('t')
+sql INSERT INTO t VALUES (3, 'three')
+sql EXECUTE PROCEDURE sp_EncryptTable('t2')
+disconnect

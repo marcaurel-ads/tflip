@@ -1,0 +1,299 @@
+open a.adt
+# AdsCreateFTSIndex: the defaults with and without lists, none of them.
+createfts - a1 body 0 3 30 0 1 "" 1 "" 1 "" 1 ""
+createfts - a2 body 0 3 30 0 1 - 1 - 1 - 1 -
+# One that keeps scores, in a file of its own: rebuilt beside other full-text
+# orders, the original counts some words wrong (docs/ADS_BUGS.md).
+createfts scored.adi a3 m 0 2 10 0x180 0 \x20 0 apple\x20Pie\x20pie 0 ' 0 .
+createfts - a4 body 0 3 30 0x220 1 ,. 1 extra 1 z 1 y
+# Word lengths and options at their edges, and what is refused.
+createfts - a5 body 0 0 0 0 1 - 1 - 1 - 1 -
+createfts - a6 body 0 5 5 0 1 - 1 - 1 - 1 -
+createfts - a7 body 0 3 30 0 0 "" 1 - 1 - 1 -
+createfts - a8 id 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a1 body 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a9 v 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a10 ci 0 3 30 0 1 - 1 - 1 - 1 -
+createfts - a11 body 0 3 30 0x40 1 - 1 - 1 - 1 -
+# Index files of their own: the default page size, and one given.
+createfts words.adi w1 body 0 3 30 0 1 - 1 - 1 - 1 -
+createfts words.adi w2 m 512 3 30 0 1 - 1 - 1 - 1 -
+createfts big.adi b1 m 8192 3 30 0x100 1 - 1 - 1 - 1 -
+createfts small.adi s1 m 512 3 30 0 1 - 1 - 1 - 1 -
+deleteindex a2
+# Records written, then the full-text orders rebuilt.
+append
+set id long 100
+set body string brand new words here
+set m string memo words too
+write
+goto 2
+set body string replaced text
+write
+goto 5
+delete
+reindexfts 0
+open r.adt
+goto 121
+delete
+goto 30
+delete
+goto 38
+delete
+goto 96
+delete
+goto 90
+delete
+goto 4
+delete
+goto 91
+delete
+goto 118
+delete
+goto 164
+delete
+goto 256
+delete
+goto 195
+delete
+goto 33
+delete
+goto 273
+delete
+goto 89
+delete
+goto 227
+delete
+goto 274
+delete
+goto 40
+delete
+goto 168
+delete
+goto 223
+delete
+goto 98
+delete
+goto 145
+delete
+goto 18
+delete
+goto 14
+delete
+goto 74
+delete
+goto 197
+delete
+goto 64
+delete
+goto 180
+delete
+goto 84
+delete
+goto 136
+delete
+goto 146
+delete
+goto 79
+delete
+goto 50
+delete
+goto 255
+delete
+goto 183
+delete
+goto 211
+delete
+goto 217
+delete
+goto 241
+delete
+goto 55
+delete
+goto 139
+delete
+goto 133
+delete
+goto 94
+delete
+goto 140
+delete
+goto 37
+delete
+goto 103
+delete
+goto 288
+delete
+goto 200
+delete
+goto 185
+delete
+goto 36
+delete
+goto 181
+delete
+goto 215
+delete
+goto 186
+delete
+goto 250
+delete
+goto 193
+delete
+goto 258
+delete
+goto 70
+delete
+goto 27
+delete
+goto 196
+delete
+goto 234
+delete
+goto 137
+delete
+goto 191
+delete
+goto 190
+set m string hohuwumet vigamedaba wisez vihef job mefojit felud rok
+write
+goto 262
+set m string wijijas boz punulip tatu fohu tiresoz naliro vevemuwib
+write
+goto 208
+set m string job gocow bew tiresoz gacek tatu kujutitig dejapar
+write
+goto 269
+set m string pecozaw pujib tehowepov parireseco lesadogiva rarabame rekenimife leduhep
+write
+goto 194
+set m string fozagibe rarabame zapu cefuk wuvoduto puvucav fujapuvi nahelefam
+write
+goto 204
+set m string tatu sosunefuc tawo hapazer vigovecini mumiwiza punulip fupemoha
+write
+goto 285
+set m string pob gifoza lesadogiva niremon wojudabone vobiked cefuk bujonawin
+write
+goto 60
+set m string lebifir mefojit lesadogiva farocoz valov vihef bozoludiwa puvek
+write
+goto 123
+set m string parireseco davot hokezinal docemeg lol var boz vevemuwib
+write
+goto 161
+set m string nopuke selazejub var temopeli cotag cotag tiresoz mezozu
+write
+goto 78
+set m string puvek nev mogifek cininurone zapu temopeli mificesuv mefojit
+write
+goto 259
+set m string luhazesisa vopohazenu fozagibe doketuk boz hotulivig fucuj niremon
+write
+goto 153
+set m string zilahegoze fogepu zapu lesadogiva niremon rudeho rok jopene
+write
+goto 114
+set m string selazejub mumiwiza derasu kasila nahelefam var nev leduhep
+write
+goto 237
+set m string fozagibe hokezinal bozoludiwa zapu puvucav tojawan vul hesete
+write
+goto 61
+set m string nev naliro hotulivig fupemoha gacek mugek tapumoleki zesijoc
+write
+goto 238
+set m string vevemuwib fucuj kuvo suzace joci kafomoha zesijoc wijijas
+write
+goto 254
+set m string telinonit kasila var doketuk vibope vopohazenu cotag puvek
+write
+goto 270
+set m string vevemuwib rudeho vigamedaba nopuke cotag zanakuw valov lesadogiva
+write
+goto 242
+set m string rir tatu vul leduhep temopeli rir var zesijoc
+write
+goto 106
+set m string kasila nev vigovecini boz naliro bujonawin tehowepov melusagi
+write
+goto 229
+set m string rekenimife parireseco zilahegoze temopeli hotulivig vibope jifarucacu cufifajen
+write
+goto 249
+set m string davot wojudabone rudeho docemeg gocow mof fozagibe pecozaw
+write
+goto 226
+set m string cocajapoco pob vigovecini lezir doketuk kuvo vigamedaba lezir
+write
+goto 235
+set m string zilahegoze mogifek mezu pecozaw wojudabone vigamedaba vigamedaba mificesuv
+write
+goto 130
+set m string tehowepov valov hotulivig hohuwumet gegobawo rok docemeg sege
+write
+goto 28
+set m string tiresoz fogepu jifarucacu bew gacek dagi gifoza mezu
+write
+goto 278
+set m string sor valov mefojit docemeg vigamedaba tiresoz joci doketuk
+write
+goto 143
+set m string cininurone telinonit fijok fijok tehowepov gegobawo vul zesijoc
+write
+goto 87
+set m string vigamedaba wijijas punulip vibope tatu boz mezozu sege
+write
+goto 297
+set m string fujapuvi luhazesisa cocajapoco gocow puvek sege kecasukefu tapumoleki
+write
+goto 99
+set m string mogifek vigovecini lesadogiva parireseco doketuk mogifek temopeli lugezoda
+write
+goto 170
+set m string zapu davot telinonit joci doketuk dejapar lugezoda mogifek
+write
+goto 77
+set m string mefojit hohuwumet zopa hapazer vigovecini bew gifoza mumiwiza
+write
+goto 293
+set m string fikeviw zanakuw vul zilahegoze hapazer zesijoc mefojit mugek
+write
+goto 17
+set m string felud kuvo rekenimife tatu rudeho zanakuw zesijoc niremon
+write
+goto 132
+set m string sosunefuc sor cotag vigovecini lugezoda rarabame pujib rarabame
+write
+goto 220
+set m string hedisomu fozagibe mefojit job suzace doketuk wisez vopohazenu
+write
+goto 13
+set m string pecozaw rarabame rudeho farocoz wijijas wuvoduto pujib rekenimife
+write
+goto 261
+set m string viwizur punulip tojawan mogifek nahelefam davot gacek tapumoleki
+write
+reindexfts 0
+reindex
+state
+pack
+state
+reindex61 2048
+state
+append
+set id long 999
+set m string after the rebuild
+write
+state
+open z.adt
+goto 3
+set m string changed again
+write
+zap
+state
+append
+set id long 1
+set m string first words after zap
+write
+state

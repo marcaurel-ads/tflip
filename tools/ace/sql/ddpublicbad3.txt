@@ -1,0 +1,51 @@
+# What a stored procedure (p) whose rights slot for DB:Public does not check (a
+# byte of its 32 flipped by crates/tflip-storage/examples/pubslot.rs (as:
+# pubslot pb.add proc p 0), in the dictionary of fixtures/dictionary/ops/publicgrants.*
+# with VERIFY_ACCESS_RIGHTS set) does: system.permissions and
+# system.effectivepermissions, whole and under filters (a row that reads the
+# slot is lost, one that reads it first fails the statement, ORDER BY reads
+# them all), the system tables a user lists, and EXECUTE PROCEDURE. Run in a
+# fresh process, as the engine keeps a dictionary's key open across
+# connections. The dictionary, pb.add and t.adt ..., is kept in
+# fixtures/sql/ddpublicbad3/:
+#
+#     run.sh <work> <ace32.dll> ddpublicbad3.txt > ../../../fixtures/sql/ddpublicbad3.json
+#
+# (the work folder's data/ copy of fixtures/sql/ddpublicbad3/ is made by run.sh;
+# the original's results are of that dictionary).
+connect pb.add adssys
+stmt
+cap 1000
+query SELECT * FROM system.permissions WHERE Name = 'a1'
+query SELECT * FROM system.permissions WHERE Name = 'p'
+query SELECT * FROM system.permissions WHERE Grantee = 'bob'
+query SELECT * FROM system.permissions WHERE Grantee = 'DB:Public'
+query SELECT * FROM system.permissions WHERE Object_Type = 10
+query SELECT * FROM system.permissions WHERE "Select" = 1
+query SELECT * FROM system.permissions WHERE "Execute" = 1
+query SELECT * FROM system.permissions ORDER BY Name
+query SELECT COUNT(*) FROM system.permissions
+query SELECT Name FROM system.permissions WHERE Name = 'p'
+query SELECT Name, "Execute" FROM system.permissions WHERE Name = 'p'
+query SELECT * FROM system.effectivepermissions WHERE Name = 'a1'
+query SELECT * FROM system.effectivepermissions WHERE Name = 'p'
+query SELECT * FROM system.effectivepermissions WHERE Grantee = 'bob'
+query SELECT * FROM system.effectivepermissions WHERE Grantee = 'DB:Public'
+query SELECT * FROM system.effectivepermissions WHERE Object_Type = 10
+query SELECT * FROM system.effectivepermissions WHERE "Execute" = 1
+query SELECT * FROM system.effectivepermissions ORDER BY Name
+query SELECT COUNT(*) FROM system.effectivepermissions
+query SELECT * FROM system.storedprocedures
+direct EXECUTE PROCEDURE p(1)
+query SELECT f1(1) FROM system.iota
+disconnect
+connect pb.add bob pw
+stmt
+cap 1000
+query SELECT * FROM system.storedprocedures
+query SELECT * FROM system.users
+query SELECT * FROM t
+direct EXECUTE PROCEDURE p(1)
+query SELECT f1(1) FROM system.iota
+query SELECT * FROM system.permissions WHERE Name = 'a1'
+disconnect

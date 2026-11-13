@@ -1,0 +1,20 @@
+[
+{"cmd": "free 0", "rc": 0},
+{"cmd": "connect 1 d.add", "rc": 0},
+{"cmd": "connect 2 d.add u2 pw2", "rc": 0},
+{"cmd": "sql 1 SELECT * FROM \"free1.adt\"", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 11},
+{"cmd": "sql 1 SELECT * FROM \"free2.dbf\"", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free2.dbf Table name: free2.dbf", "ms": 3},
+{"cmd": "sql 2 SELECT * FROM \"free1.adt\"", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 12},
+{"cmd": "sql 1 SELECT * FROM t1", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["3", "three     "]], "ms": 12},
+{"cmd": "sql 1 SELECT * FROM v1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 5},
+{"cmd": "sql 2 SELECT * FROM v1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 7},
+{"cmd": "sql 1 INSERT INTO \"free1.adt\" VALUES (9, 'nine')", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 8},
+{"cmd": "sql 1 DELETE FROM \"free1.adt\" WHERE id = 9", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 7087;  [SAP][Advantage SQL Engine][ASA] Error 7087:  Cannot open table or view for this operation because the requested permissions have not been granted to the user.  \\\\127.0.0.1:6262\\data\\frc\\free1.adt Table name: free1.adt", "ms": 16},
+{"cmd": "sql 1 CREATE TABLE \"free3.adt\" (id INTEGER)", "rc": 0, "ms": 35},
+{"cmd": "sql 1 DROP TABLE \"free3.adt\"", "rc": 0, "ms": 11},
+{"cmd": "sql 0 SELECT * FROM \"free1.adt\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["1", "one       "]], "ms": 18},
+{"cmd": "sql 0 SELECT * FROM \"free2.dbf\"", "rc": 0, "fields": [["id", 11, 4], ["name", 4, 10]], "rows": [["2", "two       "]], "ms": 29},
+{"cmd": "sql 0 SELECT * FROM t1", "rc": 7200, "error": "Error 7200:  AQE Error:  State = HY000;   NativeError = 5159;  [SAP][Advantage SQL Engine][ASA] Error 5159:  Error encountered when trying to open a database table.  The table is a database table. It cannot be opened as a free table. Table name: t1", "ms": 11},
+{"cmd": "disconnect 2", "rc": 0},
+{"cmd": "disconnect 1", "rc": 0}
+]

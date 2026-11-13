@@ -1,0 +1,55 @@
+ddcreate dd.add
+sql CREATE TABLE k1 (pre CHAR(4), id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO k1 VALUES ('pp', 1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), ('pp', 2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), ('pp', 3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), ('pp', 4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX k1_id ON k1 (id)
+sql CREATE INDEX k1_body ON k1 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX k1_title ON k1 (title)
+sql CREATE INDEX k1_m ON k1 (m) CONTENT
+sql CREATE TABLE k2 (pre CHAR(4), id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO k2 VALUES ('pp', 1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), ('pp', 2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), ('pp', 3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), ('pp', 4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX k2_id ON k2 (id)
+sql CREATE INDEX k2_body ON k2 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX k2_title ON k2 (title)
+sql CREATE INDEX k2_m ON k2 (m) CONTENT
+sql CREATE TABLE k3 (pre CHAR(4), id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO k3 VALUES ('pp', 1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), ('pp', 2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), ('pp', 3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), ('pp', 4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX k3_id ON k3 (id)
+sql CREATE INDEX k3_body ON k3 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX k3_title ON k3 (title)
+sql CREATE INDEX k3_m ON k3 (m) CONTENT
+sql CREATE TABLE k4 (pre CHAR(4), id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO k4 VALUES ('pp', 1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), ('pp', 2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), ('pp', 3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), ('pp', 4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX k4_id ON k4 (id)
+sql CREATE INDEX k4_body ON k4 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX k4_title ON k4 (title)
+sql CREATE INDEX k4_m ON k4 (m) CONTENT
+sql CREATE TABLE m1 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO m1 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX m1_body ON m1 (body) CONTENT KEEPSCORE
+sql CREATE INDEX m1_id ON m1 (id)
+sql CREATE UNIQUE INDEX m1_title ON m1 (title)
+sql CREATE INDEX m1_m ON m1 (m) CONTENT
+sql CREATE TABLE m2 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO m2 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX m2_body ON m2 (body) CONTENT KEEPSCORE
+sql CREATE INDEX m2_id ON m2 (id)
+sql CREATE UNIQUE INDEX m2_title ON m2 (title)
+sql CREATE INDEX m2_m ON m2 (m) CONTENT
+sql CREATE TABLE q1 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO q1 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX q1_id ON q1 (id)
+sql CREATE INDEX q1_body ON q1 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX q1_title ON q1 (title)
+sql CREATE INDEX q1_m ON q1 (m) CONTENT
+sql CREATE TABLE n1 (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4), z2 CHAR(4))
+sql INSERT INTO n1 VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz', 'yy'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz', 'yy'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz', 'yy'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz', 'yy')
+sql CREATE INDEX n1_id ON n1 (id)
+sql CREATE INDEX n1_body ON n1 (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX n1_title ON n1 (title)
+sql CREATE INDEX n1_m ON n1 (m) CONTENT
+sql CREATE TABLE zz (id INTEGER, body CHAR(40), title CHAR(30), m MEMO, z CHAR(4))
+sql INSERT INTO zz VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words', 'zz'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL, 'zz'), (3, 'gamma gamma zeta', 'the and for', 'noise gamma', 'zz'), (4, 'eta theta', 'Fox and Hound', 'hound fox', 'zz')
+sql CREATE INDEX zz_id ON zz (id)
+sql CREATE INDEX zz_body ON zz (body) CONTENT KEEPSCORE
+sql CREATE UNIQUE INDEX zz_title ON zz (title)
+sql CREATE INDEX zz_m ON zz (m) CONTENT

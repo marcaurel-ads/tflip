@@ -1,0 +1,10 @@
+[package]
+name = "tflip-aep"
+description = "Loading and calling the libraries of external procedures (.aep) for the local server and tflipd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+tflip-engine = { path = "../tflip-engine" }
+tflip-protocol = { path = "../tflip-protocol" }

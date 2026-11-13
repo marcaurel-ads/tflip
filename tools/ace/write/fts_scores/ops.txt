@@ -1,0 +1,8 @@
+# The counts of a full-text order that keeps scores (sk), rebuilt with another
+# full-text order of its index file (ob) by AdsReindexFTS: some come out wrong
+# (gamma 3, solo 2). Alone, or as created, they are right (docs/ADS_BUGS.md).
+# Run with tools/ace/write/run.sh <work> <ace32.dll> tools/ace/write/fts_scores.
+open s.adt
+createfts - sk m 0 3 30 0x100 1 - 1 - 1 - 1 -
+createfts - ob body 0 3 30 0 1 - 1 - 1 - 1 -
+reindexfts 0

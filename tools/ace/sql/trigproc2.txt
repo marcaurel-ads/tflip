@@ -1,0 +1,57 @@
+# How deep a BEFORE INSERT trigger's recursion goes, directly and through
+# procedures (the rows the loop logged), on a copy of the psm dictionary:
+#
+#     run.sh <work> <ace32.dll> trigproc2.txt > ../../../fixtures/sql/trigproc2.json
+#
+cachecursors 0
+connect psm.add ADSSYS adssyspw
+stmt
+direct DROP TRIGGER items.items_bi
+direct DROP TRIGGER items.items_ai
+direct DROP TRIGGER items.items_au
+direct DROP TRIGGER items.items_iod
+direct DROP TRIGGER items.items_conflict
+direct DELETE FROM items
+direct DELETE FROM audit
+direct CREATE PROCEDURE ins1 (a INTEGER) BEGIN INSERT INTO audit (msg) VALUES ('p'); INSERT INTO items (id, name, qty) VALUES (_a, 'x', 0); END
+direct CREATE PROCEDURE ins2 (a INTEGER) BEGIN EXECUTE PROCEDURE ins1(_a); END
+direct CREATE PROCEDURE ins3 (a INTEGER) BEGIN EXECUTE PROCEDURE ins2(_a); END
+direct CREATE PROCEDURE start (a INTEGER) BEGIN INSERT INTO items (id, name, qty) VALUES (_a, 'x', 0); END
+# --- directly
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d'); INSERT INTO items (id, name, qty) VALUES (1, 'x', 0); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT COUNT(*) FROM audit
+direct DROP TRIGGER items.tp
+direct DELETE FROM audit
+# --- one procedure
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE ins1(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT COUNT(*) FROM audit
+direct DROP TRIGGER items.tp
+direct DELETE FROM audit
+# --- two procedures
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE ins2(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT COUNT(*) FROM audit
+direct DROP TRIGGER items.tp
+direct DELETE FROM audit
+# --- three procedures
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN EXECUTE PROCEDURE ins3(1); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT COUNT(*) FROM audit
+direct DROP TRIGGER items.tp
+direct DELETE FROM audit
+# --- a procedure called by the statement itself starts the loop
+direct CREATE TRIGGER tp ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('d'); INSERT INTO items (id, name, qty) VALUES (1, 'x', 0); END
+direct EXECUTE PROCEDURE start(1)
+query SELECT COUNT(*) FROM audit
+direct DROP TRIGGER items.tp
+direct DELETE FROM audit
+# --- a trigger of another table, which no insert of its own table's trigger fires
+direct CREATE TRIGGER ta ON items BEFORE INSERT BEGIN INSERT INTO audit (msg) VALUES ('a'); END
+direct CREATE TRIGGER tb ON audit AFTER INSERT BEGIN INSERT INTO items (id, name, qty) VALUES (1, 'x', 0); END
+direct INSERT INTO items VALUES (1, 'a', 0, 'm')
+query SELECT msg, COUNT(*) FROM audit GROUP BY msg
+direct DROP TRIGGER items.ta
+direct DROP TRIGGER audit.tb
+direct DELETE FROM audit

@@ -1,0 +1,66 @@
+# User-defined functions that run SQL on the connection, called from SQL
+# (fixtures/sql/udf.json), on a copy of the dictionary udfdict.txt made
+# (fixtures/sql/udf/), on a local connection:
+#
+#     run.sh <work> <ace32.dll> udf.txt > ../../../fixtures/sql/udf.json
+connect uf.add ADSSYS
+stmt
+# Functions that read tables.
+query SELECT f_cnt(2) AS v FROM system.iota
+query SELECT id, f_cnt(id) AS c FROM t1
+query SELECT id FROM t1 WHERE f_cnt(id) > 1
+query SELECT id, f_name(id) AS n FROM t1 ORDER BY f_name(id) DESC
+query SELECT f_name(99) AS v FROM system.iota
+query SELECT id, f_has(id) AS h, f_has(id + 1) AS g FROM t1
+query SELECT f_var(1) AS a, f_var(7) AS b FROM system.iota
+query SELECT f_loop(1) AS a, f_loop(2) AS b FROM system.iota
+query SELECT f_nest(2) AS v FROM system.iota
+query SELECT f_many(1) AS v FROM system.iota
+query SELECT f_none(1) AS v FROM system.iota
+query SELECT f_cnt(NULL) AS v FROM system.iota
+query SELECT SUM(f_cnt(id)) AS s, MAX(f_name(id)) AS m FROM t1
+query SELECT id, f_cnt(id) AS c FROM t1 WHERE f_has(id)
+query SELECT COUNT(*) AS c FROM t1 GROUP BY f_cnt(id)
+query SELECT f_cnt(f_cnt(1)) AS v FROM system.iota
+query SELECT UPPER(f_name(1)) AS u FROM system.iota
+direct SELECT f_cnt(1) AS v FROM system.iota
+closecursor
+prepare SELECT f_cnt(?) AS v FROM system.iota
+param 1 long 2
+exec
+closecursor
+# Functions that write them.
+query SELECT f_ins(5) AS v FROM system.iota
+query SELECT msg FROM lg
+query SELECT id, f_ins(id) AS v FROM t1
+query SELECT msg FROM lg
+query SELECT f_upd(2) AS u, f_upd(99) AS n FROM system.iota
+query SELECT id, name FROM t1 ORDER BY id
+query SELECT f_two(1) AS v FROM system.iota
+query SELECT COUNT(*) AS c FROM lg
+query SELECT f_del(1) AS v FROM system.iota
+query SELECT COUNT(*) AS c FROM lg
+query SELECT f_sel(1) AS v FROM system.iota
+direct INSERT INTO t1 VALUES (f_cnt(1) + 10, 'ins')
+direct UPDATE t1 SET id = id + f_cnt(10) WHERE id > 10
+direct DELETE FROM t1 WHERE id = f_cnt(1) + 10 + 3 - 3
+query SELECT id, name FROM t1 ORDER BY id
+# What they read of themselves.
+query SELECT f_conn(1) AS v FROM system.iota
+query SELECT f_stmt(1) AS v FROM system.iota
+query SELECT f_in(1) AS v FROM system.iota
+# What fails in them.
+query SELECT f_raise(1) AS v FROM system.iota
+query SELECT f_div(1) AS v FROM system.iota
+query SELECT f_div2(0) AS v FROM system.iota
+query SELECT f_div2(2) AS v FROM system.iota
+query SELECT f_div3(0) AS v FROM system.iota
+query SELECT f_nosuch(1) AS v FROM system.iota
+query SELECT f_col(1) AS v FROM system.iota
+query SELECT f_raise(id) AS v FROM t1
+query SELECT f_cnt(1, 2) AS v FROM system.iota
+query SELECT f_cnt() AS v FROM system.iota
+query SELECT f_cnt('x') AS v FROM system.iota
+query SELECT nosuch(1) AS v FROM system.iota
+query SELECT f_cnt(1) FROM system.iota
+query SELECT f_name(1) FROM system.iota

@@ -1,0 +1,22 @@
+{
+ "table_type": "adt",
+ "record_count": 3,
+ "record_length": 22,
+ "memo_block_size": 256,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "a", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "m", "type": 5, "type_name": "Memo", "length": 9, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "04000000000100000000000080000000000000000000", "values": {"id": {"text": "1"}, "a": {"null": true}, "m": {"null": true}}},
+  {"recno": 2, "deleted": false, "raw": "04000000000200000000000000000000000000000000", "values": {"id": {"text": "2"}, "a": {"text": "0"}, "m": {"null": true}}},
+  {"recno": 3, "deleted": false, "raw": "04000000000300000004000000810000000100000000", "values": {"id": {"text": "3"}, "a": {"text": "4"}, "m": {"text": "x"}}}
+ ]
+}

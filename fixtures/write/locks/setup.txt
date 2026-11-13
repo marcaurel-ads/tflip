@@ -1,0 +1,5 @@
+# A table with three records.
+sql CREATE TABLE t (id INTEGER, name CHAR(10))
+sql INSERT INTO t VALUES (1, 'one')
+sql INSERT INTO t VALUES (2, 'two')
+sql INSERT INTO t VALUES (3, 'three')

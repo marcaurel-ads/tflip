@@ -1,0 +1,30 @@
+{
+ "table_type": "vfp",
+ "record_count": 4,
+ "record_length": 64,
+ "memo_block_size": 64,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "v_vchar", "type": 23, "type_name": "VarCharFox", "length": 4, "decimals": 0},
+  {"name": "v_vbin", "type": 24, "type_name": "VarBinaryFox", "length": 4, "decimals": 0},
+  {"name": "v_nchar", "type": 26, "type_name": "NChar", "length": 3, "decimals": 0},
+  {"name": "v_nvchar", "type": 27, "type_name": "NVarChar", "length": 3, "decimals": 0},
+  {"name": "v_nmemo", "type": 28, "type_name": "NMemo", "length": 4, "decimals": 0},
+  {"name": "v_long", "type": 19, "type_name": "LongInt", "length": 8, "decimals": 0},
+  {"name": "v_guid", "type": 29, "type_name": "GUID", "length": 16, "decimals": 0},
+  {"name": "v_memo", "type": 5, "type_name": "Memo", "length": 4, "decimals": 0},
+  {"name": "v_int", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "v_vc2", "type": 23, "type_name": "VarCharFox", "length": 3, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "206120200101202001610020002000610020002000010008000000010000000000000033221100554477668899aabbccddeeff09000000010000007820010504", "values": {"v_vchar": {"text": "a"}, "v_vbin": {"hex": "01"}, "v_nchar": {"text": "a  "}, "v_nvchar": {"text": "a"}, "v_nmemo": {"text": "n"}, "v_long": {"text": "1"}, "v_guid": {"text": "00112233-4455-6677-8899-aabbccddeeff"}, "v_memo": {"text": "raw memo \u0080"}, "v_int": {"text": "1"}, "v_vc2": {"text": "x"}}},
+  {"recno": 2, "deleted": false, "raw": "20616263640102030461006200630061006200630003000a000000ffffffffffffffff00000000000000000000000000000000000000000200000078797a0003", "values": {"v_vchar": {"text": "abcd"}, "v_vbin": {"hex": "01020304"}, "v_nchar": {"text": "abc"}, "v_nvchar": {"text": "abc"}, "v_nmemo": {"text": "\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9\u03a9"}, "v_long": {"text": "-1"}, "v_guid": {"null": true}, "v_memo": {"null": true}, "v_int": {"text": "2"}, "v_vc2": {"text": "xyz"}}},
+  {"recno": 3, "deleted": false, "raw": "20202020002020200020002000200020002000200000000000000000000000000000000000000000000000000000000000000000000000030000002020000504", "values": {"v_vchar": {"text": ""}, "v_vbin": {"hex": ""}, "v_nchar": {"text": "   "}, "v_nvchar": {"text": ""}, "v_nmemo": {"text": ""}, "v_long": {"text": "0"}, "v_guid": {"text": "00000000-0000-0000-0000-000000000000"}, "v_memo": {"text": ""}, "v_int": {"text": "3"}, "v_vc2": {"text": ""}}},
+  {"recno": 4, "deleted": false, "raw": "202020200020202000200020002000200020002000ffff0000000000000000000000000000000000000000000000000000000000000000040000002020000504", "values": {"v_vchar": {"text": ""}, "v_vbin": {"hex": ""}, "v_nchar": {"text": "   "}, "v_nvchar": {"text": ""}, "v_nmemo": {"text": ""}, "v_long": {"text": "0"}, "v_guid": {"text": "00000000-0000-0000-0000-000000000000"}, "v_memo": {"text": ""}, "v_int": {"text": "4"}, "v_vc2": {"text": ""}}}
+ ]
+}

@@ -1,0 +1,552 @@
+# Full-text orders kept current in a transaction: what CONTAINS finds
+# on the connection that writes and on another, and the files after the
+# rollback.
+# An append, a change of each field and a delete, by the API.
+open ta shared
+open2 ta shared
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+begin
+append
+set id long 6
+set body string zebra and fox
+set c string zebra stripes
+write
+flush
+snapshot appended
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+goto 1
+set body string newword here
+write
+goto 3
+set c string zebra
+write
+flush
+snapshot changed
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+goto 2
+delete
+write
+goto 4
+set body string newword
+write
+flush
+snapshot deleted
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+rollback
+flush
+snapshot rollback
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 1
+cursor SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+cursor2 SELECT id FROM ta WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 1
+state
+rows
+# SQL's statements.
+open tq shared
+open2 tq shared
+use 73
+begin
+sql INSERT INTO tq VALUES (10, 'zebra crossing', 'zebra')
+sql UPDATE tq SET body = 'fox and zebra' WHERE id = 5
+sql DELETE FROM tq WHERE id = 3
+flush
+snapshot sql
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 73
+rollback
+flush
+snapshot sql-rollback
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'newword') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(c, 'zebra') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(c, 'fox') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 73
+cursor SELECT id FROM tq WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 73
+cursor2 SELECT id FROM tq WHERE CONTAINS(body, 'dog') ORDER BY id
+column id
+closecursor
+use 73
+# A savepoint.
+open tp shared
+open2 tp shared
+use 103
+begin
+goto 1
+set body string savepoint one
+write
+savepoint s
+goto 2
+set body string savepoint two
+write
+goto 5
+delete
+write
+rollbackto s
+flush
+snapshot savepoint-rolled
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'savepoint') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'savepoint') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'one') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'one') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'two') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'two') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'river') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'river') ORDER BY id
+column id
+closecursor
+use 103
+rollback
+flush
+snapshot savepoint-rollback
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'savepoint') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'savepoint') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'one') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'one') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'two') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'two') ORDER BY id
+column id
+closecursor
+use 103
+cursor SELECT id FROM tp WHERE CONTAINS(body, 'river') ORDER BY id
+column id
+closecursor
+use 103
+cursor2 SELECT id FROM tp WHERE CONTAINS(body, 'river') ORDER BY id
+column id
+closecursor
+use 103
+# A change pending when the transaction ends.
+open tn shared
+open2 tn shared
+use 121
+begin
+goto 4
+set body string pending words
+rollback
+flush
+snapshot pending-rollback
+cursor SELECT id FROM tn WHERE CONTAINS(body, 'pending') ORDER BY id
+column id
+closecursor
+use 121
+cursor2 SELECT id FROM tn WHERE CONTAINS(body, 'pending') ORDER BY id
+column id
+closecursor
+use 121
+cursor SELECT id FROM tn WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 121
+cursor2 SELECT id FROM tn WHERE CONTAINS(body, 'repeat') ORDER BY id
+column id
+closecursor
+use 121

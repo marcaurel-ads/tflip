@@ -1,0 +1,4 @@
+# An AES-256 dictionary that encrypts its records given AES-128.
+connect Data Source=%D\m_F_type5\d.add;ServerType=LOCAL;User ID=ADSSYS;Password=adm;EncryptionType=AES256;FIPS=FALSE;DDPassword=ddpw;
+sql EXECUTE PROCEDURE sp_ModifyDatabase('DATA_ENCRYPTION_TYPE', '5')
+disconnect

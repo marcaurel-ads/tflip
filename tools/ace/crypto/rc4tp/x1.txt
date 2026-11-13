@@ -1,0 +1,30 @@
+ddcreate 0 %D\x1\d.add
+dbget 106
+dbget 120
+dbget 105
+dbset 106 1
+dbset 120 1
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 106 1
+dbset 120 1
+dbget 106
+dbget 120
+create ct
+sql INSERT INTO ct VALUES (1, 'x')
+sql CREATE TABLE t0 (id INTEGER, note MEMO)
+sql INSERT INTO t0 VALUES (1, 'old memo')
+tget t0 214
+tget ct 214
+tset t0 214 1
+tset t0 214 0
+tset t0 214 0
+dbset 106 0
+dbset 120 0
+dbget 106
+dbset 120 1
+enc t0
+tget t0 214
+enc t0
+dec t0
+dec t0
+disconnect

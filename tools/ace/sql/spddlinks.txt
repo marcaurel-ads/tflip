@@ -1,0 +1,137 @@
+# sp_CreateLink, sp_ModifyLink, sp_DropLink and sp_GetLinks on a dictionary
+# connection in an empty folder (the dictionary, de/de.add, is kept in
+# fixtures/sql/spddlinks/, with the ones it links to): global links, which the
+# dictionary keeps, and the connection's own, how they are made and changed
+# and dropped, a user who is not the administrator, and a free connection.
+#
+#     run.sh <work> <ace32.dll> spddlinks.txt > ../../../fixtures/sql/spddlinks.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddlinks/
+ddcreate de\de.add
+stmt
+direct CREATE DATABASE "other.add"
+direct CREATE DATABASE "other2.add" PASSWORD ''
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct INSERT INTO t1 VALUES (1, 'one')
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', 'a user')
+#
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('LK1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk2', 'other.add', 1, 0, 0, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateLink('lk3', 'other.add', 1, 1, 0, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateLink('lk4', 'other.add', 1, 0, 1, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateLink('lk5', 'other.add', 1, 1, 1, NULL, NULL)
+direct EXECUTE PROCEDURE sp_CreateLink('lk6', '.\other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk7', 'other', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk8', 'other2.add', 1, 0, 0, 'ADSSYS', 'x')
+direct EXECUTE PROCEDURE sp_CreateLink('lk9', 'other.add', 1, 0, 0, 'nobody', 'x')
+direct EXECUTE PROCEDURE sp_CreateLink('lk10', 'absent.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk11', 'de.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk12', 'other.add', 1, 0, 0, 'ADSSYS', 'wrong')
+direct EXECUTE PROCEDURE sp_CreateLink('lk13', 'other.add', 1, 0, 0, 'u1', 'pw1')
+direct EXECUTE PROCEDURE sp_CreateLink('lk14', 'other.add', 1, 0, 0, '', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk15', 'other.add', 1, 0, 0, 'ADSSYS', NULL)
+direct EXECUTE PROCEDURE sp_CreateLink('', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink(NULL, 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk16', NULL, 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk17', '', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk18', 'other.add', 2, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk19', 'other.add', 1, 2, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk20', 'other.add', 1, 0, 2, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk21', 'other.add', -1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk22', 'other.add', NULL, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('t1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('g;1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk23', 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk24', 'other.add', 1, 0, 0, 'ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk25', 'other.add', 1, 0, 0, 'ADSSYS', 'ccccccccccccccccccccc')
+direct EXECUTE PROCEDURE sp_CreateLink('lk26', 'other.add', 1, 0, 0, 'ADSSYS')
+direct EXECUTE PROCEDURE sp_CreateLink('lk26', 'other.add', 1, 0, 0, 'ADSSYS', '', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk26', 'other.add', 'x', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink()
+query SELECT * FROM system.links
+query SELECT * FROM lk1.t1
+query SELECT * FROM lk2.t1
+#
+# The connection's own links.
+direct EXECUTE PROCEDURE sp_CreateLink('own1', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('own1', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('own2', 'other.add', 0, 0, 0, 'ADSSYS', 'wrong')
+direct EXECUTE PROCEDURE sp_CreateLink('own3', 'other.add', 0, 1, 1, NULL, NULL)
+query SELECT * FROM system.links
+query SELECT * FROM own1.t1
+#
+# Changing a link.
+direct EXECUTE PROCEDURE sp_ModifyLink('lk1', 'other2.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('LK2', 'other.add', 1, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk3', 'other.add', 0, 1, NULL, NULL)
+direct EXECUTE PROCEDURE sp_ModifyLink('lk4', 'absent.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk4', 'other.add', 0, 0, 'nobody', 'x')
+direct EXECUTE PROCEDURE sp_ModifyLink('nolink', 'other.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('own1', 'other2.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('', 'other.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink(NULL, 'other.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', NULL, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', '', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add', 2, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add', 0, 2, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add', 0, 0, 'ADSSYS', '', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add', 'x', 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink()
+query SELECT * FROM system.links
+#
+# Dropping one.
+direct EXECUTE PROCEDURE sp_DropLink('lk1', 1)
+direct EXECUTE PROCEDURE sp_DropLink('lk1', 1)
+direct EXECUTE PROCEDURE sp_DropLink('LK2', 1)
+direct EXECUTE PROCEDURE sp_DropLink('lk3', 0)
+direct EXECUTE PROCEDURE sp_DropLink('own1', 1)
+direct EXECUTE PROCEDURE sp_DropLink('own1', 0)
+direct EXECUTE PROCEDURE sp_DropLink('own1', 0)
+direct EXECUTE PROCEDURE sp_DropLink('own2', 2)
+direct EXECUTE PROCEDURE sp_DropLink('own2', NULL)
+direct EXECUTE PROCEDURE sp_DropLink('own2', -1)
+direct EXECUTE PROCEDURE sp_DropLink('nolink', 1)
+direct EXECUTE PROCEDURE sp_DropLink('nolink', 0)
+direct EXECUTE PROCEDURE sp_DropLink('', 1)
+direct EXECUTE PROCEDURE sp_DropLink(NULL, 1)
+direct EXECUTE PROCEDURE sp_DropLink('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', 1)
+direct EXECUTE PROCEDURE sp_DropLink('lk4')
+direct EXECUTE PROCEDURE sp_DropLink('lk4', 1, 1)
+direct EXECUTE PROCEDURE sp_DropLink('lk4', 'x')
+direct EXECUTE PROCEDURE sp_DropLink()
+query SELECT * FROM system.links
+#
+# sp_GetLinks.
+direct EXECUTE PROCEDURE sp_GetLinks()
+query EXECUTE PROCEDURE sp_GetLinks()
+#
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+direct EXECUTE PROCEDURE sp_CreateLink('u1g', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('u1l', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('u1l', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('u1a', 'other.add', 0, 0, 1, NULL, NULL)
+direct EXECUTE PROCEDURE sp_ModifyLink('lk5', 'other.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('u1l', 'other2.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_DropLink('lk5', 1)
+direct EXECUTE PROCEDURE sp_DropLink('u1l', 0)
+direct EXECUTE PROCEDURE sp_DropLink('u1l', 0)
+direct EXECUTE PROCEDURE sp_GetLinks()
+#
+# A free connection to the folder: no dictionary.
+disconnect
+connect de
+stmt
+direct EXECUTE PROCEDURE sp_CreateLink('f1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('f1', 'other.add', 0, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_ModifyLink('f1', 'other.add', 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_DropLink('f1', 1)
+direct EXECUTE PROCEDURE sp_DropLink('f1', 0)
+direct EXECUTE PROCEDURE sp_GetLinks()

@@ -1,0 +1,204 @@
+# TRY ... CATCH [ALL | name] ... FINALLY ... END TRY in scripts sent as a
+# statement, in an empty folder: which errors a CATCH sees and by which name,
+# __errcode, __errtext and __errclass, RAISE without arguments, the FINALLY
+# running after a RETURN or an error nothing caught, nesting, and what the
+# language refuses before the script runs.
+#
+#     run.sh <work> <ace32.dll> trycatch.txt > ../../../fixtures/sql/trycatch.json
+stmt
+query CREATE TABLE t (n integer, s char(4), d date, f double)
+directnull INSERT INTO t VALUES (1, 'a', '2020-01-02', 1.5)
+directnull INSERT INTO t VALUES (2, 'b', NULL, NULL)
+directnull INSERT INTO t VALUES (3, 'c', '2021-03-04', 2.5)
+query TRY INSERT INTO t VALUES (10, 'a', NULL, NULL); CATCH ALL INSERT INTO t VALUES (11, 'a', NULL, NULL); END TRY;
+query SELECT COUNT(*) AS c FROM t
+query TRY INSERT INTO nosuch VALUES (1); CATCH ALL INSERT INTO t VALUES (12, 'a', NULL, NULL); END TRY;
+query SELECT COUNT(*) AS c FROM t
+query TRY INSERT INTO nosuch VALUES (1); END TRY;
+query TRY INSERT INTO nosuch VALUES (1); CATCH ALL END TRY;
+query TRY INSERT INTO nosuch VALUES (1); FINALLY INSERT INTO t VALUES (13, 'a', NULL, NULL); END TRY;
+query SELECT COUNT(*) AS c FROM t WHERE n = 13
+query TRY INSERT INTO t VALUES (14, 'a', NULL, NULL); FINALLY INSERT INTO t VALUES (15, 'a', NULL, NULL); END TRY;
+query TRY INSERT INTO nosuch VALUES (1); CATCH ALL INSERT INTO t VALUES (16, 'a', NULL, NULL); FINALLY INSERT INTO t VALUES (17, 'a', NULL, NULL); END TRY;
+query TRY INSERT INTO t VALUES (18, 'a', NULL, NULL); CATCH ALL INSERT INTO t VALUES (19, 'a', NULL, NULL); FINALLY INSERT INTO t VALUES (20, 'a', NULL, NULL); END TRY;
+query SELECT n FROM t WHERE n > 13 ORDER BY n
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH ALL e = __errcode; m = IFNULL(__errclass, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL e = __errcode; m = IFNULL(__errclass, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 1 / 0; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 1 / 0; CATCH ALL e = __errcode; m = IFNULL(__errclass, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT nosuch FROM t; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELEC nosuch FROM t; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY EXECUTE IMMEDIATE 'SELEC 1'; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH myerr e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH other e = 1; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH other e = 1; CATCH myerr e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL e = 1; CATCH myerr e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH myerr e = 2; CATCH ALL e = 1; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH myerr e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH ADS_SCRIPT_EXCEPTION e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ADS_SCRIPT_EXCEPTION e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH ADS_SQL_EXCEPTION e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ADS_SQL_EXCEPTION e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH ADS_ACE_EXCEPTION e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO nosuch VALUES (1); CATCH ADS_ALL e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ALL RAISE; END TRY;
+query DECLARE e INTEGER; TRY INSERT INTO nosuch VALUES (1); CATCH ALL RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ALL RAISE other(8, 'second'); END TRY;
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ALL e = 1; FINALLY e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); FINALLY e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ALL RAISE; FINALLY INSERT INTO t VALUES (30, 'a', NULL, NULL); END TRY;
+query SELECT COUNT(*) AS c FROM t WHERE n = 30
+query DECLARE e INTEGER; RAISE;
+query DECLARE e INTEGER; e = __errcode;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; END TRY; e = __errcode;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY e = 1; e = e / 0; CATCH ALL e = e + 10; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY TRY e = 1; e = e / 0; CATCH ALL e = e + 10; END TRY; e = e / 0; CATCH ALL e = e + 100; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; END TRY; SELECT 1 AS a FROM system.iota; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY SELECT 5 AS a FROM system.iota; CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY SELECT 5 AS a FROM system.iota; FINALLY e = 2; END TRY;
+query DECLARE e INTEGER; TRY SELECT 5 AS a FROM system.iota; SELECT nosuch FROM t; CATCH ALL SELECT 6 AS a FROM system.iota; END TRY;
+query DECLARE e INTEGER; TRY RETURN; CATCH ALL e = 1; FINALLY INSERT INTO t VALUES (31, 'a', NULL, NULL); END TRY; INSERT INTO t VALUES (32, 'a', NULL, NULL);
+query SELECT n FROM t WHERE n > 30 ORDER BY n
+query DECLARE i INTEGER; i = 0; WHILE i < 3 DO i = i + 1; TRY IF i = 2 THEN RAISE x(1, 'y'); END IF; CATCH ALL i = i + 10; END TRY; END WHILE; SELECT i AS i FROM system.iota
+query DECLARE i INTEGER; i = 0; TRY WHILE i < 3 DO i = i + 1; IF i = 2 THEN RAISE x(1, 'y'); END IF; END WHILE; CATCH ALL i = i + 10; END TRY; SELECT i AS i FROM system.iota
+query TRY END TRY;
+query TRY CATCH ALL END TRY;
+query TRY CATCH ALL
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL);
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL); END TRY;
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL); CATCH END TRY;
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL); CATCH ALL END
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL); FINALLY END TRY; INSERT INTO t VALUES (41, 'a', NULL, NULL)
+query TRY INSERT INTO t VALUES (40, 'a', NULL, NULL); FINALLY CATCH ALL END TRY;
+query CATCH ALL END TRY;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL DECLARE j INTEGER; END TRY;
+query TRY DECLARE j INTEGER; j = 1; CATCH ALL e = 1; END TRY;
+query DECLARE e INTEGER; TRY RAISE MyErr(7, 'boom'); CATCH myerr e = 2; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ads_script_exception e = 2; CATCH MYERR e = 3; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY RAISE myerr(7, 'boom'); CATCH ALL e = 2; CATCH ALL e = 3; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL m = TRIM(TRIM(CAST(__errcode AS SQL_CHAR))) + '/' + __errtext + '/' + __errclass; END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL e = __errcode + 1; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr('7', 'boom'); CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr('x', 'boom'); CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 5); CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(NULL, NULL); CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL INSERT INTO t VALUES (__errcode, __errtext, NULL, NULL); END TRY; SELECT n, s FROM t WHERE n = 7
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE myerr(7, 'boom'); CATCH ALL IF __errcode = 7 THEN e = 1; END IF; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL TRY RAISE b(2, 'two'); CATCH ALL e = __errcode; END TRY; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL TRY e = 5; CATCH ALL e = 6; END TRY; e = e + __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL TRY e = 5; FINALLY e = 6; END TRY; RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END TRY; RAISE;
+query DECLARE e INTEGER; TRY e = 1; FINALLY RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); FINALLY RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1 / 0; END TRY;
+query SELECT COUNT(*) AS c FROM t WHERE n = 50
+query DECLARE e INTEGER; TRY e = 1; FINALLY e = 1 / 0; END TRY;
+query DECLARE e INTEGER; TRY RETURN; FINALLY e = 1 / 0; END TRY;
+query DECLARE e INTEGER; TRY RETURN; FINALLY RETURN; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); FINALLY RETURN; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL RETURN; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL RETURN; END TRY; SELECT 1 AS a FROM system.iota
+query DECLARE e INTEGER; TRY e = 5; CATCH ALL e = 2; END TRY; RETURN; SELECT 1 AS a FROM system.iota
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 2; END TRY; RETURN e;
+query DECLARE e INTEGER; TRY INSERT INTO t VALUES (51, 'a', NULL, NULL); INSERT INTO t VALUES ('x', 'a', NULL, NULL); CATCH ALL e = __errcode; END TRY; SELECT COUNT(*) AS c FROM t WHERE n = 51
+query DECLARE e INTEGER; TRY UPDATE t SET n = n / 0 WHERE n = 51; CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY DELETE FROM nosuch; CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY DROP TABLE nosuch; CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY CREATE TABLE t (a integer); CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; TRY EXECUTE PROCEDURE sp_nosuch(); CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY EXECUTE IMMEDIATE 'RAISE q(3, ''inner'')'; CATCH ALL e = __errcode; m = IFNULL(__errclass, 'null') + '/' + IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY EXECUTE IMMEDIATE 'TRY RAISE q(3, ''inner''); CATCH ALL e = 1; END TRY'; CATCH ALL e = __errcode; END TRY; SELECT e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 1; CATCH ALL e = 2; END TRY; EXECUTE IMMEDIATE 'RAISE';
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL EXECUTE IMMEDIATE 'RAISE'; END TRY;
+query DECLARE e INTEGER; TRY RAISE q(1, 'x'); CATCH ALL EXECUTE IMMEDIATE 'RAISE'; END TRY;
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE q(1, 'x'); CATCH ALL EXECUTE IMMEDIATE 'SELECT 1 AS a FROM system.iota'; m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE q(1, 'x'); CATCH ALL EXECUTE IMMEDIATE 'INSERT INTO t VALUES (52, ''a'', NULL, NULL)'; m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = nosuch; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 'abc'; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY IF 1 / 0 = 1 THEN e = 1; END IF; CATCH ALL e = __errcode; m = IFNULL(__errtext, 'null'); END TRY; SELECT e AS e, m AS m FROM system.iota
+query SELECT n FROM t WHERE n > 59
+query SELECT n FROM t WHERE n > 59 ORDER BY n
+query DECLARE e INTEGER; TRY e = 1 / 0; CATCH ALL e = 1; FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); FINALLY e = 1 / 0; END TRY;
+query DECLARE e INTEGER; TRY e = 1 / 0; FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY e = 1 / 0; FINALLY e = nosuch; END TRY;
+query DECLARE e INTEGER; TRY e = nosuch; CATCH ALL e = 1; FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; FINALLY RAISE b(2, 'two'); END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; FINALLY e = nosuch; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); FINALLY e = nosuch; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL TRY RAISE b(2, 'two'); CATCH ALL e = 1; END TRY; RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL TRY e = 1; CATCH ALL e = 1; END TRY; RAISE; END TRY;
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL TRY e = 1 / 0; CATCH ALL e = 1; END TRY; m = IFNULL(__errclass, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL m = IFNULL(__errclass, 'null'); END TRY; m = IFNULL(__errclass, 'null'); SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 1; FINALLY m = IFNULL(__errclass, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL e = 1; FINALLY m = IFNULL(__errclass, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH other e = 1; FINALLY m = IFNULL(__errclass, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY TRY RAISE a(1, 'one'); FINALLY m = IFNULL(__errclass, 'null'); END TRY; CATCH ALL e = __errcode; END TRY; SELECT m AS m, e AS e FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL SELECT n FROM t WHERE s = __errtext; END TRY;
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL SELECT n FROM t WHERE n = __errcode; END TRY;
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL UPDATE t SET s = __errtext WHERE n = 1; END TRY; SELECT s FROM t WHERE n = 1
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'one'); CATCH ALL DELETE FROM t WHERE n = __errcode + 6; END TRY; SELECT COUNT(*) AS c FROM t
+query DECLARE e INTEGER; INSERT INTO t VALUES (__errcode, 'a', NULL, NULL);
+query DECLARE e INTEGER; DECLARE __errcode INTEGER;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL __errcode = 5; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL RAISE; RAISE; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL RAISE; e = 1; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL RETURN; e = 1; END TRY;
+query DECLARE e INTEGER; TRY RETURN; e = 1; CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); e = 1; CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END TRY; e = 3
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END TRY RAISE a(2, 'two');
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END TRY e = 3;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END e = 3;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END TRY TRY e = 1; CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY RAISE a(1, 'one'); CATCH ALL e = 1; END IF;
+query DECLARE e INTEGER; IF 1 = 1 THEN TRY e = 1; CATCH ALL e = 2; END IF; END TRY;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; FINALLY e = 3; CATCH ALL e = 4; END TRY;
+query DECLARE e INTEGER; TRY e = 1; FINALLY e = 3; FINALLY e = 4; END TRY;
+query DECLARE e INTEGER; TRY e = 1; FINALLY e = 3; CATCH ALL e = 4; END TRY;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; END TRY; SELECT e AS e FROM system.iota;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2; END TRY
+query TRY INSERT INTO t VALUES (70, 'a', NULL, NULL); CATCH ALL ;
+query TRY ; CATCH ALL ; END TRY ;
+query TRY ;; CATCH ALL ; END TRY ;
+query DECLARE e INTEGER; TRY e = 1; ; CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY e = 1 CATCH ALL e = 2; END TRY;
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL e = 2 END TRY;
+query TRY RAISE a(1, 'one'); CATCH ALL RAISE; END TRY
+query TRY RAISE a(1, 'one'); CATCH ALL RAISE; END
+query TRY SELECT 1 AS a FROM system.iota; CATCH ALL SELECT 2 AS a FROM system.iota; END TRY
+query DECLARE e INTEGER; TRY SELECT 4 AS a FROM system.iota; SELECT 2 AS a FROM system.iota; CATCH ALL e = 1; END TRY
+query DECLARE e INTEGER; TRY SELECT 4 AS a FROM system.iota; RAISE x(1, 'y'); CATCH ALL e = 1; END TRY
+query DECLARE e INTEGER; TRY SELECT 4 AS a FROM system.iota; FINALLY e = 1; END TRY
+query DECLARE e INTEGER; TRY SELECT 4 AS a FROM system.iota; FINALLY ; END TRY
+query DECLARE e INTEGER; TRY SELECT 4 AS a FROM system.iota; CATCH ALL ; FINALLY ; END TRY
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL ; FINALLY SELECT 4 AS a FROM system.iota; END TRY
+query DECLARE e INTEGER; TRY e = 1; CATCH ALL ; FINALLY SELECT 4 AS a FROM system.iota; END TRY; e = 2;
+query TRY INSERT INTO t VALUES (82, 'a', NULL, NULL); CATCH ALL RAISE; END TRY;
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = nosuch; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY OPEN c; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE m STRING; TRY FETCH c; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE m STRING; TRY OPEN c; OPEN c; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE m STRING; TRY OPEN c; i = c.n; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE i INTEGER; DECLARE m STRING; TRY i = c.n; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE i INTEGER; DECLARE m STRING; TRY OPEN c; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; i = c.n;
+query DECLARE c CURSOR AS SELECT nosuch FROM t; DECLARE i INTEGER; DECLARE m STRING; TRY OPEN c; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY e = 1 / 0; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY EXECUTE IMMEDIATE NULL; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT n FROM t WHERE nosuch = 1; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT n FROM t WHERE n = 'x'; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT n FROM t WHERE; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO t (nosuch) VALUES (1); CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY INSERT INTO t VALUES (1); CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT UPPER(1, 2) FROM system.iota; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT nosuchfn(1) FROM system.iota; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY CREATE TABLE t (a integer); CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY EXECUTE PROCEDURE sp_nosuch(); CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY RAISE a(1, 'x'); CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY UPDATE t SET n = 'x' WHERE n = 1; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT n FROM t GROUP BY s; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota
+query DECLARE e INTEGER; DECLARE m STRING; TRY SELECT n FROM t t1, t t1; CATCH ALL m = IFNULL(__errtext, 'null'); END TRY; SELECT m AS m FROM system.iota

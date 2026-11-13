@@ -1,0 +1,184 @@
+# What a cursor in a script sees of the changes made to its table after OPEN
+# where it reads the table through an index, which it does for an ORDER BY of
+# one column that has an index (with no WHERE, or one that reads no indexed
+# column; where it does the original sometimes fixes the records at OPEN, by a
+# rule not worked out): it takes the keys of one leaf of the index at the first
+# FETCH (not at OPEN: an insert before it is seen), reads those records as
+# they are when it comes to them, and where the leaf ends, if another follows,
+# it finds the last record's place in the index as that record's key is now and
+# takes the leaf there. A leaf of
+# an integer key holds 121 entries here, so the changes of the 300-row cases
+# that move records out of the first leaf show how it goes on. In an empty
+# folder.
+#
+#     run.sh <work> <ace32.dll> cursormore2.txt > ../../../fixtures/sql/cursormore2.json
+stmt
+query CREATE TABLE w (n integer, s char(4), d double, m integer)
+query CREATE INDEX wn ON w (n)
+query CREATE INDEX ws ON w (s)
+query CREATE INDEX wm ON w (m)
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY s; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY s DESC; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY m; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY 1; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY w.n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE w SET n = 3 WHERE n = 1; WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.s AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (3, 'z3', 9.5, 2); INSERT INTO w VALUES (3, 'z2', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.s AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT TOP 3 n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (-5, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT * FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w WHERE d > 0 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY d; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n + 0; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n, s; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (9, 'zz', 9.5, 2); WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; IF c.n = 1 THEN INSERT INTO w VALUES (1000, 'new', 0.5, 0); UPDATE w SET n = 2000 WHERE n = 5; UPDATE w SET n = 0 WHERE n = 8; DELETE FROM w WHERE n = 9; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; IF c.n = 4 THEN INSERT INTO w VALUES (1000, 'new', 0.5, 0); UPDATE w SET n = 2000 WHERE n = 5; UPDATE w SET n = 0 WHERE n = 8; DELETE FROM w WHERE n = 9; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'cc', 3.5, 1)
+directnull INSERT INTO w VALUES (1, 'aa', 1.5, 2)
+directnull INSERT INTO w VALUES (2, 'bb', 2.5, 2)
+directnull INSERT INTO w VALUES (NULL, 'nn', NULL, 5)
+directnull INSERT INTO w VALUES (4, 'dd', 4.5, 1)
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + COALESCE(TRIM(CAST(c.n AS SQL_CHAR)),'?') + ','; IF c.n = 4 THEN INSERT INTO w VALUES (1000, 'new', 0.5, 0); UPDATE w SET n = 2000 WHERE n = 5; UPDATE w SET n = 0 WHERE n = 8; DELETE FROM w WHERE n = 9; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN INSERT INTO w VALUES (1000, 'new', 0.5, 0); UPDATE w SET n = 2000 WHERE n = 5; UPDATE w SET n = 0 WHERE n = 8; DELETE FROM w WHERE n = 9; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 300 THEN UPDATE w SET n = n + 1000 WHERE n < 300; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN UPDATE w SET n = n + 1000 WHERE n > 1; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN UPDATE w SET n = 0 - n WHERE n > 1; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 300 THEN UPDATE w SET n = 1000 - n WHERE n < 300; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 300 THEN INSERT INTO w VALUES (150, 'new', 0.5, 0); END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN INSERT INTO w VALUES (150, 'new', 0.5, 0); END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN INSERT INTO w VALUES (50, 'new', 0.5, 0); END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN DELETE FROM w WHERE n = 121; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN DELETE FROM w WHERE n > 100; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN DELETE FROM w WHERE n > 1; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w WHERE s = 'r' ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN UPDATE w SET n = n + 1000 WHERE n > 1; END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+query DECLARE i INTEGER; i = 1; WHILE i <= 300 DO INSERT INTO w VALUES (i, 'r', 0.5, 0); i = i + 1; END WHILE; SELECT 1 AS one FROM system.iota
+query DECLARE c CURSOR AS SELECT n, s FROM w  ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ','; IF c.n = 1 THEN DELETE FROM w WHERE n >= 121 AND n < 130; END IF; END WHILE; SELECT x AS x FROM system.iota

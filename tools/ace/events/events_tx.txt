@@ -1,0 +1,55 @@
+# Signals that wait for the transaction to commit, a connection that closes
+# and registers again, and the waits a script, a procedure or a trigger
+# may not make (see ev.c).
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_tx.txt
+#             > ../../../fixtures/events/events_tx.json
+
+free 0
+sql 0 CREATE DATABASE "d\d.add"
+connect 1 d\d.add
+sql 1 CREATE PROCEDURE sig0(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0); END;
+sql 1 CREATE PROCEDURE sigc(n CHAR(20), d CHAR(20)) BEGIN DECLARE @n CHAR(20); DECLARE @d CHAR(20); @n = (SELECT n FROM __input); @d = (SELECT d FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, true, 0, @d); END;
+sql 1 CREATE PROCEDURE sign(n CHAR(20), d CHAR(20)) BEGIN DECLARE @n CHAR(20); DECLARE @d CHAR(20); @n = (SELECT n FROM __input); @d = (SELECT d FROM __input); EXECUTE PROCEDURE sp_SignalEvent(@n, false, 0, @d); END;
+sql 1 CREATE PROCEDURE w(n CHAR(20)) BEGIN DECLARE @n CHAR(20); @n = (SELECT n FROM __input); EXECUTE PROCEDURE sp_WaitForEvent(@n, 0, 0, 0); END;
+connect 2 d\d.add
+connect 1 d\d.add
+# in a transaction: WaitForCommit
+sql 2 EXECUTE PROCEDURE sp_CreateEvent('c', 2)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('c', 2)
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE sigc('c', 'in-tx')
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 COMMIT
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE sigc('c', 'rolled')
+sql 1 ROLLBACK
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sigc('c', 'no-tx')
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+# order of signalling inside a transaction and not waiting for commit
+sql 1 BEGIN TRANSACTION
+sql 1 EXECUTE PROCEDURE sign('c', 'imm')
+sql 1 EXECUTE PROCEDURE sigc('c', 'late')
+sql 1 EXECUTE PROCEDURE sign('c', 'imm2')
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 ROLLBACK
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+# disconnect and reconnect: registration and pending signals
+sql 2 EXECUTE PROCEDURE sign('c', 'pending')
+disconnect 1
+connect 1 d\d.add
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('c', 2)
+sql 2 EXECUTE PROCEDURE sign('c', 'after')
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 2 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+# waiting inside a script, a procedure
+sql 1 EXECUTE PROCEDURE sig0('c')
+sql 1 EXECUTE PROCEDURE w('c')
+sql 1 EXECUTE PROCEDURE sp_CreateEvent('s1', 0); EXECUTE PROCEDURE sp_WaitForEvent('s1', 0, 0, 0);
+sql 1 EXECUTE PROCEDURE sp_WaitForEvent('c', 0, 0, 0)
+sql 1 EXECUTE PROCEDURE sp_WaitForAnyEvent(0, 0, 0)

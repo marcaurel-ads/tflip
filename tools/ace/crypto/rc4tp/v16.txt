@@ -1,0 +1,18 @@
+# SELECT INTO a file under AdsStmtSetTableType VFP on a free connection, on a dictionary connection of default encryption and on an AES one: the table type the file has.
+connect Data Source=%D\v16\;ServerType=LOCAL;
+createt 4 %D\v16\fv
+stmttype 4
+sql INSERT INTO fv VALUES (1, 'one')
+sql SELECT * INTO "%D\v16\free_out" FROM fv
+disconnect
+ddcreate 0 %D\v16\d.add
+createt 4 tv
+stmttype 4
+sql INSERT INTO tv VALUES (1, 'one')
+sql SELECT * INTO "%D\v16\rc4_out" FROM tv
+sql SELECT * INTO tout FROM tv
+disconnect
+connect Data Source=%D\v16\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;
+stmttype 4
+sql SELECT * INTO "%D\v16\aesconn_out" FROM "%D\v16\fv.dbf"
+disconnect

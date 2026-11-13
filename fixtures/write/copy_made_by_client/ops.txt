@@ -1,0 +1,61 @@
+# What the last error is after a table is copied: the original's 5169
+# ("scaled back and copied by the client") where the table was opened
+# exclusively, though the call returns 0.
+open t.adt
+copystructure s.adt
+lasterror
+copytable 2 c1.adt
+lasterror
+open dest.adt
+use 1
+copystructure s3.adt
+lasterror
+convert 2 adt c7.adt
+lasterror
+convert 2 cdx c10.dbf
+lasterror
+filter n > 1
+copytable 1 c2.adt
+lasterror
+clearfilter
+order name
+copytable 2 c3.adt
+lasterror
+order -
+copytable 2 c8.adt
+lasterror
+copycontents 2 2
+lasterror
+use 2
+close
+use 1
+close
+open t.adt shared
+copytable 2 c4.adt
+lasterror
+convert 2 cdx c5.dbf
+lasterror
+close
+open t.adt 0
+copytable 2 c11.adt
+lasterror
+close
+open t.adt 3
+copytable 2 c12.adt
+lasterror
+close
+open t.adt readonly
+copytable 2 c9.adt
+lasterror
+close
+tabletype cdx
+open f.dbf
+copytable 2 fc.dbf
+lasterror
+copystructure fs.dbf
+lasterror
+convert 2 adt fc.adt
+lasterror
+convert 2 cdx fc2.dbf
+lasterror
+close

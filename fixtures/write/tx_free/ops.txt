@@ -1,0 +1,228 @@
+# The ADT free list in transactions on the remote server: a slot deleted
+# earlier in the same transaction taken by an append, a slot freed before it
+# taken, and what a rollback leaves of the reused or appended slots.
+#
+#     WRITE_SERVER_DIR=<server data>/w WRITE_SERVER_PATH='\\127.0.0.1:6262\data\w' \
+#         tools/ace/write/run.sh <work> ace32.dll fixtures/write/tx_free
+# da
+open da.adt shared
+begin
+goto 2
+delete
+write
+state
+snapshot da1
+append
+set id long 100
+set name string new1
+write
+state
+snapshot da2
+append
+set id long 101
+set name string new2
+write
+state
+snapshot da3
+commit
+snapshot da4
+rows
+close
+# db
+open db.adt shared
+begin
+goto 2
+delete
+write
+append
+set id long 100
+set name string new1
+write
+state
+snapshot db1
+rollback
+snapshot db2
+state
+rows
+goto 2
+state
+get name
+goto 7
+state
+append
+set id long 102
+set name string after
+write
+state
+snapshot db3
+rows
+close
+# dc
+open dc.adt shared
+goto 3
+delete
+write
+snapshot dc0
+begin
+append
+set id long 100
+set name string new1
+write
+state
+snapshot dc1
+append
+set id long 101
+set name string new2
+write
+state
+snapshot dc2
+rollback
+snapshot dc3
+state
+rows
+goto 3
+state
+goto 7
+state
+append
+set id long 103
+set name string after
+write
+state
+snapshot dc4
+rows
+close
+# dd
+open dd.adt shared
+begin
+append
+set id long 100
+set name string new1
+write
+state
+append
+set id long 101
+set name string new2
+write
+state
+rollback
+snapshot dd1
+state
+rows
+goto 7
+state
+goto 8
+state
+append
+set id long 102
+set name string after
+write
+state
+snapshot dd2
+rows
+close
+# de
+open de.adt shared
+begin
+goto 2
+delete
+write
+goto 4
+delete
+write
+snapshot de1
+append
+set id long 100
+set name string new1
+write
+state
+append
+set id long 101
+set name string new2
+write
+state
+append
+set id long 102
+set name string new3
+write
+state
+snapshot de2
+commit
+snapshot de3
+rows
+append
+set id long 103
+set name string after
+write
+state
+snapshot de4
+rows
+close
+# df
+open df.adt shared
+begin
+goto 2
+delete
+write
+goto 4
+delete
+write
+append
+set id long 100
+set name string new1
+write
+state
+append
+set id long 101
+set name string new2
+write
+state
+append
+set id long 102
+set name string new3
+write
+state
+rollback
+snapshot df1
+rows
+goto 2
+state
+goto 4
+state
+append
+set id long 103
+set name string after
+write
+state
+snapshot df2
+rows
+close
+# dh
+open dh.adt shared
+begin
+append
+set id long 100
+set name string new1
+write
+state
+delete
+write
+state
+snapshot dh1
+append
+set id long 101
+set name string new2
+write
+state
+snapshot dh2
+commit
+snapshot dh3
+rows
+append
+set id long 102
+set name string after
+write
+state
+snapshot dh4
+rows
+close

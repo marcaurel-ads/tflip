@@ -1,0 +1,9 @@
+#include dd_all.txt
+#include bk_full.txt
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', NULL)
+connect 2 dst\d.add
+sql 2 INSERT INTO t_adt VALUES (12, 'dstonly', 12.5, '2021-02-04', 0, 'in dst only')
+sql 2 INSERT INTO t_cdx VALUES (12, 'dstonly', 12.5, '2021-02-04', 0, 'in dst only')
+disconnect 2
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dst\d.add', 'DontOverwrite')
+sql 0 EXECUTE PROCEDURE sp_RestoreDatabase('@ROOT@\img\d.add', '', '@ROOT@\dnew\d.add', 'DontOverwrite')

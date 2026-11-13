@@ -1,0 +1,129 @@
+# A rename of a function by a user who is not the administrator: whether
+# the right to alter it, the right to create functions, or the name is
+# checked first, and the same through AdsDDRenameObject (functions,
+# packages and the objects of the other types). The dictionary,
+# fr/fr.add, is kept in fixtures/sql/ddfuncrights/:
+#
+#     run.sh <work> <ace32.dll> ddfuncrights.txt > ../../../fixtures/sql/ddfuncrights.json
+#     cp <work>/data/fr/* ../../../fixtures/sql/ddfuncrights/
+ddcreate fr\fr.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE FUNCTION fa(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE FUNCTION fb(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE FUNCTION fc(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE FUNCTION fd(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE FUNCTION fe(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE PACKAGE pa
+direct CREATE PACKAGE pb
+direct CREATE PACKAGE pc
+direct CREATE FUNCTION pa.x(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE FUNCTION pa.y(a INTEGER) RETURNS INTEGER BEGIN RETURN a; END
+direct CREATE PROCEDURE pr1() BEGIN SELECT 1 FROM system.iota; END
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct CREATE TABLE t9 (id INTEGER)
+direct CREATE VIEW vw9 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr9() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'fr.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk2', 'fr.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g1', '')
+direct EXECUTE PROCEDURE sp_CreateGroup('g2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u3', 'pw3', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u4', 'pw4', '')
+direct GRANT ALTER ON fa TO u2
+direct GRANT ALTER ON pa TO u2
+direct GRANT ALTER ON fc TO u3
+direct GRANT CREATE FUNCTION TO u3
+direct GRANT CREATE PACKAGE TO u3
+direct GRANT ALTER ON pr1 TO u2
+direct GRANT ALTER ON t1 TO u2
+direct GRANT ALTER ON vw1 TO u2
+direct GRANT ALTER ON lk1 TO u2
+direct GRANT ALTER ON g1 TO u2
+direct GRANT CREATE FUNCTION TO u4
+direct GRANT CREATE PACKAGE TO u4
+disconnect
+#
+# u2 may alter fa and pa and may create nothing; u3 may alter fc and
+# create; u4 may create and alter nothing.
+connect fr\fr.add u2 pw2
+stmt
+direct ALTER FUNCTION fa fa1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fb fb1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fa fb(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fb fa1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fb fb(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fb fc(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION nosuch nosuch1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fa1 t1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION pa.x pa.x1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION pa.x1 pa.y(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION pa.x1 x2(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION pa.y y1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fa1 fa2(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+query SELECT Name, Package FROM system.functions
+disconnect
+connect fr\fr.add u3 pw3
+stmt
+direct ALTER FUNCTION fc fc1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fd fd1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fc fd(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fd fc1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fd fd(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fd nosuch(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fd
+query SELECT Name, Package FROM system.functions
+disconnect
+connect fr\fr.add u4 pw4
+stmt
+direct ALTER FUNCTION fe fe1(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION fe fa(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+direct ALTER FUNCTION nosuch fe(a INTEGER) RETURNS INTEGER BEGIN RETURN 1; END
+disconnect
+#
+# AdsDDRenameObject: function 18, package 19, procedure 10, view 6, table 1
+# (the options are 0).
+connect fr\fr.add u2 pw2
+ddrename fa2 fa3 18 0
+ddrename fb fb2 18 0
+ddrename fb fa3 18 0
+ddrename fa3 fb 18 0
+ddrename nosuch fb2 18 0
+ddrename pa pa1 19 0
+ddrename pb pb1 19 0
+ddrename pa pb 19 0
+ddrename pb pa1 19 0
+ddrename pr1 pr2 10 0
+ddrename vw1 vw2 6 0
+ddrename t1 t2 1 0
+ddrename fa3 fa3 18 0
+ddrename u3 u3x 8 0
+ddrename u2 u2x 8 0
+ddrename pr9 pr10 10 0
+ddrename vw9 vw10 6 0
+ddrename t9 t10 1 0
+ddrename lk1 lk3 12 0
+ddrename lk2 lk4 12 0
+ddrename g1 g3 9 0
+ddrename g2 g4 9 0
+ddrename pr1 t9 10 0
+ddrename pr9 pr2 10 0
+disconnect
+connect fr\fr.add u3 pw3
+ddrename fd fd2 18 0
+ddrename fc1 fc2 18 0
+ddrename pc pc1 19 0
+ddrename pb pb2 19 0
+ddrename pa1 pa2 19 0
+disconnect
+connect fr\fr.add u4 pw4
+ddrename fe fe2 18 0
+ddrename pb pb3 19 0
+disconnect
+connect fr\fr.add adssys
+stmt
+query SELECT Name, Package FROM system.functions
+query SELECT Name FROM system.packages
+query SELECT * FROM system.permissions
+disconnect

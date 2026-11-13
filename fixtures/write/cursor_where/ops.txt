@@ -1,0 +1,117 @@
+cursor SELECT * FROM tw WHERE n > 25
+top
+state
+append
+set name string low
+set n long 10
+state
+write
+state
+rows
+count
+goto 6
+state
+get name
+goto 1
+state
+get name
+set name string out
+write
+get name
+rows
+top
+set n long 5
+write
+state
+rows
+count
+top
+delete
+state
+rows
+append
+set name string high
+set n long 60
+write
+rows
+goto 7
+state
+inaof 6
+lock 1
+islocked 1
+unlock 1
+closecursor
+open tw.adt exclusive
+rows
+get name
+close
+cursor SELECT * FROM tq ORDER BY name DESC
+top
+state
+rows
+append
+set name string zz
+set n long 1
+write
+state
+rows
+top
+state
+skip 1
+state
+set name string a0
+write
+state
+rows
+top
+delete
+state
+rows
+bottom
+state
+append
+set name string mm
+write
+top
+rows
+closecursor
+cursor SELECT * FROM ti ORDER BY n
+top
+state
+append
+set name string idx
+set n long 35
+write
+state
+rows
+top
+skip 2
+set n long 55
+write
+state
+rows
+delete
+rows
+top
+skip 1
+state
+closecursor
+cursor SELECT * FROM ti WHERE n > 15 ORDER BY n DESC
+top
+state
+append
+set name string idx2
+set n long 45
+write
+state
+rows
+set n long 5
+top
+set n long 5
+write
+state
+rows
+closecursor
+open ti.adt exclusive
+rows
+close

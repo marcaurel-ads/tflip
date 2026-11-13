@@ -1,0 +1,66 @@
+# What a handle without the password may write to an AES table, and what a handle with it reads after.
+include setup.inc
+open h1 c1 %D\t.adt 4
+enable h1 secret
+open h2 c2 %D\t.adt 4
+order x1 h1 ICH
+order x1n h1 IN1
+order y h2 ICH
+order yn h2 IN1
+top h2
+set h2 CH zulu
+write h2
+cancel h2
+goto h1 1
+dump h1
+goto h2 2
+delete h2
+goto h1 2
+dump h1
+recall h2
+goto h1 2
+dump h1
+append h2
+cancel h2
+set h2 CH new
+set h2 N1 5
+write h2
+cancel h2
+count h1
+count h2
+goto h1 4
+dump h1
+goto h2 4
+dump h2
+goto h2 1
+setempty h2 CH
+write h2
+cancel h2
+goto h1 1
+dump h1
+goto h2 3
+set h2 M1 newmemo
+write h2
+cancel h2
+goto h1 3
+dump h1
+goto h2 3
+set h2 NM nmemo
+set h2 N1 301
+write h2
+cancel h2
+goto h1 3
+dump h1
+top x1
+recno x1
+keycount x1
+seek x1 charlie 0
+seekd x1n 301 0
+seekd x1n 300 0
+seek x1 new 0
+seek x1 zulu 0
+top yn
+recno yn
+keycount yn
+seekd yn 5 0
+seekd yn 301 0

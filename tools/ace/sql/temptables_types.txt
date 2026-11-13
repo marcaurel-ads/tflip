@@ -1,0 +1,112 @@
+# What statements do with a temporary table made as another table type than the
+# statement's, probed on a free connection in an empty folder. A statement whose
+# last run was a SELECT that read the table reads it again as it is, and no
+# other does: the original's answer depends on what the statement ran before:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> temptables_types.txt > ../../../fixtures/sql/temptables_types.json
+#
+# 7016 for a table of another kind (ADT, Visual FoxPro, Clipper or FoxPro),
+# joins of such tables the same.
+stmt
+query CREATE TABLE t (n integer, s char(4))
+directnull INSERT INTO t VALUES (1, 'a')
+# Made by SQL as each statement type, opened as each type.
+tabletype 3
+query CREATE TABLE #sa (x integer, y char(3))
+directnull INSERT INTO #sa VALUES (1, 'abc')
+tabletype 1
+query CREATE TABLE #sn (x integer, y char(3))
+directnull INSERT INTO #sn VALUES (1, 'abc')
+tabletype 2
+query CREATE TABLE #sc (x integer, y char(3))
+directnull INSERT INTO #sc VALUES (1, 'abc')
+tabletype 4
+query CREATE TABLE #sv (x integer, y char(3))
+directnull INSERT INTO #sv VALUES (1, 'abc')
+# A plain SELECT of each, in each statement type.
+tabletype 1
+query SELECT * FROM #sa
+query SELECT * FROM #sn
+query SELECT * FROM #sc
+query SELECT * FROM #sv
+tabletype 2
+query SELECT * FROM #sa
+query SELECT * FROM #sn
+query SELECT * FROM #sc
+query SELECT * FROM #sv
+tabletype 3
+query SELECT * FROM #sa
+query SELECT * FROM #sn
+query SELECT * FROM #sc
+query SELECT * FROM #sv
+tabletype 4
+query SELECT * FROM #sa
+query SELECT * FROM #sn
+query SELECT * FROM #sc
+query SELECT * FROM #sv
+# The other statements, of a table made as another type than the statement's.
+tabletype 3
+directnull INSERT INTO #sn VALUES (2, 'x')
+directnull UPDATE #sn SET x = 3
+directnull DELETE FROM #sn
+query CREATE INDEX ix ON #sn (x)
+query ALTER TABLE #sn ADD z integer
+query DROP TABLE #sn
+tabletype 1
+query SELECT * FROM #sn
+# Joins.
+query SELECT * FROM #sn a JOIN #sn b ON a.x = b.x
+query SELECT * FROM #sn a, #sn b
+query SELECT * FROM #sn a LEFT JOIN #sn b ON a.x = b.x
+query SELECT * FROM #sa a JOIN #sn b ON a.x = b.x
+query SELECT * FROM #sn a JOIN #sv b ON a.x = b.x
+query SELECT * FROM #sn WHERE x IN (SELECT x FROM #sa)
+query SELECT * FROM #sn UNION SELECT x, y FROM #sa
+tabletype 3
+query SELECT * FROM #sa a JOIN #sa b ON a.x = b.x
+query SELECT * FROM #sa a JOIN t ON a.x = t.n
+query SELECT * FROM #sa a JOIN #sn b ON a.x = b.x
+query SELECT * FROM #sn a JOIN #sa b ON a.x = b.x
+# The statement whose last run was a SELECT that read the table reads it again
+# as it is, whatever its type is now; no other statement does, nor one that
+# opened another table since, and not for DML or DDL.
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+query SELECT * FROM #sn
+query SELECT * FROM #sn
+tabletype 1
+query SELECT * FROM #sn
+query SELECT * FROM t
+tabletype 3
+query SELECT * FROM #sn
+tabletype 1
+directnull INSERT INTO #sn VALUES (5, 'q')
+tabletype 3
+query SELECT * FROM #sn
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+directnull INSERT INTO #sn VALUES (6, 'w')
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+directnull UPDATE #sn SET x = 7
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+query CREATE INDEX iy ON #sn (x)
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+query ALTER TABLE #sn ADD w integer
+tabletype 1
+query SELECT * FROM #sn
+tabletype 3
+query DROP TABLE #sn
+# A statement of its own has read nothing before.
+stmt
+tabletype 1
+query SELECT * FROM #sa
+tabletype 3
+query SELECT * FROM #sa

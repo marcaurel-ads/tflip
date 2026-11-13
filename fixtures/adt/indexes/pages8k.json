@@ -1,0 +1,29 @@
+{
+ "table_type": "adt",
+ "record_count": 5,
+ "record_length": 25,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "name", "type": 4, "type_name": "Character", "length": 20, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "BY_NAME", "file": "pages8k.adi", "expression": "name", "condition": "", "collation": "", "key_length": 20, "key_type": 4, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 5, "keys": [
+   {"recno": 3, "key": "427261766f202020202020202020202020202020"},
+   {"recno": 1, "key": "436861726c696520202020202020202020202020"},
+   {"recno": 5, "key": "44656c7461202020202020202020202020202020"},
+   {"recno": 2, "key": "616c706861202020202020202020202020202020"},
+   {"recno": 4, "key": "6563686f20202020202020202020202020202020"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000436861726c696520202020202020202020202020", "values": {"name": {"text": "Charlie             "}}},
+  {"recno": 2, "deleted": false, "raw": "0400000000616c706861202020202020202020202020202020", "values": {"name": {"text": "alpha               "}}},
+  {"recno": 3, "deleted": false, "raw": "0400000000427261766f202020202020202020202020202020", "values": {"name": {"text": "Bravo               "}}},
+  {"recno": 4, "deleted": false, "raw": "04000000006563686f20202020202020202020202020202020", "values": {"name": {"text": "echo                "}}},
+  {"recno": 5, "deleted": false, "raw": "040000000044656c7461202020202020202020202020202020", "values": {"name": {"text": "Delta               "}}}
+ ]
+}

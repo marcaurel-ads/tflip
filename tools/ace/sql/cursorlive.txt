@@ -1,0 +1,831 @@
+# Cursors in scripts that read their tables live: what a cursor sees of the
+# changes the script makes to its tables after OPEN (updates, inserts and
+# deletes, by a cursor with and without ORDER BY, with a WHERE and subqueries, a
+# DISTINCT, a GROUP BY and so on), in an empty folder.
+#
+#     run.sh <work> <ace32.dll> cursorlive.txt > ../../../fixtures/sql/cursorlive.json
+stmt
+query CREATE TABLE t (n integer, s char(4))
+query CREATE TABLE u (k integer, g integer)
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET s = 'z' WHERE n = 2; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET s = 'z' WHERE n = 2; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET s = 'z' WHERE n = 1; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); INSERT INTO t VALUES (5, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN INSERT INTO t VALUES (0, 'new'); INSERT INTO t VALUES (5, 'new'); END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t WHERE n = 2; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN DELETE FROM t WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN DELETE FROM t WHERE n = 2; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t WHERE n = 1; INSERT INTO t VALUES (7, 'ins'); END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 10 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 10 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 10 WHERE n = 1; x = x + c.s + TRIM(CAST(c.n AS SQL_CHAR)) + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 5 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = n + 10; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t; INSERT INTO t VALUES (9, 'x'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; INSERT INTO t VALUES (9, 'x'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET s = 'z' WHERE n = 2; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET s = 'z' WHERE n = 2; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET s = 'z' WHERE n = 1; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); INSERT INTO t VALUES (5, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN INSERT INTO t VALUES (0, 'new'); INSERT INTO t VALUES (5, 'new'); END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t WHERE n = 2; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN DELETE FROM t WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN DELETE FROM t WHERE n = 2; x = x + c.s + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN DELETE FROM t WHERE n = 1; INSERT INTO t VALUES (7, 'ins'); END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 10 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 10 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 10 WHERE n = 1; x = x + c.s + TRIM(CAST(c.n AS SQL_CHAR)) + '/'; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 1 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 5 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = n + 10; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t; INSERT INTO t VALUES (9, 'x'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; INSERT INTO t VALUES (9, 'x'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 5 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 0 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 5 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (6, 'new'); INSERT INTO t VALUES (0, 'no'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z'; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 5 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 0 WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 0 WHERE n = 3; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 2 THEN UPDATE t SET n = 5 WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (6, 'new'); INSERT INTO t VALUES (0, 'no'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z'; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n * 2 AS n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; UPDATE t SET n = n + 1 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n * 2 AS n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, UPPER(s) AS s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; UPDATE t SET n = n + 1 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, UPPER(s) AS s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; UPDATE t SET n = n + 1 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT * FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY s DESC; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; UPDATE t SET n = n + 1 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY s DESC; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT TOP 2 n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT DISTINCT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT DISTINCT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT DISTINCT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT n FROM t WHERE n > 1); DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT n FROM t WHERE n > 1); DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT n FROM t WHERE n > 1); DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t); DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t); DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t); DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT {static} n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT {static} n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT {static} n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT MAX(n) AS n, MAX(s) AS s FROM t; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT MAX(n) AS n, MAX(s) AS s FROM t; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT MAX(n) AS n, MAX(s) AS s FROM t; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, MAX(s) AS s FROM t GROUP BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, MAX(s) AS s FROM t GROUP BY n; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, MAX(s) AS s FROM t GROUP BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n DESC; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY s; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY s; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY s; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n + 0; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n + 0; DECLARE x STRING; x = ''; OPEN c; INSERT INTO t VALUES (0, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n + 0; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t) ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN DELETE FROM t WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 9 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 9; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 9 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n NOT IN (SELECT g FROM u WHERE g > 1) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE EXISTS (SELECT 1 FROM u WHERE u.g = t.n) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 9 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE EXISTS (SELECT 1 FROM u WHERE u.g = t.n) ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 9 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 0 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 0 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u) ORDER BY n; DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 OR c.n = 1 THEN UPDATE u SET g = 0 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t); DECLARE x STRING; x = ''; OPEN c; DELETE FROM t WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(n) FROM t); DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN DELETE FROM t WHERE n = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u); DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 9 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u); DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 9; INSERT INTO u VALUES (5, 3); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n IN (SELECT g FROM u); DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 9 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n NOT IN (SELECT g FROM u WHERE g > 1); DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 1 WHERE g = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE EXISTS (SELECT 1 FROM u WHERE u.g = t.n); DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 9 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE EXISTS (SELECT 1 FROM u WHERE u.g = t.n); DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 9 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u); DECLARE x STRING; x = ''; OPEN c; UPDATE u SET g = 0 WHERE g = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ',';  END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u); DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 THEN UPDATE u SET g = 0 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+directnull DELETE FROM u
+directnull INSERT INTO u VALUES (10, 1)
+directnull INSERT INTO u VALUES (20, 2)
+directnull INSERT INTO u VALUES (30, 3)
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > (SELECT MIN(g) FROM u); DECLARE x STRING; x = ''; OPEN c;  WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n = 3 OR c.n = 1 THEN UPDATE u SET g = 0 WHERE g = 1; END IF; END WHILE;  SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1 ORDER BY n; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 0 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE t SET n = 0 WHERE n = 3; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; DELETE FROM t WHERE n = c.n; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; DELETE FROM t WHERE n = c.n; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; IF c.n < 5 THEN INSERT INTO t VALUES (c.n + 10, 'l'); END IF; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; FETCH c; INSERT INTO t VALUES (9, 'p'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t; DECLARE x STRING; x = ''; OPEN c; FETCH c; DELETE FROM t WHERE n = 3; DELETE FROM t WHERE n = 2; INSERT INTO t VALUES (9, 'p'); INSERT INTO t VALUES (8, 'q'); INSERT INTO t VALUES (7, 'r'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t WHERE n > 0; DECLARE x STRING; x = ''; OPEN c; FETCH c; DELETE FROM t WHERE n = 3; DELETE FROM t WHERE n = 2; INSERT INTO t VALUES (9, 'p'); INSERT INTO t VALUES (8, 'q'); INSERT INTO t VALUES (7, 'r'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; DELETE FROM t WHERE n = 3; DELETE FROM t WHERE n = 2; INSERT INTO t VALUES (9, 'p'); INSERT INTO t VALUES (8, 'q'); INSERT INTO t VALUES (7, 'r'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE d CURSOR AS SELECT n, s FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; OPEN d; FETCH c; UPDATE t SET s = 'z' WHERE n = 2; WHILE FETCH d DO x = x + c.s + d.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; UPDATE t SET n = 50 WHERE n = 1; x = TRIM(CAST(c.n AS SQL_CHAR)); FETCH c; x = x + TRIM(CAST(c.n AS SQL_CHAR)); SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; UPDATE t SET n = 50 WHERE n = 1; x = TRIM(CAST(c.n AS SQL_CHAR)); SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; DELETE FROM t WHERE n = 1; x = TRIM(CAST(c.n AS SQL_CHAR)); FETCH c; x = x + TRIM(CAST(c.n AS SQL_CHAR)); SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; DELETE FROM t; INSERT INTO t VALUES (8, 'z'); FETCH c; x = TRIM(CAST(c.n AS SQL_CHAR)); SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; FETCH c; FETCH c; DELETE FROM t WHERE n = 3; x = TRIM(CAST(c.n AS SQL_CHAR)); SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t ORDER BY n; DECLARE x STRING; x = ''; OPEN c; FETCH c; FETCH c; FETCH c; FETCH c; INSERT INTO t VALUES (8, 'z'); IF FETCH c THEN x = 'more'; ELSE x = 'none'; END IF; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query DECLARE c CURSOR AS SELECT n FROM t; DECLARE x STRING; x = ''; OPEN c; FETCH c; FETCH c; FETCH c; FETCH c; INSERT INTO t VALUES (8, 'z'); IF FETCH c THEN x = 'more'; ELSE x = 'none'; END IF; SELECT x AS x FROM system.iota
+directnull DELETE FROM t
+directnull INSERT INTO t VALUES (1, 'a')
+directnull INSERT INTO t VALUES (2, 'b')
+directnull INSERT INTO t VALUES (3, 'c')
+query CREATE TABLE w (n integer, s char(4))
+query CREATE INDEX wn ON w (n)
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w; DECLARE x STRING; x = ''; OPEN c; UPDATE w SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (5, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w; DECLARE x STRING; x = ''; OPEN c; UPDATE w SET n = 7 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE w SET s = 'z' WHERE n = 2; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; INSERT INTO w VALUES (5, 'new'); WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')
+query DECLARE c CURSOR AS SELECT n, s FROM w WHERE n > 1; DECLARE x STRING; x = ''; OPEN c; UPDATE w SET n = 7 WHERE n = 1; WHILE FETCH c DO x = x + TRIM(CAST(c.n AS SQL_CHAR)) + ':' + c.s + ','; END WHILE; SELECT x AS x FROM system.iota
+directnull DELETE FROM w
+directnull INSERT INTO w VALUES (3, 'c')
+directnull INSERT INTO w VALUES (1, 'a')
+directnull INSERT INTO w VALUES (2, 'b')

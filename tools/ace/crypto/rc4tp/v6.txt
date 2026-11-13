@@ -1,0 +1,22 @@
+# VFP tables of an AES-128 dictionary that does not encrypt new tables: what they look like before and after sp_EncryptTable and sp_DecryptTable (no ENCRYPT TRUE: the dictionary keeps its records in the clear).
+connect Data Source=%D\v6\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "d.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+disconnect
+connect Data Source=%D\v6\d.add;ServerType=LOCAL;User ID=ADSSYS;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+stmttype 4
+sql CREATE TABLE ta (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO ta VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO ta VALUES (2, 'bbbbbbbbbb', 'two memo')
+sql CREATE TABLE tb (id INTEGER, name CHAR(10), note MEMO NULL)
+sql INSERT INTO tb VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO tb VALUES (2, 'bbbbbbbbbb', NULL)
+sql CREATE TABLE tc (id INTEGER)
+sql CREATE TABLE td (id INTEGER, name CHAR(10), note MEMO)
+sql INSERT INTO td VALUES (1, 'aaaaaaaaaa', 'one')
+sql INSERT INTO td VALUES (2, 'bbbbbbbbbb', 'two memo')
+sql EXECUTE PROCEDURE sp_EncryptTable('td')
+sql EXECUTE PROCEDURE sp_DecryptTable('td')
+sql CREATE TABLE te (id INTEGER, name CHAR(10), note MEMO)
+sql EXECUTE PROCEDURE sp_EncryptTable('te')
+sql EXECUTE PROCEDURE sp_DecryptTable('te')
+disconnect

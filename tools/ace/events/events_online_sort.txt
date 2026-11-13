@@ -1,0 +1,73 @@
+# The sequence ADS_BUGS has an [unconfirmed] entry for: a sorted SELECT right
+# after ALTER ONLINE TABLE (with another connection's writes meanwhile), then
+# again with an index on the sorted column, several times over.
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> events_online_sort.txt
+
+free 0
+sql 0 CREATE TABLE big (n INTEGER, s CHAR(40), x DOUBLE)
+sql 0 INSERT INTO big VALUES (1, 'abcdefghij', 1.5)
+sql 0 INSERT INTO big SELECT n + 1, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 2, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 4, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 8, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 16, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 32, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 64, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 128, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 256, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 512, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 1024, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 2048, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 4096, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 8192, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 16384, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 32768, s, x FROM big
+sql 0 INSERT INTO big SELECT n + 65536, s, x FROM big
+free 1
+async 0 ALTER ONLINE TABLE big ADD COLUMN c0 INTEGER
+sleep 100
+sql 1 UPDATE big SET s = 'xx' WHERE n = 22222
+sql 1 INSERT INTO big (n, s) VALUES (-1, 'ww')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big
+async 0 ALTER ONLINE TABLE big ADD COLUMN c1 INTEGER
+sleep 100
+sql 1 UPDATE big SET s = 'xx' WHERE n = 22223
+sql 1 INSERT INTO big (n, s) VALUES (-2, 'ww')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big
+async 0 ALTER ONLINE TABLE big ADD COLUMN c2 INTEGER
+sleep 100
+sql 1 UPDATE big SET s = 'xx' WHERE n = 22224
+sql 1 INSERT INTO big (n, s) VALUES (-3, 'ww')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big
+sql 0 CREATE INDEX ixn ON big (n)
+async 0 ALTER ONLINE TABLE big ADD COLUMN c3 INTEGER
+sleep 100
+sql 1 INSERT INTO big (n, s) VALUES (-4, 'vv')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT n FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big
+async 0 ALTER ONLINE TABLE big ADD COLUMN c4 INTEGER
+sleep 100
+sql 1 INSERT INTO big (n, s) VALUES (-5, 'vv')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT n FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big
+async 0 ALTER ONLINE TABLE big ADD COLUMN c5 INTEGER
+sleep 100
+sql 1 INSERT INTO big (n, s) VALUES (-6, 'vv')
+join 0
+sql 1 SELECT * FROM big WHERE n < 0 ORDER BY n
+sql 1 SELECT n FROM big WHERE n < 0 ORDER BY n DESC
+sql 1 SELECT COUNT(*) FROM big

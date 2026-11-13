@@ -1,0 +1,38 @@
+# Clear DBF tables with indexes of an RC4 dictionary with ENCRYPT_INDEXES on and ENCRYPT_NEW_TABLE off: sp_EncryptTable enciphers the index files, sp_DecryptTable puts them back.
+ddcreate 0 %D\y9\d.add
+stmttype 2
+sql CREATE TABLE acdx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO acdx VALUES (1, 'first memo', 'one')
+sql INSERT INTO acdx VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO acdx VALUES (3, 'third', 'three')
+sql DELETE FROM acdx WHERE id = 2
+sql CREATE INDEX acdx_name ON acdx (name)
+stmttype 1
+sql CREATE TABLE antx (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO antx VALUES (1, 'first memo', 'one')
+sql INSERT INTO antx VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO antx VALUES (3, 'third', 'three')
+sql DELETE FROM antx WHERE id = 2
+sql CREATE INDEX antx_name ON antx (name)
+stmttype 4
+sql CREATE TABLE avfp (id INTEGER, note MEMO, name CHAR(10))
+sql INSERT INTO avfp VALUES (1, 'first memo', 'one')
+sql INSERT INTO avfp VALUES (2, 'second memo is a bit longer than the first one', 'two')
+sql INSERT INTO avfp VALUES (3, 'third', 'three')
+sql DELETE FROM avfp WHERE id = 2
+sql CREATE INDEX avfp_name ON avfp (name)
+sql EXECUTE PROCEDURE sp_ModifyDatabase('ENCRYPT_TABLE_PASSWORD', 'tablepw')
+dbset 120 1
+stmttype 2
+sql EXECUTE PROCEDURE sp_EncryptTable('acdx')
+sql CREATE INDEX acdx_id ON acdx (id)
+sql INSERT INTO acdx VALUES (4, 'fourth', 'four')
+stmttype 1
+sql EXECUTE PROCEDURE sp_EncryptTable('antx')
+sql CREATE INDEX antx_id ON antx (id)
+sql INSERT INTO antx VALUES (4, 'fourth', 'four')
+stmttype 4
+sql EXECUTE PROCEDURE sp_EncryptTable('avfp')
+sql CREATE INDEX avfp_id ON avfp (id)
+sql INSERT INTO avfp VALUES (4, 'fourth', 'four')
+disconnect

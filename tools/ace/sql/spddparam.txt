@@ -1,0 +1,62 @@
+# The system procedures of the dictionary objects called with parameters (?)
+# for their arguments: what the parameters of each type take.
+#
+#     run.sh <work> <ace32.dll> spddparam.txt > ../../../fixtures/sql/spddparam.json
+ddcreate de\de.add
+stmt
+direct CREATE TABLE parent (id INTEGER, code CHAR(10), PRIMARY KEY (id))
+direct CREATE VIEW v1 AS SELECT id FROM parent
+prepare EXECUTE PROCEDURE sp_CreateUser(?, ?, ?)
+param 1 string u1
+param 2 string pw1
+param 3 string first user
+exec
+param 1 string u1
+exec
+param 1 null
+exec
+param 1 long 5
+exec
+param 1 string u2
+param 2 string this password is far too long to fit
+exec
+prepare EXECUTE PROCEDURE sp_CreateGroup(:g, :c)
+param g string g1
+param c string a group
+exec
+prepare EXECUTE PROCEDURE sp_RenameDDObject(?, ?, ?, ?)
+param 1 string v1
+param 2 string w1
+param 3 long 6
+param 4 long 0
+exec
+param 1 string w1
+param 2 string w2
+param 3 double 6.5
+exec
+param 1 string w2
+param 2 string w3
+param 3 short 6
+exec
+param 1 string w3
+param 2 string w4
+param 3 string 6
+exec
+prepare EXECUTE PROCEDURE sp_EnableTriggers(?, ?, ?, ?)
+param 1 string parent
+param 2 string
+param 3 long 1
+param 4 long 0
+exec
+param 3 logical 1
+exec
+param 3 double 1
+exec
+param 3 long 2
+exec
+param 3 null
+exec
+stmt
+query SELECT name FROM system.users
+query SELECT name FROM system.usergroups
+query SELECT name FROM system.views

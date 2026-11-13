@@ -1,0 +1,27 @@
+[package]
+name = "tflip-studio"
+description = "A web-based admin tool for tflip, replacing Advantage Data Architect"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+argon2 = "0.6.0"
+axum = { version = "0.8.9", features = ["ws"] }
+base64 = "0.23.1"
+chacha20poly1305 = "0.11.0"
+dirs = "7.0.0"
+getrandom = "0.2.17"
+serde_json = "1.0.151"
+serde.workspace = true
+subtle = "2.6.1"
+tflip-engine = { path = "../tflip-engine" }
+tflip-protocol = { path = "../tflip-protocol" }
+tokio = { version = "1.54.1", features = ["macros", "net", "rt-multi-thread"] }
+ts-rs = "12.0.1"
+
+[dev-dependencies]
+serde_json = "1.0.151"
+tflip-storage = { path = "../tflip-storage" }
+tower = { version = "0.5.3", features = ["util"] }

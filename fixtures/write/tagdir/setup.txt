@@ -1,0 +1,6 @@
+tabletype adt
+createtable t.adt 0 a,Character,4;b,Integer
+close
+tabletype cdx
+createtable t.dbf 0 a,Character,4;b,Integer
+close

@@ -1,0 +1,655 @@
+{
+ "ABS(-5)": {
+  "type": "Integer",
+  "text": "5"
+ },
+ "ACOS(1)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "ASIN(0)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "ATAN(0)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "ATAN2(0,1)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "CEILING(2.1)": {
+  "type": "Numeric",
+  "text": " 3.0"
+ },
+ "COS(0)": {
+  "type": "Double",
+  "text": "1"
+ },
+ "COT(1)": {
+  "type": "Double",
+  "text": "0.64209261593433065"
+ },
+ "DEGREES(PI())": {
+  "type": "Double",
+  "text": "180"
+ },
+ "EXP(0)": {
+  "type": "Double",
+  "text": "1"
+ },
+ "FLOOR(2.9)": {
+  "type": "Numeric",
+  "text": " 2.0"
+ },
+ "LOG(1)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "LOG10(1000)": {
+  "type": "Double",
+  "text": "3"
+ },
+ "MOD(17,5)": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "PI()": {
+  "type": "Double",
+  "text": "3.1415926535897931"
+ },
+ "POWER(2,10)": {
+  "type": "Double",
+  "text": "1024"
+ },
+ "RADIANS(180)": {
+  "type": "Double",
+  "text": "3.1415926535897931"
+ },
+ "RAND(1)": {
+  "type": "Double"
+ },
+ "ROUND(3.14159,2)": {
+  "type": "Numeric",
+  "text": " 3.14000"
+ },
+ "SIGN(-3)": {
+  "type": "ShortInt",
+  "text": "-1"
+ },
+ "SIN(0)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "SQRT(2)": {
+  "type": "Double",
+  "text": "1.4142135623730951"
+ },
+ "TAN(0)": {
+  "type": "Double",
+  "text": "0"
+ },
+ "TRUNCATE(3.789,1)": {
+  "type": "Numeric",
+  "text": " 3.700"
+ },
+ "CEILING(5)": {
+  "type": "Integer",
+  "text": "5"
+ },
+ "ROUND(5,0)": {
+  "type": "Integer",
+  "text": "5"
+ },
+ "ROUND(3.14159)": {
+  "type": "Numeric",
+  "text": " 3.00000"
+ },
+ "FLOOR(CAST(2.5 AS SQL_DOUBLE))": {
+  "type": "Double",
+  "text": "2"
+ },
+ "ASCII('A')": {
+  "type": "ShortInt",
+  "text": "65"
+ },
+ "AT('l','hello')": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "BIT_LENGTH('abc')": {
+  "type": "Integer",
+  "text": "24"
+ },
+ "CHAR(66)": {
+  "type": "Character",
+  "text": "B"
+ },
+ "CHAR_LENGTH('hello')": {
+  "type": "Integer",
+  "text": "5"
+ },
+ "CHARACTER_LENGTH('hi')": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "CHAR2HEX('AB')": {
+  "type": "VarBinaryFox",
+  "hex": "ab"
+ },
+ "CONCAT('foo','bar')": {
+  "type": "VarCharFox",
+  "text": "foobar"
+ },
+ "DIFFERENCE('Smith','Smyth')": {
+  "type": "Integer",
+  "text": "4"
+ },
+ "ENDSWITH('hello','lo')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "HEX2CHAR(CHAR2HEX('AB'))": {
+  "type": "VarCharFox",
+  "text": "AB"
+ },
+ "INSERT('abcde',2,1,'XY')": {
+  "type": "VarCharFox",
+  "text": "aXYcde"
+ },
+ "LCASE('ABC')": {
+  "type": "VarCharFox",
+  "text": "abc"
+ },
+ "LEFT('hello',2)": {
+  "type": "VarCharFox",
+  "text": "he"
+ },
+ "LEN('hi ')": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "LENGTH('hi ')": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "LOCATE('l','hello')": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "LOWER('ABC')": {
+  "type": "VarCharFox",
+  "text": "abc"
+ },
+ "LTRIM('  x')": {
+  "type": "VarCharFox",
+  "text": "x"
+ },
+ "OCTET_LENGTH('abc')": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "POSITION('l' IN 'hello')": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "RAT('l','hello')": {
+  "type": "Integer",
+  "text": "4"
+ },
+ "REPEAT('ab',3)": {
+  "type": "VarCharFox",
+  "text": "ababab"
+ },
+ "REPLACE('a-b-c','-','_')": {
+  "type": "VarCharFox",
+  "text": "a_b_c"
+ },
+ "REVERSE('abc')": {
+  "type": "VarCharFox",
+  "text": "cba"
+ },
+ "RIGHT('hello',2)": {
+  "type": "VarCharFox",
+  "text": "lo"
+ },
+ "RTRIM('x  ')": {
+  "type": "VarCharFox",
+  "text": "x"
+ },
+ "SOUNDEX('Smith')": {
+  "type": "VarCharFox",
+  "text": "S530"
+ },
+ "SPACE(3)": {
+  "type": "VarCharFox",
+  "text": "   "
+ },
+ "STARTSWITH('hello','he')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "STR(3.14,6,2)": {
+  "type": "VarCharFox",
+  "text": "  3.14"
+ },
+ "STRZERO(42,5,0)": {
+  "type": "VarCharFox",
+  "text": "00042"
+ },
+ "SUBSTRING('hello',2,3)": {
+  "type": "VarCharFox",
+  "text": "ell"
+ },
+ "SUBSTRINGOF('ell','hello')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "TRIM('  abc  ')": {
+  "type": "VarCharFox",
+  "text": "abc"
+ },
+ "TRIM(LEADING 'x' FROM 'xxabc')": {
+  "type": "VarCharFox",
+  "text": "abc"
+ },
+ "UCASE('abc')": {
+  "type": "VarCharFox",
+  "text": "ABC"
+ },
+ "UPPER('abc')": {
+  "type": "VarCharFox",
+  "text": "ABC"
+ },
+ "UPPER(CAST('a' AS SQL_CHAR(3)))": {
+  "type": "Character",
+  "text": "A  "
+ },
+ "AT('b','abcb',3)": {
+  "error": 2159
+ },
+ "ALLTRIM('  a  ')": {
+  "type": "VarCharFox",
+  "text": "a"
+ },
+ "OINDEXOF('abc','c')": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "OSUBSTRING('abcdef',2,2)": {
+  "type": "VarCharFox",
+  "text": "cd"
+ },
+ "VAL('42.5')": {
+  "type": "Double",
+  "text": "42.5"
+ },
+ "CREATETIMESTAMP(2026,9,29,13,45,30,0)": {
+  "type": "TimeStamp",
+  "text": "2026-09-29 13:45:30.000"
+ },
+ "CTOD('2026-09-29')": {
+  "type": "Date",
+  "text": "2026-09-29"
+ },
+ "CTOT('13:45:30')": {
+  "type": "Time",
+  "text": "13:45:30.000"
+ },
+ "CTOTS('2026-09-29 13:45:30')": {
+  "type": "TimeStamp",
+  "text": "2026-09-29 13:45:30.000"
+ },
+ "CURDATE()": {
+  "type": "Date"
+ },
+ "CURRENT_DATE()": {
+  "type": "Date"
+ },
+ "CURRENT_TIME()": {
+  "type": "Time"
+ },
+ "CURRENT_TIMESTAMP()": {
+  "type": "TimeStamp"
+ },
+ "CURRENT_TIMESTAMP_UTC()": {
+  "type": "TimeStamp"
+ },
+ "CURTIME()": {
+  "type": "Time"
+ },
+ "DATE()": {
+  "type": "Date"
+ },
+ "DAY({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "29"
+ },
+ "DAYNAME({d '2026-09-29'})": {
+  "type": "VarCharFox",
+  "text": "Tuesday"
+ },
+ "DAYOFMONTH({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "29"
+ },
+ "DAYOFWEEK({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "3"
+ },
+ "DAYOFYEAR({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "272"
+ },
+ "DTOC({d '2026-09-29'})": {
+  "type": "VarCharFox",
+  "text": "2026-09-29"
+ },
+ "DTOC({d '2026-09-29'},1)": {
+  "type": "VarCharFox",
+  "text": "20260929"
+ },
+ "DTOS({d '2026-09-29'})": {
+  "type": "VarCharFox",
+  "text": "20260929"
+ },
+ "EXTRACT(YEAR FROM {d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "2026"
+ },
+ "EXTRACT(FRAC_SECOND FROM {ts '2026-09-29 13:45:30.123'})": {
+  "type": "ShortInt",
+  "text": "123"
+ },
+ "Date'2026-09-29'": {
+  "type": "Date",
+  "text": "2026-09-29"
+ },
+ "FRAC_SECOND({ts '2026-09-29 13:45:30.123'})": {
+  "type": "ShortInt",
+  "text": "123"
+ },
+ "HOUR({t '13:45:30'})": {
+  "type": "ShortInt",
+  "text": "13"
+ },
+ "ISOWEEK({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "40"
+ },
+ "MINUTE({t '13:45:30'})": {
+  "type": "ShortInt",
+  "text": "45"
+ },
+ "MONTH({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "9"
+ },
+ "MONTHNAME({d '2026-09-29'})": {
+  "type": "VarCharFox",
+  "text": "September"
+ },
+ "NOW()": {
+  "type": "TimeStamp"
+ },
+ "QUARTER({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "3"
+ },
+ "SECOND({t '13:45:30'})": {
+  "type": "ShortInt",
+  "text": "30"
+ },
+ "STOD('20260929')": {
+  "type": "Date",
+  "text": "2026-09-29"
+ },
+ "STOTS('20260929 13:45:30.000')": {
+  "type": "TimeStamp",
+  "text": "2026-09-29 13:45:30.000"
+ },
+ "TIME()": {
+  "type": "VarCharFox"
+ },
+ "TIMESTAMPADD(SQL_TSI_DAY,7,{ts '2026-09-29 00:00:00'})": {
+  "type": "TimeStamp",
+  "text": "2026-10-06 00:00:00.000"
+ },
+ "TIMESTAMPDIFF(SQL_TSI_DAY,{ts '2026-01-01 00:00:00'},{ts '2026-12-31 00:00:00'})": {
+  "type": "Integer",
+  "text": "364"
+ },
+ "TSTOD({ts '2026-09-29 13:45:30'})": {
+  "type": "Date",
+  "text": "2026-09-29"
+ },
+ "TTOC({ts '2026-09-29 13:45:30'},1)": {
+  "type": "VarCharFox",
+  "text": "20260929134530"
+ },
+ "WEEK({d '2026-09-29'})": {
+  "type": "ShortInt",
+  "text": "40"
+ },
+ "YEAR({d '2026-09-29'})": {
+  "type": "Integer",
+  "text": "2026"
+ },
+ "APPLICATIONID()": {
+  "type": "Memo"
+ },
+ "BASE64ENCODE('hi')": {
+  "type": "VarCharFox",
+  "text": "aGk="
+ },
+ "BASE64DECODE('aGk=')": {
+  "type": "VarBinaryFox",
+  "hex": "6869"
+ },
+ "CAST('123' AS SQL_INTEGER)": {
+  "type": "Integer",
+  "text": "123"
+ },
+ "CAST(3.14159 AS SQL_NUMERIC(10,2))": {
+  "type": "Numeric",
+  "text": "        3.14"
+ },
+ "CAST(1 AS SQL_CHAR(3))": {
+  "type": "Character",
+  "text": "1  "
+ },
+ "CAST(1 AS SQL_BIT)": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "CAST(3 AS SQL_MONEY)": {
+  "type": "Money",
+  "text": "3.0000"
+ },
+ "COALESCE(NULL,NULL,7)": {
+  "type": "Integer",
+  "text": "7"
+ },
+ "CONVERT('42',SQL_INTEGER)": {
+  "type": "Integer",
+  "text": "42"
+ },
+ "CAST(3.9 AS SQL_INTEGER)": {
+  "error": 2111
+ },
+ "CONVERT(3.9,SQL_INTEGER)": {
+  "error": 2111
+ },
+ "CAST(CAST(3.9 AS SQL_DOUBLE) AS SQL_INTEGER)": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "DATABASE()": {
+  "type": "VarCharFox"
+ },
+ "DELETED()": {
+  "type": "Logical",
+  "text": "F"
+ },
+ "EMPTY('')": {
+  "type": "Logical",
+  "text": "F"
+ },
+ "IFNULL(CAST(NULL AS SQL_INTEGER),9)": {
+  "type": "Integer",
+  "text": "9"
+ },
+ "IIF(1>0,'y','n')": {
+  "type": "VarCharFox",
+  "text": "y"
+ },
+ "ISNULL('a','x')": {
+  "type": "VarCharFox",
+  "text": "a"
+ },
+ "LASTAUTOINC(CONNECTION)": {
+  "type": "Integer",
+  "null": true
+ },
+ "NEWID()": {
+  "type": "GUID"
+ },
+ "NEWIDSTRING()": {
+  "type": "VarCharFox"
+ },
+ "NEWIDSTRING(Curlybraces)": {
+  "type": "VarCharFox"
+ },
+ "NEWIDSTRING('M')": {
+  "error": 2159
+ },
+ "RECNO()": {
+  "type": "Integer",
+  "text": "0"
+ },
+ "ROWNUM()": {
+  "type": "Integer",
+  "text": "1"
+ },
+ "USER()": {
+  "type": "VarCharFox"
+ },
+ "CONTAINS('Both medical doctors','doctor*')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "CONTAINS('Both medical doctors','nurse')": {
+  "type": "Logical",
+  "text": "F"
+ },
+ "CONTAINS(CAST(NULL AS SQL_CHAR),'nurse')": {
+  "type": "Logical",
+  "null": true
+ },
+ "CONTAINS('an apple','an')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "CONTAINS('alpha x y z of the bravo','alpha near(5) bravo')": {
+  "type": "Logical",
+  "text": "F"
+ },
+ "CONTAINS('alpha x y z of the bravo','alpha near(6) bravo')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "CONTAINS('O''Malley','OMalley')": {
+  "type": "Logical",
+  "text": "T"
+ },
+ "SCORE('doctors and doctors','doctors')": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "SCOREDISTINCT('medical doctors and doctors','medical or doctors or nurse')": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "CONTAINS('abc','\"abc')": {
+  "error": 7094
+ },
+ "CONTAINS('abc','(abc')": {
+  "error": 7095
+ },
+ "CONTAINS('abc','abc and')": {
+  "error": 7096
+ },
+ "CONTAINS('abc','abc)')": {
+  "error": 7097
+ },
+ "CONTAINS('abc','abc near(1) (not def)')": {
+  "error": 7098
+ },
+ "CONTAINS('abc','abc near(0) def')": {
+  "error": 7099
+ },
+ "CONTAINS(*,'abc')": {
+  "error": 7102
+ },
+ "CONTAINS(5,'abc')": {
+  "error": 2159
+ },
+ "__agg:COUNT(*)": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "__agg:SUM(n)": {
+  "type": "Integer",
+  "text": "6"
+ },
+ "__agg:AVG(n)": {
+  "type": "Integer",
+  "text": "2"
+ },
+ "__agg:MIN(n)": {
+  "type": "Integer",
+  "text": "1"
+ },
+ "__agg:MAX(n)": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "__agg:COUNT(DISTINCT n)": {
+  "type": "Integer",
+  "text": "3"
+ },
+ "__agg:GROUP_CONCAT(c)": {
+  "type": "VarCharFox",
+  "text": "1,2,3"
+ },
+ "__agg:GROUP_CONCAT(c SEPARATOR '; ')": {
+  "type": "VarCharFox",
+  "text": "1; 2; 3"
+ },
+ "__agg:GROUP_CONCAT(c ORDER BY c DESC)": {
+  "type": "VarCharFox",
+  "text": "3,2,1"
+ },
+ "CHR(65)": {
+  "error": 2158
+ },
+ "TODAY()": {
+  "error": 2158
+ },
+ "NOW_UTC()": {
+  "error": 2158
+ },
+ "SUBSTR('hello',2,3)": {
+  "error": 2158
+ },
+ "PAD('x',5,'.')": {
+  "error": 2158
+ },
+ "INLIST(2,1,2,3)": {
+  "error": 2158
+ },
+ "DESCEND('abc')": {
+  "error": 2158
+ }
+}

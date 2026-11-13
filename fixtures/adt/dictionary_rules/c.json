@@ -1,0 +1,24 @@
+{
+ "table_type": "adt",
+ "record_count": 1,
+ "record_length": 20,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "",
+ "fields": [
+  {"name": "cid", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "pid", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "n", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "r", "type": 4, "type_name": "Character", "length": 3, "decimals": 0}
+ ],
+ "indexes": [
+  {"name": "C_FK", "file": "c.adi", "expression": "pid", "condition": "", "collation": "", "key_length": 8, "key_type": 2, "unique": false, "descending": false, "candidate": false, "custom": false, "compound": true, "primary_key": false, "nullable": false, "fts": false, "key_count": 1, "keys": [
+   {"recno": 1, "key": "bff0000000000000"}
+  ]}
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "0400000000010000000100000003000000612020", "values": {"cid": {"text": "1"}, "pid": {"text": "1"}, "n": {"text": "3"}, "r": {"text": "a  "}}}
+ ]
+}

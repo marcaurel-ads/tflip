@@ -1,0 +1,134 @@
+# ALTER TABLE of a dictionary's tables whose order the new types cannot build (a
+# field with an order becomes a memo), in shapes of fields and orders: the slots
+# the failed restructure puts the table's objects back in, and, where an order
+# built before the one that failed is, the index file it leaves. On a dictionary
+# connection (de\de.add) in an empty folder; the dictionary and the files it
+# leaves are kept in fixtures/sql/spddalterfail/:
+#
+#     run.sh <work> <ace32.dll> spddalterfail.txt > ../../../fixtures/sql/spddalterfail.json
+#     cp <work>/data/de/de.a* <work>/data/de/[st]*.* ../../../fixtures/sql/spddalterfail/
+ddcreate de\de.add
+stmt
+tabletype 3
+direct CREATE TABLE s00 (a CHAR(4))
+direct CREATE INDEX s00a ON s00 (a)
+direct ALTER TABLE s00 ALTER COLUMN a a MEMO
+direct CREATE TABLE s01 (a CHAR(4), b CHAR(4))
+direct CREATE INDEX s01b ON s01 (b)
+direct ALTER TABLE s01 ALTER COLUMN b b MEMO
+direct CREATE TABLE s02 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s02b ON s02 (b)
+direct ALTER TABLE s02 ALTER COLUMN b b MEMO
+direct CREATE TABLE s03 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s03b ON s03 (b)
+direct ALTER TABLE s03 ALTER COLUMN b b MEMO
+direct CREATE TABLE s04 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4), e CHAR(4))
+direct CREATE INDEX s04b ON s04 (b)
+direct ALTER TABLE s04 ALTER COLUMN b b MEMO
+direct CREATE TABLE s05 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4), e CHAR(4), f CHAR(4))
+direct CREATE INDEX s05b ON s05 (b)
+direct ALTER TABLE s05 ALTER COLUMN b b MEMO
+direct CREATE TABLE s06 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s06b ON s06 (b)
+direct CREATE INDEX s06c ON s06 (c)
+direct INSERT INTO s06 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s06 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s06 ALTER COLUMN b b MEMO
+direct CREATE TABLE s07 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s07b ON s07 (b)
+direct CREATE INDEX s07c ON s07 (c)
+direct CREATE INDEX s07d ON s07 (d)
+direct INSERT INTO s07 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s07 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s07 ALTER COLUMN b b MEMO
+direct CREATE TABLE s08 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s08b ON s08 (b)
+direct CREATE INDEX s08a ON s08 (a)
+direct INSERT INTO s08 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s08 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s08 ALTER COLUMN b b MEMO
+direct CREATE TABLE s09 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4), e CHAR(4))
+direct CREATE INDEX s09c ON s09 (c)
+direct CREATE INDEX s09d ON s09 (d)
+direct CREATE INDEX s09e ON s09 (e)
+direct CREATE INDEX s09b ON s09 (b)
+direct INSERT INTO s09 VALUES ('a0', 'b1', 'c2', 'd3', 'e4')
+direct INSERT INTO s09 VALUES ('z0', 'b1', 'c2', 'd3', 'e4')
+direct ALTER TABLE s09 ALTER COLUMN b b MEMO
+direct CREATE TABLE s10 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s10a ON s10 (a)
+direct CREATE INDEX s10b ON s10 (b)
+direct INSERT INTO s10 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s10 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s10 ALTER COLUMN b b MEMO
+direct CREATE TABLE s11 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s11a ON s11 (a)
+direct CREATE INDEX s11c ON s11 (c)
+direct CREATE INDEX s11b ON s11 (b)
+direct INSERT INTO s11 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s11 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s11 ALTER COLUMN b b MEMO
+tabletype 1
+direct CREATE TABLE s12 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s12a ON s12 (a)
+direct CREATE INDEX s12b ON s12 (b)
+direct INSERT INTO s12 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s12 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s12 ALTER COLUMN b b MEMO
+direct CREATE TABLE s13 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s13c ON s13 (c)
+direct CREATE INDEX s13a ON s13 (a)
+direct CREATE INDEX s13b ON s13 (b)
+direct INSERT INTO s13 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s13 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s13 ALTER COLUMN b b MEMO
+direct CREATE TABLE s14 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s14b ON s14 (b)
+direct CREATE INDEX s14c ON s14 (c)
+direct INSERT INTO s14 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s14 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s14 ALTER COLUMN b b MEMO
+tabletype 2
+direct CREATE TABLE s15 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s15a ON s15 (a)
+direct CREATE INDEX s15b ON s15 (b)
+direct INSERT INTO s15 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s15 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s15 ALTER COLUMN b b MEMO
+direct CREATE TABLE s16 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s16c ON s16 (c)
+direct CREATE INDEX s16a ON s16 (a)
+direct CREATE INDEX s16b ON s16 (b)
+direct INSERT INTO s16 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s16 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s16 ALTER COLUMN b b MEMO
+direct CREATE TABLE s17 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s17b ON s17 (b)
+direct CREATE INDEX s17c ON s17 (c)
+direct INSERT INTO s17 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s17 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s17 ALTER COLUMN b b MEMO
+tabletype 4
+direct CREATE TABLE s18 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s18a ON s18 (a)
+direct CREATE INDEX s18b ON s18 (b)
+direct INSERT INTO s18 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s18 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s18 ALTER COLUMN b b MEMO
+direct CREATE TABLE s19 (a CHAR(4), b CHAR(4), c CHAR(4), d CHAR(4))
+direct CREATE INDEX s19c ON s19 (c)
+direct CREATE INDEX s19a ON s19 (a)
+direct CREATE INDEX s19b ON s19 (b)
+direct INSERT INTO s19 VALUES ('a0', 'b1', 'c2', 'd3')
+direct INSERT INTO s19 VALUES ('z0', 'b1', 'c2', 'd3')
+direct ALTER TABLE s19 ALTER COLUMN b b MEMO
+direct CREATE TABLE s20 (a CHAR(4), b CHAR(4), c CHAR(4))
+direct CREATE INDEX s20b ON s20 (b)
+direct CREATE INDEX s20c ON s20 (c)
+direct INSERT INTO s20 VALUES ('a0', 'b1', 'c2')
+direct INSERT INTO s20 VALUES ('z0', 'b1', 'c2')
+direct ALTER TABLE s20 ALTER COLUMN b b MEMO
+query SELECT * FROM system.tables
+query SELECT * FROM system.indexfiles
+query SELECT Name, Parent FROM system.indexes
+query SELECT Name, Parent FROM system.columns WHERE Parent = 's09' OR Parent = 's13'

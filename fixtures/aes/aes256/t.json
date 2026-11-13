@@ -1,0 +1,20 @@
+{
+ "table_type": "adt",
+ "record_count": 2,
+ "record_length": 37,
+ "memo_block_size": 0,
+ "char_type": "ansi",
+ "collation": "",
+ "ansi_char_set": "",
+ "oem_char_set": "USA",
+ "fields": [
+  {"name": "id", "type": 11, "type_name": "Integer", "length": 4, "decimals": 0},
+  {"name": "secret", "type": 4, "type_name": "Character", "length": 20, "decimals": 0}
+ ],
+ "indexes": [
+ ],
+ "records": [
+  {"recno": 1, "deleted": false, "raw": "04000000000000000000000000010000004d414749434145532d56414c55452d3030312020", "values": {"id": {"text": "1"}, "secret": {"text": "MAGICAES-VALUE-001  "}}},
+  {"recno": 2, "deleted": false, "raw": "04000000000000000000000000020000005345434f4e44524f572d41455344415441202020", "values": {"id": {"text": "2"}, "secret": {"text": "SECONDROW-AESDATA   "}}}
+ ]
+}

@@ -1,0 +1,253 @@
+# Tables of ids 1 to 10 with conditional (FOR) orders that leave records
+# out before, between and after their keys.
+tabletype adt
+createtable t.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+createindex - hi 2 512 id FOR id > 6
+createindex - odd 2 512 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+createindex - lo 2 512 id FOR id < 4
+createindex - dodd 10 512 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+close
+tabletype ntx
+createtable n.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+createindex hi.ntx hi 0 0 id FOR id > 6
+createindex odd.ntx odd 0 0 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+createindex lo.ntx lo 0 0 id FOR id < 4
+createindex dodd.ntx dodd 8 0 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+close
+tabletype cdx
+createtable c.dbf 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+createindex - hi 2 0 id FOR id > 6
+createindex - odd 2 0 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+createindex - lo 2 0 id FOR id < 4
+createindex - dodd 10 0 id FOR id = 1 .OR. id = 3 .OR. id = 5 .OR. id = 7 .OR. id = 9
+close
+# Duplicate keys: records left out (keep false) between and after
+# records of the same key.
+tabletype adt
+createtable dt.adt 0 id,Integer;keep,Logical
+append
+set id long 1
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 3
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+createindex - k 2 512 id FOR keep
+createindex - dk 10 512 id FOR keep
+close
+tabletype ntx
+createtable dn.dbf 0 id,Integer;keep,Logical
+append
+set id long 1
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 3
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+createindex k.ntx k 0 0 id FOR keep
+createindex dk.ntx dk 8 0 id FOR keep
+close
+tabletype cdx
+createtable dc.dbf 0 id,Integer;keep,Logical
+append
+set id long 1
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 2
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+append
+set id long 3
+set keep logical 1
+write
+append
+set id long 2
+set keep logical 0
+write
+createindex - k 2 0 id FOR keep
+createindex - dk 10 0 id FOR keep
+close
+# An ADT table with a deleted record (on the free list), in an order
+# on id.
+tabletype adt
+createtable x.adt 0 id,Integer
+append
+set id long 1
+write
+append
+set id long 2
+write
+append
+set id long 3
+write
+append
+set id long 4
+write
+append
+set id long 5
+write
+append
+set id long 6
+write
+append
+set id long 7
+write
+append
+set id long 8
+write
+append
+set id long 9
+write
+append
+set id long 10
+write
+createindex - id 2 512 id
+goto 4
+delete
+write
+close

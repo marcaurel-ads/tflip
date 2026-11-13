@@ -1,0 +1,31 @@
+# What the server settings Check_Free_Table_Access and Disable_Free_Connections
+# (the registry's Configuration key of the service, 1 or 0) do to the free
+# tables that connections to a dictionary and free connections reach; run in
+# the folder freeconf_setup.txt made, once for each setting:
+#
+#     EV_SERVER_TYPE=2 ev.exe <ace32.dll> \\127.0.0.1:6262\data\<folder> freeconf_run.txt
+#             > ../../../fixtures/events/freeconf_<setting>.json
+#
+# freeconf_check.json leaves out the two steps with p1, which are in
+# freeconf_check_proc.json, and freeconf_disable.json the steps of the free
+# connection that was refused (`sql 0`). The folder is fixtures/events/freeconf.
+free 0
+connect 1 d.add
+connect 2 d.add u2 pw2
+sql 1 SELECT * FROM "free1.adt"
+sql 1 SELECT * FROM "free2.dbf"
+sql 2 SELECT * FROM "free1.adt"
+sql 1 SELECT * FROM t1
+sql 1 SELECT * FROM v1
+sql 2 SELECT * FROM v1
+sql 1 EXECUTE PROCEDURE p1()
+sql 2 EXECUTE PROCEDURE p1()
+sql 1 INSERT INTO "free1.adt" VALUES (9, 'nine')
+sql 1 DELETE FROM "free1.adt" WHERE id = 9
+sql 1 CREATE TABLE "free3.adt" (id INTEGER)
+sql 1 DROP TABLE "free3.adt"
+sql 0 SELECT * FROM "free1.adt"
+sql 0 SELECT * FROM "free2.dbf"
+sql 0 SELECT * FROM t1
+disconnect 2
+disconnect 1

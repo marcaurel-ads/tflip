@@ -1,0 +1,64 @@
+# What GRANT ALL and REVOKE ALL to the built-in DB:Public give, by a user who
+# is not the administrator and holds the rights with the grant option, some of
+# them, or none (see ddgrantopt.txt for other grantees): DB:Public keeps what
+# it is given in a slot of the object itself, which a grant that gives it
+# nothing may or may not write. The dictionary, pg/pg.add, is kept in
+# fixtures/sql/ddpublicgrant/:
+#
+#     run.sh <work> <ace32.dll> ddpublicgrant.txt > ../../../fixtures/sql/ddpublicgrant.json
+#     cp <work>/data/pg/* ../../../fixtures/sql/ddpublicgrant/
+ddcreate pg\pg.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t2 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t3 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t4 (id INTEGER, name CHAR(10))
+direct CREATE TABLE t5 (id INTEGER, name CHAR(10))
+direct CREATE VIEW vw1 AS SELECT id FROM t1
+direct CREATE VIEW vw2 AS SELECT id FROM t1
+direct CREATE PROCEDURE pr1() BEGIN SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', '')
+direct EXECUTE PROCEDURE sp_CreateUser('u5', 'pw5', '')
+direct GRANT SELECT, INSERT ON t1 TO u2 WITH GRANT
+direct GRANT SELECT ON t2 TO u2
+direct GRANT UPDATE (id) ON t3 TO u2 WITH GRANT
+direct GRANT ALL ON t4 TO u2 WITH GRANT
+direct GRANT SELECT ON vw1 TO u2 WITH GRANT
+direct GRANT SELECT ON vw2 TO u2
+direct GRANT EXECUTE ON pr1 TO u2
+direct GRANT SELECT ON t5 TO "DB:Public"
+direct GRANT SELECT ON t5 TO u2
+disconnect
+#
+# Some of the rights with the grant option, a part of ALL, and none.
+connect pg\pg.add u2 pw2
+stmt
+direct GRANT ALL ON t1 TO "DB:Public"
+direct GRANT ALL ON t2 TO "DB:Public"
+direct GRANT ALL ON t3 TO "DB:Public"
+direct GRANT ALL ON t4 TO "DB:Public"
+direct GRANT ALL ON vw1 TO "DB:Public"
+direct GRANT ALL ON vw2 TO "DB:Public"
+direct GRANT ALL ON pr1 TO "DB:Public"
+direct GRANT SELECT ON t2 TO "DB:Public"
+direct GRANT UPDATE ON t3 TO "DB:Public"
+direct GRANT SELECT ON t5 TO "DB:Public"
+direct GRANT ALL ON t5 TO "DB:Public"
+direct REVOKE ALL ON t5 FROM "DB:Public"
+direct REVOKE ALL ON t4 FROM "DB:Public"
+direct REVOKE SELECT ON t2 FROM "DB:Public"
+direct REVOKE UPDATE ON t3 FROM "DB:Public"
+disconnect
+connect pg\pg.add u5 pw5
+stmt
+direct GRANT ALL ON t1 TO "DB:Public"
+direct GRANT ALL ON t2 TO "DB:Public"
+direct GRANT ALL ON t5 TO "DB:Public"
+direct REVOKE ALL ON t5 FROM "DB:Public"
+disconnect
+connect pg\pg.add adssys
+stmt
+query SELECT * FROM system.permissions WHERE grantee = 'DB:Public'
+query SELECT * FROM system.effectivepermissions WHERE grantee = 'u2'
+query SELECT * FROM system.effectivepermissions WHERE grantee = 'u5'
+disconnect

@@ -1,0 +1,143 @@
+# The catalog procedures the ODBC and JDBC drivers call, and system.systemprocedures,
+# on a dictionary connection in an empty folder (the dictionary, de/de.add, is
+# kept in fixtures/sql/spddcat/): the procedures' parameters in the lists of
+# sp_GetProcedureColumns, the catalogs and links, and what a user who is not the
+# administrator may run, which the procedures' Required_Permissions gate.
+#
+#     run.sh <work> <ace32.dll> spddcat.txt > ../../../fixtures/sql/spddcat.json
+#     cp <work>/data/de/* ../../../fixtures/sql/spddcat/
+ddcreate de\de.add
+stmt
+direct CREATE TABLE t1 (id INTEGER, name CHAR(10))
+direct CREATE PROCEDURE p1 (a INTEGER, b CHAR(10), c TIMESTAMP OUTPUT, d MEMO, e NUMERIC(10,2) OUTPUT) BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+direct CREATE PROCEDURE p2 () BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+direct CREATE PROCEDURE p6 (o1 INTEGER OUTPUT, i1 INTEGER, o2 CHAR(2) OUTPUT, i2 CHAR(2)) BEGIN INSERT INTO __output SELECT 1, 'a' FROM system.iota; END
+direct CREATE PROCEDURE p7 (a_b INTEGER, axb INTEGER, A INTEGER) BEGIN INSERT INTO t1 VALUES (3, 'three'); END
+direct CREATE PROCEDURE ty0 (x INTEGER, y INTEGER OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty1 (x SHORT, y SHORT OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty2 (x LONGINT, y LONGINT OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty3 (x DOUBLE, y DOUBLE OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty4 (x CURDOUBLE, y CURDOUBLE OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty5 (x DATE, y DATE OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty6 (x TIME, y TIME OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty7 (x TIMESTAMP, y TIMESTAMP OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty8 (x MONEY, y MONEY OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty9 (x LOGICAL, y LOGICAL OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty10 (x CHAR(7), y CHAR(7) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty11 (x VARCHAR(9), y VARCHAR(9) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty12 (x CICHAR(5), y CICHAR(5) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty13 (x MEMO, y MEMO OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty14 (x BINARY, y BINARY OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty15 (x BLOB, y BLOB OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty16 (x NCHAR(4), y NCHAR(4) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty17 (x NVARCHAR(6), y NVARCHAR(6) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty18 (x NMEMO, y NMEMO OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty19 (x GUID, y GUID OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty20 (x NUMERIC(12,3), y NUMERIC(12,3) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty21 (x NUMERIC(20,0), y NUMERIC(20,0) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty22 (x RAW(8), y RAW(8) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty23 (x ROWVERSION, y ROWVERSION OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty24 (x MODTIME, y MODTIME OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty25 (x VARBINARY(5), y VARBINARY(5) OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct CREATE PROCEDURE ty26 (x BIGINT, y BIGINT OUTPUT) BEGIN INSERT INTO __output SELECT 1 FROM system.iota; END
+direct EXECUTE PROCEDURE sp_ModifyProcedureProperty('p2', 'COMMENT', 'a procedure')
+direct EXECUTE PROCEDURE sp_CreateUser('u1', 'pw1', 'a user')
+direct EXECUTE PROCEDURE sp_CreateUser('u2', 'pw2', 'a user')
+query EXECUTE PROCEDURE sp_GetCatalogs()
+direct CREATE DATABASE "other.add"
+direct EXECUTE PROCEDURE sp_CreateLink('lk1', 'other.add', 1, 0, 0, 'ADSSYS', '')
+direct EXECUTE PROCEDURE sp_CreateLink('lk2', 'other.add', 1, 0, 0, 'ADSSYS', '')
+query EXECUTE PROCEDURE sp_GetCatalogs()
+query EXECUTE PROCEDURE sp_GetCatalogs(NULL)
+query EXECUTE PROCEDURE sp_GetSchemas()
+query EXECUTE PROCEDURE sp_GetTableTypes()
+query EXECUTE PROCEDURE sp_GetTypeInfo()
+query EXECUTE PROCEDURE sp_SupportsConvert(4, 12)
+query EXECUTE PROCEDURE sp_SupportsTxnIsolationLevel(2)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p%', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'P1', 'b')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', 'x%')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', 'B')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', '%')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', '')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, '', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, '', 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns('', NULL, 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns('x', 'y', 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns('lk1', NULL, 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns('system', NULL, 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p_', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p7', 'a_b')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p7', 'a_')
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p7', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1 ', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p2', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'ty%', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p6', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'sp_GetTables', NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedureColumns(1, 2, 3, 4)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, 'p%')
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, 'P2')
+query EXECUTE PROCEDURE sp_GetProcedures('x', NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, 'x', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures('', '', '')
+query EXECUTE PROCEDURE sp_GetProcedures('lk1', NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, 'p_')
+query EXECUTE PROCEDURE sp_GetProcedures('', NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures('%', NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures('%de.add', NULL, 'p2')
+query EXECUTE PROCEDURE sp_GetProcedures('system', NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(1, 2, 3)
+query EXECUTE PROCEDURE sp_RetrieveSystemProcProperty('sp_GetTables', 1)
+query EXECUTE PROCEDURE sp_RetrieveSystemProcProperty('sp_mgGetServerType', 1)
+query EXECUTE PROCEDURE sp_RetrieveSystemProcProperty('p1', 1)
+query SELECT * FROM system.systemprocedures WHERE Required_Permissions <> 0
+query SELECT COUNT(*) AS c FROM system.systemprocedures
+query SELECT * FROM system.objects
+query EXECUTE PROCEDURE sp_mgGetCrashDumpInfo()
+query EXECUTE PROCEDURE sp_mgGetErrorLog()
+query EXECUTE PROCEDURE sp_mgSetConfigValue('a', 'b')
+query EXECUTE PROCEDURE sp_mgKillUser('x')
+query EXECUTE PROCEDURE sp_CancelQuery(1)
+query EXECUTE PROCEDURE sp_GetLinks()
+query SELECT COUNT(*) AS c FROM (EXECUTE PROCEDURE sp_GetSQLStatements()) s
+# A user who is not the administrator.
+disconnect
+connect de\de.add u1 pw1
+stmt
+query EXECUTE PROCEDURE sp_GetCatalogs()
+query EXECUTE PROCEDURE sp_GetProcedureColumns(NULL, NULL, 'p1', NULL)
+query EXECUTE PROCEDURE sp_GetProcedures(NULL, NULL, NULL)
+query EXECUTE PROCEDURE sp_RetrieveSystemProcProperty('sp_mgKillUser', 1)
+query SELECT COUNT(*) AS c FROM system.systemprocedures
+query EXECUTE PROCEDURE sp_mgGetServerType()
+query EXECUTE PROCEDURE sp_mgGetInstallInfo()
+query EXECUTE PROCEDURE sp_mgGetActivityInfo()
+query EXECUTE PROCEDURE sp_mgGetCommStats()
+query EXECUTE PROCEDURE sp_mgGetConnectedUsers()
+query EXECUTE PROCEDURE sp_mgGetAllTables()
+query EXECUTE PROCEDURE sp_mgGetCrashDumpInfo()
+query EXECUTE PROCEDURE sp_mgGetErrorLog()
+query EXECUTE PROCEDURE sp_mgSetConfigValue('a', 'b')
+query EXECUTE PROCEDURE sp_mgKillUser('x')
+query EXECUTE PROCEDURE sp_mgResetCommStats()
+query EXECUTE PROCEDURE sp_GetSQLStatements()
+query EXECUTE PROCEDURE sp_GetLinks()
+query EXECUTE PROCEDURE sp_CancelQuery(1)
+query EXECUTE PROCEDURE sp_SetStatementLimit(0)
+query EXECUTE PROCEDURE sp_GetCollations('GERMAN%')
+query EXECUTE PROCEDURE sp_CancelQuery()
+query EXECUTE PROCEDURE sp_CancelQuery(1, 2)
+query EXECUTE PROCEDURE sp_CancelQuery('x')
+query EXECUTE PROCEDURE sp_mgKillUser()
+query EXECUTE PROCEDURE sp_mgSetConfigValue()
+query EXECUTE PROCEDURE sp_GetSQLStatements(1)
+query EXECUTE PROCEDURE sp_mgGetErrorLog(1, 2, 3)
+query EXECUTE PROCEDURE sp_mgGetCrashDumpInfo(1)
+query EXECUTE PROCEDURE sp_GetLinks(1)
+query EXECUTE PROCEDURE sp_mgGetServerType(1)

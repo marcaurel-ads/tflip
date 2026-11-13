@@ -1,0 +1,8 @@
+# The dictionaries, with the dictionary password "ddpw" and no ADSSYS
+# password: c keeps its records in the clear (AES-128), e (AES-128) and f
+# (AES-256) encipher them.
+connect Data Source=%D\;ServerType=LOCAL;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql CREATE DATABASE "c\c.add" ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "e\e.add" ENCRYPT TRUE ENCRYPTIONTYPE AES128 DDPASSWORD 'ddpw'
+sql CREATE DATABASE "f\f.add" ENCRYPT TRUE ENCRYPTIONTYPE AES256 DDPASSWORD 'ddpw'
+disconnect

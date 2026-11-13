@@ -1,0 +1,20 @@
+# AdsDeleteIndex on the orders of a structural .cdx: two of four, with a
+# record written in between, and on the VFP table down to the last, which
+# takes the file with it.
+tabletype cdx
+open cdx_t
+deleteindex tb
+deleteindex nosuch
+append
+set name string four
+set id long 4
+write
+deleteindex ta
+close
+tabletype vfp
+open vfp_t
+deleteindex tb
+deleteindex ta
+deleteindex td
+deleteindex tc
+close

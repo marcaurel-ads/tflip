@@ -1,0 +1,28 @@
+# AES dictionaries, part 3, for aesdict.c, in a process of its own: the
+# engine keeps a dictionary it opened usable by later connections of the
+# same process, so what needs the dictionary password is tried here first.
+#
+# e3 encrypts its records: nothing opens it without the dictionary password,
+# whatever the user and password.
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=wrongpw;
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=u1;Password=userpw;
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=wrong;
+# a3 keeps its records in the clear: it opens without one, and its table t,
+# encrypted, does not.
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;
+sql SELECT * FROM system.users
+sql SELECT * FROM t
+disconnect
+connect Data Source=%D\a3\a3.add;ServerType=LOCAL;User ID=u1;Password=userpw;
+disconnect
+# With it, e3 opens for each user, as the passwords say.
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=ADSSYS;Password=admpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql SELECT * FROM t
+sql SELECT * FROM t2
+disconnect
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=u1;Password=wrongpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+connect Data Source=%D\e3\e3.add;ServerType=LOCAL;User ID=u1;Password=userpw;EncryptionType=AES128;FIPS=FALSE;DDPassword=ddpw;
+sql SELECT * FROM t
+disconnect

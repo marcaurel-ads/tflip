@@ -1,0 +1,17 @@
+[package]
+name = "tflipd"
+description = "The TableflipDB server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+tflip-engine = { path = "../tflip-engine" }
+tflip-aep = { path = "../tflip-aep" }
+tflip-protocol = { path = "../tflip-protocol", features = ["server"] }
+
+[dev-dependencies]
+# Built for its client library, libtflip_ace.so, which tests/aep.rs loads.
+tflip-ace = { path = "../tflip-ace" }
+serde_json = "1.0.151"

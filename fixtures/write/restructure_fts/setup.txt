@@ -1,0 +1,33 @@
+# Free ADT tables with full-text orders to restructure.
+sql CREATE TABLE a (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO a VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE b (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO b VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE c (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO c VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE d (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO d VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE e (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO e VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE f (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO f VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE g (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO g VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE TABLE h (id INTEGER, body CHAR(40), title CHAR(30), m MEMO)
+sql INSERT INTO h VALUES (1, 'alpha beta gamma', 'The Quick Brown Fox', 'quick memo words'), (2, 'beta delta epsilon', 'jumps over lazy dog', NULL), (3, 'gamma gamma zeta', 'the and for', 'noise gamma'), (4, 'eta theta', 'Fox and Hound', 'hound fox')
+sql CREATE INDEX a_fts ON a (body) CONTENT
+sql CREATE INDEX a_id ON a (id)
+sql CREATE INDEX b_fts ON b (body) CONTENT
+sql CREATE INDEX c_fts ON c (body) CONTENT
+sql CREATE INDEX d_fts ON d (body) CONTENT
+sql CREATE INDEX e_id ON e (id)
+open e.adt
+createfts words.adi e_w body 0 3 30 0 1 - 1 - 1 - 1 -
+close
+sql CREATE INDEX f_fts ON f (m) CONTENT
+open f.adt
+createfts words.adi f_w body 512 3 30 0 1 - 1 - 1 - 1 -
+close
+sql CREATE INDEX g_fts ON g (m) CONTENT KEEPSCORE
+sql CREATE INDEX h_fts ON h (body) CONTENT
+sql CREATE INDEX h_fts2 ON h (m) CONTENT

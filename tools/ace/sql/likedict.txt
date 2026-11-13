@@ -1,0 +1,32 @@
+# The order of the rows of a LIKE on a dictionary connection: a table of the
+# dictionary and the dictionary's own system tables, for
+# fixtures/sql/likedict.json, in an empty folder with a folder ld/ for the
+# dictionary the script creates:
+#
+#     tools/ace/sql/run.sh <work> <ace32.dll> likedict.txt > fixtures/sql/likedict.json
+ddcreate ld\ld.add
+stmt
+direct CREATE TABLE lk (id integer, name char(12))
+direct INSERT INTO lk VALUES (5, 'resume')
+direct INSERT INTO lk VALUES (3, 'resum_z')
+direct INSERT INTO lk VALUES (9, 'abc')
+direct INSERT INTO lk VALUES (1, 'resum_a')
+direct INSERT INTO lk VALUES (8, 'xyz')
+direct INSERT INTO lk VALUES (2, 'resumx')
+direct INSERT INTO lk VALUES (7, 'res')
+direct INSERT INTO lk VALUES (4, 'zres')
+direct INSERT INTO lk VALUES (6, 'resum_b')
+direct CREATE TABLE qz (id integer, name char(12))
+direct CREATE TABLE qa (id integer, name char(12))
+direct CREATE TABLE qm (id integer, name char(12))
+query SELECT id, name FROM lk WHERE name LIKE 'res%'
+query SELECT id, name FROM lk WHERE name LIKE '%sum%'
+query SELECT id, name FROM lk WHERE name LIKE 'res%' AND id > 0
+query SELECT name FROM system.tables WHERE name LIKE 'q%'
+query SELECT name FROM system.tables WHERE name LIKE 'q%' AND 1 = 1
+query SELECT name FROM system.tables WHERE name LIKE '%q%'
+query SELECT parent, name FROM system.columns WHERE parent LIKE 'q%'
+query SELECT parent, name FROM system.columns WHERE parent LIKE 'q%' AND 1 = 1
+query SELECT name, parent FROM system.columns WHERE name LIKE 'i%' AND 1 = 1
+query SELECT name, parent FROM system.columns WHERE name LIKE 'i%'
+query SELECT Name, Parent FROM system.indexes WHERE Parent LIKE 'q%'
