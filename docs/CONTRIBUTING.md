@@ -102,6 +102,15 @@ a one-time oracle investment — a Windows ISO and an SDK install — not a
 prerequisite for building or testing tflip, and it could later serve as a second
 CI oracle that flags any Wine-only divergence automatically.
 
+### OpenADS's tests
+
+[OpenADS](https://github.com/FiveTechSoft/OpenADS) is another open
+replacement for the client engine, and
+[tools/openads/](../tools/openads/README.md) runs its ACE-level tests
+against tflip. Its tests are not an oracle: they record what OpenADS takes
+the engine to do. A failure is a question for a probe of the original, not
+a bug until the probe says so.
+
 ## Fixtures and their tests
 
 Most of tflip's tests replay a fixture: they make tflip do what a probe

@@ -1,0 +1,32 @@
+# The probes probes.sh runs against another client engine: name, the probe's
+# script under tools/ace/, the golden under fixtures/, and any arguments the
+# script takes after the DLL. Each script takes <work folder> <DLL as a
+# Windows path> and prints the JSON its golden holds.
+param_n         errors/param_n.sh       errors/param_n.json
+cursor_set      errors/cursor_set.sh    errors/cursor_set.json
+fields          fields/run.sh           fields/getters.json
+dbf_getters     dbf/run.sh              dbf/getters.json
+dbf_indexes     dbf/index.sh            dbf/indexes.json
+keytype         expr/run_keytype.sh     expr/keytype.json
+bookmarks       bookmarks/run.sh        bookmarks/bookmarks.json
+dd              dd/run.sh               dictionary/dd.json
+dd_rules        dd/rules.sh             dictionary/rules.json
+dd_login        dd/run_login.sh         dictionary/login.json
+dd_ri           dd/run_ri.sh            dictionary/ri.json
+sql_statements  sql/run.sh              sql/statements.json     statements.txt
+sql_select      sql/run.sh              sql/select.json         select.txt
+sql_dml         sql/run.sh              sql/dml.json            dml.txt
+sql_dbf         sql/run.sh              sql/dbf.json            dbf.txt
+sql_funcs       sql/run.sh              sql/funcs.json          funcs.txt
+sql_groupconcat sql/run.sh              sql/groupconcat.json    groupconcat.txt
+sql_modulo      sql/run.sh              sql/modulo.json         modulo.txt
+sql_orderby     sql/run.sh              sql/orderby.json        orderby.txt
+sql_subq        sql/run.sh              sql/subq.json           subq.txt
+sql_derived     sql/run.sh              sql/derived.json        derived.txt
+sql_literals    sql/run.sh              sql/literals.json       literals.txt
+sql_iif         sql/run.sh              sql/iif.json            iif.txt
+sql_joinorder   sql/run.sh              sql/joinorder.json      joinorder.txt
+sql_wherefilter sql/run.sh              sql/wherefilter.json    wherefilter.txt
+sql_scripts     sql/run.sh              sql/scripts.json        scripts.txt
+sql_temptables  sql/run.sh              sql/temptables.json     temptables.txt
+sql_links       sql/run.sh              sql/links.json          links.txt

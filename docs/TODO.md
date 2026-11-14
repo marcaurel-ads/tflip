@@ -49,6 +49,12 @@ needs them.
   The setter test's local twin then reads its values back but finds
   `all_types.adt` unchanged after the disconnect; the remote twin gets
   5018 from `AdsGotoTop`.
+- **OpenADS's tests** (**L**): about 50 of the files that
+  `tools/openads/run.sh` runs fail on a single disagreement with tflip
+  (its `summary.txt`; the kinds are listed in
+  [tools/openads/README.md](../tools/openads/README.md)). Probe each one.
+  Where the original agrees with OpenADS, fix tflip and record a fixture.
+  Where it agrees with tflip, note it in the README.
 
 ## Functions that still fail in part
 

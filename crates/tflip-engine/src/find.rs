@@ -160,17 +160,40 @@ fn is_separator(c: char) -> bool {
     c == '\\' || c == '/'
 }
 
-/// The regular files in `dir` whose names match `mask`, in the file system's
-/// order. Names that are not valid Unicode cannot match and are left out.
+/// The regular files in `dir` whose names match `mask`, in the order NTFS
+/// lists a directory, where the original engine runs: by the names'
+/// upper-cased UTF-16 code units. The file system's own order would differ
+/// from one machine, and one copy of a folder, to the next. Names that are
+/// not valid Unicode cannot match and are left out.
 fn list_tables(dir: &Path, mask: &str) -> Vec<OsString> {
     let Ok(entries) = std::fs::read_dir(dir) else {
         return Vec::new();
     };
-    entries
+    let mut names: Vec<OsString> = entries
         .filter_map(Result::ok)
         .filter(|entry| entry.file_type().is_ok_and(|t| t.is_file()))
         .map(|entry| entry.file_name())
         .filter(|name| name.to_str().is_some_and(|name| mask_matches(mask, name)))
+        .collect();
+    names.sort_by_cached_key(|name| ntfs_order(name.to_str().unwrap_or_default()));
+    names
+}
+
+/// The key NTFS orders directory entries by: each UTF-16 code unit
+/// upper-cased on its own (a character whose upper case is not a single
+/// code unit stays as it is).
+fn ntfs_order(name: &str) -> Vec<u16> {
+    name.encode_utf16()
+        .map(|unit| {
+            let Some(c) = char::from_u32(u32::from(unit)) else {
+                return unit; // half of a surrogate pair
+            };
+            let mut upper = c.to_uppercase();
+            match (upper.next(), upper.next()) {
+                (Some(u), None) if u.len_utf16() == 1 => u as u16,
+                _ => unit,
+            }
+        })
         .collect()
 }
 
@@ -254,6 +277,26 @@ mod tests {
         assert!(mask_matches("*a*b", "xaxab"));
         assert!(!mask_matches("?", ""));
         assert!(mask_matches("?bersicht.adt", "Übersicht.adt"));
+    }
+
+    /// Listings come in NTFS's order, whatever order the files were made in:
+    /// upper-cased, so case does not matter and `_` (0x5F) follows the
+    /// letters, as it would not in a lower-cased order.
+    #[test]
+    fn listing_is_in_ntfs_order() {
+        let dir = TestDir::new(
+            "engine-find-order",
+            &[
+                "z.adt", "_x.adt", "B.adt", "a_.adt", "ab.adt", "a.adt", "A1.adt",
+            ],
+        );
+        assert_eq!(
+            list_tables(&dir.0, "*.adt"),
+            [
+                "a.adt", "A1.adt", "ab.adt", "a_.adt", "B.adt", "z.adt", "_x.adt"
+            ]
+            .map(OsString::from)
+        );
     }
 
     #[test]
