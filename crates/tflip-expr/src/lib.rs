@@ -117,6 +117,8 @@ pub enum Runtime {
     /// A value that outgrows its key (`BASE64ENCODE` of text with
     /// supplementary characters, which counts for two): 5005.
     KeyBuffer,
+    /// A `CONTAINS` condition the full-text search refuses: its code (7103).
+    FullText(u32),
 }
 
 impl Runtime {
@@ -130,6 +132,7 @@ impl Runtime {
             Runtime::DivideInFilter => 4120,
             Runtime::DivideInCondition => 4220,
             Runtime::KeyBuffer => 5005,
+            Runtime::FullText(code) => code,
         }
     }
 }
@@ -235,6 +238,14 @@ pub struct Field {
     pub decimals: u16,
 }
 
+/// Whether `alias` names the table of `schema` in `alias->field`: its alias,
+/// or `FIELD` or `_FIELD` (in any case), as in the original engine.
+fn names_table(alias: &str, schema: &dyn Schema) -> bool {
+    ["FIELD", "_FIELD", schema.alias()]
+        .iter()
+        .any(|name| alias.eq_ignore_ascii_case(name))
+}
+
 /// The table an expression is compiled for.
 pub trait Schema {
     /// The table's alias, which may qualify field names (`alias->field`).
@@ -247,6 +258,13 @@ pub trait Schema {
     fn field_name(&self, index: usize) -> Option<String> {
         let _ = index;
         None
+    }
+    /// Whether a field named `AND`, `OR` or `NOT` is that field wherever the
+    /// word stands, as in ADT tables. Otherwise, as in DBF tables, `AND` and
+    /// `OR` name the field only where an operand is expected, and `NOT` only
+    /// where nothing, `,` or `)` follows it (`fixtures/expr/keywords.json`).
+    fn fields_hide_operators(&self) -> bool {
+        false
     }
 }
 
@@ -273,6 +291,30 @@ pub struct CaseFold {
     pub upper: [u8; 256],
     /// `LOWER`: each byte folded to lower case and weighed.
     pub lower: [u8; 256],
+}
+
+/// How `CONTAINS(field, condition)` is answered for a record: given the
+/// field's place (`None` where the first argument is no field), its text
+/// and the condition, as a full-text search answers it, or the code of the
+/// error it refuses the condition with. The expression
+/// engine has no full-text search of its own; without one, `CONTAINS`
+/// holds for any value that is not NULL.
+#[derive(Clone)]
+#[allow(clippy::type_complexity)]
+pub struct Contains(
+    pub std::sync::Arc<dyn Fn(Option<usize>, &[u8], &[u8]) -> Result<bool, u32> + Send + Sync>,
+);
+
+impl std::fmt::Debug for Contains {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("Contains")
+    }
+}
+
+impl PartialEq for Contains {
+    fn eq(&self, other: &Contains) -> bool {
+        std::sync::Arc::ptr_eq(&self.0, &other.0)
+    }
 }
 
 /// What evaluation depends on besides the record.
@@ -306,6 +348,8 @@ pub struct Env {
     /// the empty date) and not for NULL, as on a DBF table's records; on an
     /// ADT table's it holds for NULL alone.
     pub blank_empty: bool,
+    /// What answers `CONTAINS` (see [`Contains`]).
+    pub contains: Option<Contains>,
 }
 
 /// A compiled expression.
@@ -315,6 +359,52 @@ pub struct Expr {
 }
 
 impl Expr {
+    /// Whether the expression calls `CONTAINS`.
+    pub fn uses_contains(&self) -> bool {
+        fn walk(node: &check::Node) -> bool {
+            use check::Kind;
+            match &node.kind {
+                Kind::Const(_) | Kind::Field(_) => false,
+                Kind::Binary(_, a, b) | Kind::And(a, b) | Kind::Or(a, b) | Kind::Join(a, b) => {
+                    walk(a) || walk(b)
+                }
+                Kind::Not(a) => walk(a),
+                Kind::Call(func, args) => *func == func::Func::Contains || args.iter().any(walk),
+            }
+        }
+        walk(&self.node)
+    }
+
+    /// The `CONTAINS` calls of the expression whose first argument is a
+    /// field and whose condition a constant: the field's place and the
+    /// condition's text.
+    pub fn contains_terms(&self) -> Vec<(usize, Vec<u8>)> {
+        fn walk(node: &check::Node, found: &mut Vec<(usize, Vec<u8>)>) {
+            use check::Kind;
+            match &node.kind {
+                Kind::Const(_) | Kind::Field(_) => {}
+                Kind::Binary(_, a, b) | Kind::And(a, b) | Kind::Or(a, b) | Kind::Join(a, b) => {
+                    walk(a, found);
+                    walk(b, found);
+                }
+                Kind::Not(a) => walk(a, found),
+                Kind::Call(func, args) => {
+                    if *func == func::Func::Contains
+                        && let [first, second, ..] = args.as_slice()
+                        && let Kind::Field(field) = &first.kind
+                        && let Kind::Const(eval::Val::Str(condition)) = &second.kind
+                    {
+                        found.push((field.index, condition.clone()));
+                    }
+                    args.iter().for_each(|arg| walk(arg, found));
+                }
+            }
+        }
+        let mut found = Vec::new();
+        walk(&self.node, &mut found);
+        found
+    }
+
     /// Compiles `text` for the table `schema` describes.
     pub fn compile(text: &str, schema: &dyn Schema) -> Result<Expr, ErrorKind> {
         let tokens = lex::lex(text, Some(schema));

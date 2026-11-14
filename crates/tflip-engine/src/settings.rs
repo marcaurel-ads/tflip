@@ -42,6 +42,9 @@ pub struct Settings {
     default_path: Mutex<String>,
     /// Whether transactions are real ones (see [`real_transactions`]).
     real_transactions: AtomicBool,
+    /// Whether relative names are relative to the process's current
+    /// directory (see [`cwd_relative`]).
+    cwd_relative: AtomicBool,
     /// The sizes of the caches (`[tables, statements]`) of the connections
     /// of a session in a client's own process, if they keep closed tables
     /// open (see [`set_local_caching`]); `None`, keeping none, until set.
@@ -68,6 +71,7 @@ impl Default for Settings {
             search_path: Mutex::default(),
             default_path: Mutex::default(),
             real_transactions: AtomicBool::new(true),
+            cwd_relative: AtomicBool::new(false),
             local_caches: Mutex::new(None),
         }
     }
@@ -313,6 +317,37 @@ pub fn set_real_transactions(session: &Session, real: bool) {
         .store(real, Ordering::Relaxed);
 }
 
+/// Whether relative table names, listing masks and index paths with a
+/// folder are relative to the process's current directory, as in the
+/// original's local server, instead of to the connection's folder (the
+/// default; `docs/DIFFERENCES.md`). Only a session without shares (a
+/// client's own process) has a current directory to go by.
+pub fn cwd_relative(session: &Session) -> bool {
+    session.shares.is_none() && session.settings.cwd_relative.load(Ordering::Relaxed)
+}
+
+/// Makes relative names relative to the current directory, or to the
+/// connection's folder.
+pub fn set_cwd_relative(session: &Session, on: bool) {
+    session.settings.cwd_relative.store(on, Ordering::Relaxed);
+}
+
+/// `name` in `folder`, a connection's, in a session without shares: in
+/// the current directory instead where [`cwd_relative`] says so (an
+/// absolute `name` is itself either way).
+pub(crate) fn local_join(
+    session: &Session,
+    folder: &std::path::Path,
+    name: &str,
+) -> std::path::PathBuf {
+    match cwd_relative(session) {
+        true => std::env::current_dir()
+            .unwrap_or_else(|_| folder.to_path_buf())
+            .join(name),
+        false => folder.join(name),
+    }
+}
+
 /// Makes the connections of `session`, a client's own process's, keep
 /// closed tables open for reuse as a server's do (see `crate::cache`): no
 /// tables and the tables of 25 statements until `AdsCacheOpenTables` and
@@ -384,6 +419,28 @@ pub fn set_oem_text(convert: fn(&str) -> String, back: fn(&str) -> String) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// With `[paths] relative = cwd`, a relative name on a session without
+    /// shares is in the current directory; an absolute one is itself.
+    #[test]
+    fn relative_names_in_the_current_directory() {
+        let session = Session::new();
+        let folder = std::path::Path::new("/data/app");
+        assert_eq!(local_join(&session, folder, "t.adt"), folder.join("t.adt"));
+        set_cwd_relative(&session, true);
+        assert!(cwd_relative(&session));
+        let cwd = std::env::current_dir().unwrap();
+        assert_eq!(local_join(&session, folder, "t.adt"), cwd.join("t.adt"));
+        assert_eq!(
+            local_join(&session, folder, "sub/t.adt"),
+            cwd.join("sub/t.adt")
+        );
+        assert_eq!(
+            local_join(&session, folder, "/x/t.adt"),
+            std::path::PathBuf::from("/x/t.adt")
+        );
+        assert!(!cwd_relative(&Session::new()), "other sessions keep theirs");
+    }
 
     #[test]
     fn date_format_round_trip() {

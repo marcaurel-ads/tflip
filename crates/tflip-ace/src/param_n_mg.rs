@@ -158,6 +158,13 @@ mod tests {
             if fixtures::is_remote() && words.contains(&"l") {
                 continue;
             }
+            // `AdsMgDisconnect(0)` closes every connection of the process, as
+            // in the original: here, other tests' running alongside, which
+            // then fail. [`disconnecting_handle_0_closes_every_connection`]
+            // checks it in a process of its own.
+            if line == "AdsMgDisconnect 0" {
+                continue;
+            }
             let null = usize::try_from(row["null"].as_u64().unwrap()).unwrap();
             let mut buf = vec![0u8; 100_000];
             let mut n16 = [0u16; 8];
@@ -258,5 +265,39 @@ mod tests {
     #[test]
     fn administrator_calls_report_null_pointers_as_the_original_does_remotely() {
         fixtures::remotely(replay);
+    }
+
+    /// As in the original engine (probed with `ace32.dll`): `AdsMgDisconnect`
+    /// of the handle 0 succeeds and closes every connection and table of the
+    /// process, as `AdsDisconnect(0)` does. Run in a child process, so that
+    /// it closes no other test's connections.
+    #[test]
+    fn disconnecting_handle_0_closes_every_connection() {
+        let status = std::process::Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "param_n_mg::tests::disconnect_all_child",
+                "--ignored",
+            ])
+            .args(["--test-threads", "1", "--quiet"])
+            .status()
+            .unwrap();
+        assert!(status.success(), "the child failed: {status}");
+    }
+
+    /// The child of [`disconnecting_handle_0_closes_every_connection`].
+    #[test]
+    #[ignore = "run by disconnecting_handle_0_closes_every_connection"]
+    fn disconnect_all_child() {
+        let (connect, table) = fixtures::open("indexes", c"indexed.adt");
+        let mut kind = 0;
+        assert_eq!(unsafe { crate::AdsGetHandleType(table, &mut kind) }, 0);
+        assert_eq!(crate::AdsMgDisconnect(0), crate::AE_SUCCESS);
+        for handle in [connect, table] {
+            assert_eq!(
+                unsafe { crate::AdsGetHandleType(handle, &mut kind) },
+                crate::AE_INVALID_HANDLE
+            );
+        }
     }
 }

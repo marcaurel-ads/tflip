@@ -17,7 +17,26 @@ use crate::{
 
 const VERSION_MAJOR: Unsigned32 = 12;
 const VERSION_MINOR: Unsigned32 = 0;
-const VERSION_DESC: &[u8] = b"tflip ace32";
+/// The original's description, whose length `VERSION_DESC` keeps within.
+const ORIGINAL_DESC_LEN: usize = "Advantage 32-bit Client Engine for Windows".len();
+
+/// tflip's release and the target it is built for (`x86_64-pc-windows-gnu`
+/// and the like, from `build.rs`).
+const FULL_DESC: &str = concat!(
+    "tflip ",
+    env!("CARGO_PKG_VERSION"),
+    " ",
+    env!("TFLIP_TARGET")
+);
+
+/// tflip's own description: `FULL_DESC`, or the release alone where that is
+/// longer than the original's 42 bytes, so that a buffer sized for the
+/// original's always takes it whole.
+const VERSION_DESC: &[u8] = if FULL_DESC.len() <= ORIGINAL_DESC_LEN {
+    FULL_DESC.as_bytes()
+} else {
+    concat!("tflip ", env!("CARGO_PKG_VERSION")).as_bytes()
+};
 
 /// `AdsGetVersion`: the engine version and a description string.
 ///
@@ -65,19 +84,16 @@ pub unsafe extern "system" fn AdsGetVersion(
     if desc_len.is_null() {
         return AE_SUCCESS;
     }
+    // As in the original: a length of 0 is left alone; a short buffer takes
+    // what fits, no NUL, and 5005 with the length needed (NUL included).
     // SAFETY: not null, so readable, as # Safety says.
-    let room = unsafe { *desc_len };
-    if room > 0 {
-        let n = VERSION_DESC.len().min(usize::from(room) - 1);
-        // SAFETY: `desc` holds `*desc_len` bytes, which the copy and its NUL
-        // stay inside, and `desc_len` is writable, as # Safety says.
-        unsafe {
-            std::ptr::copy_nonoverlapping(VERSION_DESC.as_ptr(), desc, n);
-            *desc.add(n) = 0;
-            *desc_len = n as Unsigned16;
-        }
+    if unsafe { *desc_len } == 0 {
+        return AE_SUCCESS;
     }
-    AE_SUCCESS
+    let text = crate::config::version_description().map_or(VERSION_DESC, str::as_bytes);
+    // SAFETY: `desc` holds `*desc_len` bytes and `desc_len` is writable, as
+    // # Safety says.
+    unsafe { write_cut(text, desc, desc_len) }
 }
 
 /// What `AdsCacheOpenTables` and `AdsCacheOpenCursors` last set, if
@@ -869,24 +885,56 @@ mod tests {
         assert_eq!(unsafe { AdsSetProperty(0, 27, 0) }, AE_SUCCESS);
     }
 
+    /// The description as the original gives its own: a length of 0 is
+    /// left alone, a short buffer takes what fits, without a NUL, and 5005
+    /// with the length needed, NUL included (probed with lengths 0 to 44 on
+    /// its 42 bytes).
     #[test]
-    fn version_truncates_description() {
-        let (mut major, mut minor, mut letter) = (0, 0, 0);
-        let mut desc = [0xffu8; 6];
-        let mut len: Unsigned16 = desc.len() as Unsigned16;
-        let rc = unsafe {
-            AdsGetVersion(
-                &mut major,
-                &mut minor,
-                &mut letter,
-                desc.as_mut_ptr(),
-                &mut len,
-            )
-        };
-        assert_eq!(rc, AE_SUCCESS);
-        assert_eq!((major, minor), (12, 0));
-        assert_eq!(&desc, b"tflip\0");
-        assert_eq!(len, 5);
+    fn own_version_description() {
+        let release = format!("tflip {}", env!("CARGO_PKG_VERSION"));
+        let full = format!("{release} {}", env!("TFLIP_TARGET"));
+        let text = std::str::from_utf8(VERSION_DESC).unwrap();
+        assert!(text == full || text == release, "{text}");
+        assert!(VERSION_DESC.len() <= ORIGINAL_DESC_LEN);
+        if full.len() <= ORIGINAL_DESC_LEN {
+            assert_eq!(text, full);
+        }
+    }
+
+    #[test]
+    fn version_description_buffers() {
+        let text = crate::config::version_description()
+            .map_or(VERSION_DESC, str::as_bytes)
+            .to_vec();
+        let n = text.len() as Unsigned16;
+        for (room, rc, len, written) in [
+            (0, AE_SUCCESS, 0, 0),
+            (1, crate::AE_INSUFFICIENT_BUFFER, n + 1, 1),
+            (5, crate::AE_INSUFFICIENT_BUFFER, n + 1, 5),
+            (n, crate::AE_INSUFFICIENT_BUFFER, n + 1, n),
+            (n + 1, AE_SUCCESS, n, n + 1),
+            (n + 2, AE_SUCCESS, n, n + 1),
+        ] {
+            let (mut major, mut minor, mut letter) = (0, 0, 0);
+            let mut desc = [b'x'; 64];
+            let mut length = room;
+            let got = unsafe {
+                AdsGetVersion(
+                    &mut major,
+                    &mut minor,
+                    &mut letter,
+                    desc.as_mut_ptr(),
+                    &mut length,
+                )
+            };
+            assert_eq!((got, length), (rc, len), "room {room}");
+            assert_eq!((major, minor, letter), (12, 0, b' '));
+            let mut want = text.clone();
+            want.push(0);
+            want.truncate(usize::from(written));
+            assert_eq!(&desc[..usize::from(written)], &want[..], "room {room}");
+            assert_eq!(desc[usize::from(written)], b'x', "room {room}");
+        }
     }
 
     #[test]

@@ -529,10 +529,12 @@ fn keeps_row(request: &Request) -> bool {
 }
 
 /// Whether `request` closes objects (`delete_table` closes its table),
-/// changes a table's orders, or changes what a kept answer describes, so
-/// the client forgets its kept answers.
+/// changes a table's orders (a new order joins them, and a non-compound one
+/// replaces the order its file had), or changes what a kept answer
+/// describes, so the client forgets its kept answers.
 /// `set_transaction_free` changes a flag the table info reports, which is
-/// otherwise taken not to change.
+/// otherwise taken not to change, and `set_index_direction` whether the
+/// index info reports the order descending.
 fn forgets(request: &Request) -> bool {
     matches!(
         request,
@@ -540,10 +542,14 @@ fn forgets(request: &Request) -> bool {
             | Request::close_table { .. }
             | Request::delete_table { .. }
             | Request::open_index { .. }
+            | Request::create_index { .. }
+            | Request::create_fts_index { .. }
+            | Request::delete_index { .. }
             | Request::close_index { .. }
             | Request::close_all_indexes { .. }
             | Request::close_statement { .. }
             | Request::set_transaction_free { .. }
+            | Request::set_index_direction { .. }
     )
 }
 

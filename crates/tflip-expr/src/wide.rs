@@ -538,6 +538,7 @@ mod tests {
             weights: None,
             dynamic: None,
             blank_empty: false,
+            contains: None,
         }
     }
 

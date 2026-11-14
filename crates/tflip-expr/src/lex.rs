@@ -139,21 +139,27 @@ pub(crate) fn lex_spans(
                 }
                 let name: String = chars[i..i + length].iter().collect();
                 i += length;
-                let call = chars[i..].iter().find(|c| !c.is_whitespace()) == Some(&'(');
-                match name.to_ascii_uppercase().as_str() {
-                    "AND" => Token::And,
-                    "OR" => Token::Or,
-                    "NOT" => Token::Not,
-                    _ if call => Token::Ident(name),
-                    "TRUE" => Token::Logical(true),
-                    "FALSE" => Token::Logical(false),
-                    "NULL" => Token::Null,
-                    _ => Token::Ident(name),
+                let after = chars[i..].iter().find(|c| !c.is_whitespace()).copied();
+                let call = after == Some('(');
+                let upper = name.to_ascii_uppercase();
+                if !call
+                    && let Some(schema) = schema
+                    && names_field(&upper, operand_expected, after, schema)
+                    && schema.field(&name).is_some()
+                {
+                    Token::Ident(name)
+                } else {
+                    keyword(&upper, call, name)
                 }
             }
             _ => {
                 let pair: String = chars[i..chars.len().min(i + 2)].iter().collect();
                 let (token, length) = match pair.as_str() {
+                    // A qualifier is `name->field`, the arrow right after
+                    // the name, as in the original engine.
+                    "->" if i > 0 && chars[i - 1].is_whitespace() => {
+                        (Token::Bad(ErrorKind::UnsupportedOperator), 2)
+                    }
                     "->" => (Token::Alias, 2),
                     "**" => (Token::Op(Op::Pow), 2),
                     "==" => (Token::Op(Op::Exactly), 2),
@@ -256,6 +262,41 @@ fn number(chars: &[char], i: &mut usize, sign: f64) -> Token {
         value,
         digits: significant as u16,
         decimals: decimals as u16,
+    }
+}
+
+/// The token of the word `upper` (in capitals) where no field takes it over.
+fn keyword(upper: &str, call: bool, name: String) -> Token {
+    match upper {
+        "AND" => Token::And,
+        "OR" => Token::Or,
+        "NOT" => Token::Not,
+        _ if call => Token::Ident(name),
+        "TRUE" => Token::Logical(true),
+        "FALSE" => Token::Logical(false),
+        "NULL" => Token::Null,
+        _ => Token::Ident(name),
+    }
+}
+
+/// Whether the word `upper` (in capitals), followed by the character
+/// `after`, names the table's field of that name, if it has one, rather than
+/// being a keyword: `TRUE`, `FALSE` and `NULL` always do; `AND`, `OR` and
+/// `NOT` as [`Schema::fields_hide_operators`] says.
+fn names_field(
+    upper: &str,
+    operand_expected: bool,
+    after: Option<char>,
+    schema: &dyn Schema,
+) -> bool {
+    match upper {
+        "TRUE" | "FALSE" | "NULL" => true,
+        "AND" | "OR" => schema.fields_hide_operators() || operand_expected,
+        "NOT" => {
+            schema.fields_hide_operators()
+                || (operand_expected && matches!(after, None | Some(',' | ')')))
+        }
+        _ => false,
     }
 }
 

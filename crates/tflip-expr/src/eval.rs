@@ -219,6 +219,27 @@ fn call<R: Row + ?Sized>(
             }
             return Ok(Val::Logical(false));
         }
+        // Answered by the full-text search the environment has, if any
+        // (see [`crate::Contains`]); NULL for a NULL argument.
+        Func::Contains if env.contains.is_some() => {
+            let field = match &args[0].kind {
+                crate::check::Kind::Field(field) => Some(field.index),
+                _ => None,
+            };
+            let text = eval(&args[0], row, env)?;
+            let condition = eval(&args[1], row, env)?;
+            let found = match (text, condition, &env.contains) {
+                (Val::Str(text) | Val::Binary(text), Val::Str(condition), Some(contains)) => {
+                    (contains.0)(field, &text, &condition)
+                }
+                (Val::Null, ..) | (_, Val::Null, _) => return Ok(Val::Null),
+                _ => Ok(true),
+            };
+            return match found {
+                Ok(found) => Ok(Val::Logical(found)),
+                Err(code) => Err(Failure::Runtime(Runtime::FullText(code))),
+            };
+        }
         Func::RecNo => return Ok(Val::Number(f64::from(row.record_number()))),
         Func::Deleted => return Ok(Val::Logical(row.deleted())),
         _ => {}

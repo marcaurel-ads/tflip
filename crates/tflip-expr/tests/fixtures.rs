@@ -177,6 +177,7 @@ fn expressions_match_the_original_engine() {
             weights: None,
             dynamic: None,
             blank_empty: false,
+            contains: None,
         };
         let mut fail = |what: String| failures.push(format!("{text:40} {what}"));
         let expr = Expr::compile(&text, &table);

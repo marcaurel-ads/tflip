@@ -17,6 +17,9 @@ use crate::Error;
 pub struct Shares {
     /// The folders, by lower-case name.
     folders: BTreeMap<String, PathBuf>,
+    /// Absolute paths as clients name them (`c:\data`, lower case, `\`
+    /// between parts) and the share each stands for, longest first.
+    maps: Vec<(String, String)>,
     check_free_table_access: bool,
     disable_free_connections: bool,
 }
@@ -30,6 +33,47 @@ impl Shares {
     /// Adds the share `name` for `folder`; names match regardless of case.
     pub fn add(&mut self, name: &str, folder: impl Into<PathBuf>) {
         self.folders.insert(name.to_lowercase(), folder.into());
+    }
+
+    /// Maps the absolute path `prefix` as clients name it (`C:\data`) to the
+    /// share `share`: a path under it is the same path inside the share, so
+    /// that clients that name their tables by the original server's paths
+    /// reach them (regardless of case and of `\` or `/`).
+    pub fn add_map(&mut self, prefix: &str, share: &str) {
+        let prefix = normal(prefix).trim_end_matches('\\').to_owned();
+        self.maps.retain(|(known, _)| *known != prefix);
+        self.maps.push((prefix, share.to_owned()));
+        self.maps
+            .sort_by_key(|(prefix, _)| std::cmp::Reverse(prefix.len()));
+    }
+
+    /// The path inside a share that the absolute path `name` stands for by
+    /// [`Shares::add_map`], if a map takes it in.
+    pub(crate) fn mapped(&self, name: &str) -> Option<Result<PathBuf, Error>> {
+        let normal = normal(name);
+        self.maps.iter().find_map(|(prefix, share)| {
+            let rest = normal.strip_prefix(prefix.as_str())?;
+            if !(rest.is_empty() || rest.starts_with('\\')) {
+                return None;
+            }
+            // The rest as the client spelled it.
+            let rest = &name[name.len() - rest.len()..];
+            Some(match self.folder(share) {
+                Some(folder) => descend(folder.to_path_buf(), parts(rest)),
+                None => Err(Error::FileNotOnServer),
+            })
+        })
+    }
+
+    /// `name`, a path inside `base` as a client names it (a table, or the
+    /// folder of a table listing). An absolute path is
+    /// [`Error::FileNotOnServer`], but for one a map takes in
+    /// ([`Shares::add_map`]).
+    pub(crate) fn inside(&self, base: &Path, name: &str) -> Result<PathBuf, Error> {
+        match self.mapped(name) {
+            Some(path) => path,
+            None => inside(base, name),
+        }
     }
 
     /// Sets the server setting `Check_Free_Table_Access`: no connection to a
@@ -72,11 +116,19 @@ impl Shares {
     /// The folder or file a connection path names: its first part is the
     /// share, the rest a path inside it.
     pub(crate) fn connection_path(&self, path: &str) -> Result<PathBuf, Error> {
+        if let Some(path) = self.mapped(path) {
+            return path;
+        }
         let mut parts = parts(path);
         let share = parts.next().ok_or(Error::FileNotOnServer)?;
         let folder = self.folder(share).ok_or(Error::FileNotOnServer)?;
         descend(folder.to_path_buf(), parts)
     }
+}
+
+/// `path` in lower case with `\` between its parts.
+fn normal(path: &str) -> String {
+    path.replace('/', "\\").to_lowercase()
 }
 
 /// The parts of a relative path as clients write it, `\` or `/` between
@@ -186,6 +238,52 @@ mod tests {
                 "{outside}"
             );
         }
+    }
+
+    #[test]
+    fn mapped_absolute_paths() {
+        let mut shares = Shares::new();
+        shares.add("Fixtures", fixtures());
+        shares.add("Indexes", fixtures().join("indexes"));
+        shares.add_map(r"C:\Data\", "fixtures");
+        shares.add_map("c:/data/indexes", "indexes");
+        shares.add_map(r"D:\gone", "nosuch");
+        let dir = fixtures().join("all_types");
+        // The longest map that takes a path in wins.
+        assert_eq!(
+            cased(shares.inside(&dir, r"C:\DATA\indexes\Indexed.adt")),
+            cased(Ok(fixtures().join("indexes/indexed.adt")))
+        );
+        assert_eq!(
+            cased(shares.inside(&dir, r"c:/data/all_types/ALL_TYPES.ADT")),
+            cased(Ok(dir.join("all_types.adt")))
+        );
+        assert_eq!(
+            cased(shares.inside(&dir, r"C:\data")),
+            cased(Ok(fixtures()))
+        );
+        // A relative name is inside the folder, as without maps.
+        assert_eq!(
+            shares.inside(&dir, "missing.adt"),
+            Ok(dir.join("missing.adt"))
+        );
+        for outside in [
+            r"C:\database\x.adt",
+            r"C:\x.adt",
+            r"C:\data\..\x.adt",
+            r"D:\gone\x.adt",
+            "/etc/passwd",
+        ] {
+            assert_eq!(
+                shares.inside(&dir, outside),
+                Err(Error::FileNotOnServer),
+                "{outside}"
+            );
+        }
+        assert_eq!(
+            cased(shares.connection_path(r"C:\data\indexes")),
+            cased(Ok(fixtures().join("indexes")))
+        );
     }
 
     #[test]

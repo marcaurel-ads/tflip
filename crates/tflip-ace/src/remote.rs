@@ -94,14 +94,26 @@ pub(crate) fn universal_name(name: &str) -> String {
 /// encrypted, so they are logged and accepted. `CommType=TLS`, or none, is what
 /// `tflipd` does anyway.
 pub(crate) fn check_comm(connect_string: &str) -> Result<(), Error> {
+    check_comm_with(connect_string, crate::config::ignore_comm_type())
+}
+
+/// [`check_comm`], a transport without TLS ignored (logged, the connection
+/// made over TLS) if `ignore` (`[connection] commtype = ignore`).
+fn check_comm_with(connect_string: &str, ignore: bool) -> Result<(), Error> {
     use tflip_engine::connection::connect_string_value as value;
     if let Some(comm) = value(connect_string, "commtype")
         && !comm.eq_ignore_ascii_case("tls")
     {
-        log::remote(format_args!(
-            "CommType={comm} asks for a connection without TLS, which tflipd does not offer"
-        ));
-        return Err(Error::InvalidOption);
+        if ignore {
+            log::remote(format_args!(
+                "CommType={comm} asks for a connection without TLS; connecting over TLS"
+            ));
+        } else {
+            log::remote(format_args!(
+                "CommType={comm} asks for a connection without TLS, which tflipd does not offer"
+            ));
+            return Err(Error::InvalidOption);
+        }
     }
     let ignored = [
         ("TLSCiphers", value(connect_string, "tlsciphers")),
@@ -325,11 +337,16 @@ mod tests {
         assert!(
             check_comm("CommType=tls;TLSCiphers=AES256SHA;TLSCommonName=db1;FIPS=TRUE;").is_ok()
         );
-        // A non-TLS transport is refused.
+        // A non-TLS transport is refused, unless told to ignore it.
         for comm in ["TCP_IP", "UDP_IP", "IPX", "tcp_ip"] {
             assert_eq!(
-                check_comm(&format!("CommType={comm};")),
+                check_comm_with(&format!("CommType={comm};"), false),
                 Err(Error::InvalidOption),
+                "{comm}"
+            );
+            assert_eq!(
+                check_comm_with(&format!("CommType={comm};"), true),
+                Ok(()),
                 "{comm}"
             );
         }

@@ -464,11 +464,116 @@ mod tests {
         }
     }
 
+    /// Unlocking and closing tables locked in a transaction, as in the
+    /// original engine (`fixtures/errors/locks_in_transaction.json`, from
+    /// `tools/ace/errors/locks_in_transaction.c`, whose scripts this runs).
+    #[test]
+    fn table_locks_in_transaction() {
+        let _settings = fixtures::settings_shared();
+        use crate::{
+            AdsAppendRecord, AdsCreateTable, AdsDisconnect, AdsGetRecordCount, AdsGotoTop,
+            AdsLockRecord, AdsLockTable, AdsOpenTable, AdsSetString, AdsUnlockRecord,
+            AdsUnlockTable, AdsWriteRecord,
+        };
+        let want: Vec<serde_json::Value> = serde_json::from_slice(
+            &std::fs::read(fixtures::dir("../errors/locks_in_transaction.json")).unwrap(),
+        )
+        .unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("table_locks_in_transaction", &fixtures::empty_dir());
+        let set = |table, value: &CStr| unsafe {
+            AdsSetString(table, name(c"TAG"), value.as_ptr().cast_mut().cast(), 5)
+        };
+        let mut got = Vec::new();
+        for (kind, table_type) in [
+            ("NTX", crate::ADS_NTX),
+            ("CDX", crate::ADS_CDX),
+            ("ADT", ADS_ADT),
+            ("VFP", crate::ADS_VFP),
+        ] {
+            let scripts = want
+                .iter()
+                .filter(|row| row["type"] == kind)
+                .map(|row| row["script"].as_str().unwrap().to_owned());
+            for (n, script) in scripts.enumerate() {
+                let file = std::ffi::CString::new(format!("l{table_type}_{n}")).unwrap();
+                let connect = fixtures::connect_to(&source);
+                let mut table = 0;
+                let rc = unsafe {
+                    AdsCreateTable(
+                        connect,
+                        file.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        name(c"TAG,C,5,0"),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for value in [c"HELLO", c"THERE"] {
+                    AdsAppendRecord(table);
+                    set(table, value);
+                    AdsWriteRecord(table);
+                }
+                AdsCloseTable(table);
+                AdsDisconnect(connect);
+                let connect = fixtures::connect_to(&source);
+                let rc = unsafe {
+                    AdsOpenTable(
+                        connect,
+                        file.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                let rcs: Vec<u32> = script
+                    .chars()
+                    .map(|step| match step {
+                        'B' => AdsBeginTransaction(connect),
+                        'C' => AdsCommitTransaction(connect),
+                        'R' => AdsRollbackTransaction(connect),
+                        'L' => AdsLockTable(table),
+                        'U' => AdsUnlockTable(table),
+                        'l' => AdsLockRecord(table, 1),
+                        'u' => AdsUnlockRecord(table, 1),
+                        'X' => AdsCloseTable(table),
+                        'N' => {
+                            let mut count = 0;
+                            unsafe { AdsGetRecordCount(table, 1, &mut count) }
+                        }
+                        'W' => {
+                            AdsGotoTop(table);
+                            match set(table, c"WORLD") {
+                                AE_SUCCESS => AdsWriteRecord(table),
+                                rc => rc,
+                            }
+                        }
+                        other => panic!("{other}"),
+                    })
+                    .collect();
+                got.push(serde_json::json!({"type": kind, "script": script, "rc": rcs}));
+                AdsDisconnect(connect);
+            }
+        }
+        assert_eq!(want, got);
+    }
+
     remote_twins!(
         begin_commit_and_roll_back,
         sql_statements,
         illegal_commands,
         closed_in_transaction,
+        table_locks_in_transaction,
         concurrent_transactions
     );
 

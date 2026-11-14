@@ -25,6 +25,8 @@ pub mod aep;
 mod backup;
 #[cfg(feature = "test-hooks")]
 pub use backup::active::pause_next_backup;
+#[cfg(feature = "test-hooks")]
+pub use maintenance::hold_maintenance;
 mod cache;
 pub mod clock;
 pub mod collations;

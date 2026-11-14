@@ -217,6 +217,11 @@ pub struct Table {
     /// Whether the table was opened by name ([`open`]), a view among them,
     /// rather than returned by an SQL statement.
     pub(crate) opened: AtomicBool,
+    /// Whether the FoxPro or VFP table found an IDX file named as its
+    /// structural `.cdx` when it opened exclusively, which `AdsOpenIndex`
+    /// cannot open then (7008, `fixtures/errors/index_files.json`,
+    /// `fixtures/errors/stray_index_modes.json`).
+    pub(crate) stray_index: bool,
     /// The AutoInc value of the last record this handle appended
     /// (`AdsGetLastAutoinc`); 0 before the first.
     last_autoinc: AtomicU32,
@@ -406,6 +411,22 @@ pub(crate) struct State {
     /// The dictionary's constraints a record must pass to be written (see
     /// [`crate::constraints`]).
     checks: Option<Arc<crate::constraints::Checks>>,
+    /// The slots an exclusive handle's visible record numbers pass by (see
+    /// [`Table::visible_record_number`]).
+    hidden_slots: Option<HiddenSlots>,
+}
+
+/// The slots of a table whose records are not visible, in order, and what
+/// that depends on: the file's changes, its slots, the filters and whether
+/// deleted records are hidden. Kept only by a handle that has the table
+/// exclusively, as only this process can change it then.
+#[derive(Debug)]
+struct HiddenSlots {
+    changes: u64,
+    slots: u32,
+    filters: Arc<filter::Filters>,
+    hides_deleted: bool,
+    hidden: Vec<u32>,
 }
 
 /// A record a client is changing (`AdsAppendRecord`, `AdsSetString`, ...):
@@ -837,6 +858,15 @@ impl State {
         }
     }
 
+    /// Whether the handle hides deleted records it could show: those of a
+    /// DBF table while deleted records are not shown (`AdsShowDeleted`).
+    /// An ADT table's are never shown, and its orders have no keys for them.
+    fn hides_deleted(&self) -> bool {
+        self.deleted_shown
+            .as_ref()
+            .is_some_and(|settings| !settings.shows_deleted())
+    }
+
     /// Whether slot `slot` holds a record that is not hidden as deleted:
     /// an active one, or in a DBF table a deleted one while deleted records
     /// are shown.
@@ -1221,6 +1251,7 @@ impl Table {
                 weights: None,
                 dynamic: None,
                 blank_empty: false,
+                contains: None,
             },
             false => self.env(),
         };
@@ -1253,7 +1284,20 @@ impl Table {
                 .map(|collation| collation.weights),
             dynamic: self.dynamic_collation(),
             blank_empty: self.format() != Format::Adt,
+            contains: self.contains(),
         }
+    }
+
+    /// What answers `CONTAINS` in the table's filters, where one has it.
+    fn contains(&self) -> Option<tflip_expr::Contains> {
+        let filters = Arc::clone(&lock(&self.filters));
+        let filter = filters.filter.as_ref().and_then(|f| f.contains.clone());
+        filter.or_else(|| {
+            filters
+                .aof
+                .as_ref()
+                .and_then(|aof| aof.filter.contains.clone())
+        })
     }
 
     /// The dynamic collation an ADT table was opened with, by which its
@@ -1291,6 +1335,47 @@ impl Table {
             Position { .. } if state.counted_past_end => None,
             Position { .. } => return Ok(0),
         };
+        let past_end = u32::from(state.position.record.is_none());
+        // An exclusive handle keeps the slots that are hidden, while nothing
+        // they depend on changes, so that a walk numbering every record
+        // does not count from the first each time.
+        let kept = self.exclusive()
+            && state.sequence.is_none()
+            && state.pending.is_none()
+            && state
+                .connection
+                .as_deref()
+                .and_then(crate::transaction::reader)
+                .is_none();
+        if kept {
+            let (changes, slots) = (state.changes()?, state.slots());
+            let hides_deleted = state.hides_deleted();
+            let current = state.hidden_slots.as_ref().is_some_and(|kept| {
+                kept.changes == changes
+                    && kept.slots == slots
+                    && kept.hides_deleted == hides_deleted
+                    && Arc::ptr_eq(&kept.filters, &sieve.filters)
+            });
+            if !current {
+                let mut hidden = Vec::new();
+                for slot in 1..=slots {
+                    if !state.visible(slot, &sieve)? {
+                        hidden.push(slot);
+                    }
+                }
+                state.hidden_slots = Some(HiddenSlots {
+                    changes,
+                    slots,
+                    filters: Arc::clone(&sieve.filters),
+                    hides_deleted,
+                    hidden,
+                });
+            }
+            let last = end.unwrap_or(slots);
+            let hidden = &state.hidden_slots.as_ref().expect("just kept").hidden;
+            let before = hidden.partition_point(|&slot| slot <= last) as u32;
+            return Ok(last - before + past_end);
+        }
         let mut count = 0;
         for slot in state.natural() {
             count += u32::from(state.visible(slot, &sieve)?);
@@ -1298,11 +1383,7 @@ impl Table {
                 break;
             }
         }
-        Ok(if state.position.record.is_some() {
-            count
-        } else {
-            count + 1
-        })
+        Ok(count + past_end)
     }
 
     /// How many bytes a record starts with before its fields.
@@ -1643,7 +1724,7 @@ impl Table {
             return self.visible_record_number();
         }
         let sieve = self.sieve();
-        let filtered = respect && !sieve.filters.is_empty();
+        let filtered = respect && (!sieve.filters.is_empty() || self.state().hides_deleted());
         let scoped = respect && order.scope() != Scope::default();
         let position = self.state().position;
         let record = match position {
@@ -1735,16 +1816,24 @@ impl Table {
     }
 
     /// The number of keys in `order` (see [`Index::key_count`]); with
-    /// `respect`, of those in its scope whose records are visible. As in the
-    /// original engine, counting from a scope's top seeks it: the found flag
-    /// says whether a key starts with it; and counting through a filter at
-    /// BOF leaves the record numbers at EOF's.
+    /// `respect`, of those in its scope whose records are visible: neither
+    /// hidden by the filters nor deleted while deleted records are hidden
+    /// (`fixtures/seek/deleted.json`). As in the original engine, counting
+    /// from a scope's top seeks it: the found flag says whether a key starts
+    /// with it; and counting through a filter at BOF leaves the record
+    /// numbers at EOF's. A record changed and not written yet is written
+    /// first, so a delete counts at once.
     pub fn key_count_in(&self, order: &Index, respect: bool) -> Result<u32, Error> {
         if order.is_temporary() {
             return order.key_count(respect);
         }
         let sieve = self.sieve();
-        let count = if respect && !sieve.filters.is_empty() && !order.tag.binary() {
+        let hides = {
+            let mut state = self.state();
+            state.flush()?;
+            !sieve.filters.is_empty() || state.hides_deleted()
+        };
+        let count = if respect && hides && !order.tag.binary() {
             let mut state = self.state();
             if state.position.record.is_none() {
                 state.counted_past_end = true;
@@ -1993,8 +2082,10 @@ impl Table {
     /// Seeks the last key of `order` that starts with `value`'s, as
     /// `AdsSeekLast` does, and returns whether it was found: on its last
     /// record if so, else at EOF, and at BOF too if no key comes before it
-    /// (as in the original engine). Keys outside the scope or of records
-    /// the filters hide are not found.
+    /// (as in the original engine). Keys outside the scope are not found.
+    /// Of the keys that start with it, the last one of a visible record is
+    /// found: those of records the filters hide, or deleted records hidden,
+    /// are passed by (`fixtures/seek/deleted.json`).
     pub fn seek_last_in(&self, order: &Index, value: SeekValue) -> Result<bool, Error> {
         if order.is_temporary() {
             return self.find_temporary(order, value, keys::Find::Last);
@@ -2004,6 +2095,12 @@ impl Table {
         let mut state = self.state();
         let (landed, before_all) = match order.seek_last(&key)? {
             Ok((record, Place::Inside)) if state.visible(record, &sieve)? => (Some(record), false),
+            Ok((_, Place::Inside)) => {
+                let before = order.step(false)?;
+                let before = Table::visible_key(&mut state, order, before, false, &sieve)?;
+                let starts = order.current_key()?.is_some_and(|k| k.starts_with(&key));
+                (before.filter(|_| starts), false)
+            }
             Ok(_) => (None, false),
             Err(any_before) => (None, !any_before),
         };
@@ -2031,8 +2128,11 @@ impl Table {
     /// one at EOF. A key after the scope is not found either, and goes to
     /// EOF.
     ///
-    /// A key whose record the filters hide is not found either: a soft seek
-    /// lands on the next visible record, a hard one at EOF.
+    /// Where the key found is of a record the filters hide, or a deleted
+    /// record hidden, the seek goes on to the next visible record: found if
+    /// its key still starts with the sought one, as in the original engine
+    /// (`fixtures/seek/deleted.json`); else a soft seek stays there and a
+    /// hard one goes to EOF.
     pub fn seek_in(&self, order: &Index, value: SeekValue, how: SeekType) -> Result<bool, Error> {
         if order.is_temporary() {
             return self.find_temporary(order, value, keys::Find::Seek(how));
@@ -2046,6 +2146,7 @@ impl Table {
         }
         let key_length = usize::from(order.tag.key_length);
         let key = self.sought_key(order, value)?;
+        let sought = key.clone();
         let sieve = self.sieve();
         let mut state = self.state();
         let landed = match (how, key.is_empty()) {
@@ -2088,17 +2189,22 @@ impl Table {
             _ => None,
         };
         // A hidden record, or a key a transaction's record has for others
-        // than its own: on to the next visible one, not found (but a key
-        // after the sought one is still one).
+        // than its own: on to the next visible one, found if its key still
+        // starts with the sought one (a key after the sought one is always
+        // one).
         let hidden = |state: &mut State, record| -> Result<bool, Error> {
             Ok(!state.visible(record, &sieve)? || !Table::key_seen(state, order, record)?)
         };
         let landed = match landed {
-            Some((record, _)) if hidden(&mut state, record)? => {
+            Some((record, found)) if hidden(&mut state, record)? => {
                 let next = order.step(true)?;
                 let next = Table::visible_key(&mut state, order, next, true, &sieve)?;
-                next.filter(|_| how != SeekType::Hard)
-                    .map(|record| (record, how == SeekType::After))
+                let found = match how {
+                    SeekType::After => true,
+                    _ => found && order.current_key()?.is_some_and(|k| k.starts_with(&sought)),
+                };
+                next.filter(|_| found || how != SeekType::Hard)
+                    .map(|record| (record, found))
             }
             landed => landed,
         };
@@ -2224,17 +2330,27 @@ impl Table {
         )
     }
 
+    /// The name that qualifies the table's fields in expressions
+    /// (`alias->field`, besides `FIELD->field`): its alias, else its file's
+    /// name.
+    pub(crate) fn expression_alias(&self) -> String {
+        match self.alias.get() {
+            Some(alias) if !alias.is_empty() => alias.clone(),
+            _ => self
+                .path
+                .file_stem()
+                .map(|s| s.to_string_lossy().into_owned())
+                .unwrap_or_default(),
+        }
+    }
+
     /// Compiles `expression` for the table; [`Error::Expression`] if it is
     /// not a valid expression, [`Error::InvalidExpression`] if it is empty.
     pub fn compile(&self, expression: &str) -> Result<Expr, Error> {
         if expression.is_empty() {
             return Err(Error::InvalidExpression);
         }
-        let alias = self
-            .path
-            .file_stem()
-            .map(|s| s.to_string_lossy())
-            .unwrap_or_default();
+        let alias = self.expression_alias();
         let schema = filter::Schema {
             alias: &alias,
             fields: self.fields(),
@@ -2528,16 +2644,12 @@ impl Table {
         }
     }
 
-    /// Whether the table is an OEM table: a Clipper or FoxPro table opened
-    /// with `ADS_OEM`, whose character keys weigh by the OEM static collation
-    /// (as in the original engine, ADT and VFP tables are ANSI whatever they
-    /// are opened as).
+    /// Whether the table is an OEM table: a DBF table opened with `ADS_OEM`
+    /// (or, for a Visual FoxPro one, an OEM collation), whose character keys
+    /// weigh by the OEM static collation (as in the original engine, ADT
+    /// tables are ANSI whatever they are opened as).
     pub(crate) fn is_oem(&self) -> bool {
-        self.settings.char_type == 2
-            && matches!(
-                self.dbf_flavour(),
-                Some(tflip_storage::dbf::Flavour::Clipper | tflip_storage::dbf::Flavour::FoxPro)
-            )
+        self.settings.char_type == 2 && self.dbf_flavour().is_some()
     }
 
     /// Whether the table was opened exclusively, so it takes no locks.

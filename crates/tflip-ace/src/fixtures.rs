@@ -147,6 +147,8 @@ fn start_server(check_free_tables: bool, disable_free: bool) -> u16 {
         shares.add("sqldata", sql_data());
         shares.add("sqldml", sql_dml_data(true));
         shares.add("scratch", scratch_root());
+        // A path of the original server's, as `tflipd --map` maps it.
+        shares.add_map(r"X:\tflip-fixtures", "fixtures");
         shares.set_check_free_table_access(check_free_tables);
         shares.set_disable_free_connections(disable_free);
         let shares = Arc::new(shares);

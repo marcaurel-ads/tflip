@@ -1,4 +1,4 @@
-protocol 88
+protocol 90
 fn handle_kind (handle : Handle) -> Option<HandleKind>
 fn connect (connect_string : String) -> Handle
 fn connect_path (path : String, server_types : u16, user : Option<String>, password : Option<String>, dd_password : Option<String>) -> Handle
@@ -163,7 +163,7 @@ fn set_relative_position (order : Handle, position : f64) -> ()
 fn seek (order : Handle, key : Key, how : SeekType) -> bool
 fn seek_last (order : Handle, key : Key) -> bool
 fn skip_unique (order : Handle, records : i64) -> ()
-fn set_index_direction (order : Handle, reversed : bool) -> ()
+fn set_index_direction (order : Handle, flip : bool) -> ()
 fn extract_key (order : Handle) -> Vec<u8>
 fn bookmark_key (order : Handle) -> Vec<u8>
 fn lookup_key (order : Handle, key : Key) -> bool

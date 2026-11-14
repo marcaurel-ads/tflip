@@ -923,6 +923,113 @@ mod tests {
         crate::AdsDisconnect(connect);
     }
 
+    /// An exclusive handle keeps the slots its filtered record numbers pass
+    /// by; they are what a shared handle, which counts every time, gives,
+    /// through deletes, recalls, appends, `AdsShowDeleted` and AOFs, for
+    /// DBF and ADT tables.
+    #[test]
+    fn kept_hidden_slots_number_as_counting_does() {
+        let _settings = fixtures::settings_lock();
+        let (source, _dir) = fixtures::scratch_from("hidden_slots", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        for (table_type, a, b) in [
+            (crate::ADS_CDX, "x.dbf", "y.dbf"),
+            (crate::ADS_ADT, "x.adt", "y.adt"),
+        ] {
+            let null = std::ptr::null_mut();
+            let fields = text("N,N,4,0");
+            for name in [a, b] {
+                let (name, mut table) = (text(name), 0);
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        null,
+                        table_type,
+                        1,
+                        1,
+                        1,
+                        0,
+                        fields.as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for _ in 0..12 {
+                    crate::AdsAppendRecord(table);
+                    crate::AdsWriteRecord(table);
+                }
+                crate::AdsCloseTable(table);
+            }
+            let open = |name: &str, options| {
+                let (name, mut table) = (text(name), 0);
+                let rc = unsafe {
+                    crate::AdsOpenTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        null,
+                        table_type,
+                        1,
+                        1,
+                        1,
+                        options,
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                table
+            };
+            let (kept, counted) = (open(a, crate::ADS_EXCLUSIVE), open(b, crate::ADS_SHARED));
+            let numbers = |table| {
+                (1..=13u32)
+                    .map(|record| {
+                        crate::AdsGotoRecord(table, record);
+                        let mut n = 0xffff_ffff;
+                        let rc = unsafe { AdsGetRecordNum(table, ADS_RESPECTFILTERS, &mut n) };
+                        (rc, n)
+                    })
+                    .collect::<Vec<_>>()
+            };
+            // Each step's return codes must agree too, so that the tables
+            // stay alike.
+            let both = |step: &dyn Fn(AdsHandle) -> Vec<Unsigned32>| {
+                assert_eq!(step(kept), step(counted), "type {table_type}");
+                assert_eq!(numbers(kept), numbers(counted), "type {table_type}");
+            };
+            both(&|_| vec![]);
+            for record in [3, 7, 8] {
+                both(&|t| {
+                    crate::AdsGotoRecord(t, record);
+                    vec![crate::AdsDeleteRecord(t), crate::AdsWriteRecord(t)]
+                });
+            }
+            for show in [0, 1, 0] {
+                crate::AdsShowDeleted(show);
+                both(&|_| vec![]);
+            }
+            // A deleted ADT record recalled on a shared handle is refused
+            // (5035), so the tables would no longer be alike: DBF only.
+            if table_type == crate::ADS_CDX {
+                both(&|t| {
+                    crate::AdsGotoRecord(t, 7);
+                    crate::AdsLockRecord(t, 7);
+                    let codes = vec![crate::AdsRecallRecord(t), crate::AdsWriteRecord(t)];
+                    crate::AdsUnlockRecord(t, 7);
+                    codes
+                });
+            }
+            both(&|t| vec![crate::AdsAppendRecord(t), crate::AdsWriteRecord(t)]);
+            let aof = text("RECNO() <> 5");
+            both(&|t| vec![unsafe { crate::AdsSetAOF(t, aof.as_ptr().cast_mut().cast(), 2) }]);
+            both(&|t| vec![crate::AdsClearAOF(t)]);
+            crate::AdsShowDeleted(1);
+            crate::AdsCloseTable(kept);
+            crate::AdsCloseTable(counted);
+        }
+        crate::AdsDisconnect(connect);
+    }
+
     crate::fixtures::remote_twins!(
         clear_record_buffers,
         reads_whole_records,

@@ -924,8 +924,8 @@ not a bug.
 - **[quirk] DBF tables in a dictionary** (`fixtures/sql/ddbf`,
   `fixtures/sql/dbfpk`, `fixtures/dictionary/dbfcorners`). The dictionary's
   character type, not the one a table is opened with, says how a Clipper,
-  FoxPro or Visual FoxPro table's text reads; a free Visual FoxPro table
-  opened as OEM stays ANSI, but a dictionary's does not. `AdsDDAddTable`
+  FoxPro or Visual FoxPro table's text reads (a free one's is the character
+  type it is opened with, `fixtures/dbf/vfp_oem.json`). `AdsDDAddTable`
   keeps `ADS_OEM` for a DBF table only, takes a character type of 1 to 118
   for ADT and VFP tables (a Clipper or FoxPro table's must be `ADS_ANSI` or
   `ADS_OEM`, else 5025 with a text about collation languages; 0 or more than

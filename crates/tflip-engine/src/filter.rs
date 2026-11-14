@@ -198,6 +198,9 @@ impl tflip_sql::Row for SqlRow<'_> {
 pub(crate) struct Filter {
     pub text: String,
     pub expr: Arc<Expr>,
+    /// What answers its `CONTAINS`, where it has one (see
+    /// [`crate::table::Table::contains_hook`]).
+    pub contains: Option<tflip_expr::Contains>,
 }
 
 /// How a client asked for an AOF (`AdsSetAOF`'s options).
@@ -494,6 +497,11 @@ fn filter_holds(
         Ok(_) => true,
         Err(Failure::Row(error)) => return Err(error),
         Err(Failure::Runtime(Runtime::DivideByZero)) => return Err(Error::Evaluation(division)),
+        // A `CONTAINS` condition the full-text search refuses fails the
+        // call (`fixtures/expr/contains.json`).
+        Err(Failure::Runtime(failure @ Runtime::FullText(_))) => {
+            return Err(Error::Evaluation(failure));
+        }
         Err(Failure::Runtime(_)) => false,
     })
 }
@@ -556,6 +564,14 @@ impl tflip_expr::Schema for Schema<'_> {
             tflip_storage::field::Layout::Dbf(_) => field.name.to_ascii_uppercase(),
             _ => field.name.clone(),
         })
+    }
+
+    /// In an ADT table; a table without fields counts as one.
+    fn fields_hide_operators(&self) -> bool {
+        !matches!(
+            self.fields.first().map(|field| &field.layout),
+            Some(tflip_storage::field::Layout::Dbf(_))
+        )
     }
 
     fn field(&self, name: &str) -> Option<tflip_expr::Field> {

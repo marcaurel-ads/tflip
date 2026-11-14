@@ -2,8 +2,8 @@
 //! (the help's "Supported in Navigational"), as the original engine
 //! evaluates them.
 //!
-//! Left out: `CONTAINS` beyond checking for NULL (it needs full-text
-//! indexes), `COLLATE` (no collations), `TRANSFORM` beyond numbers in
+//! Left out: `CONTAINS` beyond checking for NULL, where the environment
+//! has no full-text search to answer it ([`crate::Contains`]), `COLLATE` (no collations), `TRANSFORM` beyond numbers in
 //! pictures of `9`s, and `TTOC`, `SYS` and `NEWIDSTRING`, which are refused
 //! as unsupported once their arguments are counted. The functions only SQL
 //! has (`MOD`, `SQRT`, `POWER`, `PI`, ...) are unknown here, as in the

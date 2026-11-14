@@ -18,10 +18,15 @@ reach. The help says it "ignores transaction-related instructions"
   the data folder. Writes take no locks that outlast them: another
   connection locks a record changed in the transaction, and
   `AdsUnlockRecord` on it fails with 5062 (no lock).
-- **Nothing is illegal.** `AdsPackTable`, `AdsZapTable`, `AdsReindex`,
-  `AdsSetTableTransactionFree` and `AdsCloseTable` succeed in a
-  transaction (where the table is open as they need), and so does
-  `AdsDisconnect`.
+- **Nothing is illegal**, but for a table lock. `AdsPackTable`,
+  `AdsZapTable`, `AdsReindex`, `AdsSetTableTransactionFree` and
+  `AdsCloseTable` succeed in a transaction (where the table is open as they
+  need), and so does `AdsDisconnect`. A table the handle has locked with
+  `AdsLockTable`, before the transaction or in it, cannot be unlocked
+  (`AdsUnlockTable` fails with 5063 and the lock stays until the transaction
+  ends) and `AdsCloseTable` of it fails with 5063 but closes it all the same
+  (`fixtures/errors/locks_in_transaction.json`). Record locks are let go
+  of as usual.
 - **A nesting count per connection**, as `AdsGetTransactionCount` reports
   (the help says it is always 0 on the local server; it is not):
   - `AdsBeginTransaction(c)` adds 1, `AdsCommitTransaction(c)` takes 1
@@ -129,7 +134,9 @@ original takes relative names from the client's folder):
   in a transaction.", "Can't Zap in a transaction."): `AdsReindex`,
   `AdsPackTable`, `AdsZapTable`, `AdsSetTableTransactionFree`, and SQL's
   `SET TRANSACTION`. Closing a table in a transaction succeeds, and so does
-  `AdsDisconnect` (the transaction is rolled back).
+  `AdsDisconnect` (the transaction is rolled back); a table lock is as on
+  the local server (5063 from `AdsUnlockTable` and from `AdsCloseTable`,
+  which closes the table all the same).
 - **The count**: as on the local server (`AdsBeginTransaction` adds 1,
   commit takes 1, rollback ends it; 5047 out of sequence), but
   `AdsBeginTransaction(0)` adds 1 to each connection. `AdsInTransaction` is

@@ -1,5 +1,5 @@
-//! The client's configuration: which servers it trusts, and whether its
-//! transactions are real ones.
+//! The client's configuration: which servers it trusts, whether its
+//! transactions are real ones, and what its relative names are relative to.
 //!
 //! A server is trusted by the SHA-256 fingerprint of its certificate, which
 //! `tflipd` prints when it starts. Fingerprints come from:
@@ -69,6 +69,31 @@
 //! reads `ads.ini`'s `COMPRESSION` (see
 //! `tflip_protocol::wire::compressed`). It is read on every connect.
 //!
+//! `commtype` in the same section (or `TFLIP_COMMTYPE`), as `ignore`, lets a
+//! connect string ask for a transport without TLS (`CommType=TCP_IP`,
+//! `UDP_IP`, `IPX`), as connect strings written for the original often do:
+//! the setting is logged and ignored, and the connection is made over TLS
+//! as every connection to `tflipd` is. By default such a connect string is
+//! refused (`AE_INVALID_OPTION`). It is read on every connect.
+//!
+//! ```ini
+//! [connection]
+//! commtype = ignore
+//! ```
+//!
+//! `version` in the `[compat]` section is the description `AdsGetVersion`
+//! gives, for clients that check it: `original` for the original's
+//! (`Advantage 32-bit Client Engine for Windows`, which its 64-bit DLL gives
+//! too), or any other text as it is; tflip's own
+//! (`tflip 0.27.0 i686-pc-windows-gnu`, its release and the target it is
+//! built for) by default.
+//! It is read once.
+//!
+//! ```ini
+//! [compat]
+//! version = original
+//! ```
+//!
 //! `local` in the `[cache]` section (or `TFLIP_LOCAL_CACHE`) chooses whether
 //! the local server's connections keep closed tables open for reuse
 //! (`AdsCacheOpenTables`, `AdsCacheOpenCursors`) as the original's local
@@ -83,6 +108,18 @@
 //! ```ini
 //! [cache]
 //! local = yes
+//! ```
+//!
+//! `relative` in the `[paths]` section chooses what relative table names,
+//! table listing masks and index file names with a folder in them are
+//! relative to on the local server: `connection` (the default), the
+//! connection's folder, as on a server, or `cwd`, the process's current
+//! directory, as the original's local server takes them, for clients that
+//! rely on that (`docs/DIFFERENCES.md`). It is read when the DLL starts.
+//!
+//! ```ini
+//! [paths]
+//! relative = cwd
 //! ```
 
 use std::path::PathBuf;
@@ -191,6 +228,19 @@ pub(crate) fn real_transactions() -> bool {
         .is_none_or(|mode| !mode.eq_ignore_ascii_case("count"))
 }
 
+/// Whether relative names on the local server are relative to the
+/// process's current directory, as in the original: `[paths]` says
+/// `relative = cwd`; else (the default) to the connection's folder.
+pub(crate) fn cwd_relative() -> bool {
+    let text = config_file().and_then(|path| std::fs::read_to_string(path).ok());
+    text.is_some_and(|text| cwd_relative_in(&text))
+}
+
+/// Whether the ini file `text` says `[paths] relative = cwd`.
+fn cwd_relative_in(text: &str) -> bool {
+    ini_value(text, "paths", "relative").is_some_and(|base| base.trim().eq_ignore_ascii_case("cwd"))
+}
+
 /// Whether the local server's connections keep closed tables open for
 /// reuse: `TFLIP_LOCAL_CACHE`, else `[cache] local`, as `yes`, `true`, `on`
 /// or `1` (in any case); anything else, or nothing, keeps none.
@@ -232,6 +282,46 @@ pub(crate) fn request_timeout() -> Option<Duration> {
 }
 
 /// The client's compression setting for a connection whose connect call
+/// Whether a connect string's `CommType` that asks for a transport without
+/// TLS (`TCP_IP`, `UDP_IP`, `IPX`) is ignored, the connection going ahead
+/// over TLS as every connection to `tflipd` does, rather than refused:
+/// `TFLIP_COMMTYPE`, else `[connection] commtype`, as `ignore`.
+pub(crate) fn ignore_comm_type() -> bool {
+    let value = std::env::var("TFLIP_COMMTYPE").ok().or_else(|| {
+        let text = config_file().and_then(|path| std::fs::read_to_string(path).ok())?;
+        ini_value(&text, "connection", "commtype")
+    });
+    value.is_some_and(|value| value.trim().eq_ignore_ascii_case("ignore"))
+}
+
+/// The original's `AdsGetVersion` description, which both its `ace32.dll`
+/// and its `ace64.dll` give.
+pub(crate) const ORIGINAL_DESCRIPTION: &str = "Advantage 32-bit Client Engine for Windows";
+
+/// The description `AdsGetVersion` gives: `[compat] version` (`original`
+/// for the original's, any other text as it is), else `None`, tflip's own.
+/// Read once.
+pub(crate) fn version_description() -> Option<&'static str> {
+    static DESCRIPTION: std::sync::OnceLock<Option<String>> = std::sync::OnceLock::new();
+    DESCRIPTION
+        .get_or_init(|| {
+            let text = config_file().and_then(|path| std::fs::read_to_string(path).ok())?;
+            description_in(&text)
+        })
+        .as_deref()
+}
+
+/// [`version_description`] of the ini file `text`.
+fn description_in(text: &str) -> Option<String> {
+    let value = ini_value(text, "compat", "version")?;
+    let value = value.trim();
+    match value {
+        "" => None,
+        _ if value.eq_ignore_ascii_case("original") => Some(ORIGINAL_DESCRIPTION.to_owned()),
+        _ => Some(value.to_owned()),
+    }
+}
+
 /// gives none: `TFLIP_COMPRESSION`, else `[connection] compression`, else
 /// [`Compression::Internet`] (the original's default). A value that is not
 /// `INTERNET`, `ALWAYS` or `NEVER` is logged and the default kept.
@@ -417,6 +507,28 @@ mod tests {
         assert_eq!(parse_timeout("forever"), None);
         assert_eq!(parse_timeout("-1"), None);
         assert_eq!(parse_timeout("inf"), None);
+    }
+
+    #[test]
+    fn version_description_from_ini() {
+        assert_eq!(
+            description_in("[compat]\nversion = Original\n").as_deref(),
+            Some(ORIGINAL_DESCRIPTION)
+        );
+        assert_eq!(
+            description_in("[compat]\nversion = Advantage 64-bit Client Engine\n").as_deref(),
+            Some("Advantage 64-bit Client Engine")
+        );
+        assert_eq!(description_in("[compat]\nversion =\n"), None);
+        assert_eq!(description_in("[cache]\nversion = original\n"), None);
+    }
+
+    #[test]
+    fn cwd_relative_from_ini() {
+        assert!(cwd_relative_in("[paths]\nrelative = CWD\n"));
+        assert!(!cwd_relative_in("[paths]\nrelative = connection\n"));
+        assert!(!cwd_relative_in("[cache]\nrelative = cwd\n"));
+        assert!(!cwd_relative_in(""));
     }
 
     #[test]

@@ -1,0 +1,10 @@
+[
+{"type": "CDX", "extension": "cdx", "first": "single", "second": "compound", "rc": [0, 0], "orders": 1, "reopen": 0, "names": ["p2_0"]},
+{"type": "CDX", "extension": "cdx", "first": "compound", "second": "single", "rc": [0, 0], "orders": 2, "reopen": 0, "names": ["K1", "P2_1"]},
+{"type": "CDX", "extension": "xyz", "first": "single", "second": "compound", "rc": [0, 0], "orders": 1, "reopen": 0, "names": ["p2_2"]},
+{"type": "CDX", "extension": "xyz", "first": "compound", "second": "single", "rc": [0, 0], "orders": 2, "reopen": 0, "names": ["K1", "P2_3"]},
+{"type": "VFP", "extension": "cdx", "first": "single", "second": "compound", "rc": [0, 0], "orders": 1, "reopen": 0, "names": ["p4_4"]},
+{"type": "VFP", "extension": "cdx", "first": "compound", "second": "single", "rc": [0, 0], "orders": 2, "reopen": 0, "names": ["K1", "P4_5"]},
+{"type": "VFP", "extension": "xyz", "first": "single", "second": "compound", "rc": [0, 0], "orders": 1, "reopen": 0, "names": ["p4_6"]},
+{"type": "VFP", "extension": "xyz", "first": "compound", "second": "single", "rc": [0, 0], "orders": 2, "reopen": 0, "names": ["K1", "P4_7"]}
+]

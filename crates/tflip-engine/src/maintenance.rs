@@ -135,6 +135,7 @@ impl Guard {
     /// Enters the final stage: for a transition, once the connections that
     /// opened the table have gone; the opens that come after wait.
     pub(crate) fn final_stage(&self) {
+        held(&self.key);
         if self.kind == Kind::Transition {
             loop {
                 let alive = with(|active| {
@@ -191,6 +192,9 @@ impl Guard {
 
 impl Drop for Guard {
     fn drop(&mut self) {
+        if self.kind == Kind::Offline {
+            held(&self.key);
+        }
         with(|active| {
             if active.get(&self.key).is_some_and(|o| o.owner == self.owner) {
                 active.remove(&self.key);
@@ -253,3 +257,42 @@ pub(crate) fn admit(session: &Session, connection: Handle, path: &Path) -> Resul
         std::thread::sleep(POLL);
     }
 }
+
+/// The folder whose tables' operations a test holds (see
+/// [`hold_maintenance`]), as [`key`] spells it.
+#[cfg(feature = "test-hooks")]
+static HOLD: Mutex<Option<String>> = Mutex::new(None);
+
+/// Holds the operations on the tables in `folder` before their final stage,
+/// and the offline ones before they end, until it is called again with
+/// `None` (or for [`PATIENCE`] at most): a test can then rely on them being
+/// under way as long as the original's were, which their speed here does
+/// not promise (`fixtures/events/events_online.json`).
+#[cfg(feature = "test-hooks")]
+pub fn hold_maintenance(folder: Option<&Path>) {
+    let mut hold = HOLD.lock().unwrap_or_else(PoisonError::into_inner);
+    *hold = folder.map(|folder| {
+        let mut key = key(folder);
+        if !key.ends_with(std::path::MAIN_SEPARATOR) {
+            key.push(std::path::MAIN_SEPARATOR);
+        }
+        key
+    });
+}
+
+/// Waits while a test holds the operation on the table `key` names.
+#[cfg(feature = "test-hooks")]
+fn held(key: &str) {
+    let start = Instant::now();
+    let holding = || {
+        let hold = HOLD.lock().unwrap_or_else(PoisonError::into_inner);
+        hold.as_deref()
+            .is_some_and(|folder| key.starts_with(folder))
+    };
+    while holding() && start.elapsed() < PATIENCE {
+        std::thread::sleep(POLL);
+    }
+}
+
+#[cfg(not(feature = "test-hooks"))]
+fn held(_: &str) {}

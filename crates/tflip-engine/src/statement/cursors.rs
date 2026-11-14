@@ -142,20 +142,30 @@ impl Source {
                 })
             }
             Err(Error::FileNotFound | Error::InvalidObjectName) => {
-                let owner = connection::get(session, connection)?;
-                // A dictionary connection's path is its `.add` file.
-                let folder = match owner.dictionary {
-                    true => owner.path.parent().unwrap_or(&owner.path),
-                    false => &owner.path,
-                };
-                let mut path = folder.join(name);
-                if path.extension().is_none() {
-                    path.set_extension(settings.extension());
-                }
+                let path = table_path(session, connection, settings, name)?;
                 Err(Error::Sql(SqlError::ace(
                     5004,
                     "Either ACE could not find the specified file, or you do not have \
                      sufficient rights to access the file.",
+                    &format!("{} Table name: {name}", path.display()),
+                )))
+            }
+            // A file not of the statement's table type: a DBF file read as
+            // an ADT table, or an ADT file as a DBF one, as the original's
+            // SQL engine words it (probed, `fixtures/sql/deleted_counts.json`).
+            Err(Error::CorruptTable) => {
+                let path = table_path(session, connection, settings, name)?;
+                let (code, text) = match settings.table_type {
+                    table::TableType::Adt => (
+                        7016,
+                        "Corrupt table.  Make sure you are not attempting to open a DBF with \
+                         an ADT table type or vice versa.",
+                    ),
+                    _ => (7014, "Invalid DBF table."),
+                };
+                Err(Error::Sql(SqlError::ace(
+                    code,
+                    text,
                     &format!("{} Table name: {name}", path.display()),
                 )))
             }
@@ -206,6 +216,28 @@ pub(super) struct Planned {
     pub(super) plan: Plan,
     /// The table's own name where the statement reads a view of it.
     pub(super) table_name: Option<String>,
+}
+
+/// The file of the table `name` a statement of `connection` opens with
+/// `settings`, as its errors name it: in the connection's folder (its
+/// dictionary's), with the statement's table type's extension if it has none.
+fn table_path(
+    session: &Session,
+    connection: Handle,
+    settings: &Settings,
+    name: &str,
+) -> Result<std::path::PathBuf, Error> {
+    let owner = connection::get(session, connection)?;
+    // A dictionary connection's path is its `.add` file.
+    let folder = match owner.dictionary {
+        true => owner.path.parent().unwrap_or(&owner.path),
+        false => &owner.path,
+    };
+    let mut path = crate::settings::local_join(session, folder, name);
+    if path.extension().is_none() {
+        path.set_extension(settings.extension());
+    }
+    Ok(path)
 }
 
 impl Planned {

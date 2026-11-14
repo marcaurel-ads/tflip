@@ -222,7 +222,7 @@ impl Parser<'_> {
         let Some(schema) = self.schema else {
             return Ok(());
         };
-        if alias.is_some_and(|alias| !alias.eq_ignore_ascii_case(schema.alias())) {
+        if alias.is_some_and(|alias| !crate::names_table(alias, schema)) {
             return Err(ErrorKind::UnknownAlias);
         }
         schema

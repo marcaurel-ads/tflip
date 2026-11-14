@@ -151,14 +151,37 @@ pub enum Kind {
 }
 
 impl Kind {
-    /// The format of the index file at `path`, by its extension: `.ntx` is
-    /// NTX, `.cdx` and `.idx` CDX, anything else ADI.
+    /// The format of the index file at `path`: the one its header says,
+    /// whatever its extension (the original makes an order of a FoxPro table
+    /// in `notes.ntx` a CDX one and reads it back so,
+    /// `fixtures/errors/foreign_extensions.json`), and for a file not there
+    /// (or too short to tell) the one its extension says, `.ntx` NTX, `.cdx`
+    /// and `.idx` CDX, ADI for any other.
     pub fn of(path: &Path) -> Kind {
-        match path.extension().and_then(|e| e.to_str()) {
+        Kind::sniffed(path).unwrap_or_else(|| match path.extension().and_then(|e| e.to_str()) {
             Some(e) if e.eq_ignore_ascii_case("ntx") => Kind::Ntx,
             Some(e) if e.eq_ignore_ascii_case("cdx") || e.eq_ignore_ascii_case("idx") => Kind::Cdx,
             _ => Kind::Adi,
-        }
+        })
+    }
+
+    /// The format the header of the file at `path` says: an ADI file has
+    /// 0x0400 at 0x10, an NTX file starts with its signature 6 or 7, and a
+    /// CDX or IDX file with the offset of its root page, a multiple of 512.
+    fn sniffed(path: &Path) -> Option<Kind> {
+        use std::io::Read;
+        let mut head = [0u8; 0x12];
+        std::fs::File::open(path).ok()?.read_exact(&mut head).ok()?;
+        Some(
+            match (
+                u16::from_le_bytes([head[0], head[1]]),
+                u16::from_le_bytes([head[0x10], head[0x11]]),
+            ) {
+                (_, 0x0400) => Kind::Adi,
+                (6 | 7, _) => Kind::Ntx,
+                _ => Kind::Cdx,
+            },
+        )
     }
 }
 
@@ -254,10 +277,18 @@ impl IndexFile {
     }
 
     /// The file's orders, in the order they were created; `name` names an
-    /// NTX file's one order.
+    /// NTX file's one order, and an IDX file's unless it is empty (the
+    /// file's name then).
     pub fn tags(&self, name: &str) -> Vec<Tag> {
         match self {
             IndexFile::Adi(file) => file.tags.clone(),
+            IndexFile::Cdx(file) if !file.compound && !name.is_empty() => {
+                let mut tags = file.tags.clone();
+                for tag in &mut tags {
+                    tag.name = name.to_owned();
+                }
+                tags
+            }
             IndexFile::Cdx(file) => file.tags.clone(),
             IndexFile::Ntx(file) => {
                 let header = &file.header;

@@ -14,10 +14,12 @@ use crate::index::write_handles;
 use crate::last_error::{Call, fail, fail_handle};
 use crate::log::{Hex, stub};
 use crate::{
-    ADS_ADT, ADS_CDX, ADS_DATABASE_TABLE, ADS_FALSE, ADS_IGNOREFILTERS, ADS_LOCAL_SERVER, ADS_NTX,
+    ADS_ADT, ADS_ANSI, ADS_CDX, ADS_CHECKRIGHTS, ADS_COMPATIBLE_LOCKING, ADS_DATABASE_TABLE,
+    ADS_FALSE, ADS_IGNOREFILTERS, ADS_IGNORERIGHTS, ADS_LOCAL_SERVER, ADS_NTX, ADS_OEM,
     ADS_PROPRIETARY_LOCKING, ADS_REMOTE_SERVER, ADS_RESPECTFILTERS, ADS_RESPECTSCOPES, ADS_TRUE,
-    ADS_VFP, AE_INVALID_CONNECTION_HANDLE, AE_INVALID_HANDLE, AE_INVALID_OPTION, AE_INVALID_PATH,
-    AE_INVALID_POINTER, AE_INVALID_TABLE_HANDLE, AE_INVALID_TABLETYPE, AE_NO_MEMO_FILE,
+    ADS_VFP, AE_INVALID_CHARSETTYPE, AE_INVALID_CONNECTION_HANDLE, AE_INVALID_HANDLE,
+    AE_INVALID_LOCKTYPE, AE_INVALID_OPTION, AE_INVALID_PATH, AE_INVALID_POINTER,
+    AE_INVALID_RIGHTSOPTION, AE_INVALID_TABLE_HANDLE, AE_INVALID_TABLETYPE, AE_NO_MEMO_FILE,
     AE_NOT_FOUND, AE_SUCCESS, AdsHandle, LOCAL, TABLE_NOT_FOUND, Unsigned8, Unsigned16, Unsigned32,
     ansi, code, error_code, write_at, write_cut_at, write_string_at,
 };
@@ -34,16 +36,130 @@ pub(crate) fn engine_table_type(value: Unsigned16) -> Option<TableType> {
     }
 }
 
+/// The highest character type: `ADS_ANSI` and `ADS_OEM`, then `ace.h`'s
+/// VFP collations, 3 to `ADS_MAX_CHAR_SETS`.
+const MAX_CHAR_TYPE: Unsigned16 = 118;
+
+/// The open option a table created or opened with `lock_type` reports as its
+/// locking (`AdsGetTableLockType`): a Clipper or FoxPro table's is the lock
+/// type it was given, and an ADT table's always proprietary
+/// (`fixtures/errors/lock_types.json`).
+pub(crate) fn locking_option(table_type: TableType, lock_type: Unsigned16) -> u32 {
+    match lock_type == ADS_COMPATIBLE_LOCKING && table_type != TableType::Adt {
+        true => tflip_engine::table::options::COMPATIBLE_LOCKING,
+        false => 0,
+    }
+}
+
+/// Checks the character type, lock type and rights option of
+/// `AdsOpenTable…` (`create` false) or `AdsCreateTable…` (true), after the
+/// table type, as the original engine does
+/// (`fixtures/errors/table_options.json`). `None` if they are good, or the
+/// call's return code.
+///
+/// The rights option is 1 or 2, the lock type 0 or 1, the character type 1
+/// to 118. A VFP collation (3 to 118) on an NTX or CDX table is
+/// `AE_INVALID_TABLETYPE`. `char_type` is `None` when `AdsOpenTable90` is
+/// given a collation, which stands for the character type, unchecked. A
+/// dictionary's table (`ADS_DATABASE_TABLE`) has its lock type checked
+/// only: the dictionary has its character type and rights. An open checks rights, lock type, character type
+/// in that order. A create checks the lock type last, and leaves the last
+/// error alone when the rights option is wrong or the character type is
+/// beyond 118, as the original engine does.
+pub(crate) fn check_options(
+    create: bool,
+    table_type: TableType,
+    char_type: Option<Unsigned16>,
+    lock_type: Unsigned16,
+    check_rights: Unsigned16,
+) -> Option<Unsigned32> {
+    use crate::last_error::{fail_detail, restore_pending};
+    let without_trace = |code| {
+        restore_pending();
+        code
+    };
+    let lock = || {
+        (!matches!(lock_type, ADS_COMPATIBLE_LOCKING | ADS_PROPRIETARY_LOCKING))
+            .then(|| fail_detail(AE_INVALID_LOCKTYPE, "Parameter 6"))
+    };
+    if table_type == TableType::Database {
+        return lock();
+    }
+    if !matches!(check_rights, ADS_CHECKRIGHTS | ADS_IGNORERIGHTS) {
+        return Some(match create {
+            true => without_trace(AE_INVALID_RIGHTSOPTION),
+            false => fail_detail(AE_INVALID_RIGHTSOPTION, "Parameter 7"),
+        });
+    }
+    if !create && let Some(code) = lock() {
+        return Some(code);
+    }
+    // No character type to check (a collation stands for it): all is well.
+    let char_type = char_type?;
+    if char_type > MAX_CHAR_TYPE && create {
+        return Some(without_trace(AE_INVALID_CHARSETTYPE));
+    }
+    if char_type == 0 || char_type > MAX_CHAR_TYPE {
+        return Some(fail_detail(AE_INVALID_CHARSETTYPE, "Parameter 5"));
+    }
+    if char_type > ADS_OEM && matches!(table_type, TableType::Ntx | TableType::Cdx) {
+        return Some(fail_detail(
+            AE_INVALID_TABLETYPE,
+            "Collation languages can only be specified with ADS_ADT and ADS_VFP table types.",
+        ));
+    }
+    if create { lock() } else { None }
+}
+
+/// The character type and collation `AdsOpenTable90` opens a table with,
+/// given a collation, as the original engine takes them
+/// (`fixtures/errors/table_options.json`): `ANSI` or `OEM` (regardless of
+/// case) makes the table's character type that of an NTX or CDX table; any
+/// other collation there is `AE_INVALID_TABLETYPE`. An ADT or VFP table
+/// takes a collation of the repository, or `ANSI` or `OEM`; others are
+/// refused with 7147 ([`crate::settings::check_collation`]).
+fn open_collation(
+    table_type: TableType,
+    char_type: Unsigned16,
+    collation: Option<String>,
+) -> Result<(Unsigned16, Option<String>), Unsigned32> {
+    let Some(name) = collation.filter(|name| !name.is_empty()) else {
+        return Ok((char_type, None));
+    };
+    let ansi_or_oem = match name {
+        _ if name.eq_ignore_ascii_case("ANSI") => Some(ADS_ANSI),
+        _ if name.eq_ignore_ascii_case("OEM") => Some(ADS_OEM),
+        _ => None,
+    };
+    match table_type {
+        TableType::Ntx | TableType::Cdx => match ansi_or_oem {
+            Some(char_type) => Ok((char_type, Some(name))),
+            None => Err(crate::last_error::fail_detail(
+                AE_INVALID_TABLETYPE,
+                "Collation languages can only be specified with ADS_ADT and ADS_VFP table types.",
+            )),
+        },
+        TableType::Adt | TableType::Vfp if ansi_or_oem.is_none() => {
+            let name = crate::settings::check_collation(name, false)?;
+            Ok((char_type, Some(name)))
+        }
+        _ => Ok((char_type, Some(name))),
+    }
+}
+
 /// `AdsOpenTable90`: opens the table `name` on a connection.
 ///
 /// `table_type` is one of `ADS_NTX`, `ADS_CDX`, `ADS_ADT`, `ADS_VFP` or
-/// `ADS_DATABASE_TABLE`; `char_type` is `ADS_ANSI` or `ADS_OEM`; `options`
-/// are `ADS_EXCLUSIVE`, `ADS_READONLY`, `ADS_SHARED`, ... flags.
+/// `ADS_DATABASE_TABLE`; `char_type` is `ADS_ANSI`, `ADS_OEM` or a VFP
+/// collation (ADT and VFP tables only); `options` are `ADS_EXCLUSIVE`,
+/// `ADS_READONLY`, `ADS_SHARED`, ... flags. Options outside these fail as
+/// in the original engine ([`check_options`]).
 ///
 /// Reads the table's structure and hands out a handle that knows how it was
 /// opened (type, character set, collation and options); the lock type is
-/// ignored (the alias and rights checking are kept for `AdsGetTableAlias`
-/// and `AdsGetTableRights`). See [`tflip_engine::table::open`].
+/// checked, then ignored (the alias and rights checking are kept for
+/// `AdsGetTableAlias` and `AdsGetTableRights`). See
+/// [`tflip_engine::table::open`].
 ///
 /// Unlike the original engine, which resolves a relative `name` against the
 /// process's current directory even on a connection, tflip resolves it
@@ -60,7 +176,7 @@ pub unsafe extern "system" fn AdsOpenTable90(
     alias: *mut Unsigned8,
     table_type: Unsigned16,
     char_type: Unsigned16,
-    _lock_type: Unsigned16,
+    lock_type: Unsigned16,
     check_rights: Unsigned16,
     options: Unsigned32,
     collation: *mut Unsigned8,
@@ -76,6 +192,24 @@ pub unsafe extern "system" fn AdsOpenTable90(
     };
     let Some(table_type) = engine_table_type(table_type) else {
         return crate::last_error::fail_detail(AE_INVALID_TABLETYPE, "Parameter 4");
+    };
+    // A collation stands for the character type, which is not checked then.
+    let checked_char_type = match &collation {
+        Some(collation) if !collation.is_empty() => None,
+        _ => Some(char_type),
+    };
+    if let Some(code) = check_options(
+        false,
+        table_type,
+        checked_char_type,
+        lock_type,
+        check_rights,
+    ) {
+        return code;
+    }
+    let (char_type, collation) = match open_collation(table_type, char_type, collation) {
+        Ok(pair) => pair,
+        Err(code) => return code,
     };
     // With 0x10000 (which `AdsGetTableOpenOptions` reports for every open
     // table), the original engine opens nothing and hands out the handle 0,
@@ -107,8 +241,9 @@ pub unsafe extern "system" fn AdsOpenTable90(
         table_type,
         char_type,
         collation,
-        // The locking bit is `AdsOpenTable101`'s alone.
-        options: options & !tflip_engine::table::options::COMPATIBLE_LOCKING,
+        // The locking bit comes from the lock type, not the options.
+        options: (options & !tflip_engine::table::options::COMPATIBLE_LOCKING)
+            | locking_option(table_type, lock_type),
         alias,
         rights: check_rights,
         // An encrypted table opens with the connection's password, if it gave one.
@@ -1049,8 +1184,10 @@ pub extern "system" fn AdsCloseAllTables() -> Unsigned32 {
     AE_SUCCESS
 }
 
-/// `AdsGetTableLockType`: `ADS_PROPRIETARY_LOCKING`, as the original
-/// engine reports for every ADT table.
+/// `AdsGetTableLockType`: the locking a table was opened with
+/// (`ADS_COMPATIBLE_LOCKING` or `ADS_PROPRIETARY_LOCKING`), always
+/// proprietary for an ADT table, as in the original engine
+/// (`fixtures/errors/lock_types.json`).
 ///
 /// # Safety
 ///
@@ -1062,8 +1199,9 @@ pub unsafe extern "system" fn AdsGetTableLockType(
 ) -> Unsigned32 {
     let _call = Call::begin("AdsGetTableLockType");
     let check = table_check(table);
-    // Compatible locking is what `AdsOpenTable101` opens a table with if its
-    // connection's `LockMode` says so; any other table is proprietary.
+    // Compatible locking is what a Clipper or FoxPro table is opened or
+    // created with by lock type, or by `AdsOpenTable101` with its
+    // connection's `LockMode`; an ADT table is always proprietary.
     let compatible = check.is_ok()
         && api(table).table_info(table).is_ok_and(|info| {
             info.settings.options & tflip_engine::table::options::COMPATIBLE_LOCKING != 0
@@ -1182,6 +1320,113 @@ mod tests {
     };
     use std::ffi::CStr;
 
+    /// `tflipd --map`: a path of the original server's under a mapped one
+    /// is the same path in its share, for a table's name and a connection's
+    /// path; any other absolute path is still refused.
+    #[test]
+    fn mapped_server_paths() {
+        fixtures::remotely_with(|| {
+            let connect = fixtures::connect("indexes");
+            let open = |connect, name: &CStr| {
+                let mut table = 0;
+                let rc = unsafe {
+                    AdsOpenTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        crate::ADS_ADT,
+                        1,
+                        0,
+                        1,
+                        ADS_SHARED,
+                        &mut table,
+                    )
+                };
+                if rc == AE_SUCCESS {
+                    AdsCloseTable(table);
+                }
+                rc
+            };
+            assert_eq!(
+                open(connect, c"X:\\TFLIP-FIXTURES\\indexes\\indexed.adt"),
+                AE_SUCCESS
+            );
+            assert_eq!(
+                open(connect, c"x:/tflip-fixtures/INDEXES/indexed.adt"),
+                AE_SUCCESS
+            );
+            for outside in [
+                c"X:\\other\\indexed.adt",
+                c"X:\\tflip-fixtures-2\\indexes\\indexed.adt",
+                c"X:\\tflip-fixtures\\..\\indexed.adt",
+            ] {
+                assert_eq!(
+                    open(connect, outside),
+                    crate::AE_FILE_NOT_ON_SERVER,
+                    "{outside:?}"
+                );
+            }
+            crate::AdsDisconnect(connect);
+            let path = format!(
+                r"\\127.0.0.1:{}\X:\tflip-fixtures\indexes",
+                fixtures::server()
+            );
+            let connect = fixtures::connect_to(&path);
+            assert_eq!(open(connect, c"indexed.adt"), AE_SUCCESS);
+            crate::AdsDisconnect(connect);
+        });
+    }
+
+    /// `[paths] relative = cwd`: a bare table name is looked for in the
+    /// current directory, not the connection's folder, and an absolute one
+    /// is found either way.
+    #[test]
+    fn relative_names_follow_the_setting() {
+        let _settings = fixtures::settings_lock();
+        let (source, _dir) = fixtures::scratch_from(
+            "relative_names_follow_the_setting",
+            &fixtures::dir("indexes"),
+        );
+        let connect = fixtures::connect_to(&source);
+        let absolute = std::ffi::CString::new(
+            std::path::Path::new(&source)
+                .join("indexed.adt")
+                .to_string_lossy()
+                .into_owned(),
+        )
+        .unwrap();
+        let open = |name: &CStr| {
+            let mut table = 0;
+            let rc = unsafe {
+                AdsOpenTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    crate::ADS_ADT,
+                    1,
+                    0,
+                    1,
+                    ADS_SHARED,
+                    &mut table,
+                )
+            };
+            if rc == AE_SUCCESS {
+                AdsCloseTable(table);
+            }
+            rc
+        };
+        let session = &*crate::LOCAL;
+        assert_eq!(open(c"indexed.adt"), AE_SUCCESS);
+        tflip_engine::settings::set_cwd_relative(session, true);
+        // The tests run in the crate's folder, which has no such table.
+        let in_cwd = open(c"indexed.adt");
+        let by_path = open(&absolute);
+        tflip_engine::settings::set_cwd_relative(session, false);
+        assert_eq!((in_cwd, by_path), (AE_FILE_NOT_FOUND, AE_SUCCESS));
+        assert_eq!(open(c"indexed.adt"), AE_SUCCESS);
+        crate::AdsDisconnect(connect);
+    }
+
     /// As in the original engine: one of the filter options, with or
     /// without `ADS_REFRESHCOUNT`, and nothing else; checked before the
     /// pointer.
@@ -1280,6 +1525,210 @@ mod tests {
         }
         crate::AdsDisconnect(connect);
         assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    /// As in the original engine: the table, character, lock and rights
+    /// options of `AdsCreateTable`, `AdsCreateTable90`, `AdsOpenTable` and
+    /// `AdsOpenTable90`, the order they are checked in, which failures
+    /// leave the last error alone, the collations of `AdsOpenTable90` with
+    /// the character types they make, and a dictionary connection's opens
+    /// (`fixtures/errors/table_options.json`, from
+    /// `tools/ace/errors/table_options.c`, whose steps this repeats).
+    ///
+    /// Without a collation repository, an unknown
+    /// collation cannot be told from a known one, so the 7147 rows are left
+    /// out then.
+    #[test]
+    fn table_options() {
+        use serde_json::Value as Json;
+        let path =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/errors/table_options.json");
+        let rows: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, dir) = fixtures::scratch_from("table_options", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let fields = c"ID,N,4,0".as_ptr().cast_mut().cast();
+        let create = |name: &str, table_type, char_type, lock_type, rights, v90: bool| {
+            let name = std::ffi::CString::new(name).unwrap();
+            let name = name.as_ptr().cast_mut().cast();
+            let mut table = 0;
+            let null = std::ptr::null_mut();
+            let rc = unsafe {
+                match v90 {
+                    true => crate::AdsCreateTable90(
+                        connect, name, null, table_type, char_type, lock_type, rights, 0, fields,
+                        0, null, &mut table,
+                    ),
+                    false => crate::AdsCreateTable(
+                        connect, name, null, table_type, char_type, lock_type, rights, 0, fields,
+                        &mut table,
+                    ),
+                }
+            };
+            (rc, table)
+        };
+        let base_name = |table_type| match table_type {
+            1 => "b1.dbf",
+            3 => "b3.adt",
+            4 => "b4.dbf",
+            _ => "b2.dbf",
+        };
+        for table_type in 1..=4 {
+            let (rc, table) = create(base_name(table_type), table_type, 1, 1, 1, false);
+            assert_eq!(rc, AE_SUCCESS);
+            AdsCloseTable(table);
+        }
+        let (rc, keep) = create("keep.adt", 3, 1, 1, 1, false);
+        assert_eq!(rc, AE_SUCCESS);
+        let provoke = || {
+            let mut n = 0;
+            unsafe { AdsGetRecordCount(keep, 0, &mut n) };
+        };
+        let last_error = || {
+            let mut last = 0;
+            let (mut buf, mut len) = ([0u8; 600], 600u16);
+            unsafe { crate::AdsGetLastError(&mut last, buf.as_mut_ptr(), &mut len) };
+            let end = buf.iter().position(|&b| b == 0).unwrap_or(buf.len());
+            (
+                u64::from(last),
+                String::from_utf8_lossy(&buf[..end]).into_owned(),
+            )
+        };
+        let mut problems = Vec::new();
+        let mut made = 0;
+        let mut dictionary = 0;
+        provoke();
+        let (last, text) = last_error();
+        assert_eq!(
+            (last, &*text),
+            (
+                rows[0]["last"].as_u64().unwrap(),
+                rows[0]["text"].as_str().unwrap()
+            )
+        );
+        for row in &rows[1..] {
+            let call = row["call"].as_str().unwrap();
+            let option = |key: &str| row[key].as_u64().unwrap() as Unsigned16;
+            let (table_type, char_type, lock_type, rights) = (
+                option("type"),
+                option("char"),
+                option("lock"),
+                option("rights"),
+            );
+            let repository = crate::config::collation_dir()
+                .is_some_and(|dir| dir.join("adscollate.adt").exists());
+            if row["rc"] == 7147 && !repository {
+                continue;
+            }
+            let in_dictionary = call == "AdsOpenTable (dictionary)";
+            if in_dictionary && dictionary == 0 {
+                let path = std::ffi::CString::new(dir.join("test.add").to_str().unwrap()).unwrap();
+                let null = std::ptr::null_mut();
+                let rc = unsafe {
+                    crate::AdsDDCreate(path.as_ptr().cast_mut().cast(), 0, null, &mut dictionary)
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                let (rc, table) = create("dt.adt", 3, 1, 1, 1, false);
+                assert_eq!(rc, AE_SUCCESS);
+                AdsCloseTable(table);
+                let rc = unsafe {
+                    crate::AdsDDAddTable(
+                        dictionary,
+                        c"t".as_ptr().cast_mut().cast(),
+                        c"dt.adt".as_ptr().cast_mut().cast(),
+                        3,
+                        1,
+                        null,
+                        null,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+            }
+            provoke();
+            let (rc, table) = match call {
+                "AdsCreateTable" | "AdsCreateTable90" => {
+                    made += 1;
+                    let name = format!("c{}", made - 1);
+                    create(
+                        &name,
+                        table_type,
+                        char_type,
+                        lock_type,
+                        rights,
+                        call.ends_with("90"),
+                    )
+                }
+                _ => {
+                    let name = match in_dictionary && table_type == 0 {
+                        true => "t",
+                        false => base_name(table_type),
+                    };
+                    let name = std::ffi::CString::new(name).unwrap();
+                    let connect = if in_dictionary { dictionary } else { connect };
+                    let name = name.as_ptr().cast_mut().cast();
+                    let collation = row["collation"]
+                        .as_str()
+                        .map(|text| std::ffi::CString::new(text).unwrap());
+                    let collation = collation
+                        .as_ref()
+                        .map_or(std::ptr::null_mut(), |text| text.as_ptr().cast_mut().cast());
+                    let (null, mut table) = (std::ptr::null_mut(), 0);
+                    let options = ADS_SHARED | ADS_READONLY;
+                    let rc = unsafe {
+                        match call {
+                            "AdsOpenTable90" => AdsOpenTable90(
+                                connect, name, null, table_type, char_type, lock_type, rights,
+                                options, collation, &mut table,
+                            ),
+                            _ => AdsOpenTable(
+                                connect, name, null, table_type, char_type, lock_type, rights,
+                                options, &mut table,
+                            ),
+                        }
+                    };
+                    (rc, table)
+                }
+            };
+            let (last, text) = last_error();
+            let (mut got_type, mut got_char_type) = (0, 0);
+            if table != 0 {
+                unsafe { crate::AdsGetTableType(table, &mut got_type) };
+                unsafe { AdsGetTableCharType(table, &mut got_char_type) };
+                AdsCloseTable(table);
+            }
+            let want = (
+                row["rc"].as_u64().unwrap(),
+                row["handle"].as_u64().unwrap() != 0,
+                row["last"].as_u64().unwrap(),
+                row["text"].as_str().unwrap(),
+                row["table_type"].as_u64().unwrap(),
+                row["char_type"].as_u64().unwrap(),
+            );
+            let got = (
+                u64::from(rc),
+                table != 0,
+                last,
+                &*text,
+                u64::from(got_type),
+                u64::from(got_char_type),
+            );
+            if got != want {
+                problems.push(format!(
+                    "{call} type {table_type} char {char_type} lock {lock_type} rights \
+                     {rights} collation {}: got {got:?}, want {want:?}",
+                    row["collation"]
+                ));
+            }
+        }
+        AdsCloseTable(keep);
+        crate::AdsDisconnect(dictionary);
+        crate::AdsDisconnect(connect);
+        assert!(
+            problems.is_empty(),
+            "{} problems:\n{}",
+            problems.len(),
+            problems.join("\n")
+        );
     }
 
     /// As in the original engine: a full-text index is no index order.
@@ -1404,8 +1853,11 @@ mod tests {
         let connect = fixtures::connect("all_types");
         let dbf = fixtures::connect("cdx/dbf_types");
         let mut value = 0;
-        // As in the original engine: ADT tables are ANSI whatever they are
-        // opened as; other types keep the character set given.
+        // As in the original engine (`fixtures/errors/table_options.json`):
+        // ADT tables are ANSI whatever they are opened as. A CDX table keeps
+        // ANSI or OEM as given, refuses a VFP collation (3), and is ANSI with
+        // the collation `ansi`, which `open_as` gives.
+        let name = c"dbf_types".as_ptr().cast_mut().cast();
         for char_type in [ADS_ANSI, ADS_OEM, 3] {
             let (rc, table) = open_as(connect, c"all_types.adt", ADS_ADT, char_type, 0);
             assert_eq!(rc, AE_SUCCESS);
@@ -1415,6 +1867,20 @@ mod tests {
             );
             assert_eq!(value, ADS_ANSI);
             let (rc, table) = open_as(dbf, c"dbf_types", ADS_CDX, char_type, 0);
+            assert_eq!(rc, AE_SUCCESS);
+            assert_eq!(
+                unsafe { AdsGetTableCharType(table, &mut value) },
+                AE_SUCCESS
+            );
+            assert_eq!(value, ADS_ANSI);
+            let mut table = 0;
+            let null = std::ptr::null_mut();
+            let rc =
+                unsafe { AdsOpenTable(dbf, name, null, ADS_CDX, char_type, 1, 2, 0, &mut table) };
+            if char_type == 3 {
+                assert_eq!(rc, AE_INVALID_TABLETYPE);
+                continue;
+            }
             assert_eq!(rc, AE_SUCCESS);
             assert_eq!(
                 unsafe { AdsGetTableCharType(table, &mut value) },
@@ -1857,7 +2323,627 @@ mod tests {
         crate::AdsDisconnect(connect);
     }
 
+    /// As in the original engine: a Visual FoxPro table opened or made with
+    /// `ADS_OEM`, the collation `OEM` or a collation of an OEM code page is an
+    /// OEM table, whose text is kept in the OEM code page and keyed by its
+    /// bytes, as a FoxPro table's (`fixtures/dbf/vfp_oem.json`, from
+    /// `tools/ace/oem/vfp_oem.c`, whose steps this repeats). The orders of a
+    /// table with a collation (char types 3 to 118, or its name) are not
+    /// collated yet: there only the text and the character type are checked.
+    #[test]
+    fn vfp_oem_tables() {
+        use serde_json::{Value as Json, json};
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/dbf/vfp_oem.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, dir) = fixtures::scratch_from("vfp_oem_tables", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &[u8]| std::ffi::CString::new(s).unwrap();
+        let hex = |bytes: &[u8]| bytes.iter().map(|b| format!("{b:02x}")).collect::<String>();
+        let values: [&[u8]; 8] = [
+            b"A", b"\xC4", b"\xE4", b"a", b"z", b"\xE9", b"\xDF", b"\x8E",
+        ];
+        let cases: [(&str, u16, u16, &str); 11] = [
+            ("CDX oem", crate::ADS_CDX, 2, ""),
+            ("VFP ansi", crate::ADS_VFP, 1, ""),
+            ("VFP oem", crate::ADS_VFP, 2, ""),
+            ("VFP 117", crate::ADS_VFP, 117, ""),
+            ("VFP 118", crate::ADS_VFP, 118, ""),
+            ("VFP 26", crate::ADS_VFP, 26, ""),
+            ("VFP 12", crate::ADS_VFP, 12, ""),
+            ("VFP collation oem", crate::ADS_VFP, 1, "oem"),
+            (
+                "VFP collation 12",
+                crate::ADS_VFP,
+                1,
+                "GENERAL_VFP_CI_AS_1252",
+            ),
+            (
+                "VFP collation 26",
+                crate::ADS_VFP,
+                1,
+                "GENERAL_VFP_CI_AS_437",
+            ),
+            (
+                "VFP collation 117",
+                crate::ADS_VFP,
+                1,
+                "TURKISH_ADS_CS_AS_857",
+            ),
+        ];
+        let field = text(b"C");
+        let column = || field.as_ptr().cast_mut().cast::<u8>();
+        let read = |table: AdsHandle, order: AdsHandle, row: &mut Json| {
+            let mut char_type = 0;
+            unsafe { AdsGetTableCharType(table, &mut char_type) };
+            let (mut strings, mut wide, mut keys) = (vec![], vec![], vec![]);
+            for record in 1..=8 {
+                crate::AdsGotoRecord(table, record);
+                let (mut buf, mut len) = ([0u8; 64], 64u32);
+                let rc =
+                    unsafe { crate::AdsGetString(table, column(), buf.as_mut_ptr(), &mut len, 2) };
+                strings.push(match rc {
+                    0 => hex(&buf[..len as usize]),
+                    rc => format!("E{rc}"),
+                });
+                let (mut buf, mut len) = ([0u16; 64], 64u32);
+                let rc =
+                    unsafe { crate::AdsGetStringW(table, column(), buf.as_mut_ptr(), &mut len, 2) };
+                wide.push(match rc {
+                    0 => buf[..len as usize]
+                        .iter()
+                        .map(|u| format!("{u:04x}"))
+                        .collect(),
+                    rc => format!("E{rc}"),
+                });
+                let (mut key, mut len) = ([0u8; 64], 64u16);
+                let rc = unsafe { crate::AdsExtractKey(order, key.as_mut_ptr(), &mut len) };
+                keys.push(match rc {
+                    0 => hex(&key[..usize::from(len)]),
+                    rc => format!("E{rc}"),
+                });
+            }
+            let mut walk = vec![];
+            crate::AdsGotoTop(order);
+            for _ in 0..10 {
+                let (mut eof, mut recno) = (0, 0);
+                unsafe { crate::AdsAtEOF(table, &mut eof) };
+                if eof != 0 {
+                    break;
+                }
+                unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+                walk.push(recno);
+                crate::AdsSkip(order, 1);
+            }
+            let mut found = 7;
+            crate::AdsGotoRecord(table, 1);
+            let rc =
+                unsafe { crate::AdsSeek(order, b"\xE4".as_ptr().cast_mut(), 1, 1, 2, &mut found) };
+            let (mut eof, mut recno) = (0, 0);
+            unsafe { crate::AdsAtEOF(table, &mut eof) };
+            unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+            let at = if eof != 0 { json!("E") } else { json!(recno) };
+            let filter = text(b"C = '\xE4'");
+            let rc_filter =
+                unsafe { crate::AdsSetFilter(table, filter.as_ptr().cast_mut().cast()) };
+            assert_eq!(rc_filter, 0);
+            let mut count = 0;
+            crate::AdsGotoTop(table);
+            for _ in 0..10 {
+                let mut eof = 0;
+                unsafe { crate::AdsAtEOF(table, &mut eof) };
+                if eof != 0 {
+                    break;
+                }
+                count += 1;
+                crate::AdsSkip(table, 1);
+            }
+            crate::AdsClearFilter(table);
+            row["char_type"] = json!(char_type);
+            row["strings"] = json!(strings);
+            row["wide"] = json!(wide);
+            row["keys"] = json!(keys);
+            row["walk"] = json!(walk);
+            row["seek"] = json!([rc, found, at]);
+            row["filter"] = json!(count);
+        };
+        // The field's bytes in the closed table's file.
+        let raw = |name: &str, row: &mut Json| {
+            let bytes = std::fs::read(dir.join(format!("{name}.dbf"))).unwrap();
+            let start = usize::from(u16::from_le_bytes([bytes[8], bytes[9]]));
+            let size = usize::from(u16::from_le_bytes([bytes[10], bytes[11]]));
+            let fields: Vec<String> = (0..8)
+                .map(|r| hex(&bytes[start + r * size + 1..start + r * size + 7]))
+                .collect();
+            row["raw"] = json!(fields);
+        };
+        let mut got = Vec::new();
+        for (c, (case, table_type, char_type, collation)) in cases.into_iter().enumerate() {
+            let name = format!("v{c}");
+            let (table_name, fields, collation_text) = (
+                text(name.as_bytes()),
+                text(b"C,C,6,0"),
+                text(collation.as_bytes()),
+            );
+            let collation_ptr = match collation {
+                "" => std::ptr::null_mut(),
+                _ => collation_text.as_ptr().cast_mut().cast(),
+            };
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable90(
+                    connect,
+                    table_name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    char_type,
+                    1,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    0,
+                    collation_ptr,
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS, "{case}");
+            for value in values {
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        column(),
+                        value.as_ptr().cast_mut(),
+                        value.len() as Unsigned32,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+            }
+            let (tag, empty) = (text(b"K"), text(b""));
+            let mut order = 0;
+            let rc = unsafe {
+                crate::AdsCreateIndex61(
+                    table,
+                    table_name.as_ptr().cast_mut().cast(),
+                    tag.as_ptr().cast_mut().cast(),
+                    column(),
+                    empty.as_ptr().cast_mut().cast(),
+                    empty.as_ptr().cast_mut().cast(),
+                    2,
+                    512,
+                    &mut order,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS, "{case}");
+            let mut row = json!({"case": case, "step": "create", "rc": 0});
+            read(table, order, &mut row);
+            AdsCloseTable(table);
+            raw(&name, &mut row);
+            got.push(row);
+            for step in ["ansi", "oem", "own"] {
+                let mut table = 0;
+                let rc = match step {
+                    "own" => unsafe {
+                        AdsOpenTable90(
+                            connect,
+                            table_name.as_ptr().cast_mut().cast(),
+                            std::ptr::null_mut(),
+                            table_type,
+                            char_type,
+                            1,
+                            1,
+                            0,
+                            collation_ptr,
+                            &mut table,
+                        )
+                    },
+                    _ => unsafe {
+                        AdsOpenTable(
+                            connect,
+                            table_name.as_ptr().cast_mut().cast(),
+                            std::ptr::null_mut(),
+                            table_type,
+                            if step == "ansi" { ADS_ANSI } else { ADS_OEM },
+                            1,
+                            1,
+                            0,
+                            &mut table,
+                        )
+                    },
+                };
+                let mut row = json!({"case": case, "step": step, "rc": rc});
+                if rc == 0 {
+                    let mut order = 0;
+                    unsafe {
+                        crate::AdsGetIndexHandle(table, tag.as_ptr().cast_mut().cast(), &mut order)
+                    };
+                    read(table, order, &mut row);
+                    AdsCloseTable(table);
+                    raw(&name, &mut row);
+                }
+                got.push(row);
+            }
+        }
+        crate::AdsDisconnect(connect);
+        assert_eq!(want.len(), got.len());
+        // A collation's orders and comparisons, and the refusal to open its
+        // table under another, are not the original's yet.
+        let collated = |case: &str| {
+            !matches!(
+                case,
+                "CDX oem" | "VFP ansi" | "VFP oem" | "VFP collation oem"
+            )
+        };
+        let (mut set_aside, mut problems) = (0, vec![]);
+        for (want, got) in want.iter().zip(&got) {
+            let case = want["case"].as_str().unwrap();
+            let same = match collated(case) {
+                false => want == got,
+                true if want["rc"] != 0 => {
+                    set_aside += 1;
+                    continue;
+                }
+                true => ["rc", "char_type", "strings", "wide", "raw"]
+                    .iter()
+                    .all(|field| want[field] == got[field]),
+            };
+            if !same {
+                problems.push(format!("want {want}\n got {got}"));
+            }
+        }
+        // 7 collated cases, opened as ANSI and as OEM. When this changes,
+        // compare those rows too.
+        assert_eq!(set_aside, 14, "rows of collated tables set aside");
+        assert!(
+            problems.is_empty(),
+            "{} differ:\n{}",
+            problems.len(),
+            problems.join("\n")
+        );
+    }
+
+    /// As in the original engine: a DBF table whose header dates its last
+    /// update with a month outside 1 to 12 or a day outside 1 to 31 does not
+    /// open (7016, with the table's path), whatever the year and whether or
+    /// not the day exists in the month (`fixtures/dbf/header_dates.json`,
+    /// from `tools/ace/dbf/header_dates.c`, whose files this writes again).
+    #[test]
+    fn dbf_header_dates() {
+        use serde_json::{Value as Json, json};
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/dbf/header_dates.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, dir) = fixtures::scratch_from("dbf_header_dates", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        for (n, row) in want.iter().enumerate() {
+            let (table_type, vfp) = match row["type"].as_str().unwrap() {
+                "NTX" => (crate::ADS_NTX, false),
+                "CDX" => (crate::ADS_CDX, false),
+                _ => (crate::ADS_VFP, true),
+            };
+            let date: Vec<u8> = row["date"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_u64().unwrap() as u8)
+                .collect();
+            let header = 32 + 32 + 1 + if vfp { 263 } else { 0 };
+            let mut file = vec![0u8; 32];
+            file[0] = if vfp { 0x30 } else { 0x03 };
+            file[1..4].copy_from_slice(&date);
+            file[4] = 1;
+            file[8..10].copy_from_slice(&u16::to_le_bytes(header));
+            file[10] = 5;
+            let mut descriptor = [0u8; 32];
+            descriptor[0] = b'C';
+            descriptor[11] = b'C';
+            descriptor[16] = 4;
+            file.extend_from_slice(&descriptor);
+            file.push(0x0D);
+            file.resize(usize::from(header), 0);
+            file.extend_from_slice(b" abcd\x1A");
+            // Numbered within each type, as the probe numbers them.
+            let n = n % (want.len() / 3);
+            let name = format!("h{table_type}_{n}");
+            std::fs::write(dir.join(format!("{name}.dbf")), &file).unwrap();
+            let name_c = std::ffi::CString::new(name.clone()).unwrap();
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsOpenTable(
+                    connect,
+                    name_c.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    1,
+                    1,
+                    0,
+                    &mut table,
+                )
+            };
+            let mut out = json!({"type": row["type"], "date": row["date"], "rc": rc});
+            if rc != 0 {
+                let (mut code, mut buf, mut len) = (0, [0u8; 600], 600u16);
+                unsafe { crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len) };
+                let error = String::from_utf8_lossy(&buf[..usize::from(len)]).into_owned();
+                // The path is the folder's here, the probe's there: only the
+                // table's file name is compared.
+                let file_name = format!("\\{name}.dbf");
+                out["error"] = json!(match error.rsplit_once("  ") {
+                    Some((text, path))
+                        if path.ends_with(&file_name)
+                            || path.ends_with(&format!("/{name}.dbf")) =>
+                    {
+                        format!("{text}  C:\\probe{file_name}")
+                    }
+                    _ => error,
+                });
+            } else {
+                let (field, mut buf, mut len) = (c"C", [0u8; 16], 16u32);
+                crate::AdsGotoTop(table);
+                unsafe {
+                    crate::AdsGetString(
+                        table,
+                        field.as_ptr().cast_mut().cast(),
+                        buf.as_mut_ptr(),
+                        &mut len,
+                        2,
+                    )
+                };
+                out["value"] = json!(String::from_utf8_lossy(&buf[..len as usize]));
+                crate::AdsCloseTable(table);
+            }
+            got.push(out);
+        }
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    /// The locking a table reports after it is created or opened with each
+    /// lock type, as in the original engine (`fixtures/errors/lock_types.json`,
+    /// from `tools/ace/errors/lock_types.c`, whose steps this repeats).
+    #[test]
+    fn lock_types() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/lock_types.json");
+        let want: Vec<serde_json::Value> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from("lock_types", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        let mut row = |kind: &str, step: &str, lock: u16, rc: u32, table| {
+            let mut lock_type = 9;
+            if rc == AE_SUCCESS {
+                unsafe { AdsGetTableLockType(table, &mut lock_type) };
+                crate::AdsCloseTable(table);
+            }
+            got.push(
+                serde_json::json!({"type": kind, "step": step, "lock": lock, "rc": rc,
+                                        "lock_type": lock_type}),
+            );
+        };
+        for (kind, table_type) in [
+            ("NTX", crate::ADS_NTX),
+            ("CDX", crate::ADS_CDX),
+            ("ADT", crate::ADS_ADT),
+            ("VFP", crate::ADS_VFP),
+        ] {
+            for lock in 0..2u16 {
+                let name = std::ffi::CString::new(format!("l{table_type}_{lock}")).unwrap();
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        lock,
+                        1,
+                        0,
+                        c"ID,N,4,0".as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                row(kind, "create", lock, rc, table);
+                for open in 0..2u16 {
+                    let mut table = 0;
+                    let rc = unsafe {
+                        AdsOpenTable(
+                            connect,
+                            name.as_ptr().cast_mut().cast(),
+                            std::ptr::null_mut(),
+                            table_type,
+                            1,
+                            open,
+                            1,
+                            0,
+                            &mut table,
+                        )
+                    };
+                    row(kind, "open", open, rc, table);
+                }
+            }
+        }
+        crate::AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// What `AdsCreateTable` does where the table's file exists already, as
+    /// in the original engine: refused (7040) while a handle has the table
+    /// open, else replaced, the structural index file deleted
+    /// (`fixtures/errors/create_existing.json`, from
+    /// `tools/ace/write/create_existing.c`, whose steps this repeats).
+    #[test]
+    fn create_over_existing_tables() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/create_existing.json");
+        let want: Vec<serde_json::Value> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, dir) =
+            fixtures::scratch_from("create_over_existing_tables", &fixtures::empty_dir());
+        let folder = dir;
+        let (one, two) = (fixtures::connect_to(&source), fixtures::connect_to(&source));
+        let create = |connect, name: &std::ffi::CStr, table_type, fields: &std::ffi::CStr| {
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            (rc, table)
+        };
+        let open = |connect, name: &std::ffi::CStr, table_type, options| {
+            let mut table = 0;
+            unsafe {
+                AdsOpenTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    options,
+                    &mut table,
+                )
+            };
+            table
+        };
+        let types = [
+            ("NTX", ["dbf", "dbt", "ntx"], crate::ADS_NTX, 0),
+            ("CDX", ["dbf", "fpt", "cdx"], crate::ADS_CDX, 2),
+            ("ADT", ["adt", "adm", "adi"], crate::ADS_ADT, 2),
+            ("VFP", ["dbf", "fpt", "cdx"], crate::ADS_VFP, 2),
+        ];
+        let scenarios = [
+            "closed",
+            "open shared",
+            "open exclusive",
+            "open here",
+            "junk",
+        ];
+        let mut got = Vec::new();
+        for (kind, exts, table_type, index_options) in types {
+            for (s, scenario) in scenarios.into_iter().enumerate() {
+                let stem = format!("e{table_type}_{s}");
+                let name = std::ffi::CString::new(stem.clone()).unwrap();
+                let (rc, table) = create(one, &name, table_type, c"NAME,Character,20,0;M,Memo");
+                assert_eq!(rc, AE_SUCCESS);
+                for _ in 0..2 {
+                    crate::AdsAppendRecord(table);
+                    unsafe {
+                        crate::AdsSetString(
+                            table,
+                            c"NAME".as_ptr().cast_mut().cast(),
+                            c"abc".as_ptr().cast_mut().cast(),
+                            3,
+                        );
+                        crate::AdsSetString(
+                            table,
+                            c"M".as_ptr().cast_mut().cast(),
+                            c"memo".as_ptr().cast_mut().cast(),
+                            4,
+                        );
+                    }
+                    crate::AdsWriteRecord(table);
+                }
+                let bag = std::ffi::CString::new(format!("{stem}.{}", exts[2])).unwrap();
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        c"N".as_ptr().cast_mut().cast(),
+                        c"NAME".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        index_options,
+                        512,
+                        &mut order,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                crate::AdsCloseTable(table);
+                let kept = match s {
+                    1 => open(two, &name, table_type, 0),
+                    2 => open(two, &name, table_type, 1),
+                    3 => open(one, &name, table_type, 0),
+                    _ => 0,
+                };
+                if s == 4 {
+                    for ext in exts {
+                        let _ = std::fs::remove_file(folder.join(format!("{stem}.{ext}")));
+                    }
+                    std::fs::write(folder.join(format!("{stem}.{}", exts[0])), b"hello").unwrap();
+                }
+                let (rc, table) = create(
+                    one,
+                    &name,
+                    table_type,
+                    c"NAME,Character,20,0;AGE,Numeric,4,0",
+                );
+                let (mut count, mut other, mut fields, mut orders) = (9u32, 9u32, 9u16, 9u16);
+                if rc == AE_SUCCESS {
+                    unsafe {
+                        crate::AdsGetRecordCount(table, 1, &mut count);
+                        crate::AdsGetNumFields(table, &mut fields);
+                        crate::AdsGetNumIndexes(table, &mut orders);
+                    }
+                    crate::AdsCloseTable(table);
+                }
+                if kept != 0 {
+                    if unsafe { crate::AdsGetRecordCount(kept, 1, &mut other) } != AE_SUCCESS {
+                        other = 9;
+                    }
+                    crate::AdsCloseTable(kept);
+                }
+                let files: Vec<&str> = exts
+                    .into_iter()
+                    .filter(|ext| folder.join(format!("{stem}.{ext}")).exists())
+                    .collect();
+                got.push(
+                    serde_json::json!({"type": kind, "scenario": scenario, "rc": rc,
+                    "count": count, "fields": fields, "orders": orders, "files": files,
+                    "other_count": other}),
+                );
+            }
+        }
+        crate::AdsDisconnect(two);
+        crate::AdsDisconnect(one);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
     crate::fixtures::remote_twins!(
+        create_over_existing_tables,
+        lock_types,
+        vfp_oem_tables,
+        dbf_header_dates,
         tables_handles_and_connections,
         memo_block_sizes,
         char_type_round_trip,

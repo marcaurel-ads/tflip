@@ -373,6 +373,16 @@ impl Field {
         }
     }
 
+    /// Whether the field has a NULL of its own (`AdsIsNullable`): an ADT
+    /// field, or a VFP field with a NULL bit. A Clipper or FoxPro table's
+    /// field has none, though it can be set to NULL, which blanks it.
+    pub fn has_null(&self) -> bool {
+        match &self.layout {
+            Layout::Adt => true,
+            Layout::Dbf(layout) => layout.null_bit.is_some(),
+        }
+    }
+
     /// Whether a NULL the field reads is a blank value: a Clipper or FoxPro
     /// table's field, which has no NULL (see [`Field::expression_value`]).
     pub fn blank_is_null(&self) -> bool {

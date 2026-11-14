@@ -750,6 +750,21 @@ pub fn check_legal(session: &Session, connection: Handle, command: Illegal) -> R
     }
 }
 
+/// [`Error::IllegalInTransaction`] if `table` holds its table lock
+/// (`AdsLockTable`) while its connection is in a transaction, counted or
+/// real: the original refuses `AdsUnlockTable` then, and `AdsCloseTable`,
+/// which closes the table all the same
+/// (`fixtures/errors/locks_in_transaction.json`).
+pub fn check_table_lock(session: &Session, table: &crate::table::Table) -> Result<(), Error> {
+    if table.connection == 0 || !table.is_table_locked() {
+        return Ok(());
+    }
+    match count(session, table.connection)? {
+        0 => Ok(()),
+        _ => Err(Error::IllegalInTransaction(Illegal::Other)),
+    }
+}
+
 /// A stored procedure running on a connection: the nesting level it was
 /// called at, and the savepoints then set. What a procedure does with the
 /// transaction is its own levels' (see [`call_begins`]).

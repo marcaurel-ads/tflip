@@ -8,6 +8,7 @@ use tflip_storage::crypto::Scheme;
 pub(super) fn structure_error(error: StorageError) -> Error {
     match error {
         StorageError::Io(_) => Error::FileNotFound,
+        StorageError::Corrupt(tflip_storage::dbf::BAD_DATE) => Error::FullText(7016),
         StorageError::Corrupt(_) => Error::CorruptTable,
         StorageError::EncryptedDescriptors | StorageError::Encrypted => Error::TableEncrypted,
         StorageError::ReadOnly => Error::TableReadOnly,
@@ -163,11 +164,39 @@ pub fn open_options(given: u32) -> Result<u32, Error> {
 /// The `char_type` of ANSI tables (`ADS_ANSI`).
 pub(super) const ANSI: u16 = 1;
 
+/// The `char_type` of OEM tables (`ADS_OEM`).
+pub(super) const OEM: u16 = 2;
+
+/// The character type of a Visual FoxPro table opened with `char_type` and
+/// `collation`, as the original engine reports it and converts its text
+/// (`fixtures/dbf/vfp_oem.json`): `ADS_OEM` for `ADS_OEM`, the collation `OEM`
+/// and the collations of an OEM code page (the char types 25 to 68 and 92
+/// to 118 of `ace.h`, or such a name, `GENERAL_VFP_CI_AS_437`); else
+/// `ADS_ANSI`. A collation's name stands for the character type.
+fn vfp_char_type(char_type: u16, collation: &str) -> u16 {
+    let collation = collation.trim();
+    if collation.is_empty() {
+        return match char_type {
+            OEM | 25..=68 | 92..=118 => OEM,
+            _ => ANSI,
+        };
+    }
+    let oem_page = collation
+        .rsplit_once('_')
+        .and_then(|(_, page)| page.parse::<u32>().ok())
+        .is_some_and(|page| !(1250..=1258).contains(&page));
+    match collation.eq_ignore_ascii_case("OEM") || oem_page {
+        true => OEM,
+        false => ANSI,
+    }
+}
+
 /// Opens the table `name` on `connection` with `settings`.
 ///
-/// The options are checked and reported as [`open_options`] says, and ADT
-/// and Visual FoxPro tables are ANSI whatever they are opened as, as in the
-/// original engine (a dictionary's Visual FoxPro table is OEM if it says so).
+/// The options are checked and reported as [`open_options`] says. ADT
+/// tables are ANSI whatever they are opened as, as in the original engine;
+/// a Visual FoxPro table is OEM as [`vfp_char_type`] says (a dictionary's
+/// if the dictionary says so).
 ///
 /// On a connection to a data dictionary, `name` is a table of the
 /// dictionary, by its name or its file, which opens with the dictionary's
@@ -267,9 +296,11 @@ fn open_as(
     // `AdsGetTableOpenOptions` reports.
     let kept = settings.options & options::KEPT;
     settings.options = open_options(settings.options)? | kept;
-    if matches!(settings.table_type, TableType::Adt | TableType::Vfp) {
-        settings.char_type = ANSI;
-    }
+    settings.char_type = match settings.table_type {
+        TableType::Adt => ANSI,
+        TableType::Vfp => vfp_char_type(settings.char_type, &settings.collation),
+        _ => settings.char_type,
+    };
     if connection != 0 {
         let owner = connection::get(session, connection)?;
         // A table opened without a collation takes its connection's.
@@ -450,8 +481,12 @@ fn resolve(
     Error,
 > {
     let (path, owner, bound) = match connection {
-        // A server's clients reach tables through their connections only.
-        0 if session.shares.is_some() => return Err(Error::FileNotOnServer),
+        // A server's clients reach tables through their connections only,
+        // but for a path a map turns into one in a share.
+        0 if let Some(shares) = &session.shares => match shares.mapped(name) {
+            Some(path) => (path?, None, None),
+            None => return Err(Error::FileNotOnServer),
+        },
         0 => (PathBuf::from(name), None, None),
         _ => {
             let owner = connection::get(session, connection)?;
@@ -497,9 +532,9 @@ fn resolve(
                 }
                 None => {
                     let folder = owner.folder();
-                    let path = match session.shares {
-                        Some(_) => shares::inside(&folder, name)?,
-                        None => folder.join(name),
+                    let path = match &session.shares {
+                        Some(shares) => shares.inside(&folder, name)?,
+                        None => crate::settings::local_join(session, &folder, name),
                     };
                     (path, Some(owner), None)
                 }
@@ -700,6 +735,11 @@ pub(crate) fn load(
         {
             Error::InvalidPassword
         }
+        // With the table's path, as the original engine reports it
+        // (`fixtures/dbf/header_dates.json`).
+        StorageError::Corrupt(tflip_storage::dbf::BAD_DATE) => {
+            Error::FullText(7016).detailed(path.display().to_string())
+        }
         error => structure_error(error),
     })?;
     let database_table = || Error::DatabaseTable.detailed(DATABASE_TABLE);
@@ -896,6 +936,7 @@ pub(super) fn build(
         connection: owner.clone(),
         source,
         checks: None,
+        hidden_slots: None,
     });
     // A table starts with its connection's "exact" setting.
     let exact = AtomicBool::new(crate::settings::exact_of(session, connection)?);
@@ -924,6 +965,7 @@ pub(super) fn build(
         object_id: None,
         alias: OnceLock::new(),
         opened: AtomicBool::new(false),
+        stray_index: false,
         last_autoinc: AtomicU32::new(0),
         relations: Mutex::default(),
         following: Mutex::default(),
@@ -952,7 +994,7 @@ pub(crate) fn stem(name: &str) -> String {
 /// with its structural index orders (ADT tables) open.
 pub(crate) fn register(
     session: &Session,
-    table: Table,
+    mut table: Table,
     parent: Option<Handle>,
 ) -> Result<Handle, Error> {
     // A table opens on its first record, as in the original engine.
@@ -966,6 +1008,18 @@ pub(crate) fn register(
         }
         _ => false,
     };
+    // Only an exclusive handle refuses that file; a shared or read-only one
+    // opens it (`fixtures/errors/stray_index_modes.json`).
+    if matches!(table.settings.table_type, TableType::Cdx | TableType::Vfp)
+        && !structural
+        && table.exclusive()
+    {
+        let path = index::structural_path(&table.path);
+        table.stray_index = matches!(
+            tflip_storage::order::IndexFile::open(&path),
+            Ok(tflip_storage::order::IndexFile::Cdx(cdx)) if !cdx.compound
+        );
+    }
     // An index built under a different static collation makes the open fail
     // (AE_INDEX_COLLATION_MISMATCH), before the table handle is created.
     let table = Arc::new(table);

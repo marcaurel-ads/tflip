@@ -179,6 +179,16 @@ memo values, whose blocks an ADT record `WITH DELETE` frees). The tables and
 index files it leaves are in `fixtures/sql/updfrom/`, which the replay
 compares byte for byte.
 
+`fixtures/sql/deleted_counts.json` holds `SELECT COUNT(*)`, a count with
+`WHERE` and an `ORDER BY` over NTX, CDX, ADT and VFP tables with two of
+four records deleted, under `AdsShowDeleted` on and off, by statements of
+each table type (`AdsStmtSetTableType` 1 to 4, and none set): the rows, and
+the 7200 errors (native 7016, 7014) of a table not of the statement's type,
+the folder in their text written `<folder>`. Recorded by
+[`tools/ace/sql/deleted_counts.c`](../tools/ace/sql/deleted_counts.c) with
+`ace32.dll`; replayed by
+`statement::cursor_tests::deleted_records_and_other_table_types`.
+
 `fixtures/sql/dbf.json` is the same for
 [`tools/ace/sql/dbf.txt`](../tools/ace/sql/dbf.txt): the statement
 settings (`tabletype`, `chartype`, `locktype`, `readonly`, `rights`: the
@@ -837,6 +847,15 @@ CICHARACTER copy of it.
 
 ## Field getters
 
+`fixtures/fields/nullable.json` is which fields the original says can
+hold NULL (`AdsIsNullable`) and what `AdsSetNull` does to them: for ADT,
+NTX, CDX and VFP tables, a field of each type, defined with and without
+`NULL` (and `NOT NULL`), in a new record set to a value: whether
+`AdsCreateTable` takes the definition, `AdsIsNull` before `AdsSetNull`,
+what `AdsSetNull` returns, then `AdsIsNull` and `AdsIsEmpty`. Recorded by
+[`tools/ace/fields/nullable.c`](../tools/ace/fields/nullable.c) with
+`ace32.dll`; replayed by `field::tests::nullable_fields`.
+
 `fixtures/fields/getters.json` is what the original engine's typed getters
 (`AdsGetLong`, `AdsGetLongLong`, `AdsGetShort`, `AdsGetDouble`, `AdsGetMoney`,
 `AdsGetLogical`, `AdsGetJulian`, `AdsGetMilliseconds`, `AdsGetMemoLength`,
@@ -872,6 +891,15 @@ moving the table's one record about (`~` when no value a record can hold is
 the key: it lies just before that one).
 
 ## Writes
+
+`fixtures/fields/nul_strings.json` holds text with NUL bytes (inside, at
+the end, first, and filling a field) set with `AdsSetString` and
+`AdsSetField` into character and memo fields (and on ADT, VarChar and
+CIChar ones): what each setter returns, what `AdsGetField` reads back, and
+whether `AdsSeek` of the same bytes finds the record through an order on
+the field. Recorded by
+[`tools/ace/fields/nul_strings.c`](../tools/ace/fields/nul_strings.c) with
+`ace32.dll`; replayed by `setters::tests::nul_bytes_in_set_text`.
 
 `fixtures/write/<scenario>/` records what the original engine writes when a
 client changes tables through the ACE API. Each scenario has two scripts for
@@ -1058,6 +1086,36 @@ the position (record, key number, `AdsExtractKey`'s key, BOF, EOF, found)
 after every move of a walk to the end and back; and seeks of the first 40
 distinct keys as strings and raw, of their first characters, of a key past
 the last, and of numbers and dates given as strings and doubles.
+
+`fixtures/dbf/index_names.json` holds the names `AdsGetIndexName` gives
+orders (by `AdsGetIndexHandleByOrder`, and the handles the calls wrote)
+right after `AdsCreateIndex61`, after `AdsCloseAllIndexes` and
+`AdsOpenIndex`, and after the table is opened again: ADT, NTX, CDX and VFP
+orders, with and without `ADS_COMPOUND`, tags `tg_n` and `TG_C`, in files
+named in lower, mixed and upper case, without an extension and by full
+path. Recorded by [`tools/ace/dbf/index_names.c`](../tools/ace/dbf/index_names.c)
+with `ace32.dll`; replayed by `index::tests::order_names`.
+
+`fixtures/dbf/vfp_oem.json` holds what the original does with the text of
+Visual FoxPro tables made OEM: with `ADS_OEM`, the char types 117, 118 and
+26 (collations of OEM code pages), 12 (`GENERAL_VFP_CI_AS_1252`), and the
+collations `oem`, `GENERAL_VFP_CI_AS_1252`, `GENERAL_VFP_CI_AS_437` and
+`TURKISH_ADS_CS_AS_857` by `AdsCreateTable90`, with an ANSI VFP table and
+an OEM FoxPro one to compare. Eight values (`A`, `Ä`, `ä`, `a`, `z`, `é`,
+`ß` and the byte 0x8E) written with `AdsSetString`; each table read as
+made, then opened again as ANSI, as OEM and as made: its character type,
+`AdsGetString` and `AdsGetStringW` of each record, the keys and walk of an
+order on the field, a seek of `ä`, a filter `C = 'ä'` and the field's bytes
+in the file. Recorded by [`tools/ace/oem/vfp_oem.c`](../tools/ace/oem/vfp_oem.c)
+with `ace32.dll`; replayed by `table::tests::vfp_oem_tables`.
+
+`fixtures/dbf/header_dates.json` holds whether an NTX, CDX or VFP table
+opens with each of 15 dates of the last update in its header (bytes 1 to
+3: the year since 1900, the month, the day), among them zeros, month 13,
+day 32, 255s and 31 February, with the error text of each refusal (7016,
+with the table's path, `C:\probe` when recorded). Recorded by
+[`tools/ace/dbf/header_dates.c`](../tools/ace/dbf/header_dates.c) with
+`ace32.dll`; replayed by `table::tests::dbf_header_dates`.
 
 ## Data dictionaries
 
@@ -1591,6 +1649,137 @@ on handles that are no table, for each filter option and with a NULL count
 pointer. Recorded by
 [`tools/ace/errors/record_count.c`](../tools/ace/errors/record_count.c).
 
+`fixtures/errors/table_options.json` holds what `AdsCreateTable`,
+`AdsCreateTable90`, `AdsOpenTable` and `AdsOpenTable90` answer to table,
+character, lock and rights options outside `ace.h`'s, alone and in pairs
+(which shows the order of the checks), for each table type; whether a
+failure leaves the last error alone (an error is provoked before each
+call); the type and character type of each table opened; `AdsOpenTable90`
+with collations (`ansi`, `oem`, a VFP collation, an unknown name); and the
+opens on a dictionary connection, of the dictionary's table as
+`ADS_DEFAULT` and of a free table. Recorded by
+[`tools/ace/errors/table_options.c`](../tools/ace/errors/table_options.c)
+with `ace32.dll`, from the folder it creates its tables in: the original
+resolves relative table names against the current directory.
+
+`fixtures/errors/create_existing.json` holds what `AdsCreateTable` does
+where the table's file exists already, for NTX, CDX, ADT and VFP tables
+that had a memo field, two records and an order in the index file named
+after them: with nothing holding the table, with another connection holding
+it open shared or exclusively, with the creating connection holding it, and
+with a file of junk in its place. Each row has the return code, the new
+table's record count, fields and orders, which of the table, memo and index
+files are there after, and the record count of the handle kept open.
+Recorded by
+[`tools/ace/write/create_existing.c`](../tools/ace/write/create_existing.c)
+with `ace32.dll`; replayed by `table::tests::create_over_existing_tables`.
+
+`fixtures/errors/lock_types.json` holds what `AdsGetTableLockType` reports
+for NTX, CDX, ADT and VFP tables created and then opened with each lock
+type (`ADS_COMPATIBLE_LOCKING`, `ADS_PROPRIETARY_LOCKING`). Recorded by
+[`tools/ace/errors/lock_types.c`](../tools/ace/errors/lock_types.c) with
+`ace32.dll`; replayed by `table::tests::lock_types`.
+
+`fixtures/errors/field_attributes.json` holds which values after a field's
+type `AdsCreateTable` takes in its field definitions on NTX, CDX, ADT and
+VFP tables (`NOT NULL`, `NULL`, `NOCPTRANS`, another word, a number, an
+empty value, after the decimals or in their place), with the error texts.
+Recorded by
+[`tools/ace/errors/field_attributes.c`](../tools/ace/errors/field_attributes.c)
+with `ace32.dll`; replayed by `field::tests::field_attributes`.
+
+`fixtures/errors/foreign_extensions.json` holds a single and a compound
+order on ID made into a file named with each index format's extension
+(`.ntx`, `.cdx`, `.idx`, `.adi`) on NTX, CDX, ADT and VFP tables: what the
+create returns, the records through the order, and `AdsOpenIndex` of the
+file and the records through it after the table is opened again. Recorded
+by [`tools/ace/errors/foreign_extensions.c`](../tools/ace/errors/foreign_extensions.c)
+with `ace32.dll`; replayed by `index::tests::foreign_index_file_extensions`.
+
+`fixtures/errors/index_extensions.json` holds full-text orders
+(`AdsCreateFTSIndex` into `<name>.fts`) and ordinary ones, single and
+compound (`AdsCreateIndex61` into `<name>.xyz`), on NTX, CDX, ADT and VFP
+tables: what the create returns, `AdsOpenIndex` of the file after the table
+is opened again, and what the order finds. Recorded by
+[`tools/ace/errors/index_extensions.c`](../tools/ace/errors/index_extensions.c)
+with `ace32.dll`; replayed by `index::tests::index_file_extensions`.
+
+`fixtures/errors/locks_in_transaction.json` holds scripts of
+`AdsBeginTransaction`, commits and rollbacks, `AdsLockTable` and
+`AdsUnlockTable`, record locks, writes, `AdsCloseTable` and a record count
+(is the table still open?) on NTX, CDX, ADT and VFP tables open shared, with
+what each step returns. Recorded by
+[`tools/ace/errors/locks_in_transaction.c`](../tools/ace/errors/locks_in_transaction.c)
+with `ace32.dll`; replayed by `transaction::tests::table_locks_in_transaction`.
+
+`fixtures/errors/order_counts.json` holds what `AdsGetRecordCount` counts
+with each option on the table's handle and on an order's (on `STR(VAL,8)`,
+with and without the condition `VAL >= 20`, scoped, with the table
+filtered, after a move through it) on NTX, CDX, ADT and VFP tables of five
+records. Recorded by
+[`tools/ace/errors/order_counts.c`](../tools/ace/errors/order_counts.c)
+with `ace32.dll`; replayed by `index::tests::record_counts_through_orders`.
+
+`fixtures/errors/order_files.json` holds a compound and a single order made
+one after the other into one file (`.cdx` and `.xyz`) of a CDX and a VFP
+table, both ways round: what the creates return, the orders open after,
+and the names of the orders the file holds when opened again. Recorded by
+[`tools/ace/errors/order_files.c`](../tools/ace/errors/order_files.c) with
+`ace32.dll`; replayed by `index::tests::compound_and_single_orders_in_one_file`.
+
+`fixtures/errors/index_files.json` holds which index file the original
+takes for a table's auto-open one in `AdsOpenIndex` (5065 when it is open
+already), `AdsCloseIndex` (5089) and `AdsCloseAllIndexes`, on ADT, CDX and
+VFP tables new and reopened, with the index file named alone and by its
+full path: orders made with `ADS_COMPOUND` and without (a non-compound
+order is a single-order IDX file even when named `.cdx`, which the table's
+header does not mark and which a second order replaces), the table's
+index file after the table is opened again, another file, the handles
+across `AdsPackTable`, `AdsGetNumIndexes` after each step, the error texts,
+whether a failing `AdsCloseIndex` or `AdsOpenIndex` leaves the last error
+alone, and the DBF header's structural-index flag after each close.
+Recorded by [`tools/ace/errors/index_files.c`](../tools/ace/errors/index_files.c)
+with `ace32.dll`; replayed by `index::tests::auto_open_index_files`.
+
+`fixtures/errors/stray_index_modes.json` holds whether `AdsOpenIndex`
+opens a single-order file (an order made without `ADS_COMPOUND`) named as a
+CDX or VFP table's structural `.cdx` after the table is opened again shared,
+exclusively or read-only, how many orders it writes, a second open of it,
+and `AdsGetNumIndexes` before and after. Recorded by
+[`tools/ace/errors/stray_index_modes.c`](../tools/ace/errors/stray_index_modes.c)
+with `ace32.dll`; replayed by `index::tests::stray_index_open_modes`.
+
+`fixtures/errors/index_paths.json` holds which folder `AdsCreateIndex61`
+and `AdsOpenIndex` take an index file named relatively from: a table made
+by its full path in the folder `tables` of the connection's, with orders
+in files beside it, in the connection's folder, the current directory,
+their `data` folders and the table's, made by their full paths; then an
+order made by a bare name and one by `data\<name>` (where it lands, `C\`
+or `W\` for the connection's folder or the current directory), and opens of
+bare names, names with a folder (`data\`, `data/`, `tables\`, `sub\`,
+`.\`), each with its return code and number of orders. The layout `same`
+has the connection's folder as the current directory, `split` another
+one. Recorded by
+[`tools/ace/errors/index_paths.c`](../tools/ace/errors/index_paths.c) with
+`ace32.dll`; the `same` rows are replayed by
+`index::tests::relative_index_file_names`.
+
+`fixtures/errors/custom_kinds.json` holds what `AdsCreateIndex61`,
+`AdsAddCustomKey` and `AdsDeleteCustomKey` return for orders made with and
+without `ADS_CUSTOM` on ADT, NTX, FoxPro (compound and single) and Visual
+FoxPro (compound and single) tables, and `AdsAddCustomKey` of the table
+handle. Recorded by
+[`tools/ace/errors/custom_kinds.c`](../tools/ace/errors/custom_kinds.c) with
+`ace32.dll`; replayed by `index::tests::custom_key_order_kinds`.
+
+`fixtures/errors/moves_after_errors.json` holds what `AdsGotoTop` and
+`AdsCloseIndex` return and leave as the last error (code and text) when
+given 0 or a value that is no handle, after a success and after each of
+5013, 5018 (two texts), 5023, 5024 and 5106 left by the call before.
+Recorded by
+[`tools/ace/errors/moves_after_errors.c`](../tools/ace/errors/moves_after_errors.c)
+with `ace32.dll`.
+
 `fixtures/errors/cursor_set.json` holds what the `AdsSet*` setters answer on
 a SQL cursor: a live one (`SELECT *` or some columns of one table, and one
 of a statement set read-only), and static ones (a join, a `GROUP BY`). Each
@@ -1602,6 +1791,16 @@ off the record or just closed). Recorded by
 probe is `cursor_set.c`) and replayed.
 
 ## Expressions and filters
+
+`fixtures/expr/contains.json` holds what `CONTAINS(field, 'condition')`
+finds in filters (`AdsSetFilter`) and AOFs (`AdsSetAOF`) on NTX, CDX, ADT
+and VFP tables of four records, in a character field and a memo, without a
+full-text order and with one on the character field: single words in any
+case, wildcards, phrases, `AND`, `OR`, `NOT`, `NEAR`, noise and short words,
+numbers and hyphenated words, and the empty condition, with what setting
+and counting (`AdsGetRecordCount`) return. Recorded by
+[`tools/ace/expr/contains.c`](../tools/ace/expr/contains.c) with
+`ace32.dll`; replayed by `filter::tests::contains_in_filters`.
 
 `fixtures/expr/compare.json` holds string comparisons on the
 `charset_german` `ca` table under `ANSI_CHAR_SET=German`, from
@@ -1630,6 +1829,26 @@ the cases files are converted to Windows-1252 first):
   `expr_keys` fixture): for each expression order, `AdsGetKeyType` and
   `AdsGetKeyLength`, and the result of seeking a numeric expression order by a
   double key (whether found, and the record landed on).
+- `alias.json`, from `alias.c` on tables it makes (ADT, NTX, CDX, VFP),
+  opened under their own alias and the alias `XX`: for qualified field names
+  (`FIELD->ID`, `_FIELD->ID`, `acct->id`, `M->ID`, spaced arrows, nested
+  qualifiers) and expressions on them, the result of `AdsCreateIndex61` (the
+  expression it gives back, key length and type, and seeking 1003 as a
+  double), `AdsIsExprValid`, `AdsEvalNumericExpr`, and a filter and an AOF
+  of `(E) > 1001`, with the error text of each failure.
+- `numkeys.json`, from `numkeys.c` on tables it makes (ADT, NTX, CDX,
+  VFP, and an ADT table with Integer and Double fields too): for orders on
+  numeric fields and expressions (`ID + 1`, `ID * 2`, `ID - 1000`, `D + 1`,
+  `ID + D`, `ID / 4`, `I + 1`, `F + 1`, ...), the key length and type, each
+  record's key (`AdsExtractKey`, hex), the walk, and seeks of doubles hard
+  and soft and of a number as text.
+- `keywords.json`, from `keywords.c` on tables it makes (ADT, NTX, CDX):
+  one with fields named `AND`, `OR`, `TRUE`, `FALSE`, `NULL` (Character)
+  and `NOT` (Logical), and one without such fields: for filters and orders
+  that name them as fields and use the words as operators and constants,
+  the filter's result and the records it lets through
+  (`AdsGetRecordCount`, and what that returned), and the walk of each order.
+  Replayed by `index::tests::keyword_field_names`.
 - `case.json`, from `run_case.sh` on the `charset_german` `ca` table under
   `ANSI_CHAR_SET=German`: the `AdsEvalStringExpr` value of `UPPER(c)`, `LOWER(c)`,
   `UPPER(w)` and `LOWER(w)` on each record, to show how the static collation
@@ -1638,6 +1857,23 @@ the cases files are converted to Windows-1252 first):
 Expressions and other text are Windows-1252 bytes written as U+0000–U+00FF.
 
 ## Seeks (fixtures/seek/)
+
+`fixtures/seek/deleted.json` holds how an order of an ADT, NTX, CDX and VFP
+table, with its first, last and whole groups of keys deleted, counts
+(`AdsGetKeyCount`, `AdsGetRecordCount`, in and out of a scope), numbers
+(`AdsGetKeyNum`) and seeks (`AdsSeek` hard, soft and after, `AdsSeekLast`)
+with deleted records shown and hidden, under an AOF and a filter too.
+Recorded by [`tools/ace/seek/deleted.c`](../tools/ace/seek/deleted.c) with
+`ace32.dll`; replayed by `scope::tests::deleted_records_in_orders`.
+
+`fixtures/seek/direction.json` holds what `AdsSetIndexDirection` does to
+ascending and descending orders on one field of ADT, NTX, CDX and VFP
+tables, in compound files and files of their own: the values 1, 1, 0, 2, 1,
+0 one after another on each order, each with its return code and last
+error, `AdsIsIndexDescending`, the walk through the order and through the
+table handle, and the key number at the order's top. Recorded by
+[`tools/ace/seek/direction.c`](../tools/ace/seek/direction.c) with
+`ace32.dll`; replayed by `scope::tests::index_directions`.
 
 From [`tools/ace/seek/`](../tools/ace/seek/) (`run.sh`; `cases.py` writes the
 command lists, `seek.c` runs them) under Wine. Each file is a list of

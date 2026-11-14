@@ -51,7 +51,7 @@ pub(crate) fn check(tree: &Ast, schema: &dyn Schema) -> Result<Node, ErrorKind> 
         Ast::Null => node(Type::Null, Kind::Const(Val::Null)),
         Ast::Name { alias, name } => {
             if let Some(alias) = alias
-                && !alias.eq_ignore_ascii_case(schema.alias())
+                && !crate::names_table(alias, schema)
             {
                 return Err(ErrorKind::UnknownAlias);
             }

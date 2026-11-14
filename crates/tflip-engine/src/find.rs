@@ -14,7 +14,7 @@ use std::path::Path;
 
 use crate::dictionary::ObjectType;
 use crate::handle::{Handle, Listing, Object};
-use crate::{Error, Session, connection, shares};
+use crate::{Error, Session, connection};
 
 /// The first match of a new table listing.
 #[derive(Debug)]
@@ -60,9 +60,9 @@ pub fn find_first_table(
         false => {
             let (dir, pattern) = split_mask(mask);
             let folder = owner.folder();
-            let dir = match session.shares {
-                Some(_) => shares::inside(&folder, dir)?,
-                None => folder.join(dir),
+            let dir = match &session.shares {
+                Some(shares) => shares.inside(&folder, dir)?,
+                None => crate::settings::local_join(session, &folder, dir),
             };
             VecDeque::from(list_tables(&dir, pattern))
         }

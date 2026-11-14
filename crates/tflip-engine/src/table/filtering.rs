@@ -48,10 +48,12 @@ impl Table {
             Some(evaluated) => self.compile(&evaluated)?,
             None => expr,
         };
+        let contains = self.contains_hook(&expr, orders)?;
         let aof = Aof {
             filter: Filter {
                 text,
                 expr: Arc::new(expr),
+                contains,
             },
             options,
             level: optimized.level,
@@ -104,11 +106,7 @@ impl Table {
                 serving.push(Arc::clone(order));
             }
         }
-        let alias = self
-            .path
-            .file_stem()
-            .map(|s| s.to_string_lossy())
-            .unwrap_or_default();
+        let alias = self.expression_alias();
         let schema = filter::Schema {
             alias: &alias,
             fields: self.fields(),
@@ -349,7 +347,11 @@ impl Table {
                 if several && order.kind != Kind::Adi {
                     return Ok(None);
                 }
-                let Some(number) = self.fields().iter().position(|f| std::ptr::eq(f, field)) else {
+                let Some(number) = self
+                    .fields()
+                    .iter()
+                    .position(|f| f.name.eq_ignore_ascii_case(&field.name))
+                else {
                     return Ok(None);
                 };
                 let text = matches!(
@@ -654,7 +656,10 @@ impl Table {
         if self.format() != Format::Adt
             && let seek::KeySource::Field(field) | seek::KeySource::Fields(field) =
                 order.key_source(self)
-            && let Some(number) = self.fields().iter().position(|f| std::ptr::eq(f, field))
+            && let Some(number) = self
+                .fields()
+                .iter()
+                .position(|f| f.name.eq_ignore_ascii_case(&field.name))
         {
             for value in [Value::Integer(0), Value::Double(0.0), Value::Logical(false)] {
                 if let Ok(Some(key)) = self.value_key(order, number, &value) {
@@ -984,16 +989,100 @@ impl Table {
         state.with_memo(|memo| sieve.in_aof(bytes, record, memo))
     }
 
+    /// The full-text rules of each of the table's fields for `CONTAINS`
+    /// outside SQL: those of the field's full-text order among `orders` (the
+    /// orders open on the table) or its index files, else every word
+    /// counting, as the original searches a field with none
+    /// (`fixtures/expr/contains.json`).
+    fn contains_rules(&self, orders: &[Arc<Index>]) -> Vec<tflip_sql::fts::Rules> {
+        let mut rules: Vec<tflip_sql::fts::Rules> = crate::index::fts_rules(self)
+            .into_iter()
+            .map(|rules| rules.unwrap_or_else(tflip_sql::fts::Rules::non_indexed))
+            .collect();
+        for order in orders.iter().filter(|order| order.tag.full_text()) {
+            if let (Some(place), Ok(found)) = (self.full_text_place(order), order.fts_rules())
+                && let Some(slot) = rules.get_mut(place)
+            {
+                *slot = (*found).clone();
+            }
+        }
+        rules
+    }
+
+    /// The place of the field a full-text order is on: named by its key, or
+    /// as `F<n>` (which an order of a DBF table made on its handle says).
+    fn full_text_place(&self, order: &Index) -> Option<usize> {
+        let field = match order.key_source(self) {
+            crate::seek::KeySource::Field(field) => field,
+            _ => {
+                let number = order
+                    .tag
+                    .expression
+                    .trim()
+                    .strip_prefix('F')?
+                    .parse()
+                    .ok()?;
+                self.key_field(number).ok()?
+            }
+        };
+        self.fields()
+            .iter()
+            .position(|f| f.name.eq_ignore_ascii_case(&field.name))
+    }
+
+    /// What answers the `CONTAINS` of an AOF's `expr`, where it has one. As
+    /// in the original engine, a condition on a field with a full-text order
+    /// is parsed when the AOF is set, and one the order cannot search is
+    /// refused (7103); others are parsed as records are read.
+    fn contains_hook(
+        &self,
+        expr: &tflip_expr::Expr,
+        orders: &[Arc<Index>],
+    ) -> Result<Option<tflip_expr::Contains>, Error> {
+        if !expr.uses_contains() {
+            return Ok(None);
+        }
+        let rules = self.contains_rules(orders);
+        let indexed: Vec<bool> = {
+            let mut indexed = vec![false; rules.len()];
+            for (place, found) in crate::index::fts_rules(self).iter().enumerate() {
+                indexed[place] = found.is_some();
+            }
+            for order in orders.iter().filter(|order| order.tag.full_text()) {
+                if let Some(place) = self.full_text_place(order)
+                    && let Some(slot) = indexed.get_mut(place)
+                {
+                    *slot = true;
+                }
+            }
+            indexed
+        };
+        for (place, condition) in expr.contains_terms() {
+            if indexed.get(place) == Some(&true) {
+                let condition = tflip_storage::cp1252::decode(&condition);
+                tflip_sql::fts::parse(&condition, &rules[place])
+                    .map_err(|error| Error::Evaluation(tflip_expr::Runtime::FullText(error.0)))?;
+            }
+        }
+        Ok(Some(contains_with(rules)))
+    }
+
     /// Sets the table's record filter (`AdsSetFilter`), replacing any it
     /// had. It is kept as given. An expression that is not valid is
     /// [`Error::Expression`], an empty one [`Error::InvalidExpression`]. As
     /// in the original engine, the expression need not be logical (see
     /// [`crate::filter`]), and the table does not move.
-    pub fn set_filter(&self, expression: &str) -> Result<(), Error> {
+    pub fn set_filter(&self, expression: &str, orders: &[Arc<Index>]) -> Result<(), Error> {
         let expr = self.compile(expression)?;
+        // A filter's `CONTAINS` conditions are parsed as records are read.
+        let contains = match expr.uses_contains() {
+            true => Some(contains_with(self.contains_rules(orders))),
+            false => None,
+        };
         let filter = Filter {
             text: expression.to_owned(),
             expr: Arc::new(expr),
+            contains,
         };
         self.change_filters(|filters| filters.filter = Some(filter));
         Ok(())
@@ -1369,6 +1458,17 @@ fn exact_value(field: &Field, v: &tflip_sql::V) -> Option<Value> {
             (low == high).then_some(low)
         }
     }
+}
+
+/// The `CONTAINS` of filters searching each field's text with its `rules`.
+fn contains_with(rules: Vec<tflip_sql::fts::Rules>) -> tflip_expr::Contains {
+    tflip_expr::Contains(Arc::new(move |field, text, condition| {
+        let default = tflip_sql::fts::Rules::non_indexed();
+        let rules = field.and_then(|field| rules.get(field)).unwrap_or(&default);
+        let text = tflip_storage::cp1252::decode(text);
+        let condition = tflip_storage::cp1252::decode(condition);
+        tflip_sql::fts::search(&condition, &text, rules).map_err(|error| error.0)
+    }))
 }
 
 #[cfg(test)]

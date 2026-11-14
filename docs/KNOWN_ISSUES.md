@@ -471,10 +471,9 @@ What tflip reads of dictionaries is checked against the original
   add), and a primary key and field rules in `CREATE TABLE`. What differs:
   - not probed: an ADI file added to a Clipper, FoxPro or VFP table (tflip
     refuses it as it does an NTX file to a FoxPro table, 7017), a collation
-    of a VFP table in the dictionary, and the keys of a VFP OEM table's
-    index (they are ordered as an ANSI table's, as is a free VFP table
-    opened as OEM, which stays ANSI; a dictionary's OEM VFP table does
-    convert its text, as the original's does).
+    of a VFP table in the dictionary, and the keys of a dictionary's VFP OEM
+    table's index (keyed by their OEM bytes, as a free one's are in the
+    original, `fixtures/dbf/vfp_oem.json`).
 - **Rights granted to `DB:Public`** are kept as the original keeps them, in
   the object's own slot (32 bytes enciphered with the dictionary key, with
   a salt and a checksum, checked on every read: 5127 for any change); API
@@ -774,6 +773,23 @@ What tflip reads of dictionaries is checked against the original
   5081 (7014), and a Visual FoxPro table opened as NTX with 5025, where the
   original opens it (`fixtures/config/connect101.json`; the replay checks
   only that the open fails).
+- **Visual FoxPro tables with a collation** (a character type from 3 to
+  118, or a collation's name, as `GENERAL_VFP_CI_AS_1252` or
+  `TURKISH_ADS_CS_AS_857`): the table reports `ADS_OEM` and keeps its text in
+  the OEM code page for a collation of an OEM code page, as in the original
+  (`fixtures/dbf/vfp_oem.json`), but its new orders are not collated: tflip keys
+  them by the bytes, where the original keys them by the collation's
+  weights, and compares text in filters by the bytes (the original ignores
+  case under a `_CI_` collation). The original then refuses to open the
+  table under another character type (5209, or 7147 for
+  `BOSNIAN_ADS_CS_AS_775`); tflip opens it.
+- **`NULL` alone in a table without a field of that name**: the original
+  takes the filter `NULL`, then fails `AdsGetRecordCount` with 4109, and
+  refuses an order on it (4009 on ADT tables, 5011 on DBF tables); tflip
+  lets the filter through no record and keys the ADT order (5042 on DBF
+  tables) (`fixtures/expr/keywords.json`). In a DBF table with a field
+  `NOT`, `NOT = .T.` and `NOT .AND. X` fail with 3106, where the original
+  gives 3111 and 3101.
 - **Table listings**: `AdsFindNextTable` with an unknown listing handle
   fails with `AE_INVALID_HANDLE`; the original returns `AE_SUCCESS` without
   a name.
@@ -931,6 +947,10 @@ What tflip reads of dictionaries is checked against the original
 
 ## Seeking, scopes and index orders
 
+- **A legacy ADS VarChar with a NUL inside** (`ab\0cd`, `\0abc`, stored
+  as given) is not found by `AdsSeek` of the same bytes in an ADI order on
+  the field, where the original finds it
+  (`fixtures/fields/nul_strings.json`; the replay skips these two rows).
 - **Bookmarks** are the original's in length and bytes (8 through a table,
   12 and the key's length through an order, whose handle word is tflip's
   own handle), and so are `AdsCompareBookmarks` and `AdsGotoBookmark60`
@@ -1038,6 +1058,13 @@ What tflip reads of dictionaries is checked against the original
 
 ## Moving
 
+- **Record numbers with filters respected** (`AdsGetRecordNum` with
+  `ADS_RESPECTFILTERS`) count the visible records before the current one.
+  A handle that has its table exclusively keeps which records are hidden, so
+  each number takes a moment; a shared handle counts them all each time,
+  as another process may have changed the table, and so numbering every
+  record of a large shared table that hides records takes time in
+  proportion to the square of its size.
 - **Going past the last record**: `AdsGotoRecord` to any slot past the last
   record leaves the cursor at EOF (BOF and EOF at once). tflip always returns
   `AE_SUCCESS` there; the original returns `AE_SUCCESS` too — *except* when the
@@ -1246,9 +1273,10 @@ probed corpus (`fixtures/expr/expressions.json`), but for:
   as long as the picture, where the original's is as long as the value at
   the order's creation; `TTOC()` and `SYS()` fail as unsupported functions; `LOWERW()`
   and `UPPERW()`, which the help lists among the index functions, are
-  unknown to tflip; `CONTAINS()`
-  holds for any value that is not NULL, as the original does without a
-  full-text index. `NEWIDSTRING(format)` is done — a GUID in the format the
+  unknown to tflip; `CONTAINS()` outside SQL is answered from the
+  field's text in filters and AOFs only (`fixtures/expr/contains.json`),
+  and holds for any value that is not NULL elsewhere (an index's key or
+  condition). `NEWIDSTRING(format)` is done — a GUID in the format the
   string names (`D`/`DELIMITED`, `B`/`BRACKETED` in square brackets,
   `P`/`PARENTHESIS`, `N`/`NUMBERS`, `M` MIME Base64, `F`/`FILE` URL-safe
   Base64), matched to the engine on the VM; the documented `MIME`/`REGISTRY`

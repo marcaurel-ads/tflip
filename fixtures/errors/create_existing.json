@@ -1,0 +1,22 @@
+[
+{"type": "NTX", "scenario": "closed", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf", "dbt", "ntx"], "other_count": 9},
+{"type": "NTX", "scenario": "open shared", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "dbt", "ntx"], "other_count": 2},
+{"type": "NTX", "scenario": "open exclusive", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "dbt", "ntx"], "other_count": 2},
+{"type": "NTX", "scenario": "open here", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "dbt", "ntx"], "other_count": 2},
+{"type": "NTX", "scenario": "junk", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf"], "other_count": 9},
+{"type": "CDX", "scenario": "closed", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf", "fpt"], "other_count": 9},
+{"type": "CDX", "scenario": "open shared", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "CDX", "scenario": "open exclusive", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "CDX", "scenario": "open here", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "CDX", "scenario": "junk", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf"], "other_count": 9},
+{"type": "ADT", "scenario": "closed", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["adt", "adm"], "other_count": 9},
+{"type": "ADT", "scenario": "open shared", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["adt", "adm", "adi"], "other_count": 2},
+{"type": "ADT", "scenario": "open exclusive", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["adt", "adm", "adi"], "other_count": 2},
+{"type": "ADT", "scenario": "open here", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["adt", "adm", "adi"], "other_count": 2},
+{"type": "ADT", "scenario": "junk", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["adt"], "other_count": 9},
+{"type": "VFP", "scenario": "closed", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf", "fpt"], "other_count": 9},
+{"type": "VFP", "scenario": "open shared", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "VFP", "scenario": "open exclusive", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "VFP", "scenario": "open here", "rc": 7040, "count": 9, "fields": 9, "orders": 9, "files": ["dbf", "fpt", "cdx"], "other_count": 2},
+{"type": "VFP", "scenario": "junk", "rc": 0, "count": 0, "fields": 2, "orders": 0, "files": ["dbf"], "other_count": 9}
+]

@@ -42,6 +42,12 @@ pub enum Flavour {
 /// The size of the header and of a field descriptor.
 const DESCRIPTOR_SIZE: usize = 32;
 
+/// Why a DBF table whose header's date of the last update has a month
+/// outside 1 to 12 or a day outside 1 to 31 does not open: the original
+/// engine refuses it as corrupt (7016), whatever the year, and does not
+/// check the day against the month (`fixtures/dbf/header_dates.json`).
+pub const BAD_DATE: &str = "date of the last update out of range";
+
 /// VFP field flags (descriptor byte 18).
 mod field_flags {
     /// A system field (`_NullFlags`).
@@ -716,6 +722,9 @@ pub fn read_structure(
         0x03 | 0x07 | 0x83 | 0x87 | 0xF5 | 0xF7 | 0x30..=0x32 | AES_LAYOUT | 0xF8
     ) {
         return Err(Error::Corrupt("not a DBF table"));
+    }
+    if !(1..=12).contains(&head[2]) || !(1..=31).contains(&head[3]) {
+        return Err(Error::Corrupt(BAD_DATE));
     }
     let reads = match flavour {
         Flavour::Clipper => MemoKind::Dbt,

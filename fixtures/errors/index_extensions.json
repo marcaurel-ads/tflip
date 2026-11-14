@@ -1,0 +1,13 @@
+[
+{"type": "NTX", "order": "fts", "create": 5017, "open": 7041, "orders": 0, "found": 2},
+{"type": "NTX", "order": "index", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "CDX", "order": "fts", "create": 0, "open": 0, "orders": 1, "found": 2},
+{"type": "CDX", "order": "index", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "CDX", "order": "compound", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "ADT", "order": "fts", "create": 0, "open": 0, "orders": 1, "found": 2},
+{"type": "ADT", "order": "index", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "ADT", "order": "compound", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "VFP", "order": "fts", "create": 0, "open": 0, "orders": 1, "found": 2},
+{"type": "VFP", "order": "index", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]},
+{"type": "VFP", "order": "compound", "create": 0, "open": 0, "orders": 1, "found": [2, 3, 1]}
+]

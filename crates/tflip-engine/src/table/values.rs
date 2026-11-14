@@ -133,10 +133,18 @@ impl Table {
         if self.hides(field) {
             return Ok(true);
         }
+        let record = self.read_record()?;
+        // A VFP field whose NULL bit is set is not empty, a memo among them
+        // (`fixtures/fields/nullable.json`).
+        if matches!(&field.layout, Layout::Dbf(dbf) if dbf.null_bit.is_some())
+            && field.is_null(&record)
+        {
+            return Ok(false);
+        }
         if let Some(value) = self.pending_memo(field) {
             return Ok(value.is_none());
         }
-        Ok(field.is_empty(&self.read_record()?))
+        Ok(field.is_empty(&record))
     }
 
     /// The length in bytes of a memo field's value in the current record

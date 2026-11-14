@@ -98,6 +98,8 @@ Windows client expects them. That matters for `tflipd` on a Linux server.
   A path through a mapped drive (`X:\data` for `\\server\share\data`)
   reaches the share's server too, as on Windows the client names a
   connection's path by its UNC path (`tools/ace/mapped`).
+  An absolute path of the original server's own (`C:\data\x.adt`) reaches
+  a share where `tflipd --map C:\data=NAME` maps it.
 
 Field and order names are matched without regard to case on every
 platform; that is ACE's behaviour, not the file system's.

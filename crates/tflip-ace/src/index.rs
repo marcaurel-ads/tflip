@@ -151,11 +151,21 @@ pub unsafe extern "system" fn AdsOpenIndex(
 
 /// `AdsCloseIndex`: closes the index file holding an order, all its orders.
 /// As in the original engine, the structural index fails with
-/// `AE_AUTOOPEN_INDEX`, and a handle that is not an open order with
-/// `AE_INVALID_INDEX_HANDLE`.
+/// `AE_AUTOOPEN_INDEX` (an IDX file named as a FoxPro table's `.cdx` is not
+/// one), and a value that is no handle with `AE_INVALID_INDEX_HANDLE`,
+/// recording `AE_INVALID_HANDLE` unless an error was left before
+/// (`fixtures/errors/index_files.json`,
+/// `fixtures/errors/moves_after_errors.json`).
 #[unsafe(no_mangle)]
 pub extern "system" fn AdsCloseIndex(index: AdsHandle) -> Unsigned32 {
     let _call = crate::last_error::Call::begin("AdsCloseIndex");
+    // A value that is no handle records `AE_INVALID_HANDLE` as a move does,
+    // but the call returns `AE_INVALID_INDEX_HANDLE`
+    // (`fixtures/errors/moves_after_errors.json`).
+    if matches!(api(index).handle_kind(index), Ok(None)) {
+        crate::handle::no_handle(index);
+        return crate::AE_INVALID_INDEX_HANDLE;
+    }
     code(api(index).close_index(index))
 }
 
@@ -1814,6 +1824,785 @@ mod tests {
         crate::AdsDisconnect(connect);
     }
 
+    /// As in the original engine: the keys, walks and seeks of orders on
+    /// numeric expressions of ADT, NTX, CDX and VFP tables, and on ADT tables
+    /// of other numeric field types (`fixtures/expr/numkeys.json`, from
+    /// `tools/ace/expr/numkeys.c`, whose steps this repeats).
+    #[test]
+    fn numeric_expression_keys() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/expr/numkeys.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("numeric_expression_keys", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let plain = "ID,N,6,0;D,N,8,2;C,C,4,0";
+        let typed = "ID,N,6,0;D,N,8,2;C,C,4,0;I,Integer;F,Double,2";
+        let exprs = [
+            "ID",
+            "ID + 1",
+            "ID * 2",
+            "ID - 1000",
+            "D",
+            "D + 1",
+            "ID + D",
+            "ID / 4",
+            "-ID",
+        ];
+        let type_exprs = ["ID + 1", "1 + ID", "I + 1", "F + 1", "I * 2", "D + ID", "I"];
+        /// A table type: its name in the fixture, its table, its index files'
+        /// extension, its fields, the expressions of its orders and its type.
+        type Kind<'a> = (&'a str, &'a str, &'a str, &'a str, &'a [&'a str], u16);
+        let types: [Kind; 5] = [
+            ("ADT", "nadt", "adi", plain, &exprs, ADS_ADT),
+            ("NTX", "nntx", "ntx", plain, &exprs, crate::ADS_NTX),
+            ("CDX", "ncdx", "cdx", plain, &exprs, crate::ADS_CDX),
+            ("VFP", "nvfp", "cdx", plain, &exprs, crate::ADS_VFP),
+            ("ADT types", "ntypes", "adi", typed, &type_exprs, ADS_ADT),
+        ];
+        let rows = [
+            ("1001", "2.50", "a"),
+            ("1002", "-1.25", "b"),
+            ("1003", "10.00", "c"),
+            ("999", "0.00", "d"),
+        ];
+        let set = |table, field: &str, value: &str| {
+            let (field, value) = (text(field), text(value));
+            unsafe {
+                crate::AdsSetField(
+                    table,
+                    field.as_ptr().cast_mut().cast(),
+                    value.as_ptr().cast_mut().cast(),
+                    value.as_bytes().len() as Unsigned32,
+                )
+            };
+        };
+        let at = |table| -> Json {
+            let (mut eof, mut recno) = (0, 0);
+            unsafe { crate::AdsAtEOF(table, &mut eof) };
+            unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+            if eof != 0 { json!("E") } else { json!(recno) }
+        };
+        let mut got = Vec::new();
+        for (t, (name, table_name, ext, fields, exprs, table_type)) in types.into_iter().enumerate()
+        {
+            let (table_name, fields) = (text(table_name), text(fields));
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    table_name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            for (id, d, c) in rows {
+                crate::AdsAppendRecord(table);
+                set(table, "ID", id);
+                set(table, "D", d);
+                set(table, "C", c);
+                if name == "ADT types" {
+                    set(table, "I", id);
+                    set(table, "F", id);
+                }
+                crate::AdsWriteRecord(table);
+            }
+            for (e, expr) in exprs.iter().enumerate() {
+                let (bag, tag, key, empty) = (
+                    text(&format!("k{t}_{e}.{ext}")),
+                    text("K"),
+                    text(expr),
+                    text(""),
+                );
+                let mut order = 0;
+                let options = if table_type == crate::ADS_NTX { 0 } else { 2 };
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        tag.as_ptr().cast_mut().cast(),
+                        key.as_ptr().cast_mut().cast(),
+                        empty.as_ptr().cast_mut().cast(),
+                        empty.as_ptr().cast_mut().cast(),
+                        options,
+                        512,
+                        &mut order,
+                    )
+                };
+                let mut row = json!({"type": name, "expr": expr, "rc": rc});
+                if rc != 0 {
+                    got.push(row);
+                    continue;
+                }
+                let (mut key_length, mut key_type) = (0, 0);
+                unsafe { crate::AdsGetKeyLength(order, &mut key_length) };
+                unsafe { AdsGetKeyType(order, &mut key_type) };
+                let mut keys = Vec::new();
+                for record in 1..=4 {
+                    crate::AdsGotoRecord(table, record);
+                    let (mut key, mut len) = ([0u8; 300], 300u16);
+                    let rc = unsafe { AdsExtractKey(order, key.as_mut_ptr(), &mut len) };
+                    keys.push(match rc {
+                        0 => key[..usize::from(len)]
+                            .iter()
+                            .map(|b| format!("{b:02x}"))
+                            .collect(),
+                        rc => format!("E{rc}"),
+                    });
+                }
+                let mut walk = Vec::new();
+                crate::AdsGotoTop(order);
+                for _ in 0..10 {
+                    let mut eof = 0;
+                    unsafe { crate::AdsAtEOF(table, &mut eof) };
+                    if eof != 0 {
+                        break;
+                    }
+                    let mut recno = 0;
+                    unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+                    walk.push(recno);
+                    crate::AdsSkip(order, 1);
+                }
+                let mut seeks = Vec::new();
+                for (value, how) in [(1003.0f64, 2u16), (1002.5, 2), (-1.0, 2), (1002.5, 1)] {
+                    let mut found = 7;
+                    crate::AdsGotoRecord(table, 1);
+                    let rc = unsafe {
+                        AdsSeek(
+                            order,
+                            &value as *const f64 as *mut u8,
+                            8,
+                            4,
+                            how,
+                            &mut found,
+                        )
+                    };
+                    let key = if value.fract() == 0.0 {
+                        json!(value as i64)
+                    } else {
+                        json!(value)
+                    };
+                    let how = if how == 1 { "soft" } else { "hard" };
+                    seeks.push(json!({"key": key, "how": how, "rc": rc, "found": found,
+                                      "at": at(table)}));
+                }
+                let mut found = 7;
+                crate::AdsGotoRecord(table, 1);
+                let rc = unsafe {
+                    AdsSeek(
+                        order,
+                        c"1003".as_ptr().cast_mut().cast(),
+                        4,
+                        2,
+                        2,
+                        &mut found,
+                    )
+                };
+                seeks.push(
+                    json!({"key": "1003", "how": "string", "rc": rc, "found": found,
+                                  "at": at(table)}),
+                );
+                row["key_length"] = json!(key_length);
+                row["key_type"] = json!(key_type);
+                row["keys"] = json!(keys);
+                row["walk"] = json!(walk);
+                row["seeks"] = json!(seeks);
+                got.push(row);
+            }
+            crate::AdsCloseTable(table);
+        }
+        AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(
+            problems.is_empty(),
+            "{} differ:\n{}",
+            problems.len(),
+            problems.join("\n")
+        );
+    }
+
+    /// As in the original engine: the names of orders by how they were made
+    /// and found, for each kind of order and each way of naming its file
+    /// (`fixtures/dbf/index_names.json`, from `tools/ace/dbf/index_names.c`,
+    /// whose steps this repeats). Remotely, files named by a path of the
+    /// server's own are left out, as a server refuses them.
+    #[test]
+    fn order_names() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/dbf/index_names.json");
+        let remote = fixtures::is_remote();
+        let want: Vec<Json> =
+            serde_json::from_str::<Vec<Json>>(&std::fs::read_to_string(path).unwrap())
+                .unwrap()
+                .into_iter()
+                .filter(|row| !remote || row["bag"] != "full")
+                .collect();
+        let (source, _dir) = fixtures::scratch_from("order_names", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let separator = if remote { r"\" } else { "/" };
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let name_of = |order: AdsHandle| -> String {
+            let (mut name, mut len) = ([0u8; 260], 260u16);
+            let rc = unsafe { AdsGetIndexName(order, name.as_mut_ptr(), &mut len) };
+            match rc {
+                0 => String::from_utf8_lossy(&name[..usize::from(len)]).into_owned(),
+                rc => format!("E{rc}"),
+            }
+        };
+        let names = |table: AdsHandle| -> Vec<String> {
+            let mut n = 0;
+            unsafe { AdsGetNumIndexes(table, &mut n) };
+            (1..=n.min(16))
+                .map(|i| {
+                    let mut order = 0;
+                    unsafe { AdsGetIndexHandleByOrder(table, i, &mut order) };
+                    name_of(order)
+                })
+                .collect()
+        };
+        let open_index = |table: AdsHandle, file: &str| -> (Unsigned32, Vec<String>) {
+            let file = text(file);
+            let (mut handles, mut len) = ([0 as AdsHandle; 16], 16u16);
+            let rc = unsafe {
+                AdsOpenIndex(
+                    table,
+                    file.as_ptr().cast_mut().cast(),
+                    handles.as_mut_ptr(),
+                    &mut len,
+                )
+            };
+            let opened = match rc {
+                0 | crate::AE_INDEX_ALREADY_OPEN => handles[..usize::from(len)]
+                    .iter()
+                    .map(|&h| name_of(h))
+                    .collect(),
+                _ => Vec::new(),
+            };
+            (rc, opened)
+        };
+        let kinds = [
+            ("ADT", "adi", ADS_ADT, 0),
+            ("NTX", "ntx", crate::ADS_NTX, 0),
+            ("CDX idx", "cdx", crate::ADS_CDX, 0),
+            ("VFP idx", "cdx", crate::ADS_VFP, 0),
+            ("CDX compound", "cdx", crate::ADS_CDX, 2),
+            ("VFP compound", "cdx", crate::ADS_VFP, 2),
+        ];
+        let mut got = Vec::new();
+        for (k, (kind, ext, table_type, options)) in kinds.into_iter().enumerate() {
+            let ntx = table_type == crate::ADS_NTX;
+            let letter = char::from(b'a' + k as u8);
+            for (b, bag) in ["lower", "mixed", "upper", "bare", "full"]
+                .into_iter()
+                .enumerate()
+            {
+                if remote && bag == "full" {
+                    continue;
+                }
+                let ext = match bag {
+                    "upper" => ext.to_ascii_uppercase(),
+                    _ => ext.to_owned(),
+                };
+                let base = match bag {
+                    "mixed" => "Bag_",
+                    "upper" => "BAG_",
+                    _ => "bag_",
+                };
+                let files: Vec<String> = ["n", "c"]
+                    .iter()
+                    .map(|suffix| {
+                        let stem = format!("{base}{letter}{b}{}", if ntx { *suffix } else { "" });
+                        match bag {
+                            "bare" => stem,
+                            "full" => format!("{source}{separator}{stem}.{ext}"),
+                            _ => format!("{stem}.{ext}"),
+                        }
+                    })
+                    .collect();
+                let table_name = text(&format!("t{letter}{b}"));
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        table_name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        c"K,C,4,0".as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"A".as_ptr().cast_mut().cast(),
+                        1,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+                let mut created = [0 as AdsHandle; 2];
+                let mut rcs = 0;
+                for (o, tag) in ["tg_n", "TG_C"].into_iter().enumerate() {
+                    let (file, tag, key) =
+                        (text(&files[if ntx { o } else { 0 }]), text(tag), text("K"));
+                    let rc = unsafe {
+                        crate::AdsCreateIndex61(
+                            table,
+                            file.as_ptr().cast_mut().cast(),
+                            tag.as_ptr().cast_mut().cast(),
+                            key.as_ptr().cast_mut().cast(),
+                            c"".as_ptr().cast_mut().cast(),
+                            c"".as_ptr().cast_mut().cast(),
+                            options,
+                            512,
+                            &mut created[o],
+                        )
+                    };
+                    if rc != 0 {
+                        rcs = rc;
+                    }
+                }
+                got.push(json!({"kind": kind, "bag": bag, "step": "create", "rc": rcs,
+                                "names": names(table),
+                                "created": created.iter().map(|&h| name_of(h)).collect::<Vec<_>>()}));
+                AdsCloseAllIndexes(table);
+                let (rc, opened) = open_index(table, &files[0]);
+                if ntx {
+                    open_index(table, &files[1]);
+                }
+                got.push(
+                    json!({"kind": kind, "bag": bag, "step": "closed and opened",
+                                "rc": rc, "names": names(table), "opened": opened}),
+                );
+                crate::AdsCloseTable(table);
+                let rc = unsafe {
+                    crate::AdsOpenTable(
+                        connect,
+                        table_name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        1,
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                let mut n = 0;
+                unsafe { AdsGetNumIndexes(table, &mut n) };
+                let (rc, opened) = match n {
+                    0 => open_index(table, &files[0]),
+                    _ => (0, Vec::new()),
+                };
+                got.push(
+                    json!({"kind": kind, "bag": bag, "step": "reopened", "rc": rc,
+                                "names": names(table), "opened": opened}),
+                );
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(
+            problems.is_empty(),
+            "{} differ:\n{}",
+            problems.len(),
+            problems.join("\n")
+        );
+    }
+
+    /// As in the original engine: which index file is the table's auto-open
+    /// one for AdsOpenIndex, AdsCloseIndex and AdsCloseAllIndexes, on new and
+    /// reopened ADT, CDX and VFP tables, with compound orders and without, and
+    /// index handles across AdsPackTable (`fixtures/errors/index_files.json`,
+    /// from `tools/ace/errors/index_files.c`, whose steps this repeats).
+    #[test]
+    fn auto_open_index_files() {
+        use std::cell::RefCell;
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/index_files.json");
+        // A server refuses index files named by a path of its own
+        // (`AE_FILE_NOT_ON_SERVER`), so remotely only the files named
+        // without a folder are replayed.
+        let remote = fixtures::is_remote();
+        let want: Vec<Json> =
+            serde_json::from_str::<Vec<Json>>(&std::fs::read_to_string(path).unwrap())
+                .unwrap()
+                .into_iter()
+                .filter(|row| !remote || row["path"] == "name")
+                .collect();
+        let (source, folder) =
+            fixtures::scratch_from("auto_open_index_files", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let separator = if fixtures::is_remote() { r"\" } else { "/" };
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let got: RefCell<Vec<Json>> = RefCell::new(Vec::new());
+        let current = std::cell::Cell::new(0);
+        let (kind, path_kind, scenario) = (RefCell::new(""), RefCell::new(""), RefCell::new(""));
+        let row = |step: &str, rc: Unsigned32, table: AdsHandle| -> Json {
+            let mut error = None;
+            if rc != 0 {
+                let (mut code, mut buf, mut len) = (0, [0u8; 600], 600u16);
+                unsafe { crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len) };
+                error = Some(String::from_utf8_lossy(&buf[..usize::from(len)]).into_owned());
+            }
+            let mut n = 777;
+            unsafe { AdsGetNumIndexes(table, &mut n) };
+            let mut row = json!({"type": *kind.borrow(), "path": *path_kind.borrow(),
+                                 "scenario": *scenario.borrow(), "step": step, "rc": rc,
+                                 "n": n});
+            if let Some(error) = error {
+                row["error"] = json!(error);
+            }
+            row
+        };
+        let push = |row: Json| got.borrow_mut().push(row);
+        let provoke = || {
+            let mut count = 0;
+            unsafe { crate::AdsGetRecordCount(current.get(), 0, &mut count) };
+        };
+        let create_index_with = |table, bag: &str, tag: &str, options, order: &mut AdsHandle| {
+            let (bag, tag, key, empty) = (text(bag), text(tag), text("K"), text(""));
+            unsafe {
+                crate::AdsCreateIndex61(
+                    table,
+                    bag.as_ptr().cast_mut().cast(),
+                    tag.as_ptr().cast_mut().cast(),
+                    key.as_ptr().cast_mut().cast(),
+                    empty.as_ptr().cast_mut().cast(),
+                    empty.as_ptr().cast_mut().cast(),
+                    options,
+                    512,
+                    order,
+                )
+            }
+        };
+        let create_index = |table, bag: &str, tag: &str, order: &mut AdsHandle| {
+            create_index_with(table, bag, tag, 0, order)
+        };
+        let close_index = |order| {
+            provoke();
+            AdsCloseIndex(order)
+        };
+        let open_index = |table, step: &str, bag: &str| -> AdsHandle {
+            let mut handles = [0 as AdsHandle; 16];
+            let mut len = 16u16;
+            provoke();
+            let bag = text(bag);
+            let rc = unsafe {
+                AdsOpenIndex(
+                    table,
+                    bag.as_ptr().cast_mut().cast(),
+                    handles.as_mut_ptr(),
+                    &mut len,
+                )
+            };
+            let mut r = row(step, rc, table);
+            let mut names = Vec::new();
+            if rc == 0 || rc == crate::AE_INDEX_ALREADY_OPEN {
+                for &handle in handles.iter().take(usize::from(len).min(16)) {
+                    let (mut name, mut name_len) = ([0u8; 64], 64u16);
+                    unsafe { AdsGetIndexName(handle, name.as_mut_ptr(), &mut name_len) };
+                    let end = name.iter().position(|&b| b == 0).unwrap_or(0);
+                    names.push(String::from_utf8_lossy(&name[..end]).into_owned());
+                }
+            }
+            r["len"] = json!(len);
+            r["names"] = json!(names);
+            push(r);
+            handles[0]
+        };
+        let handle_of = |table, tag: &str| {
+            let tag = text(tag);
+            let mut order = 0;
+            unsafe { AdsGetIndexHandle(table, tag.as_ptr().cast_mut().cast(), &mut order) };
+            order
+        };
+        let fill = |table| {
+            let field = text("K");
+            for value in ["A", "B", "C"] {
+                let value = text(value);
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        field.as_ptr().cast_mut().cast(),
+                        value.as_ptr().cast_mut().cast(),
+                        1,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+            }
+        };
+        let create_table = |name: &str, table_type| {
+            let (name, fields) = (text(name), text("K,C,4,0"));
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            current.set(table);
+            table
+        };
+        let open_table = |name: &str, table_type| {
+            let name = text(name);
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsOpenTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    1,
+                    &mut table,
+                )
+            };
+            current.set(table);
+            (rc, table)
+        };
+        // The probe tries to open the index file without sharing, which no
+        // engine holding it would allow; here it is enough that the file is
+        // there and can be read.
+        let after_close = |stem: &str, table_ext: &str, ext: &str| {
+            let held = std::fs::File::open(folder.join(format!("{stem}.{ext}"))).is_err();
+            let header = std::fs::read(folder.join(format!("{stem}.{table_ext}"))).unwrap();
+            let flags = if table_ext == "dbf" {
+                i64::from(header[28])
+            } else {
+                -1
+            };
+            push(json!({"type": *kind.borrow(), "path": *path_kind.borrow(),
+                        "scenario": *scenario.borrow(), "step": "closed",
+                        "held": i32::from(held), "flags": flags}));
+        };
+        let types = [
+            ("ADT", "adi", "adt", ADS_ADT),
+            ("CDX", "cdx", "dbf", crate::ADS_CDX),
+            ("VFP", "cdx", "dbf", crate::ADS_VFP),
+        ];
+        let mut n = 0;
+        for (type_name, ext, table_ext, table_type) in types {
+            *kind.borrow_mut() = type_name;
+            for full in [false, true] {
+                if full && remote {
+                    n += 1;
+                    continue;
+                }
+                *path_kind.borrow_mut() = if full { "full" } else { "name" };
+                let bag = |stem: &str| match full {
+                    true => format!("{source}{separator}{stem}.{ext}"),
+                    false => format!("{stem}.{ext}"),
+                };
+                let (stem, other, pstem, rstem, lstem, cstem) = (
+                    format!("t{n}"),
+                    format!("o{n}"),
+                    format!("p{n}"),
+                    format!("r{n}"),
+                    format!("l{n}"),
+                    format!("c{n}"),
+                );
+                let (mut a, mut b, mut o) = (0, 0, 0);
+
+                *scenario.borrow_mut() = "created";
+                let table = create_table(&stem, table_type);
+                fill(table);
+                let rc = create_index(table, &bag(&stem), "A", &mut a);
+                push(row("create A", rc, table));
+                let rc = create_index(table, &bag(&stem), "B", &mut b);
+                push(row("create B", rc, table));
+                let rc = close_index(b);
+                push(row("close B", rc, table));
+                let rc = close_index(a);
+                push(row("close A", rc, table));
+                open_index(table, "open", &bag(&stem));
+                open_index(table, "open again", &bag(&stem));
+                push(row("close all", AdsCloseAllIndexes(table), table));
+                crate::AdsCloseTable(table);
+                after_close(&stem, table_ext, ext);
+
+                *scenario.borrow_mut() = "created reopened";
+                let (rc, table) = open_table(&stem, table_type);
+                push(row("opened", rc, table));
+                open_index(table, "open", &bag(&stem));
+                crate::AdsCloseTable(table);
+
+                *scenario.borrow_mut() = "reopened";
+                let table = create_table(&rstem, table_type);
+                fill(table);
+                create_index(table, &bag(&rstem), "A", &mut a);
+                create_index(table, &bag(&rstem), "B", &mut b);
+                crate::AdsCloseTable(table);
+                after_close(&rstem, table_ext, ext);
+                let (rc, table) = open_table(&rstem, table_type);
+                assert_eq!(rc, AE_SUCCESS);
+                push(row("opened", 0, table));
+                open_index(table, "open", &bag(&rstem));
+                open_index(table, "open again", &bag(&rstem));
+                let rc = close_index(handle_of(table, "A"));
+                push(row("close A", rc, table));
+                push(row("close all", AdsCloseAllIndexes(table), table));
+
+                *scenario.borrow_mut() = "other";
+                let rc = create_index(table, &bag(&other), "O", &mut o);
+                push(row("create O", rc, table));
+                let rc = close_index(o);
+                push(row("close O", rc, table));
+                o = open_index(table, "open", &bag(&other));
+                open_index(table, "open again", &bag(&other));
+                let rc = close_index(o);
+                push(row("close O", rc, table));
+                let rc = close_index(o);
+                push(row("close O again", rc, table));
+
+                *scenario.borrow_mut() = "pack";
+                o = open_index(table, "open", &bag(&other));
+                a = handle_of(table, "A");
+                crate::AdsGotoRecord(table, 2);
+                crate::AdsDeleteRecord(table);
+                crate::AdsWriteRecord(table);
+                push(row("pack", crate::AdsPackTable(table), table));
+                push(row("top A", crate::AdsGotoTop(a), table));
+                push(row("top O", crate::AdsGotoTop(o), table));
+                let rc = close_index(a);
+                push(row("close A", rc, table));
+                let rc = close_index(o);
+                push(row("close O", rc, table));
+                let tag = text("A");
+                let mut again = 0;
+                let rc =
+                    unsafe { AdsGetIndexHandle(table, tag.as_ptr().cast_mut().cast(), &mut again) };
+                let mut r = row("handle A", rc, table);
+                r["same"] = json!(i32::from(again == a));
+                push(r);
+                crate::AdsCloseTable(table);
+
+                *scenario.borrow_mut() = "later";
+                let table = create_table(&lstem, table_type);
+                fill(table);
+                crate::AdsCloseTable(table);
+                let (rc, table) = open_table(&lstem, table_type);
+                assert_eq!(rc, AE_SUCCESS);
+                let rc = create_index(table, &bag(&lstem), "A", &mut a);
+                push(row("create A", rc, table));
+                let rc = create_index(table, &bag(&lstem), "B", &mut b);
+                push(row("create B", rc, table));
+                let rc = close_index(b);
+                push(row("close B", rc, table));
+                open_index(table, "open same", &bag(&lstem));
+                crate::AdsCloseTable(table);
+                after_close(&lstem, table_ext, ext);
+                let (rc, table) = open_table(&lstem, table_type);
+                push(row("opened", rc, table));
+                open_index(table, "open", &bag(&lstem));
+                let rc = close_index(handle_of(table, "A"));
+                push(row("close A", rc, table));
+                crate::AdsCloseTable(table);
+
+                *scenario.borrow_mut() = "compound";
+                let table = create_table(&cstem, table_type);
+                fill(table);
+                let rc = create_index_with(table, &bag(&cstem), "A", 2, &mut a);
+                push(row("create A", rc, table));
+                let rc = create_index_with(table, &bag(&cstem), "B", 2, &mut b);
+                push(row("create B", rc, table));
+                let rc = close_index(b);
+                push(row("close B", rc, table));
+                open_index(table, "open", &bag(&cstem));
+                crate::AdsCloseTable(table);
+                after_close(&cstem, table_ext, ext);
+                let (rc, table) = open_table(&cstem, table_type);
+                push(row("opened", rc, table));
+                open_index(table, "open", &bag(&cstem));
+                crate::AdsCloseTable(table);
+
+                *scenario.borrow_mut() = "created pack";
+                let table = create_table(&pstem, table_type);
+                fill(table);
+                let (file, tag, key) = (text(&bag(&pstem)), text("A"), text("K"));
+                let rc = unsafe {
+                    crate::AdsCreateIndex(
+                        table,
+                        file.as_ptr().cast_mut().cast(),
+                        tag.as_ptr().cast_mut().cast(),
+                        key.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        std::ptr::null_mut(),
+                        0,
+                        &mut a,
+                    )
+                };
+                push(row("create A", rc, table));
+                crate::AdsGotoRecord(table, 2);
+                crate::AdsDeleteRecord(table);
+                crate::AdsWriteRecord(table);
+                push(row("pack", crate::AdsPackTable(table), table));
+                push(row("top A", crate::AdsGotoTop(a), table));
+                let rc = close_index(a);
+                push(row("close A", rc, table));
+                crate::AdsCloseTable(table);
+                n += 1;
+            }
+        }
+        AdsDisconnect(connect);
+        let got = got.into_inner();
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(
+            problems.is_empty(),
+            "{} of {} differ:\n{}",
+            problems.len(),
+            want.len(),
+            problems.join("\n")
+        );
+    }
+
     /// As in the original engine (`adi_options`: `bitmap.adi` beside the
     /// structural `opts.adi`).
     #[test]
@@ -2236,7 +3025,1216 @@ mod tests {
         );
     }
 
+    /// As in the original engine: which `qualifier->field` names index keys,
+    /// AdsIsExprValid, AdsEvalNumericExpr, filters and AOFs take, with the
+    /// table open under its own alias and another (`fixtures/expr/alias.json`,
+    /// from `tools/ace/expr/alias.c`, whose steps this repeats).
+    #[test]
+    fn qualified_field_names() {
+        let path =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/expr/alias.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let exprs: Vec<String> = want
+            .iter()
+            .filter(|row| row["type"] == "ADT" && row["alias"] == "acct" && row["op"] == "index")
+            .map(|row| row["expr"].as_str().unwrap().to_owned())
+            .collect();
+        let (source, folder) =
+            fixtures::scratch_from("qualified_field_names", &fixtures::empty_dir());
+        let separator = if fixtures::is_remote() { r"\" } else { "/" };
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let mut got: Vec<Json> = Vec::new();
+        let types = [
+            ("ADT", "adt", "adi", ADS_ADT),
+            ("NTX", "ntx", "ntx", crate::ADS_NTX),
+            ("CDX", "cdx", "cdx", crate::ADS_CDX),
+            ("VFP", "vfp", "cdx", crate::ADS_VFP),
+        ];
+        for (t, (type_name, dir, ext, table_type)) in types.into_iter().enumerate() {
+            std::fs::create_dir(folder.join(dir)).unwrap();
+            let name = text(&format!("{dir}{separator}acct"));
+            let fields = text("ID,N,6,0;C,C,4,0");
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    1,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            let (id, c) = (text("ID"), text("C"));
+            for (i, value) in ["a", "b", "c"].into_iter().enumerate() {
+                let value = text(value);
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetDouble(table, id.as_ptr().cast_mut().cast(), 1001.0 + i as f64)
+                };
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        c.as_ptr().cast_mut().cast(),
+                        value.as_ptr().cast_mut().cast(),
+                        1,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+            }
+            crate::AdsCloseTable(table);
+            for (a, alias) in [None, Some("XX")].into_iter().enumerate() {
+                let alias_name = alias.unwrap_or("acct");
+                let alias = alias.map(text);
+                let rc = unsafe {
+                    crate::AdsOpenTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        alias.as_ref().map_or(std::ptr::null_mut(), |alias| {
+                            alias.as_ptr().cast_mut().cast()
+                        }),
+                        table_type,
+                        1,
+                        1,
+                        1,
+                        1,
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for (e, expr) in exprs.iter().enumerate() {
+                    let row = |op: &str, rc: Unsigned32| {
+                        let mut row = json!({"type": type_name, "alias": alias_name,
+                                             "expr": expr, "op": op, "rc": rc});
+                        if rc != 0 {
+                            let (mut code, mut buf, mut len) = (0, [0u8; 600], 600u16);
+                            unsafe {
+                                crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len)
+                            };
+                            row["error"] = json!(String::from_utf8_lossy(&buf[..usize::from(len)]));
+                        }
+                        row
+                    };
+                    let expr_c = text(expr);
+                    let expr_p = expr_c.as_ptr().cast_mut().cast();
+                    let (bag, tag, empty) =
+                        (text(&format!("b{t}{a}_{e}.{ext}")), text("T"), text(""));
+                    let mut order = 0;
+                    crate::AdsGotoRecord(table, 2);
+                    let rc = unsafe {
+                        crate::AdsCreateIndex61(
+                            table,
+                            bag.as_ptr().cast_mut().cast(),
+                            tag.as_ptr().cast_mut().cast(),
+                            expr_p,
+                            empty.as_ptr().cast_mut().cast(),
+                            empty.as_ptr().cast_mut().cast(),
+                            0,
+                            512,
+                            &mut order,
+                        )
+                    };
+                    let mut index = row("index", rc);
+                    if rc == 0 {
+                        let (mut back, mut len) = ([0u8; 300], 300u16);
+                        unsafe { AdsGetIndexExpr(order, back.as_mut_ptr(), &mut len) };
+                        let (mut key_length, mut key_type, mut found) = (0, 0, 7);
+                        unsafe { crate::AdsGetKeyLength(order, &mut key_length) };
+                        unsafe { AdsGetKeyType(order, &mut key_type) };
+                        let key = 1003.0f64;
+                        let seek_rc = unsafe {
+                            AdsSeek(order, &key as *const f64 as *mut u8, 8, 4, 2, &mut found)
+                        };
+                        let (mut eof, mut recno) = (0, 0);
+                        unsafe { crate::AdsAtEOF(table, &mut eof) };
+                        unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+                        index["key_expr"] =
+                            json!(String::from_utf8_lossy(&back[..usize::from(len)]));
+                        index["key_length"] = json!(key_length);
+                        index["key_type"] = json!(key_type);
+                        index["seek_rc"] = json!(seek_rc);
+                        index["found"] = json!(found);
+                        index["at"] = if eof != 0 { json!("E") } else { json!(recno) };
+                        crate::AdsCloseIndex(order);
+                    }
+                    got.push(index);
+
+                    let mut valid = 7;
+                    crate::AdsGotoRecord(table, 2);
+                    let rc = unsafe { crate::AdsIsExprValid(table, expr_p, &mut valid) };
+                    let mut r = row("valid", rc);
+                    r["valid"] = json!(valid);
+                    got.push(r);
+
+                    let mut value = 777.0;
+                    let rc = unsafe { crate::AdsEvalNumericExpr(table, expr_p, &mut value) };
+                    let mut r = row("eval", rc);
+                    r["value"] = if value.fract() == 0.0 {
+                        json!(value as i64)
+                    } else {
+                        json!(value)
+                    };
+                    got.push(r);
+
+                    let cond = text(&format!("({expr}) > 1001"));
+                    let mut count = 777;
+                    let rc = unsafe { crate::AdsSetFilter(table, cond.as_ptr().cast_mut().cast()) };
+                    let mut r = row("filter", rc);
+                    if rc == 0 {
+                        unsafe { crate::AdsGetRecordCount(table, 1, &mut count) };
+                    }
+                    r["count"] = json!(count);
+                    got.push(r);
+                    crate::AdsClearFilter(table);
+
+                    let mut count = 777;
+                    let rc = unsafe { crate::AdsSetAOF(table, cond.as_ptr().cast_mut().cast(), 2) };
+                    let mut r = row("aof", rc);
+                    if rc == 0 {
+                        unsafe { crate::AdsGetRecordCount(table, 1, &mut count) };
+                    }
+                    r["count"] = json!(count);
+                    got.push(r);
+                    crate::AdsClearAOF(table);
+                }
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(
+            problems.is_empty(),
+            "{} of {} differ:\n{}",
+            problems.len(),
+            want.len(),
+            problems.join("\n")
+        );
+    }
+
+    /// As in the original engine: fields named `AND`, `OR`, `NOT`, `TRUE`,
+    /// `FALSE` and `NULL` in filters and index keys, where ADT and DBF
+    /// tables part ways (`fixtures/expr/keywords.json`, from
+    /// `tools/ace/expr/keywords.c`, whose steps this repeats).
+    #[test]
+    fn keyword_field_names() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/expr/keywords.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let exprs = |table: &str, op: &str, type_name: &str| -> Vec<String> {
+            want.iter()
+                .filter(|row| row["table"] == table && row["op"] == op && row["type"] == type_name)
+                .map(|row| row["expr"].as_str().unwrap().to_owned())
+                .collect()
+        };
+        let (source, _folder) =
+            fixtures::scratch_from("keyword_field_names", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let mut got: Vec<Json> = Vec::new();
+        let types = [
+            ("ADT", "adi", ADS_ADT, 2),
+            ("NTX", "ntx", crate::ADS_NTX, 0),
+            ("CDX", "cdx", crate::ADS_CDX, 2),
+        ];
+        let kw_chars = ["AND", "OR", "TRUE", "FALSE", "NULL"];
+        let kw_values = [
+            ["a", "b", "a", "b", "a"],
+            ["b", "a", "b", "a", "b"],
+            ["a", "a", "a", "a", "a"],
+        ];
+        for (t, (type_name, ext, table_type, options)) in types.into_iter().enumerate() {
+            for (k, table_name) in ["kw", "plain"].into_iter().enumerate() {
+                let name = text(&format!("{table_name}{t}"));
+                let fields = text(if k == 1 {
+                    "C,C,2,0;X,Logical"
+                } else {
+                    "AND,C,2,0;OR,C,2,0;TRUE,C,2,0;FALSE,C,2,0;NULL,C,2,0;NOT,Logical;X,Logical"
+                });
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        fields.as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for r in 0..3 {
+                    crate::AdsAppendRecord(table);
+                    let set = |field: &str, value: &str| {
+                        let (field, value) = (text(field), text(value));
+                        unsafe {
+                            crate::AdsSetString(
+                                table,
+                                field.as_ptr().cast_mut().cast(),
+                                value.as_ptr().cast_mut().cast(),
+                                1,
+                            )
+                        };
+                    };
+                    let logical = |field: &str, value: bool| {
+                        let field = text(field);
+                        unsafe {
+                            crate::AdsSetLogical(
+                                table,
+                                field.as_ptr().cast_mut().cast(),
+                                u16::from(value),
+                            )
+                        };
+                    };
+                    if k == 1 {
+                        set("C", ["a", "b", "a"][r]);
+                    } else {
+                        for (field, value) in kw_chars.iter().zip(kw_values[r]) {
+                            set(field, value);
+                        }
+                        logical("NOT", r == 0);
+                    }
+                    logical("X", r < 2);
+                    crate::AdsWriteRecord(table);
+                }
+                for expr in exprs(table_name, "filter", type_name) {
+                    let cond = text(&expr);
+                    let (mut count, mut count_rc) = (777, 0);
+                    let rc = unsafe { crate::AdsSetFilter(table, cond.as_ptr().cast_mut().cast()) };
+                    if rc == 0 {
+                        count_rc = unsafe { crate::AdsGetRecordCount(table, 1, &mut count) };
+                        crate::AdsClearFilter(table);
+                    }
+                    got.push(
+                        json!({"type": type_name, "table": table_name, "op": "filter",
+                                    "expr": expr, "rc": rc, "count_rc": count_rc,
+                                    "count": count}),
+                    );
+                }
+                let prefix = &table_name[..1];
+                for (e, expr) in exprs(table_name, "index", type_name)
+                    .into_iter()
+                    .enumerate()
+                {
+                    let (bag, tag, empty, key) = (
+                        text(&format!("{prefix}{e}.{ext}")),
+                        text("T"),
+                        text(""),
+                        text(&expr),
+                    );
+                    let mut order = 0;
+                    let rc = unsafe {
+                        crate::AdsCreateIndex61(
+                            table,
+                            bag.as_ptr().cast_mut().cast(),
+                            tag.as_ptr().cast_mut().cast(),
+                            key.as_ptr().cast_mut().cast(),
+                            empty.as_ptr().cast_mut().cast(),
+                            empty.as_ptr().cast_mut().cast(),
+                            options,
+                            512,
+                            &mut order,
+                        )
+                    };
+                    let mut walk = Vec::new();
+                    if rc == 0 {
+                        crate::AdsGotoTop(order);
+                        for _ in 0..5 {
+                            let (mut eof, mut recno) = (0, 0);
+                            unsafe { crate::AdsAtEOF(table, &mut eof) };
+                            if eof != 0 {
+                                break;
+                            }
+                            unsafe { crate::AdsGetRecordNum(table, 2, &mut recno) };
+                            walk.push(recno);
+                            crate::AdsSkip(order, 1);
+                        }
+                        crate::AdsCloseIndex(order);
+                    }
+                    got.push(
+                        json!({"type": type_name, "table": table_name, "op": "index",
+                                    "expr": expr, "rc": rc, "walk": walk}),
+                    );
+                }
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want.len(), got.len());
+        // Set aside: `NULL` alone where no field has the name (the original
+        // takes it as a filter, then fails the record count with 4109, and
+        // refuses an order on it with 4009, or 5011 on DBF tables), and the
+        // codes of two expressions both refuse on DBF tables (`NOT = .T.`
+        // and `NOT .AND. X` with a field NOT: 3111 and 3101 there, 3106 here).
+        let set_aside = |row: &Json| {
+            (row["table"] == "plain" && row["expr"] == "NULL")
+                || (row["type"] != "ADT"
+                    && (row["expr"] == "NOT = .T." || row["expr"] == "NOT .AND. X"))
+        };
+        let mut aside = 0;
+        let mut problems = Vec::new();
+        for (want, got) in want.iter().zip(&got) {
+            if want == got {
+                continue;
+            }
+            if set_aside(want) {
+                aside += 1;
+            } else {
+                problems.push(format!("want {want}\n got {got}"));
+            }
+        }
+        assert!(
+            problems.is_empty(),
+            "{} of {} differ:\n{}",
+            problems.len(),
+            want.len(),
+            problems.join("\n")
+        );
+        assert_eq!(aside, 10, "rows set aside");
+    }
+
+    /// As in the original engine: `AdsOpenIndex` looks for an index file
+    /// named alone in the table's folder only, and `AdsCreateIndex61` makes
+    /// it there; one named with a folder is relative to the current
+    /// directory, which is the connection's
+    /// folder here (`fixtures/errors/index_paths.json`, from
+    /// `tools/ace/errors/index_paths.c`; its "same" layout, with the current
+    /// directory the connection's folder).
+    #[test]
+    fn relative_index_file_names() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/index_paths.json");
+        let want: Vec<Json> =
+            serde_json::from_str::<Vec<Json>>(&std::fs::read_to_string(path).unwrap())
+                .unwrap()
+                .into_iter()
+                .filter(|row| row["layout"] == "same")
+                .collect();
+        let (source, folder) =
+            fixtures::scratch_from("relative_index_file_names", &fixtures::empty_dir());
+        for sub in ["tables/data", "data"] {
+            std::fs::create_dir_all(folder.join(sub)).unwrap();
+        }
+        let separator = if fixtures::is_remote() { r"\" } else { "/" };
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let types = [
+            ("ADT", "adi", ADS_ADT, 2),
+            ("NTX", "ntx", crate::ADS_NTX, 0),
+            ("CDX", "cdx", crate::ADS_CDX, 2),
+        ];
+        let mut got = Vec::new();
+        for (type_name, ext, table_type, options) in types {
+            let in_source = |relative: &str| {
+                let relative = relative.replace('/', separator);
+                format!("{source}{separator}{relative}")
+            };
+            let name = text(&in_source(&format!("tables/t{table_type}")));
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    c"ID,N,4,0".as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            crate::AdsAppendRecord(table);
+            crate::AdsWriteRecord(table);
+            // x1 to x6 in the table's folder, the connection's (twice, as the
+            // current directory is), its data folder (twice) and the table's.
+            // Each is made beside the table, by its bare name (tflipd refuses
+            // a full path to itself), and then moved to its folder.
+            let folders = ["tables", "", "", "tables/data", "data", "data"];
+            for x in 0..folders.len() {
+                let bare = format!("x{}_{table_type}.{ext}", x + 1);
+                let file = text(&bare);
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        file.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"ID".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        options,
+                        512,
+                        &mut order,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS, "{file:?}");
+            }
+            // Orders made by a bare name and by one with a folder: where
+            // their files land, under the connection's folder (C).
+            for row in want
+                .iter()
+                .filter(|row| row["type"] == type_name && row.get("create").is_some())
+            {
+                let name = row["create"].as_str().unwrap();
+                let name_c = text(&name.replace(['\\', '/'], separator));
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        name_c.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"ID".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        options,
+                        512,
+                        &mut order,
+                    )
+                };
+                let bare = name.rsplit(['\\', '/']).next().unwrap();
+                let landed = ["tables", "data", ""]
+                    .into_iter()
+                    .find(|sub| folder.join(sub).join(bare).exists())
+                    .map(|sub| match sub {
+                        "" => format!("C\\{bare}"),
+                        sub => format!("C\\{sub}\\{bare}"),
+                    })
+                    .unwrap_or_default();
+                got.push(json!({"layout": "same", "type": type_name, "create": name,
+                                "rc": rc, "file": landed}));
+            }
+            crate::AdsCloseAllIndexes(table);
+            for (x, sub) in folders.iter().enumerate() {
+                let bare = format!("x{}_{table_type}.{ext}", x + 1);
+                let from = folder.join("tables").join(&bare);
+                std::fs::rename(&from, folder.join(sub).join(&bare)).unwrap();
+            }
+            for row in want
+                .iter()
+                .filter(|row| row["type"] == type_name && row.get("name").is_some())
+            {
+                let name = row["name"].as_str().unwrap();
+                // The probe's names, with this side's separator.
+                let name_c = text(&name.replace(['\\', '/'], separator));
+                let (mut orders, mut count) = ([0 as AdsHandle; 8], 8u16);
+                let rc = unsafe {
+                    crate::AdsOpenIndex(
+                        table,
+                        name_c.as_ptr().cast_mut().cast(),
+                        orders.as_mut_ptr(),
+                        &mut count,
+                    )
+                };
+                if rc != 0 {
+                    count = 0;
+                }
+                for &order in &orders[..usize::from(count)] {
+                    crate::AdsCloseIndex(order);
+                }
+                got.push(json!({"layout": "same", "type": type_name, "name": name,
+                                "rc": rc, "orders": count}));
+            }
+            crate::AdsCloseTable(table);
+        }
+        AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    /// As in the original engine: `AdsAddCustomKey` and `AdsDeleteCustomKey`
+    /// refuse an order that is not custom with 5017, and a Visual FoxPro
+    /// table has no custom orders (5019) (`fixtures/errors/custom_kinds.json`,
+    /// from `tools/ace/errors/custom_kinds.c`, whose steps this repeats).
+    #[test]
+    fn custom_key_order_kinds() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/custom_kinds.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("custom_key_order_kinds", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let kinds = [
+            ("ADT", "adi", ADS_ADT, 2),
+            ("NTX", "ntx", crate::ADS_NTX, 0),
+            ("CDX", "cdx", crate::ADS_CDX, 2),
+            ("CDX single", "idx", crate::ADS_CDX, 0),
+            ("VFP", "cdx", crate::ADS_VFP, 2),
+            ("VFP single", "idx", crate::ADS_VFP, 0),
+        ];
+        let mut got = Vec::new();
+        for (k, (kind, ext, table_type, options)) in kinds.into_iter().enumerate() {
+            for custom in 0..2u32 {
+                let name = std::ffi::CString::new(format!("c{k}{custom}")).unwrap();
+                let bag = std::ffi::CString::new(format!("c{k}{custom}.{ext}")).unwrap();
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        c"ID,N,4,0".as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for _ in 0..2 {
+                    crate::AdsAppendRecord(table);
+                    crate::AdsWriteRecord(table);
+                }
+                let mut order = 0;
+                let created = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"ID".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        options | if custom == 1 { 4 } else { 0 },
+                        512,
+                        &mut order,
+                    )
+                };
+                crate::AdsGotoRecord(table, 2);
+                let add = crate::AdsAddCustomKey(order);
+                let delete = crate::AdsDeleteCustomKey(order);
+                let on_table = crate::AdsAddCustomKey(table);
+                got.push(json!({"kind": kind, "custom": custom, "create": created,
+                                "add": add, "delete": delete, "table": on_table}));
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// As in the original engine: a single-order file named as a FoxPro
+    /// table's structural `.cdx` opens with `AdsOpenIndex` on a shared or
+    /// read-only handle, and only an exclusive one refuses it with 7008
+    /// (`fixtures/errors/stray_index_modes.json`, from
+    /// `tools/ace/errors/stray_index_modes.c`, whose steps this repeats).
+    #[test]
+    fn stray_index_open_modes() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/stray_index_modes.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("stray_index_open_modes", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        for (kind, table_type) in [("CDX", crate::ADS_CDX), ("VFP", crate::ADS_VFP)] {
+            for options in 0..3u32 {
+                let name = std::ffi::CString::new(format!("s{table_type}_{options}")).unwrap();
+                let bag = std::ffi::CString::new(format!("s{table_type}_{options}.cdx")).unwrap();
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        c"ID,N,4,0".as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for id in 1..=2 {
+                    crate::AdsAppendRecord(table);
+                    unsafe {
+                        crate::AdsSetDouble(table, c"ID".as_ptr().cast_mut().cast(), id as f64)
+                    };
+                    crate::AdsWriteRecord(table);
+                }
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"ID".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        0,
+                        512,
+                        &mut order,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                crate::AdsCloseTable(table);
+                let open = unsafe {
+                    crate::AdsOpenTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        1,
+                        1,
+                        options,
+                        &mut table,
+                    )
+                };
+                let (mut n, mut after, mut count, mut again_count) = (0u16, 0u16, 8u16, 8u16);
+                let (mut orders, mut again_orders) = ([0; 8], [0; 8]);
+                let (mut index, mut again) = (0, 0);
+                if open == AE_SUCCESS {
+                    unsafe {
+                        AdsGetNumIndexes(table, &mut n);
+                        index = AdsOpenIndex(
+                            table,
+                            bag.as_ptr().cast_mut().cast(),
+                            orders.as_mut_ptr(),
+                            &mut count,
+                        );
+                        again = AdsOpenIndex(
+                            table,
+                            bag.as_ptr().cast_mut().cast(),
+                            again_orders.as_mut_ptr(),
+                            &mut again_count,
+                        );
+                        AdsGetNumIndexes(table, &mut after);
+                    }
+                    crate::AdsCloseTable(table);
+                }
+                got.push(
+                    json!({"type": kind, "options": options, "open": open, "n": n,
+                                "index": index, "orders": if index == 0 { count } else { 0 },
+                                "again": again, "after": after}),
+                );
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// `s` as a C string.
+    fn text(s: &str) -> std::ffi::CString {
+        std::ffi::CString::new(s).unwrap()
+    }
+
+    /// Makes the table `name` of `fields`, with the arguments the probes of
+    /// `tools/ace/errors` make their tables with.
+    fn probe_table(
+        connect: AdsHandle,
+        name: &str,
+        table_type: u16,
+        fields: &std::ffi::CStr,
+    ) -> AdsHandle {
+        let name = std::ffi::CString::new(name).unwrap();
+        let mut table = 0;
+        let rc = unsafe {
+            crate::AdsCreateTable(
+                connect,
+                name.as_ptr().cast_mut().cast(),
+                std::ptr::null_mut(),
+                table_type,
+                1,
+                0,
+                1,
+                0,
+                fields.as_ptr().cast_mut().cast(),
+                &mut table,
+            )
+        };
+        assert_eq!(rc, AE_SUCCESS, "{name:?}");
+        table
+    }
+
+    /// `AdsCreateIndex61` of ID into `bag` as the probes call it.
+    fn probe_index(table: AdsHandle, bag: &str, tag: &str, options: u32) -> u32 {
+        probe_index_handle(table, bag, tag, options).0
+    }
+
+    /// [`probe_index`] and the order's handle it gave.
+    fn probe_index_handle(
+        table: AdsHandle,
+        bag: &str,
+        tag: &str,
+        options: u32,
+    ) -> (u32, AdsHandle) {
+        let (bag, tag) = (text(bag), text(tag));
+        let mut order = 0;
+        let rc = unsafe {
+            crate::AdsCreateIndex61(
+                table,
+                bag.as_ptr().cast_mut().cast(),
+                tag.as_ptr().cast_mut().cast(),
+                c"ID".as_ptr().cast_mut().cast(),
+                c"".as_ptr().cast_mut().cast(),
+                c"".as_ptr().cast_mut().cast(),
+                options,
+                512,
+                &mut order,
+            )
+        };
+        (rc, order)
+    }
+
+    /// `AdsOpenTable` of `name` as the probes call it.
+    fn probe_open(connect: AdsHandle, name: &str, table_type: u16, options: u32) -> AdsHandle {
+        let name = text(name);
+        let mut table = 0;
+        unsafe {
+            crate::AdsOpenTable(
+                connect,
+                name.as_ptr().cast_mut().cast(),
+                std::ptr::null_mut(),
+                table_type,
+                1,
+                0,
+                1,
+                options,
+                &mut table,
+            )
+        };
+        table
+    }
+
+    /// `AdsCreateFTSIndex` of NOTES into `file` with the default lists, as
+    /// the probes call it.
+    fn probe_fts(table: AdsHandle, file: &str) -> u32 {
+        let file = text(file);
+        let mut empty = [0u8; 2];
+        let empty = empty.as_mut_ptr().cast();
+        unsafe {
+            crate::AdsCreateFTSIndex(
+                table,
+                file.as_ptr().cast_mut().cast(),
+                c"NOTESFTS".as_ptr().cast_mut().cast(),
+                c"NOTES".as_ptr().cast_mut().cast(),
+                0,
+                3,
+                30,
+                1,
+                empty,
+                1,
+                empty,
+                1,
+                empty,
+                1,
+                empty,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                0,
+            )
+        }
+    }
+
+    /// Index files named with an extension that is not their format's
+    /// (`.fts`, `.xyz`) are made and opened again as in the original engine,
+    /// a Clipper table refuses a full-text order with 5017
+    /// (`fixtures/errors/index_extensions.json`, from
+    /// `tools/ace/errors/index_extensions.c`, whose steps this repeats).
+    #[test]
+    fn index_file_extensions() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/index_extensions.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("index_file_extensions", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let notes = [
+            (3.0, "Quick brown fox jumps over the lazy dog"),
+            (1.0, "The lazy dog sleeps in the sun"),
+            (2.0, "Quick fox returns to the den at dusk"),
+        ];
+        let mut got = Vec::new();
+        for (kind, table_type) in [
+            ("NTX", crate::ADS_NTX),
+            ("CDX", crate::ADS_CDX),
+            ("ADT", ADS_ADT),
+            ("VFP", crate::ADS_VFP),
+        ] {
+            for (o, order) in ["fts", "index", "compound"].into_iter().enumerate() {
+                if table_type == crate::ADS_NTX && o == 2 {
+                    continue;
+                }
+                let name = format!("x{table_type}_{o}");
+                let table = probe_table(connect, &name, table_type, c"ID,N,4,0;NOTES,C,40,0");
+                for (id, note) in notes {
+                    crate::AdsAppendRecord(table);
+                    let note = text(note);
+                    unsafe {
+                        crate::AdsSetDouble(table, c"ID".as_ptr().cast_mut().cast(), id);
+                        crate::AdsSetString(
+                            table,
+                            c"NOTES".as_ptr().cast_mut().cast(),
+                            note.as_ptr().cast_mut().cast(),
+                            note.as_bytes().len() as u32,
+                        );
+                    }
+                    crate::AdsWriteRecord(table);
+                }
+                let file = format!("{name}.{}", if o == 0 { "fts" } else { "xyz" });
+                let made = match o {
+                    0 => probe_fts(table, &file),
+                    _ => probe_index(table, &file, "K", if o == 2 { 2 } else { 0 }),
+                };
+                crate::AdsCloseTable(table);
+                let table = probe_open(connect, &name, table_type, 1);
+                let (mut opened, mut count) = ([0; 8], 8u16);
+                let file_c = text(&file);
+                let open = unsafe {
+                    AdsOpenIndex(
+                        table,
+                        file_c.as_ptr().cast_mut().cast(),
+                        opened.as_mut_ptr(),
+                        &mut count,
+                    )
+                };
+                if open != AE_SUCCESS && open != 5065 {
+                    count = 0;
+                }
+                let found = match o {
+                    0 => {
+                        let mut found = 9;
+                        let filter = c"CONTAINS(NOTES, 'quick')";
+                        if unsafe { crate::AdsSetFilter(table, filter.as_ptr().cast_mut().cast()) }
+                            == AE_SUCCESS
+                        {
+                            unsafe { crate::AdsGetRecordCount(table, 1, &mut found) };
+                        }
+                        json!(found)
+                    }
+                    _ => {
+                        let mut records = Vec::new();
+                        if count > 0 {
+                            crate::AdsGotoTop(opened[0]);
+                            for _ in 0..5 {
+                                let (mut eof, mut record) = (0, 0);
+                                unsafe {
+                                    crate::AdsAtEOF(table, &mut eof);
+                                }
+                                if eof != 0 {
+                                    break;
+                                }
+                                unsafe { crate::AdsGetRecordNum(table, 2, &mut record) };
+                                records.push(record);
+                                crate::AdsSkip(opened[0], 1);
+                            }
+                        }
+                        json!(records)
+                    }
+                };
+                got.push(
+                    json!({"type": kind, "order": order, "create": made, "open": open,
+                                "orders": count, "found": found}),
+                );
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// The records from `AdsGotoTop` and `AdsSkip` of `order` on, as the
+    /// probes read them (none where there is no order).
+    fn probe_records(table: AdsHandle, order: Option<AdsHandle>) -> Vec<u32> {
+        let mut records = Vec::new();
+        let Some(order) = order else {
+            return records;
+        };
+        crate::AdsGotoTop(order);
+        for _ in 0..5 {
+            let (mut eof, mut record) = (1, 0);
+            if unsafe { crate::AdsAtEOF(table, &mut eof) } != AE_SUCCESS || eof != 0 {
+                break;
+            }
+            unsafe { crate::AdsGetRecordNum(table, 2, &mut record) };
+            records.push(record);
+            crate::AdsSkip(order, 1);
+        }
+        records
+    }
+
+    /// Index files named with the extension of another table type's format
+    /// (`.ntx`, `.cdx`, `.idx`, `.adi`) are made of the table's format and
+    /// read back by their header, as in the original engine
+    /// (`fixtures/errors/foreign_extensions.json`, from
+    /// `tools/ace/errors/foreign_extensions.c`, whose steps this repeats).
+    #[test]
+    fn foreign_index_file_extensions() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/foreign_extensions.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("foreign_index_file_extensions", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        for (kind, table_type) in [
+            ("NTX", crate::ADS_NTX),
+            ("CDX", crate::ADS_CDX),
+            ("ADT", ADS_ADT),
+            ("VFP", crate::ADS_VFP),
+        ] {
+            for (e, extension) in ["ntx", "cdx", "idx", "adi"].into_iter().enumerate() {
+                for compound in 0..2u32 {
+                    let name = format!("f{table_type}_{}", e as u32 * 2 + compound);
+                    let file = format!("{name}.{extension}");
+                    let table = probe_table(connect, &name, table_type, c"ID,N,4,0");
+                    for id in [3.0, 1.0, 2.0] {
+                        crate::AdsAppendRecord(table);
+                        unsafe { crate::AdsSetDouble(table, c"ID".as_ptr().cast_mut().cast(), id) };
+                        crate::AdsWriteRecord(table);
+                    }
+                    let (made, order) = probe_index_handle(table, &file, "K", compound * 2);
+                    let records = probe_records(table, (made == AE_SUCCESS).then_some(order));
+                    crate::AdsCloseTable(table);
+                    let table = probe_open(connect, &name, table_type, 1);
+                    let (mut opened, mut count) = ([0; 8], 8u16);
+                    let file_c = text(&file);
+                    let open = unsafe {
+                        AdsOpenIndex(
+                            table,
+                            file_c.as_ptr().cast_mut().cast(),
+                            opened.as_mut_ptr(),
+                            &mut count,
+                        )
+                    };
+                    if open != AE_SUCCESS && open != 5065 {
+                        count = 0;
+                    }
+                    let reopened = probe_records(table, (count > 0).then_some(opened[0]));
+                    got.push(
+                        json!({"type": kind, "extension": extension, "compound": compound,
+                                    "create": made, "records": records, "open": open,
+                                    "orders": count, "reopened": reopened}),
+                    );
+                    crate::AdsCloseTable(table);
+                }
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// A compound and a single order made into the same file of a FoxPro or
+    /// VFP table: the file there decides what the second one is, as in the
+    /// original engine (`fixtures/errors/order_files.json`, from
+    /// `tools/ace/errors/order_files.c`, whose steps this repeats).
+    #[test]
+    fn compound_and_single_orders_in_one_file() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/order_files.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from(
+            "compound_and_single_orders_in_one_file",
+            &fixtures::empty_dir(),
+        );
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        let mut n = 0;
+        for (kind, table_type) in [("CDX", crate::ADS_CDX), ("VFP", crate::ADS_VFP)] {
+            for extension in ["cdx", "xyz"] {
+                for way in 0..2 {
+                    let name = format!("m{table_type}_{n}");
+                    let bag = format!("p{table_type}_{n}.{extension}");
+                    n += 1;
+                    let table = probe_table(connect, &name, table_type, c"ID,N,4,0");
+                    for id in [3.0, 2.0, 1.0] {
+                        crate::AdsAppendRecord(table);
+                        unsafe { crate::AdsSetDouble(table, c"ID".as_ptr().cast_mut().cast(), id) };
+                        crate::AdsWriteRecord(table);
+                    }
+                    let a = probe_index(table, &bag, "K1", if way == 1 { 2 } else { 0 });
+                    let b = probe_index(table, &bag, "K2", if way == 1 { 0 } else { 2 });
+                    let mut orders = 0;
+                    unsafe { AdsGetNumIndexes(table, &mut orders) };
+                    crate::AdsCloseTable(table);
+                    let table = probe_open(connect, &name, table_type, 0);
+                    let (mut opened, mut count) = ([0; 8], 8u16);
+                    let bag_c = text(&bag);
+                    let reopen = unsafe {
+                        AdsOpenIndex(
+                            table,
+                            bag_c.as_ptr().cast_mut().cast(),
+                            opened.as_mut_ptr(),
+                            &mut count,
+                        )
+                    };
+                    if reopen != AE_SUCCESS && reopen != 5065 {
+                        count = 0;
+                    }
+                    let names: Vec<String> = opened[..usize::from(count)]
+                        .iter()
+                        .map(|&order| {
+                            let (mut buf, mut len) = ([0u8; 32], 32u16);
+                            unsafe { AdsGetIndexName(order, buf.as_mut_ptr(), &mut len) };
+                            String::from_utf8_lossy(&buf[..usize::from(len)]).into_owned()
+                        })
+                        .collect();
+                    let (first, second) = match way {
+                        1 => ("compound", "single"),
+                        _ => ("single", "compound"),
+                    };
+                    got.push(json!({"type": kind, "extension": extension, "first": first,
+                                    "second": second, "rc": [a, b], "orders": orders,
+                                    "reopen": reopen, "names": names}));
+                    crate::AdsCloseTable(table);
+                }
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
+    /// What `AdsGetRecordCount` counts on a table's handle and on an
+    /// order's: through an order with a condition, only the records it
+    /// holds, as in the original engine (`fixtures/errors/order_counts.json`,
+    /// from `tools/ace/errors/order_counts.c`, whose steps this repeats).
+    #[test]
+    fn record_counts_through_orders() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/order_counts.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            fixtures::scratch_from("record_counts_through_orders", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let records = [
+            ("PERA", "Y"),
+            ("MANGO", "N"),
+            ("UVA", "Y"),
+            ("KIWI", "N"),
+            ("FRESA", "Y"),
+        ];
+        let cases = ["plain", "for", "scope", "for scope", "filter", "moved"];
+        let mut got = Vec::new();
+        for (kind, ext, table_type, options) in [
+            ("NTX", "ntx", crate::ADS_NTX, 0),
+            ("CDX", "cdx", crate::ADS_CDX, 2),
+            ("ADT", "adi", ADS_ADT, 2),
+            ("VFP", "idx", crate::ADS_VFP, 0),
+        ] {
+            for (c, case) in cases.into_iter().enumerate() {
+                let name = format!("n{table_type}_{c}");
+                let table = probe_table(
+                    connect,
+                    &name,
+                    table_type,
+                    c"NAME,C,6,0;VAL,N,4,0;INC,C,1,0",
+                );
+                for (r, (record, inc)) in records.into_iter().enumerate() {
+                    crate::AdsAppendRecord(table);
+                    let (record, inc) = (text(record), text(inc));
+                    unsafe {
+                        crate::AdsSetString(
+                            table,
+                            c"NAME".as_ptr().cast_mut().cast(),
+                            record.as_ptr().cast_mut().cast(),
+                            record.as_bytes().len() as u32,
+                        );
+                        crate::AdsSetDouble(
+                            table,
+                            c"VAL".as_ptr().cast_mut().cast(),
+                            10.0 * (r + 1) as f64,
+                        );
+                        crate::AdsSetString(
+                            table,
+                            c"INC".as_ptr().cast_mut().cast(),
+                            inc.as_ptr().cast_mut().cast(),
+                            1,
+                        );
+                    }
+                    crate::AdsWriteRecord(table);
+                }
+                let bag = text(&format!("{name}_k.{ext}"));
+                let condition = if c == 0 || c == 2 { c"" } else { c"VAL >= 20" };
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"STR(VAL,8)".as_ptr().cast_mut().cast(),
+                        condition.as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        options,
+                        512,
+                        &mut order,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                if c == 2 || c == 3 {
+                    unsafe {
+                        crate::AdsSetScope(order, 1, c"      20".as_ptr().cast_mut().cast(), 8, 2);
+                        crate::AdsSetScope(order, 2, c"      40".as_ptr().cast_mut().cast(), 8, 2);
+                    }
+                }
+                if c == 4 {
+                    unsafe { crate::AdsSetFilter(table, c"INC = 'Y'".as_ptr().cast_mut().cast()) };
+                }
+                if c == 5 {
+                    crate::AdsGotoTop(order);
+                }
+                for (handle, which) in [(table, "table"), (order, "order")] {
+                    for option in 1..=3u16 {
+                        let mut count = 777;
+                        let rc = unsafe { crate::AdsGetRecordCount(handle, option, &mut count) };
+                        got.push(json!({"type": kind, "case": case, "handle": which,
+                                        "option": option, "rc": rc, "count": count}));
+                    }
+                }
+                crate::AdsCloseTable(table);
+            }
+        }
+        AdsDisconnect(connect);
+        assert_eq!(want, got);
+    }
+
     crate::fixtures::remote_twins!(
+        numeric_expression_keys,
+        record_counts_through_orders,
+        index_file_extensions,
+        foreign_index_file_extensions,
+        compound_and_single_orders_in_one_file,
+        custom_key_order_kinds,
+        stray_index_open_modes,
+        relative_index_file_names,
+        keyword_field_names,
+        order_names,
+        auto_open_index_files,
+        qualified_field_names,
         dbf_orders_match_the_original_engine,
         index_collations,
         index_file_names,

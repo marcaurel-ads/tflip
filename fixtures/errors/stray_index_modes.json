@@ -1,0 +1,8 @@
+[
+{"type": "CDX", "options": 0, "open": 0, "n": 0, "index": 0, "orders": 1, "again": 5065, "after": 1},
+{"type": "CDX", "options": 1, "open": 0, "n": 0, "index": 7008, "orders": 0, "again": 7008, "after": 0},
+{"type": "CDX", "options": 2, "open": 0, "n": 0, "index": 0, "orders": 1, "again": 5065, "after": 1},
+{"type": "VFP", "options": 0, "open": 0, "n": 0, "index": 0, "orders": 1, "again": 5065, "after": 1},
+{"type": "VFP", "options": 1, "open": 0, "n": 0, "index": 7008, "orders": 0, "again": 7008, "after": 0},
+{"type": "VFP", "options": 2, "open": 0, "n": 0, "index": 0, "orders": 1, "again": 5065, "after": 1}
+]

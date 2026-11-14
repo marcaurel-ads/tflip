@@ -302,11 +302,9 @@ pub fn charset_in(
 }
 
 /// Whether a table opened with `settings`, of `structure`, keeps its 8-bit
-/// text in the client's OEM code page: a DBF table opened with `ADS_OEM`, or
-/// that its dictionary says is OEM. A free Visual FoxPro table is ANSI
-/// whatever it is opened as ([`crate::table::open`] sees to that), but a
-/// dictionary's OEM one converts its text as the others do
-/// (`fixtures/dictionary/dbfcorners`).
+/// text in the client's OEM code page: a DBF table opened with `ADS_OEM`
+/// (a Visual FoxPro one also with an OEM collation, `fixtures/dbf/vfp_oem.json`),
+/// or that its dictionary says is OEM (`fixtures/dictionary/dbfcorners`).
 pub fn oem_table(
     settings: &crate::table::TableSettings,
     structure: &tflip_storage::table::Structure,

@@ -76,6 +76,7 @@ fn env(exact: bool) -> Env {
         weights: None,
         dynamic: None,
         blank_empty: false,
+        contains: None,
     }
 }
 
@@ -317,6 +318,23 @@ fn types_and_widths() {
         })
     );
     assert_eq!(ty("other->n"), Err(ErrorKind::UnknownAlias));
+    // The table's alias, FIELD and _FIELD qualify its fields, in any case,
+    // with the arrow right after the qualifier (`fixtures/expr/alias.json`).
+    for qualified in [
+        "people->n",
+        "PEOPLE->n",
+        "FIELD->n",
+        "field-> n",
+        "_Field->n",
+    ] {
+        assert_eq!(ty(qualified), ty("n"), "{qualified}");
+    }
+    for unknown in ["FIELD ->n", "people -> n", "FIELD->FIELD->n", "FIELD->nope"] {
+        assert_eq!(ty(unknown), Err(ErrorKind::UnknownIdentifier), "{unknown}");
+    }
+    for other in ["FIELDS->n", "M->n", "MEMVAR->n"] {
+        assert_eq!(ty(other), Err(ErrorKind::UnknownAlias), "{other}");
+    }
     assert_eq!(ty("nope"), Err(ErrorKind::UnknownIdentifier));
     assert_eq!(ty("FOO(1)"), Err(ErrorKind::UnsupportedFunction));
     assert_eq!(ty("UPPER()"), Err(ErrorKind::ParameterCount));

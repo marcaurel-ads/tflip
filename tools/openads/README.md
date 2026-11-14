@@ -8,7 +8,7 @@ folder holds those runs.
 
 ## OpenADS's tests on tflip: `run.sh`
 
-    tools/openads/run.sh <OpenADS checkout> <work folder>
+    tools/openads/run.sh [--sap] <OpenADS checkout> <work folder>
 
 `run.sh` builds `libtflip_ace.so`. It then builds the OpenADS unit tests
 listed in [`tests.txt`](tests.txt) against that library and runs each file
@@ -16,11 +16,7 @@ in its own process. The comment at the top of `run.sh` says what it writes
 and how it edits the tests where OpenADS's expectations differ from the
 original engine's.
 
-First run (2026-11-13), OpenADS v1.09.75 (`1ef469a`), tflip 0.26.0 on
-x86_64 Linux: 91 files hold 258 test cases. **75 pass and 183 fail**, with
-no crashes.
-
-The edits are needed because of five differences:
+The edits are needed because of these differences:
 
 - **`ADSHANDLE`**: OpenADS's `ace.h` makes it 32 bits on every platform.
   `ace.h` makes it 64 bits under `x64`. Without the edit, tflip's handles
@@ -30,25 +26,78 @@ The edits are needed because of five differences:
   `ADS_HARDSEEK` 0 (2), `ADS_STRINGKEY` 1 (2), `ADS_COMPATIBLE_LOCKING` 2
   (0), `ADS_CISTRING` 25 (20). 15 error codes differ too, among them
   `AE_LOCK_FAILED` 5013 (5035) and `AE_INVALID_HANDLE` 5024 (5018).
-- **Filter option 0**, **unquoted `name.dbf` in SQL** and **a statement's
-  default table type**: what the original does is recorded in
-  `fixtures/errors/record_count.json` and `fixtures/sql/links.json`. The
+- **Literal zeros** where `ace.h` defines no 0: filter options, seek and
+  key data types, the AOF resolve option, character types and rights
+  options. The original rejects them (`fixtures/errors/record_count.json`,
+  `fixtures/errors/table_options.json`), so a test would stop at its
+  setup. [`zeros.cpp`](zeros.cpp), linked in with `--wrap`, passes `ace.h`'s
+  value with the meaning OpenADS gives 0 instead.
+- **Unquoted `name.dbf` in SQL** and **a statement's default table type**:
+  what the original does is recorded in `fixtures/sql/links.json`. The
   default table type is `ADS_ADT` (see the comment in `run.sh`).
 
-Of the remaining failures:
+### Against the original: `--sap`
 
-- 14 files pass a literal 0 where `ace.h` defines no 0 (seek types, an AOF
-  resolve option, filter options).
-- 3 assume server type 0 or a management connection to a local folder
-  (6420).
-- About 50 are single disagreements. They cover navigation at BOF/EOF and
-  after deletes, seeks on partial keys, key counts, scopes, rolling back an
-  append, VFP header bytes, date and timestamp formats, SQL column names,
-  `LEN` of padded strings, and SQL that tflip rejects with 7200 (`INSERT …
-  SELECT`, `UNION`, joins, derived tables, named parameters).
+With `--sap`, `run.sh` also builds the same tests, with the same edits and
+wrappers, for Windows (MinGW-w64), links them against the original's
+`ace64.dll` and runs them under Wine. [`compare.py`](compare.py) then
+lists, per file, the checks that fail on one engine only, or on both with
+other values, in `compare.txt`. That settles most failures without a probe
+of their own:
 
-None of those has been probed yet. A failure counts as a tflip bug only
-after a probe shows the original agrees with OpenADS.
+- a check that fails on both with the same values is the test's
+  expectation, not a tflip bug;
+- a check that fails on tflip only is a tflip bug, or the original stopped
+  at an earlier `REQUIRE` of the same test case;
+- a check that fails on the original only is where tflip agrees with
+  OpenADS but not the original, or tflip stopped earlier.
+
+Run of 2026-11-14, OpenADS v1.09.75 (`1ef469a`), tflip 0.26.0 with the
+option checks of `fixtures/errors/table_options.json`, x86_64 Linux and the
+original's `ace64.dll` 12.0.0.2 under Wine. The 91 files hold 258 test
+cases:
+
+| | tflip | the original |
+| --- | --- | --- |
+| test cases passed | 89 | 41 |
+| files passed | 13 | 13 |
+| files failed | 77 | 78 |
+| files timed out (120 s) | 1 | 0 |
+
+The original passes far fewer, so most of OpenADS's expectations are not
+the original's. Of the failing checks, 108 fail on both with the same
+values, 18 on both with other values, 91 on tflip only and 132 on the
+original only. The file that timed out, `abi_cdx_expr_index_scale_test`,
+took about 8 minutes, as tflip counted the visible records for each
+`AdsGetRecordNum(…, ADS_RESPECTFILTERS)`; it takes under a second since an
+exclusive handle keeps which records are hidden, and fails its check as the
+original does.
+
+A failure counts as a tflip bug only once the original passes the check.
+The original resolves a relative table name against the current directory,
+where tflip takes the connection's folder. The tests make their tables in
+temporary folders of their own and then name them relatively (`data`), so
+on the original they opened whatever another test had left under that name
+in the shared working folder: `abi_custom_key_test`'s order on its field
+`TAG` failed with 3011 because the `data.dbf` it opened had only a field
+`ID`. [`sapcwd.cpp`](sapcwd.cpp), linked into the original's build only,
+makes the folder of each successful `AdsConnect60` the current directory.
+Since then the original refuses the tests' hand-made DBF files with 7016:
+their headers date the last update 00/00/00, and the original opens no DBF
+table whose month is not 1 to 12 or whose day is not 1 to 31
+(`fixtures/dbf/header_dates.json`). tflip now does the same, and `run.sh`
+dates those headers 2024-01-01 in both builds, so that the tests run past
+their setup.
+
+Before `sapcwd.cpp`, the original passing was not always the original
+agreeing: a test that names its table relatively and its index files by
+full path, as
+`abi_adi_ordinal_stable_test` does, has them in two folders on the
+original, where `ord.adi` is then not the table's auto-open index and
+`AdsOpenIndex` of it succeeds. With both in one folder the original gives
+5065, as tflip does (`fixtures/errors/index_files.json`).
+Each one becomes a probe and a fixture of tflip's own before it is fixed,
+as `fixtures/errors/table_options.json` was.
 
 ## tflip's probes on OpenADS: `probes.sh`
 

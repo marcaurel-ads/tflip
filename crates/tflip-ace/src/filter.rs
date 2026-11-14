@@ -1274,5 +1274,145 @@ mod tests {
         assert!(failures.is_empty(), "{} steps differ", failures.len());
     }
 
-    crate::fixtures::remote_twins!(filters_are_kept, filters_match_the_original_engine);
+    /// What `CONTAINS` finds in filters and AOFs, on fields with a
+    /// full-text order and without, and the conditions refused (7103), as
+    /// in the original engine (`fixtures/expr/contains.json`, from
+    /// `tools/ace/expr/contains.c`, whose steps this repeats).
+    #[test]
+    fn contains_in_filters() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/expr/contains.json");
+        let want: Vec<serde_json::Value> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            crate::fixtures::scratch_from("contains_in_filters", &crate::fixtures::empty_dir());
+        let connect = crate::fixtures::connect_to(&source);
+        let records = [
+            "Quick brown fox jumps over the lazy dog",
+            "The lazy dog sleeps in the sun",
+            "Quick fox returns to the den at dusk",
+            "A b c 1,423.99 x-ray",
+        ];
+        let c = |s: &str| std::ffi::CString::new(s).unwrap();
+        let mut got = Vec::new();
+        let mut i = 0;
+        for (kind, table_type) in [
+            ("NTX", crate::ADS_NTX),
+            ("CDX", crate::ADS_CDX),
+            ("ADT", crate::ADS_ADT),
+            ("VFP", crate::ADS_VFP),
+        ] {
+            for fts in 0..2 {
+                if fts == 1 && table_type == crate::ADS_NTX {
+                    continue;
+                }
+                let name = c(&format!("c{table_type}_{fts}"));
+                let mut table = 0;
+                let rc = unsafe {
+                    crate::AdsCreateTable(
+                        connect,
+                        name.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        c"NOTES,C,40,0;M,Memo".as_ptr().cast_mut().cast(),
+                        &mut table,
+                    )
+                };
+                assert_eq!(rc, 0);
+                for record in records {
+                    crate::AdsAppendRecord(table);
+                    let value = c(record);
+                    for field in [c"NOTES", c"M"] {
+                        unsafe {
+                            crate::AdsSetString(
+                                table,
+                                field.as_ptr().cast_mut().cast(),
+                                value.as_ptr().cast_mut().cast(),
+                                record.len() as u32,
+                            )
+                        };
+                    }
+                    crate::AdsWriteRecord(table);
+                }
+                if fts == 1 {
+                    let file = c(&format!("c{table_type}_{fts}_n"));
+                    let mut empty = [0u8; 2];
+                    let empty = empty.as_mut_ptr().cast();
+                    let rc = unsafe {
+                        crate::AdsCreateFTSIndex(
+                            table,
+                            file.as_ptr().cast_mut().cast(),
+                            c"NOTESFTS".as_ptr().cast_mut().cast(),
+                            c"NOTES".as_ptr().cast_mut().cast(),
+                            0,
+                            3,
+                            30,
+                            1,
+                            empty,
+                            1,
+                            empty,
+                            1,
+                            empty,
+                            1,
+                            empty,
+                            std::ptr::null_mut(),
+                            std::ptr::null_mut(),
+                            0,
+                        )
+                    };
+                    assert_eq!(rc, 0);
+                }
+                for field in ["NOTES", "M"] {
+                    while i < want.len()
+                        && want[i]["type"] == kind
+                        && want[i]["fts"] == fts
+                        && want[i]["field"] == field
+                    {
+                        let (condition, op) = (
+                            want[i]["condition"].as_str().unwrap(),
+                            want[i]["op"].as_str().unwrap(),
+                        );
+                        let expr = c(&format!("CONTAINS({field}, '{condition}')"));
+                        let expr = expr.as_ptr().cast_mut().cast();
+                        let rc = match op {
+                            "aof" => unsafe { AdsSetAOF(table, expr, 2) },
+                            _ => unsafe { AdsSetFilter(table, expr) },
+                        };
+                        let (mut count, mut count_rc) = (777, 0);
+                        if rc == 0 {
+                            count_rc = unsafe { crate::AdsGetRecordCount(table, 1, &mut count) };
+                            match op {
+                                "aof" => AdsClearAOF(table),
+                                _ => AdsClearFilter(table),
+                            };
+                        }
+                        got.push(serde_json::json!({"type": kind, "fts": fts, "field": field,
+                            "condition": condition, "op": op, "rc": rc, "count_rc": count_rc,
+                            "count": count}));
+                        i += 1;
+                    }
+                }
+                crate::AdsCloseTable(table);
+            }
+        }
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    crate::fixtures::remote_twins!(
+        filters_are_kept,
+        filters_match_the_original_engine,
+        contains_in_filters
+    );
 }

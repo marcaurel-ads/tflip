@@ -19,7 +19,7 @@ use crate::ace_error;
 use crate::dictionary::Database;
 use crate::handle::Handle;
 use crate::view_columns::Described;
-use crate::{Error, Session, connection, shares};
+use crate::{Error, Session, connection};
 use args::{column, text_of};
 
 pub(crate) mod args;
@@ -425,8 +425,8 @@ fn tables(
     with_extension: bool,
 ) -> Result<Vec<(PathBuf, String)>, Error> {
     let owner = connection::get(session, connection)?;
-    let folder = match session.shares {
-        Some(_) => shares::inside(&owner.path, ".")?,
+    let folder = match &session.shares {
+        Some(shares) => shares.inside(&owner.path, ".")?,
         None => owner.path.clone(),
     };
     let mut names: Vec<String> = fs::read_dir(&folder)

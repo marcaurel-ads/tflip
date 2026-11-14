@@ -180,6 +180,14 @@ fn replay_as(file: &str, counted: bool) {
 /// which the probe's script ran in, made by an earlier one.
 fn replay_in(file: &str, counted: bool, from: Option<PathBuf>) {
     let _settings = fixtures::settings_lock();
+    /// Lets the operations go when the replay is over, however it ends.
+    struct Release;
+    impl Drop for Release {
+        fn drop(&mut self) {
+            tflip_engine::hold_maintenance(None);
+        }
+    }
+    let _release = Release;
     /// Puts the transactions back to real ones when the replay is over.
     struct Counted;
     impl Drop for Counted {
@@ -299,11 +307,15 @@ fn replay_in(file: &str, counted: bool, from: Option<PathBuf>) {
             }
             "async" => {
                 let (id, sql) = rest.split_once(' ').unwrap();
+                if HOLD_OPERATIONS.get() {
+                    tflip_engine::hold_maintenance(Some(&dir));
+                }
                 let (connection, sql) = (connected(id), sql.to_owned());
                 waiting.insert(number(id), thread::spawn(move || run(connection, &sql)));
                 got.insert("started".into(), json!(true));
             }
             "join" => {
+                tflip_engine::hold_maintenance(None);
                 let handle = waiting.remove(&number(rest)).unwrap();
                 if let Json::Object(result) = handle.join().unwrap() {
                     got.extend(result);
@@ -404,7 +416,19 @@ fn trigger_changes_while_a_table_is_open() {
 /// statements that last as long as the original's (a release build does).
 #[test]
 fn online_maintenance() {
+    // tflip's operations may end before the steps that the original ran
+    // while its were under way (an insert then takes the slot a delete
+    // freed, where the original appended it): they are held until the
+    // script joins them.
+    HOLD_OPERATIONS.set(true);
     fixtures::remotely_with(|| replay("events_online.json"));
+    HOLD_OPERATIONS.set(false);
+}
+
+thread_local! {
+    /// Whether a replay holds the maintenance its `async` steps start until
+    /// their `join` (see `tflip_engine::hold_maintenance`).
+    static HOLD_OPERATIONS: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
 
 /// The events the online forms signal when their final stage begins, and the

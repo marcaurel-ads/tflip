@@ -49,7 +49,7 @@ pub mod wire;
 /// the wire format test (`tests/wire_format.rs`) fails on one until the
 /// version is raised and the test's copies are renewed
 /// (`TFLIP_BLESS=1 cargo test -p tflip-protocol --test wire_format`).
-pub const PROTOCOL_VERSION: u16 = 88;
+pub const PROTOCOL_VERSION: u16 = 90;
 
 /// The port `tflipd` listens on unless told otherwise, the original
 /// server's default.
@@ -866,8 +866,9 @@ api! {
     /// Moves `records` distinct keys forward in an order, or back if
     /// negative.
     fn skip_unique(order: Handle, records: i64) -> ();
-    /// Walks an order from its last key to its first, or not.
-    fn set_index_direction(order: Handle, reversed: bool) -> ();
+    /// Turns an order round (`flip`), so that it is walked the other way
+    /// from how it is walked now, or leaves it as it is.
+    fn set_index_direction(order: Handle, flip: bool) -> ();
     /// The key of the current record in an order, its condition ignored.
     fn extract_key(order: Handle) -> Vec<u8>;
     /// The key a bookmark taken through an order holds.

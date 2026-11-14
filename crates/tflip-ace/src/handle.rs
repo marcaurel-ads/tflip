@@ -187,18 +187,33 @@ pub(crate) fn connection_check(connect: AdsHandle) -> Result<(), Unsigned32> {
 }
 
 /// Checks a handle that may be a table or an index order, as the original
-/// engine checks it for the calls that move (`AdsGotoTop`): anything else
-/// is `AE_INVALID_HANDLE`, which replaces an error left before
-/// (`fixtures/errors/handles.json`, `fixtures/errors/handle_order.json`).
+/// engine checks it for the calls that move (`AdsGotoTop`): another kind of
+/// handle is `AE_INVALID_HANDLE`, which replaces an error left before
+/// (`fixtures/errors/handles.json`, `fixtures/errors/handle_order.json`);
+/// a value that is no handle is too, but an error left before stays
+/// (`fixtures/errors/moves_after_errors.json`).
 pub(crate) fn table_or_order(handle: AdsHandle) -> Result<(), Unsigned32> {
     match api(handle).handle_kind(handle) {
         Ok(Some(HandleKind::Table | HandleKind::Cursor | HandleKind::Index)) => Ok(()),
         Err(error) => Err(error_code(error)),
+        Ok(None) => Err(no_handle(handle)),
         Ok(_) => Err(crate::last_error::fail_detail(
             AE_INVALID_HANDLE,
             "Must be a table, cursor or index order handle.",
         )),
     }
+}
+
+/// Records that `handle` is no handle at all, as the original engine's
+/// moves and `AdsCloseIndex` do: `AE_INVALID_HANDLE`, "not readable" for 0,
+/// unless an error was left before, which stays
+/// (`fixtures/errors/moves_after_errors.json`); returns `AE_INVALID_HANDLE`.
+pub(crate) fn no_handle(handle: AdsHandle) -> Unsigned32 {
+    let detail = match handle {
+        0 => "The given handle is not readable.",
+        _ => crate::last_error::NOT_A_HANDLE,
+    };
+    crate::last_error::fail_handle_detail(AE_INVALID_HANDLE, detail)
 }
 
 /// Checks that `handle` is one at all, as the original engine does first
@@ -364,6 +379,102 @@ mod tests {
             }
         }
         crate::AdsDisconnect(connect);
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    /// As in the original engine: `AdsGotoTop` and `AdsCloseIndex` of 0 or of
+    /// a value that is no handle keep any error a call before left, and
+    /// record `AE_INVALID_HANDLE` otherwise
+    /// (`fixtures/errors/moves_after_errors.json`, from
+    /// `tools/ace/errors/moves_after_errors.c`, whose steps this repeats).
+    #[test]
+    fn moves_of_no_handle_keep_an_error_left_before() {
+        use crate::fixtures;
+        use serde_json::{Value as Json, json};
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/moves_after_errors.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from("moves_of_no_handle", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut table = 0;
+        let rc = unsafe {
+            crate::AdsCreateTable(
+                connect,
+                c"z".as_ptr().cast_mut().cast(),
+                std::ptr::null_mut(),
+                crate::ADS_ADT,
+                1,
+                0,
+                1,
+                0,
+                c"K,C,4,0".as_ptr().cast_mut().cast(),
+                &mut table,
+            )
+        };
+        assert_eq!(rc, AE_SUCCESS);
+        let last = || {
+            let (mut code, mut buf, mut len) = (0, [0u8; 600], 600u16);
+            unsafe { crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len) };
+            (code, crate::ansi::to_string(&buf[..usize::from(len)]))
+        };
+        let mut got = Vec::new();
+        for before in [
+            "none",
+            "5013",
+            "5018 zero",
+            "5018 conn",
+            "5023",
+            "5024",
+            "5106",
+        ] {
+            for call in ["AdsGotoTop", "AdsCloseIndex"] {
+                for (name, handle) in [("zero", 0), ("none", 0x12345)] {
+                    crate::AdsGotoTop(table);
+                    let mut n = 0;
+                    match before {
+                        "5013" => {
+                            unsafe { crate::AdsGetRecordCount(table, 0, &mut n) };
+                        }
+                        "5018 zero" => {
+                            crate::AdsGotoTop(0);
+                        }
+                        "5018 conn" => {
+                            crate::AdsGotoTop(connect);
+                        }
+                        "5023" => {
+                            crate::AdsWriteRecord(connect);
+                        }
+                        "5024" => {
+                            crate::AdsRollbackTransaction(table);
+                        }
+                        "5106" => {
+                            crate::AdsCloseSQLStatement(table);
+                        }
+                        _ => {}
+                    }
+                    let (before_last, _) = last();
+                    let rc = match call {
+                        "AdsGotoTop" => crate::AdsGotoTop(handle),
+                        _ => crate::AdsCloseIndex(handle),
+                    };
+                    let (code, text) = last();
+                    got.push(
+                        json!({"before": before, "before_last": before_last, "call": call,
+                                    "handle": name, "rc": rc, "last": code, "text": text}),
+                    );
+                }
+            }
+        }
+        crate::AdsCloseTable(table);
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
         assert!(problems.is_empty(), "{}", problems.join("\n"));
     }
 

@@ -7,18 +7,34 @@ use crate::field::write_at;
 use crate::keys::read_key;
 use crate::last_error::{fail, fail_detail};
 use crate::{
-    ADS_BOTTOM, ADS_IGNOREFILTERS, ADS_TOP, ADS_TRUE, AE_INVALID_FILTER_OPTION, AE_INVALID_OPTION,
-    AE_INVALID_POINTER, AE_NO_SCOPE, AE_SUCCESS, AdsHandle, Signed32, Unsigned8, Unsigned16,
-    Unsigned32, code, error_code, write_cut,
+    ADS_BOTTOM, ADS_IGNOREFILTERS, ADS_RESPECTSCOPES, ADS_TOP, AE_INVALID_FILTER_OPTION,
+    AE_INVALID_OPTION, AE_INVALID_POINTER, AE_NO_SCOPE, AE_SUCCESS, AdsHandle, Signed32, Unsigned8,
+    Unsigned16, Unsigned32, code, error_code, write_cut,
 };
+
+/// Whether `AdsGetKeyNum` and `AdsGetKeyCount` respect the order's scope
+/// and the table's filters (deleted records hidden among them) with
+/// `filter_option`, as the original engine does (`fixtures/seek/
+/// deleted.json`): `ADS_RESPECTFILTERS` does, `ADS_IGNOREFILTERS` does not,
+/// and `ADS_RESPECTSCOPES` does while the order has a scope; without one it
+/// counts every key, as `ADS_IGNOREFILTERS` does.
+fn respects(index: AdsHandle, filter_option: Unsigned16) -> bool {
+    match filter_option {
+        ADS_IGNOREFILTERS => false,
+        ADS_RESPECTSCOPES => {
+            let backend = api(index);
+            backend.scope_key(index, false).is_ok() || backend.scope_key(index, true).is_ok()
+        }
+        _ => true,
+    }
+}
 
 /// `AdsGetKeyNum`: the current record's place in an index order, 1-based:
 /// 0 at BOF and one past the last key at EOF, as in the original engine. On a
 /// record the order has no key for it fails with `AE_NOT_FOUND`, leaving
-/// `*key` alone. Unless `filter_option` is `ADS_IGNOREFILTERS`, the place
-/// counts from the order's scope (see
-/// [`tflip_engine::table::Table::key_number_in`]); there are no filters
-/// yet.
+/// `*key` alone. Where the scope and the filters are respected ([`respects`]),
+/// the place counts from the order's scope and over visible records only
+/// (see [`tflip_engine::table::Table::key_number_in`]).
 ///
 /// # Safety
 ///
@@ -30,7 +46,7 @@ pub unsafe extern "system" fn AdsGetKeyNum(
     key: *mut Unsigned32,
 ) -> Unsigned32 {
     let _call = crate::last_error::Call::begin("AdsGetKeyNum");
-    let scoped = filter_option != ADS_IGNOREFILTERS;
+    let scoped = respects(index, filter_option);
     let number = api(index).key_number(index, scoped).map_err(error_code);
     // The pointer is checked before the option, unlike `AdsGetKeyCount`'s.
     if number.is_ok() && key.is_null() {
@@ -46,8 +62,9 @@ pub unsafe extern "system" fn AdsGetKeyNum(
 /// `AdsGetKeyCount`: the number of keys in an index order: one per record it
 /// holds (fewer than the table's records for a conditional or custom order),
 /// but the bits of its bitmaps for a binary order, as in the original engine.
-/// Unless `filter_option` is `ADS_IGNOREFILTERS`, only the keys in the
-/// order's scope count; there are no filters yet.
+/// Where the scope and the filters are respected ([`respects`]), only the
+/// keys in the order's scope count, of records neither the filters hide
+/// nor deleted while deleted records are hidden.
 ///
 /// # Safety
 ///
@@ -59,7 +76,7 @@ pub unsafe extern "system" fn AdsGetKeyCount(
     count: *mut Unsigned32,
 ) -> Unsigned32 {
     let _call = crate::last_error::Call::begin("AdsGetKeyCount");
-    let scoped = filter_option != ADS_IGNOREFILTERS;
+    let scoped = respects(index, filter_option);
     let keys = api(index).key_count(index, scoped).map_err(error_code);
     if keys.is_ok() && !(1..=3).contains(&filter_option) {
         return fail_detail(AE_INVALID_FILTER_OPTION, "Parameter 2");
@@ -82,13 +99,16 @@ pub extern "system" fn AdsSkipUnique(index: AdsHandle, records: Signed32) -> Uns
     code(backend.skip_unique(index, i64::from(records)))
 }
 
-/// `AdsSetIndexDirection`: walks an index order from its last key to its
-/// first (`reverse` 1) or as it is (anything else, as the original engine
-/// takes 2); key numbers and relative positions follow.
+/// `AdsSetIndexDirection`: any value but 0 turns an index order round, so
+/// that it is walked the other way from how it is walked now (1 and 2
+/// alike), and `AdsIsIndexDescending` says so; 0 leaves it as it is. Key
+/// numbers and relative positions follow. An NTX order is refused with
+/// `AE_INVALID_INDEX_TYPE` whatever the value, as in the original engine
+/// (`fixtures/seek/direction.json`).
 #[unsafe(no_mangle)]
-pub extern "system" fn AdsSetIndexDirection(index: AdsHandle, reverse: Unsigned16) -> Unsigned32 {
+pub extern "system" fn AdsSetIndexDirection(index: AdsHandle, flip: Unsigned16) -> Unsigned32 {
     let _call = crate::last_error::Call::begin("AdsSetIndexDirection");
-    code(api(index).set_index_direction(index, reverse == ADS_TRUE))
+    code(api(index).set_index_direction(index, flip != 0))
 }
 
 /// `AdsGetRelKeyPos`: where the current key is in an index order, from 0
@@ -558,8 +578,351 @@ mod tests {
         crate::AdsDisconnect(connect);
     }
 
+    /// As in the original engine: key counts, record counts, key numbers,
+    /// seeks and seek-lasts in an order with deleted records shown and hidden
+    /// (`fixtures/seek/deleted.json`, from `tools/ace/seek/deleted.c`, whose
+    /// steps this repeats).
+    #[test]
+    fn deleted_records_in_orders() {
+        use serde_json::{Value as Json, json};
+        let _settings = crate::fixtures::settings_lock();
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/seek/deleted.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) =
+            crate::fixtures::scratch_from("deleted_in_orders", &crate::fixtures::empty_dir());
+        let connect = crate::fixtures::connect_to(&source);
+        let mut got: Vec<Json> = Vec::new();
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let at = |table: AdsHandle| -> Json {
+            let (mut bof, mut eof) = (0, 0);
+            unsafe { AdsAtBOF(table, &mut bof) };
+            unsafe { AdsAtEOF(table, &mut eof) };
+            match (bof, eof) {
+                (_, 1) => json!("E"),
+                (1, _) => json!("B"),
+                _ => json!(record_number(table)),
+            }
+        };
+        type CountFn =
+            unsafe extern "system" fn(AdsHandle, Unsigned16, *mut Unsigned32) -> Unsigned32;
+        let types = [
+            ("ADT", "ta.adt", "ta.adi", ADS_ADT),
+            ("NTX", "tn.dbf", "tn_k.ntx", ADS_NTX),
+            ("CDX", "tc.dbf", "tc.cdx", ADS_CDX),
+            ("VFP", "tv.dbf", "tv.cdx", ADS_VFP),
+        ];
+        for (type_name, table_name, bag, table_type) in types {
+            let (mut table, mut order) = (0, 0);
+            AdsShowDeleted(1);
+            let (name, fields) = (text(table_name), text("K,C,8,0"));
+            let null = std::ptr::null_mut();
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    null,
+                    table_type,
+                    1,
+                    1,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            let field = text("K");
+            for value in ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2"] {
+                let value = text(value);
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        field.as_ptr().cast_mut().cast(),
+                        value.as_ptr().cast_mut().cast(),
+                        2,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+            }
+            let (bag, empty) = (text(bag), text(""));
+            let rc = unsafe {
+                crate::AdsCreateIndex61(
+                    table,
+                    bag.as_ptr().cast_mut().cast(),
+                    field.as_ptr().cast_mut().cast(),
+                    field.as_ptr().cast_mut().cast(),
+                    empty.as_ptr().cast_mut().cast(),
+                    empty.as_ptr().cast_mut().cast(),
+                    0,
+                    512,
+                    &mut order,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            for gone in [1, 6, 7, 8] {
+                crate::AdsGotoRecord(table, gone);
+                crate::AdsDeleteRecord(table);
+                crate::AdsWriteRecord(table);
+            }
+            let count = |show: i32, op: &str, function: CountFn, handle, option: u16| {
+                let mut n = 777;
+                let rc = unsafe { function(handle, option, &mut n) };
+                json!({"type": type_name, "show": show, "op": op, "option": option,
+                       "rc": rc, "n": n})
+            };
+            for show in [1, 0] {
+                AdsShowDeleted(show as Unsigned16);
+                for option in 1..=3 {
+                    got.push(count(show, "keycount", AdsGetKeyCount, order, option));
+                }
+                for option in 1..=3 {
+                    got.push(count(
+                        show,
+                        "recordcount",
+                        crate::AdsGetRecordCount,
+                        table,
+                        option,
+                    ));
+                }
+                crate::AdsGotoTop(order);
+                for option in 1..=3 {
+                    got.push(count(show, "keynum", AdsGetKeyNum, order, option));
+                }
+                let b = text("B");
+                unsafe { AdsSetScope(order, 1, b.as_ptr().cast_mut().cast(), 1, 2) };
+                unsafe { AdsSetScope(order, 2, b.as_ptr().cast_mut().cast(), 1, 2) };
+                for option in 1..=3 {
+                    got.push(count(
+                        show,
+                        "scoped keycount",
+                        AdsGetKeyCount,
+                        order,
+                        option,
+                    ));
+                }
+                AdsClearScope(order, 1);
+                AdsClearScope(order, 2);
+                let seeks = |prefix: &str| -> Vec<Json> {
+                    let mut rows = Vec::new();
+                    for key in ["A", "B", "C", "D", "0", "A1", "A2", "B3", "C1", "B2"] {
+                        let k = text(key);
+                        let k = k.as_ptr().cast_mut().cast();
+                        let len = key.len() as Unsigned16;
+                        for seek_type in [1u16, 2, 4] {
+                            let mut found = 7;
+                            crate::AdsGotoRecord(table, 2);
+                            let rc = unsafe { AdsSeek(order, k, len, 2, seek_type, &mut found) };
+                            rows.push(json!({"type": type_name, "show": show,
+                                             "op": format!("{prefix}seek"), "key": key,
+                                             "seek_type": seek_type, "rc": rc,
+                                             "found": found, "at": at(table)}));
+                        }
+                        let mut found = 7;
+                        crate::AdsGotoRecord(table, 2);
+                        let rc = unsafe { AdsSeekLast(order, k, len, 2, &mut found) };
+                        rows.push(json!({"type": type_name, "show": show,
+                                         "op": format!("{prefix}seeklast"), "key": key,
+                                         "rc": rc, "found": found, "at": at(table)}));
+                    }
+                    rows
+                };
+                got.extend(seeks(""));
+                let aof = text("K <> 'A2'");
+                unsafe { crate::AdsSetAOF(table, aof.as_ptr().cast_mut().cast(), 2) };
+                for option in 1..=3 {
+                    got.push(count(show, "aof keycount", AdsGetKeyCount, order, option));
+                }
+                crate::AdsGotoTop(order);
+                for option in 1..=3 {
+                    got.push(count(show, "aof keynum", AdsGetKeyNum, order, option));
+                }
+                unsafe { AdsSetScope(order, 1, b.as_ptr().cast_mut().cast(), 1, 2) };
+                unsafe { AdsSetScope(order, 2, b.as_ptr().cast_mut().cast(), 1, 2) };
+                for option in 1..=3 {
+                    got.push(count(
+                        show,
+                        "aof scoped keycount",
+                        AdsGetKeyCount,
+                        order,
+                        option,
+                    ));
+                }
+                AdsClearScope(order, 1);
+                AdsClearScope(order, 2);
+                crate::AdsClearAOF(table);
+                let hide = text("K <> 'A1' .AND. K <> 'B3'");
+                unsafe { crate::AdsSetAOF(table, hide.as_ptr().cast_mut().cast(), 2) };
+                got.extend(seeks("aof "));
+                crate::AdsClearAOF(table);
+                unsafe { crate::AdsSetFilter(table, hide.as_ptr().cast_mut().cast()) };
+                got.extend(seeks("filter "));
+                crate::AdsClearFilter(table);
+                let mut rows = Vec::new();
+                crate::AdsGotoTop(order);
+                for _ in 0..20 {
+                    let mut eof = 0;
+                    unsafe { AdsAtEOF(table, &mut eof) };
+                    if eof != 0 {
+                        break;
+                    }
+                    rows.push(record_number(table));
+                    crate::AdsSkip(order, 1);
+                }
+                got.push(json!({"type": type_name, "show": show, "op": "walk", "rows": rows}));
+            }
+            crate::AdsGotoRecord(table, 2);
+            crate::AdsDeleteRecord(table);
+            got.push(count(0, "keycount after delete", AdsGetKeyCount, order, 1));
+            crate::AdsCloseTable(table);
+        }
+        AdsShowDeleted(1);
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(
+            problems.is_empty(),
+            "{} of {} differ:\n{}",
+            problems.len(),
+            want.len(),
+            problems.join("\n")
+        );
+    }
+
+    /// As in the original engine: `AdsSetIndexDirection` with any value but
+    /// 0 turns an ADT, CDX or VFP order round from how it is walked now, and
+    /// refuses an NTX order with 5017 (`fixtures/seek/direction.json`, from
+    /// `tools/ace/seek/direction.c`, whose steps this repeats).
+    #[test]
+    fn index_directions() {
+        use serde_json::{Value as Json, json};
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/seek/direction.json");
+        let want: Vec<Json> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from("index_directions", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let types = [
+            ("ADT", "adi", crate::ADS_ADT),
+            ("NTX", "ntx", crate::ADS_NTX),
+            ("CDX", "cdx", crate::ADS_CDX),
+            ("VFP", "cdx", crate::ADS_VFP),
+        ];
+        let kinds = [
+            ("ascending", 0, false),
+            ("descending", 8, false),
+            ("compound ascending", 2, true),
+            ("compound descending", 10, true),
+        ];
+        let walk = |table: AdsHandle, mover: AdsHandle| {
+            let mut records = Vec::new();
+            crate::AdsGotoTop(mover);
+            for _ in 0..5 {
+                let mut eof = 0;
+                unsafe { crate::AdsAtEOF(table, &mut eof) };
+                if eof != 0 {
+                    break;
+                }
+                records.push(record_number(table));
+                crate::AdsSkip(mover, 1);
+            }
+            records
+        };
+        let mut got = Vec::new();
+        for (type_name, ext, table_type) in types {
+            let name = std::ffi::CString::new(format!("d{table_type}")).unwrap();
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    c"C,C,4,0".as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            assert_eq!(rc, AE_SUCCESS);
+            for value in [c"BBBB", c"AAAA", c"CCCC"] {
+                crate::AdsAppendRecord(table);
+                unsafe {
+                    crate::AdsSetString(
+                        table,
+                        c"C".as_ptr().cast_mut().cast(),
+                        value.as_ptr().cast_mut().cast(),
+                        4,
+                    )
+                };
+                crate::AdsWriteRecord(table);
+            }
+            for (k, (kind, options, compound)) in kinds.into_iter().enumerate() {
+                if (table_type == crate::ADS_ADT && !compound)
+                    || (table_type == crate::ADS_NTX && compound)
+                {
+                    continue;
+                }
+                let bag = std::ffi::CString::new(format!("o{table_type}_{k}.{ext}")).unwrap();
+                let mut order = 0;
+                let rc = unsafe {
+                    crate::AdsCreateIndex61(
+                        table,
+                        bag.as_ptr().cast_mut().cast(),
+                        c"K".as_ptr().cast_mut().cast(),
+                        c"C".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        c"".as_ptr().cast_mut().cast(),
+                        options,
+                        512,
+                        &mut order,
+                    )
+                };
+                assert_eq!(rc, AE_SUCCESS);
+                for value in [1u16, 1, 0, 2, 1, 0] {
+                    let rc = AdsSetIndexDirection(order, value);
+                    let (mut error, mut text, mut len) = (0, [0u8; 600], 600u16);
+                    unsafe { crate::AdsGetLastError(&mut error, text.as_mut_ptr(), &mut len) };
+                    let mut descending = 7;
+                    unsafe { crate::AdsIsIndexDescending(order, &mut descending) };
+                    let order_walk = walk(table, order);
+                    let table_walk = walk(table, table);
+                    let mut key = 0;
+                    crate::AdsGotoTop(order);
+                    unsafe { crate::AdsGetKeyNum(order, 2, &mut key) };
+                    got.push(json!({"type": type_name, "kind": kind, "value": value,
+                                    "rc": rc, "error": error, "descending": descending,
+                                    "walk": order_walk, "table_walk": table_walk,
+                                    "top_key": key}));
+                }
+                crate::AdsCloseIndex(order);
+            }
+            crate::AdsCloseTable(table);
+        }
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert_eq!(want.len(), got.len());
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
     crate::fixtures::remote_twins!(
         key_numbers_of_records_without_keys,
+        index_directions,
+        deleted_records_in_orders,
         scope_arguments,
         relative_key_positions,
         unique_skips_last_seeks_and_directions,

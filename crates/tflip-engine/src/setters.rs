@@ -279,6 +279,16 @@ fn apply_slot(
         | (Character | CiCharacter | VarChar | NChar | NVarChar, V::TimeStamp(t)) => {
             text_into(field, t, slot)
         }
+        // An ADS VarChar's text that fits inline (the table writes longer
+        // text, whose rest goes to the memo file).
+        (LegacyVarChar, V::String(t) | V::Field(t) | V::TimeStamp(t)) => {
+            let bytes = tflip_storage::cp1252::encode(t);
+            if bytes.len() > slot.len().saturating_sub(2) {
+                return Err(Error::NotImplemented);
+            }
+            tflip_storage::adt::store_legacy_var_char(&bytes, slot, None)
+                .map_err(|_| Error::CorruptTable)
+        }
         (Raw, V::String(t)) => base64_into(t, slot),
         (Raw, V::Field(t) | V::TimeStamp(t)) => {
             bytes_into(field, &tflip_storage::cp1252::encode(t), slot)

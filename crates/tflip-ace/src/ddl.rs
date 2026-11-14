@@ -10,7 +10,7 @@ use tflip_engine::table::{TableSettings, TableType};
 use crate::backend::api;
 use crate::ffi::text;
 use crate::last_error::fail;
-use crate::table::engine_table_type;
+use crate::table::{check_options, engine_table_type};
 use crate::{
     AE_INVALID_CHARSETTYPE, AE_INVALID_POINTER, AE_INVALID_TABLETYPE, AE_SUCCESS, AdsHandle,
     Unsigned8, Unsigned16, Unsigned32, ansi, code, error_code,
@@ -18,30 +18,56 @@ use crate::{
 
 /// Creates a table and opens it (see [`AdsCreateTable90`]); `None` for a
 /// null pointer.
+///
+/// `ADS_DEFAULT` makes an ADT table. Any other type but the four fails
+/// with `AE_INVALID_TABLETYPE` and leaves the last error alone, as in the
+/// original engine; the other options are checked as
+/// [`check_options`] says (`fixtures/errors/table_options.json`).
 #[allow(clippy::too_many_arguments)]
 fn create_table(
     connect: AdsHandle,
     name: Option<String>,
     table_type: Unsigned16,
     char_type: Unsigned16,
+    lock_type: Unsigned16,
     check_rights: Unsigned16,
     memo_size: Unsigned16,
     fields: Option<String>,
+    collation: Option<String>,
     table: Option<&mut AdsHandle>,
 ) -> Unsigned32 {
     let (Some(name), Some(fields), Some(table)) = (name, fields, table) else {
         return fail(AE_INVALID_POINTER);
     };
-    let Some(table_type) = engine_table_type(table_type) else {
-        return fail(AE_INVALID_TABLETYPE);
+    let table_type = match table_type {
+        crate::ADS_DEFAULT => TableType::Adt,
+        other => match engine_table_type(other) {
+            Some(table_type) => table_type,
+            None => {
+                crate::last_error::restore_pending();
+                return AE_INVALID_TABLETYPE;
+            }
+        },
     };
+    if let Some(code) = check_options(true, table_type, Some(char_type), lock_type, check_rights) {
+        return code;
+    }
     // The table comes back open exclusively, as in the original engine, so
     // that it can be encrypted at once (`fixtures/aes/api/00_probe`).
+    // A VFP table's collation says whether it is OEM, as its character type
+    // does (`fixtures/dbf/vfp_oem.json`); others are not kept yet.
+    let collation = match table_type {
+        TableType::Vfp => collation.unwrap_or_default(),
+        _ => String::new(),
+    };
     let settings = TableSettings {
         table_type,
         char_type,
+        collation,
         rights: check_rights,
-        options: tflip_engine::table::options::EXCLUSIVE | tflip_engine::table::options::CREATED,
+        options: tflip_engine::table::options::EXCLUSIVE
+            | tflip_engine::table::options::CREATED
+            | crate::table::locking_option(table_type, lock_type),
         ..Default::default()
     };
     let name = crate::remote::relative_name(connect, &name);
@@ -66,7 +92,7 @@ pub unsafe extern "system" fn AdsCreateTable(
     _alias: *mut Unsigned8,
     table_type: Unsigned16,
     char_type: Unsigned16,
-    _lock_type: Unsigned16,
+    lock_type: Unsigned16,
     check_rights: Unsigned16,
     memo_size: Unsigned16,
     fields: *mut Unsigned8,
@@ -80,9 +106,11 @@ pub unsafe extern "system" fn AdsCreateTable(
         name,
         table_type,
         char_type,
+        lock_type,
         check_rights,
         memo_size,
         fields,
+        None,
         table,
     )
 }
@@ -99,7 +127,7 @@ pub unsafe extern "system" fn AdsCreateTable71(
     _object_name: *mut Unsigned8,
     table_type: Unsigned16,
     char_type: Unsigned16,
-    _lock_type: Unsigned16,
+    lock_type: Unsigned16,
     check_rights: Unsigned16,
     memo_size: Unsigned16,
     fields: *mut Unsigned8,
@@ -114,9 +142,11 @@ pub unsafe extern "system" fn AdsCreateTable71(
         name,
         table_type,
         char_type,
+        lock_type,
         check_rights,
         memo_size,
         fields,
+        None,
         table,
     )
 }
@@ -126,7 +156,9 @@ pub unsafe extern "system" fn AdsCreateTable71(
 /// (`name,type,length,decimals;…`, the type's name as short as is unique)
 /// and memo blocks of `memo_size` bytes (0: 256), and opens it. A definition
 /// the original engine refuses is `AE_INVALID_FIELDDEF`, a file there
-/// already 7040. The object name, options and collation are not used.
+/// already 7040. The object name and options are not used, nor the
+/// collation, but that a VFP table's makes it OEM as its character type
+/// would.
 ///
 /// # Safety
 ///
@@ -139,25 +171,28 @@ pub unsafe extern "system" fn AdsCreateTable90(
     _object_name: *mut Unsigned8,
     table_type: Unsigned16,
     char_type: Unsigned16,
-    _lock_type: Unsigned16,
+    lock_type: Unsigned16,
     check_rights: Unsigned16,
     memo_size: Unsigned16,
     fields: *mut Unsigned8,
     _options: Unsigned32,
-    _collation: *mut Unsigned8,
+    collation: *mut Unsigned8,
     table: *mut AdsHandle,
 ) -> Unsigned32 {
     let _call = crate::last_error::Call::begin("AdsCreateTable90");
     // SAFETY: the pointers are as # Safety says.
-    let (name, fields, table) = unsafe { (text(name), text(fields), table.as_mut()) };
+    let (name, fields, collation, table) =
+        unsafe { (text(name), text(fields), text(collation), table.as_mut()) };
     create_table(
         connect,
         name,
         table_type,
         char_type,
+        lock_type,
         check_rights,
         memo_size,
         fields,
+        collation,
         table,
     )
 }

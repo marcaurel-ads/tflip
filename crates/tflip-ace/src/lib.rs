@@ -142,6 +142,7 @@ use tflip_engine::Session;
 pub(crate) static LOCAL: LazyLock<Session> = LazyLock::new(|| {
     let session = Session::new();
     tflip_engine::settings::set_real_transactions(&session, config::real_transactions());
+    tflip_engine::settings::set_cwd_relative(&session, config::cwd_relative());
     // The tests turn the local caches on where they want them.
     if !cfg!(test) && config::local_caching() {
         tflip_engine::settings::set_local_caching(&session, true);

@@ -1132,10 +1132,11 @@ pub(super) fn order_keys_with(
         }
         let key = match record {
             Some(bytes) => {
+                // The memo too: a legacy VarChar's value may go on there.
                 let row = filter::Record {
                     fields,
                     bytes: bytes.to_vec(),
-                    memo: None,
+                    memo: memo.as_deref_mut(),
                     number: slot,
                 };
                 order.owner().build_key(order, row, true)?
@@ -1630,7 +1631,15 @@ pub(super) fn write_locked(
         };
         encode_into(field, &value, &mut pending.bytes)?;
     }
-    let new = order_keys(orders, &fields, Some(&pending.bytes), slot)?;
+    // With the memo file: a legacy VarChar's text may go on there.
+    let new = order_keys_with(
+        orders,
+        &fields,
+        Some(&pending.bytes),
+        slot,
+        file.memo(),
+        false,
+    )?;
     // With unique enforcement off (AdsDisableUniqueEnforcement) a write adds the
     // key an order already has instead of refusing it, so the refusal is skipped
     // and the duplicate falls through to `maintain`.

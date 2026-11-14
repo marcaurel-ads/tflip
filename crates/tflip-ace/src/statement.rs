@@ -6488,9 +6488,146 @@ mod cursor_tests {
         }
     }
 
+    /// SQL over tables with deleted records under `AdsShowDeleted`, and a
+    /// table of another type than the statement's, as in the original engine
+    /// (`fixtures/sql/deleted_counts.json`, from
+    /// `tools/ace/sql/deleted_counts.c`, whose steps this repeats).
+    #[test]
+    fn deleted_records_and_other_table_types() {
+        let _settings = fixtures::settings_lock();
+        let want: Vec<serde_json::Value> = serde_json::from_slice(
+            &std::fs::read(fixtures::dir("../sql/deleted_counts.json")).unwrap(),
+        )
+        .unwrap();
+        let (source, _dir) = fixtures::scratch_from(
+            "deleted_records_and_other_table_types",
+            &fixtures::empty_dir(),
+        );
+        let folder = std::path::Path::new(&source).display().to_string();
+        let connect = fixtures::connect_to(&source);
+        let text = |s: &str| std::ffi::CString::new(s).unwrap();
+        let mut got = Vec::new();
+        for (kind, table_type, fields) in [
+            ("NTX", crate::ADS_NTX, "ID,N,4,0;PAD,C,200,0"),
+            ("CDX", crate::ADS_CDX, "ID,N,4,0;PAD,C,200,0"),
+            ("ADT", crate::ADS_ADT, "ID,Integer,4;PAD,Char,200"),
+            ("VFP", crate::ADS_VFP, "ID,N,4,0;PAD,C,200,0"),
+        ] {
+            let extension = if table_type == crate::ADS_ADT {
+                "adt"
+            } else {
+                "dbf"
+            };
+            for statement_type in 0..=4u16 {
+                let name = format!("d{table_type}_{statement_type}.{extension}");
+                let (name_c, fields_c) = (text(&name), text(fields));
+                let (mut table, mut stmt) = (0, 0);
+                unsafe {
+                    let rc = crate::AdsCreateTable(
+                        connect,
+                        name_c.as_ptr().cast_mut().cast(),
+                        std::ptr::null_mut(),
+                        table_type,
+                        1,
+                        0,
+                        1,
+                        0,
+                        fields_c.as_ptr().cast_mut().cast(),
+                        &mut table,
+                    );
+                    assert_eq!(rc, AE_SUCCESS, "{name}");
+                    for id in 1..=4 {
+                        crate::AdsAppendRecord(table);
+                        crate::AdsSetDouble(table, c"ID".as_ptr().cast_mut().cast(), id.into());
+                        crate::AdsWriteRecord(table);
+                    }
+                    for record in [1, 3] {
+                        crate::AdsGotoRecord(table, record);
+                        crate::AdsDeleteRecord(table);
+                    }
+                    crate::AdsCloseTable(table);
+                    AdsCreateSQLStatement(connect, &mut stmt);
+                    if statement_type != 0 {
+                        AdsStmtSetTableType(stmt, statement_type);
+                    }
+                }
+                for show in [1u16, 0] {
+                    crate::AdsShowDeleted(show);
+                    for query in [
+                        format!("SELECT COUNT(*) AS n FROM \"{name}\""),
+                        format!("SELECT COUNT(*) AS n FROM \"{name}\" WHERE ID >= 1"),
+                        format!("SELECT ID FROM \"{name}\" ORDER BY ID DESC"),
+                    ] {
+                        let sql = text(&query);
+                        let mut cursor = 0;
+                        let rc = unsafe {
+                            AdsExecuteSQLDirect(stmt, sql.as_ptr().cast_mut().cast(), &mut cursor)
+                        };
+                        let mut error = String::new();
+                        if rc != AE_SUCCESS {
+                            let (mut code, mut buf, mut len) = (0, [0u8; 600], 600u16);
+                            unsafe {
+                                crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len)
+                            };
+                            // The probe names its folder `<folder>` and writes
+                            // Windows paths; a server names its own folder.
+                            error = String::from_utf8_lossy(&buf[..usize::from(len)])
+                                .replace(&folder, "<folder>")
+                                .replace('/', "\\");
+                            let file = format!("\\{name} Table name");
+                            if let Some(end) = error.find(&file)
+                                && let Some(start) = error[..end].rfind("  ")
+                            {
+                                error.replace_range(start + 2..end, "<folder>");
+                            }
+                        }
+                        let (mut rows, mut first) = (0, String::new());
+                        if rc == AE_SUCCESS && cursor != 0 {
+                            crate::AdsGotoTop(cursor);
+                            let (mut buf, mut len) = ([0u8; 32], 32u32);
+                            let one = std::ptr::without_provenance_mut::<u8>(1);
+                            if unsafe {
+                                crate::AdsGetField(cursor, one, buf.as_mut_ptr(), &mut len, 0)
+                            } == AE_SUCCESS
+                            {
+                                first = String::from_utf8_lossy(&buf[..len as usize])
+                                    .trim_end_matches(' ')
+                                    .to_owned();
+                            }
+                            for _ in 0..10 {
+                                let mut eof = 1;
+                                if unsafe { crate::AdsAtEOF(cursor, &mut eof) } != AE_SUCCESS
+                                    || eof != 0
+                                {
+                                    break;
+                                }
+                                rows += 1;
+                                crate::AdsSkip(cursor, 1);
+                            }
+                            crate::AdsCloseTable(cursor);
+                        }
+                        got.push(
+                            serde_json::json!({"type": kind, "stmt": statement_type, "show": show,
+                                        "sql": query, "rc": rc, "error": error,
+                                        "rows": rows, "first": first}),
+                        );
+                    }
+                }
+                crate::AdsShowDeleted(1);
+                AdsCloseSQLStatement(stmt);
+            }
+        }
+        AdsDisconnect(connect);
+        for (want, got) in want.iter().zip(&got) {
+            assert_eq!(want, got);
+        }
+        assert_eq!(want.len(), got.len());
+    }
+
     remote_twins!(
         empty_order_names_on_cursors,
         filters_on_procedure_results,
-        statement_limit_on_a_server
+        statement_limit_on_a_server,
+        deleted_records_and_other_table_types
     );
 }

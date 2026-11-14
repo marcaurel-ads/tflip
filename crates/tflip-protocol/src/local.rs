@@ -265,7 +265,12 @@ impl Api for Session {
     }
 
     fn close_table(&self, table: Handle) -> Result<(), Error> {
-        table::close(self, table)
+        // Refused in a transaction while the table is locked, but closed.
+        let locked = table::get(self, table)
+            .ok()
+            .map(|open| transaction::check_table_lock(self, &open));
+        table::close(self, table)?;
+        locked.unwrap_or(Ok(()))
     }
 
     fn table_info(&self, table: Handle) -> Result<TableInfo, Error> {
@@ -286,6 +291,16 @@ impl Api for Session {
         // counts: its keys, one per record slot and one more.
         if let Some(order) = index::order_of(self, table).filter(|order| order.tag.binary()) {
             return order.key_count(false);
+        }
+        // Through an order with a condition, the records it holds: those the
+        // filters show, or all of them (`fixtures/errors/order_counts.json`).
+        if let Some(order) =
+            index::order_of(self, table).filter(|order| !order.tag.condition.trim().is_empty())
+        {
+            return match filters {
+                true => table::get(self, order.table)?.key_count_in(&order, true),
+                false => order.key_count(false),
+            };
         }
         let opened = table::get(self, table).map_err(|_| Error::NotImplemented)?;
         match filters {
@@ -363,7 +378,9 @@ impl Api for Session {
     }
 
     fn unlock_table(&self, table: Handle) -> Result<(), Error> {
-        table::get(self, table)?.unlock_table()
+        let open = table::get(self, table)?;
+        transaction::check_table_lock(self, &open)?;
+        open.unlock_table()
     }
 
     fn is_record_locked(&self, table: Handle, record: u32) -> Result<bool, Error> {
@@ -1434,9 +1451,8 @@ impl Api for Session {
         in_order(self, order, |table, order| table.delete_custom_key(order))
     }
 
-    fn set_index_direction(&self, order: Handle, reversed: bool) -> Result<(), Error> {
-        index::get(self, order)?.set_reversed(reversed);
-        Ok(())
+    fn set_index_direction(&self, order: Handle, flip: bool) -> Result<(), Error> {
+        index::get(self, order)?.turn(flip)
     }
 
     fn set_scope(&self, order: Handle, bottom: bool, key: Key) -> Result<(), Error> {
@@ -1500,7 +1516,7 @@ impl Api for Session {
     }
 
     fn set_filter(&self, table: Handle, expression: String) -> Result<(), Error> {
-        table::get(self, table)?.set_filter(&expression)
+        table::get(self, table)?.set_filter(&expression, &index::open_on(self, table))
     }
 
     fn filter(&self, table: Handle) -> Result<String, Error> {

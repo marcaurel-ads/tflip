@@ -38,6 +38,11 @@ pub struct Index {
     pub path: PathBuf,
     /// The index file's format.
     pub kind: Kind,
+    /// Whether the index file holds this one order alone: an NTX file, or
+    /// an IDX file, whatever its extension (a non-compound order in a
+    /// `.cdx` file, as the original engine makes one,
+    /// `fixtures/errors/index_files.json`).
+    pub single: bool,
     /// The order's properties as the index file holds them (the expression
     /// and condition with fields as `F<n>`).
     pub tag: Tag,
@@ -350,10 +355,7 @@ impl Index {
         let tag = &self.tag;
         let compound = match self.kind {
             Kind::Adi => true,
-            Kind::Cdx => self
-                .path
-                .extension()
-                .is_some_and(|e| e.eq_ignore_ascii_case("cdx")),
+            Kind::Cdx => !self.single,
             Kind::Ntx => false,
         };
         let mut flags = if compound { COMPOUND } else { 0 };
@@ -551,6 +553,22 @@ impl Index {
     /// key numbers are then those of the reversed order.
     pub fn set_reversed(&self, reversed: bool) {
         self.reversed.store(reversed, AtomicOrdering::Relaxed);
+    }
+
+    /// `AdsSetIndexDirection`: with `flip` (any value but 0) walks the order
+    /// the other way from how it is walked now, as the original engine does
+    /// with 1 and 2 alike. An NTX order is refused with 5017 whatever the
+    /// value (`fixtures/seek/direction.json`).
+    pub fn turn(&self, flip: bool) -> Result<(), Error> {
+        if self.kind == Kind::Ntx {
+            return Err(Error::FullText(
+                crate::ace_error::codes::AE_INVALID_INDEX_TYPE,
+            ));
+        }
+        if flip {
+            self.reversed.fetch_xor(true, AtomicOrdering::Relaxed);
+        }
+        Ok(())
     }
 
     /// The record of the first key in the scope, in the direction the order
@@ -938,9 +956,7 @@ impl Index {
                 .find(|field| field.name.eq_ignore_ascii_case(name));
             return found.map_or(KeySource::Expression, KeySource::Field);
         }
-        let fields: Option<Vec<usize>> = self
-            .tag
-            .expression
+        let fields: Option<Vec<usize>> = unqualified(table, &self.tag.expression)
             .split(';')
             .map(|part| part.trim().strip_prefix('F')?.parse().ok())
             .collect();
@@ -1065,6 +1081,26 @@ impl Index {
     }
 }
 
+/// `expression` trimmed, and without its qualifier if it is one field that
+/// `FIELD->`, `_FIELD->` or the alias of `owner` qualifies (`FIELD->ID`),
+/// which the original engine keys as the field alone
+/// (`fixtures/expr/alias.json`).
+pub(crate) fn unqualified<'e>(owner: &table::Table, expression: &'e str) -> &'e str {
+    let expression = expression.trim();
+    let Some((qualifier, field)) = expression.split_once("->") else {
+        return expression;
+    };
+    let field = field.trim_start();
+    let word = !field.is_empty() && field.chars().all(|c| c.is_alphanumeric() || c == '_');
+    let names_owner = ["FIELD", "_FIELD", &owner.expression_alias()]
+        .iter()
+        .any(|name| qualifier.eq_ignore_ascii_case(name));
+    match word && names_owner {
+        true => field,
+        false => expression,
+    }
+}
+
 /// The segments of an index expression; see [`Index::segments`].
 fn segments(expression: &str) -> Vec<usize> {
     let mut fields = Vec::new();
@@ -1162,7 +1198,7 @@ fn with_field_names(expression: &str, table: &Table) -> String {
 /// The structural index of the table at `path`: the same name with the
 /// extension `.adi` for an ADT table, `.cdx` for a FoxPro or VFP one (in
 /// upper case if the table's is).
-fn structural_path(path: &Path) -> PathBuf {
+pub(crate) fn structural_path(path: &Path) -> PathBuf {
     let extension = path.extension().and_then(|e| e.to_str()).unwrap_or("");
     let upper = extension.chars().any(|c| c.is_ascii_uppercase());
     let structural = match extension.eq_ignore_ascii_case("dbf") {
@@ -1317,13 +1353,23 @@ pub fn open_file(
     name: &str,
 ) -> Result<(Vec<Handle>, bool), Error> {
     let owner = table::get(session, table)?;
-    let folder = owner
-        .path
-        .parent()
-        .map(Path::to_path_buf)
-        .unwrap_or_default();
-    let path = match session.shares {
-        Some(_) => crate::shares::inside(&folder, name)?,
+    // A bare file name is in the table's folder. A relative name with a
+    // folder in it is relative to the current directory in the original
+    // (`fixtures/errors/index_paths.json`), for which tflip takes the
+    // connection's folder, as it does for tables.
+    let in_folder = !name.contains(['\\', '/']);
+    let folder = match owner.connection {
+        connection if !in_folder && connection != 0 => {
+            crate::connection::get(session, connection)?.folder()
+        }
+        _ => owner
+            .path
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_default(),
+    };
+    let path = match &session.shares {
+        Some(shares) => shares.inside(&folder, name)?,
         None => folder.join(name),
     };
     let extension = match owner.settings.table_type {
@@ -1331,10 +1377,19 @@ pub fn open_file(
         table::TableType::Cdx | table::TableType::Vfp => "cdx",
         _ => "adi",
     };
-    let path = if path.extension().is_none() {
-        path.with_extension(extension)
-    } else {
-        path
+    // Without an extension, a FoxPro or VFP table's file is its `.cdx`, else
+    // an `.idx` (a non-compound order's, `fixtures/dbf/index_names.json`).
+    let path = match path.extension() {
+        Some(_) => path,
+        None if extension == "cdx" => {
+            let compound = crate::shares::actual_case(path.with_extension("cdx"));
+            let single = crate::shares::actual_case(path.with_extension("idx"));
+            match !compound.exists() && single.exists() {
+                true => single,
+                false => compound,
+            }
+        }
+        None => path.with_extension(extension),
     };
     // As the folder spells it, so that a file is the same whatever case it
     // is named in, and is named as it is.
@@ -1349,6 +1404,9 @@ pub fn open_file(
         .collect();
     if !open.is_empty() {
         return Ok((open, true));
+    }
+    if owner.stray_index && path == structural_path(&owner.path) {
+        return Err(Error::FileInUse);
     }
     // 15 index files are open on a table at most (`fixtures/write/limits`).
     let mut files: Vec<PathBuf> = Vec::new();
@@ -1378,8 +1436,8 @@ pub fn open_file(
 /// ([`Error::AutoOpenIndex`]).
 pub fn close_file(session: &Session, order: Handle) -> Result<(), Error> {
     let index = get(session, order)?;
-    if opens_with(&index.owner, &index.path) {
-        return Err(Error::AutoOpenIndex);
+    if !index.single && opens_with(&index.owner, &index.path) {
+        return Err(Error::AutoOpenIndex.detailed("Can't close an autoopen index."));
     }
     for other in of_table(session, index.table) {
         if get(session, other).is_ok_and(|other| other.path == index.path) {
@@ -1394,7 +1452,7 @@ pub fn close_file(session: &Session, order: Handle) -> Result<(), Error> {
 pub fn close_files(session: &Session, table: Handle) -> Result<(), Error> {
     let owner = table::get(session, table)?;
     for order in of_table(session, table) {
-        if get(session, order).is_ok_and(|order| !opens_with(&owner, &order.path)) {
+        if get(session, order).is_ok_and(|order| order.single || !opens_with(&owner, &order.path)) {
             session.remove(order);
         }
     }
@@ -1429,6 +1487,38 @@ fn orders(
     file: IndexFile,
     cipher: Option<tflip_storage::table::RecordCipher>,
 ) -> Vec<Arc<Index>> {
+    let stem = path
+        .file_stem()
+        .map(|s| s.to_string_lossy().into_owned())
+        .unwrap_or_default();
+    orders_named(table, owner, path, file, cipher, &stem)
+}
+
+/// The orders of a single-order (NTX or IDX) file just made, which the
+/// original engine names after the file in capitals until the file is
+/// opened again (`fixtures/dbf/index_names.json`).
+fn created_orders(
+    table: Handle,
+    owner: &Arc<Table>,
+    path: PathBuf,
+    file: IndexFile,
+) -> Vec<Arc<Index>> {
+    let stem = path
+        .file_stem()
+        .map(|s| s.to_string_lossy().to_ascii_uppercase())
+        .unwrap_or_default();
+    orders_named(table, owner, path, file, None, &stem)
+}
+
+/// [`orders`], an order of a single-order file named `stem`.
+fn orders_named(
+    table: Handle,
+    owner: &Arc<Table>,
+    path: PathBuf,
+    file: IndexFile,
+    cipher: Option<tflip_storage::table::RecordCipher>,
+    stem: &str,
+) -> Vec<Arc<Index>> {
     let page_size = file.page_size();
     let kind = file.kind();
     // An RC4 index has no IV to count.
@@ -1443,13 +1533,14 @@ fn orders(
         let collation = collations.table_collation(owner.is_oem());
         shared.file().set_weights(collation.map(|c| c.weights));
     }
-    // An NTX file's one order is named after the file, and has field names
-    // where index files have `F<n>`.
-    let stem = path
-        .file_stem()
-        .map(|s| s.to_string_lossy().into_owned())
-        .unwrap_or_default();
-    file.tags(&stem)
+    // An NTX file's one order is named after the file (`stem`), and has
+    // field names where index files have `F<n>`.
+    let single = match &file {
+        IndexFile::Adi(_) => false,
+        IndexFile::Ntx(_) => true,
+        IndexFile::Cdx(cdx) => !cdx.compound,
+    };
+    file.tags(stem)
         .into_iter()
         .map(|mut tag| {
             let written = (kind != Kind::Adi).then(|| {
@@ -1466,6 +1557,7 @@ fn orders(
                 owner: Arc::clone(owner),
                 path: path.clone(),
                 kind,
+                single,
                 tag,
                 written,
                 cipher: cipher.clone(),
@@ -1710,6 +1802,13 @@ pub fn create_full_text(
     block: tflip_storage::create::FtsBlock,
 ) -> Result<(), Error> {
     let owner = table::get(session, table)?;
+    // A Clipper table has no full-text orders: 5017, as in the original
+    // (`fixtures/errors/index_extensions.json`).
+    if owner.dbf_flavour() == Some(tflip_storage::dbf::Flavour::Clipper) {
+        return Err(Error::FullText(
+            crate::ace_error::codes::AE_INVALID_INDEX_TYPE,
+        ));
+    }
     if page_size != 0 && !(512..=8192).contains(&page_size) {
         return Err(Error::InvalidOption.detailed("Parameter 5.  Page size must be 512..8192"));
     }
@@ -1856,7 +1955,7 @@ fn create_ntx(
     std::fs::write(&path, ntx_bytes(&spec)).map_err(|_| Error::FileCreate)?;
     let index = || -> Result<Arc<Index>, Error> {
         let file = IndexFile::open(&path).map_err(|_| Error::CorruptIndex)?;
-        orders(table, owner, path.clone(), file, None)
+        created_orders(table, owner, path.clone(), file)
             .into_iter()
             .next()
             .ok_or(Error::CorruptIndex)
@@ -1883,7 +1982,7 @@ pub(crate) fn ntx_key_shape(
     let field = owner
         .fields()
         .iter()
-        .find(|f| f.name.eq_ignore_ascii_case(expression.trim()));
+        .find(|f| f.name.eq_ignore_ascii_case(unqualified(owner, expression)));
     Ok(
         match field.map(|f| (f.field_type, f.length(), f.decimals())) {
             Some((FieldType::Numeric, length, decimals)) => (length, decimals),
@@ -1897,6 +1996,20 @@ pub(crate) fn ntx_key_shape(
                 tflip_expr::Type::String { width, .. } => (width, 0),
                 tflip_expr::Type::Date => (8, 0),
                 tflip_expr::Type::Logical => (1, 0),
+                // Ten digits, and the most decimals of the Numeric fields it
+                // reads after a point, whatever it computes (`ID / 4` keeps
+                // none, `fixtures/expr/numkeys.json`).
+                tflip_expr::Type::Number(_) => {
+                    let decimals = expression_fields(owner, expression)
+                        .unwrap_or_default()
+                        .into_iter()
+                        .map(|i| &owner.fields()[i])
+                        .filter(|f| f.field_type == FieldType::Numeric)
+                        .map(|f| f.decimals())
+                        .max()
+                        .unwrap_or(0);
+                    (10 + if decimals > 0 { decimals + 1 } else { 0 }, decimals)
+                }
                 _ => return Err(Error::NotImplemented),
             },
         },
@@ -1943,7 +2056,7 @@ pub(crate) fn cdx_key_shape(
     let field = owner
         .fields()
         .iter()
-        .find(|f| f.name.eq_ignore_ascii_case(expression.trim()));
+        .find(|f| f.name.eq_ignore_ascii_case(unqualified(owner, expression)));
     let visual = owner.dbf_flavour() == Some(tflip_storage::dbf::Flavour::Visual);
     Ok(match field.map(|f| (f.field_type, f.length())) {
         Some((FieldType::Character, length)) => (length, true),
@@ -1962,11 +2075,9 @@ pub(crate) fn cdx_key_shape(
     })
 }
 
-/// Whether `expression` reads a field of `owner` that takes NULL in a VFP
-/// table, whose keys then start with a byte saying whether the key is NULL:
-/// a field alone, or one in an expression (`UPPER(c)`, `CTOTS(c)`), as in
-/// the original engine (`fixtures/write/cdx_timestamps`).
-fn vfp_nullable(owner: &Table, expression: &str) -> bool {
+/// The numbers (0-based) of the fields of `owner` that `expression` names,
+/// in the order it names them, once each; `None` if it does not compile.
+pub(crate) fn expression_fields(owner: &Table, expression: &str) -> Option<Vec<usize>> {
     /// The table's schema, noting the fields an expression names.
     struct Noting<'a> {
         schema: crate::filter::Schema<'a>,
@@ -1976,17 +2087,19 @@ fn vfp_nullable(owner: &Table, expression: &str) -> bool {
         fn alias(&self) -> &str {
             self.schema.alias()
         }
+        fn fields_hide_operators(&self) -> bool {
+            self.schema.fields_hide_operators()
+        }
         fn field(&self, name: &str) -> Option<tflip_expr::Field> {
             let field = self.schema.field(name)?;
-            self.named.borrow_mut().push(field.index);
+            let mut named = self.named.borrow_mut();
+            if !named.contains(&field.index) {
+                named.push(field.index);
+            }
             Some(field)
         }
     }
-    let alias = owner
-        .path()
-        .file_stem()
-        .map(|s| s.to_string_lossy())
-        .unwrap_or_default();
+    let alias = owner.expression_alias();
     let noting = Noting {
         schema: crate::filter::Schema {
             alias: &alias,
@@ -1994,14 +2107,22 @@ fn vfp_nullable(owner: &Table, expression: &str) -> bool {
         },
         named: Default::default(),
     };
-    if tflip_expr::Expr::compile(expression, &noting).is_err() {
-        return false;
-    }
-    let named = noting.named.into_inner();
-    named.into_iter().any(|index| {
-        matches!(&owner.fields()[index].layout,
-            tflip_storage::field::Layout::Dbf(l) if l.null_bit.is_some())
-    })
+    tflip_expr::Expr::compile(expression, &noting).ok()?;
+    Some(noting.named.into_inner())
+}
+
+/// Whether `expression` reads a field of `owner` that takes NULL in a VFP
+/// table, whose keys then start with a byte saying whether the key is NULL:
+/// a field alone, or one in an expression (`UPPER(c)`, `CTOTS(c)`), as in
+/// the original engine (`fixtures/write/cdx_timestamps`).
+fn vfp_nullable(owner: &Table, expression: &str) -> bool {
+    expression_fields(owner, expression)
+        .unwrap_or_default()
+        .into_iter()
+        .any(|index| {
+            matches!(&owner.fields()[index].layout,
+                tflip_storage::field::Layout::Dbf(l) if l.null_bit.is_some())
+        })
 }
 
 /// [`create`] on a FoxPro or VFP table: the order goes into the compound
@@ -2035,15 +2156,54 @@ fn create_cdx(
     }
     let binary = options & index_options::BINARY != 0;
     let custom = options & index_options::CUSTOM != 0;
+    // A Visual FoxPro table has no custom orders, compound or single
+    // (`fixtures/errors/custom_kinds.json`).
+    if custom && visual {
+        return Err(Error::InvalidOption);
+    }
     // An order that is not compound has an `.idx` file of its own, named
     // after the table without a file (`fixtures/write/sql_dbf`).
-    let single = options & index_options::COMPOUND == 0;
+    let mut single = options & index_options::COMPOUND == 0;
     if candidate && single {
         let why = "ADS_CANDIDATE cannot be specified for non-compound index files.";
         return Err(Error::InvalidOption.detailed(why));
     }
     let extension = if single { "idx" } else { "cdx" };
     let path = crate::ddl::order_file_ext(session, owner.connection, owner, file, extension)?;
+    // The file there decides what the order is, as in the original engine
+    // (`fixtures/errors/order_files.json`): a compound file takes a
+    // non-compound order as one more tag, named after the file, and a file
+    // of a single order is made again with the new one, compound or not.
+    let compound_there = match IndexFile::open(&path) {
+        Ok(IndexFile::Cdx(cdx)) => Some(cdx.compound),
+        _ => None,
+    };
+    let file_tag;
+    let tag = match compound_there {
+        Some(true) if single => {
+            single = false;
+            let stem = path
+                .file_stem()
+                .and_then(|stem| stem.to_str())
+                .unwrap_or(tag);
+            file_tag = stem.to_ascii_uppercase();
+            file_tag.as_str()
+        }
+        Some(false) => {
+            single = true;
+            tag
+        }
+        _ => tag,
+    };
+    // A non-compound order replaces the one order its file had, whose
+    // handles close (`fixtures/errors/index_files.json`).
+    if single {
+        for other in of_table(session, table) {
+            if get(session, other).is_ok_and(|other| other.path == path) {
+                session.remove(other);
+            }
+        }
+    }
     // The limits of the original engine (`fixtures/write/limits`).
     if tag.len() > 10 {
         return Err(crate::ddl::limit(
@@ -2090,7 +2250,7 @@ fn create_cdx(
         let field = owner
             .fields()
             .iter()
-            .position(|f| f.name.eq_ignore_ascii_case(expression.trim()));
+            .position(|f| f.name.eq_ignore_ascii_case(unqualified(owner, expression)));
         for slot in 1..=owner.slot_count() {
             let values = owner.slot_values(slot)?;
             if field.is_some_and(|i| values[i] == tflip_storage::value::Value::Null) {
@@ -2116,7 +2276,9 @@ fn create_cdx(
         candidate,
         fts: None,
     };
-    let structural = path == owner.path().with_extension("cdx");
+    // Only a compound file is the table's structural one; an IDX file named
+    // after the table is not (`fixtures/errors/index_files.json`).
+    let structural = !single && path == owner.path().with_extension("cdx");
     let header = match single {
         true => idx_create(&path, &spec).map(|()| 0),
         false => cdx_add_tag(&path, &spec),
@@ -2124,7 +2286,11 @@ fn create_cdx(
     .map_err(|_| Error::CorruptIndex)?;
     let index = || -> Result<Arc<Index>, Error> {
         let file = IndexFile::open(&path).map_err(|_| Error::CorruptIndex)?;
-        orders(table, owner, path.clone(), file, None)
+        let orders = match single {
+            true => created_orders(table, owner, path.clone(), file),
+            false => orders(table, owner, path.clone(), file, None),
+        };
+        orders
             .into_iter()
             .find(|index| single || index.tag.name.eq_ignore_ascii_case(tag))
             .ok_or(Error::CorruptIndex)
@@ -2176,10 +2342,7 @@ pub fn delete(session: &Session, order: Handle) -> Result<(), Error> {
             detail: "Can't delete a shared index.".to_owned(),
         });
     }
-    let compound = index
-        .path
-        .extension()
-        .is_some_and(|e| e.eq_ignore_ascii_case("cdx"));
+    let compound = !index.single;
     let left = match index.kind {
         Kind::Adi => drop_order(&index.path, &index.tag.name).map(|dropped| dropped.then_some(1)),
         Kind::Cdx if compound => cdx_drop_tag(&index.path, &index.tag.name),
@@ -2353,10 +2516,9 @@ fn rebuild_xbase(
             // Emptied in place: the file stays the one its handles share. As
             // the original engine rewrites it, every tag's header and root
             // come first, then each tree, one unused node after each. An
-            // `.idx` file is its one order's header and tree.
-            let single = path
-                .extension()
-                .is_some_and(|e| e.eq_ignore_ascii_case("idx"));
+            // IDX file (whatever its extension) is its one order's header and
+            // tree.
+            let single = current.first().is_some_and(|order| order.single);
             std::fs::write(path, b"").map_err(|_| Error::FileInUse)?;
             let mut headers = Vec::with_capacity(built.len());
             for (spec, _, _) in &built {
@@ -3475,6 +3637,7 @@ pub(crate) fn open_temporary(
         owner,
         path: std::env::temp_dir().join(format!("{}.tmp", name.to_ascii_lowercase())),
         kind: Kind::Adi,
+        single: false,
         tag,
         written: Some((spec.expression.clone(), String::new())),
         cipher: None,

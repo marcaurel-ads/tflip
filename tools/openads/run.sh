@@ -1,7 +1,7 @@
 #!/bin/sh
 # Runs OpenADS's ACE-level unit tests against tflip's libtflip_ace.so:
 #
-#     tools/openads/run.sh <OpenADS checkout> <work folder>
+#     tools/openads/run.sh [--sap] <OpenADS checkout> <work folder>
 #
 # OpenADS (https://github.com/FiveTechSoft/OpenADS) is another open
 # replacement for the Advantage Client Engine. Its doctest unit tests in
@@ -15,14 +15,26 @@
 #     summary.txt   each failing file's first failed check and its source line
 #     constants.txt the constants rewritten to SAP's values (5. below)
 #
+# With --sap, the same tests are also built for Windows (x86_64-w64-mingw32-g++,
+# linked against the original's ace64.dll from the SDK in $WINEPREFIX, by
+# default ~/src/ace-sdk) and run under Wine, so that each failure can be
+# checked against the original. Also writes:
+#
+#     sap/results.txt, sap/logs/   the same, from the original
+#     compare.txt   per file, the checks that fail on one engine only or with
+#                   other values on each (compare.py says how to read it)
+#
 # The tests encode what OpenADS takes the engine to do. Where that differs
 # from what the original does, as tflip's fixtures recorded it, the tests
 # are edited in a copy, <OpenADS checkout>/tests/unit_tflip (the tests find
 # their fixtures relative to their own path, so the copy sits next to
 # tests/unit; it is removed and remade on each run):
 #
-#   1. AdsGetRecordCount(h, 0, ...) gets ADS_RESPECTFILTERS: the original
-#      rejects option 0 with 5013 (fixtures/errors/record_count.json).
+#   1. Literal zeros where ace.h defines no 0 (filter options, seek and key
+#      data types, the AOF resolve option, character types, rights options)
+#      become ace.h's value with the meaning OpenADS gives 0. Not an edit of
+#      the sources but wrappers linked in, zeros.cpp. The original rejects
+#      them (filter option 0 with 5013: fixtures/errors/record_count.json).
 #   2. FROM/JOIN/INTO/UPDATE/TABLE name.dbf (or .adt) is quoted: unquoted,
 #      the original reads link.table, 5041 on a free connection
 #      (fixtures/sql/links.json, docs/ADS_BUGS.md).
@@ -37,18 +49,24 @@
 #      1, AE_LOCK_FAILED 5013, ...); the copies get ace.h's values
 #      (sapconst.py). ace.h is $SAP_ACE_H, by default the SDK's in the Wine
 #      prefix ~/src/ace-sdk.
+#   6. The DBF headers the tests write themselves (hdr[0] = 0x03, ...) get
+#      the date 2024-01-01: the tests leave it 00/00/00, and the original
+#      opens no DBF table whose month or day is 0 (7016,
+#      fixtures/dbf/header_dates.json), nor does tflip since.
 #
-# Literal zeros where ace.h defines no 0 (a seek type, an AOF resolve
-# option) stay as they are. Needs g++ (C++20), python3 and cargo; the
+# Needs g++ (C++20), python3 and cargo, and for --sap MinGW-w64 and Wine; the
 # collation files come from TFLIP_COLLATION_DIR or the SDK, as for tflip's
 # own tests.
 set -e
 here=$(cd "$(dirname "$0")" && pwd)
 root=$(cd "$here/../.." && pwd)
+sap=
+if [ "$1" = --sap ]; then sap=1; shift; fi
 O=$(cd "$1" && pwd)
 mkdir -p "$2"
 W=$(cd "$2" && pwd)
-sdk="$HOME/src/ace-sdk/drive_c/Program Files/Advantage 12.0/acesdk"
+export WINEPREFIX=${WINEPREFIX:-$HOME/src/ace-sdk}
+sdk="$WINEPREFIX/drive_c/Program Files/Advantage 12.0/acesdk"
 SAP_ACE_H=${SAP_ACE_H:-$sdk/ace.h}
 [ -f "$SAP_ACE_H" ] || { echo "no ace.h at $SAP_ACE_H (set SAP_ACE_H)" >&2; exit 1; }
 if [ -z "$TFLIP_COLLATION_DIR" ] && [ -f "$sdk/ansi.chr" ]; then
@@ -61,13 +79,13 @@ L=$root/target/release
 list=$W/tests.txt
 grep -v '^#' "$here/tests.txt" | grep . > "$list"
 P=$O/tests/unit_tflip
-rm -rf "$P" "$W/obj" "$W/logs" "$W/cwd" "$W/include"
+rm -rf "$P" "$W/obj" "$W/logs" "$W/cwd" "$W/include" "$W/sap" "$W/compare.txt"
 mkdir -p "$P" "$W/obj" "$W/logs" "$W/cwd" "$W/include"
 cp "$O"/tests/unit/*.cpp "$O"/tests/unit/*.h "$P"/
 for f in $(cat "$list"); do
     sed -i -E \
-        -e 's/AdsGetRecordCount\(([^,()]+), *0 *,/AdsGetRecordCount(\1, ADS_RESPECTFILTERS,/g' \
         -e 's/\b(FROM|JOIN|INTO|UPDATE|TABLE) ([A-Za-z_][A-Za-z0-9_]*)\.(dbf|adt|DBF|ADT)\b/\1 \\"\2.\3\\"/g' \
+        -e 's/^([[:space:]]*hdr\[0\] *= *0x(03|30|31|32);)/\1 hdr[1] = 124; hdr[2] = 1; hdr[3] = 1;/' \
         "$P/$f"
     if grep -q '\.dbf\\"' "$P/$f"; then
         sed -i -E 's/^([[:space:]]*)(REQUIRE|CHECK)\(AdsCreateSQLStatement\([^,]+, *&([A-Za-z_][A-Za-z0-9_]*)\) *== *(0|AE_SUCCESS)\);/&\n\1AdsStmtSetTableType(\3, ADS_CDX);/' "$P/$f"
@@ -85,7 +103,10 @@ for f in doctest_main.cpp $(cat "$list"); do
     g++ -std=c++20 -O1 -w -c -I"$W/include" -I"$O/include" -I"$O/tests" \
         -I"$O/third_party/doctest" -I"$O/src" "$P/$f" -o "obj/${f%.cpp}.o"
 done
-g++ -o xtest obj/*.o -L"$L" -ltflip_ace -Wl,-rpath,"$L" -lpthread
+wrap=-Wl$(sed -n 's/^U32 __wrap_\([A-Za-z]*\).*/,--wrap=\1/p; s/^FILTER_OPTION(\(.*\))$/,--wrap=\1/p' \
+    "$here/zeros.cpp" | tr -d '\n')
+g++ -std=c++20 -O1 -c "$here/zeros.cpp" -o zeros.o
+g++ -o xtest obj/*.o zeros.o -L"$L" -ltflip_ace -Wl,-rpath,"$L" -lpthread "$wrap"
 
 for f in $(cat "$list"); do
     n=${f%.cpp}
@@ -103,7 +124,36 @@ for f in logs/*.log; do
         "$(sed -n "${line}p" "$P/$file" | sed 's/^ *//')"
 done > summary.txt
 
+if [ -n "$sap" ]; then
+    mkdir -p sap/obj sap/logs sap/cwd
+    for f in doctest_main.cpp $(cat "$list"); do
+        echo "$f"
+    done | xargs -P "$(nproc)" -I{} sh -c 'x86_64-w64-mingw32-g++ -std=c++20 -O1 -w -c \
+        -I"$1/include" -I"$2/include" -I"$2/tests" -I"$2/third_party/doctest" -I"$2/src" \
+        "$3/{}" -o "sap/obj/$(basename {} .cpp).o"' sh "$W" "$O" "$P"
+    x86_64-w64-mingw32-g++ -std=c++20 -O1 -c "$here/zeros.cpp" -o sap/zeros.o
+    x86_64-w64-mingw32-g++ -std=c++20 -O1 -c "$here/sapcwd.cpp" -o sap/sapcwd.o
+    cp "$sdk"/*64.dll sap/
+    x86_64-w64-mingw32-g++ -static -o sap/xtest.exe sap/obj/*.o sap/zeros.o sap/sapcwd.o \
+        sap/ace64.dll "$wrap",--wrap=AdsConnect60
+    for f in $(cat "$list"); do
+        n=${f%.cpp}
+        rc=0
+        (cd sap/cwd && WINEDEBUG=-all timeout 300 wine ../xtest.exe -sf="*$n.cpp" -nv \
+            > "../logs/$n.log" 2>&1) || rc=$?
+        echo "$n $rc"
+    done > sap/results.txt
+    wineserver -k 2>/dev/null || true
+    python3 -I "$here/compare.py" "$W" > compare.txt
+fi
+
 awk '{print $2}' results.txt | sort | uniq -c |
     awk '{print $2 == 0 ? "passed" : $2 == 1 ? "failed" : "crashed (" $2 ")", $1}'
 cat logs/*.log | sed -n 's/^\[doctest\] test cases: *\([0-9]*\) *| *\([0-9]*\) passed | *\([0-9]*\) failed.*/\2 \3/p' |
     awk '{p += $1; f += $2} END {print "test cases: " p " passed, " f " failed"}'
+if [ -n "$sap" ]; then
+    echo "the original:"
+    awk '{print $2}' sap/results.txt | sort | uniq -c |
+        awk '{print "  " ($2 == 0 ? "passed" : $2 == 1 ? "failed" : "crashed (" $2 ")"), $1}'
+    tail -1 compare.txt
+fi

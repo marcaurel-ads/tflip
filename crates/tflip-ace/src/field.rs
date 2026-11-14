@@ -361,7 +361,9 @@ pub unsafe extern "system" fn AdsIsNullable(
     let _call = crate::last_error::Call::begin("AdsIsNullable");
     // SAFETY: `field` is a field number or a string, as # Safety says.
     let field = unsafe { FieldArg::new(field) };
-    let value = with_field(table, field, |f| f.field_type.nullable())
+    // A DBF field can only with a NULL bit, which only a VFP field defined
+    // with NULL has (`fixtures/fields/nullable.json`).
+    let value = with_field(table, field, |f| f.field_type.nullable() && f.has_null())
         .map(|n| if n { ADS_TRUE } else { ADS_FALSE });
     // SAFETY: `nullable` is null or writable, as # Safety says.
     unsafe { write(value, nullable) }
@@ -604,8 +606,162 @@ mod tests {
         assert_eq!(crate::AdsDisconnect(connect), crate::AE_SUCCESS);
     }
 
+    /// Which fields can hold NULL, and what `AdsSetNull` does to them, as in
+    /// the original engine (`fixtures/fields/nullable.json`, from
+    /// `tools/ace/fields/nullable.c`, whose steps this repeats).
+    #[test]
+    fn nullable_fields() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/fields/nullable.json");
+        let want: Vec<serde_json::Value> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from("nullable_fields", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let values: std::collections::HashMap<&str, &str> = [
+            ("Character", "abcd"),
+            ("C", "abcd"),
+            ("Numeric", "12.5"),
+            ("Memo", "abc"),
+            ("Integer", "7"),
+            ("Double", "1.5"),
+            ("Currency", "3"),
+            ("VarChar", "ab"),
+        ]
+        .into_iter()
+        .collect();
+        let mut got = Vec::new();
+        for row in &want {
+            let (kind, def) = (row["type"].as_str().unwrap(), row["def"].as_str().unwrap());
+            let table_type = match kind {
+                "ADT" => crate::ADS_ADT,
+                "NTX" => crate::ADS_NTX,
+                "CDX" => crate::ADS_CDX,
+                _ => crate::ADS_VFP,
+            };
+            let n = got
+                .iter()
+                .filter(|r: &&serde_json::Value| r["type"] == kind)
+                .count();
+            let name = std::ffi::CString::new(format!("n{table_type}_{n}")).unwrap();
+            let fields = std::ffi::CString::new(format!("{def};X,Character,2,0")).unwrap();
+            let mut table = 0;
+            let create = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            let (mut nullable, mut is_null, mut null_after, mut empty_after) = (9u16, 9, 9, 9);
+            let mut set_null = 9;
+            if create == AE_SUCCESS {
+                let f = c"F".as_ptr().cast_mut().cast();
+                crate::AdsAppendRecord(table);
+                let field_type = def.split(',').nth(1).unwrap();
+                if let Some(value) = values.get(field_type) {
+                    unsafe {
+                        crate::AdsSetField(table, f, value.as_ptr().cast_mut(), value.len() as u32)
+                    };
+                }
+                unsafe {
+                    AdsIsNullable(table, f, &mut nullable);
+                    crate::AdsIsNull(table, f, &mut is_null);
+                    set_null = crate::AdsSetNull(table, f);
+                    crate::AdsIsNull(table, f, &mut null_after);
+                    crate::AdsIsEmpty(table, f, &mut empty_after);
+                }
+                crate::AdsWriteRecord(table);
+                crate::AdsCloseTable(table);
+            }
+            got.push(
+                serde_json::json!({"type": kind, "def": def, "create": create,
+                "nullable": nullable, "is_null": is_null, "set_null": set_null,
+                "null_after": null_after, "empty_after": empty_after}),
+            );
+        }
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
+    /// Which values after a field's type `AdsCreateTable` takes, as in the
+    /// original engine: a Clipper or FoxPro field has no more than four
+    /// (`fixtures/errors/field_attributes.json`, from
+    /// `tools/ace/errors/field_attributes.c`, whose steps this repeats).
+    #[test]
+    fn field_attributes() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fixtures/errors/field_attributes.json");
+        let want: Vec<serde_json::Value> =
+            serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let (source, _dir) = fixtures::scratch_from("field_attributes", &fixtures::empty_dir());
+        let connect = fixtures::connect_to(&source);
+        let mut got = Vec::new();
+        for row in &want {
+            let (kind, def) = (row["type"].as_str().unwrap(), row["def"].as_str().unwrap());
+            let table_type = match kind {
+                "ADT" => crate::ADS_ADT,
+                "NTX" => crate::ADS_NTX,
+                "CDX" => crate::ADS_CDX,
+                _ => crate::ADS_VFP,
+            };
+            let n = got
+                .iter()
+                .filter(|r: &&serde_json::Value| r["type"] == kind)
+                .count();
+            let name = std::ffi::CString::new(format!("a{table_type}_{n}")).unwrap();
+            let fields = std::ffi::CString::new(def).unwrap();
+            let mut table = 0;
+            let rc = unsafe {
+                crate::AdsCreateTable(
+                    connect,
+                    name.as_ptr().cast_mut().cast(),
+                    std::ptr::null_mut(),
+                    table_type,
+                    1,
+                    0,
+                    1,
+                    0,
+                    fields.as_ptr().cast_mut().cast(),
+                    &mut table,
+                )
+            };
+            let mut row = serde_json::json!({"type": kind, "def": def, "rc": rc});
+            if rc == AE_SUCCESS {
+                crate::AdsCloseTable(table);
+            } else {
+                let (mut code, mut buf, mut len) = (0, [0u8; 1200], 1200);
+                unsafe { crate::AdsGetLastError(&mut code, buf.as_mut_ptr(), &mut len) };
+                row["error"] = String::from_utf8_lossy(&buf[..usize::from(len)]).into();
+            }
+            got.push(row);
+        }
+        crate::AdsDisconnect(connect);
+        let problems: Vec<String> = want
+            .iter()
+            .zip(&got)
+            .filter(|(want, got)| want != got)
+            .map(|(want, got)| format!("want {want}\n got {got}"))
+            .collect();
+        assert!(problems.is_empty(), "{}", problems.join("\n"));
+    }
+
     crate::fixtures::remote_twins!(
         column_permissions,
+        field_attributes,
+        nullable_fields,
         field_lengths_by_unit,
         field_names,
         fields_match_the_engine,

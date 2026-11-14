@@ -1566,7 +1566,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-ace"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "serde_json",
  "tflip-aep",
@@ -1577,7 +1577,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-aep"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "tflip-engine",
  "tflip-protocol",
@@ -1585,7 +1585,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-engine"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "chrono",
  "serde",
@@ -1597,7 +1597,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-expr"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "getrandom 0.2.17",
  "serde",
@@ -1607,7 +1607,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-protocol"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "flate2",
  "postcard",
@@ -1623,7 +1623,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-sql"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -1633,7 +1633,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-storage"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "aes",
  "flate2",
@@ -1650,7 +1650,7 @@ dependencies = [
 
 [[package]]
 name = "tflip-studio"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "anyhow",
  "argon2",
@@ -1672,7 +1672,7 @@ dependencies = [
 
 [[package]]
 name = "tflipd"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "anyhow",
  "serde_json",
@@ -2151,7 +2151,7 @@ dependencies = [
 
 [[package]]
 name = "xtask"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "anyhow",
 ]

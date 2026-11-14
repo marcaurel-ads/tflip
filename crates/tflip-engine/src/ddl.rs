@@ -27,7 +27,7 @@ use crate::dictionary_write::rights;
 use crate::handle::Handle;
 use crate::statement::Settings;
 use crate::table::{self, TableSettings, TableType};
-use crate::{Error, Session, connection, index, shares};
+use crate::{Error, Session, connection, index};
 
 /// The default block size of a new table's memo file.
 pub(crate) const BLOCK_SIZE: u16 = 256;
@@ -60,9 +60,9 @@ pub mod index_options {
 pub(crate) fn path_in(session: &Session, connection: Handle, name: &str) -> Result<PathBuf, Error> {
     let owner = connection::get(session, connection)?;
     let folder = owner.folder();
-    match session.shares {
-        Some(_) => shares::inside(&folder, name),
-        None => Ok(folder.join(name)),
+    match &session.shares {
+        Some(shares) => shares.inside(&folder, name),
+        None => Ok(crate::settings::local_join(session, &folder, name)),
     }
 }
 
@@ -76,14 +76,15 @@ pub(crate) fn key_shape(
     width: u8,
 ) -> (usize, bool) {
     let fields = opened.fields();
-    let segments: Option<Vec<&tflip_storage::field::Field>> = expression
-        .split(';')
-        .map(|part| {
-            fields
-                .iter()
-                .find(|f| f.name.eq_ignore_ascii_case(part.trim()))
-        })
-        .collect();
+    let segments: Option<Vec<&tflip_storage::field::Field>> =
+        crate::index::unqualified(opened, expression)
+            .split(';')
+            .map(|part| {
+                fields
+                    .iter()
+                    .find(|f| f.name.eq_ignore_ascii_case(part.trim()))
+            })
+            .collect();
     match &segments {
         // Keys of segments are padded with blanks when the last one is text
         // (`fixtures/sql/ddtables`, `fr1`).
@@ -129,9 +130,9 @@ fn file_path(
 ) -> Result<PathBuf, Error> {
     let owner = connection::get(session, connection)?;
     let folder = owner.folder();
-    let mut path = match session.shares {
-        Some(_) => shares::inside(&folder, name)?,
-        None => folder.join(name),
+    let mut path = match &session.shares {
+        Some(shares) => shares.inside(&folder, name)?,
+        None => crate::settings::local_join(session, &folder, name),
     };
     if path.extension().is_none() {
         path.set_extension(extension);
@@ -2123,6 +2124,25 @@ pub(crate) fn order_file_ext(
     extension: &str,
 ) -> Result<PathBuf, Error> {
     match file {
+        // A bare file name is in the table's folder. One with a folder in it
+        // is relative to the current directory in the original
+        // (`fixtures/errors/index_paths.json`), for which tflip takes the
+        // connection's folder, as it does for tables.
+        Some(file) if !file.is_empty() && !file.contains(['\\', '/']) => {
+            let folder = opened
+                .path
+                .parent()
+                .map(Path::to_path_buf)
+                .unwrap_or_default();
+            let mut path = match &session.shares {
+                Some(shares) => shares.inside(&folder, file)?,
+                None => folder.join(file),
+            };
+            if path.extension().is_none() {
+                path.set_extension(extension);
+            }
+            Ok(path)
+        }
         Some(file) if connection != 0 => file_path(session, connection, file, extension),
         Some(file) => {
             let mut path = PathBuf::from(file);
@@ -2388,6 +2408,15 @@ pub(crate) fn dbf_field_specs(
                 k += 1;
             }
         }
+        // A Clipper or FoxPro field has at most a name, type, length and
+        // decimals (`fixtures/errors/field_attributes.json`).
+        // (a trailing empty value aside).
+        if !visual && parts.len() - usize::from(parts.last() == Some(&"")) > 4 {
+            return Err(invalid(format!(
+                "Field definition contains too many values. Missing semicolon? The problem \
+                 field definition is: \"{shown}\"."
+            )));
+        }
         let name = parts[0].to_owned();
         let wanted = parts
             .get(1)
@@ -2563,9 +2592,7 @@ fn create_table_inner(
         _ => file_path(session, connection, name, "adt")?,
     };
     let joins = joins_dictionary(session, connection, name, &path, join)?;
-    if path.exists() {
-        return Err(Error::FileCreate);
-    }
+    replace_existing(&path, Some("adi"))?;
     let block_size = if memo_size == 0 {
         BLOCK_SIZE
     } else {
@@ -3073,9 +3100,7 @@ fn create_dbf_table(
             detail: String::new(),
         });
     }
-    if path.exists() {
-        return Err(Error::FileCreate);
-    }
+    replace_existing(&path, (flavour != Flavour::Clipper).then_some("cdx"))?;
     let aes = flavour == Flavour::Visual
         && connection != 0
         && !crate::temp::is_temp(name)
@@ -3249,6 +3274,30 @@ pub(crate) fn drop_table(
     std::fs::remove_file(&path).map_err(|_| Error::CorruptTable)?;
     for extension in others {
         let _ = std::fs::remove_file(path.with_extension(extension));
+    }
+    Ok(())
+}
+
+/// Makes way for a new table at `path` where a file is already, as the
+/// original engine does (`fixtures/errors/create_existing.json`): a table
+/// open anywhere in the process is refused (7040), and any other file is
+/// replaced, with the structural index file (`structural`, its extension)
+/// of the table it was. A memo file stays until the new table writes one.
+fn replace_existing(path: &Path, structural: Option<&str>) -> Result<(), Error> {
+    if !path.exists() {
+        return Ok(());
+    }
+    // Connections that keep the table open for reuse let go of it.
+    crate::cache::evict_path(path);
+    if crate::shared::in_use(path) {
+        return Err(Error::FileCreate);
+    }
+    if let Some(extension) = structural {
+        let index = crate::shares::actual_case(path.with_extension(extension));
+        if crate::shared::in_use(&index) {
+            return Err(Error::FileCreate);
+        }
+        let _ = std::fs::remove_file(index);
     }
     Ok(())
 }

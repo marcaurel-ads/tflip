@@ -1,8 +1,8 @@
 //! `tflipd`, the TableflipDB server.
 //!
 //! ```text
-//! tflipd --share NAME=DIR [--share NAME=DIR]... [--listen ADDRESS]
-//!        [--cert FILE --key FILE] [--state DIR] [--collations DIR]
+//! tflipd --share NAME=DIR [--share NAME=DIR]... [--map PATH=NAME]...
+//!        [--listen ADDRESS] [--cert FILE --key FILE] [--state DIR] [--collations DIR]
 //!        [--transactions real|count] [--compression internet|always|never]
 //!        [--check-free-table-access] [--disable-free-connections]
 //! ```
@@ -39,6 +39,13 @@
 //! `INTERNET` (its default) and connects as to an Internet server
 //! (`ADS_AIS_SERVER`); `always` compresses every client's that does not say
 //! `NEVER`; `never` none (see `tflip_protocol::wire::compressed`).
+//!
+//! `--map PATH=NAME` lets clients name tables by the paths the original
+//! server had them at: an absolute path under `PATH` (`C:\data`, as the
+//! client gives it, regardless of case and of `\` or `/`) is the same path
+//! inside the share `NAME`, for table names, listings, index files, connect
+//! paths and free tables (connection 0). Other absolute paths are still
+//! refused (`AE_FILE_NOT_ON_SERVER`), so a map reaches only its share.
 //!
 //! `--check-free-table-access` and `--disable-free-connections` are the
 //! original server's settings `Check_Free_Table_Access` (no connection to a
@@ -79,7 +86,7 @@ use tflip_protocol::tls::fingerprint_text;
 use tflip_protocol::tls::server::Identity;
 use tflip_protocol::wire::Compression;
 
-const USAGE: &str = "usage: tflipd --share NAME=DIR [--share NAME=DIR]... [--listen ADDRESS] \
+const USAGE: &str = "usage: tflipd --share NAME=DIR [--share NAME=DIR]... [--map PATH=NAME]... [--listen ADDRESS] \
                      [--cert FILE --key FILE] [--state DIR] [--collations DIR] \
                      [--transactions real|count] [--compression internet|always|never] \
                      [--check-free-table-access] [--disable-free-connections]";
@@ -98,6 +105,8 @@ struct Options {
     listen: String,
     shares: Shares,
     share_list: Vec<(String, PathBuf)>,
+    /// The paths `--map` maps, and their shares.
+    maps: Vec<(String, String)>,
     cert: Option<PathBuf>,
     key: Option<PathBuf>,
     state: Option<PathBuf>,
@@ -136,6 +145,9 @@ fn run() -> anyhow::Result<()> {
     );
     for (name, folder) in &options.share_list {
         println!("share {name}: {}", folder.display());
+    }
+    for (path, name) in &options.maps {
+        println!("map {path}: share {name}");
     }
     // The transactions' logs, from which those a crash interrupted are
     // recovered now and when tables are opened.
@@ -249,6 +261,7 @@ fn parse(mut args: impl Iterator<Item = String>) -> anyhow::Result<Options> {
         listen: default.to_string(),
         shares: Shares::new(),
         share_list: Vec::new(),
+        maps: Vec::new(),
         cert: None,
         key: None,
         state: None,
@@ -275,6 +288,18 @@ fn parse(mut args: impl Iterator<Item = String>) -> anyhow::Result<Options> {
                 options.shares.add(name, &folder);
                 options.share_list.push((name.to_owned(), folder));
             }
+            "--map" => {
+                let map = value()?;
+                let (path, name) = map
+                    .rsplit_once('=')
+                    .with_context(|| format!("{map}: not PATH=NAME"))?;
+                let absolute = path.starts_with(['\\', '/']) || path.contains(':');
+                if !absolute {
+                    bail!("--map {map}: {path} is not an absolute path");
+                }
+                options.shares.add_map(path, name);
+                options.maps.push((path.to_owned(), name.to_owned()));
+            }
             "--cert" => options.cert = Some(value()?.into()),
             "--key" => options.key = Some(value()?.into()),
             "--state" => options.state = Some(value()?.into()),
@@ -300,6 +325,11 @@ fn parse(mut args: impl Iterator<Item = String>) -> anyhow::Result<Options> {
     }
     if options.share_list.is_empty() {
         bail!("no shares\n{USAGE}");
+    }
+    for (path, name) in &options.maps {
+        if options.shares.folder(name).is_none() {
+            bail!("--map {path}={name}: no share {name}");
+        }
     }
     Ok(options)
 }

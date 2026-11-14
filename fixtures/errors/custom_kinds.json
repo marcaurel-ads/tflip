@@ -1,0 +1,14 @@
+[
+{"kind": "ADT", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "ADT", "custom": 1, "create": 0, "add": 0, "delete": 0, "table": 5014},
+{"kind": "NTX", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "NTX", "custom": 1, "create": 5019, "add": 5014, "delete": 5014, "table": 5014},
+{"kind": "CDX", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "CDX", "custom": 1, "create": 0, "add": 0, "delete": 0, "table": 5014},
+{"kind": "CDX single", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "CDX single", "custom": 1, "create": 0, "add": 0, "delete": 0, "table": 5014},
+{"kind": "VFP", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "VFP", "custom": 1, "create": 5019, "add": 5014, "delete": 5014, "table": 5014},
+{"kind": "VFP single", "custom": 0, "create": 0, "add": 5017, "delete": 5017, "table": 5014},
+{"kind": "VFP single", "custom": 1, "create": 5019, "add": 5014, "delete": 5014, "table": 5014}
+]

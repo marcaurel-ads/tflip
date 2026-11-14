@@ -47,7 +47,9 @@ inspected.
   no plain-text mode. The original made TLS optional and supported it only
   up to TLS 1.0. A connect string that asks for a non-TLS transport
   (`CommType=TCP_IP`, `UDP_IP` or `IPX`) is refused with `AE_INVALID_OPTION`
-  rather than silently given TLS; its other TLS settings (the cipher list,
+  rather than silently given TLS, unless `tflip.ini`'s `[connection]
+  commtype = ignore` (or `TFLIP_COMMTYPE=ignore`) says to connect over TLS
+  all the same; its other TLS settings (the cipher list,
   certificate, common name, FIPS mode) are accepted but not applied, since
   tflip picks its own TLS 1.2/1.3 ciphers and trusts servers by fingerprint
   or by the system's certificate store.
@@ -78,7 +80,9 @@ inspected.
   (`--share NAME=DIR`); clients name their data by share
   (`\\server\NAME\folder`). Paths that leave the share (`..`, absolute
   paths) fail with `AE_FILE_NOT_ON_SERVER`, and so do free tables (opened
-  on connection 0), which could name any file.
+  on connection 0), which could name any file. `tflipd --map PATH=NAME`
+  lets clients keep the original server's absolute paths: one under `PATH`
+  (`C:\data`) is the same path in the share `NAME`, free tables' too.
 - **Strong encryption is always available.** `AdsSetProperty`'s getter 87
   answers 1 on every handle, as the original does with its AES DLLs
   (OpenSSL) beside it; the stock original answers 0. tflip creates and
@@ -102,9 +106,13 @@ inspected.
 ### Paths and names
 
 - **Relative names are relative to the connection.** A relative table
-  name or table listing mask (`*.adt`, `sub\*.adt`) is taken relative to the
+  name or table listing mask (`*.adt`, `sub\*.adt`), or an index file name
+  with a folder in it (`data\x.cdx`), is taken relative to the
   connection's folder. The original resolves it against the process's
-  current directory, even on a connection.
+  current directory, even on a connection (an index file named alone is in
+  the table's folder in both, `fixtures/errors/index_paths.json`).
+  `tflip.ini`'s `[paths] relative = cwd` makes the local server take them
+  as the original does; `tflipd`'s clients have no current directory there.
 - **`tflipd` ignores case** in share, folder and table names, as Windows
   file systems do, so that clients find their tables on Linux.
 - **Backup and restore paths** are paths on `tflipd`'s host, as they
@@ -178,7 +186,12 @@ inspected.
 - **Long errors are not cut**, but for those that name a failed trigger or
   a recursion over 64 levels (7093), which tflip cuts at 562 characters as
   the original does.
-- **`AdsGetVersion`** describes the engine as `tflip ace32`.
+- **`AdsGetVersion`** describes the engine as tflip, its release and
+  the target it is built for (`tflip 0.27.0 i686-pc-windows-gnu`, the
+  release alone where that would be longer than the original's 42 bytes); `tflip.ini`'s
+  `[compat] version = original` gives the original's description (`Advantage
+  32-bit Client Engine for Windows`, from its 64-bit DLL too), or any other
+  text given there.
 - **Diagnostics** go to stderr or `TFLIP_LOG_FILE`, by channel
   (`TFLIP_DEBUG`, in the style of Wine's `WINEDEBUG`): `fixme` for stubs,
   `remote` for connections to servers, and, off by default, `sql` for the

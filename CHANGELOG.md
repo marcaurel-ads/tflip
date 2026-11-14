@@ -6,6 +6,232 @@ checked against the original engine, are in the README's
 
 ## Unreleased
 
+## v0.27
+
+- `tflipd --map PATH=NAME`: an absolute path under `PATH` (the original
+  server's, `C:\data`) is the same path in the share `NAME`, for table
+  names, listings, index files, connect paths and free tables; other
+  absolute paths are still refused.
+
+- `tflip.ini`'s `[connection] commtype = ignore` (or
+  `TFLIP_COMMTYPE=ignore`): a connect string's `CommType=TCP_IP`, `UDP_IP`
+  or `IPX` is logged and the connection made over TLS, where by default it
+  is refused with `AE_INVALID_OPTION`.
+
+- `tflip.ini`'s `[compat] version`: `original` makes `AdsGetVersion`
+  describe the engine as the original does, any other text as given.
+  `AdsGetVersion` with a buffer too short for the description copies what
+  fits and returns 5005 and the length needed, as the original does; tflip
+  cut the text and returned 0. tflip's own description names its release
+  and the target it is built for (`tflip 0.27.0 i686-pc-windows-gnu`)
+  instead of `tflip ace32`, or the release alone where that would be longer
+  than the original's 42 bytes.
+
+- `tflip.ini`'s `[paths] relative = cwd`: relative table names, listing
+  masks and index file names with a folder are relative to the process's
+  current directory on the local server, as in the original, instead of to
+  the connection's folder (the default).
+
+- `AdsSetString` and `AdsSetField` store NUL bytes and what follows them,
+  as the original does (`fixtures/fields/nul_strings.json`); tflip cut the
+  text at the first NUL. A legacy ADS VarChar whose text goes on in the
+  memo file can be in an order again (tflip failed the write with 5081).
+
+- In a transaction, a table locked with `AdsLockTable` cannot be unlocked
+  (5063) and `AdsCloseTable` of it returns 5063 but closes it, as in the
+  original (`fixtures/errors/locks_in_transaction.json`).
+
+- An index file is read as the format its header says whatever its
+  extension, as the original does: an order of a FoxPro table made into
+  `k.ntx` or `k.adi` is a CDX one (`fixtures/errors/foreign_extensions.json`).
+  tflip went by the extension and failed with 5088 on such files.
+
+- A statement opening a table not of its table type fails as the
+  original's does, with 7200 and native error 7016 for a DBF file read as an
+  ADT table and 7014 for an ADT file read as a DBF one, naming the file
+  (`fixtures/sql/deleted_counts.json`); tflip failed with a bare 5081.
+
+- `AdsGetRecordCount` on the handle of an order with a condition counts
+  the records the order holds (those the filters show, with
+  `ADS_RESPECTFILTERS`), as the original does
+  (`fixtures/errors/order_counts.json`); tflip counted the table's.
+
+- `CONTAINS` in filters and AOFs searches the field's text as the original
+  does (`fixtures/expr/contains.json`): with the rules of the field's
+  full-text order where it has one, every word counting where not; a
+  condition that cannot be searched (empty, or only noise or short words
+  for the order) fails the evaluation with 7103, and an AOF with such a
+  condition on a field with an order is refused with 7103 when it is set.
+  tflip took `CONTAINS` to hold for every value that is not NULL.
+
+- Protocol version 90: an expression's evaluation can fail with a
+  full-text error.
+
+- Index files named with an extension of no index format (`notes.fts`,
+  `k.xyz`) are read as the format their header says
+  (`fixtures/errors/index_extensions.json`); tflip took them for ADI files
+  and failed with 5088. `AdsCreateFTSIndex` refuses a Clipper table with
+  5017 (tflip: 5042).
+
+- A non-compound order made into a compound file of a FoxPro or VFP table
+  becomes one of its tags, named after the file, and a compound order made
+  into a file of a single order makes that file again with the new order
+  alone, as in the original (`fixtures/errors/order_files.json`). tflip
+  replaced the compound file in the one case, and in the other failed with
+  5088, or, under a name of no index format, panicked.
+
+- `AdsCreateTable` over a table file that exists replaces it, as the
+  original does (`fixtures/errors/create_existing.json`): refused with 7040
+  only while a handle has the table open; otherwise the table is made anew,
+  junk in its place too, and its structural index file (`.cdx`, `.adi`) is
+  deleted. tflip refused every existing file with 7040.
+
+- `AdsCreateTable` and `AdsOpenTable` keep the lock type they are given:
+  `AdsGetTableLockType` reports `ADS_COMPATIBLE_LOCKING` for a Clipper or
+  FoxPro table made or opened with it, and proprietary locking for every
+  ADT table (`fixtures/errors/lock_types.json`). tflip reported compatible
+  locking only through `AdsOpenTable101`'s `LockMode`.
+
+- Fields and NULL as in the original (`fixtures/fields/nullable.json`):
+  `AdsIsNullable` says no for every field of a Clipper or FoxPro table, and
+  for a VFP field defined without `NULL` (tflip said yes for every type but
+  AutoInc and RowVersion); a VFP memo set to NULL is not empty; an ADT
+  `VarChar` (`ADS_VARCHAR`) takes text with `AdsSetField` and the other
+  text setters (tflip: 5066 unless the text reached the memo file).
+
+- `AdsCreateTable` refuses a Clipper or FoxPro field definition with more
+  than four values (`NOT NULL` after the decimals, say) with 5012, "Field
+  definition contains too many values", as the original does
+  (`fixtures/errors/field_attributes.json`).
+
+- A single-order file named as a FoxPro or VFP table's structural `.cdx`
+  opens with `AdsOpenIndex` when the table is open shared or read-only; only
+  an exclusive handle refuses it with 7008, as in the original
+  (`fixtures/errors/stray_index_modes.json`). tflip refused it on every
+  handle.
+
+- `AdsAddCustomKey` and `AdsDeleteCustomKey` refuse an order that is not
+  custom with 5017, as the original does (tflip: 7037), and
+  `AdsCreateIndex61` refuses `ADS_CUSTOM` on a Visual FoxPro table with
+  5019, compound or single (`fixtures/errors/custom_kinds.json`).
+
+- An index file named relatively is where the original looks for it
+  (`fixtures/errors/index_paths.json`): `AdsOpenIndex` and
+  `AdsCreateIndex61` take a bare file name (`x.cdx`) in the table's folder
+  only, and a name with a folder in it (`data\x.cdx`) relative to the
+  current directory, for which tflip takes the connection's folder, as for
+  tables. tflip opened every relative name in the table's folder, and
+  created a bare one in the connection's.
+
+- Protocol version 89: `set_index_direction` turns an order round (`flip`)
+  instead of setting its direction.
+
+- `AdsSetIndexDirection` turns an order round as the original does
+  (`fixtures/seek/direction.json`): any value but 0 reverses the direction
+  the order is walked in now (1 and 2 alike, so two calls with 1 walk it as
+  made again), 0 leaves it, and `AdsIsIndexDescending` reports the result.
+  An NTX order is refused with 5017 whatever the value. tflip took 1 as
+  reversed and anything else as forward, and accepted NTX orders. Through
+  tflipd, `AdsIsIndexDescending` after the call now reports the new
+  direction rather than a kept answer.
+
+- A field named `AND`, `OR`, `NOT`, `TRUE`, `FALSE` or `NULL` can be named
+  in filters and index keys, as in the original
+  (`fixtures/expr/keywords.json`). `TRUE`, `FALSE` and `NULL` then always
+  name the field. In an ADT table, so do `AND`, `OR` and `NOT` (the
+  operators are then `.AND.`, `.OR.` and `.NOT.`). In a DBF table, `AND`
+  and `OR` name the field only where an operand belongs, and `NOT` only
+  where nothing, `,` or `)` follows it, so `NOT NOT` negates the field.
+  tflip took the words as operators and constants and refused the field.
+
+- A DBF table whose header dates its last update with a month outside 1 to
+  12 or a day outside 1 to 31 does not open (7016, with the table's path),
+  as in the original (`fixtures/dbf/header_dates.json`). It does not check
+  the year, or the day against the month. tflip opened such tables.
+
+- A Visual FoxPro table opened or made with `ADS_OEM`, the collation `OEM`
+  or a collation of an OEM code page (char types 25 to 68 and 92 to 118,
+  or such a name) is an OEM table, as in the original
+  (`fixtures/dbf/vfp_oem.json`): `AdsGetTableCharType` reports `ADS_OEM`, its
+  text is written and read in the OEM code page and its orders keyed by
+  those bytes, as a FoxPro table's are. tflip kept every VFP table ANSI.
+  `AdsCreateTable90` takes a VFP table's collation for this.
+
+- Orders on numeric expressions are made and sought as in the original
+  (`fixtures/expr/numkeys.json`). An NTX order on one (`ID + 1`) is made, its
+  keys ten digits and a point and the most decimals of the Numeric fields it
+  reads, where tflip refused it with 5042. A CDX or VFP one, and an ADT one
+  on Integer or Double fields, is sought by the number given (as a double, or
+  as text that is a number), where tflip found nothing. An ADT order on an expression of one
+  Numeric field is sought as the original seeks it: the number put in the
+  field and the expression's value for it, so 1003 finds the record whose
+  `ID` is 1003 in an order on `ID * 2`. A number sought in a Numeric field
+  (or one put there) is rounded half away from zero to its decimals (1002.5
+  is 1003). A double sought in an NTX order of text finds nothing, where it
+  was 5042.
+
+- The order of an NTX or IDX file is named as the original names it
+  (`fixtures/dbf/index_names.json`): after the file's name in capitals
+  right after `AdsCreateIndex61` (`ORD_T`), as the folder spells it once
+  the file is opened (`ord_t`). `AdsOpenIndex` of a FoxPro or VFP table's
+  file named without an extension opens its `.idx` file when there is no
+  `.cdx` one.
+
+- A non-compound order in a FoxPro or VFP table's `.cdx`-named file (as
+  `AdsCreateIndex61` makes one without `ADS_COMPOUND`) is an IDX file, as in
+  the original (`fixtures/errors/index_files.json`): not the table's
+  auto-open index (the header is not marked, `AdsCloseIndex` closes it,
+  the table does not open it), replaced by the next order made in it, and
+  rebuilt as an IDX file by a pack. Once the table is opened again,
+  `AdsOpenIndex` of it fails with 7008. `AdsCloseIndex` of the auto-open
+  index says "Can't close an autoopen index." as the original does.
+  `AdsGotoTop`, the other moves and `AdsCloseIndex` given 0 or a value that
+  is no handle keep an error a call before left, and otherwise record
+  `AE_INVALID_HANDLE`, "not readable" for 0
+  (`fixtures/errors/moves_after_errors.json`); `AdsCloseIndex` still
+  returns `AE_INVALID_INDEX_HANDLE`. Through a server, `AdsGetNumIndexes` and
+  `AdsGetAllIndexes` no longer answer from before an `AdsCreateIndex*`,
+  `AdsCreateFTSIndex` or `AdsDeleteIndex`.
+
+- Index keys, filters, AOFs and evaluated expressions take `FIELD->name`
+  and `_FIELD->name` (in any case) for the table's own fields, as the
+  original does (`fixtures/expr/alias.json`), and `alias->name` with the
+  alias the table was opened under, where tflip took only its file's name.
+  As in the original, the arrow must follow the qualifier right away
+  (`FIELD ->ID` is an unknown identifier, `FIELD-> ID` is fine). An order on
+  one qualified field (`FIELD->ID`) is keyed as one on the field alone.
+
+- `AdsGetRecordNum` with `ADS_RESPECTFILTERS` on a table opened
+  exclusively keeps which records are hidden until the table, its filters
+  or `AdsShowDeleted` change, instead of counting from the first record each
+  time: numbering every record of a 30,000-record table went from about 8
+  minutes to under a second.
+
+- Deleted records hidden (`AdsShowDeleted(FALSE)`) count as filtered
+  records do, as in the original (`fixtures/seek/deleted.json`):
+  `AdsGetKeyCount` and `AdsGetKeyNum` with `ADS_RESPECTFILTERS` leave them
+  out, and a seek whose key's first record is hidden (by a filter, an AOF
+  or as deleted) goes on to the next visible one and is found if its key
+  still starts with the sought one; `AdsSeekLast` likewise backwards.
+  `ADS_RESPECTSCOPES` respects the scope and the filters only while the
+  order has a scope; without one it counts every key. A key count writes a
+  pending record first, so an unwritten delete counts at once.
+
+- `AdsCreateTable`, `AdsCreateTable71`, `AdsCreateTable90`,
+  `AdsOpenTable` and `AdsOpenTable90` check their table, character, lock
+  and rights options as the original does (`fixtures/errors/
+  table_options.json`): rights other than 1 or 2 are 5029, lock types
+  other than 0 or 1 5028, character types outside 1 to 118 5027, a VFP
+  collation (3 to 118) on an NTX or CDX table 5025, in the original's
+  order; a create leaves the last error alone for a bad table type,
+  rights option or character type beyond 118, as there. `ADS_DEFAULT`
+  creates an ADT table. A dictionary's table opened as `ADS_DEFAULT` has
+  its lock type checked only.
+- `AdsOpenTable90`'s collation stands for the character type: `ANSI` and
+  `OEM` make an NTX or CDX table ANSI or OEM, other collations there are
+  5025, and an ADT or VFP table refuses a collation the repository does
+  not have with 7147.
+
 ## v0.26
 
 - Online backup and restore on `tflipd`, as the original's server does

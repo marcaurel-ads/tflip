@@ -20,6 +20,8 @@ impl Table {
                         .compile(&order.expression())
                         .is_ok_and(|expr| expr.ty() == tflip_expr::Type::TimeStamp),
                     nullable: order.tag.flags & tflip_storage::order::flags::NULLABLE != 0,
+                    numeric: order.key_type() == index::KeyType::Numeric
+                        && !matches!(value, SeekValue::Text(text) if seek::number_text(text).is_none()),
                 },
                 _ => seek::CdxExpression::default(),
             };
@@ -32,6 +34,38 @@ impl Table {
                 self.session_settings.epoch(),
             );
         }
+        if order.kind == tflip_storage::order::Kind::Ntx
+            && matches!(source, seek::KeySource::Expression)
+            && !raw
+        {
+            // An expression order's keys are text: a number seeks a numeric
+            // one as its key, a double a character one as its bytes (finding
+            // nothing), and a logical one not at all
+            // (`fixtures/expr/numkeys.json`, `fixtures/expr/alias.json`).
+            let length = usize::from(order.tag.key_length);
+            let number = match value {
+                SeekValue::Double(value) => Some(value),
+                SeekValue::Text(text) if order.key_type() == index::KeyType::Numeric => {
+                    seek::number_text(text)
+                }
+                _ => None,
+            };
+            match (order.key_type(), number) {
+                (index::KeyType::Numeric, Some(value)) => {
+                    let decimals = usize::from(order.tag.decimals);
+                    let mut key = tflip_storage::ntx::number_key(value, length, decimals);
+                    key.truncate(length);
+                    return Ok(key);
+                }
+                (index::KeyType::Logical, Some(_)) => return Err(Error::InvalidExpression),
+                (index::KeyType::String, Some(value)) => {
+                    let mut key = value.to_le_bytes().to_vec();
+                    key.truncate(length);
+                    return Ok(key);
+                }
+                _ => {}
+            }
+        }
         if order.kind == tflip_storage::order::Kind::Ntx {
             return seek::ntx_seek_key(
                 value,
@@ -42,6 +76,17 @@ impl Table {
                 self.session_settings.epoch(),
             );
         }
+        // An order on an expression of one Numeric field (`ID + 1`, `ID * 2`)
+        // is sought as the original seeks it: the number put in that field,
+        // rounded to its decimals, and the key of that record's value; the
+        // others are left blank (`fixtures/expr/numkeys.json`).
+        if !raw
+            && matches!(source, seek::KeySource::Expression)
+            && order.key_type() == index::KeyType::Numeric
+            && let Some(key) = self.numeric_field_key(order, value)?
+        {
+            return Ok(key);
+        }
         // A numeric or date expression order keys a double seek value as a
         // double — the same key `build_key` stores — not the raw bytes
         // `seek_key` gives a character expression (probed, `fixtures/expr`).
@@ -50,6 +95,14 @@ impl Table {
                 order.key_type(),
                 index::KeyType::Numeric | index::KeyType::Date
             )
+        {
+            return Ok(tflip_storage::key::double(value).to_vec());
+        }
+        // A number given as text seeks a numeric expression order as the
+        // number `atof` reads (`fixtures/expr/numkeys.json`).
+        if let (SeekValue::Text(text), seek::KeySource::Expression) = (value, &source)
+            && order.key_type() == index::KeyType::Numeric
+            && let Some(value) = seek::number_text(text)
         {
             return Ok(tflip_storage::key::double(value).to_vec());
         }
@@ -83,6 +136,57 @@ impl Table {
         } else {
             self.weigh_sought(order, key)
         })
+    }
+
+    /// The key an ADT order on an expression of one Numeric field gives a
+    /// record whose field holds `value` (a number given as text read as
+    /// `atof` reads it), the field's value rounded half away from zero to
+    /// its decimals and every other field blank; `None` if the expression
+    /// reads another field, or none, or the value does not fit.
+    fn numeric_field_key(&self, order: &Index, value: SeekValue) -> Result<Option<Vec<u8>>, Error> {
+        let number = match value {
+            SeekValue::Double(value) => value,
+            SeekValue::Text(text) => match seek::number_text(text) {
+                Some(number) => number,
+                None => return Ok(None),
+            },
+            SeekValue::Raw(_) => return Ok(None),
+        };
+        let fields = index::expression_fields(self, &order.expression()).unwrap_or_default();
+        let [only] = fields.as_slice() else {
+            return Ok(None);
+        };
+        let field = &self.fields()[*only];
+        if field.field_type != FieldType::Numeric {
+            return Ok(None);
+        }
+        let decimals = field.decimals();
+        let Some(scaled) = seek::scaled_double(number, decimals) else {
+            return Ok(None);
+        };
+        let digits = scaled.unsigned_abs().to_string();
+        let digits = format!("{digits:0>width$}", width = usize::from(decimals) + 1);
+        let (whole, fraction) = digits.split_at(digits.len() - usize::from(decimals));
+        let sign = if scaled < 0 { "-" } else { "" };
+        let text = match decimals {
+            0 => format!("{sign}{whole}"),
+            _ => format!("{sign}{whole}.{fraction}"),
+        };
+        if text.len() > usize::from(field.length()) {
+            return Ok(None);
+        }
+        let text = format!("{text:>width$}", width = usize::from(field.length()));
+        let mut bytes = self.null_record();
+        field
+            .encode(&tflip_storage::value::Value::Numeric(text), &mut bytes)
+            .map_err(|_| Error::ValueOverflow)?;
+        let row = filter::Record {
+            fields: self.fields(),
+            bytes,
+            memo: None,
+            number: 0,
+        };
+        self.build_key(order, row, false)
     }
 
     /// Whether the text `order` is sought by is Unicode: the first of its
@@ -569,7 +673,8 @@ impl Table {
     /// Adds the current record's key to the custom order `order`
     /// (`AdsAddCustomKey`), built from the record as it is changed; the
     /// order keeps it current from then on. A record with a key in it
-    /// already, or an order that is not custom, is [`Error::CustomKey`].
+    /// already is [`Error::CustomKey`]; an order that is not custom is
+    /// refused with 5017, as in the original (`fixtures/errors/custom_kinds.json`).
     pub fn add_custom_key(&self, order: &Index) -> Result<(), Error> {
         self.custom_key(order, true)
     }
@@ -582,7 +687,9 @@ impl Table {
 
     pub(super) fn custom_key(&self, order: &Index, add: bool) -> Result<(), Error> {
         if !order.tag.custom() {
-            return Err(Error::CustomKey);
+            return Err(Error::FullText(
+                crate::ace_error::codes::AE_INVALID_INDEX_TYPE,
+            ));
         }
         let mut state = self.state();
         let record = state.position.record.ok_or(Error::NoCurrentRecord)?;

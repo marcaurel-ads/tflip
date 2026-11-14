@@ -76,6 +76,9 @@ pub(crate) struct CdxExpression {
     /// Whether its keys start with a byte saying whether they are NULL (it
     /// reads a VFP field that takes NULL).
     pub nullable: bool,
+    /// Whether its value is a number: a double is sought as one, as a
+    /// Numeric field's (`fixtures/expr/numkeys.json`).
+    pub numeric: bool,
 }
 
 /// The key that `value` seeks in an order whose keys are `key_length`
@@ -161,6 +164,11 @@ pub(crate) fn ntx_seek_key(
             false => b"F".to_vec(),
         },
         (SeekValue::Double(_), Some(Logical)) => return Err(Error::InvalidExpression),
+        // A double seeks a character order as its bytes, finding nothing
+        // (`fixtures/expr/alias.json`).
+        (SeekValue::Double(value), Some(Character | VarChar | LegacyVarChar)) => {
+            value.to_le_bytes().to_vec()
+        }
         _ => return Err(Error::NotImplemented),
     };
     key.truncate(key_length);
@@ -193,6 +201,7 @@ pub(crate) fn cdx_seek_key(
     };
     let field_type = match field {
         None if expression.stamp => Some(FieldType::TimeStamp),
+        None if expression.numeric => Some(FieldType::Numeric),
         field => field.map(|f| f.field_type),
     };
     if matches!(value, SeekValue::Raw(_)) {
@@ -316,11 +325,42 @@ fn double_key(value: f64, field: &Field) -> Result<Vec<u8>, Error> {
     })
 }
 
-/// `value` × 10^`decimals`, rounded from its exact value (1.505 is
-/// 1.50499…, so 150 for two decimals); `None` if it is not finite.
-fn scaled_double(value: f64, decimals: u16) -> Option<i128> {
+/// The number text that starts as one gives (`1003`, ` -2.5`), as `atof`
+/// reads it; `None` for other text, which seeks a numeric expression order
+/// as text, finding nothing (`fixtures/write/nchar_expr_more`,
+/// `fixtures/expr/numkeys.json`).
+pub(crate) fn number_text(text: &str) -> Option<f64> {
+    let rest = text.trim_start().trim_start_matches(['+', '-']);
+    let rest = rest.strip_prefix('.').unwrap_or(rest);
+    rest.starts_with(|c: char| c.is_ascii_digit())
+        .then(|| atof(text))
+}
+
+/// `value` × 10^`decimals`, rounded half away from zero from its exact
+/// value (1.505 is 1.50499…, so 150 for two decimals; 1002.5 is 1003 for
+/// none, `fixtures/expr/numkeys.json`); `None` if it is not finite.
+pub(crate) fn scaled_double(value: f64, decimals: u16) -> Option<i128> {
+    if !value.is_finite() {
+        return None;
+    }
     let decimals = usize::from(decimals);
-    scaled_decimal(&format!("{value:.decimals$}"), decimals as u32)
+    // The exact digits, far enough past the last kept one that rounding
+    // there cannot reach it.
+    let precision = decimals + 30;
+    let text = format!("{:.precision$}", value.abs());
+    let (whole, fraction) = text.split_once('.').unwrap_or((&text, ""));
+    let mut scaled = scaled_decimal(
+        &format!("{whole}.{}", &fraction[..decimals]),
+        decimals as u32,
+    )?;
+    if fraction
+        .as_bytes()
+        .get(decimals)
+        .is_some_and(|&d| d >= b'5')
+    {
+        scaled = scaled.checked_add(1)?;
+    }
+    Some(if value < 0.0 { -scaled } else { scaled })
 }
 
 /// `key` made the largest key of its length before it: its last byte that
